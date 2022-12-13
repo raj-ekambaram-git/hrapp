@@ -1,4 +1,4 @@
-import AccountAddEdit from "../../../components/common/accountAddEdit";
+import AccountAddEdit from "../../../components/account/accountAddEdit";
 import {MODE_ADD, EMPTY_STRING} from "../../../constants/accountConstants";
 
 const AddNewAccount = () => {
