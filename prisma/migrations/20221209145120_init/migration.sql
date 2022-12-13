@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Vendor" ADD COLUMN     "phone" TEXT NOT NULL DEFAULT '111-111-1111';

@@ -1,0 +1,229 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Address {
+  id             Int           @id @default(autoincrement())
+  type           AddressType   @default(D)
+  address1       String
+  address2       String?
+  address3       String?
+  county         String?
+  city           String
+  state          String
+  zipCode        String
+  country        String
+  createdDate    DateTime      @default(now())
+  lastUpdateDate DateTime      @updatedAt
+  status         AddressStatus
+  account        Account       @relation(fields: [accountId], references: [id])
+  accountId      Int           @default(0)
+  User           User?         @relation(fields: [userId], references: [id])
+  userId         Int?
+  Vendor         Vendor?       @relation(fields: [vendorId], references: [id])
+  vendorId       Int?
+}
+
+model Account {
+  id             Int           @id @default(autoincrement())
+  name           String
+  description    String
+  ein            String        @unique
+  bankId         Int?
+  email          String
+  phone          String        @default("111-111-1111")
+  status         AccountStatus
+  createdDate    DateTime      @default(now())
+  lastUpdateDate DateTime      @updatedAt
+  address        Address[]
+  Invoice        Invoice[]
+  Vendor         Vendor[]
+  User           User[]
+}
+
+model Vendor {
+  id                  Int          @id @default(autoincrement())
+  name                String
+  description         String?
+  email               String
+  phone               String       @default("111-111-1111")
+  type                VendorType   @default(Staffing)
+  address             Address[]
+  account             Account?     @relation(fields: [accountId], references: [id])
+  accountId           Int?         @default(0)
+  ein                 String       @unique
+  bankDetails         String?
+  status              VendorStatus
+  createdDate         DateTime     @default(now())
+  accountContactName  String?
+  accountContactEmail String?
+  accountContactPhone String?
+  lastUpdateDate      DateTime     @updatedAt
+  Resource            Resource[]
+  Invoice             Invoice[]
+  User                User[]
+}
+
+model Resource {
+  id          Int      @id @default(autoincrement())
+  firstName   String
+  lastName    String
+  description String?
+  email       String
+  status      String
+  startDate   DateTime
+  vendor      Vendor   @relation(fields: [vendorId], references: [id])
+  vendorId    Int      @default(0)
+  rate        Int
+  currency    String   @default("USD")
+}
+
+model Invoice {
+  id            Int           @id @default(autoincrement())
+  type          InvoiceType
+  cycle         InvoiceCycle
+  vendor        Vendor?       @relation(fields: [vendorId], references: [id])
+  vendorId      Int?          @default(0)
+  account       Account?      @relation(fields: [accountId], references: [id])
+  accountId     Int?          @default(0)
+  quantity      Int?
+  rate          Decimal?
+  dueDte        DateTime?
+  transactionId String?
+  notes         String?
+  total         Decimal
+  paidAmount    Decimal?
+  status        InvoiceStatus
+  paymentTerms  PaymentTerms
+
+  createdDate    DateTime @default(now())
+  lastUpdateDate DateTime @updatedAt
+  user           User?    @relation(fields: [userId], references: [id])
+  userId         Int?
+}
+
+model User {
+  id                 Int              @id @default(autoincrement())
+  firstName          String
+  lastName           String
+  role               Role             @default(DEVELOPER)
+  email              String           @unique
+  phone              String           @default("111-111-1111")
+  account            Account?         @relation(fields: [accountId], references: [id])
+  accountId          Int?             @default(0)
+  vendor             Vendor?          @relation(fields: [vendorId], references: [id])
+  vendorId           Int?             @default(0)
+  isTimeSheetEnabled Boolean          @default(false)
+  address            Address[]
+  userAttributes     UserAttributes[]
+  status             UserStatus       @default(Active)
+  password           String           @default("passw0rd")
+  createdDate        DateTime         @default(now())
+  lastUpdateDate     DateTime         @updatedAt
+  Invoice            Invoice[]
+}
+
+model UserAttributes {
+  id                 Int               @id @default(autoincrement())
+  userAttributeKey   UserAttributeKeys @default(default)
+  userAttributeValue String?
+  createdDate        DateTime          @default(now())
+  lastUpdateDate     DateTime          @updatedAt
+
+  User   User @relation(fields: [userId], references: [id])
+  userId Int
+}
+
+enum AddressType {
+  D
+  U
+  A
+  V
+}
+
+enum UserAttributeKeys {
+  default
+  rate
+  startDate
+  endDate
+}
+
+enum UserStatus {
+  Active
+  Inactive
+}
+
+enum Role {
+  SUPER_ADMIN
+  ACCOUNT_ADMIN
+  ACCOUNT_VENDOR_REP
+  ACCOUNT_USER
+  ACCOUNT_VENDOR_EMPLOYEE
+  ACCOUNT_VENDOR_CONTRACTOR
+  DEVELOPER
+}
+
+enum VendorType {
+  Staffing
+  Product
+  Project
+}
+
+enum VendorStatus {
+  Approved
+  Rejected
+  Active
+  Inactive
+  Fraud
+}
+
+enum AccountStatus {
+  Active
+  Inactive
+  Fraud
+}
+
+enum AddressStatus {
+  A
+  I
+  D
+}
+
+enum InvoiceType {
+  Staffing
+  Product
+  Project
+}
+
+enum InvoiceCycle {
+  Weekly
+  BiWeekly
+  Monthly
+  Quarterly
+  HalfYearly
+  Yearly
+}
+
+enum InvoiceStatus {
+  Draft
+  Submitted
+  Pending
+  PartiallyPaid
+  Paid
+  Cancelled
+}
+
+enum PaymentTerms {
+  Net30
+  Net45
+  Net60
+  Net90
+}
