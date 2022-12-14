@@ -46,6 +46,26 @@ export const ACCOUNT_VALIDATION_SCHEMA = Yup.object().shape({
 
   });  
 
+  export const VENDOR_VALIDATION_SCHEMA = Yup.object().shape({
+    name: Yup.string().required('First Name is required'),
+    description: Yup.string().required('Last Name is required'),
+    email: Yup.string().required('Account Address1 is required'),
+    type: Yup.string().required('Account City is required'),
+    phone: Yup.string().required('Account State is required'),
+    accountId: Yup.string().required('Account ZipCode is required'),
+    ein: Yup.string().required('Account Country is required'),
+    status: Yup.string().required('User Role is required'),
+    accountContactName: Yup.string().required('User Email is required'),
+    accountContactEmail: Yup.string().required('User Phone is required'),
+    accountContactPhone: Yup.string().required('User Account is required'),
+    address1: Yup.string().required('Account Address1 is required'),
+    city: Yup.string().required('Account City is required'),
+    state: Yup.string().required('Account State is required'),
+    zipCode: Yup.string().required('Account ZipCode is required'),
+    country: Yup.string().required('Account Country is required'),
+
+  });    
+
  
   
   export const USER_ROLES = [

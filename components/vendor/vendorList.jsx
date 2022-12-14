@@ -31,7 +31,7 @@ const VendorList = (props) => {
   }
 
   
-  const navigatePage = () => router.push({ pathname: '/account/vendor/add-new', query: { kkkk: "value" } });
+  const navigatePage = () => router.push({ pathname: '/account/vendor/add', query: { kkkk: "value" } });
   
 
   return (
@@ -84,7 +84,7 @@ const VendorList = (props) => {
                   className={`${
                     vendor.status === "Active"
                       ? "paid__status"
-                      : account.status === "Inactive"
+                      : vendor.status === "Inactive"
                       ? "pending__status"
                       : "draft__status"
                   }`}

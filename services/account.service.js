@@ -29,6 +29,7 @@ function accountsList() {
 }
 
 function getVendorDetail(vendorId, accountId) {
+    console.log("223222222222")
     return fetchWrapper.get(`${baseUrl}/account/vendor/${vendorId}/detail?accountId=`+accountId, {})
         .then(vendor => {
             return vendor;

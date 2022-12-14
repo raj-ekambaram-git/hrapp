@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import prisma from "../../../../lib/prisma";
 import { accountService, userService } from '../../../../services';
 
-const EditItem = (props) => {
+const VendorDetail = (props) => {
   const vendorId = props.data.vendorId;
 
   const router = useRouter();
@@ -112,7 +112,7 @@ const EditItem = (props) => {
   );
 };
 
-export default EditItem;
+export default VendorDetail;
 
 
 
