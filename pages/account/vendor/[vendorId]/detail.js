@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import prisma from "../../../../lib/prisma";
-import { userService } from '../../../../services';
+import { accountService, userService } from '../../../../services';
 
 const EditItem = (props) => {
-  const vendor = props.data;
+  const vendorId = props.data.vendorId;
+
   const router = useRouter();
   
   const [name, setName] = useState("");
@@ -28,6 +29,7 @@ const EditItem = (props) => {
   const [state, setState] = useState("");
   const [zipCode, setZipCode] = useState("");
   const [country, setCountry] = useState("");
+  const [vendor, setVendor] = useState({});
   
   const navigateVendorEditPage = () => router.push("/account/vendor/"+vendor.id);
   const navigateManageVendorUsersPage = () => router.push("/account/vendor/"+vendor.id+"/users");
@@ -40,6 +42,8 @@ const EditItem = (props) => {
 
   // set default input data
   useEffect(() => {
+    getVendorDetails(vendorId, userService.getAccountDetails().accountId);
+
     setName(vendor.name);
     setDescription(vendor.description);
     setEIN(vendor.ein);
@@ -59,7 +63,17 @@ const EditItem = (props) => {
     setState(vendor.state);
     setZipCode(vendor.zipCode);
     setCountry(vendor.country);
-  }, [vendor]);
+  }, []);
+
+
+      /**
+   * Function to get the list of accounts for a drop down
+   */
+  async function getVendorDetails(vendorId, accountId) {
+    // setPageAuthorized(true);
+    const responseData = await accountService.getVendorDetail(vendorId, accountId);
+    setVendor(responseData);
+  }
 
   return (
     <div className="main__container">
@@ -158,37 +172,13 @@ export async function getStaticPaths() {
 export async function getStaticProps(context) {
   const { vendorId } = context.params;
 
-  const vendor = await prisma.vendor.findUnique({
-    where: {
-      id: parseInt(vendorId),
-    },
-    include: {
-      address: true,
-    }
-  })
-
   return {
     props: {
       data: {
-        id: vendor.id.toString(),
-        name: vendor.name,
-        description: vendor.description,
-        ein: vendor.ein,
-        type: vendor.type,
-        email: vendor.email,
-        status: vendor.status,
-        phone: vendor.phone,
-        addressId: vendor.address[0].id,
-        address1: vendor.address[0].address1,
-        address2: vendor.address[0].address2,
-        address3: vendor.address[0].address3,
-        city: vendor.address[0].city,
-        state: vendor.address[0].state,
-        zipCode: vendor.address[0].zipCode,
-        country: vendor.address[0].country
-
-      },
+        vendorId: vendorId
+      }
     },
     revalidate: 1,
   };
+
 }

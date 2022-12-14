@@ -10,7 +10,8 @@ export const accountService = {
     accountsList,
     accountDetail,
     userDetails,
-    getVendorList
+    getVendorList,
+    getVendorDetail
 };
 
 function getVendorList(accountId) {
@@ -24,6 +25,13 @@ function accountsList() {
     return fetchWrapper.get(`${baseUrl}/account/list`, {})
         .then(accounts => {
             return accounts;
+        });
+}
+
+function getVendorDetail(vendorId, accountId) {
+    return fetchWrapper.get(`${baseUrl}/account/vendor/${vendorId}/detail?accountId=`+accountId, {})
+        .then(vendor => {
+            return vendor;
         });
 }
 

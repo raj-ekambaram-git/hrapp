@@ -44,7 +44,7 @@ const UserList = (props) => {
       const responseData = await userService.getUsersByVendor(vendorId, accountId);
       setUsersList(responseData);
 
-  }
+    }
 
   
   const navigatePage = () => router.push({ pathname: '/account/user/add', query: { vendor: isVendor }});

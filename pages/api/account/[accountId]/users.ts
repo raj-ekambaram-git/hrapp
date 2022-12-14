@@ -16,7 +16,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       const users = await prisma.user.findMany({
         where: {
             vendorId: {
-              equals: parseInt(vendorId.toString())            },
+              equals: parseInt(vendorId.toString())            
+            },
             accountId: {
               equals: parseInt(accountId.toString())
             }
