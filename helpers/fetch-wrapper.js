@@ -11,7 +11,8 @@ export const fetchWrapper = {
     delete: _delete
 };
 
-function get(url) {
+function get(url, params) {
+    console.log("FetchWrapper::"+JSON.stringify(params)+"----URL::"+url)
     const requestOptions = {
         method: 'GET',
         headers: authHeader(url)

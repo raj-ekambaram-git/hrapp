@@ -12,7 +12,7 @@ export const MODE_ADD = 'add';
 export const MODE_EDIT = 'edit';
 
 
-//Validation
+//Account Form Validation
 export const ACCOUNT_VALIDATION_SCHEMA = Yup.object().shape({
     accountName: Yup.string().required('Account Name is required'),
     accountDescription: Yup.string().required('Account Description is required'),
@@ -24,5 +24,54 @@ export const ACCOUNT_VALIDATION_SCHEMA = Yup.object().shape({
     accountEIN: Yup.string().required('Account EIN is required'),
     accountEmail: Yup.string().required('Account Email is required'),
     accountPhone: Yup.string().required('Account Phone is required'),
+    
 
   });
+
+  //User Form Validation
+  export const USER_VALIDATION_SCHEMA = Yup.object().shape({
+    firstName: Yup.string().required('First Name is required'),
+    lastName: Yup.string().required('Last Name is required'),
+    address1: Yup.string().required('Account Address1 is required'),
+    city: Yup.string().required('Account City is required'),
+    state: Yup.string().required('Account State is required'),
+    zipCode: Yup.string().required('Account ZipCode is required'),
+    country: Yup.string().required('Account Country is required'),
+    userRole: Yup.string().required('User Role is required'),
+    userEmail: Yup.string().required('User Email is required'),
+    userPhone: Yup.string().required('User Phone is required'),
+    userAccountId: Yup.string().required('User Account is required'),
+    userPassword: Yup.string().required('User Password is required'),
+    timeSheetEnabled: Yup.string().required('TimeSheet is required'),
+
+  });  
+
+ 
+  
+  export const USER_ROLES = [
+    {
+    roleID: "SUPER_ADMIN",
+    roleName: "Super Admin"
+    },
+    {
+      roleID: "ACCOUNT_ADMIN",
+      roleName: "Account Admin"
+    },    
+    {
+      roleID: "ACCOUNT_VENDOR_REP",
+      roleName: "Account Vendor Rep"
+    },
+    {
+      roleID: "ACCOUNT_USER",
+      roleName: "Account Regular User"
+    },
+    {
+      roleID: "ACCOUNT_VENDOR_EMPLOYEE",
+      roleName: "Vendor Employee"
+    },
+    {
+      roleID: "ACCOUNT_VENDOR_CONTRACTOR",
+      roleName: "Vendor Contractor"
+    }            
+
+];  

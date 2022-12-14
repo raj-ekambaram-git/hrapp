@@ -1,5 +1,5 @@
 module.exports = {
-  reactStrictMode: true,
+  reactStrictMode: false,
   serverRuntimeConfig: {
       secret: '123456789'
   },

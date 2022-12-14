@@ -1,12 +1,11 @@
-import UserList from "../../../components/User/UserList";
+import UserList from "../../../components/user/userList";
 import prisma from "../../../lib/prisma";
-import React, { useState, useRef } from "react";
 
 export default function Home(props) {
   const { data } = props;
 
   return (
-    <UserList userList={{ data: data }} /> 
+    <UserList userList={{ data: data, isVendor: false }} /> 
   );
 }
 
@@ -19,22 +18,43 @@ export async function getStaticPaths() {
 
 } 
 
-export async function getStaticProps() {
-  const users = await prisma.user.findMany();
-  // console.log(JSON.stringify(users))
+export async function getStaticProps(context) {
+  const { accountId } = context.params;
+
   return {
     props: {
-      data: users.map((user) => {
-        return {
-          id: user.id.toString(),
-          firstName: user.firstName,
-          lastName: user.lastName,
-          createdDate: user.createdDate.toDateString(),
-          email: user.email,
-          status: user.status,
-        };
-      }),
+      data: {
+        action: "accountUserList",
+        accountId: accountId
+      }
     },
     revalidate: 1,
   };
+
+  // const users = await prisma.user.findMany({
+  //   where: {
+  //     accountId: {
+  //         equals: parseInt(accountId)
+  //       }
+  //   },
+  //   orderBy: {
+  //     id: "desc"
+  //   }
+  // });
+  // // console.log(JSON.stringify(users))
+  // return {
+  //   props: {
+  //     data: users.map((user) => {
+  //       return {
+  //         id: user.id.toString(),
+  //         firstName: user.firstName,
+  //         lastName: user.lastName,
+  //         createdDate: user.createdDate.toDateString(),
+  //         email: user.email,
+  //         status: user.status,
+  //       };
+  //     }),
+  //   },
+  //   revalidate: 1,
+  // };
 }

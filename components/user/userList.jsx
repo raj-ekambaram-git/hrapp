@@ -1,19 +1,60 @@
+import React, { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/router";
-import React from "react";
 import Link from "next/link";
+import { accountService, userService } from "../../services";
 
-const InvoiceList = (props) => {
+const UserList = (props) => {
   const router = useRouter();
   const { data } = props.userList;
+  const { isVendor } = props.userList;
   
-  const navigatePage = () => router.push({ pathname: '/account/user/add-new', query: { kkkk: "value" } });
+  const [usersList, setUsersList] = useState([]);
+  const [isPageSectionAuthorized, setPageSectionAuthorized] = useState(false);
+
+
+  console.log("IsVendor in USERLIST ::"+JSON.stringify(data))
+
+  useEffect(() => {
+
+    if(isVendor) {
+      console.log("isVendor::"+data.vendorId)
+      //get API call with accountId and VendorId
+      getUsersList(data.vendorId, userService.getAccountDetails().accountId)
+      
+    }else {
+      //Since this is just the account call only accountId
+      getUsersList("", userService.getAccountDetails().accountId)
+    }
+
+  }, []);
+  
+    /**
+   * Function to get the list of accounts for a drop down
+   */
+    async function getUsersList(vendorId, accountId) {
+      // setPageAuthorized(true);
+      const responseData = await userService.getUsersByVendor(vendorId, accountId);
+      console.log("responseDataassss ::"+JSON.stringify(responseData))
+      setUsersList(responseData);
+
+  }
+
+  
+  const navigatePage = () => router.push({ pathname: '/account/user/add', query: { vendor: isVendor }});
+  
 
   return (
     <div className="main__container">
       <div className="account__header">
         <div className="iaccount_header-logo">
-          <h3>Manage Account Users</h3>
-          <p>There are total  of 10 users for the account number 12345</p>
+          {isVendor ? (
+            <h3>Manage Vendor Users</h3>
+          ) : (
+            <h3>Manage Account Users</h3>
+          )}
+          
+          
+          <p>There are total  of 10 users for the account number MM</p>
         </div>
 
         <button className="btn" onClick={navigatePage}>
@@ -23,7 +64,7 @@ const InvoiceList = (props) => {
 
       <div className="account__container">
         {/* ======= invoice item =========== */}
-        {data?.map((user) => (
+        {usersList?.map((user) => (
           <Link href={`/account/user/${user.id}`} passref key={user.id}>
             <div className="account__item">
               <div>
@@ -69,4 +110,4 @@ const InvoiceList = (props) => {
   );
 };
 
-export default InvoiceList;
+export default UserList;

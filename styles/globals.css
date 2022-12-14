@@ -326,6 +326,19 @@ p {
   cursor: pointer;
 }
 
+.form__group__inline_2 select {
+  width: 75%;
+}
+
+.form__group__inline_3 select {
+  width: 45%;
+}
+
+
+.form__group__inline_4 select {
+  width: 100%;
+}
+
 .form__group__state select {
   padding: 1px 20px;
   width: 100%;

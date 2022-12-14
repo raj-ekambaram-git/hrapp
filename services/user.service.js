@@ -1,6 +1,7 @@
 import { BehaviorSubject } from 'rxjs';
 import getConfig from 'next/config';
 import Router from 'next/router';
+import prisma from "../lib/prisma"; 
 
 import { fetchWrapper } from 'helpers';
 
@@ -19,7 +20,10 @@ export const userService = {
     isAccountUser,
     isAccountVendorRep,
     getAccountDetails,
-    validateAccount
+    validateAccount,
+    getAccountsList,
+    getUsersByVendor,
+    getUsersByAccount
 };
 
 function validateAccount(accountIdFromRequest) {
@@ -37,6 +41,30 @@ function validateAccount(accountIdFromRequest) {
 
 
     return false;
+}
+
+function getUsersByVendor(vendorId, accountId) {
+   console.log("getUsersByVendor:::::"+vendorId+"====="+accountId)
+
+   return fetchWrapper.get(`${baseUrl}/account/`+accountId+'/users?vendorId='+vendorId, {})
+   .then(users => {
+        console.log("USERS inside servcei:::"+JSON.stringify(users))
+       return users;
+   });
+}
+
+function getUsersByAccount(accountId) {
+    return fetchWrapper.get(`${baseUrl}/account/list`, {})
+        .then(accounts => {
+            return accounts;
+        });
+}
+
+function getAccountsList() {
+    return fetchWrapper.get(`${baseUrl}/account/list`, {})
+        .then(accounts => {
+            return accounts;
+        });
 }
 
 function getAccountDetails() {

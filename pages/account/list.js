@@ -12,8 +12,7 @@ export default function Home(props) {
   const router = useRouter();
   const [accounts, setAccounts] = useState([]);
   const [isPageAuthprized, setPageAuthorized] = useState(false);
-  console.log("userService.getAccountDetails.accountId::"+userService.isSuperAdmin())
-
+  
 
   //INFO: used for making initial api calls
   useEffect(() => {
@@ -123,7 +122,6 @@ export default function Home(props) {
 }
 
 export async function getStaticProps() {
-  const accounts = await prisma.account.findMany();
   return {
     props: {
       data: {
