@@ -6,6 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { util } from '../../helpers';
 import { accountService, userService } from "../../services";
 import {MODE_ADD, USER_VALIDATION_SCHEMA, USER_ROLES} from "../../constants/accountConstants";
+import {US_STATES} from "../../constants/commonConstants";
 
 
 const UserAddEdit = (props) => {
@@ -394,10 +395,9 @@ const UserAddEdit = (props) => {
                         <div className="fform__group form__group__inline_4">
                           <select name="state" {...register('state')} className={`form-control ${errors.state ? 'is-invalid' : ''}`}>
                               <option value="">State</option>
-                              <option value="Mr">Mr</option>
-                              <option value="Mrs">Mrs</option>
-                              <option value="Miss">Miss</option>
-                              <option value="Ms">Ms</option>
+                              {US_STATES?.map((state) => (
+                                  <option value={state.id}>{state.name}</option>
+                              ))}
                           </select>
                           <div className="invalid-feedback">{errors.state?.message}</div>                
                         </div>
