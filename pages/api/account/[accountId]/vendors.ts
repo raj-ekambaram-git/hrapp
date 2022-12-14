@@ -8,26 +8,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(405).json({ message: 'Method not allowed' });
   }
 
-  const vendorId = req.query.vendorId;
   const accountId = req.query.accountId;
-  console.log("Account ::"+accountId+"   vendorId::"+vendorId)
+  console.log("Account ::"+accountId)
   try {
-    if(vendorId != "") {
-      const users = await prisma.user.findMany({
-        where: {
-            vendorId: {
-              equals: parseInt(vendorId.toString())            },
-            accountId: {
-              equals: parseInt(accountId.toString())
-            }
-        },
-        orderBy: {
-          id: "desc"
-        }
-      });
-      res.status(200).json(users);
-    } else {
-      const users = await prisma.user.findMany({
+      const vendors = await prisma.vendor.findMany({
         where: {
             accountId: {
               equals: parseInt(accountId.toString())
@@ -37,11 +21,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           id: "desc"
         }
       });
-      res.status(200).json(users);
-    }
-
-
-
+      res.status(200).json(vendors);
   } catch (error) {
     console.log(error)
     res.status(400).json({ message: 'Something went wrong while getting accounts' })

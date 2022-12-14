@@ -7,7 +7,7 @@ const UserList = (props) => {
   const router = useRouter();
   const { data } = props.userList;
   const { isVendor } = props.userList;
-  
+  console.log("UserList::"+JSON.stringify(data))
   const [usersList, setUsersList] = useState([]);
   const [isPageSectionAuthorized, setPageSectionAuthorized] = useState(false);
 
@@ -16,11 +16,22 @@ const UserList = (props) => {
 
     if(isVendor) {
       //get API call with accountId and VendorId
-      getUsersList(data.vendorId, userService.getAccountDetails().accountId)
+      if(userService.isSuperAdmin()) {
+        getUsersList(data.vendorId, data.accountId)
+      }else {
+        getUsersList(data.vendorId, userService.getAccountDetails().accountId)
+      }
+      
       
     }else {
       //Since this is just the account call only accountId
-      getUsersList("", userService.getAccountDetails().accountId)
+      if(userService.isSuperAdmin()) {
+        getUsersList("", data.accountId)
+      }else {
+        getUsersList("", userService.getAccountDetails().accountId)
+      }
+      
+     
     }
 
   }, []);

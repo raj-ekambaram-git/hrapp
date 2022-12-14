@@ -9,10 +9,16 @@ const baseUrl = `${publicRuntimeConfig.apiUrl}`;
 export const accountService = {
     accountsList,
     accountDetail,
-    userDetails
+    userDetails,
+    getVendorList
 };
 
-
+function getVendorList(accountId) {
+    return fetchWrapper.get(`${baseUrl}/account/${accountId}/vendors`, {})
+        .then(accounts => {
+            return accounts;
+        });
+}
 
 function accountsList() {
     return fetchWrapper.get(`${baseUrl}/account/list`, {})

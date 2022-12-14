@@ -38,6 +38,7 @@ const UserAddEdit = (props) => {
   const [isAddMode, setAddMode] = useState(true);
   const [isVendor, setVendor] = useState(true);
   const [accountsList, setAccountsList] = useState([]);
+  const [vendorList, setVendorList] = useState([]);
 
   //User Validation START
   const formOptions = { resolver: yupResolver(USER_VALIDATION_SCHEMA) };
@@ -71,9 +72,21 @@ const UserAddEdit = (props) => {
       setPageSectionAuthorized(true);
       getAccountsList();
     }
+    if(userService.isAccountAdmin()) {
+      //This gets called only when account user is logged and create
+      getVendorList(userService.getAccountDetails().accountId);
+    }
     
     getUserDetailsAPICall();
   }, []);
+
+  async function getVendorList(accountId) {
+    // setPageAuthorized(true);
+    const vendorListResponse = await accountService.getVendorList(accountId);
+    setVendorList(vendorListResponse);
+    setValue("userAccountId",userService.getAccountDetails().accountId);
+
+}  
   
   /**
    * Function to get the list of accounts for a drop down
@@ -168,7 +181,8 @@ const UserAddEdit = (props) => {
         const data = await res.json();
 
         toast.success(data.message);
-        router.push("/account/list");
+        router.push("/account/"+userService.getAccountDetails().accountId+"/users");
+        
       
     } catch (error) {
       toast.error("Something went wrong!");
@@ -220,8 +234,7 @@ const UserAddEdit = (props) => {
 
       const data = await res.json();
       
-      router.push(`/account/2/users`);
-      // router.push(`/account/user/${userId}/detail`);
+      router.push("/account/"+userService.getAccountDetails().accountId+"/users");
       toast.success(data.message);
     } catch (error) {
       console.log(error)
@@ -330,12 +343,23 @@ const UserAddEdit = (props) => {
                           </div>
                         </div>
                     ) : (<></>)}
-
+                    {userService.isAccountAdmin() ? (
                         <div>
-                          <p>Vendor</p>
-                          <input name="userVendorId" type="text" {...register('userVendorId')} className={`form-control ${errors.userVendorId ? 'is-invalid' : ''}`} />
+                        <p>Vendor</p>
+                        <div className="fform__group form__group__inline_4">
+                          <select name="userVendorId" {...register('userVendorId')} className={`form-control ${errors.userVendorId ? 'is-invalid' : ''}`}>
+                                <option value="">Select a Vendor</option>
+                                {vendorList?.map((vendor) => (
+                                  <option value={vendor.id}>{vendor.name}</option>
+                                  ))}
+                            </select>                      
                           <div className="invalid-feedback">{errors.userVendorId?.message}</div>
-                        </div>                        
+                        </div>
+                      </div>   
+                    ) : (
+                      <></>
+                    )}
+                     
                   </div>                  
 
                   <div>
@@ -424,18 +448,3 @@ const UserAddEdit = (props) => {
 };
 
 export default UserAddEdit;
-
-export async function getInitialProps(ctx) {
-console.log("getInitial Props"+ctx.query)
-  return {
-    data: {
-      test: [
-        {
-          id: 1
-        },
-        {id: 2}
-      ]
-    }
-  };
-
-} 
