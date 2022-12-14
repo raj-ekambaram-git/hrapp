@@ -9,26 +9,6 @@ const EditItem = (props) => {
 
   const router = useRouter();
   
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [ein, setEIN] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [type, setType] = useState("");
-  const [status, setStatus] = useState("");
-  const [accountId, setAccountId] = useState("");
-  const [accountContactName, setAccoutContactName] = useState("");
-  const [accountContactEmail, setAccoutContactEmail] = useState("");
-  const [accountContactPhone, setAccoutContactPhone] = useState("");
-  
-  const [addressId, setAddressId] = useState("");
-  const [address1, setAddress1] = useState("");
-  const [address2, setAddress2] = useState("");
-  const [address3, setAddress3] = useState("");
-  const [city, setCity] = useState("");
-  const [state, setState] = useState("");
-  const [zipCode, setZipCode] = useState("");
-  const [country, setCountry] = useState("");
   const [vendor, setVendor] = useState({});
   
   const navigateVendorEditPage = () => router.push("/account/vendor/"+vendor.id);
@@ -36,33 +16,9 @@ const EditItem = (props) => {
   const navigateVendorInvoicesPage = () => router.push("/account/vendor/"+vendor.id+"/invoices");
   const manageVendorsForAccount = () => router.push("/account/"+userService.getAccountDetails().accountId+"/vendors");
   
-  
-
-  
-
   // set default input data
   useEffect(() => {
     getVendorDetails(vendorId, userService.getAccountDetails().accountId);
-
-    setName(vendor.name);
-    setDescription(vendor.description);
-    setEIN(vendor.ein);
-    setEmail(vendor.email);
-    setPhone(vendor.phone);
-    setType(vendor.type);
-    setStatus(vendor.status);
-    setAccountId(vendor.setAccountId);
-    setAccoutContactName(vendor.accountContactName);
-    setAccoutContactEmail(vendor.accountContactEmail);
-    setAccoutContactPhone(vendor.accountContactPhone);
-    setAddressId(vendor.addressId);
-    setAddress1(vendor.address1);
-    setAddress2(vendor.address2);
-    setAddress3(vendor.address3);
-    setCity(vendor.city);
-    setState(vendor.state);
-    setZipCode(vendor.zipCode);
-    setCountry(vendor.country);
   }, []);
 
 
