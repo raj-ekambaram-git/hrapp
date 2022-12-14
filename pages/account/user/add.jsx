@@ -9,7 +9,6 @@ const AddNewUser = (props) => {
   const [isVendor, setVendor] = useState(true);
 
   useEffect(() => {
-    console.log("inside AddNewUser isVendor Flag"+router.query.vendor); 
     setVendor(router.query.vendor)
   }, [router.query]);
 

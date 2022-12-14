@@ -12,12 +12,9 @@ const UserList = (props) => {
   const [isPageSectionAuthorized, setPageSectionAuthorized] = useState(false);
 
 
-  console.log("IsVendor in USERLIST ::"+JSON.stringify(data))
-
   useEffect(() => {
 
     if(isVendor) {
-      console.log("isVendor::"+data.vendorId)
       //get API call with accountId and VendorId
       getUsersList(data.vendorId, userService.getAccountDetails().accountId)
       
@@ -34,7 +31,6 @@ const UserList = (props) => {
     async function getUsersList(vendorId, accountId) {
       // setPageAuthorized(true);
       const responseData = await userService.getUsersByVendor(vendorId, accountId);
-      console.log("responseDataassss ::"+JSON.stringify(responseData))
       setUsersList(responseData);
 
   }

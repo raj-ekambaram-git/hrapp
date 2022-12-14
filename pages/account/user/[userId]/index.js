@@ -9,13 +9,11 @@ const EditUser = (props) => {
   const [isVendor, setVendor] = useState(true);
 
   useEffect(() => {
-    console.log(router.query.vendor); 
     if(router.query && router.query.vendor) {
       setVendor(router.query.vendor)
     }
   }, [router.query]);
 
-  console.log("Props::"+JSON.stringify(props))
   const userId = props.data.userId;
   const requestData = {
     mode: MODE_EDIT,

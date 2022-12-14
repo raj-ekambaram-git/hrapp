@@ -2,7 +2,7 @@ import AccountAddEdit from "../../../components/account/accountAddEdit";
 import {MODE_EDIT} from "../../../constants/accountConstants";
 
 const EditAccount = (props) => {
-  console.log("Props::"+JSON.stringify(props))
+
   const accountId = props.data.accountId;
   const requestData = {
     mode: MODE_EDIT,

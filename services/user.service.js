@@ -27,12 +27,9 @@ export const userService = {
 };
 
 function validateAccount(accountIdFromRequest) {
-    console.log("MMMM")
-
 
     if (typeof window !== 'undefined') {
-        const user = JSON.parse(localStorage.getItem('user'))
-        console.log("3333"+JSON.stringify(user))
+        const user = JSON.parse(localStorage.getItem('user'));
         //Get account Id from the local storage
         if(accountIdFromRequest == 1) {
             return true
@@ -44,11 +41,8 @@ function validateAccount(accountIdFromRequest) {
 }
 
 function getUsersByVendor(vendorId, accountId) {
-   console.log("getUsersByVendor:::::"+vendorId+"====="+accountId)
-
    return fetchWrapper.get(`${baseUrl}/account/`+accountId+'/users?vendorId='+vendorId, {})
    .then(users => {
-        console.log("USERS inside servcei:::"+JSON.stringify(users))
        return users;
    });
 }

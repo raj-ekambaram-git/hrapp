@@ -91,7 +91,6 @@ export async function getStaticPaths() {
 
 export async function getStaticProps(context) {
 
-  console.log("888888888888")
   userService.validateAccount(1);
 
   const { accountId } = context.params;

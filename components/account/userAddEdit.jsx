@@ -9,7 +9,7 @@ import {MODE_ADD, USER_VALIDATION_SCHEMA, USER_ROLES} from "../../constants/acco
 
 
 const UserAddEdit = (props) => {
-  console.log("UPDATED UserAddEdit ::"+JSON.stringify(props))
+  
   const userId = props.data.userId;
   const router = useRouter();
   const firstName = useRef("");

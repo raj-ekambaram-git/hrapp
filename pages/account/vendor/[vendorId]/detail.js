@@ -7,8 +7,6 @@ import { userService } from '../../../../services';
 const EditItem = (props) => {
   const vendor = props.data;
   const router = useRouter();
-
-  console.log("99999999"+userService.getAccountDetails().accountId)
   
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -160,7 +158,6 @@ export async function getStaticPaths() {
 export async function getStaticProps(context) {
   const { vendorId } = context.params;
 
-  console.log("LLLLLLLL"+JSON.stringify(context))
   userService.validateAccount(1);
 
   const vendor = await prisma.vendor.findUnique({

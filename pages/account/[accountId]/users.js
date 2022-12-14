@@ -30,31 +30,4 @@ export async function getStaticProps(context) {
     },
     revalidate: 1,
   };
-
-  // const users = await prisma.user.findMany({
-  //   where: {
-  //     accountId: {
-  //         equals: parseInt(accountId)
-  //       }
-  //   },
-  //   orderBy: {
-  //     id: "desc"
-  //   }
-  // });
-  // // console.log(JSON.stringify(users))
-  // return {
-  //   props: {
-  //     data: users.map((user) => {
-  //       return {
-  //         id: user.id.toString(),
-  //         firstName: user.firstName,
-  //         lastName: user.lastName,
-  //         createdDate: user.createdDate.toDateString(),
-  //         email: user.email,
-  //         status: user.status,
-  //       };
-  //     }),
-  //   },
-  //   revalidate: 1,
-  // };
 }

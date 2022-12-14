@@ -1,7 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
 import { NextApiRequest, NextApiResponse } from "next"
-import { parse } from "path";
 import prisma from "../../../../lib/prisma";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
@@ -11,7 +10,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   const vendorId = req.query.vendorId;
   const accountId = req.query.accountId;
-  console.log("/account/users::vendorId::"+vendorId+"accountId:::"+accountId)
   try {
     if(vendorId != "") {
       const users = await prisma.user.findMany({

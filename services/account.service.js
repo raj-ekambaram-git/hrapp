@@ -29,7 +29,6 @@ function accountDetail(accountId) {
 }
 
 function userDetails(userId) {
-    console.log("userDetailslllllllll")
     return fetchWrapper.get(`${baseUrl}/account/user/${userId}/detail`, {})
         .then(user => {
             return user;
