@@ -20,23 +20,16 @@ export const userService = {
     isAccountUser,
     isAccountVendorRep,
     getAccountDetails,
-    validateAccount,
+    isValidAccount,
     getAccountsList,
     getUsersByVendor,
     getUsersByAccount
 };
 
-function validateAccount(accountIdFromRequest) {
-
-    if (typeof window !== 'undefined') {
-        const user = JSON.parse(localStorage.getItem('user'));
-        //Get account Id from the local storage
-        if(accountIdFromRequest == 1) {
-            return true
-        }
+function isValidAccount(accountIdFromRequest) {
+    if(accountIdFromRequest == userSubject.value.accountId) {
+        return true
     }
-
-
     return false;
 }
 

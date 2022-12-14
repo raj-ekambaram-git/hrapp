@@ -1,5 +1,5 @@
 import UserList from "../../../components/user/userList";
-import prisma from "../../../lib/prisma";
+
 
 export default function Home(props) {
   const { data } = props;

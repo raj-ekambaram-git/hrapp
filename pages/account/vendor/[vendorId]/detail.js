@@ -158,8 +158,6 @@ export async function getStaticPaths() {
 export async function getStaticProps(context) {
   const { vendorId } = context.params;
 
-  userService.validateAccount(1);
-
   const vendor = await prisma.vendor.findUnique({
     where: {
       id: parseInt(vendorId),
