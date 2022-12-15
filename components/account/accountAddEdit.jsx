@@ -6,6 +6,23 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { util } from '../../helpers';
 import { accountService, userService } from "../../services";
 import {MODE_ADD, ACCOUNT_VALIDATION_SCHEMA} from "../../constants/accountConstants";
+import {US_STATES} from "../../constants/commonConstants";
+import {
+  HStack,
+  Button,
+  Box,
+  Flex,
+  Heading,
+  FormControl,
+  FormLabel,
+  Input,
+  Select,
+  Stack,
+  Card,
+  CardHeader,
+  CardBody,
+  StackDivider
+} from '@chakra-ui/react'
 
 
 const AccountAddEdit = (props) => {
@@ -33,7 +50,7 @@ const AccountAddEdit = (props) => {
   const formOptions = { resolver: yupResolver(ACCOUNT_VALIDATION_SCHEMA) };
 
   // get functions to build form with useForm() hook
-  const { register, handleSubmit, setValue, formState } = useForm(formOptions);
+  const { register, handleSubmit, setValue, formState } = useForm();
   const { errors } = formState;
 
 
@@ -45,6 +62,7 @@ const AccountAddEdit = (props) => {
     // setAccountPhone(formattedPhoneNumber);
   };
   //Account Validation END
+
 
 
   //Get Account Details only if its EditMode
@@ -94,6 +112,8 @@ const AccountAddEdit = (props) => {
   }, []);
   
   function onSubmit(data) {
+    
+    console.log("Datattata::"+JSON.stringify(data))
     return isAddMode
         ? createAccount(data)
         : updateAccount(accountId, data);
@@ -134,7 +154,7 @@ const AccountAddEdit = (props) => {
         const data = await res.json();
 
         toast.success(data.message);
-        router.push("/account/list");
+        router.push("/accounts");
       
     } catch (error) {
       toast.error("Something went wrong!");
@@ -193,170 +213,200 @@ const AccountAddEdit = (props) => {
 
 
   return (
-    <div className="main__container">
+
+    <div>
       {isPageAuthprized ? (
-              <div className="new__account">
-              <div className="new__account-header">
-              {isAddMode ? (
-                              <h3>New Account</h3>
-                          ) : (
-                            <h3>Update Account</h3>
-                          )}
-                
-              </div>
-      
-              {/* ======== new account body ========= */}
-              <div className="new__account-body">
-                {/* ======= bill from ========== */}
-                <div className="bill__from">
-                  <p className="bill__title">Account Setup</p>
-      
-                  
-      
-                <form onSubmit={handleSubmit(onSubmit)}>
-                  <div className="form__group">
-                    <p>Account Name</p>
-                    <input name="accountName" type="text" {...register('accountName')} className={`form-control ${errors.accountName ? 'is-invalid' : ''}`} />
-                    <div className="invalid-feedback">{errors.accountName?.message}</div>
-                  </div>
-      
-                  <div className="form__group">
-                    <p>Account Description</p>
-                    <input name="accountDescription" type="text" {...register('accountDescription')} className={`form-control ${errors.accountDescription ? 'is-invalid' : ''}`} />
-                    <div className="invalid-feedback">{errors.accountDescription?.message}</div>
-                  </div>      
-      
-                  <div>
-                      <p>Account Status</p>
-                      <div className="form__group">
-                        <select name="accountStatus" {...register('accountStatus')} className={`form-control ${errors.accountStatus ? 'is-invalid' : ''}`}>
-                            <option value="Active">Active</option>
-                            <option value="Inactive">Inactive</option>
-                        </select>
-                        <div className="invalid-feedback">{errors.accountStatus?.message}</div>    
-                      </div>            
-                  </div>
-      
-                  <div>
-                    <p className="bill__title">Account Address</p>
-                    
-                    <div className="form__group">
-                      <p>Address1</p>
-                      <input name="address1" type="text" {...register('address1')} className={`form-control ${errors.address1 ? 'is-invalid' : ''}`} />
-                      <div className="invalid-feedback">{errors.address1?.message}</div>
-                    </div>  
-      
-                    <div className="form__group">
-                      <p>Address2</p>
-                      <input name="address2" type="text" {...register('address2')} className={`form-control ${errors.address2 ? 'is-invalid' : ''}`} />
-                      <div className="invalid-feedback">{errors.address2?.message}</div>
-      
-                    </div>              
-      
-                    <div className="form__group">
-                      <p>Address2</p>
-                      <input name="address3" type="text" {...register('address3')} className={`form-control ${errors.address3 ? 'is-invalid' : ''}`} />
-                      <div className="invalid-feedback">{errors.address3?.message}</div>
-                    </div> 
-      
-      
-                    <div className="form__group inline__form-group">
-                      <div>
-                        <p>City</p>
-                        <input name="city" type="text" {...register('city')} className={`form-control ${errors.city ? 'is-invalid' : ''}`} />
-                        <div className="invalid-feedback">{errors.city?.message}</div>
-                      </div>
-                      <div>
-                        <p>State</p>
-                        <div className="form__group__state">
-                          <select name="state" {...register('state')} className={`form-control ${errors.state ? 'is-invalid' : ''}`}>
+        <div> 
+          <Flex
+            as="nav"
+            align="center"
+            justify="space-between"
+            wrap="wrap"
+            padding="1.5rem"
+            bg="heading"
+            color="white"
+            marginBottom="2rem"
+            width="50%"
+          >
+            <Heading as="h1" size="lg" letterSpacing={'-.1rem'}>
+               {isAddMode ? (
+                    <div>New Account</div>
+                ) : (
+                    <div>Update Account</div>
+                )}              
+            </Heading>
+          </Flex>
+          <Box width="50%">
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Stack spacing={4}>
+              <Card>
+                <CardHeader bgColor="table_tile">
+                  <Heading size='sm'>Account Details</Heading>
+                </CardHeader>
+
+                <CardBody>
+                  <Stack divider={<StackDivider />} spacing='4'>
+                      <Box>
+                        <FormControl isRequired>
+                          <FormLabel>Account Name</FormLabel>
+                          <Input type="text" {...register('accountName')}  id="accountName"  size="md" />
+                        </FormControl>     
+                      </Box>
+                      <Box>
+                        <FormControl isRequired>
+                            <FormLabel>Account Descirption</FormLabel>
+                            <Input type="text" id="accountDescription" {...register('accountDescription')}  size="md" />
+                        </FormControl>    
+                      </Box>    
+                      <Box>
+                        <FormControl isRequired>
+                          <FormLabel>Account Status</FormLabel>
+                          <Select width="25%" id="accountStatus" {...register('accountStatus')} >
+                              <option value="Active">Active</option>
+                              <option value="Inactive">Inactive</option>
+                          </Select>
+                        </FormControl>     
+                      </Box>    
+                      <Box>
+                        <FormControl isRequired>
+                          <FormLabel>Account EIN</FormLabel>
+                          <Input type="text" id="accountEIN"  size="md" {...register('accountEIN')} />
+                        </FormControl>     
+                      </Box>                                                                                                         
+                  </Stack>
+                </CardBody>
+              </Card>              
+              <Card>
+                <CardHeader bgColor="table_tile">
+                  <Heading size='sm'>Account Contact</Heading>
+                </CardHeader>
+
+                <CardBody>
+                  <Stack divider={<StackDivider />} spacing='4'>
+                    <HStack>
+                      <Box>
+                        <FormControl isRequired>
+                          <FormLabel>Account Email</FormLabel>
+                          <Input type="email" id="accountEmail"  size="md" {...register('accountEmail')}  />
+                        </FormControl>     
+                      </Box>
+                      <Box>
+                        <FormControl isRequired>
+                            <FormLabel>Account Phone</FormLabel>
+                            <Input type="text" id="accountPhone"  size="md" {...register('accountPhone')}  />
+                          </FormControl>      
+                      </Box>                                                                    
+                      </HStack>
+                    </Stack>
+                  </CardBody>
+                </Card>
+
+                <Card>
+                  <CardHeader bgColor="table_tile">
+                    <Heading size='sm'>Account Addreses</Heading>
+                  </CardHeader>
+
+                  <CardBody>
+                    <Stack divider={<StackDivider />} spacing='4'>
+                      <Box>
+                        <FormControl isRequired>
+                          <FormLabel>Address1</FormLabel>
+                          <Input type="text" id="address1"  size="md" {...register('address1')} />
+                        </FormControl>     
+                        <FormControl>
+                          <FormLabel>Address2</FormLabel>
+                          <Input type="text" id="address2"  size="md" {...register('address2')} />
+                        </FormControl>     
+                        <FormControl>
+                          <FormLabel>Address3</FormLabel>
+                          <Input type="text" id="address3"  size="md" {...register('address3')} />
+                        </FormControl>     
+                      </Box>
+                      <HStack>
+                        <Box>
+                          <FormControl isRequired>
+                            <FormLabel>City</FormLabel>
+                            <Input type="text" id="city"  size="md" {...register('city')} />
+                          </FormControl>     
+                        </Box>
+                        <Box>
+                          <FormControl isRequired>
+                            <FormLabel>State</FormLabel>
+                            <Select id="state" {...register('state')} >
                               <option value="">State</option>
-                              <option value="Mr">Mr</option>
-                              <option value="Mrs">Mrs</option>
-                              <option value="Miss">Miss</option>
-                              <option value="Ms">Ms</option>
-                          </select>
-                          <div className="invalid-feedback">{errors.state?.message}</div>                
-                        </div>
-                      </div>
-      
-                      <div>
-                        <p>ZipCode</p>
-                        <input name="zipCode" type="text" {...register('zipCode')} className={`form-control ${errors.zipCode ? 'is-invalid' : ''}`} />
-                        <div className="invalid-feedback">{errors.zipCode?.message}</div>
-                      </div>
-      
-                      <div>
-                        <p>Country</p>
-                        <div className="form__group__state">
-                          <select name="country" {...register('country')} className={`form-control ${errors.country ? 'is-invalid' : ''}`}>
+                              {US_STATES?.map((state) => (
+                                  <option value={state.id}>{state.name}</option>
+                                  ))}
+                            </Select>
+
+                          </FormControl>     
+                        </Box>
+                        <Box>
+                          <FormControl isRequired>
+                            <FormLabel>ZipCode</FormLabel>
+                            <Input type="text" id="zipCode"  size="md" {...register('zipCode')} />
+                          </FormControl>     
+                        </Box>
+                        <Box>
+                          <FormControl isRequired>
+                            <FormLabel>Country</FormLabel>
+                            <Select id="country" {...register('country')} >
                               <option value="USA">USA</option>
-                          </select>
-                          <div className="invalid-feedback">{errors.country?.message}</div>                  
-                        </div>                    
-                      </div>
-                      </div>
-      
-                      <div className="form__group inline__form-group">
-                        <div>
-                          <p>Account Email</p>
-                          <input name="accountEmail" type="email" {...register('accountEmail')} className={`form-control ${errors.accountEmail ? 'is-invalid' : ''}`} />
-                          <div className="invalid-feedback">{errors.accountEmail?.message}</div>
-                        </div>
-      
-                        <div>
-                          <p>Account Phone</p>
-                          <input name="accountPhone" type="phone" {...register('accountPhone')} onChange={(e) => handlePhoneInput(e)} className={`form-control ${errors.accountPhone ? 'is-invalid' : ''}`} />
-                          <div className="invalid-feedback">{errors.accountPhone?.message}</div>
-                        </div>   
-                      </div>      
-                    </div>   
-      
-                  {/* ========= bill to ========== */}
-                  <div className="bill__to">
-                    <p className="bill__title">Bill to</p>
-                    <div className="form__group">
-                      <p>EIN</p>
-                      <input name="accountEIN" type="text" {...register('accountEIN')} className={`form-control ${errors.accountEIN ? 'is-invalid' : ''}`} />
-                      <div className="invalid-feedback">{errors.accountEIN?.message}</div>
-                    </div>
-      
-                  </div>
-      
-                  <div className="new__account__btns">
-                    <button className="edit__btn" onClick={() => router.push("/account/list")}>
-                      Discard
-                    </button>
-                    <div>
-                      <button disabled={formState.isSubmitting} className="btn btn-primary">
-                          {formState.isSubmitting && <span className="spinner-border spinner-border-sm mr-1"></span>}
-                          {isAddMode ? (
-                              <>Add Account</>
-                          ) : (
-                              <>Update Account</>
-                          )}
-                          
-                      </button>
-                    </div>
-                  </div>
-      
-                </form>            
-      
-      
-      
-                </div>
-      
-      
-      
-      
-              </div>
-            </div>
-      ) : (
-        <div className="not__authorized-header">
-          Not authorized to view this page. Please contact administrator.
+                            </Select>
+
+                          </FormControl>     
+                        </Box>                                                                        
+                      </HStack>
+                    </Stack>
+                  </CardBody>
+                </Card>
+
+
+                <Flex marginBottom={4}>
+                  <HStack>
+                    <Box>
+                      <Button onClick={() => router.push("/accounts")}>
+                        Discard
+                      </Button>
+                    </Box>
+                    <Box>
+                      <Button type="submit">
+                        {isAddMode ? (
+                            <>Add New Account</>
+                        ) : (
+                            <>Update Account</>
+                        )}
+                      </Button>
+                    </Box>
+                  </HStack>
+                </Flex>                   
+              </Stack>
+            </form>          
+          </Box>
+
         </div>
+      ) : (
+        <> 
+        <Flex
+          as="nav"
+          align="center"
+          justify="space-between"
+          wrap="wrap"
+          padding="1.5rem"
+          bg="teal.500"
+          color="white"
+          marginBottom="2rem"
+          width="100%"
+        >
+          <Heading as="h1" size="lg" letterSpacing={'-.1rem'}>
+            Not authorized to view this page. Please contact administrator.
+          </Heading>
+        </Flex>        
+      </>
       )}
     </div>
+
+
   );
 };
 

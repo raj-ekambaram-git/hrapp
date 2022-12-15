@@ -59,7 +59,7 @@ export default function Home(props) {
 
         <button className="btn" onClick={navigatePage}>
           Add New Account 
-        </button>
+        </button>   
       </div>
 
       <div className="account__container">

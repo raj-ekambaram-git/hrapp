@@ -1,8 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { toast } from "react-toastify";
-import prisma from "../../../lib/prisma";
 import { accountService, userService } from "../../../services";
+import {
+  Card,
+  CardHeader,
+  Box,
+  Heading,
+  CardBody,
+  Stack,
+  Text,
+  StackDivider,
+  Badge,
+  Flex,
+  HStack,
+  Button
+} from '@chakra-ui/react'
 
 const AccountDetail = (props) => {
   const router = useRouter();
@@ -13,6 +25,8 @@ const AccountDetail = (props) => {
   const navigateEditPage = () => router.push("/account/"+account.id);
   const navigateManageAccountUsersPage = () => router.push("/account/"+account.id+"/users");
   const navigateManageVendorsPage = () => router.push("/account/"+account.id+"/vendors");
+  const navigateManageAccounts = () => router.push("/accounts");
+  
 
   
   
@@ -29,7 +43,7 @@ const AccountDetail = (props) => {
                 description: accountResponse.description,
                 ein: accountResponse.ein,
                 email: accountResponse.email,
-                accountStatus: accountResponse.status,
+                status: accountResponse.status,
                 phone: accountResponse.phone,
                 addressId: accountResponse.address[0].id,
                 address1: accountResponse.address[0].address1,
@@ -50,82 +64,104 @@ const AccountDetail = (props) => {
   }, []);
 
   return (
-    <div className="main__container">
+    <div>
       {isPageAuthprized ? (
         <>
-          <div className="new__invoice">
-            <div className="new__invoice-header">
-              <h3>Account Details for {account.name}</h3> 
-            </div>
+          <Card>
+            <CardHeader bgColor="teal.500">
+              <Heading size='md'>Account Details for {account.name}</Heading>
+            </CardHeader>
 
-            <div className="account__item">
-                  <div>
-                    <h5 className="account__id">
-                      {account.id}
-                    </h5>
-                  </div>
-
-                  <div>
-                    <h5 className="account__client">{account.name}</h5>
-                  </div>
-
-                  <div>
-                    <p className="account__created">{account.createdDate}</p>
-                  </div>
-
-                  <div>
-                    <p className="account__created">{account.email}</p>
-                  </div>
-
-                  <div>
-                    <h5 className="account__client">{account.ein}</h5>
-                  </div>
-
-                  <div>
-                    <button
-                      className={`${
+            <CardBody>
+              <Stack divider={<StackDivider />} spacing='4'>
+                <Box>
+                  <Heading size='xs' textTransform='uppercase'>
+                    Details
+                  </Heading>
+                  <Text pt='2' fontSize='sm'>
+                    {account.description}
+                  </Text>                
+                </Box>
+                <Box>
+                  <Heading size='xs' textTransform='uppercase'>
+                    EIN
+                  </Heading>
+                  <Text pt='2' fontSize='sm'>
+                    {account.ein}
+                  </Text>                
+                </Box>                
+                <Box>
+                  <Heading size='xs' textTransform='uppercase'>
+                    Contact Details
+                  </Heading>
+                  <Text pt='2' fontSize='sm'>
+                    {account.email}
+                  </Text>
+                  <Text pt='2' fontSize='sm'>
+                    {account.phone}
+                  </Text>                  
+                </Box>
+                <Box>
+                  <Heading size='xs' textTransform='uppercase'>
+                    Contact Address
+                  </Heading>
+                  <Text pt='2' fontSize='sm'>
+                    {account.address1}
+                  </Text>
+                  <Text pt='2' fontSize='sm'>
+                    {account.address2}
+                  </Text>
+                  <Text pt='2' fontSize='sm'>
+                    {account.address3}
+                  </Text>
+                  <Text pt='2' fontSize='sm'>
+                    {account.city}, {account.state} {account.zipCode} 
+                  </Text>
+                  <Text pt='2' fontSize='sm'>
+                    {account.country}
+                  </Text>                                                                                                            
+                </Box>
+                <Box>
+                  <Heading size='xs' textTransform='uppercase'>
+                    Account Status
+                  </Heading>
+                  <Badge colorScheme={`${
                         account.status === "Active"
-                          ? "paid__status"
-                          : account.status === "Inactive"
-                          ? "pending__status"
-                          : "draft__status"
-                      }`}
-                    >
-                      {account.status}
-                    </button>
-                  </div>
-                </div>
+                        ? "green"
+                        : account.status === "Inactive"
+                        ? "red"
+                        : "red"
+                    }`}>{account.status}
+                  </Badge>              
+                </Box>                
+              </Stack>
+            </CardBody>
+          </Card>             
 
-            {/* ======== new invoice body ========= */}
-            <div className="new__invoice-body">
-              {/* ======= bill from ========== */}
-
-
-              <div className="new__account__btns">  
-                <div>
-                  <button className="edit__btn" onClick={() => router.push("/account/list")}>
-                    Manage Accounts
-                  </button>
-                </div>
-                <div>
-                  <button className="mark__as-btn" onClick={navigateEditPage}>
-                    Edit
-                  </button>
-                </div>
-                <div>
-                  <button className="mark__as-btn" onClick={navigateManageVendorsPage}>
-                    Manage Vendors
-                  </button>
-                </div>            
-                <div>
-                  <button className="mark__as-btn" onClick={navigateManageAccountUsersPage}>
-                    Manage Account Users
-                    </button>
-                </div>
-              </div>
-
-            </div>
-          </div>        
+          <Flex marginTop="2rem">
+                <HStack spacing={2}>
+                  <Box>
+                    <Button className="btn" onClick={navigateEditPage}>
+                      Edit
+                    </Button>
+                  </Box>
+                  <Box>
+                    <Button className="btn" onClick={navigateManageVendorsPage}>
+                      Vendors
+                    </Button>
+                  </Box>   
+                  <Box>
+                    <Button className="btn" onClick={navigateManageAccountUsersPage}>
+                      Users
+                    </Button>
+                  </Box>   
+                  <Box>
+                    <Button className="btn" onClick={navigateManageAccounts}>
+                      Manage Accounts
+                    </Button>
+                  </Box>                                                      
+                </HStack>
+              </Flex>          
         </>
       ) : (
         <div className="account__header">

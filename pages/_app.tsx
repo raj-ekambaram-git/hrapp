@@ -4,8 +4,9 @@ import { useRouter } from 'next/router';
 import type { AppProps } from "next/app";
 import Layout from "../components/layout/layout";
 import { wrapper } from "../store";
-
-import 'styles/globals.css';
+import {ChakraProvider} from '@chakra-ui/react';
+import theme from './theme';
+import 'styles/index.css';
 
 import { userService } from '../services';
 import {Alert } from '../components';
@@ -70,10 +71,12 @@ function MyApp({ Component, pageProps }: AppProps) {
           <link href="//netdna.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
       </Head>
 
-      <div className={`app-container ${user ? 'bg-light' : ''}`}>
+      <div>
         <Alert />
         <Layout>
+          <ChakraProvider theme={theme}>
             <Component {...pageProps} />
+            </ChakraProvider>
         </Layout>
       </div>
 

@@ -397,7 +397,7 @@ const UserAddEdit = (props) => {
                               <option value="">State</option>
                               {US_STATES?.map((state) => (
                                   <option value={state.id}>{state.name}</option>
-                              ))}
+                                  ))}
                           </select>
                           <div className="invalid-feedback">{errors.state?.message}</div>                
                         </div>

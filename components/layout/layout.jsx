@@ -1,12 +1,13 @@
 import React, { Fragment } from "react";
-import Sidebar from "../sidebar/sidebar";
+import Slidebar from "../sidebar/slidebar";
 
 
 const Layout = (props) => {
   return (
     <Fragment>
-      <Sidebar/>
-      <div>{props.children}</div>
+      <Slidebar>
+         <div>{props.children}</div>
+      </Slidebar>
     </Fragment>
   );
 }
