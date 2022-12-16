@@ -42,6 +42,7 @@ const VendorDetail = (props) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   
   const [vendor, setVendor] = useState({});
+  const [vendorAddress, setVendorAddress] = useState({});
   const [isPageAuthprized, setPageAuthorized] = useState(false);
 
   const navigateVendorEditPage = () => router.push("/account/vendor/"+vendor.id);
@@ -50,18 +51,13 @@ const VendorDetail = (props) => {
   const navigateVendorProjectsPage = () => router.push("/account/vendor/"+vendor.id+"/projects");
   const manageVendorsForAccount = () => router.push("/account/"+userService.getAccountDetails().accountId+"/vendors");
   
-  
-  const reloadPage = () => {
-    setShow(false)
-    reload();
-  }
 
   const createProjectRequestData = {
     mode: MODE_ADD,
     vendorId: vendorId,
     isVendor: true,
     onClose: onClose,
-    reloadPage: reloadPage
+    modalRequest: true
   }
 
   // set default input data
@@ -107,6 +103,19 @@ const VendorDetail = (props) => {
       country: responseData.address[0].country
   };
 
+  const vendorAddressData =  {
+    addressId: responseData.address[0].id,
+    address1: responseData.address[0].address1,
+    address2: responseData.address[0].address2,
+    address3: responseData.address[0].address3,
+    city: responseData.address[0].city,
+    state: responseData.address[0].state,
+    zipCode: responseData.address[0].zipCode,
+    country: responseData.address[0].country
+};
+
+
+  setVendorAddress(vendorAddressData)
   setVendor(responseData)
 
 
@@ -206,19 +215,19 @@ const VendorDetail = (props) => {
                     </h2>
                     <AccordionPanel pb={4}>
                       <Text pt='2' fontSize='sm'>
-                        {vendor.address[0].address1}
+                        {vendorAddress.address1}
                       </Text>
                       <Text pt='2' fontSize='sm'>
-                        {vendor.address[0].address2}
+                        {vendorAddress.address2}
                       </Text>
                       <Text pt='2' fontSize='sm'>
-                        {vendor.address[0].address3}
+                        {vendorAddress.address3}
                       </Text>
                       <Text pt='2' fontSize='sm'>
-                        {vendor.address[0].city}, {vendor.address[0].state} {vendor.address[0].zipCode} 
+                        {vendorAddress.city}, {vendorAddress.state} {vendorAddress.zipCode} 
                       </Text>
                       <Text pt='2' fontSize='sm'>
-                        {vendor.address[0].country}
+                        {vendorAddress.country}
                       </Text>                      
                      </AccordionPanel>
                   </AccordionItem>

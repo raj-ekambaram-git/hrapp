@@ -1,0 +1,335 @@
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
+import { accountService, userService } from '../../../../services';
+import {MODE_ADD} from "../../../../constants/accountConstants";
+import Link from "next/link";
+import {
+  Card,
+  CardHeader,
+  Box,
+  Heading,
+  CardBody,
+  Stack,
+  Text,
+  StackDivider,
+  Badge,
+  Flex,
+  HStack,
+  Button,
+  Modal,
+  ModalOverlay,
+  useDisclosure,
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionPanel,
+  AccordionIcon,
+  Table,
+  Thead,
+  Tbody,
+  Th,
+  Tr,
+  TableContainer,
+  TableCaption
+
+} from '@chakra-ui/react'
+import ProjectAddEditModal from "../../../../components/project/projectAddEditModal";
+
+const ProjectDetail = (props) => {
+  const projectId = props.data.projectId;
+
+  const router = useRouter();
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  
+  const [project, setProject] = useState({});
+  const [projectLocation, setProjectLocation] = useState({});
+  const [projectAccountName, setProjectAccountName] = useState('');
+  const [projectVendorName, setProjectVendorName] = useState('');
+  const [isPageAuthprized, setPageAuthorized] = useState(false);
+
+  const navigateProjectEditPage = () => router.push("/account/project/"+project.id);
+  const navigateProjectInvoicesPage = () => router.push("/account/project/"+project.id+"/invoices");
+  
+  
+  
+  const createProjectRequestData = {
+    mode: MODE_ADD,
+    projectId: projectId
+  }
+
+  // set default input data
+  useEffect(() => {
+    getProjetDetails(projectId, userService.getAccountDetails().accountId);
+  }, []);
+
+
+      /**
+   * Function to get the list of accounts for a drop down
+   */
+  async function getProjetDetails(projectId, accountId) {
+    setPageAuthorized(true);
+
+    let accoutIdToPas;
+    if(userService.isSuperAdmin()) {
+      accoutIdToPas = "NaN";
+    }else {
+      accoutIdToPas = accountId;
+    }
+
+    console.log("332322322 ::"+projectId+":::accoutIdToPas"+accoutIdToPas)
+    
+    const responseData = await accountService.getProjectDetail(projectId, accoutIdToPas);
+
+    console.log("responseData::::"+JSON.stringify(responseData))
+    const projectData =  {
+      id: responseData.id.toString(),
+      name: responseData.name,
+      description: responseData.description,
+      referenceCode: responseData.referenceCode,
+      type: responseData.type,
+      invoiceCycle: responseData.invoiceCycle,
+      addressId: responseData.addressId,
+      vendorId: responseData.vendorId,
+      accountId: responseData.accountId,
+      // projectResource: [],
+      // invoice: [],
+      budget: responseData.budget,
+      totalHours: responseData.totalHours,
+      averageRate: responseData.averageRate,
+      status: responseData.status
+   };
+
+    const projectLocation =  {
+      address1: responseData.address.address1,
+      address2: responseData.address.address1,
+      address3: responseData.address.address1,
+      city: responseData.address.city,
+      state: responseData.address.state,
+      zipCode: responseData.address.zipCode,
+      country: responseData.address.country,
+
+    };
+
+    setProjectLocation(projectLocation);
+    setProjectAccountName(responseData.account.name)
+    setProjectVendorName(responseData.vendor.name)
+
+    setProject(projectData)
+
+
+  }
+
+  return (
+
+    <div>
+      {isPageAuthprized ? (
+        <>
+          <Card>
+            <CardHeader bgColor="heading">
+              <HStack spacing="50rem">
+                <Box>
+                  <Heading size='md'>Project Details for {project.name}</Heading>
+                </Box>
+                <Box  alignItems='right'>
+                  <Button className="btn" onClick={onOpen}>Create New Project</Button>
+                  <Modal isOpen={isOpen} onClose={onClose} size="lg">
+                    <ModalOverlay/>
+                    <ProjectAddEditModal data={createProjectRequestData}></ProjectAddEditModal>
+                  </Modal>  
+                </Box>                  
+              </HStack>
+            </CardHeader>
+
+            <CardBody>
+              <Stack divider={<StackDivider />} spacing='1'>
+                <Accordion>
+                  <AccordionItem marginBottom="1rem" border="1px" width="60%">
+                    <h2>
+                      <AccordionButton bgColor="table_tile">
+                        <Box as="span" flex='1' textAlign='left'>
+                          <Heading size='xs' textTransform='uppercase'>
+                            Project Details
+                          </Heading>
+                        </Box>
+                        <AccordionIcon />
+                      </AccordionButton>
+                    </h2>
+                    <AccordionPanel pb={4}>
+                    <Text pt='2' fontSize='sm'>
+                        Project ID: {project.id}
+                      </Text>             
+                      <Text pt='2' fontSize='sm'>
+                        Project Name: {project.name}
+                      </Text>                
+                      <Text pt='2' fontSize='sm'>
+                        Project Description: {project.description}
+                      </Text>    
+                      <Text pt='2' fontSize='sm'>
+                        Project Type: {project.type}
+                      </Text>                                       
+                      <Text pt='2' fontSize='sm'>
+                        Invoice Cycle: {project.invoiceCycle}
+                      </Text>                                       
+                    </AccordionPanel>
+                  </AccordionItem>
+                  <AccordionItem marginBottom="1rem" border="1px" width="60%">
+                      <h2>
+                        <AccordionButton bgColor="table_tile">
+                          <Box as="span" flex='1' textAlign='left'>
+                            <Heading size='xs' textTransform='uppercase'>
+                              Project Account/Vendor Details
+                            </Heading>
+                          </Box>
+                          <AccordionIcon />
+                        </AccordionButton>
+                      </h2>
+                    <AccordionPanel pb={4}>
+                      <Text pt='2' fontSize='sm'>
+                        Account Name: {projectAccountName}
+                      </Text>
+                      <Text pt='2' fontSize='sm'>
+                        Vendor Name: {projectVendorName}
+                      </Text>
+                    </AccordionPanel>
+                  </AccordionItem>                          
+                  <AccordionItem marginBottom="1rem" border="1px" width="60%">
+                    <h2>
+                      <AccordionButton bgColor="table_tile">
+                        <Box as="span" flex='1' textAlign='left'>
+                          <Heading size='xs' textTransform='uppercase'>
+                            Project Contact
+                          </Heading>
+                        </Box>
+                        <AccordionIcon />
+                      </AccordionButton>
+                    </h2>
+                    <AccordionPanel pb={4}>
+                      <Text pt='2' fontSize='sm'>
+                        Contact Name: {project.contactName}
+                      </Text>
+                      <Text pt='2' fontSize='sm'>
+                        Contact Email: {project.contactEmail}
+                      </Text>
+                      <Text pt='2' fontSize='sm'>
+                        Contact Phone: {project.contactPhone}
+                      </Text>                     
+                    </AccordionPanel>
+                  </AccordionItem>
+                  <AccordionItem marginBottom="1rem" border="1px" width="60%">
+                    <h2>
+                      <AccordionButton bgColor="table_tile">
+                        <Box as="span" flex='1' textAlign='left'>
+                          <Heading size='xs' textTransform='uppercase'>
+                            Project Location
+                          </Heading>
+                        </Box>
+                        <AccordionIcon />
+                      </AccordionButton>
+                    </h2>
+                    <AccordionPanel pb={4}>
+                      <Text pt='2' fontSize='sm'>
+                        {projectLocation.address1}
+                      </Text>
+                      <Text pt='2' fontSize='sm'>
+                        {projectLocation.address2}
+                      </Text>
+                      <Text pt='2' fontSize='sm'>
+                        {projectLocation.address3}
+                      </Text>
+                      <Text pt='2' fontSize='sm'>
+                        {projectLocation.city}, {projectLocation.state} {projectLocation.zipCode} 
+                      </Text>
+                      <Text pt='2' fontSize='sm'>
+                        {projectLocation.country}
+                      </Text>                      
+                     </AccordionPanel>
+                  </AccordionItem>
+                  <AccordionItem marginBottom="1rem" border="1px" width="60%">
+                    <h2>
+                      <AccordionButton bgColor="table_tile">
+                        <Box as="span" flex='1' textAlign='left'>
+                          <Heading size='xs' textTransform='uppercase'>
+                            Project Team
+                          </Heading>
+                        </Box>
+                        <AccordionIcon />
+                      </AccordionButton>
+                    </h2>
+                    <AccordionPanel pb={4}>
+                      <Text pt='2' fontSize='sm'>
+                        {/* {projectLocation.country} */}
+                      </Text>  
+                    </AccordionPanel>
+                  </AccordionItem>   
+                </Accordion>                
+                <Box>
+                  <Heading size='xs' textTransform='uppercase'>
+                    Project Status
+                  </Heading>
+                  <Badge color={`${
+                        (project.status === "Created" || project.status === "Open")
+                          ? "paid_status"
+                          : project.status === "Closed"
+                          ? "pending_status"
+                          : "pending_status"
+                      }`}>{project.status}
+                  </Badge>              
+                </Box>                
+              </Stack>
+            </CardBody>
+          </Card>             
+
+          <Flex marginTop="2rem">
+                <HStack spacing={2}>
+                  <Box>
+                    <Button className="btn" onClick={navigateProjectEditPage}>
+                      Edit
+                    </Button>
+                  </Box>
+                  <Box>
+                    <Button className="btn" onClick={navigateProjectInvoicesPage}>
+                      Invoices
+                    </Button>
+                  </Box>   
+                                                 
+                </HStack>
+              </Flex>          
+        </>
+      ) : (
+        <div className="account__header">
+          <div className="iaccount_header-logo">
+            <h3>Not Authorized to view this page. Please contact administrator.</h3>
+          </div>
+        </div>
+
+      )}
+    </div>    
+  );
+};
+
+export default ProjectDetail;
+
+
+
+export async function getStaticPaths() {
+
+  return {
+    paths: [{ params: { projectId: "1" } }],
+    fallback: true,
+  };
+
+} 
+
+export async function getStaticProps(context) {
+  const { projectId } = context.params;
+
+  return {
+    props: {
+      data: {
+        projectId: projectId
+      }
+    },
+    revalidate: 1,
+  };
+
+}

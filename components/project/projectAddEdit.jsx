@@ -32,7 +32,7 @@ import {
 
 const ProjectAddEdit = (props) => {
   
-  const vendorId = props.data.vendorId;
+  const projectId = props.data.projectId;
   const router = useRouter();
 
   const referenceCode = useRef("");
@@ -119,7 +119,7 @@ const ProjectAddEdit = (props) => {
 
     // Call only if the user is SUPER_ADMIN and accountId as zero
     if((userService.isSuperAdmin() || userService.isAccountAdmin()) && (props && props.data && props.data.mode != MODE_ADD)) {
-      const projectResponse = await accountService.userDetails(props.data.userId);
+      const projectResponse = await accountService.getProjectDetail(props.data.projectId,userService.getAccountDetails().accountId);
         const projetData =  {
             id: projectResponse.id.toString(),
             name: projectResponse.name,
@@ -181,9 +181,17 @@ const ProjectAddEdit = (props) => {
         toast.success(data.message);
         //Close the modal
         //router.push("/account/"+userService.getAccountDetails().accountId+"/users");
-        console.log("Before Closing....")
+        console.log("Prosp:::"+JSON.stringify(props.data))
+        console.log("before forwarding..::"+props.data.modalRequest)
+      if(props.data.modalRequest) {
+        console.log("isnide")
         props.data.onClose();
-        props.data.reloadPage();
+      }else {
+        console.log("NOT INSIDE")
+        router.push("/account/vendor/"+formData.vendorId+"/projects");
+      }
+
+      
       
     } catch (error) {
       toast.error("Something went wrong!");
@@ -210,19 +218,24 @@ const ProjectAddEdit = (props) => {
           addressId: parseInt(formData.addressId),
           vendorId: parseInt(formData.vendorId),
           accountId: parseInt(formData.accountId),
-          budget: parseInt(formData.budget),
+          budget: formData.budget,
           totalHours: parseInt(formData.totalHours),
-          averageRate: parseInt(formData.averageRate),            
+          averageRate: formData.averageRate,            
           status: formData.status
 
         }),
       });
 
       const data = await res.json();
-      //Close Modal
-      console.log("Before Closing. UPDATE...")
-      props.data.onClose();
-      props.data.reloadPage();
+
+      console.log("Prosp:::"+JSON.stringify(props.data))
+      console.log("before forwarding..::"+props.data.modalRequest)
+
+      if(props.data.modalRequest) {
+        props.data.onClose();
+      }else {
+        router.push("/account/vendor/"+formData.vendorId+"/projects");
+      }
       toast.success(data.message);
     } catch (error) {
       console.log(error)

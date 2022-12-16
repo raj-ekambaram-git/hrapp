@@ -148,6 +148,9 @@ model Project {
   totalHours      Int?              @default(0)
   averageRate     Decimal?
   status          ProjectStatus
+  contactName     String?
+  contactEmail    String?
+  contactPhone    String?
   createdDate     DateTime          @default(now())
   lastUpdateDate  DateTime          @updatedAt
   invoice         Invoice[]

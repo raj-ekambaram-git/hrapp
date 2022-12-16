@@ -12,6 +12,7 @@ export const accountService = {
     userDetails,
     getVendorList,
     getInvoiceList,
+    getProjectList,
     getVendorDetail,
     getInvoiceDetail,
     getProjectDetail
@@ -31,6 +32,13 @@ function accountsList() {
         });
 }
 
+function getProjectList(vendorId, accountId) {
+    return fetchWrapper.get(`${baseUrl}/account/vendor/${vendorId}/projects?accountId=`+accountId, {})
+        .then(vendor => {
+            return vendor;
+        });
+}
+
 function getInvoiceList(vendorId, accountId) {
     return fetchWrapper.get(`${baseUrl}/account/vendor/${vendorId}/invoices?accountId=`+accountId, {})
         .then(vendor => {
@@ -39,18 +47,21 @@ function getInvoiceList(vendorId, accountId) {
 }
 
 function getProjectDetail(projectId, accountId) {
+    console.log("ssseese")
     return fetchWrapper.get(`${baseUrl}/account/project/${projectId}/detail?accountId=`+accountId, {})
-        .then(vendor => {
-            return vendor;
+        .then(project => {
+            console.log("project::::"+JSON.stringify(project))
+            return project;
         });
 }
 
 function getInvoiceDetail(invoiceId, accountId) {
     return fetchWrapper.get(`${baseUrl}/account/vendor/${invoiceId}/detail?accountId=`+accountId, {})
-        .then(vendor => {
-            return vendor;
+        .then(invoice => {
+            return invoice;
         });
 }
+
 
 function getVendorDetail(vendorId, accountId) {
     return fetchWrapper.get(`${baseUrl}/account/vendor/${vendorId}/detail?accountId=`+accountId, {})

@@ -12,7 +12,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const project = req.body;
     
     // const savedAccount: Prisma.UserCreateInput = JSON.parse(req.body);
-    const savedProject = await prisma.account.update({
+    const savedProject = await prisma.project.update({
       where: {
         id: project.id,
       },
