@@ -293,7 +293,7 @@ const AccountAddEdit = (props) => {
                       <Box>
                         <FormControl isRequired>
                             <FormLabel>Account Phone</FormLabel>
-                            <Input type="text" id="accountPhone"  size="md" {...register('accountPhone')}  />
+                            <Input type="tel" id="accountPhone"  size="md" {...register('accountPhone')}  />
                           </FormControl>      
                       </Box>                                                                    
                       </HStack>

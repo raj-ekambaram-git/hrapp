@@ -334,7 +334,7 @@ const VendorEdit = (props) => {
                       <Box>
                         <FormControl isRequired>
                             <FormLabel>Account Phone</FormLabel>
-                            <Input type="text" id="phone"  size="md" {...register('phone')}  />
+                            <Input type="tel" id="phone"  size="md" {...register('phone')}  />
                           </FormControl>      
                       </Box>                                                                    
                       </HStack>
@@ -422,7 +422,7 @@ const VendorEdit = (props) => {
                         <Box>
                           <FormControl isRequired>
                               <FormLabel>Account ContactPhone</FormLabel>
-                              <Input type="text" id="accountContactPhone"  size="md" {...register('accountContactPhone')}  />
+                              <Input type="tel" id="accountContactPhone"  size="md" {...register('accountContactPhone')}  />
                             </FormControl>      
                         </Box>                                                                    
                         </HStack>

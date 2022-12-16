@@ -365,7 +365,7 @@ const UserAddEdit = (props) => {
                       <Box>
                         <FormControl isRequired>
                             <FormLabel>User Phone</FormLabel>
-                            <Input type="text" id="userPhone"  size="md" {...register('userPhone')}  />
+                            <Input type="tel" id="userPhone"  size="md" {...register('userPhone')}  />
                           </FormControl>      
                       </Box>                                                                    
                   </Stack>
