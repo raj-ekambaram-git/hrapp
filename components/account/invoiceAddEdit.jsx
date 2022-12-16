@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { util } from '../../helpers';
 import { accountService, userService } from "../../services";
-import {MODE_ADD, USER_VALIDATION_SCHEMA, INVOICE_CYCLE,INVOICE_PAY_TERMNS} from "../../constants/accountConstants";
+import {MODE_ADD, USER_VALIDATION_SCHEMA, INVOICE_STATUS,INVOICE_PAY_TERMNS} from "../../constants/accountConstants";
 
 import {
   HStack,
@@ -28,32 +28,16 @@ import {
   NumberIncrementStepper,
   NumberDecrementStepper
 } from '@chakra-ui/react'
+import { compose } from "@reduxjs/toolkit";
 
 
 const InvoiceAddEdit = (props) => {
   
-  const incomingVendorId = props.data.vendorId;
+  
   const invoiceId = props.data.invoiceId;
   
   const router = useRouter();
-  const type = useRef("");
-  const cycle = useRef("");
-
-  const accountId = useRef("");
-  const quantity = useRef("");
-  const rate = useRef("");
-  const dueDte = useRef("");
-  const transactionId = useRef("");
-  const notes = useRef("");
-  const total = useRef("");
-  const paidAmount = useRef("");
-  const status = useRef("");
-  const paymentTerms = useRef("");
-  const createdDate = useRef("");
-  const lastUpdateDate = useRef("");
-  const userId = useRef("");
-  const vendorId = useRef("");
-
+  
   const [invoice, setInvoice] = useState({});
   const [isPageAuthprized, setPageAuthorized] = useState(false);
   const [isPageSectionAuthorized, setPageSectionAuthorized] = useState(false);
@@ -61,6 +45,7 @@ const InvoiceAddEdit = (props) => {
   const [isVendor, setVendor] = useState(true);
   const [accountsList, setAccountsList] = useState([]);
   const [vendorList, setVendorList] = useState([]);
+  const [projectList, setProjectList] = useState([]);
 
   //User Validation START
   const formOptions = { resolver: yupResolver(USER_VALIDATION_SCHEMA) };
@@ -79,7 +64,10 @@ const InvoiceAddEdit = (props) => {
   };
   //Account Validation END
 
-
+  
+    handleSubmit(() => {
+      comnsole.log("44444444")
+    }, []);
   //Get Account Details only if its EditMode
   useEffect(() => {
     if(props && props.data && props.data.mode != MODE_ADD) {
@@ -98,6 +86,7 @@ const InvoiceAddEdit = (props) => {
     if(userService.isAccountAdmin() || userService.isAccountVendorRep()) {
       //This gets called only when account user is logged and create
       getVendorList(userService.getAccountDetails().accountId);
+      // setProjectList(userService.getAccountDetails().accountId);
     }
     
     getInvoiceDetailsAPI();
@@ -111,6 +100,11 @@ const InvoiceAddEdit = (props) => {
 
 }  
   
+  // async function setProjectList(vendorId) {
+  //   // setPageAuthorized(true);
+  //   const vendorListResponse = await accountService.getVendorList(accountId);
+  //   setVendorList(vendorListResponse);
+  // }  
   /**
    * Function to get the list of accounts for a drop down
    */
@@ -129,30 +123,31 @@ const InvoiceAddEdit = (props) => {
     if((userService.isSuperAdmin() || userService.isAccountAdmin() || userService.isAccountVendorRep()) 
           && (props && props.data && props.data.mode != MODE_ADD)) {
         
+            console.log("props.data.invoiceId::"+props.data.invoiceId)
         const invoiceResponse = await accountService.getInvoiceDetail(props.data.invoiceId, userService.getAccountDetails().accountId);
+          console.log("invoiceResponse::"+JSON.stringify(invoiceResponse))
+
         const invoiceData =  {
             id: invoiceResponse.id.toString(),
             description: invoiceResponse.description,
             type: invoiceResponse.type,
-            cycle: invoiceResponse.cycle,
             vendorId: invoiceResponse.vendorId,
             accountId: invoiceResponse.accountId,
-            quantity: invoiceResponse.quantity,
-            rate: invoiceResponse.rate,
+            projectId: invoiceResponse.projectId,            
+            invoiceDate: invoiceResponse.invoiceDate,
             dueDte: invoiceResponse.dueDte,
             transactionId: invoiceResponse.transactionId,
             notes: invoiceResponse.notes,
             total: invoiceResponse.total,
             paidAmount: invoiceResponse.paidAmount,
             status: invoiceResponse.status,
-            paymentTerms: invoiceResponse.paymentTerms,
-            userId: invoiceResponse.userId
+            paymentTerms: invoiceResponse.paymentTerms
         };
 
         setInvoice(invoiceData);
 
         // get user and set form fields
-            const fields = ['description', "type", "cycle", "vendorId","accountId","quantity", "rate","dueDte","transactionId","notes", "total", "paidAmount","status","paymentTerms","userId"];
+            const fields = ['description', "type", "vendorId","accountId","projectId", "invoiceDate","dueDte","transactionId","notes", "total", "paidAmount","status","paymentTerms"];
             fields.forEach(field => setValue(field, invoiceData[field]));
     }
 
@@ -176,25 +171,23 @@ const InvoiceAddEdit = (props) => {
           body: JSON.stringify({
             description: formData.description,
             type: formData.type,
-            cycle: formData.cycle,
             accountId: parseInt(formData.accountId),
             vendorId: parseInt(formData.vendorId),
-            quantity: formData.quantity,
-            rate: formData.rate,
+            projectId: parseInt(formData.projectId),
+            invoiceDate: formData.invoiceDate,
             dueDte: formData.dueDte,
             transactionId: formData.transactionId,
             notes: formData.notes,
             total: formData.total,
             paidAmount: formData.paidAmount,
             status: formData.status,
-            paymentTerms: formData.paymentTerms,
-            userId: formData.userId
+            paymentTerms: formData.paymentTerms
           }), 
         });
         const data = await res.json();
 
         toast.success(data.message);
-        router.push("/account/vendor/"+data.vendorId+"/invoices");
+        // router.push("/account/vendor/"+invoiceId+"/invoices");
         
       
     } catch (error) {
@@ -216,26 +209,24 @@ const InvoiceAddEdit = (props) => {
           id: parseInt(invoiceId),
           description: formData.description,
           type: formData.type,
-          cycle: formData.cycle,
           accountId: parseInt(formData.accountId),
           vendorId: parseInt(formData.vendorId),
-          quantity: formData.quantity,
-          rate: formData.rate,
+          projectId: parseInt(formData.projectId),
+          invoiceDate: formData.invoiceDate,
           dueDte: formData.dueDte,
           transactionId: formData.transactionId,
           notes: formData.notes,
           total: formData.total,
           paidAmount: formData.paidAmount,
           status: formData.status,
-          paymentTerms: formData.paymentTerms,
-          userId: formData.userId          
+          paymentTerms: formData.paymentTerms  
 
         }),
       });
 
       const data = await res.json();
       
-      router.push("/account/vendor"+data.vendorId+"/invoices");
+      // router.push("/account/vendor"+invoiceId+"/invoices");
       toast.success(data.message);
     } catch (error) {
       console.log(error)
@@ -297,16 +288,6 @@ const InvoiceAddEdit = (props) => {
                         </Box>  
                         <Box>
                           <FormControl isRequired>
-                            <FormLabel>Invoice Cycle</FormLabel>
-                            <Select width="100%" id="cycle" {...register('cycle')} >
-                              {INVOICE_CYCLE?.map((invoiceCycle) => (
-                                    <option value={invoiceCycle.cycleId}>{invoiceCycle.cycleName}</option>
-                              ))}                                
-                            </Select>
-                          </FormControl>     
-                        </Box>  
-                        <Box>
-                          <FormControl isRequired>
                             <FormLabel>Payment Terms</FormLabel>
                             <Select width="100%" id="paymentTerms" {...register('paymentTerms')} >
                               {INVOICE_PAY_TERMNS?.map((paymentTerm) => (
@@ -315,7 +296,16 @@ const InvoiceAddEdit = (props) => {
                             </Select>
                           </FormControl>     
                         </Box>  
-
+                        <Box>
+                          <FormControl isRequired>
+                            <FormLabel>Projet Status</FormLabel>
+                            <Select width="100%" id="status" {...register('status')} >
+                                {INVOICE_STATUS?.map((invoiceStatus) => (
+                                        <option value={invoiceStatus.invoiceStatusId}>{invoiceStatus.invoiceStatusName}</option>
+                                ))}   
+                            </Select>
+                          </FormControl>     
+                        </Box>  
                       </HStack>                          
                   </Stack>
                 </CardBody>
@@ -327,7 +317,7 @@ const InvoiceAddEdit = (props) => {
 
                 <CardBody>
                   <Stack divider={<StackDivider />} spacing='4'>
-                    <HStack>
+                    <HStack spacing="2rem">
                       {isPageSectionAuthorized ? (
                         <>                      
                           <Box>
@@ -358,6 +348,16 @@ const InvoiceAddEdit = (props) => {
                           </Box>
                         </>
                       ) : ("")}
+                        <Box>
+                            <FormControl isRequired>
+                              <FormLabel>Project</FormLabel>
+                              <Select width="100%" id="projectId" {...register('projectId')} >
+                                <option value="1">Project</option>
+                                <option value="1">Product</option>
+                                <option value="1">Project</option>
+                              </Select>
+                            </FormControl>     
+                        </Box>                          
                     </HStack>
                   </Stack>
                 </CardBody>
@@ -369,36 +369,26 @@ const InvoiceAddEdit = (props) => {
 
                 <CardBody>
                   <Stack divider={<StackDivider />} spacing='4'>
-                    <Box>
-                      <FormControl>
-                        <FormLabel>Quantity</FormLabel>
-                        <NumberInput defaultValue={0} precision={2} step={0.2} id="quantity"  size="md" {...register('quantity')} >
-                          <NumberInputField />
-                          <NumberInputStepper>
-                            <NumberIncrementStepper />
-                            <NumberDecrementStepper />
-                          </NumberInputStepper>
-                        </NumberInput>                        
-                      </FormControl>     
-                      <FormControl>
-                        <FormLabel>Rate</FormLabel>
-                        <NumberInput defaultValue={0} precision={2} step={0.2} id="rate"  size="md" {...register('rate')} >
-                            <NumberInputField />
-                            <NumberInputStepper>
-                              <NumberIncrementStepper />
-                              <NumberDecrementStepper />
-                            </NumberInputStepper>
-                          </NumberInput>                          
-                      </FormControl>                          
-                      <FormControl>
-                        <FormLabel>Due Date</FormLabel>
-                        <Input
-                          placeholder="Select Date and Time"
-                          size="md"
-                          type="datetime-local"
-                          />
-                      </FormControl>     
-                    </Box>
+                    <HStack>
+                      <Box>
+                        <FormControl isRequired>
+                          <FormLabel>Invoice Date</FormLabel>
+                          <Input
+                            placeholder="Select Date and Time"
+                            type="datetime-local"
+                            id="invoiceDate"  size="md" {...register('invoiceDate')} />
+                        </FormControl>     
+                      </Box>
+                      <Box>
+                        <FormControl>
+                          <FormLabel>Due Date</FormLabel>
+                          <Input
+                            placeholder="Select Date and Time"
+                            type="datetime-local"
+                            id="dueDte"  size="md" {...register('dueDte')} />
+                        </FormControl>     
+                      </Box>  
+                    </HStack>                                        
                     <HStack>
                       <Box>
                         <FormControl>
@@ -409,26 +399,14 @@ const InvoiceAddEdit = (props) => {
                       <Box>
                         <FormControl isRequired>
                           <FormLabel>Invoice Total</FormLabel>
-                          <NumberInput defaultValue={0} precision={2} step={0.2} id="total"  size="md" {...register('total')} >
-                            <NumberInputField />
-                            <NumberInputStepper>
-                              <NumberIncrementStepper />
-                              <NumberDecrementStepper />
-                            </NumberInputStepper>
-                          </NumberInput>                          
+                          <Input type="text" id="total"  size="md" {...register('total')} />
                         </FormControl>     
                       </Box>
                       <Box>
                       <FormControl>
                           <FormLabel>Amount Paid</FormLabel>
-                          <NumberInput defaultValue={0} precision={2} step={0.2} id="paidAmount"  size="md" {...register('paidAmount')} >
-                            <NumberInputField />
-                            <NumberInputStepper>
-                              <NumberIncrementStepper />
-                              <NumberDecrementStepper />
-                            </NumberInputStepper>
-                          </NumberInput>                          
-                        </FormControl>    
+                          <Input type="text" id="paidAmount"  size="md" {...register('paidAmount')} />
+                      </FormControl>    
                       </Box>                                                                        
                     </HStack>
                   </Stack>
@@ -444,9 +422,9 @@ const InvoiceAddEdit = (props) => {
                   <Box>
                     <Button type="submit">
                       {isAddMode ? (
-                          <div>Add New {isVendor? "Vendor": "Account"} Invoice</div>
+                          <div>Add New Invoice</div>
                       ) : (
-                        <div>Update {isVendor? "Vendor": "Account"} Invoice</div>
+                        <div>Update Invoice</div>
                       )}              
                     </Button>
                   </Box>

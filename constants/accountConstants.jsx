@@ -46,6 +46,18 @@ export const ACCOUNT_VALIDATION_SCHEMA = Yup.object().shape({
 
   });  
 
+  export const INVOICE_VALIDATION_SCHEMA = Yup.object().shape({
+    description: Yup.string().required('First Name is required'),
+    type: Yup.string().required('Last Name is required'),
+    vendorId: Yup.string().required('Account Address1 is required'),
+    accountId: Yup.string().required('Account City is required'),
+    projectId: Yup.string().required('Account State is required'),
+    total: Yup.string().required('Account ZipCode is required'),
+    status: Yup.string().required('User Role is required'),
+    paymentTerms: Yup.string().required('User Email is required'),
+
+  });  
+
   export const VENDOR_VALIDATION_SCHEMA = Yup.object().shape({
     name: Yup.string().required('First Name is required'),
     description: Yup.string().required('Last Name is required'),
@@ -136,10 +148,42 @@ export const USER_ROLES_SUPERADMIN = [
 ];  
 
 
+
+
+
+
+export const INVOICE_STATUS = [
+  {
+    invoiceStatusId: "Draft",
+    invoiceStatusName: "Draft"
+  },
+  {
+    invoiceStatusId: "Submitted",
+    invoiceStatusName: "Submitted"
+  },    
+  {
+    invoiceStatusId: "Pending",
+    invoiceStatusName: "Pending"
+  },
+  {
+    invoiceStatusId: "PartiallyPaid",
+    invoiceStatusName: "PartiallyPaid"
+  },
+  {
+    invoiceStatusId: "Paid",
+    invoiceStatusName: "Paid"
+  },
+  {
+    invoiceStatusId: "Cancelled",
+    invoiceStatusName: "Cancelled"
+  }      
+
+];  
+
 export const PROJECT_STATUS = [
   {
-  projectStatusId: "Created",
-  projectStatusName: "Created"
+    projectStatusId: "Created",
+    projectStatusName: "Created"
   },
   {
     projectStatusId: "Open",
@@ -151,7 +195,7 @@ export const PROJECT_STATUS = [
   },
   {
     projectStatusId: "Settled",
-    projectStatusName: "ASettled"
+    projectStatusName: "Settled"
   }    
 
 ];  
@@ -234,3 +278,4 @@ export const USER_ROLE_DESC = {
   'ACCOUNT_VENDOR_EMPLOYEE': 'Vendor Employee',
   'ACCOUNT_VENDOR_CONTRACTOR': 'Vendor Contractor'
 };
+

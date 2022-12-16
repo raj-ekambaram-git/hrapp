@@ -56,7 +56,8 @@ function getProjectDetail(projectId, accountId) {
 }
 
 function getInvoiceDetail(invoiceId, accountId) {
-    return fetchWrapper.get(`${baseUrl}/account/vendor/${invoiceId}/detail?accountId=`+accountId, {})
+    console.log("Invoice ID::"+invoiceId+"===Accoint ID::"+accountId)
+    return fetchWrapper.get(`${baseUrl}/account/invoice/${invoiceId}/detail?accountId=`+accountId, {})
         .then(invoice => {
             return invoice;
         });
