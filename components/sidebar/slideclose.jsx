@@ -24,7 +24,7 @@ const Slideclose = () => {
     <div className={styles.main}>
         <div className={styles.iconsname}>
             
-          <Link href={`/account/${userService.getAccountDetails().accountId}/list`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
+          <Link href={`/accounts`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
             <div>
             <p>Accounts</p>
             </div>

@@ -22,7 +22,7 @@ const Slideopen = () => {
   return (
     <div className={styles.main}>
         <div className={styles.iconsbox}>
-          <Link href={`/account/${userService.getAccountDetails().accountId}/list`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
+          <Link href={`/accounts`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
             <div>
               <VscCalendar  className={styles.icons1}/>
             </div>

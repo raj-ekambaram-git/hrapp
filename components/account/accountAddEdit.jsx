@@ -134,6 +134,7 @@ const AccountAddEdit = (props) => {
               create: [
                 {
                   type: "A",
+                  primary: true,
                   address1: formData.address1,
                   address2: formData.address2,
                   address3: formData.address3,

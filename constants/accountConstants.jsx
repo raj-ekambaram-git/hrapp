@@ -70,10 +70,6 @@ export const ACCOUNT_VALIDATION_SCHEMA = Yup.object().shape({
   
   export const USER_ROLES = [
     {
-    roleID: "SUPER_ADMIN",
-    roleName: "Super Admin"
-    },
-    {
       roleID: "ACCOUNT_ADMIN",
       roleName: "Account Admin"
     },    

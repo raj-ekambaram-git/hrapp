@@ -21,6 +21,7 @@ model Address {
   state          String
   zipCode        String
   country        String
+  primary        Boolean       @default(false)
   createdDate    DateTime      @default(now())
   lastUpdateDate DateTime      @updatedAt
   status         AddressStatus
@@ -30,6 +31,7 @@ model Address {
   userId         Int?
   Vendor         Vendor?       @relation(fields: [vendorId], references: [id])
   vendorId       Int?
+  Project        Project[]
 }
 
 model Account {
@@ -47,6 +49,7 @@ model Account {
   Invoice        Invoice[]
   Vendor         Vendor[]
   User           User[]
+  Project        Project[]
 }
 
 model Vendor {
@@ -67,69 +70,109 @@ model Vendor {
   accountContactEmail String?
   accountContactPhone String?
   lastUpdateDate      DateTime     @updatedAt
-  Resource            Resource[]
   Invoice             Invoice[]
   User                User[]
+  Project             Project[]
 }
 
-model Resource {
-  id          Int      @id @default(autoincrement())
-  firstName   String
-  lastName    String
-  description String?
-  email       String
-  status      String
-  startDate   DateTime
-  vendor      Vendor   @relation(fields: [vendorId], references: [id])
-  vendorId    Int      @default(0)
-  rate        Int
-  currency    String   @default("USD")
+model ProjectResource {
+  id              Int            @id @default(autoincrement())
+  project         Project?       @relation(fields: [projectId], references: [id])
+  projectId       Int?           @default(1)
+  user            User?          @relation(fields: [userId], references: [id])
+  userId          Int?           @default(1)
+  unitPrice       Decimal?
+  currency        Currency?
+  quantity        Int?
+  uom             UnitOfMeasure?
+  budgetAllocated Decimal?       @default(0)
 }
 
 model Invoice {
-  id            Int           @id @default(autoincrement())
-  description   String        @default("")
-  type          InvoiceType
-  cycle         InvoiceCycle
-  vendor        Vendor?       @relation(fields: [vendorId], references: [id])
-  vendorId      Int?          @default(0)
-  account       Account?      @relation(fields: [accountId], references: [id])
-  accountId     Int?          @default(0)
-  quantity      Int?
-  rate          Decimal?
-  dueDte        DateTime?
-  transactionId String?
-  notes         String?
-  total         Decimal
-  paidAmount    Decimal?
-  status        InvoiceStatus
-  paymentTerms  PaymentTerms
-
-  createdDate    DateTime @default(now())
-  lastUpdateDate DateTime @updatedAt
-  user           User?    @relation(fields: [userId], references: [id])
+  id             Int           @id @default(autoincrement())
+  description    String        @default("")
+  type           InvoiceType
+  vendor         Vendor?       @relation(fields: [vendorId], references: [id])
+  vendorId       Int?          @default(0)
+  account        Account?      @relation(fields: [accountId], references: [id])
+  accountId      Int?          @default(0)
+  project        Project?      @relation(fields: [projectId], references: [id])
+  projectId      Int?          @default(0)
+  invoiceDate    DateTime      @default(now())
+  dueDte         DateTime?
+  transactionId  String?
+  notes          String?
+  total          Decimal
+  paidAmount     Decimal?
+  status         InvoiceStatus
+  paymentTerms   PaymentTerms
+  createdDate    DateTime      @default(now())
+  lastUpdateDate DateTime      @updatedAt
+  user           User?         @relation(fields: [userId], references: [id])
   userId         Int?
 }
 
+model InvoiceItem {
+  id             Int             @id @default(autoincrement())
+  description    String?         @default("")
+  type           InvoiceItemType
+  unitPrice      Decimal         @default(0)
+  currency       Currency
+  quantity       Int             @default(1)
+  uom            UnitOfMeasure
+  total          Decimal         @default(0)
+  status         InvoiceStatus
+  generalNote    String?
+  user           User?           @relation(fields: [userId], references: [id])
+  userId         Int?
+  fromDate       DateTime?
+  toDate         DateTime?
+  createdDate    DateTime        @default(now())
+  lastUpdateDate DateTime        @updatedAt
+}
+
+model Project {
+  id              Int               @id @default(autoincrement())
+  referenceCode   String
+  description     String            @default("")
+  type            InvoiceItemType
+  invoiceCycle    InvoiceItemType
+  addressId       Int               @default(0)
+  address         Address?          @relation(fields: [addressId], references: [id])
+  vendorId        Int               @default(0)
+  vendor          Vendor?           @relation(fields: [vendorId], references: [id])
+  accountId       Int               @default(0)
+  account         Account?          @relation(fields: [accountId], references: [id])
+  budget          Decimal           @default(0)
+  totalHours      Int?              @default(0)
+  rate            Decimal?
+  createdDate     DateTime          @default(now())
+  lastUpdateDate  DateTime          @updatedAt
+  Invoice         Invoice[]
+  ProjectResource ProjectResource[]
+}
+
 model User {
-  id                 Int              @id @default(autoincrement())
+  id                 Int               @id @default(autoincrement())
   firstName          String
   lastName           String
-  role               Role             @default(DEVELOPER)
-  email              String           @unique
-  phone              String           @default("111-111-1111")
-  account            Account?         @relation(fields: [accountId], references: [id])
-  accountId          Int?             @default(0)
-  vendor             Vendor?          @relation(fields: [vendorId], references: [id])
-  vendorId           Int?             @default(0)
-  isTimeSheetEnabled Boolean          @default(false)
+  role               Role              @default(DEVELOPER)
+  email              String            @unique
+  phone              String            @default("111-111-1111")
+  account            Account?          @relation(fields: [accountId], references: [id])
+  accountId          Int?              @default(0)
+  vendor             Vendor?           @relation(fields: [vendorId], references: [id])
+  vendorId           Int?              @default(0)
+  isTimeSheetEnabled Boolean           @default(false)
   address            Address[]
   userAttributes     UserAttributes[]
-  status             UserStatus       @default(Active)
-  password           String           @default("passw0rd")
-  createdDate        DateTime         @default(now())
-  lastUpdateDate     DateTime         @updatedAt
+  status             UserStatus        @default(Active)
+  password           String            @default("passw0rd")
+  createdDate        DateTime          @default(now())
+  lastUpdateDate     DateTime          @updatedAt
   Invoice            Invoice[]
+  InvoiceItem        InvoiceItem[]
+  ProjectResource    ProjectResource[]
 }
 
 model UserAttributes {
@@ -227,4 +270,19 @@ enum PaymentTerms {
   Net45
   Net60
   Net90
+}
+
+enum InvoiceItemType {
+  General
+  Projet
+}
+
+enum UnitOfMeasure {
+  hours
+  item
+}
+
+enum Currency {
+  USD
+  INR
 }
