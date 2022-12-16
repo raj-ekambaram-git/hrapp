@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { util } from '../../helpers';
 import { accountService, userService } from "../../services";
-import {MODE_ADD, USER_VALIDATION_SCHEMA, INVOICE_STATUS,INVOICE_PAY_TERMNS} from "../../constants/accountConstants";
+import {MODE_ADD, INVOICE_VALIDATION_SCHEMA, INVOICE_STATUS,INVOICE_PAY_TERMNS} from "../../constants/accountConstants";
 
 import {
   HStack,
@@ -22,13 +22,8 @@ import {
   CardHeader,
   CardBody,
   StackDivider,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper
+  Textarea,
 } from '@chakra-ui/react'
-import { compose } from "@reduxjs/toolkit";
 
 
 const InvoiceAddEdit = (props) => {
@@ -48,7 +43,7 @@ const InvoiceAddEdit = (props) => {
   const [projectList, setProjectList] = useState([]);
 
   //User Validation START
-  const formOptions = { resolver: yupResolver(USER_VALIDATION_SCHEMA) };
+  const formOptions = { resolver: yupResolver(INVOICE_VALIDATION_SCHEMA) };
 
   // get functions to build form with useForm() hook
   const { register, handleSubmit, setValue, formState } = useForm(formOptions);
@@ -65,9 +60,6 @@ const InvoiceAddEdit = (props) => {
   //Account Validation END
 
   
-    handleSubmit(() => {
-      comnsole.log("44444444")
-    }, []);
   //Get Account Details only if its EditMode
   useEffect(() => {
     if(props && props.data && props.data.mode != MODE_ADD) {
@@ -137,18 +129,18 @@ const InvoiceAddEdit = (props) => {
             invoiceDate: invoiceResponse.invoiceDate,
             dueDte: invoiceResponse.dueDte,
             transactionId: invoiceResponse.transactionId,
-            notes: invoiceResponse.notes,
             total: invoiceResponse.total,
             paidAmount: invoiceResponse.paidAmount,
             status: invoiceResponse.status,
+            notes: invoiceResponse.notes,
             paymentTerms: invoiceResponse.paymentTerms
         };
 
         setInvoice(invoiceData);
 
         // get user and set form fields
-            const fields = ['description', "type", "vendorId","accountId","projectId", "invoiceDate","dueDte","transactionId","notes", "total", "paidAmount","status","paymentTerms"];
-            fields.forEach(field => setValue(field, invoiceData[field]));
+            const fields = ['description', "type", "vendorId","accountId","projectId", "notes","invoiceDate","dueDte","transactionId", "total", "paidAmount","status","paymentTerms"];
+            fields.forEach(field => setValue(field, invoiceResponse[field]));
     }
 
   }
@@ -174,11 +166,11 @@ const InvoiceAddEdit = (props) => {
             accountId: parseInt(formData.accountId),
             vendorId: parseInt(formData.vendorId),
             projectId: parseInt(formData.projectId),
-            invoiceDate: formData.invoiceDate,
-            dueDte: formData.dueDte,
+            invoiceDate: new Date(),
+            dueDte: new Date(),
             transactionId: formData.transactionId,
-            notes: formData.notes,
             total: formData.total,
+            notes: formData.notes,
             paidAmount: formData.paidAmount,
             status: formData.status,
             paymentTerms: formData.paymentTerms
@@ -187,7 +179,7 @@ const InvoiceAddEdit = (props) => {
         const data = await res.json();
 
         toast.success(data.message);
-        // router.push("/account/vendor/"+invoiceId+"/invoices");
+        router.push("/account/vendor/"+vendorId+"/invoices");
         
       
     } catch (error) {
@@ -212,11 +204,11 @@ const InvoiceAddEdit = (props) => {
           accountId: parseInt(formData.accountId),
           vendorId: parseInt(formData.vendorId),
           projectId: parseInt(formData.projectId),
-          invoiceDate: formData.invoiceDate,
+          invoiceDate: new Date(),
           dueDte: formData.dueDte,
           transactionId: formData.transactionId,
-          notes: formData.notes,
           total: formData.total,
+          notes: formData.notes,
           paidAmount: formData.paidAmount,
           status: formData.status,
           paymentTerms: formData.paymentTerms  
@@ -392,7 +384,7 @@ const InvoiceAddEdit = (props) => {
                     <HStack>
                       <Box>
                         <FormControl>
-                          <FormLabel>Transaction ID</FormLabel>
+                          <FormLabel>Transaction Data</FormLabel>
                           <Input type="text" id="transactionId"  size="md" {...register('transactionId')} />
                         </FormControl>     
                       </Box>
@@ -409,6 +401,12 @@ const InvoiceAddEdit = (props) => {
                       </FormControl>    
                       </Box>                                                                        
                     </HStack>
+                    <Box>
+                        <FormControl>
+                          <FormLabel>Notes</FormLabel>
+                          <Textarea type="text" id="notes"  size="md" {...register('notes')} />
+                        </FormControl>     
+                      </Box>                       
                   </Stack>
                 </CardBody>
               </Card>
