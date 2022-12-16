@@ -11,6 +11,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const vendorId = req.query?.vendorId;
     const accountId = req.query?.accountId;
+    
     if(vendorId != "" && vendorId != undefined && accountId != "" && accountId != undefined && accountId != "NaN") {
       const vendors = await prisma.vendor.findMany({
         where: {
@@ -23,8 +24,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       },
         include: {
           address: true,
+          project: true
         }
       })
+      
         res.status(200).json(vendors[0]);
   
     } else if (vendorId != "" && vendorId != undefined && accountId != "" && accountId != undefined && accountId == "NaN") {
@@ -36,6 +39,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       },
         include: {
           address: true,
+          project: true          
         }
       })
         res.status(200).json(vendors[0]);

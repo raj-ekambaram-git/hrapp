@@ -12,6 +12,15 @@ const breakpoints = {
 }
 
 const theme = extendTheme({
+  components: {
+    Accordion: {
+      AccordionItem: {
+        borders: {
+          vendor: '3px'
+        }
+      }
+    }
+  },
   semanticTokens: {
     colors: {
       text: {
@@ -38,7 +47,8 @@ const theme = extendTheme({
     paid_status: '#48BB78',
     pending_status: '#E53E3E',
     button_background: '#16161D',
-    cancel_button: 'e4eaee'
+    cancel_button: 'e4eaee',
+    inner_table_tile: '#EDF2F7'
   },
   fonts,
   breakpoints,
@@ -47,6 +57,12 @@ const theme = extendTheme({
     md: '768px',
     lg: '1024px',
     xl: '1280px',
+  },
+  borders: {
+    accordion_border: '3px'
+  },
+  width: {
+    accoridion_width: '50%'
   }
 })
 

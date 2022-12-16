@@ -70,9 +70,9 @@ model Vendor {
   accountContactEmail String?
   accountContactPhone String?
   lastUpdateDate      DateTime     @updatedAt
-  Invoice             Invoice[]
-  User                User[]
-  Project             Project[]
+  invoice             Invoice[]
+  user                User[]
+  project             Project[]
 }
 
 model ProjectResource {
@@ -150,8 +150,8 @@ model Project {
   status          ProjectStatus
   createdDate     DateTime          @default(now())
   lastUpdateDate  DateTime          @updatedAt
-  Invoice         Invoice[]
-  ProjectResource ProjectResource[]
+  invoice         Invoice[]
+  projectResource ProjectResource[]
 }
 
 model User {
@@ -172,9 +172,9 @@ model User {
   password           String            @default("passw0rd")
   createdDate        DateTime          @default(now())
   lastUpdateDate     DateTime          @updatedAt
-  Invoice            Invoice[]
-  InvoiceItem        InvoiceItem[]
-  ProjectResource    ProjectResource[]
+  invoice            Invoice[]
+  invoiceItem        InvoiceItem[]
+  projectResource    ProjectResource[]
 }
 
 model UserAttributes {

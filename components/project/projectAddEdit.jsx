@@ -6,7 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { util } from '../../helpers';
 import { accountService, userService } from "../../services";
 import {MODE_ADD, PROJECT_VALIDATION_SCHEMA, PROJECT_STATUS, PROJECT_TYPES, INVOICE_CYCLE} from "../../constants/accountConstants";
-import {US_STATES} from "../../constants/commonConstants";
+import Link from "next/link";
 import {
   HStack,
   Button,

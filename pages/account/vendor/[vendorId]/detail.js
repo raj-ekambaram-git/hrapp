@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { accountService, userService } from '../../../../services';
 import {MODE_ADD} from "../../../../constants/accountConstants";
+import Link from "next/link";
 import {
   Card,
   CardHeader,
@@ -17,7 +18,20 @@ import {
   Button,
   Modal,
   ModalOverlay,
-  useDisclosure
+  useDisclosure,
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionPanel,
+  AccordionIcon,
+  Table,
+  Thead,
+  Tbody,
+  Th,
+  Tr,
+  TableContainer,
+  TableCaption
+
 } from '@chakra-ui/react'
 import ProjectAddEditModal from "../../../../components/project/projectAddEditModal";
 
@@ -33,7 +47,9 @@ const VendorDetail = (props) => {
   const navigateVendorEditPage = () => router.push("/account/vendor/"+vendor.id);
   const navigateManageVendorUsersPage = () => router.push("/account/vendor/"+vendor.id+"/users");
   const navigateVendorInvoicesPage = () => router.push("/account/vendor/"+vendor.id+"/invoices");
+  const navigateVendorProjectsPage = () => router.push("/account/vendor/"+vendor.id+"/projects");
   const manageVendorsForAccount = () => router.push("/account/"+userService.getAccountDetails().accountId+"/vendors");
+  
   
   const reloadPage = () => {
     setShow(false)
@@ -77,6 +93,7 @@ const VendorDetail = (props) => {
       status: responseData.status,
       type: responseData.type,
       phone: responseData.phone,
+      project: [],
       accountContactName: responseData.accountContactName,
       accountContactEmail: responseData.accountContactEmail,
       accountContactPhone: responseData.accountContactPhone,
@@ -90,7 +107,7 @@ const VendorDetail = (props) => {
       country: responseData.address[0].country
   };
 
-  setVendor(vendorData)
+  setVendor(responseData)
 
 
   }
@@ -117,69 +134,193 @@ const VendorDetail = (props) => {
             </CardHeader>
 
             <CardBody>
-              <Stack divider={<StackDivider />} spacing='4'>
-                <Box>
-                  <Heading size='xs' textTransform='uppercase'>
-                    Details
-                  </Heading>
-                  <Text pt='2' fontSize='sm'>
-                    {vendor.description}
-                  </Text>                
-                </Box>
-                <Box>
-                  <Heading size='xs' textTransform='uppercase'>
-                    EIN
-                  </Heading>
-                  <Text pt='2' fontSize='sm'>
-                    {vendor.ein}
-                  </Text>                
-                </Box>                
-                <Box>
-                  <Heading size='xs' textTransform='uppercase'>
-                    Vendor Contact Details
-                  </Heading>
-                  <Text pt='2' fontSize='sm'>
-                    {vendor.email}
-                  </Text>
-                  <Text pt='2' fontSize='sm'>
-                    {vendor.phone}
-                  </Text>                  
-                </Box>
-                <Box>
-                  <Heading size='xs' textTransform='uppercase'>
-                    Vendor Contact Address
-                  </Heading>
-                  <Text pt='2' fontSize='sm'>
-                    {vendor.address1}
-                  </Text>
-                  <Text pt='2' fontSize='sm'>
-                    {vendor.address2}
-                  </Text>
-                  <Text pt='2' fontSize='sm'>
-                    {vendor.address3}
-                  </Text>
-                  <Text pt='2' fontSize='sm'>
-                    {vendor.city}, {vendor.state} {vendor.zipCode} 
-                  </Text>
-                  <Text pt='2' fontSize='sm'>
-                    {vendor.country}
-                  </Text>                                                                                                            
-                </Box>
-                <Box>
-                  <Heading size='xs' textTransform='uppercase'>
-                    Vendor Account Contact Details
-                  </Heading>
-                  <Text pt='2' fontSize='sm'>
-                    {vendor.accountContactName}
-                  </Text>
-                  <Text pt='2' fontSize='sm'>
-                    {vendor.accountContactEmail}
-                  </Text>                  
-                  <Text pt='2' fontSize='sm'>
-                    {vendor.accountContactPhone}
-                  </Text>                      
-                </Box>
+              <Stack divider={<StackDivider />} spacing='1'>
+                <Accordion>
+                  <AccordionItem marginBottom="1rem" border="1px" width="60%">
+                    <h2>
+                      <AccordionButton bgColor="table_tile">
+                        <Box as="span" flex='1' textAlign='left'>
+                          <Heading size='xs' textTransform='uppercase'>
+                            Vendor Details
+                          </Heading>
+                        </Box>
+                        <AccordionIcon />
+                      </AccordionButton>
+                    </h2>
+                    <AccordionPanel pb={4}>
+                      <Text pt='2' fontSize='sm'>
+                        {vendor.name}
+                      </Text>                
+                      <Text pt='2' fontSize='sm'>
+                        {vendor.description}
+                      </Text>                
+                    </AccordionPanel>
+                  </AccordionItem>
+                  <AccordionItem marginBottom="1rem" border="1px" width="60%">
+                    <h2>
+                      <AccordionButton bgColor="table_tile">
+                        <Box as="span" flex='1' textAlign='left'>
+                          <Heading size='xs' textTransform='uppercase'>
+                            EIN and Bank Details
+                          </Heading>
+                        </Box>
+                        <AccordionIcon />
+                      </AccordionButton>
+                    </h2>
+                    <AccordionPanel pb={4}>
+                      <Text pt='2' fontSize='sm'>
+                        {vendor.ein}
+                      </Text>            
+                    </AccordionPanel>
+                  </AccordionItem>
+                  <AccordionItem marginBottom="1rem" border="1px" width="60%">
+                    <h2>
+                      <AccordionButton bgColor="table_tile">
+                        <Box as="span" flex='1' textAlign='left'>
+                          <Heading size='xs' textTransform='uppercase'>
+                            Vendor Contact
+                          </Heading>
+                        </Box>
+                        <AccordionIcon />
+                      </AccordionButton>
+                    </h2>
+                    <AccordionPanel pb={4}>
+                      <Text pt='2' fontSize='sm'>
+                        {vendor.email}
+                      </Text>
+                      <Text pt='2' fontSize='sm'>
+                        {vendor.phone}
+                      </Text>                     
+                  </AccordionPanel>
+                  </AccordionItem>
+                  <AccordionItem marginBottom="1rem" border="1px" width="60%">
+                    <h2>
+                      <AccordionButton bgColor="table_tile">
+                        <Box as="span" flex='1' textAlign='left'>
+                          <Heading size='xs' textTransform='uppercase'>
+                            Vendor Contact Address
+                          </Heading>
+                        </Box>
+                        <AccordionIcon />
+                      </AccordionButton>
+                    </h2>
+                    <AccordionPanel pb={4}>
+                      <Text pt='2' fontSize='sm'>
+                        {vendor.address[0].address1}
+                      </Text>
+                      <Text pt='2' fontSize='sm'>
+                        {vendor.address[0].address2}
+                      </Text>
+                      <Text pt='2' fontSize='sm'>
+                        {vendor.address[0].address3}
+                      </Text>
+                      <Text pt='2' fontSize='sm'>
+                        {vendor.address[0].city}, {vendor.address[0].state} {vendor.address[0].zipCode} 
+                      </Text>
+                      <Text pt='2' fontSize='sm'>
+                        {vendor.address[0].country}
+                      </Text>                      
+                     </AccordionPanel>
+                  </AccordionItem>
+                  <AccordionItem marginBottom="1rem" border="1px" width="60%">
+                    <h2>
+                      <AccordionButton bgColor="table_tile">
+                        <Box as="span" flex='1' textAlign='left'>
+                          <Heading size='xs' textTransform='uppercase'>
+                            Account Contact
+                          </Heading>
+                        </Box>
+                        <AccordionIcon />
+                      </AccordionButton>
+                    </h2>
+                    <AccordionPanel pb={4}>
+                      <Text pt='2' fontSize='sm'>
+                        {vendor.accountContactName}
+                      </Text>
+                      <Text pt='2' fontSize='sm'>
+                        {vendor.accountContactEmail}
+                      </Text>                  
+                      <Text pt='2' fontSize='sm'>
+                        {vendor.accountContactPhone}
+                      </Text>                   
+                    </AccordionPanel>
+                  </AccordionItem>                                                      
+                  <AccordionItem marginBottom="1rem" border="1px" width="60%">
+                    <h2>
+                      <AccordionButton bgColor="table_tile">
+                        <Box as="span" flex='1' textAlign='left'>
+                          <Heading size='xs' textTransform='uppercase'>
+                            Projects
+                          </Heading>
+                        </Box>
+                        <AccordionIcon />
+                      </AccordionButton>
+                    </h2>
+                    <AccordionPanel pb={4}>
+                      {vendor.project ? (
+                        <>
+                          <TableContainer>
+                            <Table>
+                            <TableCaption></TableCaption>
+                              <Thead>
+                                  <Tr bgColor="inner_table_tile">
+                                    <Th>
+                                      Projet ID
+                                    </Th>
+                                    <Th>
+                                      Project Name
+                                    </Th>
+                                    <Th>
+                                      Project Type
+                                    </Th>                                    
+                                    <Th>
+                                      Project Status
+                                    </Th>
+                                  </Tr>   
+                                </Thead>                
+                                <Tbody>
+                                  {vendor.project?.map((proj) => (
+                                    <Tr>
+                                          <Th>
+                                            {proj.id}
+                                          </Th>
+                                          <Th>
+                                            {proj.name}
+                                          </Th>
+                                          <Th>
+                                            {proj.type}
+                                          </Th>
+                                          <Th>
+                                            <HStack>
+                                              <Link href={`/account/projet/${proj.id}/detail`} passref key={proj.id}>
+                                                <Button className="btn">
+                                                  Details
+                                                </Button>
+                                              </Link>
+                                              <Badge color={`${
+                                                  proj.status === "Active"
+                                                    ? "paid_status"
+                                                    : proj.status === "Inactive"
+                                                    ? "pending_status"
+                                                    : "pending_status"
+                                                }`}>{proj.status}</Badge>
+                                            </HStack>
+                                          </Th>
+                                        
+                                      </Tr>
 
+                                  ))}
+                              </Tbody>    
+                            </Table>
+                          </TableContainer>                        
+                        </>
+                      ) : (
+                        <>
+                        </>
+                      )} 
+                    </AccordionPanel>
+                  </AccordionItem>   
+                </Accordion>                
                 <Box>
                   <Heading size='xs' textTransform='uppercase'>
                     Vendor Status
@@ -214,6 +355,11 @@ const VendorDetail = (props) => {
                       Vendor Users
                     </Button>
                   </Box>   
+                  <Box>
+                    <Button className="btn" onClick={navigateVendorProjectsPage}>
+                      Vendor Projects
+                    </Button>
+                  </Box>                   
                   <Box>
                     <Button className="btn" onClick={navigateVendorInvoicesPage}>
                       Vendor Invoices
