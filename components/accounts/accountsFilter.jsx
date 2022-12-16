@@ -15,7 +15,15 @@ import {
   Heading,
   TableContainer,
   TableCaption,
-  Badge
+  Badge,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  useDisclosure
 } from '@chakra-ui/react'
 
 
@@ -24,7 +32,7 @@ export default function Home(props) {
   const router = useRouter();
   const [accounts, setAccounts] = useState([]);
   const [isPageAuthprized, setPageAuthorized] = useState(false);
-
+  const { isOpen, onOpen, onClose } = useDisclosure();
   
 
   //INFO: used for making initial api calls
@@ -90,9 +98,10 @@ export default function Home(props) {
                   </Box>
                 </HStack>
               </Flex>
+              <Button onClick={onOpen}>Open Modal</Button>
+
     
-    
-                {/* <Modal isOpen={isOpen} onClose={onClose}>
+                <Modal isOpen={isOpen} onClose={onClose}>
                   <ModalOverlay/>
                   <ModalContent>
                     <ModalHeader>Modal Title</ModalHeader>
@@ -108,7 +117,7 @@ export default function Home(props) {
                       <Button variant='ghost'>Secondary Action</Button>
                     </ModalFooter>
                   </ModalContent>
-                </Modal>      */}
+                </Modal>     
               <TableContainer>
               <Table>
               <TableCaption></TableCaption>

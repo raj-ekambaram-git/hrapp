@@ -66,7 +66,20 @@ export const ACCOUNT_VALIDATION_SCHEMA = Yup.object().shape({
 
   });    
 
- 
+  export const PROJECT_VALIDATION_SCHEMA = Yup.object().shape({
+    name: Yup.string().required('First Name is required'),
+    referenceCode: Yup.string().required('First Name is required'),
+    type: Yup.string().required('Account Address1 is required'),
+    invoiceCycle: Yup.string().required('Account City is required'),
+    addressId: Yup.string().required('Account State is required'),
+    vendorId: Yup.string().required('Account ZipCode is required'),
+    accountId: Yup.string().required('Account Country is required'),
+    budget: Yup.string().required('User Role is required'),
+    totalHours: Yup.string().required('User Email is required'),
+    averageRate: Yup.string().required('User Phone is required'),
+    status: Yup.string().required('User Phone is required'),
+
+  });   
   
   export const USER_ROLES = [
     {
@@ -120,6 +133,39 @@ export const USER_ROLES_SUPERADMIN = [
     roleName: "Vendor Contractor"
   }            
 
+];  
+
+
+export const PROJECT_STATUS = [
+  {
+  projectStatusId: "Created",
+  projectStatusName: "Created"
+  },
+  {
+    projectStatusId: "Open",
+    projectStatusName: "Open"
+  },    
+  {
+    projectStatusId: "Closed",
+    projectStatusName: "Closed"
+  },
+  {
+    projectStatusId: "Settled",
+    projectStatusName: "ASettled"
+  }    
+
+];  
+
+
+export const PROJECT_TYPES = [
+  {
+    projectTypeId: "General",
+    projectTypeName: "General"
+  },
+  {
+    projectTypeId: "Staffing",
+    projectTypeName: "Staffing"
+  }
 ];  
 
 export const INVOICE_CYCLE = [

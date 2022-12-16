@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { accountService, userService } from '../../../../services';
+import {MODE_ADD} from "../../../../constants/accountConstants";
 import {
   Card,
   CardHeader,
@@ -13,13 +14,18 @@ import {
   Badge,
   Flex,
   HStack,
-  Button
+  Button,
+  Modal,
+  ModalOverlay,
+  useDisclosure
 } from '@chakra-ui/react'
+import ProjectAddEditModal from "../../../../components/project/projectAddEditModal";
 
 const VendorDetail = (props) => {
   const vendorId = props.data.vendorId;
 
   const router = useRouter();
+  const { isOpen, onOpen, onClose } = useDisclosure()
   
   const [vendor, setVendor] = useState({});
   const [isPageAuthprized, setPageAuthorized] = useState(false);
@@ -29,6 +35,19 @@ const VendorDetail = (props) => {
   const navigateVendorInvoicesPage = () => router.push("/account/vendor/"+vendor.id+"/invoices");
   const manageVendorsForAccount = () => router.push("/account/"+userService.getAccountDetails().accountId+"/vendors");
   
+  const reloadPage = () => {
+    setShow(false)
+    reload();
+  }
+
+  const createProjectRequestData = {
+    mode: MODE_ADD,
+    vendorId: vendorId,
+    isVendor: true,
+    onClose: onClose,
+    reloadPage: reloadPage
+  }
+
   // set default input data
   useEffect(() => {
     getVendorDetails(vendorId, userService.getAccountDetails().accountId);
@@ -82,8 +101,19 @@ const VendorDetail = (props) => {
       {isPageAuthprized ? (
         <>
           <Card>
-            <CardHeader bgColor="teal.500">
-              <Heading size='md'>Vendor Details for {vendor.name}</Heading>
+            <CardHeader bgColor="heading">
+              <HStack spacing="50rem">
+                <Box>
+                  <Heading size='md'>Vendor Details for {vendor.name}</Heading>
+                </Box>
+                <Box  alignItems='right'>
+                  <Button className="btn" onClick={onOpen}>Create New Project</Button>
+                  <Modal isOpen={isOpen} onClose={onClose} size="lg">
+                    <ModalOverlay/>
+                    <ProjectAddEditModal data={createProjectRequestData}></ProjectAddEditModal>
+                  </Modal>  
+                </Box>                  
+              </HStack>
             </CardHeader>
 
             <CardBody>

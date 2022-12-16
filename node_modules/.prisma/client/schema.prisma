@@ -133,10 +133,11 @@ model InvoiceItem {
 
 model Project {
   id              Int               @id @default(autoincrement())
+  name            String
   referenceCode   String
   description     String            @default("")
   type            InvoiceItemType
-  invoiceCycle    InvoiceItemType
+  invoiceCycle    InvoiceCycle
   addressId       Int               @default(0)
   address         Address?          @relation(fields: [addressId], references: [id])
   vendorId        Int               @default(0)
@@ -145,7 +146,8 @@ model Project {
   account         Account?          @relation(fields: [accountId], references: [id])
   budget          Decimal           @default(0)
   totalHours      Int?              @default(0)
-  rate            Decimal?
+  averageRate     Decimal?
+  status          ProjectStatus
   createdDate     DateTime          @default(now())
   lastUpdateDate  DateTime          @updatedAt
   Invoice         Invoice[]
@@ -275,6 +277,7 @@ enum PaymentTerms {
 enum InvoiceItemType {
   General
   Projet
+  Staffing
 }
 
 enum UnitOfMeasure {
@@ -285,4 +288,11 @@ enum UnitOfMeasure {
 enum Currency {
   USD
   INR
+}
+
+enum ProjectStatus {
+  Created
+  Open
+  Closed
+  Settled
 }
