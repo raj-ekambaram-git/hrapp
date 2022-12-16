@@ -1,8 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { toast } from "react-toastify";
-import prisma from "../../../../lib/prisma";
 import { accountService, userService } from '../../../../services';
+import {
+  Card,
+  CardHeader,
+  Box,
+  Heading,
+  CardBody,
+  Stack,
+  Text,
+  StackDivider,
+  Badge,
+  Flex,
+  HStack,
+  Button
+} from '@chakra-ui/react'
 
 const VendorDetail = (props) => {
   const vendorId = props.data.vendorId;
@@ -10,7 +22,8 @@ const VendorDetail = (props) => {
   const router = useRouter();
   
   const [vendor, setVendor] = useState({});
-  
+  const [isPageAuthprized, setPageAuthorized] = useState(false);
+
   const navigateVendorEditPage = () => router.push("/account/vendor/"+vendor.id);
   const navigateManageVendorUsersPage = () => router.push("/account/vendor/"+vendor.id+"/users");
   const navigateVendorInvoicesPage = () => router.push("/account/vendor/"+vendor.id+"/invoices");
@@ -26,89 +39,160 @@ const VendorDetail = (props) => {
    * Function to get the list of accounts for a drop down
    */
   async function getVendorDetails(vendorId, accountId) {
-    // setPageAuthorized(true);
+    setPageAuthorized(true);
     const responseData = await accountService.getVendorDetail(vendorId, accountId);
-    setVendor(responseData);
+    const vendorData =  {
+      id: responseData.id.toString(),
+      name: responseData.name,
+      description: responseData.description,
+      ein: responseData.ein,
+      email: responseData.email,
+      status: responseData.status,
+      type: responseData.type,
+      phone: responseData.phone,
+      accountContactName: responseData.accountContactName,
+      accountContactEmail: responseData.accountContactEmail,
+      accountContactPhone: responseData.accountContactPhone,
+      addressId: responseData.address[0].id,
+      address1: responseData.address[0].address1,
+      address2: responseData.address[0].address2,
+      address3: responseData.address[0].address3,
+      city: responseData.address[0].city,
+      state: responseData.address[0].state,
+      zipCode: responseData.address[0].zipCode,
+      country: responseData.address[0].country
+  };
+
+  setVendor(vendorData)
+
+
   }
 
   return (
-    <div className="main__container">
-      <div className="new__invoice">
-        <div className="new__invoice-header">
-          <h3>Vendor Details for {vendor.name}</h3> 
-        </div>
 
-        <div className="account__item">
-              <div>
-                <h5 className="account__id">
-                  {vendor.id}
-                </h5>
-              </div>
+    <div>
+      {isPageAuthprized ? (
+        <>
+          <Card>
+            <CardHeader bgColor="teal.500">
+              <Heading size='md'>Vendor Details for {vendor.name}</Heading>
+            </CardHeader>
 
-              <div>
-                <h5 className="account__client">{vendor.name}</h5>
-              </div>
-              <div>
-                <h5 className="account__client">{vendor.type}</h5>
-              </div>
-              <div>
-                <p className="account__created">{vendor.createdDate}</p>
-              </div>
+            <CardBody>
+              <Stack divider={<StackDivider />} spacing='4'>
+                <Box>
+                  <Heading size='xs' textTransform='uppercase'>
+                    Details
+                  </Heading>
+                  <Text pt='2' fontSize='sm'>
+                    {vendor.description}
+                  </Text>                
+                </Box>
+                <Box>
+                  <Heading size='xs' textTransform='uppercase'>
+                    EIN
+                  </Heading>
+                  <Text pt='2' fontSize='sm'>
+                    {vendor.ein}
+                  </Text>                
+                </Box>                
+                <Box>
+                  <Heading size='xs' textTransform='uppercase'>
+                    Vendor Contact Details
+                  </Heading>
+                  <Text pt='2' fontSize='sm'>
+                    {vendor.email}
+                  </Text>
+                  <Text pt='2' fontSize='sm'>
+                    {vendor.phone}
+                  </Text>                  
+                </Box>
+                <Box>
+                  <Heading size='xs' textTransform='uppercase'>
+                    Vendor Contact Address
+                  </Heading>
+                  <Text pt='2' fontSize='sm'>
+                    {vendor.address1}
+                  </Text>
+                  <Text pt='2' fontSize='sm'>
+                    {vendor.address2}
+                  </Text>
+                  <Text pt='2' fontSize='sm'>
+                    {vendor.address3}
+                  </Text>
+                  <Text pt='2' fontSize='sm'>
+                    {vendor.city}, {vendor.state} {vendor.zipCode} 
+                  </Text>
+                  <Text pt='2' fontSize='sm'>
+                    {vendor.country}
+                  </Text>                                                                                                            
+                </Box>
+                <Box>
+                  <Heading size='xs' textTransform='uppercase'>
+                    Vendor Account Contact Details
+                  </Heading>
+                  <Text pt='2' fontSize='sm'>
+                    {vendor.accountContactName}
+                  </Text>
+                  <Text pt='2' fontSize='sm'>
+                    {vendor.accountContactEmail}
+                  </Text>                  
+                  <Text pt='2' fontSize='sm'>
+                    {vendor.accountContactPhone}
+                  </Text>                      
+                </Box>
 
-              <div>
-                <p className="account__created">{vendor.email}</p>
-              </div>
+                <Box>
+                  <Heading size='xs' textTransform='uppercase'>
+                    Vendor Status
+                  </Heading>
+                  <Badge color={`${
+                        vendor.status === "Active"
+                          ? "paid_status"
+                          : vendor.status === "Inactive"
+                          ? "pending_status"
+                          : "pending_status"
+                      }`}>{vendor.status}
+                  </Badge>              
+                </Box>                
+              </Stack>
+            </CardBody>
+          </Card>             
 
-              <div>
-                <h5 className="account__client">{vendor.ein}</h5>
-              </div>
-
-              <div>
-                <button
-                  className={`${
-                    vendor.status === "Active"
-                      ? "paid__status"
-                      : vendor.status === "Inactive"
-                      ? "pending__status"
-                      : "draft__status"
-                  }`}
-                >
-                  {vendor.status}
-                </button>
-              </div>
-            </div>
-
-        {/* ======== new invoice body ========= */}
-        <div className="new__invoice-body">
-          {/* ======= bill from ========== */}
-
-
-          <div className="new__account__btns">  
-            <div>
-              <button className="edit__btn" onClick={manageVendorsForAccount}>
-                Manage Vendors
-              </button>
-            </div>
-            <div>
-              <button className="mark__as-btn" onClick={navigateVendorEditPage}>
-                Edit
-              </button>
-            </div>
-            <div>
-              <button className="mark__as-btn" onClick={navigateVendorInvoicesPage}>
-                Vendor Ivoices
-              </button>
-            </div>         
-            <div>
-              <button className="mark__as-btn" onClick={navigateManageVendorUsersPage}>
-                Manage Vendor Users
-                </button>
-            </div>
+          <Flex marginTop="2rem">
+                <HStack spacing={2}>
+                  <Box>
+                    <Button className="btn" onClick={navigateVendorEditPage}>
+                      Edit
+                    </Button>
+                  </Box>
+                  <Box>
+                    <Button className="btn" onClick={manageVendorsForAccount}>
+                     Account Vendors
+                    </Button>
+                  </Box>   
+                  <Box>
+                    <Button className="btn" onClick={navigateManageVendorUsersPage}>
+                      Vendor Users
+                    </Button>
+                  </Box>   
+                  <Box>
+                    <Button className="btn" onClick={navigateVendorInvoicesPage}>
+                      Vendor Invoices
+                    </Button>
+                  </Box>                                                      
+                </HStack>
+              </Flex>          
+        </>
+      ) : (
+        <div className="account__header">
+          <div className="iaccount_header-logo">
+            <h3>Not Authorized to view this page. Please contact administrator.</h3>
           </div>
-
         </div>
-      </div>
-    </div>
+
+      )}
+    </div>    
   );
 };
 

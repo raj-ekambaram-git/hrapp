@@ -2,6 +2,21 @@ import React, { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { accountService, userService } from "../../services";
+import {
+  HStack,
+  Button,
+  Table,
+  Thead,
+  Tbody,
+  Th,
+  Tr,
+  Box,
+  Flex,
+  Heading,
+  TableContainer,
+  TableCaption,
+  Badge
+} from '@chakra-ui/react'
 
 const VendorList = (props) => {
   const router = useRouter();
@@ -13,7 +28,7 @@ const VendorList = (props) => {
 
 
   useEffect(() => {
-    if(userService.isValidAccount(data.accountId)) {
+    if(userService.isValidAccount(data.accountId) ) {
       setPageAuthorized(true);
       getVendorList(data.accountId);
     }
@@ -36,67 +51,141 @@ const VendorList = (props) => {
 
   return (
 
-    <div className="main__container">
-      <div className="account__header">
-        <div className="iaccount_header-logo">
-          <h3>Manage Vendors</h3>
-          <p>There are total  of 10 vendors for the account number 12345</p>
-        </div>
 
-        <button className="btn" onClick={navigatePage}>
-          Add New Vendor
-        </button>
+    <div>
+      {isPageAuthprized ? (
+        <div>
+              <Flex
+                as="nav"
+                align="center"
+                justify="space-between"
+                wrap="wrap"
+                padding="1.5rem"
+                bg="heading"
+                color="white"
+                marginBottom="2rem"
+                width="100%"
+              >
+                <Heading as="h1" size="lg" letterSpacing={'-.1rem'}>
+                  Account Vendors
+                </Heading>
+              </Flex>
+    
+              <Flex marginBottom="2rem">
+                <HStack>
+                  <Box>
+                    <Button className="btn" onClick={navigatePage}>
+                      Add New Vendor 
+                    </Button>
+                  </Box>
+                </HStack>
+              </Flex>
+              <TableContainer>
+                <Table>
+                <TableCaption></TableCaption>
+                  <Thead>
+                      <Tr bgColor="table_tile">
+                        <Th>
+                          Vendor ID
+                        </Th>
+                        <Th>
+                          Vendor Name
+                        </Th>
+                        <Th>
+                          Vendor Created Date
+                        </Th>
+                        <Th>
+                          Vendor Type
+                        </Th>
+                        <Th>
+                          Vendor Contact Email
+                        </Th>
+                        <Th>
+                          Vendor Contact Phone
+                        </Th>
+                        <Th>
+                          Vendor EIN
+                        </Th>
+                        <Th>
+                          Vendor Status
+                        </Th>
+                      </Tr>   
+                    </Thead>                
+                    <Tbody>
+                      {vendorList?.map((vendor) => (
+                        
+                        
+                        <Tr>
+                              <Th>
+                                {vendor.id}
+                              </Th>
+                              <Th>
+                                {vendor.name}
+                              </Th>
+                              <Th>
+                                {vendor.createdDate}
+                              </Th>
+                              <Th>
+                                {vendor.type}
+                              </Th>
+                              <Th>
+                                {vendor.email}
+                              </Th>
+                              <Th>
+                                {vendor.phone}
+                              </Th>
+                              <Th>
+                                {vendor.ein}
+                              </Th>                                                                                          
+                              <Th>
+                                <HStack>
+                                  <Link href={`/account/vendor/${vendor.id}/detail`} passref key={vendor.id}>
+                                    <Button className="btn">
+                                      Details
+                                    </Button>
+                                  </Link>
+                                  <Badge color={`${
+                                      vendor.status === "Active"
+                                        ? "paid_status"
+                                        : vendor.status === "Inactive"
+                                        ? "pending_status"
+                                        : "pending_status"
+                                    }`}>{vendor.status}</Badge>
+                                </HStack>
+                              </Th>
+                            
+                          </Tr>
+
+                      ))}
+                  </Tbody>    
+                </Table>
+              </TableContainer>
+          </div>
+      ) : (
+        <> 
+          <Flex
+            as="nav"
+            align="center"
+            justify="space-between"
+            wrap="wrap"
+            padding="1.5rem"
+            bg="teal.500"
+            color="white"
+            marginBottom="2rem"
+            width="100%"
+          >
+            <Heading as="h1" size="lg" letterSpacing={'-.1rem'}>
+              Not authorized to view this page. Please contact administrator.
+            </Heading>
+          </Flex>        
+        </>
+      ) }
+
+
+
+      
       </div>
 
-      <div className="account__container">
-        {/* ======= invoice item =========== */}
-        {vendorList?.map((vendor) => (
-          <Link href={`/account/vendor/${vendor.id}/detail`}>
-            <div className="account__item">
-              <div>
-                <h5 className="account__id">
-                  {vendor.id}
-                </h5>
-              </div>
-
-              <div>
-                <h5 className="account__client">{vendor.name}</h5>
-              </div>
-
-              <div>
-                <p className="account__created">{vendor.createdDate}</p>
-              </div>
-
-              <div>
-                <p className="account__client">{vendor.type}</p>
-              </div>
-
-              <div>
-                <p className="account__created">{vendor.email}</p>
-              </div>
-
-              <div>
-                <h5 className="account__client">{vendor.ein}</h5>
-              </div>
-
-              <div>
-                <button
-                  className={`${
-                    vendor.status === "Active"
-                      ? "paid__status"
-                      : vendor.status === "Inactive"
-                      ? "pending__status"
-                      : "draft__status"
-                  }`}
-                >
-                  {vendor.status}
-                </button>
-              </div>
-            </div>
-          </Link>
-        ))}
-      </div>
-    </div>
   );
 };
 

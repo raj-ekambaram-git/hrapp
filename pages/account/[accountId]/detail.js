@@ -68,7 +68,7 @@ const AccountDetail = (props) => {
       {isPageAuthprized ? (
         <>
           <Card>
-            <CardHeader bgColor="teal.500">
+            <CardHeader bgColor="heading">
               <Heading size='md'>Account Details for {account.name}</Heading>
             </CardHeader>
 
@@ -84,7 +84,7 @@ const AccountDetail = (props) => {
                 </Box>
                 <Box>
                   <Heading size='xs' textTransform='uppercase'>
-                    EIN
+                    Account EIN
                   </Heading>
                   <Text pt='2' fontSize='sm'>
                     {account.ein}
@@ -92,7 +92,7 @@ const AccountDetail = (props) => {
                 </Box>                
                 <Box>
                   <Heading size='xs' textTransform='uppercase'>
-                    Contact Details
+                    Account Contact Details
                   </Heading>
                   <Text pt='2' fontSize='sm'>
                     {account.email}
@@ -103,7 +103,7 @@ const AccountDetail = (props) => {
                 </Box>
                 <Box>
                   <Heading size='xs' textTransform='uppercase'>
-                    Contact Address
+                    Account Contact Address
                   </Heading>
                   <Text pt='2' fontSize='sm'>
                     {account.address1}
@@ -125,14 +125,14 @@ const AccountDetail = (props) => {
                   <Heading size='xs' textTransform='uppercase'>
                     Account Status
                   </Heading>
-                  <Badge colorScheme={`${
+                  <Badge color={`${
                         account.status === "Active"
-                        ? "green"
-                        : account.status === "Inactive"
-                        ? "red"
-                        : "red"
-                    }`}>{account.status}
-                  </Badge>              
+                          ? "paid_status"
+                          : account.status === "Inactive"
+                          ? "pending_status"
+                          : "pending_status"
+                      }`}>{account.status}</Badge>
+          
                 </Box>                
               </Stack>
             </CardBody>
@@ -147,12 +147,12 @@ const AccountDetail = (props) => {
                   </Box>
                   <Box>
                     <Button className="btn" onClick={navigateManageVendorsPage}>
-                      Vendors
+                      Account Vendors
                     </Button>
                   </Box>   
                   <Box>
                     <Button className="btn" onClick={navigateManageAccountUsersPage}>
-                      Users
+                      Account Users
                     </Button>
                   </Box>   
                   <Box>
