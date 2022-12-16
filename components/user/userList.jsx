@@ -59,7 +59,6 @@ const UserList = (props) => {
     async function getUsersList(vendorId, accountId) {
       // setPageAuthorized(true);
       const responseData = await userService.getUsersByVendor(vendorId, accountId);
-      console.log("responseData:::"+JSON.stringify(responseData));
       setUsersList(responseData);
 
     }

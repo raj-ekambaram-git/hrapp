@@ -14,6 +14,8 @@ const EditUser = (props) => {
     }
   }, [router.query]);
 
+  console.log("Edit User::"+JSON.stringify(props))
+  
   const userId = props.data.userId;
   const requestData = {
     mode: MODE_EDIT,
@@ -41,6 +43,8 @@ export async function getStaticPaths() {
 } 
 
 export async function getStaticProps(context) {
+  console.log("Static prosp::"+JSON.stringify(context))
+  
   const { userId } = context.params;
   return {
     props: {

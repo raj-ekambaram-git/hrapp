@@ -7,7 +7,22 @@ import { util } from '../../helpers';
 import { accountService, userService } from "../../services";
 import {MODE_ADD, USER_VALIDATION_SCHEMA, USER_ROLES} from "../../constants/accountConstants";
 import {US_STATES} from "../../constants/commonConstants";
-
+import {
+  HStack,
+  Button,
+  Box,
+  Flex,
+  Heading,
+  FormControl,
+  FormLabel,
+  Input,
+  Select,
+  Stack,
+  Card,
+  CardHeader,
+  CardBody,
+  StackDivider
+} from '@chakra-ui/react'
 
 const UserAddEdit = (props) => {
   
@@ -137,6 +152,7 @@ const UserAddEdit = (props) => {
   }
 
   function onSubmit(data) {
+    console.log("DDAAA::"+JSON.stringify(data))
     return isAddMode
         ? createUser(data)
         : updateUser(userId, data);
@@ -245,205 +261,249 @@ const UserAddEdit = (props) => {
 
 
   return (
-    <div className="main__container">
+
+    <div>
       {isPageAuthprized ? (
-            <div className="new__account">
-              <div className="new__account-header">
+        <div> 
+          <Flex
+            as="nav"
+            align="center"
+            justify="space-between"
+            wrap="wrap"
+            padding="1.5rem"
+            bg="heading"
+            color="white"
+            marginBottom="2rem"
+            width="60%"
+          >
+            <Heading as="h1" size="lg" letterSpacing={'-.1rem'}>
               {isAddMode ? (
-                              <h3>New {isVendor? "Vendor": "Account"} User</h3>
-                          ) : (
-                            <h3>Update {isVendor? "Vendor": "Account"} User</h3>
-                          )}
-                
-              </div>
-      
-              {/* ======== new account body ========= */}
-              <div className="new__account-body">
-                {/* ======= bill from ========== */}
-                <div className="bill__from">
-                  <p className="bill__title">User Setup</p>
-      
-                  
-      
-                <form onSubmit={handleSubmit(onSubmit)}>
-                  <div className="form__group">
-                    <p>First Name</p>
-                    <input name="firstName" type="text" {...register('firstName')} className={`form-control ${errors.firstName ? 'is-invalid' : ''}`} />
-                    <div className="invalid-feedback">{errors.firstName?.message}</div>
-                  </div>
-      
-                  <div className="form__group">
-                    <p>Last Name</p>
-                    <input name="lastName" type="text" {...register('lastName')} className={`form-control ${errors.lastName ? 'is-invalid' : ''}`} />
-                    <div className="invalid-feedback">{errors.lastName?.message}</div>
-                  </div>      
-      
-                  <div>
-                      <p>User Status</p>
-                      <div className="form__group">
-                        <select name="userStatus" {...register('userStatus')} className={`form-control ${errors.userStatus ? 'is-invalid' : ''}`}>
-                            <option value="Active">Active</option>
-                            <option value="Inactive">Inactive</option>
-                        </select>
-                        <div className="invalid-feedback">{errors.userStatus?.message}</div>    
-                      </div>            
-                  </div>
+                  <div>New {isVendor? "Vendor": "Account"} User</div>
+              ) : (
+                <div>Update {isVendor? "Vendor": "Account"} User</div>
+              )}              
+            </Heading>
+          </Flex>
+          <Box width="60%">
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Stack spacing={4}>
+              <Card>
+                <CardHeader bgColor="table_tile">
+                  <Heading size='sm'>User Details</Heading>
+                </CardHeader>
 
-                  <div className="form__group inline__form-group">
-                        <div>
-                          <p>User Email (User ID)</p>
-                          <input name="userEmail" type="email" {...register('userEmail')} className={`form-control ${errors.userEmail ? 'is-invalid' : ''}`} />
-                          <div className="invalid-feedback">{errors.userEmail?.message}</div>
-                        </div>
-                  </div>
+                <CardBody>
+                  <Stack divider={<StackDivider />} spacing='4'>
+                      <Box>
+                        <FormControl isRequired>
+                          <FormLabel>First Name</FormLabel>
+                          <Input type="text" {...register('firstName')}  id="firstName"  size="md" />
+                        </FormControl>     
+                      </Box>
+                      <Box>
+                        <FormControl isRequired>
+                            <FormLabel>Last Name</FormLabel>
+                            <Input type="text" id="lastName" {...register('lastName')}  size="md" />
+                        </FormControl>    
+                      </Box>  
+                      <HStack spacing={8}>
+                        <Box>
+                          <FormControl isRequired>
+                            <FormLabel>User Status</FormLabel>
+                            <Select width="100%" id="userStatus" {...register('userStatus')} >
+                              <option value="Active">Active</option>
+                              <option value="Inactive">Inactive</option>
+                              <option value="Error">Error</option>
+                              <option value="Approved">Approved</option>
+                              <option value="Rejected">Rejected</option>
+                            </Select>
+                          </FormControl>     
+                        </Box>  
+                        <Box>
+                          <FormControl isRequired>
+                            <FormLabel>Vendor Role</FormLabel>
+                            <Select width="100%" id="userRole" {...register('userRole')} >
+                              {USER_ROLES?.map((userRole) => (
+                                    <option value={userRole.roleID}>{userRole.roleName}</option>
+                              ))}
+                            </Select>
+                          </FormControl>     
+                        </Box>  
+                        <Box>
+                          <FormControl isRequired>
+                            <FormLabel>Enable Timesheet</FormLabel>
+                            <Select width="50%" id="timeSheetEnabled" {...register('timeSheetEnabled')} >
+                              <option value="false">No</option>
+                              <option value="true">Yes</option>
+                            </Select>
+                          </FormControl>     
+                        </Box>                          
+                      </HStack>                          
+                      <Box>
+                        <FormControl isRequired>
+                          <FormLabel>Emaail/UserId</FormLabel>
+                          <Input type="text" id="userEmail"  size="md" {...register('userEmail')}  />
+                        </FormControl>     
+                      </Box>    
+                      <Box>
+                        <FormControl isRequired>
+                          <FormLabel>User Passowrd</FormLabel>
+                          <Input type="text" id="userPassword"  size="md" {...register('userPassword')}  />
+                        </FormControl>     
+                      </Box>  
+                      <Box>
+                        <FormControl isRequired>
+                            <FormLabel>User Phone</FormLabel>
+                            <Input type="text" id="userPhone"  size="md" {...register('userPhone')}  />
+                          </FormControl>      
+                      </Box>                                                                    
+                  </Stack>
+                </CardBody>
+              </Card>              
+              <Card>
+                <CardHeader bgColor="table_tile">
+                  <Heading size='sm'>User Account/Vendor Details</Heading>
+                </CardHeader>
 
-                  <div className="form__group inline__form-group">
-                        <div>
-                          <p>Password</p>
-                          <input name="userPassword" type="password" {...register('userPassword')} className={`form-control ${errors.userPassword ? 'is-invalid' : ''}`} />
-                          <div className="invalid-feedback">{errors.userPassword?.message}</div>
-                        </div>
-                  </div>
-                  <div className="form__group inline__form-group">
-                        <div className="fform__group form__group__inline_2">
-                          <p>Role</p>
-                          <select name="userRole" {...register('userRole')} className={`form-control ${errors.userRole ? 'is-invalid' : ''}`}>
-                            {USER_ROLES?.map((userRole) => (
-                                  <option value={userRole.roleID}>{userRole.roleName}</option>
-                            ))}
-                           </select>
-                          <div className="invalid-feedback">{errors.userRole?.message}</div>
-                        </div>
-                        <div className="fform__group form__group__inline_2">
-                          <p>TimeSheet Enabled?</p>
-                          <select name="timeSheetEnabled" {...register('timeSheetEnabled')} className={`form-control ${errors.timeSheetEnabled ? 'is-invalid' : ''}`}>
-                            <option value="false">No</option>
-                            <option value="true">Yes</option>
-                           </select>
-                          <div className="invalid-feedback">{errors.timeSheetEnabled?.message}</div>
-                        </div>
-                        <div>
-                          <p>Phone</p>
-                          <input name="userPhone" type="text" {...register('userPhone')} className={`form-control ${errors.userPhone ? 'is-invalid' : ''}`} />
-                          <div className="invalid-feedback">{errors.userPhone?.message}</div>
-                        </div>                        
-                  </div>
-
-                  <div className="form__group inline__form-group">
-                    {isPageSectionAuthorized ? (
-                        <div>
-                        <p>Account</p>
-                          <div className="fform__group form__group__inline_2">
-                            <select name="userAccountId" {...register('userAccountId')} className={`form-control ${errors.userAccountId ? 'is-invalid' : ''}`}>
-                                <option value="">Select an Account</option>
-                                {accountsList?.map((account) => (
-                                  <option value={account.id}>{account.name}</option>
+                <CardBody>
+                  <Stack divider={<StackDivider />} spacing='4'>
+                    <HStack>
+                      {isPageSectionAuthorized ? (
+                        <>                      
+                          <Box>
+                            <FormControl isRequired>
+                              <FormLabel>Account</FormLabel>
+                              <Select width="100%" id="userAccountId" {...register('userAccountId')} >
+                                  <option value="">Select an Account</option>
+                                  {accountsList?.map((account) => (
+                                    <option value={account.id}>{account.name}</option>
                                   ))}
-                            </select>
-                            <div className="invalid-feedback">{errors.userAccountId?.message}</div>                         
-                          </div>
-                        </div>
-                    ) : (<></>)}
-                    {userService.isAccountAdmin() ? (
-                        <div>
-                        <p>Vendor</p>
-                        <div className="fform__group form__group__inline_4">
-                          <select name="userVendorId" {...register('userVendorId')} className={`form-control ${errors.userVendorId ? 'is-invalid' : ''}`}>
-                                <option value="">Select a Vendor</option>
-                                {vendorList?.map((vendor) => (
-                                  <option value={vendor.id}>{vendor.name}</option>
+                            </Select>
+                            </FormControl>     
+                          </Box>
+                        </>
+                      ) : (<></>)}     
+                      {userService.isAccountAdmin() ? (
+                        <>
+                          <Box>
+                            <FormControl isRequired>
+                              <FormLabel>Vendor</FormLabel>
+                              <Select width="100%" id="userVendorId" {...register('userVendorId')} >
+                                  <option value="">Select an Vendor</option>
+                                  {vendorList?.map((vendor) => (
+                                    <option value={vendor.id}>{vendor.name}</option>
                                   ))}
-                            </select>                      
-                          <div className="invalid-feedback">{errors.userVendorId?.message}</div>
-                        </div>
-                      </div>   
-                    ) : (
-                      <></>
-                    )}
-                     
-                  </div>                  
+                            </Select>
+                            </FormControl>     
+                          </Box>
+                        </>
+                      ) : ("")}
+                    </HStack>
+                  </Stack>
+                </CardBody>
+              </Card>
+              <Card>
+                <CardHeader bgColor="table_tile">
+                  <Heading size='sm'>User Addreses</Heading>
+                </CardHeader>
 
-                  <div>
-                    <p className="bill__title">Account Address</p>
-                    
-                    <div className="form__group">
-                      <p>Address1</p>
-                      <input name="address1" type="text" {...register('address1')} className={`form-control ${errors.address1 ? 'is-invalid' : ''}`} />
-                      <div className="invalid-feedback">{errors.address1?.message}</div>
-                    </div>  
-      
-                    <div className="form__group">
-                      <p>Address2</p>
-                      <input name="address2" type="text" {...register('address2')} className={`form-control ${errors.address2 ? 'is-invalid' : ''}`} />
-                      <div className="invalid-feedback">{errors.address2?.message}</div>
-                    </div>              
-      
-                    <div className="form__group">
-                      <p>Address2</p>
-                      <input name="address3" type="text" {...register('address3')} className={`form-control ${errors.address3 ? 'is-invalid' : ''}`} />
-                      <div className="invalid-feedback">{errors.address3?.message}</div>
-                    </div> 
+                <CardBody>
+                  <Stack divider={<StackDivider />} spacing='4'>
+                    <Box>
+                      <FormControl isRequired>
+                        <FormLabel>Address1</FormLabel>
+                        <Input type="text" id="address1"  size="md" {...register('address1')} />
+                      </FormControl>     
+                      <FormControl>
+                        <FormLabel>Address2</FormLabel>
+                        <Input type="text" id="address2"  size="md" {...register('address2')} />
+                      </FormControl>     
+                      <FormControl>
+                        <FormLabel>Address3</FormLabel>
+                        <Input type="text" id="address3"  size="md" {...register('address3')} />
+                      </FormControl>     
+                    </Box>
+                    <HStack>
+                      <Box>
+                        <FormControl isRequired>
+                          <FormLabel>City</FormLabel>
+                          <Input type="text" id="city"  size="md" {...register('city')} />
+                        </FormControl>     
+                      </Box>
+                      <Box>
+                        <FormControl isRequired>
+                          <FormLabel>State</FormLabel>
+                          <Select id="state" {...register('state')} >
+                            <option value="">State</option>
+                            {US_STATES?.map((state) => (
+                                <option value={state.id}>{state.name}</option>
+                                ))}
+                          </Select>
 
-                    <div className="form__group inline__form-group">
-                      <div>
-                        <p>City</p>
-                        <input name="city" type="text" {...register('city')} className={`form-control ${errors.city ? 'is-invalid' : ''}`} />
-                        <div className="invalid-feedback">{errors.city?.message}</div>
-                      </div>
-                      <div>
-                        <p>State</p>
-                        <div className="fform__group form__group__inline_4">
-                          <select name="state" {...register('state')} className={`form-control ${errors.state ? 'is-invalid' : ''}`}>
-                              <option value="">State</option>
-                              {US_STATES?.map((state) => (
-                                  <option value={state.id}>{state.name}</option>
-                                  ))}
-                          </select>
-                          <div className="invalid-feedback">{errors.state?.message}</div>                
-                        </div>
-                      </div>
-                      <div>
-                        <p>ZipCode</p>
-                        <input name="zipCode" type="text" {...register('zipCode')} className={`form-control ${errors.zipCode ? 'is-invalid' : ''}`} />
-                        <div className="invalid-feedback">{errors.zipCode?.message}</div>
-                      </div>
-                      <div>
-                        <p>Country</p>
-                        <div className="fform__group form__group__inline_4">
-                          <select name="country" {...register('country')} className={`form-control ${errors.country ? 'is-invalid' : ''}`}>
-                              <option value="USA">USA</option>
-                          </select>
-                          <div className="invalid-feedback">{errors.country?.message}</div>                  
-                        </div>                    
-                      </div>
-                    </div>
-                  </div>   
-                  <div className="new__account__btns">
-                    <button className="edit__btn" onClick={() => router.push("/account/list")}>
+                        </FormControl>     
+                      </Box>
+                      <Box>
+                        <FormControl isRequired>
+                          <FormLabel>ZipCode</FormLabel>
+                          <Input type="text" id="zipCode"  size="md" {...register('zipCode')} />
+                        </FormControl>     
+                      </Box>
+                      <Box>
+                        <FormControl isRequired>
+                          <FormLabel>Country</FormLabel>
+                          <Select id="country" {...register('country')} >
+                            <option value="USA">USA</option>
+                          </Select>
+                        </FormControl>     
+                      </Box>                                                                        
+                    </HStack>
+                  </Stack>
+                </CardBody>
+              </Card>
+              <Flex marginBottom={4}>
+                <HStack>
+                  <Box>
+                  <Button className="btn" onClick={() => router.push("/accounts")}>
                       Discard
-                    </button>
-                    <div>
-                      <button disabled={formState.isSubmitting} className="btn btn-primary">
-                          {formState.isSubmitting && <span className="spinner-border spinner-border-sm mr-1"></span>}
-                          {isAddMode ? (
-                              <>Add User</>
-                          ) : (
-                              <>Update User</>
-                          )}
-                          
-                      </button>
-                    </div>
-                  </div>
-                </form>            
-                </div>
-              </div>
-            </div>
+                    </Button>
+                  </Box>
+                  <Box>
+                    <Button type="submit">
+                      {isAddMode ? (
+                          <div>Add New {isVendor? "Vendor": "Account"} User</div>
+                      ) : (
+                        <div>Update {isVendor? "Vendor": "Account"} User</div>
+                      )}              
+                    </Button>
+                  </Box>
+                </HStack>
+              </Flex>                   
+            </Stack>
+          </form>          
+        </Box>
+
+      </div>
       ) : (
-        <div className="not__authorized-header">
-          Not authorized to view this page. Please contact administrator.
-        </div>
+        <> 
+        <Flex
+          as="nav"
+          align="center"
+          justify="space-between"
+          wrap="wrap"
+          padding="1.5rem"
+          bg="teal.500"
+          color="white"
+          marginBottom="2rem"
+          width="100%"
+        >
+          <Heading as="h1" size="lg" letterSpacing={'-.1rem'}>
+            Not authorized to view this page. Please contact administrator.
+          </Heading>
+        </Flex>        
+      </>
       )}
     </div>
+
   );
 };
 
