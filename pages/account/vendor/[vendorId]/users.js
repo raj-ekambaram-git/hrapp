@@ -3,7 +3,7 @@ import prisma from "../../../../lib/prisma";
 import React, { useState, useRef } from "react";
 import { userService } from "../../../../services";
 
-export default function Home(props) {
+export default function VendorUsers(props) {
   const { data } = props;
 
   return (

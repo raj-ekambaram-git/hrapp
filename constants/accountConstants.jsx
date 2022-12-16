@@ -126,6 +126,62 @@ export const USER_ROLES_SUPERADMIN = [
 
 ];  
 
+export const INVOICE_CYCLE = [
+  {
+  cycleId: "Weekly",
+  cycleName: "Weekly"
+  },
+  {
+    cycleId: "BiWeekly",
+    cycleName: "BiWeekly"
+  },    
+  {
+    cycleId: "Monthly",
+    cycleName: "Monthly"
+  },
+  {
+    cycleId: "Quarterly",
+    cycleName: "Quarterly"
+  },
+  {
+    cycleId: "HalfYearly",
+    cycleName: "Half Yearly"
+  },
+  {
+    cycleId: "Yearly",
+    cycleName: "Yearly"
+  }            
+
+];  
+
+
+export const INVOICE_PAY_TERMNS = [
+  {
+  paymentTermId: "Net30",
+  paymentTermName: "Net30"
+  },
+  {
+    paymentTermId: "Net45",
+    paymentTermName: "Net45"
+  },    
+  {
+    paymentTermId: "Net60",
+    paymentTermName: "Net60"
+  },
+  {
+    paymentTermId: "Net90",
+    paymentTermName: "Net90"
+  },
+  {
+    paymentTermId: "Net180",
+    paymentTermName: "Net180"
+  },
+  {
+    paymentTermId: "Net365",
+    paymentTermName: "Net365"
+  }            
+
+];  
 
 
 export const USER_ROLE_DESC = {

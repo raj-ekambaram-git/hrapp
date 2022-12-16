@@ -88,6 +88,7 @@ model Resource {
 
 model Invoice {
   id            Int           @id @default(autoincrement())
+  description   String        @default("")
   type          InvoiceType
   cycle         InvoiceCycle
   vendor        Vendor?       @relation(fields: [vendorId], references: [id])
