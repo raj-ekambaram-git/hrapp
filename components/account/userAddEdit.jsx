@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { util } from '../../helpers';
 import { accountService, userService } from "../../services";
-import {MODE_ADD, USER_VALIDATION_SCHEMA, USER_ROLES} from "../../constants/accountConstants";
+import {MODE_ADD, USER_VALIDATION_SCHEMA, USER_ROLES, USER_ROLES_SUPERADMIN} from "../../constants/accountConstants";
 import {US_STATES} from "../../constants/commonConstants";
 import {
   HStack,
@@ -321,11 +321,22 @@ const UserAddEdit = (props) => {
                         </Box>  
                         <Box>
                           <FormControl isRequired>
-                            <FormLabel>Vendor Role</FormLabel>
+                            <FormLabel>User Role</FormLabel>
                             <Select width="100%" id="userRole" {...register('userRole')} >
-                              {USER_ROLES?.map((userRole) => (
-                                    <option value={userRole.roleID}>{userRole.roleName}</option>
-                              ))}
+                              {userService.isSuperAdmin() ? (
+                                <>
+                                  {USER_ROLES_SUPERADMIN?.map((userRole) => (
+                                        <option value={userRole.roleID}>{userRole.roleName}</option>
+                                  ))}                                
+                                </>
+                              ) : (
+                                <>
+                                  {USER_ROLES?.map((userRole) => (
+                                        <option value={userRole.roleID}>{userRole.roleName}</option>
+                                  ))}                                
+                                </>
+                              )}
+
                             </Select>
                           </FormControl>     
                         </Box>  
