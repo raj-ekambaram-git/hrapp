@@ -23,7 +23,7 @@ const UserList = (props) => {
   const router = useRouter();
   const { data } = props.invoiceList;
   const { isVendor } = props.invoiceList;
-  console.log("invoiceList::"+JSON.stringify(data))
+  console.log("Uodates invoiceList::"+JSON.stringify(data))
   const [invoiceList, setInvoiceList] = useState([]);
   const [isPageAuthprized, setPageAuthorized] = useState(false);
 
@@ -61,6 +61,7 @@ const UserList = (props) => {
     async function getInvoiceList(vendorId, accountId) {
       // setPageAuthorized(true);
       const responseData = await accountService.getInvoiceList(vendorId, accountId);
+      console.log("resoinse :+"+JSON.stringify(responseData))
       setInvoiceList(responseData);
 
     }
@@ -166,10 +167,10 @@ const UserList = (props) => {
                               {invoice.account.name}
                             </Th>
                             <Th>
-                              {invoice.createdDate}
+                              {invoice.invoiceDate}
                             </Th>
                             <Th>
-                              {invoice.dueDate}
+                              {invoice.dueDte}
                             </Th>
                             <Th>
                               {invoice.total}

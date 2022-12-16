@@ -155,6 +155,8 @@ const InvoiceAddEdit = (props) => {
   // Create Account 
   const createInvoice = async (formData) => {
     try {
+
+
         const res = await fetch("/api/account/invoice/create", {
           method: "POST",
           headers: {
@@ -166,8 +168,8 @@ const InvoiceAddEdit = (props) => {
             accountId: parseInt(formData.accountId),
             vendorId: parseInt(formData.vendorId),
             projectId: parseInt(formData.projectId),
-            invoiceDate: new Date(),
-            dueDte: new Date(),
+            invoiceDate: new Date(formData.invoiceDate),
+            dueDte: new Date(formData.dueDte),
             transactionId: formData.transactionId,
             total: formData.total,
             notes: formData.notes,
@@ -179,7 +181,7 @@ const InvoiceAddEdit = (props) => {
         const data = await res.json();
 
         toast.success(data.message);
-        router.push("/account/vendor/"+vendorId+"/invoices");
+        router.push("/account/vendor/"+data.vendorId+"/invoices");
         
       
     } catch (error) {
@@ -192,6 +194,7 @@ const InvoiceAddEdit = (props) => {
   // update invoice in database
   const updateInvoice = async (invoiceId, formData) => {
     try {
+
       const res = await fetch(`/api/account/invoice/${invoiceId}`, {
         method: "PUT",
         headers: {
@@ -204,8 +207,8 @@ const InvoiceAddEdit = (props) => {
           accountId: parseInt(formData.accountId),
           vendorId: parseInt(formData.vendorId),
           projectId: parseInt(formData.projectId),
-          invoiceDate: new Date(),
-          dueDte: formData.dueDte,
+          invoiceDate: new Date(formData.invoiceDate),
+          dueDte: new Date(formData.dueDte),
           transactionId: formData.transactionId,
           total: formData.total,
           notes: formData.notes,
@@ -218,7 +221,8 @@ const InvoiceAddEdit = (props) => {
 
       const data = await res.json();
       
-      // router.push("/account/vendor"+invoiceId+"/invoices");
+      router.push("/account/vendor/"+data.vendorId+"/invoices");
+
       toast.success(data.message);
     } catch (error) {
       console.log(error)
@@ -402,14 +406,30 @@ const InvoiceAddEdit = (props) => {
                       </Box>                                                                        
                     </HStack>
                     <Box>
-                        <FormControl>
-                          <FormLabel>Notes</FormLabel>
-                          <Textarea type="text" id="notes"  size="md" {...register('notes')} />
-                        </FormControl>     
-                      </Box>                       
+                      <FormControl>
+                        <FormLabel>Notes</FormLabel>
+                        <Textarea type="text" id="notes"  size="md" {...register('notes')} />
+                      </FormControl>     
+                    </Box>                       
                   </Stack>
                 </CardBody>
               </Card>
+              <Card>
+                <CardHeader bgColor="table_tile">
+                  <Heading size='sm'>Invoice Items</Heading>
+                </CardHeader>
+
+                <CardBody>
+                  <Stack divider={<StackDivider />} spacing='4'>
+                      <Box>
+                        <FormControl isRequired>
+                          <FormLabel>Invoice Reference/Details</FormLabel>
+                          <Input type="text" {...register('description')}  id="description"  size="md" />
+                        </FormControl>     
+                      </Box>                     
+                  </Stack>
+                </CardBody>
+              </Card>               
               <Flex marginBottom={4}>
                 <HStack>
                   <Box>
