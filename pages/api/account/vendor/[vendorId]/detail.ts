@@ -11,20 +11,36 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const vendorId = req.query?.vendorId;
     const accountId = req.query?.accountId;
-    const vendors = await prisma.vendor.findMany({
-      where: {
-        id: {
-          equals: parseInt(vendorId.toString())            
-        },
-        accountId: {
-          equals: parseInt(accountId.toString())
+    if(vendorId != "" && vendorId != undefined && accountId != "" && accountId != undefined && accountId != "NaN") {
+      const vendors = await prisma.vendor.findMany({
+        where: {
+          id: {
+            equals: parseInt(vendorId.toString())            
+          },
+          accountId: {
+            equals: parseInt(accountId.toString())
+          }
+      },
+        include: {
+          address: true,
         }
-    },
-      include: {
-        address: true,
-      }
-    })
-      res.status(200).json(vendors[0]);
+      })
+        res.status(200).json(vendors[0]);
+  
+    } else if (vendorId != "" && vendorId != undefined && accountId != "" && accountId != undefined && accountId == "NaN") {
+      const vendors = await prisma.vendor.findMany({
+        where: {
+          id: {
+            equals: parseInt(vendorId.toString())            
+          }
+      },
+        include: {
+          address: true,
+        }
+      })
+        res.status(200).json(vendors[0]);
+  
+    }
   } catch (error) {
     console.log(error)
     res.status(400).json({ message: 'Something went wrong while updating' })

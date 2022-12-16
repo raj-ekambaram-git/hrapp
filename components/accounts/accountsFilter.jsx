@@ -121,13 +121,13 @@ export default function Home(props) {
                         Account Name
                       </Th>
                       <Th>
-                        Account Created
-                      </Th>
-                      <Th>
                         Account Contact Email
                       </Th>
                       <Th>
                         Account EIN
+                      </Th>
+                      <Th>
+                        Account Created
                       </Th>
                       <Th>
                         Account Status
@@ -147,13 +147,13 @@ export default function Home(props) {
                               {account.name}
                             </Th>
                             <Th>
-                              {account.createdDate}
-                            </Th>
-                            <Th>
                               {account.email}
                             </Th>
                             <Th>
                               {account.ein}
+                            </Th>
+                            <Th>
+                              {account.createdDate}
                             </Th>
                             <Th>
                               <HStack>

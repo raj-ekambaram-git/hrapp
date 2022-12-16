@@ -10,9 +10,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   const vendorId = req.query.vendorId;
   const accountId = req.query.accountId;
-  console.log("Account ::"+accountId+"   vendorId::"+vendorId)
+
+
+  
   try {
-    if(vendorId != "") {
+    if(vendorId != "" && accountId != "" && accountId != "NaN" && accountId != undefined && vendorId != undefined) {
       const users = await prisma.user.findMany({
         where: {
             vendorId: {
@@ -24,10 +26,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         },
         orderBy: {
           id: "desc"
+        },
+        include: {
+          vendor: true,
+          account: true
         }
       });
       res.status(200).json(users);
-    } else {
+    } else if (accountId != "" && accountId != undefined && vendorId == ""){
       const users = await prisma.user.findMany({
         where: {
             accountId: {
@@ -36,11 +42,33 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         },
         orderBy: {
           id: "desc"
+        },
+        include: {
+          vendor: true,
+          account: true
         }
+
       });
       res.status(200).json(users);
-    }
+    }else if (vendorId != "" && vendorId != undefined && accountId == "NaN") {
+      const users = await prisma.user.findMany({
+        where: {
+            vendorId: {
+              equals: parseInt(vendorId.toString())
+            }
+        },
+        orderBy: {
+          id: "desc"
+        },
+        include: {
+          vendor: true,
+          account: true
+        }
 
+      });
+
+      res.status(200).json(users);
+    }
 
 
   } catch (error) {

@@ -95,3 +95,12 @@ export const ACCOUNT_VALIDATION_SCHEMA = Yup.object().shape({
     }            
 
 ];  
+
+export const USER_ROLE_DESC = {
+  'SUPER_ADMIN': 'Super Admin',
+  'ACCOUNT_ADMIN': 'Account Admin',
+  'ACCOUNT_VENDOR_REP': 'Vendor Account Rep',
+  'ACCOUNT_USER': 'Account User',
+  'ACCOUNT_VENDOR_EMPLOYEE': 'Vendor Employee',
+  'ACCOUNT_VENDOR_CONTRACTOR': 'Vendor Contractor'
+};

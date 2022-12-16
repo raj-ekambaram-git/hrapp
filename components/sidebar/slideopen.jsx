@@ -37,6 +37,11 @@ const Slideopen = () => {
               <IoSettingsOutline  className={styles.icons1}/>
             </div>
           </Link>
+          <Link href={`/accounts`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
+            <div>
+              <IoSettingsOutline  className={styles.icons1}/>
+            </div>
+          </Link>          
         </div>
         </div>
   )

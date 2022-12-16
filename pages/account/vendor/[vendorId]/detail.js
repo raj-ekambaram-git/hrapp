@@ -40,7 +40,15 @@ const VendorDetail = (props) => {
    */
   async function getVendorDetails(vendorId, accountId) {
     setPageAuthorized(true);
-    const responseData = await accountService.getVendorDetail(vendorId, accountId);
+
+    let accoutIdToPas;
+    if(userService.isSuperAdmin()) {
+      accoutIdToPas = "NaN";
+    }else {
+      accoutIdToPas = accountId;
+    }
+    
+    const responseData = await accountService.getVendorDetail(vendorId, accoutIdToPas);
     const vendorData =  {
       id: responseData.id.toString(),
       name: responseData.name,

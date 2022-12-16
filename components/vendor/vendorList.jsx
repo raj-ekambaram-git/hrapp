@@ -28,7 +28,7 @@ const VendorList = (props) => {
 
 
   useEffect(() => {
-    if(userService.isValidAccount(data.accountId) ) {
+    if(userService.isValidAccount(data.accountId) || userService.isSuperAdmin() ) {
       setPageAuthorized(true);
       getVendorList(data.accountId);
     }
@@ -92,9 +92,6 @@ const VendorList = (props) => {
                           Vendor Name
                         </Th>
                         <Th>
-                          Vendor Created Date
-                        </Th>
-                        <Th>
                           Vendor Type
                         </Th>
                         <Th>
@@ -105,6 +102,9 @@ const VendorList = (props) => {
                         </Th>
                         <Th>
                           Vendor EIN
+                        </Th>
+                        <Th>
+                          Vendor Created Date
                         </Th>
                         <Th>
                           Vendor Status
@@ -123,9 +123,6 @@ const VendorList = (props) => {
                                 {vendor.name}
                               </Th>
                               <Th>
-                                {vendor.createdDate}
-                              </Th>
-                              <Th>
                                 {vendor.type}
                               </Th>
                               <Th>
@@ -136,7 +133,10 @@ const VendorList = (props) => {
                               </Th>
                               <Th>
                                 {vendor.ein}
-                              </Th>                                                                                          
+                              </Th>  
+                              <Th>
+                                {vendor.createdDate}
+                              </Th>
                               <Th>
                                 <HStack>
                                   <Link href={`/account/vendor/${vendor.id}/detail`} passref key={vendor.id}>

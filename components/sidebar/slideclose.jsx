@@ -39,6 +39,11 @@ const Slideclose = () => {
             <p>Users</p>
             </div>
           </Link>
+          <Link href={`/accounts`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
+            <div>
+            <p>Accounts</p>
+            </div>
+          </Link>
 
         </div>
     </div>

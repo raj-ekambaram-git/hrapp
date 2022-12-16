@@ -2,6 +2,22 @@ import React, { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { accountService, userService } from "../../services";
+import {USER_ROLE_DESC} from "../../constants/accountConstants";
+import {
+  HStack,
+  Button,
+  Table,
+  Thead,
+  Tbody,
+  Th,
+  Tr,
+  Box,
+  Flex,
+  Heading,
+  TableContainer,
+  TableCaption,
+  Badge
+} from '@chakra-ui/react'
 
 const UserList = (props) => {
   const router = useRouter();
@@ -9,18 +25,18 @@ const UserList = (props) => {
   const { isVendor } = props.userList;
   console.log("UserList::"+JSON.stringify(data))
   const [usersList, setUsersList] = useState([]);
-  const [isPageSectionAuthorized, setPageSectionAuthorized] = useState(false);
-
+  const [isPageAuthprized, setPageAuthorized] = useState(false);
 
   useEffect(() => {
 
     if(isVendor) {
       //get API call with accountId and VendorId
       if(userService.isSuperAdmin()) {
-        getUsersList(data.vendorId, data.accountId)
+        getUsersList(data.vendorId, "NaN")
       }else {
         getUsersList(data.vendorId, userService.getAccountDetails().accountId)
       }
+      setPageAuthorized(true);
       
       
     }else {
@@ -31,7 +47,8 @@ const UserList = (props) => {
         getUsersList("", userService.getAccountDetails().accountId)
       }
       
-     
+     setPageAuthorized(true);
+
     }
 
   }, []);
@@ -42,6 +59,7 @@ const UserList = (props) => {
     async function getUsersList(vendorId, accountId) {
       // setPageAuthorized(true);
       const responseData = await userService.getUsersByVendor(vendorId, accountId);
+      console.log("responseData:::"+JSON.stringify(responseData));
       setUsersList(responseData);
 
     }
@@ -51,69 +69,157 @@ const UserList = (props) => {
   
 
   return (
-    <div className="main__container">
-      <div className="account__header">
-        <div className="iaccount_header-logo">
-          {isVendor ? (
-            <h3>Manage Vendor Users</h3>
-          ) : (
-            <h3>Manage Account Users</h3>
-          )}
-          
-          
-          <p>There are total  of 10 users for the account number MM</p>
-        </div>
 
-        <button className="btn" onClick={navigatePage}>
-          Add New Account User
-        </button>
-      </div>
+    <div>
+      {isPageAuthprized ? (
+        <div>
+              <Flex
+                as="nav"
+                align="center"
+                justify="space-between"
+                wrap="wrap"
+                padding="1.5rem"
+                bg="heading"
+                color="white"
+                marginBottom="2rem"
+                width="100%"
+              >
+                <Heading as="h1" size="lg" letterSpacing={'-.1rem'}>
+                  {isVendor ? (
+                    <>Vendor Users</>
+                  ) : (
+                    <>Account Users</>
+                  )}
+                  
+                </Heading>
+              </Flex>
+    
+              <Flex marginBottom="2rem">
+                <HStack>
+                  <Box>
+                    <Button className="btn" onClick={navigatePage}>
+                      {isVendor ? (
+                        <>Add New Vendor User</>
+                      ) : (
+                        <>Add New Account User</>
+                      )}
+                    </Button>
+                  </Box>
+                </HStack>
+              </Flex>
+              <TableContainer display="flex">
+              <Table>
+              <TableCaption></TableCaption>
+                <Thead>
+                    <Tr bgColor="table_tile">
+                      <Th>
+                        User ID
+                      </Th>
+                      <Th>
+                        First Name
+                      </Th>
+                      <Th>
+                        Last Name
+                      </Th>
+                      <Th>
+                        User ID/Email
+                      </Th>
+                      <Th>
+                        Role
+                      </Th>
+                      <Th>
+                        Account Name
+                      </Th>
+                      <Th>
+                        Vendor Name
+                      </Th>
+                      <Th>
+                        Created Date
+                      </Th>
+                      <Th>
+                        User Status
+                      </Th>
+                    </Tr>   
+                  </Thead>                
+                  <Tbody>
+                    {usersList?.map((user) => (
+                      
+                      
+                      <Tr>
+                            <Th>
+                            {user.id}
+                            </Th>
+                            <Th>
+                              {user.firstName}
+                            </Th>
+                            <Th>
+                              {user.lastName}
+                            </Th>
+                            <Th>
+                              {user.email}
+                            </Th>
+                            <Th>
+                              {user.role ? (<>{USER_ROLE_DESC[user.role]}</>) : "N/A"}
+                            </Th>
+                            <Th>
+                              {user.account.name}
+                            </Th>
+                            <Th>
+                              {user.vendor ? (
+                                <>{user.vendor.name}</>
+                              ) : "N/A"}
+                            </Th>
+                            <Th>
+                              {user.createdDate}
+                            </Th>
+                            <Th>
+                              <HStack>
+                                <Link href={`/account/user/${user.id}`} passref key={user.id}>
+                                  <Button className="btn">
+                                    Details
+                                  </Button>
+                                </Link>
+                                <Badge color={`${
+                                    user.status === "Active"
+                                      ? "paid_status"
+                                      : user.status === "Inactive"
+                                      ? "pending_status"
+                                      : "pending_status"
+                                  }`}>{user.status}</Badge>
+                              </HStack>
+                            </Th>
+                          
+                        </Tr>
 
-      <div className="account__container">
-        {/* ======= invoice item =========== */}
-        {usersList?.map((user) => (
-          <Link href={`/account/user/${user.id}`} passref key={user.id}>
-            <div className="account__item">
-              <div>
-                <h5 className="account__id">
-                  {user.id}
-                </h5>
-              </div>
+                    ))}
+                </Tbody>    
+              </Table>
+              </TableContainer>
+          </div>
+      ) : (
+        <> 
+          <Flex
+            as="nav"
+            align="center"
+            justify="space-between"
+            wrap="wrap"
+            padding="1.5rem"
+            bg="teal.500"
+            color="white"
+            marginBottom="2rem"
+            width="100%"
+          >
+            <Heading as="h1" size="lg" letterSpacing={'-.1rem'}>
+              Not authorized to view this page. Please contact administrator.
+            </Heading>
+          </Flex>        
+        </>
+      ) }
 
-              <div>
-                <h5 className="account__client">{user.firstName}</h5>
-              </div>
 
-              <div>
-                <h5 className="account__client">{user.lastName}</h5>
-              </div>
 
-              <div>
-                <p className="account__created">{user.createdDate}</p>
-              </div>
-
-              <div>
-                <p className="account__created">{user.email}</p>
-              </div>
-
-              <div>
-                <button
-                  className={`${
-                    user.status === "Active"
-                      ? "paid__status"
-                      : user.status === "Inactive"
-                      ? "pending__status"
-                      : "draft__status"
-                  }`}
-                >
-                  {user.status}
-                </button>
-              </div>
-            </div>
-          </Link>
-        ))}
-      </div>
-    </div>
+      
+      </div>    
   );
 };
 
