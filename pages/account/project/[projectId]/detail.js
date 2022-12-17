@@ -63,11 +63,12 @@ const ProjectDetail = (props) => {
   }, []);
 
   const handleAddProjectResource = (e) => {
-    console.log("handleAddProjectResource::::::"+JSON.stringify(e));
+    console.log("handleAddProjectResource::::::"+JSON.stringify(projectResourceList));
     projectResourceList.push(e);
-    console.log("handleAddProjectResource After Pushing::::::"+JSON.stringify(JSON.stringify(projectResourceList)));
+    setProjectResourceList(projectResourceList);
+    console.log("handleAddProjectResource After Pushing::::::"+JSON.stringify(projectResourceList));
   };
-
+ 
   /**
    * Function to get the list of accounts for a drop down
    */

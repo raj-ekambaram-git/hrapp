@@ -395,12 +395,10 @@ const ProjectAddEdit = (props) => {
                     </HStack>
                     <Box>
                         <FormControl isRequired>
-                            <FormLabel>Address</FormLabel>
-                                  {JSON.stringify(addressList)}
+                            <FormLabel>Project Location</FormLabel>
                               <Select width="100%" id="addressId" {...register('addressId')}>
                                 {addressList?.map((address) => (
-                                  <option value={address.id}>{address.firstName}</option>
-                                  
+                                    <option value={address.id}>{address.addressName},{address.address1},{address.city},</option>
                                 ))}
                               </Select>
                         </FormControl>     

@@ -58,7 +58,6 @@ const AddProjectResourceModal = (props) => {
   async function getUsersByVendor(vendorId) {
     // setPageAuthorized(true);
     const userListResponse = await userService.getUsersByVendor(vendorId, userService.getAccountDetails().accountId);
-    console.log("userListResponse::::"+JSON.stringify(userListResponse))
     setUserList(userListResponse);
 
   }  
@@ -168,8 +167,6 @@ const AddProjectResourceModal = (props) => {
                           <Tr>
                                 <Th>
                                   <Select width="50%%" onChange={(ev) => setUserId(ev.target.value)}>
-                                    <option value="50">50</option>
-                                    <option value="51">51</option>
                                         {userList?.map((user) => (
                                                 <option value={user.id}>{user.firstName} {user.lastName}</option>
                                         ))}   
@@ -189,7 +186,7 @@ const AddProjectResourceModal = (props) => {
                                 <Th>
                                   <Select width="50%%" onChange={(ev) => setUOM(ev.target.value)}>
                                       <option value="Hours">Hours</option>
-                                      <option value="item">General Item</option>
+                                      <option value="Item">General Item</option>
                                     </Select>
                                 </Th>                               
                                 <Th>
