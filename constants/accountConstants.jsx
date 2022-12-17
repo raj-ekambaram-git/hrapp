@@ -16,6 +16,7 @@ export const MODE_EDIT = 'edit';
 export const ACCOUNT_VALIDATION_SCHEMA = Yup.object().shape({
     accountName: Yup.string().required('Account Name is required'),
     accountDescription: Yup.string().required('Account Description is required'),
+    addressName: Yup.string().required('Account Name is required'),
     address1: Yup.string().required('Account Address1 is required'),
     city: Yup.string().required('Account City is required'),
     state: Yup.string().required('Account State is required'),
@@ -32,6 +33,7 @@ export const ACCOUNT_VALIDATION_SCHEMA = Yup.object().shape({
   export const USER_VALIDATION_SCHEMA = Yup.object().shape({
     firstName: Yup.string().required('First Name is required'),
     lastName: Yup.string().required('Last Name is required'),
+    addressName: Yup.string().required('Account Name is required'),
     address1: Yup.string().required('Account Address1 is required'),
     city: Yup.string().required('Account City is required'),
     state: Yup.string().required('Account State is required'),
@@ -70,6 +72,7 @@ export const ACCOUNT_VALIDATION_SCHEMA = Yup.object().shape({
     accountContactName: Yup.string().required('User Email is required'),
     accountContactEmail: Yup.string().required('User Phone is required'),
     accountContactPhone: Yup.string().required('User Account is required'),
+    addressName: Yup.string().required('Account Name is required'),
     address1: Yup.string().required('Account Address1 is required'),
     city: Yup.string().required('Account City is required'),
     state: Yup.string().required('Account State is required'),

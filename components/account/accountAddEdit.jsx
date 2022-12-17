@@ -30,6 +30,7 @@ const AccountAddEdit = (props) => {
   const router = useRouter();
   const accountName = useRef("");
   const accountDescription = useRef("");
+  const addressName = useRef("");
   const address1 = useRef("");
   const address2 = useRef("");
   const address3 = useRef("");
@@ -89,6 +90,7 @@ const AccountAddEdit = (props) => {
               accountEmail: accountResponse.email,
               accountStatus: accountResponse.status,
               accountPhone: accountResponse.phone,
+              addressName: accountResponse.address[0].addressName,
               addressId: accountResponse.address[0].id,
               address1: accountResponse.address[0].address1,
               address2: accountResponse.address[0].address2,
@@ -102,7 +104,7 @@ const AccountAddEdit = (props) => {
           setAccount(accountData);
   
           // get user and set form fields
-              const fields = ['accountName', "accountDescription", "accountStatus", "accountEIN","accountEmail","accountPhone", "address1", "address2", "address3","city","state","zipCode","accountPhone"];
+              const fields = ['accountName', "accountDescription", "accountStatus", "accountEIN","accountEmail","accountPhone", "addressName","address1", "address2", "address3","city","state","zipCode","accountPhone"];
               fields.forEach(field => setValue(field, accountData[field]));
       }
   
@@ -135,6 +137,7 @@ const AccountAddEdit = (props) => {
                 {
                   type: "A",
                   primary: true,
+                  addressName: formData.addressName,
                   address1: formData.address1,
                   address2: formData.address2,
                   address3: formData.address3,
@@ -187,6 +190,7 @@ const AccountAddEdit = (props) => {
               },
               data:
               {
+                addressName: formData.addressName,
                 address1: formData.address1,
                 address2: formData.address2,
                 address3: formData.address3,
@@ -310,6 +314,10 @@ const AccountAddEdit = (props) => {
                   <CardBody>
                     <Stack divider={<StackDivider />} spacing='4'>
                       <Box>
+                      <FormControl isRequired>
+                          <FormLabel>Address Name</FormLabel>
+                          <Input type="text" id="addressName"  size="md" {...register('addressName')} />
+                        </FormControl>                         
                         <FormControl isRequired>
                           <FormLabel>Address1</FormLabel>
                           <Input type="text" id="address1"  size="md" {...register('address1')} />

@@ -18,6 +18,7 @@ const AddNew = (props) => {
   const accountContactName = useRef("");
   const accountContactEmail = useRef("");
   const accountContactPhone = useRef("");
+  const vendorAddressName = useRef("");
   const vendorAddress1 = useRef("");
   const vendorAddress2 = useRef("");
   const vendorAddress3 = useRef("");
@@ -42,6 +43,7 @@ const AddNew = (props) => {
         accountContactName.current.value === "" ||
         accountContactEmail.current.value === "" ||
         accountContactPhone.current.value === "" ||
+        vendorAddressName.current.value === "" ||
         vendorAddress1.current.value === "" ||
         vendorAddress2.current.value === "" ||
         vendorAddress3.current.value === "" ||
@@ -74,6 +76,7 @@ const AddNew = (props) => {
               create: [
                 {
                   type: "V",
+                  addressName: vendorAddressName.current.value,
                   address1: vendorAddress1.current.value,
                   address2: vendorAddress2.current.value,
                   address3: vendorAddress3.current.value,
@@ -161,6 +164,10 @@ const AddNew = (props) => {
             </div>                         
 
             <p className="bill__title">Vendor Address</p>
+            <div className="form__group">
+              <p>Address Name</p>
+              <input type="textarea" ref= {vendorAddressName} />
+            </div>              
             <div className="form__group">
               <p>Address1</p>
               <input type="textarea" ref= {vendorAddress1} />

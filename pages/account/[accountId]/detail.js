@@ -46,6 +46,7 @@ const AccountDetail = (props) => {
                 status: accountResponse.status,
                 phone: accountResponse.phone,
                 addressId: accountResponse.address[0].id,
+                addressName: accountResponse.address[0].addressName,
                 address1: accountResponse.address[0].address1,
                 address2: accountResponse.address[0].address2,
                 address3: accountResponse.address[0].address3,
@@ -105,6 +106,9 @@ const AccountDetail = (props) => {
                   <Heading size='xs' textTransform='uppercase'>
                     Account Contact Address
                   </Heading>
+                  <Text pt='2' fontSize='sm'>
+                    {account.addressName}
+                  </Text>                  
                   <Text pt='2' fontSize='sm'>
                     {account.address1}
                   </Text>

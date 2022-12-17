@@ -94,6 +94,7 @@ const VendorDetail = (props) => {
       accountContactEmail: responseData.accountContactEmail,
       accountContactPhone: responseData.accountContactPhone,
       addressId: responseData.address[0].id,
+      addressName: responseData.address[0].addressName,
       address1: responseData.address[0].address1,
       address2: responseData.address[0].address2,
       address3: responseData.address[0].address3,
@@ -105,6 +106,7 @@ const VendorDetail = (props) => {
 
   const vendorAddressData =  {
     addressId: responseData.address[0].id,
+    addressName: responseData.address[0].addressName,
     address1: responseData.address[0].address1,
     address2: responseData.address[0].address2,
     address3: responseData.address[0].address3,
@@ -214,6 +216,9 @@ const VendorDetail = (props) => {
                       </AccordionButton>
                     </h2>
                     <AccordionPanel pb={4}>
+                    <Text pt='2' fontSize='sm'>
+                        {vendorAddress.addressName}
+                      </Text>                      
                       <Text pt='2' fontSize='sm'>
                         {vendorAddress.address1}
                       </Text>

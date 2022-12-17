@@ -38,6 +38,7 @@ const VendorEdit = (props) => {
   const accountContactName = useRef("");
   const accountContactEmail = useRef("");
   const accountContactPhone = useRef("");
+  const addressName = useRef("");
   const address1 = useRef("");
   const address2 = useRef("");
   const address3 = useRef("");
@@ -108,6 +109,7 @@ const VendorEdit = (props) => {
             accountContactEmail: vendorResponse.accountContactEmail,
             accountContactPhone: vendorResponse.accountContactPhone,
             addressId: vendorResponse.address[0].id,
+            addressName: vendorResponse.address[0].addressName,
             address1: vendorResponse.address[0].address1,
             address2: vendorResponse.address[0].address2,
             address3: vendorResponse.address[0].address3,
@@ -120,7 +122,7 @@ const VendorEdit = (props) => {
         setVendor(vendorData);
 
         // get user and set form fields
-            const fields = ['name', "description", "email", "type","phone","accountId", "ein","status","accountContactName","accountContactEmail","accountContactPhone","address1", "address2", "address3","city","state","zipCode"];
+            const fields = ['name', "description", "email", "type","phone","accountId", "ein","status","accountContactName","accountContactEmail","accountContactPhone","addressName","address1", "address2", "address3","city","state","zipCode"];
             fields.forEach(field => setValue(field, vendorData[field]));
     }
 
@@ -148,6 +150,7 @@ const VendorEdit = (props) => {
               create: [
                 {
                   type: "V",
+                  addressName: formData.addressName,
                   address1: formData.address1,
                   address2: formData.address2,
                   address3: formData.address3,
@@ -204,6 +207,7 @@ const VendorEdit = (props) => {
               data:
               {
                 type: "V",
+                addressName: formData.addressName,
                 address1: formData.address1,
                 address2: formData.address2,
                 address3: formData.address3,
@@ -349,6 +353,10 @@ const VendorEdit = (props) => {
                   <CardBody>
                     <Stack divider={<StackDivider />} spacing='4'>
                       <Box>
+                      <FormControl isRequired>
+                          <FormLabel>Address Name</FormLabel>
+                          <Input type="text" id="addressName"  size="md" {...register('addressName')} />
+                        </FormControl>                          
                         <FormControl isRequired>
                           <FormLabel>Address1</FormLabel>
                           <Input type="text" id="address1"  size="md" {...register('address1')} />

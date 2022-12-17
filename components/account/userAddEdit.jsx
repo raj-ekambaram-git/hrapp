@@ -38,6 +38,7 @@ const UserAddEdit = (props) => {
   const userPhone = useRef("");
   const userAccountId = useRef("");
   const userVendorId = useRef("");
+  const addressName = useRef("");
   const address1 = useRef("");
   const address2 = useRef("");
   const address3 = useRef("");
@@ -133,6 +134,7 @@ const UserAddEdit = (props) => {
             timeSheetEnabled: userResonse.isTimeSheetEnabled,
             userStatus: userResonse.status,
             addressId: userResonse.address[0].id,
+            addressName: userResonse.address[0].addressName,
             address1: userResonse.address[0].address1,
             address2: userResonse.address[0].address2,
             address3: userResonse.address[0].address3,
@@ -145,7 +147,7 @@ const UserAddEdit = (props) => {
         setUser(userData);
 
         // get user and set form fields
-            const fields = ['firstName', "lastName", "userRole", "userEmail","userPhone","userAccountId", "userVendorId","timeSheetEnabled","userStatus","address1", "address2", "address3","city","state","zipCode"];
+            const fields = ['firstName', "lastName", "userRole", "userEmail","userPhone","userAccountId", "userVendorId","timeSheetEnabled","userStatus","addressName","address1", "address2", "address3","city","state","zipCode"];
             fields.forEach(field => setValue(field, userData[field]));
     }
 
@@ -173,6 +175,7 @@ const UserAddEdit = (props) => {
               create: [
                 {
                   type: "U",
+                  addressName: formData.addressName,
                   address1: formData.address1,
                   address2: formData.address2,
                   address3: formData.address3,
@@ -228,6 +231,7 @@ const UserAddEdit = (props) => {
               data:
               {
                 type: "U",
+                addressName: formData.addressName,
                 address1: formData.address1,
                 address2: formData.address2,
                 address3: formData.address3,
@@ -421,6 +425,10 @@ const UserAddEdit = (props) => {
                 <CardBody>
                   <Stack divider={<StackDivider />} spacing='4'>
                     <Box>
+                    <FormControl isRequired>
+                        <FormLabel>Addrews Name</FormLabel>
+                        <Input type="text" id="addressName"  size="md" {...register('addressName')} />
+                      </FormControl>                        
                       <FormControl isRequired>
                         <FormLabel>Address1</FormLabel>
                         <Input type="text" id="address1"  size="md" {...register('address1')} />

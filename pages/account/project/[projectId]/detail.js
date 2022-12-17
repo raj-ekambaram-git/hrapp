@@ -105,9 +105,10 @@ const ProjectDetail = (props) => {
    };
 
     const projectLocation =  {
+      addressName: responseData.address.addressName,
       address1: responseData.address.address1,
-      address2: responseData.address.address1,
-      address3: responseData.address.address1,
+      address2: responseData.address.address2,
+      address3: responseData.address.address3,
       city: responseData.address.city,
       state: responseData.address.state,
       zipCode: responseData.address.zipCode,
@@ -236,6 +237,9 @@ const ProjectDetail = (props) => {
                       </AccordionButton>
                     </h2>
                     <AccordionPanel pb={4}>
+                      <Text pt='2' fontSize='sm'>
+                        {projectLocation.addressName}
+                      </Text>
                       <Text pt='2' fontSize='sm'>
                         {projectLocation.address1}
                       </Text>
