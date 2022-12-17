@@ -76,7 +76,7 @@ const AddProjectResourceModal = (props) => {
     const addedResourceDetails = {
       userId: parseInt(userId),
       projectId: parseInt(projectId),
-      price: price,
+      unitPrice: price,
       quantity: parseInt(quantity),
       budgetAllocated: budgetAllocated,
       currency: currency,

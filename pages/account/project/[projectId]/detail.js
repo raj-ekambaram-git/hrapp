@@ -50,6 +50,7 @@ const ProjectDetail = (props) => {
   const [isPageAuthprized, setPageAuthorized] = useState(false);
   const [projectResourceList, setProjectResourceList] = useState([]);
   const [addProjectResourceRequest, setAddProjectResourceRequest] = useState({});
+  
 
   const navigateProjectEditPage = () => router.push("/account/project/"+project.id);
   const navigateProjectInvoicesPage = () => router.push("/account/project/"+project.id+"/invoices");
@@ -125,7 +126,10 @@ const ProjectDetail = (props) => {
     setProjectLocation(projectLocation);
     setProjectAccountName(responseData.account.name)
     setProjectVendorName(responseData.vendor.name)
+    setProjectResourceList(responseData.projectResource);
 
+
+    console.log("project Resource list::"+JSON.stringify(projectResourceList))
     setProject(projectData)
 
     
@@ -266,59 +270,59 @@ const ProjectDetail = (props) => {
                           <Modal isOpen={isOpen} onClose={onClose} size="lg">
                           <ModalOverlay/>
                           <AddProjectResourceModal data={addProjectResourceRequest}></AddProjectResourceModal>
-                          <TableContainer>
-                            <Table>
-                            <TableCaption></TableCaption>
-                              <Thead>
-                                  <Tr bgColor="table_tile">
-                                    <Th>
-                                      Resource
-                                    </Th>
-                                    <Th>
-                                      Price
-                                    </Th>
-                                    <Th>
-                                      Currency
-                                    </Th>
-                                    <Th>
-                                      Quantity
-                                    </Th>
-                                    <Th>
-                                      Quantity
-                                    </Th> 
-                                    <Th>
-                                      Max Budget Allocated
-                                    </Th>
-                                  </Tr>   
-                                </Thead>                
-                                <Tbody>
-                                  
-                                  {projectResourceList?.map((projectResourceList) => (
-                                    <Tr>
-                                          <Th>
-                                            {projectResourceList.userId}
-                                          </Th>
-                                          <Th>
-                                            {projectResourceList.price}
-                                          </Th>
-                                          <Th>
-                                            {projectResourceList.currency}
-                                          </Th>                              
-                                          <Th>
-                                            {projectResourceList.quantity}
-                                          </Th>
-                                          <Th>
-                                            {projectResourceList.uom}
-                                          </Th>                               
-                                          <Th>
-                                            {projectResourceList.budgetAllocated}
-                                          </Th>
-                                    </Tr>
-                                  ))}
-                              </Tbody>    
-                            </Table>
-                          </TableContainer>                            
                         </Modal>  
+                        <TableContainer marginTop="1rem">
+                          <Table>
+                          <TableCaption></TableCaption>
+                            <Thead>
+                                <Tr bgColor="table_tile">
+                                  <Th>
+                                    Resource
+                                  </Th>
+                                  <Th>
+                                    Price
+                                  </Th>
+                                  <Th>
+                                    Currency
+                                  </Th>
+                                  <Th>
+                                    Quantity
+                                  </Th>
+                                  <Th>
+                                    Quantity
+                                  </Th> 
+                                  <Th>
+                                    Max Budget Allocated
+                                  </Th>
+                                </Tr>   
+                              </Thead>                
+                              <Tbody>
+                                
+                                {projectResourceList?.map((projectResourceList) => (
+                                  <Tr>
+                                        <Th>
+                                          {projectResourceList.userId}
+                                        </Th>
+                                        <Th>
+                                          {projectResourceList.unitPrice}
+                                        </Th>
+                                        <Th>
+                                          {projectResourceList.currency}
+                                        </Th>                              
+                                        <Th>
+                                          {projectResourceList.quantity}
+                                        </Th>
+                                        <Th>
+                                          {projectResourceList.uom}
+                                        </Th>                               
+                                        <Th>
+                                          {projectResourceList.budgetAllocated}
+                                        </Th>
+                                  </Tr>
+                                ))}
+                            </Tbody>    
+                          </Table>
+                        </TableContainer>     
                       </Text>  
                     </AccordionPanel>
                   </AccordionItem>   

@@ -26,7 +26,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         include: {
           address: true,
           account: true,
-          vendor: true
+          vendor: true,
+          projectResource: true            
         }
       })
 
@@ -44,8 +45,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       },
         include: {
           address: true,
-          account: true      ,
-          vendor: true    
+          account: true,
+          vendor: true,
+          projectResource: true  
         }
       })
       console.log("2222222  projects[0]::"+JSON.stringify(projects[0]))

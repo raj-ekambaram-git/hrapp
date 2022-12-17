@@ -301,7 +301,7 @@ const VendorDetail = (props) => {
                                           </Th>
                                           <Th>
                                             <HStack>
-                                              <Link href={`/account/projet/${proj.id}/detail`} passref key={proj.id}>
+                                              <Link href={`/account/project/${proj.id}/detail`} passref key={proj.id}>
                                                 <Button className="btn">
                                                   Details
                                                 </Button>
