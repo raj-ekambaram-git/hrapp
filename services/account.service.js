@@ -17,8 +17,17 @@ export const accountService = {
     getProjectList,
     getVendorDetail,
     getInvoiceDetail,
-    getProjectDetail
+    getProjectDetail,
+    getAddressByVendor
 };
+
+function getAddressByVendor(vendorId, accountId) {
+    return fetchWrapper.get(`${baseUrl}/account/vendor/`+vendorId+'/address?accountId='+accountId, {})
+        .then(address => {
+            return address;
+        });
+}
+
 
 function getVendorList(accountId) {
     return fetchWrapper.get(`${baseUrl}/account/${accountId}/vendors`, {})

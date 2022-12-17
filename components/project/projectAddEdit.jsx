@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { util } from '../../helpers';
-import { accountService, userService } from "../../services";
+import { accountService, userService, addressService } from "../../services";
 import {MODE_ADD, PROJECT_VALIDATION_SCHEMA, PROJECT_STATUS, PROJECT_TYPES, INVOICE_CYCLE} from "../../constants/accountConstants";
 import Link from "next/link";
 import {
@@ -149,6 +149,17 @@ const ProjectAddEdit = (props) => {
     }
 
   }
+
+  async function refreshAddressForVendor(vendorId) {
+    console.log("refreshAddressForVendor::"+JSON.stringify(vendorId))
+    //Call Address table to get all the addresses by vendor
+    
+    const addressListResponse = await accountService.getAddressByVendor(vendorId, userService.getAccountDetails().accountId);
+    console.log("addressListResponse::::"+JSON.stringify(addressListResponse));
+    setAddressList(addressListResponse);
+
+  } 
+
 
   function onSubmit(data) {
     console.log("DDAAA::"+JSON.stringify(data))
@@ -370,7 +381,7 @@ const ProjectAddEdit = (props) => {
                           <Box>
                             <FormControl isRequired>
                               <FormLabel>Vendor</FormLabel>
-                              <Select width="100%" id="vendorId" {...register('vendorId')} >
+                              <Select width="100%" id="vendorId" {...register('vendorId')} onChange={(ev) => refreshAddressForVendor(ev.target.value)}>
                                   <option value="">Select an Vendor</option>
                                   {vendorList?.map((vendor) => (
                                     <option value={vendor.id}>{vendor.name}</option>
