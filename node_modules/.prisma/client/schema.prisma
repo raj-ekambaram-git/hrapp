@@ -85,6 +85,7 @@ model ProjectResource {
   unitPrice       Decimal?
   currency        Currency?
   quantity        Int?
+  billable        Boolean        @default(false)
   uom             UnitOfMeasure?
   budgetAllocated Decimal?       @default(0)
 }

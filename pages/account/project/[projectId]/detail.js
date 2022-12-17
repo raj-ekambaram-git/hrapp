@@ -285,6 +285,9 @@ const ProjectDetail = (props) => {
                                     Resource
                                   </Th>
                                   <Th>
+                                    Type
+                                  </Th>                                  
+                                  <Th>
                                     Price
                                   </Th>
                                   <Th>
@@ -307,6 +310,9 @@ const ProjectDetail = (props) => {
                                   <Tr>
                                         <Th>
                                           {projectResourceList.userId}
+                                        </Th>
+                                        <Th>
+                                          {projectResourceList.billable ? "Billable" : "Non Billable"}
                                         </Th>
                                         <Th>
                                           {projectResourceList.unitPrice}

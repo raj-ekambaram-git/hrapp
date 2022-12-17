@@ -396,7 +396,7 @@ const ProjectAddEdit = (props) => {
                     <Box>
                         <FormControl isRequired>
                             <FormLabel>Project Location</FormLabel>
-                              <Select width="100%" id="addressId" {...register('addressId')}>
+                              <Select width="50%" id="addressId" {...register('addressId')}>
                                 {addressList?.map((address) => (
                                     <option value={address.id}>{address.addressName},{address.address1},{address.city},</option>
                                 ))}

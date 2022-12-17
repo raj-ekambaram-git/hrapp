@@ -19,7 +19,7 @@ import {
   Heading,
   TableContainer,
   TableCaption,
-  Badge
+  Checkbox
 } from '@chakra-ui/react'
 import { userService } from '../../services';
 import {MODE_ADD, PROJECT_VALIDATION_SCHEMA} from "../../constants/accountConstants";
@@ -36,6 +36,7 @@ const AddProjectResourceModal = (props) => {
   const [budgetAllocated, setBudgetAllocated] = useState("");
   const [currency, setCurrency] = useState("USD");
   const [uom, setUOM] = useState("Hours");
+  const [billable, setBillable] = useState(false);
 
 
   const {data} = props;
@@ -88,6 +89,7 @@ const AddProjectResourceModal = (props) => {
         quantity: parseInt(quantity),
         budgetAllocated: budgetAllocated,
         currency: currency,
+        billable: billable,
         uom: uom
       };
       createProjectResource(addedResourceDetails);
@@ -112,6 +114,7 @@ const AddProjectResourceModal = (props) => {
             quantity: parseInt(quantity),
             budgetAllocated: budgetAllocated,
             currency: currency,
+            billable: billable,
             uom: uom
           }), 
         });
@@ -147,6 +150,9 @@ const AddProjectResourceModal = (props) => {
                               Resource
                             </Th>
                             <Th>
+                              Billable
+                            </Th>
+                            <Th>
                               Price
                             </Th>
                             <Th>
@@ -167,13 +173,19 @@ const AddProjectResourceModal = (props) => {
                           <Tr>
                                 <Th>
                                   <Select width="50%%" onChange={(ev) => setUserId(ev.target.value)}>
-                                        {userList?.map((user) => (
-                                                <option value={user.id}>{user.firstName} {user.lastName}</option>
-                                        ))}   
-                                    </Select>
+                                      {userList?.map((user) => (
+                                              <option value={user.id}>{user.firstName} {user.lastName}</option>
+                                      ))}   
+                                  </Select>
                                 </Th>
                                 <Th>
-                                <Input type="text" onChange={(ev) => setPrice(ev.target.value)}/>
+                                  <Checkbox
+                                    isChecked={billable}
+                                    onChange={(e) => setBillable(e.target.checked)}
+                                  />                                
+                                </Th>
+                                <Th>
+                                  <Input type="text" onChange={(ev) => setPrice(ev.target.value)}/>
                                 </Th>
                                 <Th>
                                   <Select width="50%%" onChange={(ev) => setCurrency(ev.target.value)}>
