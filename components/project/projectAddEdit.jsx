@@ -156,6 +156,7 @@ const ProjectAddEdit = (props) => {
     
     const addressListResponse = await accountService.getAddressByVendor(vendorId, userService.getAccountDetails().accountId);
     console.log("addressListResponse::::"+JSON.stringify(addressListResponse));
+    
     setAddressList(addressListResponse);
 
   } 
@@ -395,7 +396,12 @@ const ProjectAddEdit = (props) => {
                     <Box>
                         <FormControl isRequired>
                             <FormLabel>Address</FormLabel>
-                            <Input type="text" {...register('addressId')}  id="addressId"  size="md" />
+                              <Select width="100%" id="addressId" {...register('addressId')}>
+                                {addressList?.map((address) => (
+                                  <option value={address.id}>{address.firstName}</option>
+                                  
+                                ))}
+                              </Select>
                         </FormControl>     
                     </Box>
                   </Stack>
