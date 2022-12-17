@@ -52,7 +52,7 @@ const UserList = (props) => {
           console.log("77777")
           getInvoiceListByVendor(data.vendorId, userService.getAccountDetails().accountId)
         }else if (requestMode == "PROJECT") {
-          coconsole.lognsole("999999")
+          console.log("999999")
           getInvoiceListByProject(data.projectId, userService.getAccountDetails().accountId)
         }else {
           console.log("99999")
