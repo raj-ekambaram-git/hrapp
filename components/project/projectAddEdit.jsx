@@ -53,6 +53,7 @@ const ProjectAddEdit = (props) => {
   const [isVendor, setVendor] = useState(true);
   const [vendorList, setVendorList] = useState([]);
   const [accountList, setAccountList] = useState([]);
+  const [addressList, setAddressList] = useState([]);
   
 
   //User Validation START
@@ -90,6 +91,7 @@ const ProjectAddEdit = (props) => {
     if(userService.isAccountAdmin()) {
       //This gets called only when account user is logged and create
       getVendorList(userService.getAccountDetails().accountId);
+      
     }
     
     getProjectDetailsAPICall();
