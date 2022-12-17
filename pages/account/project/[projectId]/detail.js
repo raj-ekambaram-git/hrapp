@@ -267,7 +267,7 @@ const ProjectDetail = (props) => {
                     <AccordionPanel pb={4}>
                       <Text pt='2' fontSize='sm'>
                         <Button className="btn" onClick={onOpen}>Add New Project Resource</Button>
-                          <Modal isOpen={isOpen} onClose={onClose} size="lg">
+                        <Modal isOpen={isOpen} onClose={onClose} size="xl">
                           <ModalOverlay/>
                           <AddProjectResourceModal data={addProjectResourceRequest}></AddProjectResourceModal>
                         </Modal>  

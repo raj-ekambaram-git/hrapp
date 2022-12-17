@@ -23,8 +23,6 @@ import {
 } from '@chakra-ui/react'
 import { userService } from '../../services';
 import {MODE_ADD, PROJECT_VALIDATION_SCHEMA} from "../../constants/accountConstants";
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 
 
 const AddProjectResourceModal = (props) => {
@@ -45,10 +43,7 @@ const AddProjectResourceModal = (props) => {
   const vendorId = props.data.vendorId;
   const handleAddProjectResource = props.data.handleAddProjectResource;
 
-  const formOptions = { resolver: yupResolver(PROJECT_VALIDATION_SCHEMA) };
-  const { register, handleSubmit, setValue, formState } = useForm(formOptions);
-  const { errors } = formState;
-
+  
 
   console.log("DAAYYYY::"+JSON.stringify(data));
 
@@ -73,19 +68,33 @@ const AddProjectResourceModal = (props) => {
     /**
      * Construct the JSON and send it to the parent
      */
-    const addedResourceDetails = {
-      userId: parseInt(userId),
-      projectId: parseInt(projectId),
-      unitPrice: price,
-      quantity: parseInt(quantity),
-      budgetAllocated: budgetAllocated,
-      currency: currency,
-      uom: uom
 
+    if(userId == ""
+        || userId == undefined
+        || projectId == ""
+        || projectId == undefined
+        || price == ""
+        || price == undefined
+        || quantity == ""
+        || quantity == undefined
+        || budgetAllocated == ""
+        || budgetAllocated == undefined) {
 
-    };
-    createProjectResource(addedResourceDetails);
-    handleAddProjectResource(addedResourceDetails);
+          console.log("Error, Please enter the details");
+    }else {
+      const addedResourceDetails = {
+        userId: parseInt(userId),
+        projectId: parseInt(projectId),
+        unitPrice: price,
+        quantity: parseInt(quantity),
+        budgetAllocated: budgetAllocated,
+        currency: currency,
+        uom: uom
+      };
+      createProjectResource(addedResourceDetails);
+      handleAddProjectResource(addedResourceDetails);
+        
+    }
   } 
 
 
@@ -129,86 +138,68 @@ const AddProjectResourceModal = (props) => {
               <ModalHeader>Add Project Resource</ModalHeader>
               <ModalCloseButton />
               <ModalBody>
-
-                <Flex
-                  as="nav"
-                  align="center"
-                  justify="space-between"
-                  wrap="wrap"
-                  padding="0.25rem"
-                  bg="heading"
-                  color="white"
-                  marginBottom="2rem"
-                  width="100%"
-                >
-                  <Heading as="h1" size="lg" letterSpacing={'-.1rem'}>
-                    {isAddMode ? (
-                        <div>New Project</div>
-                    ) : (
-                      <div>Update Project</div>
-                    )}              
-                  </Heading>
-                </Flex>
-                <TableContainer>
-                  <Table>
-                  <TableCaption></TableCaption>
-                    <Thead>
-                        <Tr bgColor="table_tile">
-                          <Th>
-                            Resource
-                          </Th>
-                          <Th>
-                            Price
-                          </Th>
-                          <Th>
-                            Currency
-                          </Th>
-                          <Th>
-                            Quantity
-                          </Th>
-                          <Th>
-                            Quantity
-                          </Th> 
-                          <Th>
-                            Max Budget Allocated
-                          </Th>
-                        </Tr>   
-                      </Thead>                
-                      <Tbody>
-                        <Tr>
-                              <Th>
-                                <Select width="50%%" onChange={(ev) => setUserId(ev.target.value)}>
-                                  <option value="50">50</option>
-                                  <option value="51">51</option>
-                                      {userList?.map((user) => (
-                                              <option value={user.id}>{user.firstName} {user.lastName}</option>
-                                      ))}   
-                                  </Select>
-                              </Th>
-                              <Th>
-                               <Input type="text" onChange={(ev) => setPrice(ev.target.value)}/>
-                              </Th>
-                              <Th>
-                                <Select width="50%%" onChange={(ev) => setCurrency(ev.target.value)}>
-                                    <option value="USD">USD</option>
-                                  </Select>
-                              </Th>                              
-                              <Th>
-                                <Input type="text" onChange={(ev) => setQuantity(ev.target.value)}/>
-                              </Th>
-                              <Th>
-                                <Select width="50%%" onChange={(ev) => setUOM(ev.target.value)}>
-                                    <option value="hours">Hours</option>
-                                    <option value="item">General Item</option>
-                                  </Select>
-                              </Th>                               
-                              <Th>
-                                <Input type="text" onChange={(ev) => setBudgetAllocated(ev.target.value)}/>
-                              </Th>
-                        </Tr>
-                    </Tbody>    
-                  </Table>
-                </TableContainer>                
+                <Box>
+                  <TableContainer>
+                    <Table>
+                    <TableCaption></TableCaption>
+                      <Thead>
+                          <Tr bgColor="table_tile">
+                            <Th>
+                              Resource
+                            </Th>
+                            <Th>
+                              Price
+                            </Th>
+                            <Th>
+                              Currency
+                            </Th>
+                            <Th>
+                              Quantity
+                            </Th>
+                            <Th>
+                              Quantity
+                            </Th> 
+                            <Th>
+                              Max Budget Allocated
+                            </Th>
+                          </Tr>   
+                        </Thead>                
+                        <Tbody>
+                          <Tr>
+                                <Th>
+                                  <Select width="50%%" onChange={(ev) => setUserId(ev.target.value)}>
+                                    <option value="50">50</option>
+                                    <option value="51">51</option>
+                                        {userList?.map((user) => (
+                                                <option value={user.id}>{user.firstName} {user.lastName}</option>
+                                        ))}   
+                                    </Select>
+                                </Th>
+                                <Th>
+                                <Input type="text" onChange={(ev) => setPrice(ev.target.value)}/>
+                                </Th>
+                                <Th>
+                                  <Select width="50%%" onChange={(ev) => setCurrency(ev.target.value)}>
+                                      <option value="USD">USD</option>
+                                    </Select>
+                                </Th>                              
+                                <Th>
+                                  <Input type="text" onChange={(ev) => setQuantity(ev.target.value)}/>
+                                </Th>
+                                <Th>
+                                  <Select width="50%%" onChange={(ev) => setUOM(ev.target.value)}>
+                                      <option value="hours">Hours</option>
+                                      <option value="item">General Item</option>
+                                    </Select>
+                                </Th>                               
+                                <Th>
+                                  <Input type="text" onChange={(ev) => setBudgetAllocated(ev.target.value)}/>
+                                </Th>
+                          </Tr>
+                      </Tbody>    
+                    </Table>
+                  </TableContainer>      
+                </Box>                            
 
                 <Button className="btn" onClick={() => handleSelectedProjectResource()}>
                   Add Project Resource
