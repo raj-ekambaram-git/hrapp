@@ -138,6 +138,7 @@ const VendorEdit = (props) => {
   // Create Account 
   const createVendor = async (formData) => {
     try {
+      console.log("Create Veendorrr::"+JSON.stringify(formData))
         const res = await fetch("/api/account/vendor/create", {
           method: "POST",
           headers: {
@@ -150,6 +151,7 @@ const VendorEdit = (props) => {
               create: [
                 {
                   type: "V",
+                  accountId: parseInt(formData.accountId),
                   addressName: formData.addressName,
                   address1: formData.address1,
                   address2: formData.address2,
@@ -211,6 +213,7 @@ const VendorEdit = (props) => {
                 address1: formData.address1,
                 address2: formData.address2,
                 address3: formData.address3,
+                accountId: parseInt(formData.accountId),
                 city: formData.city,
                 state: formData.state,
                 zipCode: formData.zipCode,

@@ -396,6 +396,7 @@ const ProjectAddEdit = (props) => {
                     <Box>
                         <FormControl isRequired>
                             <FormLabel>Address</FormLabel>
+                                  {JSON.stringify(addressList)}
                               <Select width="100%" id="addressId" {...register('addressId')}>
                                 {addressList?.map((address) => (
                                   <option value={address.id}>{address.firstName}</option>
