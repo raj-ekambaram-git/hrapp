@@ -94,7 +94,6 @@ const InvoiceAddEdit = (props) => {
     if(userService.isAccountAdmin() || userService.isAccountVendorRep()) {
       //This gets called only when account user is logged and create
       getVendorList(userService.getAccountDetails().accountId);
-      // setProjectList(userService.getAccountDetails().accountId);
     }
     
     getInvoiceDetailsAPI();
@@ -107,12 +106,7 @@ const InvoiceAddEdit = (props) => {
     setValue("accountId",userService.getAccountDetails().accountId);
 
 }  
-  
-  // async function setProjectList(vendorId) {
-  //   // setPageAuthorized(true);
-  //   const vendorListResponse = await accountService.getVendorList(accountId);
-  //   setVendorList(vendorListResponse);
-  // }  
+
   /**
    * Function to get the list of accounts for a drop down
    */
@@ -160,6 +154,17 @@ const InvoiceAddEdit = (props) => {
     }
 
   }
+
+  async function refreshProjectForVendor(vendorId) {
+    console.log("refreshProjectForVendor::"+JSON.stringify(vendorId))
+    //Call Address table to get all the addresses by vendor
+    
+    const projectListResponse = await accountService.getProjectsByVendor(vendorId, userService.getAccountDetails().accountId);
+    console.log("ProjectResponse::::"+JSON.stringify(projectListResponse));
+    
+    setProjectList(projectListResponse);
+
+  } 
 
   function onSubmit(data) {
     console.log("DDAAA::"+JSON.stringify(data))
@@ -310,7 +315,7 @@ const InvoiceAddEdit = (props) => {
                         </Box>  
                         <Box>
                           <FormControl isRequired>
-                            <FormLabel>Projet Status</FormLabel>
+                            <FormLabel>Invoice Status</FormLabel>
                             <Select width="100%" id="status" {...register('status')} >
                                 {INVOICE_STATUS?.map((invoiceStatus) => (
                                         <option value={invoiceStatus.invoiceStatusId}>{invoiceStatus.invoiceStatusName}</option>
@@ -350,7 +355,7 @@ const InvoiceAddEdit = (props) => {
                           <Box>
                             <FormControl isRequired>
                               <FormLabel>Vendor</FormLabel>
-                              <Select width="100%" id="vendorId" {...register('vendorId')} >
+                              <Select width="100%" id="vendorId" {...register('vendorId')} onChange={(ev) => refreshProjectForVendor(ev.target.value)}>
                                   <option value="">Select an Vendor</option>
                                   {vendorList?.map((vendor) => (
                                     <option value={vendor.id}>{vendor.name}</option>
@@ -364,9 +369,9 @@ const InvoiceAddEdit = (props) => {
                             <FormControl isRequired>
                               <FormLabel>Project</FormLabel>
                               <Select width="100%" id="projectId" {...register('projectId')} >
-                                <option value="1">Project</option>
-                                <option value="1">Product</option>
-                                <option value="1">Project</option>
+                                {projectList?.map((project) => (
+                                    <option value={project.id}>{project.name}</option>
+                                ))}
                               </Select>
                             </FormControl>     
                         </Box>                          

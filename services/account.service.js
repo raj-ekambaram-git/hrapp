@@ -18,8 +18,16 @@ export const accountService = {
     getVendorDetail,
     getInvoiceDetail,
     getProjectDetail,
-    getAddressByVendor
+    getAddressByVendor,
+    getProjectsByVendor
 };
+
+function getProjectsByVendor(vendorId, accountId) {
+    return fetchWrapper.get(`${baseUrl}/account/vendor/`+vendorId+'/projects?accountId='+accountId, {})
+        .then(projects => {
+            return projects;
+        });
+}
 
 function getAddressByVendor(vendorId, accountId) {
     return fetchWrapper.get(`${baseUrl}/account/vendor/`+vendorId+'/address?accountId='+accountId, {})
