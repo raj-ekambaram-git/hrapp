@@ -14,7 +14,7 @@ model Address {
   id             Int           @id @default(autoincrement())
   type           AddressType   @default(D)
   address1       String
-  addressName       String
+  addressName    String        @default("")
   address2       String?
   address3       String?
   county         String?

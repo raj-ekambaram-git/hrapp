@@ -35,7 +35,7 @@ const AddProjectResourceModal = (props) => {
   const [quantity, setQuantity] = useState("");
   const [budgetAllocated, setBudgetAllocated] = useState("");
   const [currency, setCurrency] = useState("USD");
-  const [uom, setUOM] = useState("hours");
+  const [uom, setUOM] = useState("Hours");
 
 
   const {data} = props;
@@ -188,7 +188,7 @@ const AddProjectResourceModal = (props) => {
                                 </Th>
                                 <Th>
                                   <Select width="50%%" onChange={(ev) => setUOM(ev.target.value)}>
-                                      <option value="hours">Hours</option>
+                                      <option value="Hours">Hours</option>
                                       <option value="item">General Item</option>
                                     </Select>
                                 </Th>                               

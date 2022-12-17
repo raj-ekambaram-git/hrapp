@@ -130,6 +130,9 @@ const ProjectAddEdit = (props) => {
             addressId: projectResponse.addressId,
             vendorId: projectResponse.vendorId,
             accountId: projectResponse.accountId,
+            contactName: projectResponse.contactName,
+            contactEmail: projectResponse.contactEmail,
+            contactPhone: projectResponse.contactPhone,            
             budget: projectResponse.budget,
             totalHours: projectResponse.totalHours,
             averageRate: projectResponse.averageRate,
@@ -139,7 +142,7 @@ const ProjectAddEdit = (props) => {
         setProject(projetData);
 
         // get user and set form fields
-            const fields = ['name','referenceCode', "description", "type", "invoiceCycle","addressId","vendorId", "accountId","budget","totalHours","status", "averageRate"];
+            const fields = ['name','referenceCode', "description", "type", "invoiceCycle","contactName","contactEmail","contactPhone","addressId","vendorId", "accountId","budget","totalHours","status", "averageRate"];
             fields.forEach(field => setValue(field, projetData[field]));
     }
 
@@ -170,6 +173,9 @@ const ProjectAddEdit = (props) => {
             vendorId: parseInt(formData.vendorId),
             accountId: parseInt(formData.accountId),
             budget: formData.budget,
+            contactName: formData.contactName,
+            contactEmail: formData.contactEmail,
+            contactPhone: formData.contactPhone,
             totalHours: parseInt(formData.totalHours),
             averageRate: formData.averageRate,            
             status: formData.status
@@ -219,6 +225,9 @@ const ProjectAddEdit = (props) => {
           vendorId: parseInt(formData.vendorId),
           accountId: parseInt(formData.accountId),
           budget: formData.budget,
+          contactName: formData.contactName,
+          contactEmail: formData.contactEmail,
+          contactPhone: formData.contactPhone,
           totalHours: parseInt(formData.totalHours),
           averageRate: formData.averageRate,            
           status: formData.status
@@ -379,6 +388,36 @@ const ProjectAddEdit = (props) => {
                   </Stack>
                 </CardBody>
               </Card>
+              <Card>
+                <CardHeader bgColor="table_tile">
+                  <Heading size='sm'>Project Contact</Heading>
+                </CardHeader>
+
+                <CardBody>
+                  <Stack divider={<StackDivider />} spacing='4'>
+                    <HStack spacing="1rem">
+                      <Box>
+                        <FormControl isRequired>
+                          <FormLabel>Project Contact Name</FormLabel>
+                          <Input type="text" {...register('contactName')}  id="contactName"  size="md" />                    
+                        </FormControl>     
+                      </Box>
+                      <Box>
+                        <FormControl>
+                          <FormLabel>Project Contact Email</FormLabel>
+                          <Input type="text" {...register('contactEmail')}  id="contactEmail"  size="md" />
+                        </FormControl>     
+                      </Box>
+                      <Box>
+                        <FormControl>
+                          <FormLabel>Project Contact Phone</FormLabel>
+                          <Input type="text" {...register('contactPhone')}  id="contactPhone"  size="md" />
+                        </FormControl>     
+                      </Box>
+                    </HStack>
+                  </Stack>
+                </CardBody>
+              </Card>              
               <Card>
                 <CardHeader bgColor="table_tile">
                   <Heading size='sm'>Project Budget</Heading>

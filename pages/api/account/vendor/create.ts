@@ -10,6 +10,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   try {
     const vendor = req.body;
+
+    console.log("Vendor cretion::"+JSON.stringify(vendor))
     
     const savedVendor = await prisma.vendor.create({
       data: vendor
