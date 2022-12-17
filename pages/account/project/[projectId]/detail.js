@@ -33,7 +33,8 @@ import {
   TableCaption
 
 } from '@chakra-ui/react'
-import ProjectAddEditModal from "../../../../components/project/projectAddEditModal";
+import AddProjectResourceModal from "../../../../components/project/AddProjectResourceModal";
+
 
 const ProjectDetail = (props) => {
   const projectId = props.data.projectId;
@@ -41,29 +42,32 @@ const ProjectDetail = (props) => {
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure()
   
+  
   const [project, setProject] = useState({});
   const [projectLocation, setProjectLocation] = useState({});
   const [projectAccountName, setProjectAccountName] = useState('');
   const [projectVendorName, setProjectVendorName] = useState('');
   const [isPageAuthprized, setPageAuthorized] = useState(false);
+  const [projectResourceList, setProjectResourceList] = useState([]);
+  const [addProjectResourceRequest, setAddProjectResourceRequest] = useState({});
 
   const navigateProjectEditPage = () => router.push("/account/project/"+project.id);
   const navigateProjectInvoicesPage = () => router.push("/account/project/"+project.id+"/invoices");
   
-  
-  
-  const createProjectRequestData = {
-    mode: MODE_ADD,
-    projectId: projectId
-  }
+
 
   // set default input data
   useEffect(() => {
     getProjetDetails(projectId, userService.getAccountDetails().accountId);
   }, []);
 
+  const handleAddProjectResource = (e) => {
+    console.log("handleAddProjectResource::::::"+JSON.stringify(e));
+    projectResourceList.push(e);
+    console.log("handleAddProjectResource After Pushing::::::"+JSON.stringify(JSON.stringify(projectResourceList)));
+  };
 
-      /**
+  /**
    * Function to get the list of accounts for a drop down
    */
   async function getProjetDetails(projectId, accountId) {
@@ -110,13 +114,21 @@ const ProjectDetail = (props) => {
 
     };
 
+    const addProjectResourceRequestData = {
+      mode: MODE_ADD,
+      projectId: projectId,
+      vendorId: responseData.vendorId,
+      onClose: onClose,
+      handleAddProjectResource: handleAddProjectResource
+    }
+    setAddProjectResourceRequest(addProjectResourceRequestData);
     setProjectLocation(projectLocation);
     setProjectAccountName(responseData.account.name)
     setProjectVendorName(responseData.vendor.name)
 
     setProject(projectData)
 
-
+    
   }
 
   return (
@@ -130,13 +142,6 @@ const ProjectDetail = (props) => {
                 <Box>
                   <Heading size='md'>Project Details for {project.name}</Heading>
                 </Box>
-                <Box  alignItems='right'>
-                  <Button className="btn" onClick={onOpen}>Create New Project</Button>
-                  <Modal isOpen={isOpen} onClose={onClose} size="lg">
-                    <ModalOverlay/>
-                    <ProjectAddEditModal data={createProjectRequestData}></ProjectAddEditModal>
-                  </Modal>  
-                </Box>                  
               </HStack>
             </CardHeader>
 
@@ -249,7 +254,7 @@ const ProjectDetail = (props) => {
                       <AccordionButton bgColor="table_tile">
                         <Box as="span" flex='1' textAlign='left'>
                           <Heading size='xs' textTransform='uppercase'>
-                            Project Team
+                            Project Resource
                           </Heading>
                         </Box>
                         <AccordionIcon />
@@ -257,7 +262,63 @@ const ProjectDetail = (props) => {
                     </h2>
                     <AccordionPanel pb={4}>
                       <Text pt='2' fontSize='sm'>
-                        {/* {projectLocation.country} */}
+                        <Button className="btn" onClick={onOpen}>Add New Project Resource</Button>
+                          <Modal isOpen={isOpen} onClose={onClose} size="lg">
+                          <ModalOverlay/>
+                          <AddProjectResourceModal data={addProjectResourceRequest}></AddProjectResourceModal>
+                          <TableContainer>
+                            <Table>
+                            <TableCaption></TableCaption>
+                              <Thead>
+                                  <Tr bgColor="table_tile">
+                                    <Th>
+                                      Resource
+                                    </Th>
+                                    <Th>
+                                      Price
+                                    </Th>
+                                    <Th>
+                                      Currency
+                                    </Th>
+                                    <Th>
+                                      Quantity
+                                    </Th>
+                                    <Th>
+                                      Quantity
+                                    </Th> 
+                                    <Th>
+                                      Max Budget Allocated
+                                    </Th>
+                                  </Tr>   
+                                </Thead>                
+                                <Tbody>
+                                  
+                                  {projectResourceList?.map((projectResourceList) => (
+                                    <Tr>
+                                          <Th>
+                                            {projectResourceList.userId}
+                                          </Th>
+                                          <Th>
+                                            {projectResourceList.price}
+                                          </Th>
+                                          <Th>
+                                            {projectResourceList.currency}
+                                          </Th>                              
+                                          <Th>
+                                            {projectResourceList.quantity}
+                                          </Th>
+                                          <Th>
+                                            {projectResourceList.uom}
+                                          </Th>                               
+                                          <Th>
+                                            {projectResourceList.budgetAllocated}
+                                          </Th>
+                                    </Tr>
+                                  ))}
+                              </Tbody>    
+                            </Table>
+                          </TableContainer>                            
+                        </Modal>  
                       </Text>  
                     </AccordionPanel>
                   </AccordionItem>   

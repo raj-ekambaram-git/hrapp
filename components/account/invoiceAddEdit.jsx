@@ -33,6 +33,7 @@ const InvoiceAddEdit = (props) => {
   
   const router = useRouter();
   
+  const [invoiceItems, setInvoiceItems] = useState([]);
   const [invoice, setInvoice] = useState({});
   const [isPageAuthprized, setPageAuthorized] = useState(false);
   const [isPageSectionAuthorized, setPageSectionAuthorized] = useState(false);
@@ -58,6 +59,21 @@ const InvoiceAddEdit = (props) => {
     // setAccountPhone(formattedPhoneNumber);
   };
   //Account Validation END
+
+  
+   // add product item
+   const addItem = () => {
+    setInvoiceItems([...invoiceItems, { asname: "", quantity: 0, price: 0, total: 0 }]);
+  };
+
+  // handler change
+  const handlerChange = (event, i) => {
+    const { name, value } = event.target;
+    const list = [...invoiceItems];
+    list[i][name] = value;
+    list[i]["total"] = list[i]["quantity"] * list[i]["price"];
+    setInvoiceItems(list);
+  };
 
   
   //Get Account Details only if its EditMode
@@ -422,10 +438,53 @@ const InvoiceAddEdit = (props) => {
                 <CardBody>
                   <Stack divider={<StackDivider />} spacing='4'>
                       <Box>
-                        <FormControl isRequired>
-                          <FormLabel>Invoice Reference/Details</FormLabel>
-                          <Input type="text" {...register('description')}  id="description"  size="md" />
-                        </FormControl>     
+                      <div className="invoice__items">
+                        <h3>Item List</h3>
+                        {invoiceItems?.map((item, i) => (
+                          <div className="item" key={i}>
+                            <div className="form__group inline__form-group">
+                              <div>
+                                <p>Item Name</p>
+                                <input
+                                  type="text"
+                                  name="name"
+                                  onChange={(e) => handlerChange(e, i)}
+                                />
+                              </div>
+
+                              <div>
+                                <p>Qty</p>
+                                <input
+                                  type="number"
+                                  name="quantity"
+                                  onChange={(e) => handlerChange(e, i)}
+                                />
+                              </div>
+
+                              <div>
+                                <p>Price</p>
+                                <input
+                                  type="number"
+                                  name="price"
+                                  onChange={(e) => handlerChange(e, i)}
+                                />
+                              </div>
+                              <div>
+                                <p>Total</p>
+                                <h4>{item.total}</h4>
+                              </div>
+
+                              <button className="edit__btn" onClick={() => deleteItem(i)}>
+                                Delete
+                              </button>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+
+                      <button className="add__item-btn" onClick={addItem}>
+                        Add New Item
+                      </button>
                       </Box>                     
                   </Stack>
                 </CardBody>
