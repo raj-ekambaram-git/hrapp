@@ -39,11 +39,16 @@ const Slideclose = () => {
             <p>Users</p>
             </div>
           </Link>
-          <Link href={`/accounts`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
+          <Link href={`/account/${userService.getAccountDetails().accountId}/invoices`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
             <div>
-            <p>Accounts</p>
+            <p>Invoices</p>
             </div>
           </Link>
+          <Link href={`/account/${userService.getAccountDetails().accountId}/projects`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
+            <div>
+            <p>Projects</p>
+            </div>
+          </Link>          
 
         </div>
     </div>

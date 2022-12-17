@@ -5,7 +5,7 @@ import prisma from "../../../../lib/prisma";
 export default function VendorInvoices(props) {
   const { data } = props;
   return (
-   <InvoiceList invoiceList={{ data: data, isVendor: true }} /> 
+    <InvoiceList invoiceList={{ data: data, requestMode: "VENDOR" }} /> 
    
   );
 }

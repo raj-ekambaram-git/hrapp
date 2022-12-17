@@ -8,17 +8,17 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(405).json({ message: 'Method not allowed' });
   }
 
-  const vendorId = req.query.vendorId;
+  const projectId = req.query.projectId;
   const accountId = req.query.accountId;
 
-console.log("Vendor ID::"+vendorId+"---AccountioD::"+accountId)
+console.log("projectId ID::"+projectId+"---AccountioD::"+accountId)
   
   try {
-    if(vendorId != "" && accountId != "" && accountId != "NaN" && accountId != undefined && vendorId != undefined && vendorId != "NaN") {
-      const projects = await prisma.project.findMany({
+    if(projectId != "" && accountId != "" && accountId != "NaN" && accountId != undefined && projectId != undefined) {
+      const invoices = await prisma.invoice.findMany({
         where: {
-            vendorId: {
-              equals: parseInt(vendorId.toString())            
+            projectId: {
+              equals: parseInt(projectId.toString())            
             },
             accountId: {
               equals: parseInt(accountId.toString())
@@ -32,10 +32,10 @@ console.log("Vendor ID::"+vendorId+"---AccountioD::"+accountId)
           account: true
         }
       });
-      res.status(200).json(projects);
-    } else if (accountId != "" && accountId != undefined && vendorId == "NaN"){
+      res.status(200).json(invoices);
+    } else if (accountId != "" && accountId != undefined && projectId == ""){
       console.log("2222")
-      const projects = await prisma.project.findMany({
+      const invoices = await prisma.invoice.findMany({
         where: {
             accountId: {
               equals: parseInt(accountId.toString())
@@ -50,14 +50,13 @@ console.log("Vendor ID::"+vendorId+"---AccountioD::"+accountId)
         }
 
       });
-      res.status(200).json(projects);
+      res.status(200).json(invoices);
 
-    }else if (vendorId != "" && vendorId != undefined && accountId == "NaN") {
-      console.log("2222")
+    }else if (projectId != "" && projectId != undefined && accountId == "NaN") {
       const invoices = await prisma.invoice.findMany({
         where: {
-            vendorId: {
-              equals: parseInt(vendorId.toString())
+          projectId: {
+              equals: parseInt(projectId.toString())
             }
         },
         orderBy: {

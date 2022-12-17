@@ -22,19 +22,43 @@ import {
 const UserList = (props) => {
   const router = useRouter();
   const { data } = props.invoiceList;
-  const { isVendor } = props.invoiceList;
-  console.log("Uodates invoiceList::"+JSON.stringify(data))
+  const { requestMode } = props.invoiceList;
+  console.log("MMMMMMM invoiceList::"+JSON.stringify(data))
+  console.log("Uodates requestMode::"+JSON.stringify(requestMode))
   const [invoiceList, setInvoiceList] = useState([]);
   const [isPageAuthprized, setPageAuthorized] = useState(false);
 
   useEffect(() => {
 
-    if(isVendor && (userService.isAccountAdmin() || userService.isSuperAdmin() || userService.isAccountVendorRep())) {
+    if((userService.isAccountAdmin() || userService.isSuperAdmin() || userService.isAccountVendorRep())) {
+      console.log("11111")
       //get API call with accountId and VendorId
       if(userService.isSuperAdmin()) {
-        getInvoiceList(data.vendorId, "NaN")
+        console.log("22222")
+        if(requestMode == "VENDOR") {
+          console.log("33333")
+          getInvoiceListByVendor(data.vendorId, "NaN")
+        }else if (requestMode == "PROJECT") {
+          console.log("44444")
+          getInvoiceListByProject(data.projectId, "NaN")
+        }else {
+          console.log("55555")
+          getInvoiceListByAccount(data.accountId)
+        }
+        
       }else {
-        getInvoiceList(data.vendorId, userService.getAccountDetails().accountId)
+        console.log("66666")
+        if(requestMode == "VENDOR") {
+          console.log("77777")
+          getInvoiceListByVendor(data.vendorId, userService.getAccountDetails().accountId)
+        }else if (requestMode == "PROJECT") {
+          coconsole.lognsole("999999")
+          getInvoiceListByProject(data.projectId, userService.getAccountDetails().accountId)
+        }else {
+          console.log("99999")
+          getInvoiceListByAccount(data.accountId)
+        }
+        
       }
       setPageAuthorized(true);
       
@@ -42,10 +66,12 @@ const UserList = (props) => {
     }else {
       //Since this is just the account call only accountId
       if(userService.isAccountAdmin() || userService.isSuperAdmin() || userService.isAccountVendorRep()) {      
-        if(userService.isSuperAdmin()) {
-          getInvoiceList("", data.accountId)
+        if(requestMode == "VENDOR") {
+          getInvoiceListByVendor("", data.accountId)
+        }else if (requestMode == "PROJECT") {
+          getInvoiceListByProject(data.projectId, userService.getAccountDetails().accountId)
         }else {
-          getInvoiceList("", userService.getAccountDetails().accountId)
+          getInvoiceListByAccount(userService.getAccountDetails().accountId)
         }
         
         setPageAuthorized(true);
@@ -58,19 +84,38 @@ const UserList = (props) => {
     /**
    * Function to get the list of accounts for a drop down
    */
-    async function getInvoiceList(vendorId, accountId) {
+    async function getInvoiceListByVendor(vendorId, accountId) {
       // setPageAuthorized(true);
-      const responseData = await accountService.getInvoiceList(vendorId, accountId);
-      console.log("resoinse :+"+JSON.stringify(responseData))
+      const responseData = await accountService.getInvoiceListByVendor(vendorId, accountId);
+      console.log("rgetInvoiceListByVendor::::esoinse :+"+JSON.stringify(responseData))
       setInvoiceList(responseData);
 
     }
 
+    async function getInvoiceListByProject(projectId, accountId) {
+      // setPageAuthorized(true);
+      const responseData = await accountService.getInvoiceListByProject(projectId, accountId);
+      console.log("getInvoiceListByProject :::resoinse :+"+JSON.stringify(responseData))
+      setInvoiceList(responseData);
+
+    }    
+
+    async function getInvoiceListByAccount(accountId) {
+      console.log("getInvoiceListByAccount:::"+accountId)
+      // setPageAuthorized(true);
+      const responseData = await accountService.getInvoiceListByAccount(accountId);
+      console.log("rgetInvoiceListByVendor::::esoinse :+"+JSON.stringify(responseData))
+      setInvoiceList(responseData);
+
+    }    
+
     let navigatePage;
-    if(isVendor) {
-       navigatePage = () => router.push({ pathname: '/account/invoice/add', query: { vendor: isVendor, vendorId: data.vendorId }});
+    if(requestMode == "VENDOR") {
+       navigatePage = () => router.push({ pathname: '/account/invoice/add', query: { vendor: true, vendorId: data.vendorId }});
+    }else if (requestMode == "PROJECT") {
+      navigatePage = () => router.push({ pathname: '/account/invoice/add', query: { vendor: false }});
     }else {
-        navigatePage = () => router.push({ pathname: '/account/invoice/add', query: { vendor: isVendor }});
+      navigatePage = () => router.push({ pathname: '/account/invoice/add', query: { vendor: false }});
     }
   
   
@@ -93,10 +138,10 @@ const UserList = (props) => {
                 width="100%"
               >
                 <Heading as="h1" size="lg" letterSpacing={'-.1rem'}>
-                  {isVendor ? (
+                  {requestMode == "VENDOR" ? (
                     <>Vendor Invoices</>
                   ) : (
-                    <>Account Users</>
+                    <>Account Invoices</>
                   )}
                   
                 </Heading>
@@ -106,7 +151,7 @@ const UserList = (props) => {
                 <HStack>
                   <Box>
                     <Button className="btn" onClick={navigatePage}>
-                      {isVendor ? (
+                      {requestMode == "VENDOR" ? (
                         <>Add New Vendor Invoice</>
                       ) : (
                         <>Add New Account Invoice</>

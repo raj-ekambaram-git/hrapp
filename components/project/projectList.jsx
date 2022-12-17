@@ -24,27 +24,35 @@ const ProjectList = (props) => {
   const { data } = props.projectList;
   const { isVendor } = props.projectList;
   console.log("ProjectList::"+JSON.stringify(data))
+  console.log("ProjectList:   isVendor:"+JSON.stringify(isVendor))
   const [projectList, setProjectList] = useState([]);
   const [isPageAuthprized, setPageAuthorized] = useState(false);
 
+  console.log("MANNNNNNNNNN")
   useEffect(() => {
 
     if(isVendor) {
+      console.log("111111")
       //get API call with accountId and VendorId
       if(userService.isSuperAdmin()) {
+        console.log("2222222")
         getProjectList(data.vendorId, "NaN")
       }else {
+        console.log("333333")
         getProjectList(data.vendorId, userService.getAccountDetails().accountId)
       }
       setPageAuthorized(true);
       
       
     }else {
+      console.log("444444")
       //Since this is just the account call only accountId
       if(userService.isSuperAdmin()) {
+        console.log("5555555")
         getProjectList("", data.accountId)
       }else {
-        getProjectList("", userService.getAccountDetails().accountId)
+        console.log("66666666")
+        getProjectList("NaN", userService.getAccountDetails().accountId)
       }
       
      setPageAuthorized(true);
@@ -57,6 +65,7 @@ const ProjectList = (props) => {
    * Function to get the list of accounts for a drop down
    */
     async function getProjectList(vendorId, accountId) {
+      console.log("7777777::::vendorId::"+vendorId+"----AccountID:::"+accountId)
       // setPageAuthorized(true);
       const responseData = await accountService.getProjectList(vendorId, accountId);
       setProjectList(responseData);
