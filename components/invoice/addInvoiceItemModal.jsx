@@ -30,7 +30,6 @@ const AddInvoiceItemModal = (props) => {
   const {data} = props;
 
 console.log("Prop MOdal::::"+JSON.stringify(data.projectType));
-console.log("Prop MOdal::::"+JSON.stringify(data.projectResources));
 
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [projectResources, setProjectResources] = useState([]);
@@ -47,7 +46,9 @@ console.log("Prop MOdal::::"+JSON.stringify(data.projectResources));
 
   useEffect(() => {
     if(props && props.data && props.data.mode != MODE_ADD) {
+
       setProjectType(data.projectType)
+      setProjectResources(data.projectResources)
     }
     
   }, []);
@@ -71,7 +72,8 @@ console.log("Prop MOdal::::"+JSON.stringify(data.projectResources));
           console.log("Error, Please enter the details");
     }else {
       const addedInvoiceItem = {
-        // userId: parseInt(userId),
+        userId: parseInt(userId),
+        generalDetail: generalDetail,
         unitPrice: unitPrice,
         quantity: parseInt(quantity),
         currency: currency,
@@ -130,8 +132,9 @@ console.log("Prop MOdal::::"+JSON.stringify(data.projectResources));
                                   ) : (
                                     <>
                                       <Select width="50%%" onChange={(ev) => setUserId(ev.target.value)}>
+                                        <option value="">Select Resource</option>
                                           {projectResources?.map((projectResource) => (
-                                                  <option value={user.id}>{user.firstName} {user.lastName}</option>
+                                                  <option value={projectResource.userId}>{projectResource.user.firstName} {projectResource.user.lastName}</option>
                                           ))}   
                                       </Select>
                                     </>

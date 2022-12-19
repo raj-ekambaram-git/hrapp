@@ -118,9 +118,7 @@ const InvoiceAddEdit = (props) => {
     if((userService.isSuperAdmin() || userService.isAccountAdmin() || userService.isAccountVendorRep()) 
           && (props && props.data && props.data.mode != MODE_ADD)) {
         
-            console.log("props.data.invoiceId::"+props.data.invoiceId)
         const invoiceResponse = await accountService.getInvoiceDetail(props.data.invoiceId, userService.getAccountDetails().accountId);
-          console.log("invoiceResponse::"+JSON.stringify(invoiceResponse))
 
         const invoiceData =  {
             id: invoiceResponse.id.toString(),
@@ -149,47 +147,44 @@ const InvoiceAddEdit = (props) => {
   }
 
   async function refreshProjectForVendor(vendorId) {
-    console.log("refreshProjectForVendor::"+JSON.stringify(vendorId))
     setEnableInvoiceItemAdd(false);
     setInvoiceItemList([]);
     
     //Call Address table to get all the addresses by vendor
     
     const projectListResponse = await accountService.getProjectsByVendor(vendorId, userService.getAccountDetails().accountId);
-    console.log("ProjectResponse::::"+JSON.stringify(projectListResponse));
+
+    console.log("projectListResponse::"+JSON.stringify(projectListResponse))
     
     setProjectList(projectListResponse);
 
   } 
 
   async function handleInvoieItemList(invoiceItemList) {
-    console.log("handleInvoieItemList::Manin Add EDIT:::"+JSON.stringify(invoiceItemList))
     setInvoiceItemList(invoiceItemList)
 
   } 
 
   async function handleProjectSelection(e) {
     
-    
-    console.log("handleProjectSelection::"+e.target.options.item(e.target.selectedIndex).getAttribute("data-projectResources"));
-
-
-    if(projectId == "" || projectId == undefined) {
+    if(projectId === "" || projectId === undefined) {
       setEnableInvoiceItemAdd(false);
       setProjectResources([]);
       setProjectType("");
   
     }
+    setInvoiceItemList([])
     setEnableInvoiceItemAdd(true);
     setProjectResources(e.target.options.item(e.target.selectedIndex).getAttribute("data-projectResources"));
     setProjectType(e.target.options.item(e.target.selectedIndex).getAttribute("data-projectType"));
-    //Call Address table to get all the addresses by vendor
-    
+
   } 
     
 
   function onSubmit(data) {
     console.log("DDAAA::"+JSON.stringify(data))
+
+
     return isAddMode
         ? createInvoice(data)
         : updateInvoice(invoiceId, data);
@@ -391,6 +386,7 @@ const InvoiceAddEdit = (props) => {
                             <FormControl isRequired>
                               <FormLabel>Project</FormLabel>
                               <Select width="100%" id="projectId" {...register('projectId')} onChange={(ev) => handleProjectSelection(ev)}>
+                                <option value="">Select Project</option>
                                 {projectList?.map((project) => (
                                     <option value={project.id}  data-projectType={project.type} data-projectResources={JSON.stringify(project.projectResource)}>{project.name}</option>
                                 ))}
@@ -466,8 +462,7 @@ const InvoiceAddEdit = (props) => {
                   <Stack divider={<StackDivider />} spacing='4'>
                       <Box>
                         {enableInvoiceItemAdd ? (<>
-                        Enable Add Item -- {JSON.stringify(projectResources)} --- {JSON.stringify(projectType)}
-                        <InvoiceItems data={{projectType: projectType, projectResources: projectResources, handleInvoieItemList: handleInvoieItemList}}></InvoiceItems>
+                        <InvoiceItems data={{projectType: projectType, projectResources: JSON.parse(projectResources), handleInvoieItemList: handleInvoieItemList}}></InvoiceItems>
                         </>) : (
                           <>
                             Enable Item Disabled

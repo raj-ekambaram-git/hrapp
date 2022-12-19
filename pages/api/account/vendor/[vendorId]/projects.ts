@@ -30,7 +30,17 @@ console.log("Vendor ID::"+vendorId+"---AccountioD::"+accountId)
         include: {
           vendor: true,
           account: true,
-          projectResource: true
+          projectResource: {
+            include: {
+              user: {
+                select: {
+                  id: true,
+                  firstName: true,
+                  lastName: true
+                }
+              }
+            }
+          }
         }
       });
       res.status(200).json(projects);

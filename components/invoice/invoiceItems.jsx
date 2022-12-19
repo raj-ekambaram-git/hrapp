@@ -15,21 +15,23 @@ import {
     useDisclosure
   
   } from '@chakra-ui/react'
+  import {PROJECT_TYPE_GENERAL} from "../../constants/accountConstants";
 
 const InvoiceItems = (props) => {
 
-    console.log("InvoceItems:::"+JSON.stringify(props))
     const { isOpen, onOpen, onClose } = useDisclosure()
-
     const [invoiceItemList, setInvoiceItemList] = useState([]);
+
     props.data.handleInvoieItemListModal = handleInvoieItemListModal;
 
     async function handleInvoieItemListModal(invoiceItemListJSON) {
-        console.log("handleInvoieItemList::invoiceItems::::"+JSON.stringify(invoiceItemListJSON))
-        
-        setInvoiceItemList(invoiceItemList.push(invoiceItemListJSON))
+        invoiceItemList.push(invoiceItemListJSON)
+
+        setInvoiceItemList(invoiceItemList)
+        props.data.handleInvoieItemList(invoiceItemList);
+        onClose();
+    } 
     
-      } 
 
     return (
         <div>
@@ -39,58 +41,75 @@ const InvoiceItems = (props) => {
                 <ModalOverlay/>
                 <AddInvoiceItemModal data={props.data}></AddInvoiceItemModal>
             </Modal>  
-            <TableContainer marginTop="1rem">
-                <Table>
-                <TableCaption></TableCaption>
-                <Thead>
-                    <Tr bgColor="table_tile">
-                        <Th>
-                        Resource
-                        </Th>
-                        <Th>
-                        Price
-                        </Th>
-                        <Th>
-                        Currency
-                        </Th>
-                        <Th>
-                        Quantity
-                        </Th>
-                        <Th>
-                        UOM
-                        </Th> 
-                        <Th>
-                        Total Item 
-                        </Th>
-                    </Tr>   
-                    </Thead>                
-                    <Tbody>
-                    
-                    {invoiceItemList?.map((invoiceItem) => (
-                        <Tr>
-                            <Th>
-                                {invoiceItem.generalDetail}
-                            </Th>
-                            <Th>
-                                {invoiceItem.unitPrice}
-                            </Th>
-                            <Th>
-                                {invoiceItem.currency}
-                            </Th>                              
-                            <Th>
-                                {invoiceItem.quantity}
-                            </Th>
-                            <Th>
-                                {invoiceItem.uom}
-                            </Th>                               
-                            <Th>
-                                {invoiceItem.total}
-                            </Th>
-                        </Tr>
-                    ))}
-                </Tbody>    
-                </Table>
-            </TableContainer>     
+            {invoiceItemList.length > 0 ? (<>
+                <TableContainer marginTop="1rem">
+                    <Table>
+                        <TableCaption></TableCaption>
+                        <Thead>
+                            <Tr bgColor="table_tile">
+                                <Th>
+                                    {props.data.projectType === PROJECT_TYPE_GENERAL ? (
+                                        <>
+                                        Genaral</>
+                                    ) : (
+                                        <>
+                                        User
+                                        </>
+                                    )}
+                                </Th>
+                                <Th>
+                                Price
+                                </Th>
+                                <Th>
+                                Currency
+                                </Th>
+                                <Th>
+                                Quantity
+                                </Th>
+                                <Th>
+                                UOM
+                                </Th> 
+                                <Th>
+                                Total Item 
+                                </Th>
+                            </Tr>   
+                        </Thead>                
+                        <Tbody>
+                            {invoiceItemList?.map((invoiceItem) => (
+                                <Tr>
+                                    <Th>
+                                        
+                                        {props.data.projectType === PROJECT_TYPE_GENERAL ? (
+                                            <>
+                                            {invoiceItem.generalDetail}</>
+                                        ) : (
+                                            <>
+                                            {invoiceItem.userId}
+                                            </>
+                                        )}                                
+                                    </Th>
+                                    <Th>
+                                        {invoiceItem.unitPrice}
+                                    </Th>
+                                    <Th>
+                                        {invoiceItem.currency}
+                                    </Th>                              
+                                    <Th>
+                                        {invoiceItem.quantity}
+                                    </Th>
+                                    <Th>
+                                        {invoiceItem.uom}
+                                    </Th>                               
+                                    <Th>
+                                        {invoiceItem.total}
+                                    </Th>
+                                </Tr>
+                            ))}
+                        </Tbody>    
+                    </Table>
+                </TableContainer>                 
+            </>) : (<></>)}
+
             </Text>          
         </div>
   );

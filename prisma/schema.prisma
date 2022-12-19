@@ -177,6 +177,7 @@ model User {
   lastUpdateDate     DateTime          @updatedAt
   invoiceItem        InvoiceItem[]
   projectResource    ProjectResource[]
+  Timesheet          Timesheet[]
 }
 
 model UserAttributes {
@@ -188,6 +189,16 @@ model UserAttributes {
 
   User   User @relation(fields: [userId], references: [id])
   userId Int
+}
+
+model Timesheet {
+  id             Int           @id @default(autoincrement())
+  name           String        @default("")
+  type           TimesheetType
+  user           User?         @relation(fields: [userId], references: [id])
+  userId         Int?          @default(1)
+  createdDate    DateTime      @default(now())
+  lastUpdateDate DateTime      @updatedAt
 }
 
 enum AddressType {
@@ -297,4 +308,10 @@ enum ProjectStatus {
   Open
   Closed
   Settled
+}
+
+enum TimesheetType {
+  Weekly
+  Monthly
+  Quarterly
 }
