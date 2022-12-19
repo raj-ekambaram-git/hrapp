@@ -29,7 +29,8 @@ console.log("Vendor ID::"+vendorId+"---AccountioD::"+accountId)
         },
         include: {
           vendor: true,
-          account: true
+          account: true,
+          projectResource: true
         }
       });
       res.status(200).json(projects);
@@ -46,7 +47,8 @@ console.log("Vendor ID::"+vendorId+"---AccountioD::"+accountId)
         },
         include: {
           vendor: true,
-          account: true
+          account: true,
+          projectResource: true
         }
 
       });
@@ -54,7 +56,7 @@ console.log("Vendor ID::"+vendorId+"---AccountioD::"+accountId)
 
     }else if (vendorId != "" && vendorId != undefined && accountId == "NaN") {
       console.log("2222")
-      const invoices = await prisma.invoice.findMany({
+      const projects = await prisma.project.findMany({
         where: {
             vendorId: {
               equals: parseInt(vendorId.toString())
@@ -65,12 +67,13 @@ console.log("Vendor ID::"+vendorId+"---AccountioD::"+accountId)
         },
         include: {
           vendor: true,
-          account: true
+          account: true,
+          projectResource: true
         }
 
       });
 
-      res.status(200).json(invoices);
+      res.status(200).json(projects);
     }
 
 

@@ -278,7 +278,7 @@ enum PaymentTerms {
 
 enum InvoiceItemType {
   General
-  Projet
+  Project
   Staffing
 }
 

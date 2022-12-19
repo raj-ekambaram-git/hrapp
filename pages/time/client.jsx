@@ -1,9 +1,9 @@
 import React from 'react'
-import Client from "../../components/client/client"
+// import Client from "../../components/client/client"
 const Clientdiv = () => {
   return (
     <div>
-      <Client/>
+      {/* <Client/> */}
     </div>
   )
 }

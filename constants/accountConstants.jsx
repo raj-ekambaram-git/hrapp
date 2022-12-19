@@ -11,6 +11,10 @@ export const EMPTY_STRING = '';
 export const MODE_ADD = 'add';
 export const MODE_EDIT = 'edit';
 
+export const PROJECT_TYPE_GENERAL = 'General';
+export const PROJECT_TYPE_PROJECT = 'Project';
+export const PROJECT_TYPE_STAFFING = 'Staffing';
+
 
 //Account Form Validation
 export const ACCOUNT_VALIDATION_SCHEMA = Yup.object().shape({
@@ -212,6 +216,10 @@ export const PROJECT_TYPES = [
   {
     projectTypeId: "Staffing",
     projectTypeName: "Staffing"
+  },
+  {
+    projectTypeId: "Project",
+    projectTypeName: "Project"
   }
 ];  
 

@@ -24,6 +24,7 @@ import {
   StackDivider,
   Textarea,
 } from '@chakra-ui/react'
+import InvoiceItems from "../invoice/invoiceItems";
 
 
 const InvoiceAddEdit = (props) => {
@@ -42,6 +43,11 @@ const InvoiceAddEdit = (props) => {
   const [accountsList, setAccountsList] = useState([]);
   const [vendorList, setVendorList] = useState([]);
   const [projectList, setProjectList] = useState([]);
+  const [projectType, setProjectType] = useState("");
+  const [projectResources, setProjectResources] = useState([]);
+  const [invoiceItemList, setInvoiceItemList] = useState([]);
+  const [enableInvoiceItemAdd, setEnableInvoiceItemAdd] = useState(false);
+  
 
   //User Validation START
   const formOptions = { resolver: yupResolver(INVOICE_VALIDATION_SCHEMA) };
@@ -61,19 +67,6 @@ const InvoiceAddEdit = (props) => {
   //Account Validation END
 
   
-   // add product item
-   const addItem = () => {
-    setInvoiceItems([...invoiceItems, { asname: "", quantity: 0, price: 0, total: 0 }]);
-  };
-
-  // handler change
-  const handlerChange = (event, i) => {
-    const { name, value } = event.target;
-    const list = [...invoiceItems];
-    list[i][name] = value;
-    list[i]["total"] = list[i]["quantity"] * list[i]["price"];
-    setInvoiceItems(list);
-  };
 
   
   //Get Account Details only if its EditMode
@@ -157,6 +150,9 @@ const InvoiceAddEdit = (props) => {
 
   async function refreshProjectForVendor(vendorId) {
     console.log("refreshProjectForVendor::"+JSON.stringify(vendorId))
+    setEnableInvoiceItemAdd(false);
+    setInvoiceItemList([]);
+    
     //Call Address table to get all the addresses by vendor
     
     const projectListResponse = await accountService.getProjectsByVendor(vendorId, userService.getAccountDetails().accountId);
@@ -165,6 +161,32 @@ const InvoiceAddEdit = (props) => {
     setProjectList(projectListResponse);
 
   } 
+
+  async function handleInvoieItemList(invoiceItemList) {
+    console.log("handleInvoieItemList::Manin Add EDIT:::"+JSON.stringify(invoiceItemList))
+    setInvoiceItemList(invoiceItemList)
+
+  } 
+
+  async function handleProjectSelection(e) {
+    
+    
+    console.log("handleProjectSelection::"+e.target.options.item(e.target.selectedIndex).getAttribute("data-projectResources"));
+
+
+    if(projectId == "" || projectId == undefined) {
+      setEnableInvoiceItemAdd(false);
+      setProjectResources([]);
+      setProjectType("");
+  
+    }
+    setEnableInvoiceItemAdd(true);
+    setProjectResources(e.target.options.item(e.target.selectedIndex).getAttribute("data-projectResources"));
+    setProjectType(e.target.options.item(e.target.selectedIndex).getAttribute("data-projectType"));
+    //Call Address table to get all the addresses by vendor
+    
+  } 
+    
 
   function onSubmit(data) {
     console.log("DDAAA::"+JSON.stringify(data))
@@ -368,9 +390,9 @@ const InvoiceAddEdit = (props) => {
                         <Box>
                             <FormControl isRequired>
                               <FormLabel>Project</FormLabel>
-                              <Select width="100%" id="projectId" {...register('projectId')} >
+                              <Select width="100%" id="projectId" {...register('projectId')} onChange={(ev) => handleProjectSelection(ev)}>
                                 {projectList?.map((project) => (
-                                    <option value={project.id}>{project.name}</option>
+                                    <option value={project.id}  data-projectType={project.type} data-projectResources={JSON.stringify(project.projectResource)}>{project.name}</option>
                                 ))}
                               </Select>
                             </FormControl>     
@@ -443,53 +465,15 @@ const InvoiceAddEdit = (props) => {
                 <CardBody>
                   <Stack divider={<StackDivider />} spacing='4'>
                       <Box>
-                      <div className="invoice__items">
-                        <h3>Item List</h3>
-                        {invoiceItems?.map((item, i) => (
-                          <div className="item" key={i}>
-                            <div className="form__group inline__form-group">
-                              <div>
-                                <p>Item Name</p>
-                                <input
-                                  type="text"
-                                  name="name"
-                                  onChange={(e) => handlerChange(e, i)}
-                                />
-                              </div>
-
-                              <div>
-                                <p>Qty</p>
-                                <input
-                                  type="number"
-                                  name="quantity"
-                                  onChange={(e) => handlerChange(e, i)}
-                                />
-                              </div>
-
-                              <div>
-                                <p>Price</p>
-                                <input
-                                  type="number"
-                                  name="price"
-                                  onChange={(e) => handlerChange(e, i)}
-                                />
-                              </div>
-                              <div>
-                                <p>Total</p>
-                                <h4>{item.total}</h4>
-                              </div>
-
-                              <button className="edit__btn" onClick={() => deleteItem(i)}>
-                                Delete
-                              </button>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-
-                      <button className="add__item-btn" onClick={addItem}>
-                        Add New Item
-                      </button>
+                        {enableInvoiceItemAdd ? (<>
+                        Enable Add Item -- {JSON.stringify(projectResources)} --- {JSON.stringify(projectType)}
+                        <InvoiceItems data={{projectType: projectType, projectResources: projectResources, handleInvoieItemList: handleInvoieItemList}}></InvoiceItems>
+                        </>) : (
+                          <>
+                            Enable Item Disabled
+                          </>
+                        )}
+                          
                       </Box>                     
                   </Stack>
                 </CardBody>
