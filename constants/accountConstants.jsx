@@ -290,3 +290,8 @@ export const USER_ROLE_DESC = {
   'ACCOUNT_VENDOR_CONTRACTOR': 'Vendor Contractor'
 };
 
+
+export const TIMESHEET_VALIDATION_SCHEMA = Yup.object().shape({
+  name: Yup.string().required('First Name is required'),
+
+});    

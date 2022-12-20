@@ -19,6 +19,11 @@ const theme = extendTheme({
           vendor: '3px'
         }
       }
+    },
+    Input: {
+      sizes: {
+        timeentryBox: '4px'
+      }
     }
   },
   semanticTokens: {
@@ -49,6 +54,28 @@ const theme = extendTheme({
     button_background: '#16161D',
     cancel_button: 'e4eaee',
     inner_table_tile: '#EDF2F7'
+  },
+  sizes: {
+    timesheet: {
+      entry_project_header: "170px",
+      entry_header:  "60px",
+      entry: {
+        input: "50px"
+      },
+      project_drop_down: "500px"
+    }
+  },
+  borderWidths: {
+    timesheet: {
+      entry: "5px",
+      entry_project: "10px",
+
+    }
+  },
+  letterSpacings: {
+    timesheet: {
+      entry: "300rem"
+    }
   },
   fonts,
   breakpoints,

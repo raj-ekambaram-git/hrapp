@@ -1,7 +1,7 @@
 import { BehaviorSubject } from 'rxjs';
 import getConfig from 'next/config';
 import Router from 'next/router';
-import prisma from "../lib/prisma"; 
+import {USER_ROLES} from "../constants/userConstants";
 
 import { fetchWrapper } from 'helpers';
 
@@ -23,7 +23,12 @@ export const userService = {
     isValidAccount,
     getAccountsList,
     getUsersByVendor,
-    getUsersByAccount
+    getUsersByAccount,
+    isEmployee,
+    isContractor,
+    isManager,
+    isTimesheetEntryUser
+
 };
 
 function isValidAccount(accountIdFromRequest) {
@@ -63,7 +68,7 @@ function getAccountDetails() {
 
 function isSuperAdmin() {
     if( userSubject.value 
-        && userSubject.value.role == 'SUPER_ADMIN' 
+        && userSubject.value.role == USER_ROLES.SUPER_ADMIN
         && userSubject.value.accountId == '0') {
         return true;
     }
@@ -73,7 +78,7 @@ function isSuperAdmin() {
 
 function isAccountAdmin() {
     if( userSubject.value 
-        && userSubject.value.role == 'ACCOUNT_ADMIN' 
+        && userSubject.value.role == USER_ROLES.ACCOUNT_ADMIN
         && userSubject.value.role != '0') {
         return true;
     }
@@ -83,7 +88,37 @@ function isAccountAdmin() {
 
 function isAccountUser() {
     if( userSubject.value 
-        && userSubject.value.role == 'ACCOUNT_USER' 
+        && userSubject.value.role == USER_ROLES.ACCOUNT_USER
+        && userSubject.value.role != '0') {
+        return true;
+    }
+    
+    return false;
+}
+
+function isEmployee() {
+    if( userSubject.value 
+        && userSubject.value.role == USER_ROLES.ACCOUNT_VENDOR_EMPLOYEE 
+        && userSubject.value.role != '0') {
+        return true;
+    }
+    
+    return false;
+}
+
+function isContractor() {
+    if( userSubject.value 
+        && userSubject.value.role == USER_ROLES.ACCOUNT_VENDOR_CONTRACTOR 
+        && userSubject.value.role != '0') {
+        return true;
+    }
+    
+    return false;
+}
+
+function isManager() {
+    if( userSubject.value 
+        && userSubject.value.role == USER_ROLES.ACCOUNT_MANAGER 
         && userSubject.value.role != '0') {
         return true;
     }
@@ -93,7 +128,7 @@ function isAccountUser() {
 
 function isAccountVendorRep() {
     if( userSubject.value 
-        && userSubject.value.role == 'ACCOUNT_VENDOR_REP' 
+        && userSubject.value.role == USER_ROLES.ACCOUNT_VENDOR_REP
         && userSubject.value.role != '0') {
         return true;
     }
@@ -103,7 +138,17 @@ function isAccountVendorRep() {
 
 function isRegularUser() {
     if( userSubject.value 
-        && ( userSubject.value.role == 'ACCOUNT_VENDOR_EMPLOYEE'  || userSubject.value.role == 'ACCOUNT_VENDOR_CONTRACTOR' )
+        && ( userSubject.value.role == USER_ROLES.ACCOUNT_VENDOR_EMPLOYEE  || userSubject.value.role == USER_ROLES.ACCOUNT_VENDOR_CONTRACTOR )
+        && userSubject.value.role != '0') {
+        return true;
+    }
+    
+    return false;
+}
+
+function isTimesheetEntryUser() {
+    if( userSubject.value 
+        && ( userSubject.value.role == USER_ROLES.ACCOUNT_VENDOR_EMPLOYEE  || userSubject.value.role == USER_ROLES.ACCOUNT_VENDOR_CONTRACTOR )
         && userSubject.value.role != '0') {
         return true;
     }
