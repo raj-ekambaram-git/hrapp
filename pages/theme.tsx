@@ -57,12 +57,13 @@ const theme = extendTheme({
   },
   sizes: {
     timesheet: {
-      entry_project_header: "170px",
+      entry_project_header: "10px",
       entry_header:  "60px",
       entry: {
         input: "50px"
       },
-      project_drop_down: "500px"
+      entry_project: "",
+      project_drop_down: "600px"
     }
   },
   borderWidths: {

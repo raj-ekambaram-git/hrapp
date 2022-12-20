@@ -17,7 +17,7 @@ const TimesheetDateHeader = (props) => {
     return(
         <>
             <Box>
-            <Grid gap="10rem" autoRows>
+            <Grid gap="24rem" autoRows>
                         <GridItem colSpan={2} h='10'>
                             <Box width="timesheet.entry_project_header">
                             </Box>  
@@ -26,7 +26,7 @@ const TimesheetDateHeader = (props) => {
                         <GridItem colStart={3} colEnd={6} h='10'>
                         <HStack spacing="1em">
                                     <Box width="timesheet.entry_header">
-                                        <Text textAlign="center" fontWeight="20px">
+                                        <Text textAlign="center">
                                             1/1
                                         </Text>     
                                     </Box>    

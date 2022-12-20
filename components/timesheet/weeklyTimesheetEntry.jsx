@@ -43,10 +43,10 @@ const WeeklyTimesheetEntry = (props) => {
                 <CardBody>
                   <Stack divider={<StackDivider />}>
                     <TimesheetDateHeader></TimesheetDateHeader>
-                    <Grid gap="10rem" marginBottom="2rem" autoRows>
+                    <Grid gap="3rem" marginBottom="2rem" autoRows>
                         <GridItem colSpan={2} h='10'>
-                            <Box borderWidth="timesheet.entry_project">
-                                <Select id="projectId" {...register('projectId')} width="project_drop_down">
+                            <Box borderWidth="timesheet.entry_project" width="timesheet.project_drop_down">
+                                <Select id="projectId" {...register('projectId')}>
                                     <option value="">Select Project</option>
                                     <option value="Inactive">Inactive</option>
                                     <option value="Error">Error</option>
