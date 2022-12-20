@@ -26,6 +26,7 @@ const InvoiceItems = (props) => {
     const [invoiceItemList, setInvoiceItemList] = useState([]);
 
     props.data.handleInvoieItemListModal = handleInvoieItemListModal;
+    setInvoiceItemList(props.data.invoiceItemList)
 
     async function handleInvoieItemListModal(invoiceItemListJSON) {
         invoiceItemList.push(invoiceItemListJSON)
@@ -89,7 +90,7 @@ const InvoiceItems = (props) => {
                             </Tr>   
                         </Thead>                
                         <Tbody>
-                        
+                                        ---{JSON.stringify(invoiceItemList)}
                             {invoiceItemList?.map((invoiceItem, index) => (
                                 <Tr>
                                     <Th>

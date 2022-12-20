@@ -73,6 +73,7 @@ const InvoiceAddEdit = (props) => {
   useEffect(() => {
     if(props && props.data && props.data.mode != MODE_ADD) {
       setAddMode(false);
+      // setEnableInvoiceItemAdd(true);
     }else {
       // setValue("vendorId", incomingVendorId);
     }
@@ -120,6 +121,8 @@ const InvoiceAddEdit = (props) => {
         
         const invoiceResponse = await accountService.getInvoiceDetail(props.data.invoiceId, userService.getAccountDetails().accountId);
 
+        console.log("invoiceResponse:::"+JSON.stringify(invoiceResponse));
+
         const invoiceData =  {
             id: invoiceResponse.id.toString(),
             description: invoiceResponse.description,
@@ -128,6 +131,7 @@ const InvoiceAddEdit = (props) => {
             accountId: invoiceResponse.accountId,
             projectId: invoiceResponse.projectId,            
             invoiceDate: invoiceResponse.invoiceDate,
+            invoiceItemList: invoiceResponse.invoiceItemList,
             dueDte: invoiceResponse.dueDte,
             transactionId: invoiceResponse.transactionId,
             total: invoiceResponse.total,
@@ -138,6 +142,7 @@ const InvoiceAddEdit = (props) => {
         };
 
         setInvoice(invoiceData);
+        setInvoiceItemList(invoiceResponse.invoiceItemList)
 
         // get user and set form fields
             const fields = ['description', "type", "vendorId","accountId","projectId", "notes","invoiceDate","dueDte","transactionId", "total", "paidAmount","status","paymentTerms"];
@@ -469,7 +474,7 @@ const InvoiceAddEdit = (props) => {
                   <Stack divider={<StackDivider />} spacing='4'>
                       <Box>
                         {enableInvoiceItemAdd ? (<>
-                        <InvoiceItems data={{projectType: projectType, projectResources: JSON.parse(projectResources), handleInvoieItemList: handleInvoieItemList}}></InvoiceItems>
+                        <InvoiceItems data={{projectType: projectType, projectResources: JSON.parse(projectResources), handleInvoieItemList: handleInvoieItemList, invoiceItemList: invoiceItemList}}></InvoiceItems>
                         </>) : (
                           <>
                             Enable Item Disabled

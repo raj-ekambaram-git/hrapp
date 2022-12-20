@@ -23,7 +23,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           }
       },
         include: {
-          project: true
+          project: true,
+          invoiceItems: true
         }
       })
       
