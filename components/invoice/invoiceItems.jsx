@@ -14,7 +14,10 @@ import {
     TableCaption,
     useDisclosure
   
-  } from '@chakra-ui/react'
+  } from '@chakra-ui/react';
+  import {
+    DeleteIcon
+  } from '@chakra-ui/icons';
   import {PROJECT_TYPE_GENERAL} from "../../constants/accountConstants";
 
 const InvoiceItems = (props) => {
@@ -31,6 +34,15 @@ const InvoiceItems = (props) => {
         props.data.handleInvoieItemList(invoiceItemList);
         onClose();
     } 
+
+    function deleteInvoiceItem(removeIndex) {
+
+        const inputData = [...invoiceItemList];
+        inputData.splice(removeIndex, 1);
+        setInvoiceItemList(inputData);
+        props.data.handleInvoieItemList(inputData);
+
+    }
     
 
     return (
@@ -72,16 +84,19 @@ const InvoiceItems = (props) => {
                                 <Th>
                                 Total Item 
                                 </Th>
+                                <Th>
+                                </Th>                                
                             </Tr>   
                         </Thead>                
                         <Tbody>
-                            {invoiceItemList?.map((invoiceItem) => (
+                        
+                            {invoiceItemList?.map((invoiceItem, index) => (
                                 <Tr>
                                     <Th>
                                         
                                         {props.data.projectType === PROJECT_TYPE_GENERAL ? (
                                             <>
-                                            {invoiceItem.generalDetail}</>
+                                            {invoiceItem.generalNote}</>
                                         ) : (
                                             <>
                                             {invoiceItem.userId}
@@ -101,8 +116,11 @@ const InvoiceItems = (props) => {
                                         {invoiceItem.uom}
                                     </Th>                               
                                     <Th>
-                                        {invoiceItem.total}
+                                        {invoiceItem.total} 
                                     </Th>
+                                    <Th>
+                                        <DeleteIcon onClick={() => deleteInvoiceItem(index)}/>
+                                    </Th>                                    
                                 </Tr>
                             ))}
                         </Tbody>    

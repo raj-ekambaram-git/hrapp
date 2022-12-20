@@ -110,6 +110,7 @@ model Invoice {
   paymentTerms   PaymentTerms
   createdDate    DateTime      @default(now())
   lastUpdateDate DateTime      @updatedAt
+  invoiceItems   InvoiceItem[]
 }
 
 model InvoiceItem {
@@ -125,6 +126,8 @@ model InvoiceItem {
   generalNote    String?
   user           User?           @relation(fields: [userId], references: [id])
   userId         Int?
+  invoice        Invoice?        @relation(fields: [invoiceId], references: [id])
+  invoiceId      Int?
   fromDate       DateTime?
   toDate         DateTime?
   createdDate    DateTime        @default(now())

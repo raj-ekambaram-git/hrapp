@@ -34,7 +34,7 @@ console.log("Prop MOdal::::"+JSON.stringify(data.projectType));
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [projectResources, setProjectResources] = useState([]);
   const [projectType, setProjectType] = useState("General");
-  const [generalDetail, setGeneralDetail] = useState("");
+  const [generalNote, setGeneralNote] = useState("");
   const [unitPrice, setUnitPrice] = useState("");
   const [currency, setCurrency] = useState("USD");
   const [quantity, setQuantity] = useState("");
@@ -73,7 +73,9 @@ console.log("Prop MOdal::::"+JSON.stringify(data.projectType));
     }else {
       const addedInvoiceItem = {
         userId: parseInt(userId),
-        generalDetail: generalDetail,
+        generalNote: generalNote,
+        type: projectType,
+        status: "Draft",
         unitPrice: unitPrice,
         quantity: parseInt(quantity),
         currency: currency,
@@ -128,7 +130,7 @@ console.log("Prop MOdal::::"+JSON.stringify(data.projectType));
                           <Tr>
                                 <Th>
                                   {projectType == PROJECT_TYPE_GENERAL ? (
-                                    <><Input type="text" onChange={(ev) => setGeneralDetail(ev.target.value)}/></>
+                                    <><Input type="text" onChange={(ev) => setGeneralNote(ev.target.value)}/></>
                                   ) : (
                                     <>
                                       <Select width="50%%" onChange={(ev) => setUserId(ev.target.value)}>

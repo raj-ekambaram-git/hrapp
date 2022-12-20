@@ -147,6 +147,7 @@ const InvoiceAddEdit = (props) => {
   }
 
   async function refreshProjectForVendor(vendorId) {
+    
     setEnableInvoiceItemAdd(false);
     setInvoiceItemList([]);
     
@@ -161,6 +162,8 @@ const InvoiceAddEdit = (props) => {
   } 
 
   async function handleInvoieItemList(invoiceItemList) {
+
+    console.log("ADD Edit :::"+JSON.stringify(invoiceItemList))
     setInvoiceItemList(invoiceItemList)
 
   } 
@@ -184,6 +187,7 @@ const InvoiceAddEdit = (props) => {
   function onSubmit(data) {
     console.log("DDAAA::"+JSON.stringify(data))
 
+    console.log("invoice Item List :::"+JSON.stringify(invoiceItemList));
 
     return isAddMode
         ? createInvoice(data)
@@ -208,6 +212,9 @@ const InvoiceAddEdit = (props) => {
             projectId: parseInt(formData.projectId),
             invoiceDate: new Date(formData.invoiceDate),
             dueDte: new Date(formData.dueDte),
+            invoiceItems: {
+              create: invoiceItemList
+            },
             transactionId: formData.transactionId,
             total: formData.total,
             notes: formData.notes,
