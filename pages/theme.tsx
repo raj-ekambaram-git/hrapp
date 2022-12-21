@@ -53,10 +53,17 @@ const theme = extendTheme({
     pending_status: '#E53E3E',
     button_background: '#16161D',
     cancel_button: 'e4eaee',
-    inner_table_tile: '#EDF2F7'
+    inner_table_tile: '#EDF2F7',
+    timesheet: {
+      save: "#3182CE",
+      discard: "#3182CE",
+      submit: "#3182CE",
+      nameDropDown: "white"
+    }
   },
   sizes: {
     timesheet: {
+      nameDropDown: "230px",
       entry_project_header: "10px",
       entry_header:  "60px",
       entry: {

@@ -57,7 +57,42 @@ const WeeklyTimesheetEntry = (props) => {
             <Stack spacing={4}>
               <Card>
                 <CardHeader bgColor="table_tile">
-                  <Heading size='sm'>Timesheet Entry</Heading>
+                    <HStack gap="16rem">
+                        <Box>
+                            <Heading size='sm'>Timesheet Entry</Heading>
+                        </Box>
+                        <Box bgColor="timesheet.nameDropDown" width="timesheet.nameDropDown">
+                            <Select id="name" {...register('name')}>
+                                <option value="">Timesheet Week Ending 1/1</option>
+                                <option value="">Timesheet Week Ending 1/1</option>
+                                <option value="">Timesheet Week Ending 1/1</option>
+                                <option value="">Timesheet Week Ending 1/1</option>
+                                <option value="">Timesheet Week Ending 1/1</option>
+                            </Select>  
+                        </Box>
+                        <Box></Box>
+                        <Box>
+                            <HStack>
+                                <Box>
+                                    <Button className="btn" onClick={""} bgColor="timesheet.save">
+                                        Save
+                                    </Button>
+                                </Box>
+                                <Box>
+                                    <Button type="submit" bgColor="timesheet.submit">
+                                        {isAddMode ? (
+                                            <>Submit</>
+                                        ) : (
+                                            <>Submit</>
+                                        )}
+                                    </Button>
+                                </Box>
+                            </HStack>
+                        </Box>
+
+
+                    </HStack>
+                  
                 </CardHeader>
 
                 <CardBody>
@@ -122,25 +157,6 @@ const WeeklyTimesheetEntry = (props) => {
                   </Stack>
                 </CardBody>
               </Card>              
-            
-                <Flex marginBottom={4}>
-                    <HStack>
-                    <Box>
-                        <Button className="btn" onClick={""}>
-                            Discard
-                        </Button>
-                    </Box>
-                    <Box>
-                        <Button type="submit">
-                        {isAddMode ? (
-                            <>Add New Vendor</>
-                        ) : (
-                            <>Update Vendor</>
-                        )}
-                        </Button>
-                    </Box>
-                    </HStack>
-                </Flex>                   
             </Stack>
         </>
     );
