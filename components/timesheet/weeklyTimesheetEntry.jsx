@@ -21,7 +21,9 @@ import {
     GridItem
   } from '@chakra-ui/react';
 import TimesheetDateHeader from "./timesheetDateHeader";
-  
+import {
+    AddIcon, DeleteIcon
+  } from '@chakra-ui/icons';  
 
 
 const WeeklyTimesheetEntry = (props) => {
@@ -30,7 +32,25 @@ const WeeklyTimesheetEntry = (props) => {
     const formOptions = { resolver: yupResolver(TIMESHEET_VALIDATION_SCHEMA) };
     const { register, handleSubmit, setValue, formState } = useForm(formOptions);
     const [isAddMode, setAddMode] = useState(true);
+    const [timesheetEntryCount, setTimesheetEntryCount] = useState([1]);
 
+    function addTimesheeEntry(timesheetEntryCountLength) {
+        console.log("addTimesheeEntry::::"+timesheetEntryCountLength);
+
+        const inputData = [...timesheetEntryCount];
+        inputData.push(timesheetEntryCountLength+1);
+        setTimesheetEntryCount(inputData);
+
+
+    }
+
+    function deleteTimesheetEntry(removeIndex) {
+        console.log("deleteTimesheetEntry:::")
+        const inputData = [...timesheetEntryCount];
+        inputData.splice(removeIndex, 1);
+        setTimesheetEntryCount(inputData);
+    }
+    
 
     return (
         <>
@@ -43,114 +63,62 @@ const WeeklyTimesheetEntry = (props) => {
                 <CardBody>
                   <Stack divider={<StackDivider />}>
                     <TimesheetDateHeader></TimesheetDateHeader>
-                    <Grid gap="3rem" marginBottom="2rem" autoRows>
-                        <GridItem colSpan={2} h='10'>
-                            <Box borderWidth="timesheet.entry_project" width="timesheet.project_drop_down">
-                                <Select id="projectId" {...register('projectId')}>
-                                    <option value="">Select Project</option>
-                                    <option value="Inactive">Inactive</option>
-                                    <option value="Error">Error</option>
-                                    <option value="Approved">Approved</option>
-                                    <option value="Rejected">Rejected</option>
-                                </Select>  
-                            </Box>  
+                    {timesheetEntryCount?.map((count, index) => (
+                        <Grid gap="3rem" marginBottom="2rem" autoRows>
+                            <GridItem colSpan={2} h='10'>
+                                <HStack spacing="1em">    
+                                    <Box>
+                                        <DeleteIcon onClick={() => deleteTimesheetEntry(index)}/>
+                                    </Box>                                      
 
-                        </GridItem>
-                        <GridItem colStart={3} colEnd={6} h='10'>
-                        <HStack spacing="1em">
-                                    <Box borderWidth="timesheet.entry">
-                                    <FormControl>
-                                        <Input type="text" id="day1"  size="md" {...register('day1')} boxSize="timesheet.entry.input"/>
-                                    </FormControl>     
-                                    </Box>    
-                                    <Box borderWidth="timesheet.entry">
-                                    <FormControl>
-                                        <Input type="text" id="day2"  size="md" {...register('day2')}  boxSize="timesheet.entry.input"/>
-                                    </FormControl>     
-                                    </Box>    
-                                    <Box borderWidth="timesheet.entry">
-                                    <FormControl>
-                                        <Input type="text" id="day3"  size="md" {...register('day3')}  boxSize="timesheet.entry.input"/>
-                                    </FormControl>     
-                                    </Box>    
-                                    <Box borderWidth="timesheet.entry">
-                                    <FormControl>
-                                        <Input type="text" id="day4"  size="md" {...register('day4')}  boxSize="timesheet.entry.input"/>
-                                    </FormControl>     
-                                    </Box>    
-                                    <Box borderWidth="timesheet.entry">
-                                    <FormControl>
-                                        <Input type="text" id="day5"  size="md" {...register('day5')}  boxSize="timesheet.entry.input"/>
-                                    </FormControl>     
-                                    </Box>    
-                                    <Box borderWidth="timesheet.entry">
-                                    <FormControl>
-                                        <Input type="text" id="day6"  size="md" {...register('day6')}  boxSize="timesheet.entry.input"/>
-                                    </FormControl>     
-                                    </Box>    
-                                    <Box borderWidth="timesheet.entry">
-                                    <FormControl>
-                                        <Input type="text" id="day7"  size="md" {...register('day7')}  boxSize="timesheet.entry.input"/>
-                                    </FormControl>     
-                                    </Box>    
-                                    
-                                </HStack>                                         
-                        </GridItem>
-                    </Grid>
-
-                    {/* <Box>
-                        <HStack spacing="7rem">
-                            <Box borderWidth="timesheet.entry_project">
-                                <Select id="projectId" {...register('projectId')} width="timesheet.project_drop_down">
-                                    <option value="">Select Project</option>
-                                    <option value="Inactive">Inactive</option>
-                                    <option value="Error">Error</option>
-                                    <option value="Approved">Approved</option>
-                                    <option value="Rejected">Rejected</option>
-                                </Select>  
-                            </Box>  
-                            <Box>
-                                <HStack spacing="1em">
-                                    <Box borderWidth="timesheet.entry">
-                                    <FormControl>
-                                        <Input type="text" id="day1"  size="md" {...register('day1')} boxSize="timesheet.entry.input"/>
-                                    </FormControl>     
-                                    </Box>    
-                                    <Box borderWidth="timesheet.entry">
-                                    <FormControl>
-                                        <Input type="text" id="day2"  size="md" {...register('day2')}  boxSize="timesheet.entry.input"/>
-                                    </FormControl>     
-                                    </Box>    
-                                    <Box borderWidth="timesheet.entry">
-                                    <FormControl>
-                                        <Input type="text" id="day3"  size="md" {...register('day3')}  boxSize="timesheet.entry.input"/>
-                                    </FormControl>     
-                                    </Box>    
-                                    <Box borderWidth="timesheet.entry">
-                                    <FormControl>
-                                        <Input type="text" id="day4"  size="md" {...register('day4')}  boxSize="timesheet.entry.input"/>
-                                    </FormControl>     
-                                    </Box>    
-                                    <Box borderWidth="timesheet.entry">
-                                    <FormControl>
-                                        <Input type="text" id="day5"  size="md" {...register('day5')}  boxSize="timesheet.entry.input"/>
-                                    </FormControl>     
-                                    </Box>    
-                                    <Box borderWidth="timesheet.entry">
-                                    <FormControl>
-                                        <Input type="text" id="day6"  size="md" {...register('day6')}  boxSize="timesheet.entry.input"/>
-                                    </FormControl>     
-                                    </Box>    
-                                    <Box borderWidth="timesheet.entry">
-                                    <FormControl>
-                                        <Input type="text" id="day7"  size="md" {...register('day7')}  boxSize="timesheet.entry.input"/>
-                                    </FormControl>     
-                                    </Box>    
-                                    
+                                    <Box borderWidth="timesheet.entry_project" width="timesheet.project_drop_down">
+                                        <Select id="projectId" {...register('projectId')}>
+                                            <option value="">Select Project</option>
+                                            <option value="Inactive">Inactive</option>
+                                            <option value="Error">Error</option>
+                                            <option value="Approved">Approved</option>
+                                            <option value="Rejected">Rejected</option>
+                                        </Select>  
+                                    </Box>  
                                 </HStack>
-                            </Box>  
-                        </HStack>     
-                    </Box>                      */}
+                            </GridItem>
+                            <GridItem colStart={3} colEnd={6} h='10'>
+                                    <HStack spacing="1em">
+                                        <Box borderWidth="timesheet.entry">
+                                            <Input type="text" id="day1"  size="md" {...register('day1')} boxSize="timesheet.entry.input"/>
+                                        </Box>    
+                                        <Box borderWidth="timesheet.entry">
+                                            <Input type="text" id="day2"  size="md" {...register('day2')}  boxSize="timesheet.entry.input"/>
+                                        </Box>    
+                                        <Box borderWidth="timesheet.entry">
+                                            <Input type="text" id="day3"  size="md" {...register('day3')}  boxSize="timesheet.entry.input"/>
+                                        </Box>    
+                                        <Box borderWidth="timesheet.entry">
+                                            <Input type="text" id="day4"  size="md" {...register('day4')}  boxSize="timesheet.entry.input"/>
+                                        </Box>    
+                                        <Box borderWidth="timesheet.entry">
+                                            <Input type="text" id="day5"  size="md" {...register('day5')}  boxSize="timesheet.entry.input"/>
+                                        </Box>    
+                                        <Box borderWidth="timesheet.entry">
+                                            <Input type="text" id="day6"  size="md" {...register('day6')}  boxSize="timesheet.entry.input"/>
+                                        </Box>    
+                                        <Box borderWidth="timesheet.entry">
+                                            <Input type="text" id="day7"  size="md" {...register('day7')}  boxSize="timesheet.entry.input"/>
+                                        </Box>    
+                                    </HStack>                                         
+                            </GridItem>
+                        </Grid>
+                    ))}
+                    <HStack>
+                        <Box marginRight="1rem">
+                        </Box>
+                        <Box>
+                            <Button className="btn" onClick={() => addTimesheeEntry(timesheetEntryCount.length)}>
+                                Add Entry
+                            </Button>
+                        </Box>
+
+                    </HStack>
                   </Stack>
                 </CardBody>
               </Card>              
@@ -158,8 +126,8 @@ const WeeklyTimesheetEntry = (props) => {
                 <Flex marginBottom={4}>
                     <HStack>
                     <Box>
-                    <Button className="btn" onClick={""}>
-                        Discard
+                        <Button className="btn" onClick={""}>
+                            Discard
                         </Button>
                     </Box>
                     <Box>

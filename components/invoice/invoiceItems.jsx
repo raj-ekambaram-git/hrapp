@@ -90,7 +90,6 @@ const InvoiceItems = (props) => {
                             </Tr>   
                         </Thead>                
                         <Tbody>
-                                        ---{JSON.stringify(invoiceItemList)}
                             {invoiceItemList?.map((invoiceItem, index) => (
                                 <Tr>
                                     <Th>
