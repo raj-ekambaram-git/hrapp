@@ -67,13 +67,9 @@ const TimesheetAddEdit = (props) => {
 
   }, []);
 
-  function handleTimeSheetEntries(timesheetEntries) {
-    console.log*("timesheetEntries:::"+JSON.stringify(timesheetEntries))
-    console.log("handleTimeSheet Entries :::"+JSON.stringify(timesheetActivityList));
-    setTimesheetActivityList(timesheetEntries);
-    console.log("handleTimeSheet Entries ::AFTER:::::"+JSON.stringify(timesheetActivityList));
-
-
+  function handleTimeSheetEntries(timesheetEntriesList) {
+    console.log("handleTimeSheet Entries :::"+JSON.stringify(timesheetEntriesList));
+    setTimesheetActivityList(timesheetEntriesList);
   }
 
   async function getTimesheetDetailsAPICall() {

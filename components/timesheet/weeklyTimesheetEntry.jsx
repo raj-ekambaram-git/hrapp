@@ -107,9 +107,8 @@ const WeeklyTimesheetEntry = (props) => {
         console.log("timesheetEntries UPDATED:::inputData::"+JSON.stringify(inputData));
 
         setTimesheetEntries(inputData);
-        props.data.handleTimeSheetEntries(timesheetEntries);
-
-        console.log("timesheetEntries UPDATED:::"+JSON.stringify(timesheetEntries));
+        console.log("timesheetEntries BEFOREE:::inputData::"+JSON.stringify(inputData));
+        props.data.handleTimeSheetEntries(inputData);
     }
 
 
@@ -122,10 +121,19 @@ const WeeklyTimesheetEntry = (props) => {
     }
 
     function deleteTimesheetEntry(removeIndex) {
-        console.log("deleteTimesheetEntry:::")
+        console.log("deleteTimesheetEntry:::"+removeIndex+"========"+JSON.stringify(timesheetEntryCount))
         const inputData = [...timesheetEntryCount];
+        const inputEntriesData = [...timesheetEntries];
         inputData.splice(removeIndex, 1);
+        console.log("inputEntriesData:::BEFORE:::"+JSON.stringify(inputEntriesData))
+        console.log("inputData:::BEFORE:::"+JSON.stringify(inputData))
+        inputEntriesData.splice(removeIndex, 1);
+
+        console.log("inputEntriesData:::"+JSON.stringify(inputEntriesData));
+        console.log("inputData:::"+JSON.stringify(inputData));
+
         setTimesheetEntryCount(inputData);
+        setTimesheetEntries(inputEntriesData);
     }
     
 
@@ -185,7 +193,7 @@ const WeeklyTimesheetEntry = (props) => {
                             <GridItem colSpan={2} h='10'>
                                 <HStack spacing="1em">    
                                     <Box>
-                                        <DeleteIcon onClick={() => deleteTimesheetEntry(index)}/>
+                                        {index}---<DeleteIcon onClick={() => deleteTimesheetEntry(index)}/>
                                     </Box>                                      
 
                                     <Box borderWidth="timesheet.entry_project" width="timesheet.project_drop_down">
