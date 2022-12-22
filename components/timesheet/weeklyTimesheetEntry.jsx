@@ -107,6 +107,7 @@ const WeeklyTimesheetEntry = (props) => {
         console.log("timesheetEntries UPDATED:::inputData::"+JSON.stringify(inputData));
 
         setTimesheetEntries(inputData);
+        props.data.handleTimeSheetEntries(timesheetEntries);
 
         console.log("timesheetEntries UPDATED:::"+JSON.stringify(timesheetEntries));
     }

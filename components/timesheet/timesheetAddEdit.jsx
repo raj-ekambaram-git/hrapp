@@ -67,6 +67,14 @@ const TimesheetAddEdit = (props) => {
 
   }, []);
 
+  function handleTimeSheetEntries(timesheetEntries) {
+    console.log*("timesheetEntries:::"+JSON.stringify(timesheetEntries))
+    console.log("handleTimeSheet Entries :::"+JSON.stringify(timesheetActivityList));
+    setTimesheetActivityList(timesheetEntries);
+    console.log("handleTimeSheet Entries ::AFTER:::::"+JSON.stringify(timesheetActivityList));
+
+
+  }
 
   async function getTimesheetDetailsAPICall() {
 
@@ -197,7 +205,7 @@ const TimesheetAddEdit = (props) => {
           </Flex>
           <Box width="100%">
             <form onSubmit={handleSubmit(onSubmit)}>
-                  <WeeklyTimesheetEntry></WeeklyTimesheetEntry>
+                  <WeeklyTimesheetEntry data={{handleTimeSheetEntries: handleTimeSheetEntries}}></WeeklyTimesheetEntry>
             </form>          
           </Box>
 
