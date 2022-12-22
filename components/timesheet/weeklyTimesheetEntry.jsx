@@ -33,16 +33,15 @@ const WeeklyTimesheetEntry = (props) => {
     const formOptions = { resolver: yupResolver(TIMESHEET_VALIDATION_SCHEMA) };
     const { register, handleSubmit, setValue, formState } = useForm(formOptions);
     const [isAddMode, setAddMode] = useState(true);
-    const [timesheetEntryCount, setTimesheetEntryCount] = useState([1]);
-    const [timesheetEntries, setTimesheetEntries] = useState([]);
+    const [timesheetEntries, setTimesheetEntries] = useState([{projectId: "", entries: {day1: "", day2: "",day3: "",day4: "",day5: "",day6: "",day7: ""}}]);
     const [showProjectError, setShowProjectError] = useState(false);
 
     function addTimesheeEntry(timesheetEntryCountLength) {
         console.log("addTimesheeEntry::::"+timesheetEntryCountLength);
 
-        const inputData = [...timesheetEntryCount];
-        inputData.push(timesheetEntryCountLength+1);
-        setTimesheetEntryCount(inputData);
+        const inputData = [...timesheetEntries];
+        inputData.push({projectId: "", entries: {day1: "", day2: "",day3: "",day4: "",day5: "",day6: "",day7: ""}});
+        setTimesheetEntries(inputData);
 
 
     }
@@ -121,18 +120,12 @@ const WeeklyTimesheetEntry = (props) => {
     }
 
     function deleteTimesheetEntry(removeIndex) {
-        console.log("deleteTimesheetEntry:::"+removeIndex+"========"+JSON.stringify(timesheetEntryCount))
-        const inputData = [...timesheetEntryCount];
+        console.log("deleteTimesheetEntry:::"+removeIndex+"========")
         const inputEntriesData = [...timesheetEntries];
-        inputData.splice(removeIndex, 1);
         console.log("inputEntriesData:::BEFORE:::"+JSON.stringify(inputEntriesData))
-        console.log("inputData:::BEFORE:::"+JSON.stringify(inputData))
         inputEntriesData.splice(removeIndex, 1);
 
         console.log("inputEntriesData:::"+JSON.stringify(inputEntriesData));
-        console.log("inputData:::"+JSON.stringify(inputData));
-
-        setTimesheetEntryCount(inputData);
         setTimesheetEntries(inputEntriesData);
     }
     
@@ -188,7 +181,7 @@ const WeeklyTimesheetEntry = (props) => {
                         <></>
                     )}
                     <TimesheetDateHeader></TimesheetDateHeader>
-                    {timesheetEntryCount?.map((count, index) => (
+                    {timesheetEntries?.map((timesheetEntry, index) => (
                         <Grid gap="3rem" marginBottom="2rem" autoRows>
                             <GridItem colSpan={2} h='10'>
                                 <HStack spacing="1em">    
@@ -197,7 +190,7 @@ const WeeklyTimesheetEntry = (props) => {
                                     </Box>                                      
 
                                     <Box borderWidth="timesheet.entry_project" width="timesheet.project_drop_down">
-                                        <Select id="projectId" onChange={(ev) => setTimesheetEntry(index, ev.target.value, "projectId")}>
+                                        <Select id="projectId" value={timesheetEntry.projectId} onChange={(ev) => setTimesheetEntry(index, ev.target.value, "projectId")}>
                                             <option value="">Select Project</option>
                                             <option value="Inactive">Inactive</option>
                                             <option value="Error">Error</option>
@@ -210,25 +203,25 @@ const WeeklyTimesheetEntry = (props) => {
                             <GridItem colStart={3} colEnd={6} h='10'>
                                     <HStack spacing="1em">
                                         <Box borderWidth="timesheet.entry">
-                                            <Input type="text" id="day1"  size="md" onChange={(ev) => setTimesheetEntry(index, ev.target.value,"1")} boxSize="timesheet.entry.input"/>
+                                            <Input type="text" id="day1"  value={timesheetEntry.entries.day1}  size="md" onChange={(ev) => setTimesheetEntry(index, ev.target.value,"1")} boxSize="timesheet.entry.input"/>
                                         </Box>    
                                         <Box borderWidth="timesheet.entry">
-                                            <Input type="text" id="day2"  size="md" onChange={(ev) => setTimesheetEntry(index, ev.target.value,"2")} boxSize="timesheet.entry.input"/>
+                                            <Input type="text" id="day2"  size="md" value={timesheetEntry.entries.day2}  onChange={(ev) => setTimesheetEntry(index, ev.target.value,"2")} boxSize="timesheet.entry.input"/>
                                         </Box>    
                                         <Box borderWidth="timesheet.entry">
-                                            <Input type="text" id="day3"  size="md" onChange={(ev) => setTimesheetEntry(index, ev.target.value,"3")} boxSize="timesheet.entry.input"/>
+                                            <Input type="text" id="day3"  size="md" value={timesheetEntry.entries.day3} onChange={(ev) => setTimesheetEntry(index, ev.target.value,"3")} boxSize="timesheet.entry.input"/>
                                         </Box>    
                                         <Box borderWidth="timesheet.entry">
-                                            <Input type="text" id="day4"  size="md" onChange={(ev) => setTimesheetEntry(index, ev.target.value,"4")}  boxSize="timesheet.entry.input"/>
+                                            <Input type="text" id="day4"  size="md" value={timesheetEntry.entries.day4} onChange={(ev) => setTimesheetEntry(index, ev.target.value,"4")}  boxSize="timesheet.entry.input"/>
                                         </Box>    
                                         <Box borderWidth="timesheet.entry">
-                                            <Input type="text" id="day5"  size="md" onChange={(ev) => setTimesheetEntry(index, ev.target.value,"5")} boxSize="timesheet.entry.input"/>
+                                            <Input type="text" id="day5"  size="md" value={timesheetEntry.entries.day5} onChange={(ev) => setTimesheetEntry(index, ev.target.value,"5")} boxSize="timesheet.entry.input"/>
                                         </Box>    
                                         <Box borderWidth="timesheet.entry">
-                                            <Input type="text" id="day6"  size="md" onChange={(ev) => setTimesheetEntry(index, ev.target.value,"6")} boxSize="timesheet.entry.input"/>
+                                            <Input type="text" id="day6"  size="md" value={timesheetEntry.entries.day6} onChange={(ev) => setTimesheetEntry(index, ev.target.value,"6")} boxSize="timesheet.entry.input"/>
                                         </Box>    
                                         <Box borderWidth="timesheet.entry">
-                                            <Input type="text" id="day7"  size="md" onChange={(ev) => setTimesheetEntry(index, ev.target.value,"7")}  boxSize="timesheet.entry.input"/>
+                                            <Input type="text" id="day7"  size="md" value={timesheetEntry.entries.day7} onChange={(ev) => setTimesheetEntry(index, ev.target.value,"7")}  boxSize="timesheet.entry.input"/>
                                         </Box>    
                                     </HStack>                                         
                             </GridItem>
@@ -238,7 +231,7 @@ const WeeklyTimesheetEntry = (props) => {
                         <Box marginRight="1rem">
                         </Box>
                         <Box>
-                            <Button className="btn" onClick={() => addTimesheeEntry(timesheetEntryCount.length)}>
+                            <Button className="btn" onClick={() => addTimesheeEntry(timesheetEntries.length)}>
                                 Add Entry
                             </Button>
                         </Box>
