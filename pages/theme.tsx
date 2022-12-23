@@ -58,7 +58,8 @@ const theme = extendTheme({
       save: "#3182CE",
       discard: "#3182CE",
       submit: "#3182CE",
-      nameDropDown: "white"
+      nameDropDown: "white",
+      entryError: "red"
     }
   },
   sizes: {
