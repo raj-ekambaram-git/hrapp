@@ -34,13 +34,16 @@ const TimesheetAddEdit = (props) => {
   const name = useRef("");
   const email = useRef("");
   const type = useRef("");
-  const userId = useRef("");
+  // const userId = useRef("");
+  const userId = 7;
 
 
   const [timesheetActivityList, setTimesheetActivityList] = useState([]);
+  const [userProjectList, setUserProjectList] = useState([]);
   const [isPageAuthprized, setPageAuthorized] = useState(false);
   const [isPageSectionAuthorized, setPageSectionAuthorized] = useState(false);
   const [isAddMode, setAddMode] = useState(true);
+
   
   
   //User Validation START
@@ -63,13 +66,28 @@ const TimesheetAddEdit = (props) => {
       setPageAuthorized(true);
     }
 
+    if(userService.isAccountAdmin() || userService.isSuperAdmin() || userService.isManager()) {
+      getProjectForUser(userId);
+    }else if(userService.isTimesheetEntryUser()) {
+      // getProjectForUser(userService.getAccountDetails().accountId);
+      getProjectForUser(7);
+    }
+
+    
     getTimesheetDetailsAPICall();
+
 
   }, []);
 
   function handleTimeSheetEntries(timesheetEntriesList) {
     console.log("handleTimeSheet Entries :::"+JSON.stringify(timesheetEntriesList));
     setTimesheetActivityList(timesheetEntriesList);
+  }
+
+  async function getProjectForUser(userId) {
+    console.log("TimeSheet ADD EDIT ::"+JSON.stringify(userId));
+    const projectsForUserResponse = await userService.getProjectsByUser(userId, userService.getAccountDetails().accountId);    
+    setUserProjectList(projectsForUserResponse);
   }
 
   async function getTimesheetDetailsAPICall() {
@@ -122,16 +140,18 @@ const TimesheetAddEdit = (props) => {
   // Create Account 
   const createTimesheet = async (formData) => {
     try {
-      console.log("Create Veendorrr::"+JSON.stringify(formData))
-        const res = await fetch("/api/account/vendor/create", {
+      console.log("Create Timesheet::"+formData.status+"-----timesheetActivityList:::"+JSON.stringify(timesheetActivityList))
+        const res = await fetch("/api/timesheet/create", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            name: formData.name,
+            name: "Week Starting 1/1",
             type: "Weekly",
-            timesheetActivity: {
+            userId: 7,
+            status: formData.status,
+            timesheetEntries: {
               create: timesheetActivityList
             }
           }), 
@@ -201,7 +221,7 @@ const TimesheetAddEdit = (props) => {
           </Flex>
           <Box width="100%">
             <form onSubmit={handleSubmit(onSubmit)}>
-                  <WeeklyTimesheetEntry data={{handleTimeSheetEntries: handleTimeSheetEntries}}></WeeklyTimesheetEntry>
+                  <WeeklyTimesheetEntry data={{onSubmit: onSubmit, handleTimeSheetEntries: handleTimeSheetEntries, userProjectList: userProjectList}}></WeeklyTimesheetEntry>
             </form>          
           </Box>
 

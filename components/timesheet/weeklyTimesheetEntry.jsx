@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import {EMPTY_STRING, MODE_ADD, TIMESHEET_VALIDATION_SCHEMA, USER_ROLES} from "../../constants/accountConstants";
+import {EMPTY_STRING, TIMESHEET_STATUS, TIMESHEET_VALIDATION_SCHEMA, TIMESHEET_ENTRY_DEFAULT} from "../../constants/accountConstants";
 
 import {
     HStack,
@@ -33,17 +33,30 @@ const WeeklyTimesheetEntry = (props) => {
     const formOptions = { resolver: yupResolver(TIMESHEET_VALIDATION_SCHEMA) };
     const { register, handleSubmit, setValue, formState } = useForm(formOptions);
     const [isAddMode, setAddMode] = useState(true);
-    const [timesheetEntries, setTimesheetEntries] = useState([{projectId: "", entries: {day1: {hours: "", error: false}, day2: {hours: "", error: false},day3: {hours: "", error: false},day4: {hours: "", error: false},day5: {hours: "", error: false},day6: {hours: "", error: false},day7: {hours: "", error: false}}}]);
+    const [timesheetEntries, setTimesheetEntries] = useState([TIMESHEET_ENTRY_DEFAULT]);
     const [showProjectError, setShowProjectError] = useState(false);
 
     function addTimesheeEntry(timesheetEntryCountLength) {
         console.log("addTimesheeEntry::::"+timesheetEntryCountLength);
 
         const inputData = [...timesheetEntries];
-        inputData.push({projectId: "", entries: {day1: {hours: "", error: false}, day2: {hours: "", error: false},day3: {hours: "", error: false},day4: {hours: "", error: false},day5: {hours: "", error: false},day6: {hours: "", error: false},day7: {hours: "", error: false}}});
+        inputData.push(TIMESHEET_ENTRY_DEFAULT);
         setTimesheetEntries(inputData);
 
 
+    }
+
+
+    function submitTimesheet(status) {
+        console.log("status:::"+status);
+        const inputData = [...timesheetEntries];
+        for (let i = 0; i < inputData.length; i++) {
+            inputData[i].status = status;
+        }
+        console.log("inputData inside submit time sheet:::"+JSON.stringify(inputData));
+        setTimesheetEntries(inputData);
+        props.data.handleTimeSheetEntries(timesheetEntries);
+        props.data.onSubmit({status: status});
     }
 
     function setTimesheetEntry(index, inputValue, dayNumber) {
@@ -55,7 +68,7 @@ const WeeklyTimesheetEntry = (props) => {
         //Condition when new record is updated for first time
         if(inputData.length === 0 || inputData.length <= index) {
             console.log("inside new timesheet entry record")
-            timeEntryRecord = {projectId: "", entries: {day1: {hours: "", error: false}, day2: {hours: "", error: false},day3: {hours: "", error: false},day4: {hours: "", error: false},day5: {hours: "", error: false},day6: {hours: "", error: false},day7: {hours: "", error: false}}};
+            timeEntryRecord = TIMESHEET_ENTRY_DEFAULT;
             console.log("inside new timesheet entry record ::newTimeEntryRecord::"+JSON.stringify(timeEntryRecord));
             inputData.push(timeEntryRecord);
         } else { //Trying to update thhe record already created
@@ -105,7 +118,7 @@ const WeeklyTimesheetEntry = (props) => {
                 timeEntryRecord.entries.day7.hours = inputValue;
                 break;
             case "projectId":
-                timeEntryRecord.projectId = inputValue;
+                timeEntryRecord.projectId = parseInt(inputValue);
                 break;
             default:
                 console.log("default");                    
@@ -172,12 +185,12 @@ const WeeklyTimesheetEntry = (props) => {
                         <Box>
                             <HStack>
                                 <Box>
-                                    <Button className="btn" onClick={""} bgColor="timesheet.save">
+                                    <Button className="btn" bgColor="timesheet.save" onClick={() => submitTimesheet(TIMESHEET_STATUS.Saved)}>
                                         Save
                                     </Button>
                                 </Box>
                                 <Box>
-                                    <Button type="submit" bgColor="timesheet.submit">
+                                    <Button bgColor="timesheet.submit" onClick={() => submitTimesheet(TIMESHEET_STATUS.Submitted)}>
                                         {isAddMode ? (
                                             <>Submit</>
                                         ) : (
@@ -214,10 +227,9 @@ const WeeklyTimesheetEntry = (props) => {
                                     <Box borderWidth="timesheet.entry_project" width="timesheet.project_drop_down">
                                         <Select id="projectId" value={timesheetEntry.projectId} onChange={(ev) => setTimesheetEntry(index, ev.target.value, "projectId")}>
                                             <option value="">Select Project</option>
-                                            <option value="Inactive">Inactive</option>
-                                            <option value="Error">Error</option>
-                                            <option value="Approved">Approved</option>
-                                            <option value="Rejected">Rejected</option>
+                                            {props.data.userProjectList?.map((project) => (
+                                                <option value={project.projectId}>{project.project.name} - {project.project.referenceCode}</option>
+                                            ))}
                                         </Select>  
                                     </Box>  
                                 </HStack>

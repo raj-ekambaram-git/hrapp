@@ -136,31 +136,32 @@ model InvoiceItem {
 }
 
 model Project {
-  id                     Int                 @id @default(autoincrement())
+  id                     Int               @id @default(autoincrement())
   name                   String
   referenceCode          String
-  description            String              @default("")
+  description            String            @default("")
   type                   InvoiceItemType
   invoiceCycle           InvoiceCycle
-  addressId              Int                 @default(0)
-  address                Address?            @relation(fields: [addressId], references: [id])
-  vendorId               Int                 @default(0)
-  vendor                 Vendor?             @relation(fields: [vendorId], references: [id])
-  accountId              Int                 @default(0)
-  account                Account?            @relation(fields: [accountId], references: [id])
-  budget                 Decimal             @default(0)
-  totalHours             Int?                @default(0)
+  addressId              Int               @default(0)
+  address                Address?          @relation(fields: [addressId], references: [id])
+  vendorId               Int               @default(0)
+  vendor                 Vendor?           @relation(fields: [vendorId], references: [id])
+  accountId              Int               @default(0)
+  account                Account?          @relation(fields: [accountId], references: [id])
+  budget                 Decimal           @default(0)
+  totalHours             Int?              @default(0)
   averageRate            Decimal?
-  timeSheetNotesRequired Boolean             @default(false)
+  timeSheetNotesRequired Boolean           @default(false)
   status                 ProjectStatus
   contactName            String?
   contactEmail           String?
   contactPhone           String?
-  createdDate            DateTime            @default(now())
-  lastUpdateDate         DateTime            @updatedAt
+  createdDate            DateTime          @default(now())
+  lastUpdateDate         DateTime          @updatedAt
   invoice                Invoice[]
   projectResource        ProjectResource[]
-  timesheetActivity      TimesheetActivity[]
+
+  timesheetEntries TimesheetEntries[]
 }
 
 model User {
@@ -198,14 +199,15 @@ model UserAttributes {
 }
 
 model Timesheet {
-  id                Int                 @id @default(autoincrement())
-  name              String              @default("")
-  type              TimesheetType
-  user              User?               @relation(fields: [userId], references: [id])
-  userId            Int?                @default(1)
-  createdDate       DateTime            @default(now())
-  lastUpdateDate    DateTime            @updatedAt
-  timesheetActivity TimesheetActivity[]
+  id               Int                @id @default(autoincrement())
+  name             String             @default("")
+  type             TimesheetType
+  user             User?              @relation(fields: [userId], references: [id])
+  userId           Int?               @default(1)
+  status           TimesheetStatus
+  createdDate      DateTime           @default(now())
+  lastUpdateDate   DateTime           @updatedAt
+  timesheetEntries TimesheetEntries[]
 }
 
 model Calendar {
@@ -218,15 +220,15 @@ model Calendar {
   vendorObservedHoliday Boolean  @default(false)
 }
 
-model TimesheetActivity {
+model TimesheetEntries {
   id           Int             @id @default(autoincrement())
   timesheet    Timesheet?      @relation(fields: [timesheetId], references: [id])
   timesheetId  Int?
   project      Project?        @relation(fields: [projectId], references: [id])
   projectId    Int?            @default(1)
   status       TimesheetStatus
-  approvedDate DateTime
-  activityData String
+  approvedDate DateTime?
+  entries      Json
 }
 
 enum AddressType {
@@ -348,6 +350,7 @@ enum TimesheetType {
 enum TimesheetStatus {
   Draft
   Saved
+  Submitted
   Approved
   Rejected
   Invoiced

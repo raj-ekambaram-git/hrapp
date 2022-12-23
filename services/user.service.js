@@ -24,6 +24,7 @@ export const userService = {
     getAccountsList,
     getUsersByVendor,
     getUsersByAccount,
+    getProjectsByUser,
     isEmployee,
     isContractor,
     isManager,
@@ -44,6 +45,13 @@ function getUsersByVendor(vendorId, accountId) {
        return users;
    });
 }
+
+function getProjectsByUser(userId, accountId) {
+    return fetchWrapper.get(`${baseUrl}/account/user/`+userId+'/projects?accountId='+accountId, {})
+    .then(users => {
+        return users;
+    });
+ }
 
 function getUsersByAccount(accountId) {
     return fetchWrapper.get(`${baseUrl}/account/list`, {})
