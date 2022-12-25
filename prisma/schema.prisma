@@ -208,6 +208,8 @@ model Timesheet {
   createdDate      DateTime           @default(now())
   lastUpdateDate   DateTime           @updatedAt
   timesheetEntries TimesheetEntries[]
+
+  @@unique([userId, name])
 }
 
 model Calendar {

@@ -96,36 +96,7 @@ const TimesheetAddEdit = (props) => {
     if((userService.isAccountAdmin() || userService.isSuperAdmin() || userService.isTimesheetEntryUser() || userService.isManager()) 
           && (props && props.data && props.data.mode != MODE_ADD)) {
       
-      // const vendorResponse = await accountService.getVendorDetail(props.data.vendorId, userService.getAccountDetails().accountId);
-      //   const vendorData =  {
-      //       id: vendorResponse.id.toString(),
-      //       name: vendorResponse.name,
-      //       description: vendorResponse.description,
-      //       email: vendorResponse.email,
-      //       type: vendorResponse.type,
-      //       phone: vendorResponse.phone,
-      //       accountId: vendorResponse.accountId,
-      //       ein: vendorResponse.ein,
-      //       status: vendorResponse.status,
-      //       accountContactName: vendorResponse.accountContactName,
-      //       accountContactEmail: vendorResponse.accountContactEmail,
-      //       accountContactPhone: vendorResponse.accountContactPhone,
-      //       addressId: vendorResponse.address[0].id,
-      //       addressName: vendorResponse.address[0].addressName,
-      //       address1: vendorResponse.address[0].address1,
-      //       address2: vendorResponse.address[0].address2,
-      //       address3: vendorResponse.address[0].address3,
-      //       city: vendorResponse.address[0].city,
-      //       state: vendorResponse.address[0].state,
-      //       zipCode: vendorResponse.address[0].zipCode,
-      //       country: vendorResponse.address[0].country
-      //   };
-
-      //   setVendor(vendorData);
-
-      //   // get user and set form fields
-      //       const fields = ['name', "description", "email", "type","phone","accountId", "ein","status","accountContactName","accountContactEmail","accountContactPhone","addressName","address1", "address2", "address3","city","state","zipCode"];
-      //       fields.forEach(field => setValue(field, vendorData[field]));
+            
     }
 
   }
