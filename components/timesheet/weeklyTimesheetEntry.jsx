@@ -33,7 +33,7 @@ const WeeklyTimesheetEntry = (props) => {
     const formOptions = { resolver: yupResolver(TIMESHEET_VALIDATION_SCHEMA) };
     const { register, handleSubmit, setValue, formState } = useForm(formOptions);
     const [isAddMode, setAddMode] = useState(true);
-    const [timesheetEntries, setTimesheetEntries] = useState([TIMESHEET_ENTRY_DEFAULT]);
+    const [timesheetEntries, setTimesheetEntries] = useState([{projectId: "", status: "", entries: {day1: {hours: "", error: false}, day2: {hours: "", error: false},day3: {hours: "", error: false},day4: {hours: "", error: false},day5: {hours: "", error: false},day6: {hours: "", error: false},day7: {hours: "", error: false}}}]);
     const [showProjectError, setShowProjectError] = useState(false);
 
     function addTimesheeEntry(timesheetEntryCountLength) {
