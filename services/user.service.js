@@ -28,7 +28,8 @@ export const userService = {
     isEmployee,
     isContractor,
     isManager,
-    isTimesheetEntryUser
+    isTimesheetEntryUser,
+    getTimesheetByUser
 
 };
 
@@ -45,6 +46,13 @@ function getUsersByVendor(vendorId, accountId) {
        return users;
    });
 }
+
+function getTimesheetByUser(userId, accountId) {
+    return fetchWrapper.get(`${baseUrl}/account/user/`+userId+'/timesheets?accountId='+accountId, {})
+    .then(timesheets => {
+        return timesheets;
+    });
+ }
 
 function getProjectsByUser(userId, accountId) {
     return fetchWrapper.get(`${baseUrl}/account/user/`+userId+'/projects?accountId='+accountId, {})

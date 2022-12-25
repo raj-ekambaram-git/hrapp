@@ -55,6 +55,8 @@ const theme = extendTheme({
     cancel_button: 'e4eaee',
     inner_table_tile: '#EDF2F7',
     timesheet: {
+      pending_status: "#48BB78",
+      approved_status: "#48BB78",
       save: "#3182CE",
       discard: "#3182CE",
       submit: "#3182CE",
