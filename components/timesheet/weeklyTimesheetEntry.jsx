@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import {EMPTY_STRING, TIMESHEET_STATUS, TIMESHEET_VALIDATION_SCHEMA, TIMESHEET_ENTRY_DEFAULT, MODE_ADD, MODE_EDIT} from "../../constants/accountConstants";
-import { userService } from "../../services";
+import {EMPTY_STRING, TIMESHEET_STATUS, MODE_ADD} from "../../constants/accountConstants";
+import { userService, timesheetService } from "../../services";
 import {
     HStack,
     Button,
@@ -27,12 +27,13 @@ import {
 const WeeklyTimesheetEntry = (props) => {
 
 
-    const formOptions = { resolver: yupResolver(TIMESHEET_VALIDATION_SCHEMA) };
-    const { register, handleSubmit, setValue, formState } = useForm(formOptions);
     const [isAddMode, setAddMode] = useState(true);
     const [timesheetEntries, setTimesheetEntries] = useState([{projectId: "", status: "", entries: {day1: {hours: "", error: false}, day2: {hours: "", error: false},day3: {hours: "", error: false},day4: {hours: "", error: false},day5: {hours: "", error: false},day6: {hours: "", error: false},day7: {hours: "", error: false}}}]);
     const [showProjectError, setShowProjectError] = useState(false);
     const [userProjectList, setUserProjectList] = useState([]);
+    const [timesheetData, setTimesheetData] = useState([]);
+    const [enableUpdate, setEnableUpdate] = useState(false);
+    
 
     useEffect(() => {
 
@@ -42,7 +43,8 @@ const WeeklyTimesheetEntry = (props) => {
           // getProjectForUser(userService.getAccountDetails().accountId);
           getProjectForUser(7);
         }
-    
+        
+        setAddMode(props.data.isAddMode);
         
         getTimesheetDetailsAPICall();
     
@@ -54,7 +56,17 @@ const WeeklyTimesheetEntry = (props) => {
         if((userService.isAccountAdmin() || userService.isSuperAdmin() || userService.isTimesheetEntryUser() || userService.isManager()) 
               && (props && props.data && props.data.mode != MODE_ADD)) {
           
-                
+                const timesheetResponse = await timesheetService.getTimesheetDetails(props.data.timesheetId, userService.getAccountDetails().accountId);
+                setTimesheetData(timesheetResponse);
+                setTimesheetEntries(timesheetResponse.timesheetEntries);
+                console.log("timesheetResponse:::"+JSON.stringify(timesheetResponse))
+
+                console.log("isAddMode::"+isAddMode+"---STATUS:::"+timesheetResponse.status)
+                //Condition to ebale the update buttong based on the status and mode
+                if(isAddMode || (!isAddMode && timesheetResponse.status != TIMESHEET_STATUS.Approved)) {
+                    console.log("inside")
+                    setEnableUpdate(true)
+                }
         }
     
       }      
@@ -71,7 +83,6 @@ const WeeklyTimesheetEntry = (props) => {
         const inputData = [...timesheetEntries];
         inputData.push(TIMESHEET_ENTRY_DEFAULT);
         setTimesheetEntries(inputData);
-
 
     }
 
@@ -206,28 +217,45 @@ const WeeklyTimesheetEntry = (props) => {
                         <Box width="timesheet.nameDropDown">
                             <HStack>
                                 <ArrowBackIcon onClick={() => changeTimesheetBefore(index)}/>
-                                <Heading size='sm'>Week Starting 1/1</Heading>
+                                {isAddMode ? (
+                                    <>
+                                        <Heading size='sm'>Week Starting 1/1</Heading>
+                                    </>
+                                ) : (
+                                    <>
+                                        <Heading size='sm'>{timesheetData.name}</Heading>
+                                    </>
+                                )}
                                 <ArrowForwardIcon onClick={() => changeTimesheetAfter(index)}/>
                             </HStack>
                         </Box>
                         <Box></Box>
                         <Box>
-                            <HStack>
-                                <Box>
-                                    <Button className="btn" bgColor="timesheet.save" onClick={() => submitTimesheet(TIMESHEET_STATUS.Saved)}>
-                                        Save
-                                    </Button>
-                                </Box>
-                                <Box>
-                                    <Button bgColor="timesheet.submit" onClick={() => submitTimesheet(TIMESHEET_STATUS.Submitted)}>
-                                        {isAddMode ? (
-                                            <>Submit</>
-                                        ) : (
-                                            <>Submit</>
-                                        )}
-                                    </Button>
-                                </Box>
-                            </HStack>
+                            ==={enableUpdate}++++
+                            {enableUpdate ? (
+                                <>
+                                    <HStack>
+                                        <Box>
+                                            <Button className="btn" bgColor="timesheet.save" onClick={() => submitTimesheet(TIMESHEET_STATUS.Saved)}>
+                                                Save
+                                            </Button>
+                                        </Box>
+                                        <Box>
+                                            <Button bgColor="timesheet.submit" onClick={() => submitTimesheet(TIMESHEET_STATUS.Submitted)}>
+                                                {isAddMode ? (
+                                                    <>Submit</>
+                                                ) : (
+                                                    <>Submit</>
+                                                )}
+                                            </Button>
+                                        </Box>
+                                    </HStack>                                
+                                </>
+                            ) : (
+                                <>
+                                </>
+                            )}
+
                         </Box>
 
 
@@ -249,10 +277,16 @@ const WeeklyTimesheetEntry = (props) => {
                         <Grid gap="3rem" marginBottom="2rem" autoRows>
                             <GridItem colSpan={2} h='10'>
                                 <HStack spacing="1em">    
-                                    <Box>
-                                        <DeleteIcon onClick={() => deleteTimesheetEntry(index)}/>
-                                    </Box>                                      
-
+                                {enableUpdate ? (
+                                    <>
+                                        <Box>
+                                            <DeleteIcon onClick={() => deleteTimesheetEntry(index)}/>
+                                        </Box>                                      
+                                    </>
+                                ): (
+                                    <>
+                                    </>
+                                )}
                                     <Box borderWidth="timesheet.entry_project" width="timesheet.project_drop_down">
                                         <Select id="projectId" value={timesheetEntry.projectId} onChange={(ev) => setTimesheetEntry(index, ev.target.value, "projectId")}>
                                             <option value="">Select Project</option>

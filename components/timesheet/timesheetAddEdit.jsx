@@ -45,24 +45,12 @@ const TimesheetAddEdit = (props) => {
 
   //Get Account Details only if its EditMode
   useEffect(() => {
-    if(props && props.data && props.data.mode != MODE_ADD) {
-      setAddMode(false);
-    }
-
+    console.log("rops.data.isAddMode::"+props.data.isAddMode)
+    setAddMode(props.data.isAddMode);
+  
     if(userService.isAccountAdmin() || userService.isSuperAdmin() || userService.isTimesheetEntryUser() || userService.isManager()) {
       setPageAuthorized(true);
     }
-
-    // if(userService.isAccountAdmin() || userService.isSuperAdmin() || userService.isManager()) {
-    //   getProjectForUser(userId);
-    // }else if(userService.isTimesheetEntryUser()) {
-    //   // getProjectForUser(userService.getAccountDetails().accountId);
-    //   getProjectForUser(7);
-    // }
-
-    
-    // getTimesheetDetailsAPICall();
-
 
   }, []);
 
@@ -163,7 +151,7 @@ const TimesheetAddEdit = (props) => {
           </Flex>
           <Box width="100%">
             <form onSubmit={handleSubmit(onSubmit)}>
-                  <WeeklyTimesheetEntry data={{onSubmit: onSubmit, handleTimeSheetEntries: handleTimeSheetEntries}}></WeeklyTimesheetEntry>
+                  <WeeklyTimesheetEntry data={{timesheetId: timesheetId, isAddMode: isAddMode, onSubmit: onSubmit, handleTimeSheetEntries: handleTimeSheetEntries}}></WeeklyTimesheetEntry>
             </form>          
           </Box>
 
