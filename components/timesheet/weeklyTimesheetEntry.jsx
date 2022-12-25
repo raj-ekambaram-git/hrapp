@@ -1,16 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import {EMPTY_STRING, TIMESHEET_STATUS, TIMESHEET_VALIDATION_SCHEMA, TIMESHEET_ENTRY_DEFAULT} from "../../constants/accountConstants";
-
+import {EMPTY_STRING, TIMESHEET_STATUS, TIMESHEET_VALIDATION_SCHEMA, TIMESHEET_ENTRY_DEFAULT, MODE_ADD, MODE_EDIT} from "../../constants/accountConstants";
+import { userService } from "../../services";
 import {
     HStack,
     Button,
     Box,
-    Flex,
-    Heading,
-    FormControl,
-    FormLabel,
+   Heading,
     Input,
     Select,
     Stack,
@@ -35,6 +32,38 @@ const WeeklyTimesheetEntry = (props) => {
     const [isAddMode, setAddMode] = useState(true);
     const [timesheetEntries, setTimesheetEntries] = useState([{projectId: "", status: "", entries: {day1: {hours: "", error: false}, day2: {hours: "", error: false},day3: {hours: "", error: false},day4: {hours: "", error: false},day5: {hours: "", error: false},day6: {hours: "", error: false},day7: {hours: "", error: false}}}]);
     const [showProjectError, setShowProjectError] = useState(false);
+    const [userProjectList, setUserProjectList] = useState([]);
+
+    useEffect(() => {
+
+        if(userService.isAccountAdmin() || userService.isSuperAdmin() || userService.isManager()) {
+          getProjectForUser(userId);
+        }else if(userService.isTimesheetEntryUser()) {
+          // getProjectForUser(userService.getAccountDetails().accountId);
+          getProjectForUser(7);
+        }
+    
+        
+        getTimesheetDetailsAPICall();
+    
+      }, []);
+
+      async function getTimesheetDetailsAPICall() {
+
+        // Call only if the user is SUPER_ADMIN and accountId as zero
+        if((userService.isAccountAdmin() || userService.isSuperAdmin() || userService.isTimesheetEntryUser() || userService.isManager()) 
+              && (props && props.data && props.data.mode != MODE_ADD)) {
+          
+                
+        }
+    
+      }      
+
+    async function getProjectForUser(userId) {
+        console.log("TimeSheet ADD EDIT ::"+JSON.stringify(userId));
+        const projectsForUserResponse = await userService.getProjectsByUser(userId, userService.getAccountDetails().accountId);    
+        setUserProjectList(projectsForUserResponse);
+    }
 
     function addTimesheeEntry(timesheetEntryCountLength) {
         console.log("addTimesheeEntry::::"+timesheetEntryCountLength);
@@ -227,7 +256,7 @@ const WeeklyTimesheetEntry = (props) => {
                                     <Box borderWidth="timesheet.entry_project" width="timesheet.project_drop_down">
                                         <Select id="projectId" value={timesheetEntry.projectId} onChange={(ev) => setTimesheetEntry(index, ev.target.value, "projectId")}>
                                             <option value="">Select Project</option>
-                                            {props.data.userProjectList?.map((project) => (
+                                            {userProjectList?.map((project) => (
                                                 <option value={project.projectId}>{project.project.name} - {project.project.referenceCode}</option>
                                             ))}
                                         </Select>  

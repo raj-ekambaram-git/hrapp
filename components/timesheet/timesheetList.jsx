@@ -143,7 +143,7 @@ const TimesheetList = (props) => {
                             </Th>
                             <Th>
                               <HStack>
-                                <Link href={`/account/timesheet/${timesheet.id}`}>
+                                <Link href={`/timesheet/${timesheet.id}`}>
                                   <Button className="btn">
                                     Details
                                   </Button>

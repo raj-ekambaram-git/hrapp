@@ -3,26 +3,14 @@ import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { util } from '../../helpers';
-import { accountService, userService } from "../../services";
-import {MODE_ADD, TIMESHEET_VALIDATION_SCHEMA, USER_ROLES} from "../../constants/accountConstants";
-
+import { userService } from "../../services";
+import {MODE_ADD, TIMESHEET_VALIDATION_SCHEMA} from "../../constants/accountConstants";
+import { PageNotAuthorized } from "../../components/common/pageNotAuthorized";
 
 import {
-  HStack,
-  Button,
   Box,
   Flex,
   Heading,
-  FormControl,
-  FormLabel,
-  Input,
-  Select,
-  Stack,
-  Card,
-  CardHeader,
-  CardBody,
-  StackDivider
 } from '@chakra-ui/react'
 import WeeklyTimesheetEntry from "./weeklyTimesheetEntry";
 
@@ -39,7 +27,6 @@ const TimesheetAddEdit = (props) => {
 
 
   const [timesheetActivityList, setTimesheetActivityList] = useState([]);
-  const [userProjectList, setUserProjectList] = useState([]);
   const [isPageAuthprized, setPageAuthorized] = useState(false);
   const [isPageSectionAuthorized, setPageSectionAuthorized] = useState(false);
   const [isAddMode, setAddMode] = useState(true);
@@ -66,15 +53,15 @@ const TimesheetAddEdit = (props) => {
       setPageAuthorized(true);
     }
 
-    if(userService.isAccountAdmin() || userService.isSuperAdmin() || userService.isManager()) {
-      getProjectForUser(userId);
-    }else if(userService.isTimesheetEntryUser()) {
-      // getProjectForUser(userService.getAccountDetails().accountId);
-      getProjectForUser(7);
-    }
+    // if(userService.isAccountAdmin() || userService.isSuperAdmin() || userService.isManager()) {
+    //   getProjectForUser(userId);
+    // }else if(userService.isTimesheetEntryUser()) {
+    //   // getProjectForUser(userService.getAccountDetails().accountId);
+    //   getProjectForUser(7);
+    // }
 
     
-    getTimesheetDetailsAPICall();
+    // getTimesheetDetailsAPICall();
 
 
   }, []);
@@ -84,22 +71,6 @@ const TimesheetAddEdit = (props) => {
     setTimesheetActivityList(timesheetEntriesList);
   }
 
-  async function getProjectForUser(userId) {
-    console.log("TimeSheet ADD EDIT ::"+JSON.stringify(userId));
-    const projectsForUserResponse = await userService.getProjectsByUser(userId, userService.getAccountDetails().accountId);    
-    setUserProjectList(projectsForUserResponse);
-  }
-
-  async function getTimesheetDetailsAPICall() {
-
-    // Call only if the user is SUPER_ADMIN and accountId as zero
-    if((userService.isAccountAdmin() || userService.isSuperAdmin() || userService.isTimesheetEntryUser() || userService.isManager()) 
-          && (props && props.data && props.data.mode != MODE_ADD)) {
-      
-            
-    }
-
-  }
 
   function onSubmit(data) {
     
@@ -192,29 +163,15 @@ const TimesheetAddEdit = (props) => {
           </Flex>
           <Box width="100%">
             <form onSubmit={handleSubmit(onSubmit)}>
-                  <WeeklyTimesheetEntry data={{onSubmit: onSubmit, handleTimeSheetEntries: handleTimeSheetEntries, userProjectList: userProjectList}}></WeeklyTimesheetEntry>
+                  <WeeklyTimesheetEntry data={{onSubmit: onSubmit, handleTimeSheetEntries: handleTimeSheetEntries}}></WeeklyTimesheetEntry>
             </form>          
           </Box>
 
         </div>
       ) : (
         <> 
-        <Flex
-          as="nav"
-          align="center"
-          justify="space-between"
-          wrap="wrap"
-          padding="1.5rem"
-          bg="teal.500"
-          color="white"
-          marginBottom="2rem"
-          width="100%"
-        >
-          <Heading as="h1" size="lg" letterSpacing={'-.1rem'}>
-            Not authorized to view this page. Please contact administrator.
-          </Heading>
-        </Flex>        
-      </>
+            <PageNotAuthorized/>
+        </>
       )}
     </div>
 
