@@ -32,7 +32,6 @@ const WeeklyTimesheetEntry = (props) => {
     const [showProjectError, setShowProjectError] = useState(false);
     const [userProjectList, setUserProjectList] = useState([]);
     const [timesheetData, setTimesheetData] = useState([]);
-    const [enableUpdate, setEnableUpdate] = useState(false);
     
 
     useEffect(() => {
@@ -43,7 +42,7 @@ const WeeklyTimesheetEntry = (props) => {
           // getProjectForUser(userService.getAccountDetails().accountId);
           getProjectForUser(7);
         }
-        
+        console.log("props.data.isAddMode:::"+JSON.stringify(props.data.isAddMode))
         setAddMode(props.data.isAddMode);
         
         getTimesheetDetailsAPICall();
@@ -61,12 +60,8 @@ const WeeklyTimesheetEntry = (props) => {
                 setTimesheetEntries(timesheetResponse.timesheetEntries);
                 console.log("timesheetResponse:::"+JSON.stringify(timesheetResponse))
 
-                console.log("isAddMode::"+isAddMode+"---STATUS:::"+timesheetResponse.status)
+                console.log("isAddMode::"+isAddMode+"---STATUS:::"+timesheetResponse.status);
                 //Condition to ebale the update buttong based on the status and mode
-                if(isAddMode || (!isAddMode && timesheetResponse.status != TIMESHEET_STATUS.Approved)) {
-                    console.log("inside")
-                    setEnableUpdate(true)
-                }
         }
     
       }      
@@ -231,8 +226,7 @@ const WeeklyTimesheetEntry = (props) => {
                         </Box>
                         <Box></Box>
                         <Box>
-                            ==={enableUpdate}++++
-                            {enableUpdate ? (
+                            {isAddMode || (!isAddMode && timesheetData.status != TIMESHEET_STATUS.Approved) ? (
                                 <>
                                     <HStack>
                                         <Box>
@@ -277,7 +271,7 @@ const WeeklyTimesheetEntry = (props) => {
                         <Grid gap="3rem" marginBottom="2rem" autoRows>
                             <GridItem colSpan={2} h='10'>
                                 <HStack spacing="1em">    
-                                {enableUpdate ? (
+                                {isAddMode || (!isAddMode && timesheetData.status != TIMESHEET_STATUS.Approved) ? (
                                     <>
                                         <Box>
                                             <DeleteIcon onClick={() => deleteTimesheetEntry(index)}/>

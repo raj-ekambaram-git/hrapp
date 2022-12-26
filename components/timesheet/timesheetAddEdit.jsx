@@ -45,9 +45,12 @@ const TimesheetAddEdit = (props) => {
 
   //Get Account Details only if its EditMode
   useEffect(() => {
-    console.log("rops.data.isAddMode::"+props.data.isAddMode)
-    setAddMode(props.data.isAddMode);
-  
+    console.log("props.data.mode::"+JSON.stringify(props.data.mode))
+    if(props && props.data && props.data.mode != MODE_ADD) {
+      console.log("setting add mode to false...")
+      setAddMode(false);
+    }
+
     if(userService.isAccountAdmin() || userService.isSuperAdmin() || userService.isTimesheetEntryUser() || userService.isManager()) {
       setPageAuthorized(true);
     }
