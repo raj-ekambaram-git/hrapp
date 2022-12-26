@@ -7,7 +7,7 @@ import {
     HStack,
     Button,
     Box,
-   Heading,
+    Heading,
     Input,
     Select,
     Stack,
@@ -216,11 +216,11 @@ const WeeklyTimesheetEntry = (props) => {
                                 {isAddMode ? (
                                     <>
                                         <Heading size='sm'>Week Starting 1/1</Heading>
-                                        <ArrowForwardIcon onClick={() => changeTimesheetAfter(index)}/>
                                     </>
                                 ) : (
                                     <>
                                         <Heading size='sm'>{timesheetData.name}</Heading>
+                                        <ArrowForwardIcon onClick={() => changeTimesheetAfter(index)}/>                                        
                                     </>
                                 )}
                                 

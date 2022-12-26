@@ -106,7 +106,7 @@ const TimesheetAddEdit = (props) => {
   const updateTimesheet = async (timesheetId, formData) => {
     console.log("JSON Data::"+JSON.stringify(formData))
     try {
-      const res = await fetch(`/api/account/vendor/${vendorId}`, {
+      const res = await fetch(`/api/timesheet/${timesheetId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -114,7 +114,11 @@ const TimesheetAddEdit = (props) => {
         body: JSON.stringify({
           id: parseInt(timesheetId),
           name: formData.name,
-          type: "Weekly"
+          type: "Weekly",
+          timesheetEntries: {
+            update: timesheetActivityList
+          }
+
         }),
       });
 

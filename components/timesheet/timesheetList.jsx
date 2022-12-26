@@ -17,7 +17,7 @@ import {
   TableCaption,
   Badge
 } from '@chakra-ui/react'
-import { PageNotAuthorized } from "../common/pageNotAUthorized";
+import { PageNotAuthorized } from "../common/pageNotAuthorized";
 
 const TimesheetList = (props) => {
   const router = useRouter();
