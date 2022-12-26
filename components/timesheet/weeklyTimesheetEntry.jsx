@@ -16,7 +16,8 @@ import {
     CardBody,
     StackDivider,
     Grid,
-    GridItem
+    GridItem,
+    Badge
   } from '@chakra-ui/react';
 import TimesheetDateHeader from "./timesheetDateHeader";
 import {
@@ -215,13 +216,14 @@ const WeeklyTimesheetEntry = (props) => {
                                 {isAddMode ? (
                                     <>
                                         <Heading size='sm'>Week Starting 1/1</Heading>
+                                        <ArrowForwardIcon onClick={() => changeTimesheetAfter(index)}/>
                                     </>
                                 ) : (
                                     <>
                                         <Heading size='sm'>{timesheetData.name}</Heading>
                                     </>
                                 )}
-                                <ArrowForwardIcon onClick={() => changeTimesheetAfter(index)}/>
+                                
                             </HStack>
                         </Box>
                         <Box></Box>
@@ -313,6 +315,16 @@ const WeeklyTimesheetEntry = (props) => {
                                         </Box>    
                                         <Box borderWidth="timesheet.entry" borderColor={timesheetEntry.entries.day7.error ? 'timesheet.entryError' : ""}>
                                             <Input type="number" id="day7"  size="md" value= {timesheetEntry.entries.day7.error ? "" : timesheetEntry.entries.day7.hours}  onChange={(ev) => setTimesheetEntry(index, ev.target.value,"7")}  boxSize="timesheet.entry.input"/>
+                                        </Box>    
+                                        <Box>
+                                            <Badge color={`${
+                                                    timesheetEntry.status === "Approved"
+                                                    ? "timesheet.approved_status"
+                                                    : (timesheetEntry.status === "Submitted" || timesheetEntry.status === "Saved")
+                                                    ? "timesheet.pending_status"
+                                                    : "timesheet.pending_status"
+                                                }`}>{timesheetEntry.status}
+                                            </Badge>
                                         </Box>    
                                     </HStack>                                         
                             </GridItem>
