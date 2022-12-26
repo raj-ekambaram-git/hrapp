@@ -115,9 +115,7 @@ const TimesheetAddEdit = (props) => {
           id: parseInt(timesheetId),
           name: formData.name,
           type: "Weekly",
-          timesheetEntries: {
-            update: timesheetActivityList
-          }
+          status: formData.status
 
         }),
       });
