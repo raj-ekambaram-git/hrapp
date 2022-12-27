@@ -14,13 +14,21 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     console.log("Timesheet Data:::"+JSON.stringify(timesheet));
     
-
+    let timesheetEntryStatus = EMPTY_STRING;
+    let updateTimesheetStatus = false;
     //Update the timesheet entries first
     for (let i = 0; i < timesheet.timesheetEntries.length; i++) {
       console.log("inside the entries presenet..")
       let timesheetEntry = timesheet.timesheetEntries[i];
+      timesheetEntryStatus = timesheetEntry.status;
+      if(timesheetEntryStatus === EMPTY_STRING || timesheetEntry.status === timesheetEntryStatus) {
+        timesheetEntryStatus = timesheetEntry.status;
+        updateTimesheetStatus = true;
+      }else {
+        updateTimesheetStatus = false;
+      }
 
-      console.log("timesheetEntry:::"+JSON.stringify(timesheetEntry));
+      console.log("timesheetEntryStatus:::"+JSON.stringify(timesheetEntryStatus));
 
       if(timesheetEntry.id && timesheetEntry.id != undefined && timesheetEntry.id != EMPTY_STRING) {
         console.log("ID Present:::"+timesheetEntry.id);
@@ -30,13 +38,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             id: timesheetEntry.id,
           },
           data: timesheetEntry
-          // data: {
-          //   timesheetId: timesheet.id,
-          //   status: timesheetEntry.status,
-          //   projectId: timesheetEntry.projectId,
-          //   approvedDate: timesheetEntry.approvedDate,
-          //   entries: timesheetEntry.entries
-          // }
         });        
 
       }else {
@@ -53,13 +54,18 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
 
+    //TImesheet status calculation
+    let timesheetStatus = timesheet.status;
+    if(updateTimesheetStatus) {
+      timesheetStatus = timesheetEntryStatus;
+    }
     const savedTimesheet = await prisma.timesheet.update({
       where: {
         id: timesheet.id,
       },
       data: {
         name: timesheet.name,
-        status: timesheet.status
+        status: timesheetStatus
       }
     });
     res.status(200).json(savedTimesheet);
