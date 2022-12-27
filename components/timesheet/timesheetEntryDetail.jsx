@@ -53,6 +53,7 @@ import { timesheetService } from "../../services";
             if(timesheetEntryUpdateResponse.error) {
                 setShowErrorMessage("Error Updating timesheet entry");
             }else {
+                setTimesheetEntryNote(EMPTY_STRING);
                 onClose();
                 //Remove the item from the list
             }
