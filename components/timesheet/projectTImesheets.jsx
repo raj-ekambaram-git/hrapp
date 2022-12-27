@@ -28,6 +28,7 @@ import {
   import {TIMESHEET_STATUS} from "../../constants/accountConstants";
   import TimesheetEntryDetail from './timesheetEntryDetail';
 const ProjectTimesheets = (props) => {
+    const approvalList = props.timesheetList;
 
     return (
         <div>
@@ -43,7 +44,7 @@ const ProjectTimesheets = (props) => {
                 <CardBody>
                   <Stack divider={<StackDivider />} spacing='1'>
                     <Accordion>
-                        {props.timesheetList?.map((timesheet) => (
+                        {approvalList?.map((timesheet) => (
                             <AccordionItem marginBottom="1rem" border="1px" width="80%">
                                 <h2>
                                     <AccordionButton bgColor="table_tile">

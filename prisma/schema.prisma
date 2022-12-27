@@ -209,7 +209,7 @@ model Timesheet {
   createdDate      DateTime           @default(now())
   lastUpdateDate   DateTime           @updatedAt
   timesheetEntries TimesheetEntries[]
-  startDate     DateTime
+  startDate        DateTime?
 
   @@unique([userId, name])
 }
@@ -233,9 +233,17 @@ model TimesheetEntries {
   status         TimesheetStatus
   approvedDate   DateTime?
   entries        Json
-  comments       String?
   createdDate    DateTime        @default(now())
-  lastUpdateDate DateTime        @updatedAt @default(now())
+  lastUpdateDate DateTime        @default(now()) @updatedAt
+}
+
+model Notes {
+  id             Int       @id @default(autoincrement())
+  type           NotesType
+  typeId         Int
+  notes          String
+  createdDate    DateTime  @default(now())
+  lastUpdateDate DateTime  @default(now()) @updatedAt
 }
 
 enum AddressType {
@@ -361,4 +369,12 @@ enum TimesheetStatus {
   Approved
   Rejected
   Invoiced
+}
+
+enum NotesType {
+  Timesheet
+  Account
+  Invoice
+  Project
+  User
 }

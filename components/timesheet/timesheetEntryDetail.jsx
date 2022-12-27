@@ -25,7 +25,7 @@ import { TIMESHEET_STATUS } from "../../constants/accountConstants";
 import { timesheetService } from "../../services";
 
   const TimesheetEntryDetail = (props) => {
-
+    const tsEntryDetail = props.tsEntryDetail;
     // const 
     const [size, setSize] = useState('')
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -34,10 +34,10 @@ import { timesheetService } from "../../services";
     const [showErrorMessage, setShowErrorMessage] = useState(false);
 
     useEffect(() => {
-        console.log("props.tsEntryDetail:::"+JSON.stringify(props.tsEntryDetail));
-        if(props.tsEntryDetail) {
-            console.log("Inside the props.tsEntryDetail")
-            setTimesheetEntryDetail(props.tsEntryDetail);
+        console.log("props.tsEntryDetail:::"+JSON.stringify(tsEntryDetail));
+        if(tsEntryDetail) {
+            console.log("Inside the tsEntryDetail")
+            setTimesheetEntryDetail(tsEntryDetail);
         }
     
       }, []);
@@ -78,10 +78,10 @@ import { timesheetService } from "../../services";
                 <DrawerCloseButton />
                 <DrawerHeader>
                     <Heading as="h1" size="lg" letterSpacing={'-.1rem'} marginBottom="1rem">
-                        {props.tsEntryDetail.timesheet.name}
+                        {tsEntryDetail.timesheet.name}
                     </Heading>
                     <Heading as="h3" size="md">
-                        {props.tsEntryDetail.timesheet.user.firstName} {props.tsEntryDetail.timesheet.user.lastName}
+                        {tsEntryDetail.timesheet.user.firstName} {tsEntryDetail.timesheet.user.lastName}
                     </Heading>
                     {showErrorMessage ? (
                         <>
@@ -125,25 +125,25 @@ import { timesheetService } from "../../services";
                         <Tbody>
                             <Tr>
                                 <Th>
-                                    {props.tsEntryDetail.entries.day1.hours ? props.tsEntryDetail.entries.day1.hours+ " hrs" : "0 hrs"} 
+                                    {tsEntryDetail.entries.day1.hours ? tsEntryDetail.entries.day1.hours+ " hrs" : "0 hrs"} 
                                 </Th>
                                 <Th>
-                                    {props.tsEntryDetail.entries.day2.hours ? props.tsEntryDetail.entries.day2.hours+ " hrs" : "0 hrs"} 
+                                    {tsEntryDetail.entries.day2.hours ? tsEntryDetail.entries.day2.hours+ " hrs" : "0 hrs"} 
                                 </Th>
                                 <Th>
-                                    {props.tsEntryDetail.entries.day3.hours ? props.tsEntryDetail.entries.day2.hours+ " hrs" : "0 hrs"} 
+                                    {tsEntryDetail.entries.day3.hours ? tsEntryDetail.entries.day2.hours+ " hrs" : "0 hrs"} 
                                 </Th>
                                 <Th>
-                                    {props.tsEntryDetail.entries.day4.hours ? props.tsEntryDetail.entries.day4.hours+ " hrs" : "0 hrs"} 
+                                    {tsEntryDetail.entries.day4.hours ? tsEntryDetail.entries.day4.hours+ " hrs" : "0 hrs"} 
                                 </Th>
                                 <Th>
-                                    {props.tsEntryDetail.entries.day5.hours ? props.tsEntryDetail.entries.day5.hours+ " hrs" : "0 hrs"} 
+                                    {tsEntryDetail.entries.day5.hours ? tsEntryDetail.entries.day5.hours+ " hrs" : "0 hrs"} 
                                 </Th>
                                 <Th>
-                                    {props.tsEntryDetail.entries.day6.hours ? props.tsEntryDetail.entries.day6.hours+ " hrs" : "0 hrs"} 
+                                    {tsEntryDetail.entries.day6.hours ? tsEntryDetail.entries.day6.hours+ " hrs" : "0 hrs"} 
                                 </Th>
                                 <Th>
-                                    {props.tsEntryDetail.entries.day7.hours ? props.tsEntryDetail.entries.day7.hours+ " hrs" : "0 hrs"} 
+                                    {tsEntryDetail.entries.day7.hours ? tsEntryDetail.entries.day7.hours+ " hrs" : "0 hrs"} 
                                 </Th>                                
                             </Tr>
                         </Tbody>
@@ -160,12 +160,12 @@ import { timesheetService } from "../../services";
 
                 <HStack marginTop="3rem">
                     <Box marginRight="1rem">
-                        <Button className="btn" onClick={() => updateTimesheetEntry(props.tsEntryDetail.id,TIMESHEET_STATUS.Approved)} bgColor="timesheet.approved_status">
+                        <Button className="btn" onClick={() => updateTimesheetEntry(tsEntryDetail.id,TIMESHEET_STATUS.Approved)} bgColor="timesheet.approved_status">
                             Approve
                         </Button>
                     </Box>
                     <Box>
-                        <Button className="btn" onClick={() => updateTimesheetEntry(props.tsEntryDetail.id,TIMESHEET_STATUS.Rejected)} bgColor="timesheet.rejected_status">
+                        <Button className="btn" onClick={() => updateTimesheetEntry(tsEntryDetail.id,TIMESHEET_STATUS.Rejected)} bgColor="timesheet.rejected_status">
                             Reject
                         </Button>
                     </Box>
