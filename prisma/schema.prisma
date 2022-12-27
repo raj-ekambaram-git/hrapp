@@ -209,6 +209,7 @@ model Timesheet {
   createdDate      DateTime           @default(now())
   lastUpdateDate   DateTime           @updatedAt
   timesheetEntries TimesheetEntries[]
+  startDate     DateTime
 
   @@unique([userId, name])
 }
@@ -224,15 +225,17 @@ model Calendar {
 }
 
 model TimesheetEntries {
-  id           Int             @id @default(autoincrement())
-  timesheet    Timesheet?      @relation(fields: [timesheetId], references: [id])
-  timesheetId  Int?
-  project      Project?        @relation(fields: [projectId], references: [id])
-  projectId    Int?            @default(1)
-  status       TimesheetStatus
-  approvedDate DateTime?
-  entries      Json
-  comments     String?
+  id             Int             @id @default(autoincrement())
+  timesheet      Timesheet?      @relation(fields: [timesheetId], references: [id])
+  timesheetId    Int?
+  project        Project?        @relation(fields: [projectId], references: [id])
+  projectId      Int?            @default(1)
+  status         TimesheetStatus
+  approvedDate   DateTime?
+  entries        Json
+  comments       String?
+  createdDate    DateTime        @default(now())
+  lastUpdateDate DateTime        @updatedAt @default(now())
 }
 
 enum AddressType {

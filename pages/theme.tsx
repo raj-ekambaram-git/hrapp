@@ -56,7 +56,8 @@ const theme = extendTheme({
     inner_table_tile: '#EDF2F7',
     timesheet: {
       pending_status: "#48BB78",
-      approved_status: "#48BB78",
+      approved_status: "#319795",
+      rejected_status: "#FC8181",
       save: "#3182CE",
       discard: "#3182CE",
       submit: "#3182CE",

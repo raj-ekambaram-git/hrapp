@@ -8,7 +8,8 @@ const baseUrl = `${publicRuntimeConfig.apiUrl}`;
 
 export const timesheetService = {
 
-    getTimesheetDetails
+    getTimesheetDetails,
+    updateTimesheetEntry
 };
 
 
@@ -19,3 +20,28 @@ function getTimesheetDetails(timesheetId, accountId) {
         });
 }
 
+
+async function updateTimesheetEntry(timesheetId, status, timesheetNote) {
+    try {
+        const res = await fetch(`/api/timesheet/entry/${timesheetId}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            id: parseInt(timesheetId),
+            status: status,
+            comments: timesheetNote,
+            approvedDate: new Date()
+          }),
+        });
+  
+        const data = await res.json();
+  
+        // toast.success(data.message);
+        return data;
+      } catch (error) {
+        console.log(error)
+        // toast.error("Something went wrong!");
+      }
+}

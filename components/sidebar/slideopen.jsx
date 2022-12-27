@@ -47,18 +47,12 @@ const Slideopen = () => {
               <IoSettingsOutline  className={styles.icons1}/>
             </div>
           </Link>
-          {userService.isManager() ? (
-            <>
-            <Link href={`/account/user/${userService.userValue.id}/timesheets`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
+          <Link href={`/account/user/${userService.userValue.id}/timesheets/approval`} styles={({isManagerActive}) => (isManagerActive ? navbaractive: navbarnotactive)}>  
               <div>
                 <IoSettingsOutline  className={styles.icons1}/>
               </div>
-            </Link>            
-            </>
-          ) : (
-            <>
-            </>
-          )}
+          </Link>            
+
         </div>
         </div>
   )

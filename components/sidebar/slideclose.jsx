@@ -51,12 +51,12 @@ const Slideclose = () => {
           </Link>         
           <Link href={`/account/user/${userService.userValue.id}/timesheets`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
             <div>
-            <p>Timesheet</p>
+            <p>My Timesheet</p>
             </div>
           </Link>    
           {userService.isManager() ? (
             <>
-            <Link href={`/account/user/${userService.userValue.id}/timesheets`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
+            <Link href={`/account/user/${userService.userValue.id}/timesheets/approval`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
               <div>
               <p>Timesheets to Approve</p>
               </div>
