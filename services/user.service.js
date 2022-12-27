@@ -142,6 +142,8 @@ function isManager() {
     return false;
 }
 
+
+
 function isAccountVendorRep() {
     if( userSubject.value 
         && userSubject.value.role == USER_ROLES.ACCOUNT_VENDOR_REP

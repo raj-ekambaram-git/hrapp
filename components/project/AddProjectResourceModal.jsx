@@ -22,6 +22,7 @@ import {
   Checkbox
 } from '@chakra-ui/react'
 import { userService } from '../../services';
+import {USER_ROLES} from "../../constants/userConstants";
 import {MODE_ADD, PROJECT_VALIDATION_SCHEMA} from "../../constants/accountConstants";
 
 
@@ -38,6 +39,7 @@ const AddProjectResourceModal = (props) => {
   const [uom, setUOM] = useState("Hours");
   const [billable, setBillable] = useState(false);
   const [isTimesheetApprover, setTimesheetApprover] = useState(false);
+  const [timesheetApproverCheckBox, setTimesheetApproverCheckBox] = useState(false);
 
 
   const {data} = props;
@@ -64,6 +66,20 @@ const AddProjectResourceModal = (props) => {
 
   }  
  
+  function handleUser(user) {
+    console.log("HANDLE USER...")
+    setUserId(user.target.value);
+    
+    if(user.target.options.item(user.target.selectedIndex).getAttribute("data-role") === USER_ROLES.ACCOUNT_MANAGER) {
+      console.log("HANDLE USER...MANAGER...")
+      setTimesheetApproverCheckBox(true);
+      
+    }else {
+      setTimesheetApproverCheckBox(false);
+      setTimesheetApprover(false);
+    }
+
+  }
   function handleSelectedProjectResource() {
     console.log("handleSelectedProjectResource::"+userId)
     /**
@@ -155,9 +171,13 @@ const AddProjectResourceModal = (props) => {
                             <Th>
                               Billable
                             </Th>
-                            <Th>
-                              Timesheet Approver
-                            </Th>
+                            {timesheetApproverCheckBox ? (
+                              <>
+                                <Th>
+                                  Timesheet Approver
+                                </Th>
+                              </>
+                            ) : ("")}
                             <Th>
                               Price
                             </Th>
@@ -178,9 +198,10 @@ const AddProjectResourceModal = (props) => {
                         <Tbody>
                           <Tr>
                                 <Th>
-                                  <Select width="50%%" onChange={(ev) => setUserId(ev.target.value)}>
+                                  <Select width="50%%" onChange={(ev) => handleUser(ev)}>
+                                    <option value="">Select User</option>
                                       {userList?.map((user) => (
-                                              <option value={user.id}>{user.firstName} {user.lastName}</option>
+                                              <option value={user.id} data-role={user.role}>{user.firstName} {user.lastName}</option>
                                       ))}   
                                   </Select>
                                 </Th>
@@ -190,12 +211,16 @@ const AddProjectResourceModal = (props) => {
                                     onChange={(e) => setBillable(e.target.checked)}
                                   />                                
                                 </Th>
-                                <Th>
-                                  <Checkbox
-                                    isChecked={isTimesheetApprover}
-                                    onChange={(e) => setTimesheetApprover(e.target.checked)}
-                                  />                                
-                                </Th>                                
+                                {timesheetApproverCheckBox ? (
+                                  <>
+                                    <Th>
+                                      <Checkbox
+                                        isChecked={isTimesheetApprover}
+                                        onChange={(e) => setTimesheetApprover(e.target.checked)}
+                                      />                                
+                                    </Th>                                
+                                  </>
+                                ) : ("")}
                                 <Th>
                                   <Input type="text" onChange={(ev) => setPrice(ev.target.value)}/>
                                 </Th>

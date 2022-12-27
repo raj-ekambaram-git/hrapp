@@ -151,7 +151,11 @@ export const USER_ROLES_SUPERADMIN = [
   {
     roleID: "ACCOUNT_VENDOR_CONTRACTOR",
     roleName: "Vendor Contractor"
-  }            
+  },
+  {
+    roleID: "ACCOUNT_MANAGER",
+    roleName: "Account Manager"
+  }               
 
 ];  
 
@@ -288,7 +292,8 @@ export const USER_ROLE_DESC = {
   'ACCOUNT_VENDOR_REP': 'Vendor Account Rep',
   'ACCOUNT_USER': 'Account User',
   'ACCOUNT_VENDOR_EMPLOYEE': 'Vendor Employee',
-  'ACCOUNT_VENDOR_CONTRACTOR': 'Vendor Contractor'
+  'ACCOUNT_VENDOR_CONTRACTOR': 'Vendor Contractor',
+  'ACCOUNT_MANAGER': 'Account Manager'
 };
 
 export const TIMESHEET_STATUS = {
