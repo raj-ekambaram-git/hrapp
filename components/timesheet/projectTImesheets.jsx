@@ -30,6 +30,10 @@ import {
 const ProjectTimesheets = (props) => {
     const approvalList = props.timesheetList;
 
+    function removeUpdatedItemFromList() {
+        console.log("removeUpdatedItemFromList......")
+    }
+
     return (
         <div>
              <Card>

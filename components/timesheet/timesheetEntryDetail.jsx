@@ -18,10 +18,12 @@ import {
     TableCaption,
     Thead,
     Tbody,
-    Textarea
+    Textarea,
+    Text
+
 
   } from '@chakra-ui/react';
-import { TIMESHEET_STATUS } from "../../constants/accountConstants";
+import { EMPTY_STRING, TIMESHEET_STATUS, DEFAULT_NOTES } from "../../constants/accountConstants";
 import { timesheetService } from "../../services";
 
   const TimesheetEntryDetail = (props) => {
@@ -29,9 +31,9 @@ import { timesheetService } from "../../services";
     // const 
     const [size, setSize] = useState('')
     const { isOpen, onOpen, onClose } = useDisclosure()
-    const [timesheetEntryNote, setTimesheetEntryNote] = useState("");
+    const [timesheetEntryNote, setTimesheetEntryNote] = useState(DEFAULT_NOTES);
     const [timesheetEntryDetail, setTimesheetEntryDetail] = useState({});
-    const [showErrorMessage, setShowErrorMessage] = useState(false);
+    const [showErrorMessage, setShowErrorMessage] = useState(EMPTY_STRING);
 
     useEffect(() => {
         console.log("props.tsEntryDetail:::"+JSON.stringify(tsEntryDetail));
@@ -44,12 +46,20 @@ import { timesheetService } from "../../services";
 
     async function updateTimesheetEntry(timesheetEntryId,status) {
         console.log("updateTimesheetEntry::::"+status);
-        const timesheetEntryUpdateResponse = await timesheetService.updateTimesheetEntry(timesheetEntryId, status, "timesheetEntryNote");    
-        console.log("timesheetEntryUpdateResponse::"+JSON.stringify(timesheetEntryUpdateResponse));
-        if(timesheetEntryUpdateResponse.error) {
-            setShowErrorMessage(true);
+        if(timesheetEntryNote != undefined && timesheetEntryNote != EMPTY_STRING && timesheetEntryNote != DEFAULT_NOTES) {
+            setShowErrorMessage(EMPTY_STRING);
+            const timesheetEntryUpdateResponse = await timesheetService.updateTimesheetEntry(timesheetEntryId, status, timesheetEntryNote);    
+            console.log("timesheetEntryUpdateResponse::"+JSON.stringify(timesheetEntryUpdateResponse));
+            if(timesheetEntryUpdateResponse.error) {
+                setShowErrorMessage("Error Updating timesheet entry");
+            }else {
+                onClose();
+                //Remove the item from the list
+            }
+    
         }else {
-            onClose();
+            setShowErrorMessage("Notes are required.");
+            onOpen();
         }
         
     }
@@ -85,7 +95,7 @@ import { timesheetService } from "../../services";
                     </Heading>
                     {showErrorMessage ? (
                         <>
-                        <Text>Not able to approve.</Text>
+                        <Text color="timesheet.entryError">{showErrorMessage}</Text>
                         </>
                     ) : (
                         <>
