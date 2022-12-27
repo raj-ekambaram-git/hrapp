@@ -37,6 +37,7 @@ const AddProjectResourceModal = (props) => {
   const [currency, setCurrency] = useState("USD");
   const [uom, setUOM] = useState("Hours");
   const [billable, setBillable] = useState(false);
+  const [isTimesheetApprover, setTimesheetApprover] = useState(false);
 
 
   const {data} = props;
@@ -90,6 +91,7 @@ const AddProjectResourceModal = (props) => {
         budgetAllocated: budgetAllocated,
         currency: currency,
         billable: billable,
+        isTimesheetApprover: isTimesheetApprover,
         uom: uom
       };
       createProjectResource(addedResourceDetails);
@@ -115,6 +117,7 @@ const AddProjectResourceModal = (props) => {
             budgetAllocated: budgetAllocated,
             currency: currency,
             billable: billable,
+            isTimesheetApprover: isTimesheetApprover,
             uom: uom
           }), 
         });
@@ -153,6 +156,9 @@ const AddProjectResourceModal = (props) => {
                               Billable
                             </Th>
                             <Th>
+                              Timesheet Approver
+                            </Th>
+                            <Th>
                               Price
                             </Th>
                             <Th>
@@ -184,6 +190,12 @@ const AddProjectResourceModal = (props) => {
                                     onChange={(e) => setBillable(e.target.checked)}
                                   />                                
                                 </Th>
+                                <Th>
+                                  <Checkbox
+                                    isChecked={isTimesheetApprover}
+                                    onChange={(e) => setTimesheetApprover(e.target.checked)}
+                                  />                                
+                                </Th>                                
                                 <Th>
                                   <Input type="text" onChange={(ev) => setPrice(ev.target.value)}/>
                                 </Th>

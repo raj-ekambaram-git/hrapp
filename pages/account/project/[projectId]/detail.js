@@ -286,7 +286,10 @@ const ProjectDetail = (props) => {
                                   </Th>
                                   <Th>
                                     Type
-                                  </Th>                                  
+                                  </Th>      
+                                  <Th>
+                                    Timesheet Approver
+                                  </Th>                                                                
                                   <Th>
                                     Price
                                   </Th>
@@ -314,6 +317,9 @@ const ProjectDetail = (props) => {
                                         <Th>
                                           {projectResourceList.billable ? "Billable" : "Non Billable"}
                                         </Th>
+                                        <Th>
+                                          {projectResourceList.isTimesheetApprover ? "Approver" : ""}
+                                        </Th> 
                                         <Th>
                                           {projectResourceList.unitPrice}
                                         </Th>
