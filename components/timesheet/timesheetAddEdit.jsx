@@ -80,7 +80,7 @@ const TimesheetAddEdit = (props) => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            name: "Week Starting 1/1",
+            name: "Week Starting 2/1",
             type: "Weekly",
             userId: userService.userValue.id,
             status: formData.status,
@@ -116,7 +116,7 @@ const TimesheetAddEdit = (props) => {
           name: formData.name,
           type: "Weekly",
           status: formData.status,
-            timesheetEntries: [{id: 16, timesheetId: 11, projectId: 1, status: 'Submitted', entries: {day1: "111"}}]
+          timesheetEntries: timesheetActivityList
         }),
       });
 

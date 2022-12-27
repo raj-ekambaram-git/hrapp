@@ -15,7 +15,7 @@ export const PROJECT_TYPE_GENERAL = 'General';
 export const PROJECT_TYPE_PROJECT = 'Project';
 export const PROJECT_TYPE_STAFFING = 'Staffing';
 
-export const TIMESHEET_ENTRY_DEFAULT = {projectId: "", status: "", entries: {day1: {hours: "", error: false}, day2: {hours: "", error: false},day3: {hours: "", error: false},day4: {hours: "", error: false},day5: {hours: "", error: false},day6: {hours: "", error: false},day7: {hours: "", error: false}}};
+export const TIMESHEET_ENTRY_DEFAULT = {projectId: "", timesheetId: "", status: "", entries: {day1: {hours: "", error: false}, day2: {hours: "", error: false},day3: {hours: "", error: false},day4: {hours: "", error: false},day5: {hours: "", error: false},day6: {hours: "", error: false},day7: {hours: "", error: false}}};
 
 //Account Form Validation
 export const ACCOUNT_VALIDATION_SCHEMA = Yup.object().shape({

@@ -75,7 +75,8 @@ const WeeklyTimesheetEntry = (props) => {
         console.log("addTimesheeEntry::::"+timesheetEntryCountLength);
 
         const inputData = [...timesheetEntries];
-        inputData.push(TIMESHEET_ENTRY_DEFAULT);
+        console.log("ISADDMODE:::"+isAddMode);
+        inputData.push({projectId: "", status: "", entries: {day1: {hours: "", error: false}, day2: {hours: "", error: false},day3: {hours: "", error: false},day4: {hours: "", error: false},day5: {hours: "", error: false},day6: {hours: "", error: false},day7: {hours: "", error: false}}});
         setTimesheetEntries(inputData);
 
     }
