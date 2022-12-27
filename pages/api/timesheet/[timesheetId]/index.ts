@@ -10,13 +10,18 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   try {
     const timesheet = req.body;
+
+    console.log("Timesheet Data:::"+JSON.stringify(timesheet));
     
-    // const savedAccount: Prisma.UserCreateInput = JSON.parse(req.body);
+    //Update the timesheet entries first
     const savedTimesheet = await prisma.timesheet.update({
       where: {
         id: timesheet.id,
       },
-      data: timesheet
+      data: {
+        name: timesheet.name,
+        status: timesheet.status
+      }
     });
     res.status(200).json(savedTimesheet);
   } catch (error) {

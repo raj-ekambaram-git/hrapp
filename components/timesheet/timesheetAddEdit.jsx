@@ -82,7 +82,7 @@ const TimesheetAddEdit = (props) => {
           body: JSON.stringify({
             name: "Week Starting 1/1",
             type: "Weekly",
-            userId: 7,
+            userId: userService.userValue.id,
             status: formData.status,
             timesheetEntries: {
               create: timesheetActivityList
@@ -92,7 +92,7 @@ const TimesheetAddEdit = (props) => {
         const data = await res.json();
 
         toast.success(data.message);
-        router.push("/account/"+userService.getAccountDetails().accountId+"/vendors");
+        router.push("/account/user/"+userService.userValue.id+"/timesheets");
         
       
     } catch (error) {
@@ -115,14 +115,14 @@ const TimesheetAddEdit = (props) => {
           id: parseInt(timesheetId),
           name: formData.name,
           type: "Weekly",
-          status: formData.status
-
+          status: formData.status,
+            timesheetEntries: [{id: 16, timesheetId: 11, projectId: 1, status: 'Submitted', entries: {day1: "111"}}]
         }),
       });
 
       const data = await res.json();
       
-      router.push("/account/"+userService.getAccountDetails().accountId+"/vendors");
+      router.push("/account/user/"+userService.userValue.id+"/timesheets");
       toast.success(data.message);
     } catch (error) {
       console.log(error)

@@ -77,17 +77,18 @@ model Vendor {
 }
 
 model ProjectResource {
-  id              Int            @id @default(autoincrement())
-  project         Project?       @relation(fields: [projectId], references: [id])
-  projectId       Int?           @default(1)
-  user            User?          @relation(fields: [userId], references: [id])
-  userId          Int?           @default(1)
-  unitPrice       Decimal?
-  currency        Currency?
-  quantity        Int?
-  billable        Boolean        @default(false)
-  uom             UnitOfMeasure?
-  budgetAllocated Decimal?       @default(0)
+  id                  Int            @id @default(autoincrement())
+  project             Project?       @relation(fields: [projectId], references: [id])
+  projectId           Int?           @default(1)
+  user                User?          @relation(fields: [userId], references: [id])
+  userId              Int?           @default(1)
+  unitPrice           Decimal?
+  currency            Currency?
+  quantity            Int?
+  billable            Boolean        @default(false)
+  uom                 UnitOfMeasure?
+  budgetAllocated     Decimal?       @default(0)
+  isTimesheetApprover Boolean        @default(false)
 }
 
 model Invoice {
@@ -231,6 +232,7 @@ model TimesheetEntries {
   status       TimesheetStatus
   approvedDate DateTime?
   entries      Json
+  comments     String?
 }
 
 enum AddressType {
