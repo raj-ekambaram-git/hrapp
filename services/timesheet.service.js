@@ -38,10 +38,9 @@ async function updateTimesheetEntry(timesheetId, status, timesheetNote) {
   
         const data = await res.json();
   
-        // toast.success(data.message);
         return data;
       } catch (error) {
         console.log(error)
-        // toast.error("Something went wrong!");
+        return {error: error};
       }
 }

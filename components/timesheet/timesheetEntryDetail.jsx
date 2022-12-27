@@ -31,6 +31,7 @@ import { timesheetService } from "../../services";
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [timesheetEntryNote, setTimesheetEntryNote] = useState("");
     const [timesheetEntryDetail, setTimesheetEntryDetail] = useState({});
+    const [showErrorMessage, setShowErrorMessage] = useState(false);
 
     useEffect(() => {
         console.log("props.tsEntryDetail:::"+JSON.stringify(props.tsEntryDetail));
@@ -45,7 +46,12 @@ import { timesheetService } from "../../services";
         console.log("updateTimesheetEntry::::"+status);
         const timesheetEntryUpdateResponse = await timesheetService.updateTimesheetEntry(timesheetEntryId, status, "timesheetEntryNote");    
         console.log("timesheetEntryUpdateResponse::"+JSON.stringify(timesheetEntryUpdateResponse));
-
+        if(timesheetEntryUpdateResponse.error) {
+            setShowErrorMessage(true);
+        }else {
+            onClose();
+        }
+        
     }
 
 
@@ -71,14 +77,20 @@ import { timesheetService } from "../../services";
                 <DrawerContent>
                 <DrawerCloseButton />
                 <DrawerHeader>
-                    
                     <Heading as="h1" size="lg" letterSpacing={'-.1rem'} marginBottom="1rem">
                         {props.tsEntryDetail.timesheet.name}
                     </Heading>
                     <Heading as="h3" size="md">
                         {props.tsEntryDetail.timesheet.user.firstName} {props.tsEntryDetail.timesheet.user.lastName}
                     </Heading>
-
+                    {showErrorMessage ? (
+                        <>
+                        <Text>Not able to approve.</Text>
+                        </>
+                    ) : (
+                        <>
+                        </>
+                    )}
                 </DrawerHeader>
                 <DrawerBody>
                    
