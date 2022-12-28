@@ -21,7 +21,7 @@ const TimesheetApprovalList = (props) => {
 
   useEffect(() => {
 
-    if(isManager && isApprovalList) {
+    if(isManager && isApprovalList && userService.isManager()) {
       //get API call with accountId and VendorId
       if(userService.isSuperAdmin()) {
         getTimesheetApprovalList(data.userId, "NaN");

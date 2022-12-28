@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {EMPTY_STRING, TIMESHEET_STATUS, MODE_ADD,TIMESHEET_ENTRY_DEFAULT} from "../../constants/accountConstants";
+import {EMPTY_STRING, TIMESHEET_STATUS, MODE_ADD,TIMESHEET_ENTRY_DEFAULT, NOTES_TYPE} from "../../constants/accountConstants";
 import { userService, timesheetService } from "../../services";
 import {
     HStack,
@@ -18,11 +18,12 @@ import {
     Badge
   } from '@chakra-ui/react';
 import TimesheetDateHeader from "./timesheetDateHeader";
+import NotesHistory from "../../components/notes/notesHistory";
 import {
     AddIcon, DeleteIcon,ArrowBackIcon,ArrowForwardIcon
   } from '@chakra-ui/icons';  
 
-
+  
 const WeeklyTimesheetEntry = (props) => {
 
 
@@ -70,6 +71,8 @@ const WeeklyTimesheetEntry = (props) => {
         const projectsForUserResponse = await userService.getProjectsByUser(userId, userService.getAccountDetails().accountId);    
         setUserProjectList(projectsForUserResponse);
     }
+
+
 
     function addTimesheeEntry(timesheetEntryCountLength) {
         console.log("addTimesheeEntry::::"+timesheetEntryCountLength);
@@ -230,6 +233,16 @@ const WeeklyTimesheetEntry = (props) => {
                             {isAddMode || (!isAddMode && timesheetData.status != TIMESHEET_STATUS.Approved) ? (
                                 <>
                                     <HStack>
+                                        {!isAddMode ? (
+                                            <>
+                                                <Box>
+                                                    <NotesHistory data={{notesType: NOTES_TYPE.Timesheet, notesTypeId: props.data.timesheetId, notesTypeTitle: timesheetData.name}}></NotesHistory>
+                                                </Box>                                        
+                                            </>
+                                        ) : (
+                                            <>
+                                            </>
+                                        )}
                                         <Box>
                                             <Button className="btn" bgColor="timesheet.save" onClick={() => submitTimesheet(TIMESHEET_STATUS.Saved)}>
                                                 Save

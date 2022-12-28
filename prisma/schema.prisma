@@ -242,6 +242,7 @@ model Notes {
   type           NotesType
   typeId         Int
   notes          String
+  createdBy      String
   createdDate    DateTime  @default(now())
   lastUpdateDate DateTime  @default(now()) @updatedAt
 }
@@ -377,4 +378,5 @@ enum NotesType {
   Invoice
   Project
   User
+  TimesheetEntry
 }
