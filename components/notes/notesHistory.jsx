@@ -9,18 +9,21 @@ import {
     Button,
     DrawerBody,
     Heading,
-    Tr,
-    Th,
-    TableContainer,
-    Table,
-    TableCaption,
-    Thead,
-    Tbody,
-
+    Stack,
+    StackDivider,
+    Accordion,
+    AccordionItem,
+    AccordionButton,
+    Box,
+    AccordionPanel
 
   } from '@chakra-ui/react';
+  import {
+    AddIcon
+  } from '@chakra-ui/icons';  
 import { EMPTY_STRING } from "../../constants/accountConstants";
 import { notesService } from "../../services";
+import Notes from "../../components/notes/notes";
 
   const NotesHistory = (props) => {
     const notesType = props.data.notesType;
@@ -82,51 +85,27 @@ import { notesService } from "../../services";
                                 </Heading>
                             </DrawerHeader>
                             <DrawerBody>
-                                <TableContainer display="flex">
-                                    <Table>
-                                        <TableCaption></TableCaption>
-                                        <Thead>
-                                            <Tr bgColor="table_tile">
-                                                <Th>
-                                                    Notes ID
-                                                </Th>
-                                                <Th>
-                                                    Notes Type
-                                                </Th>
-                                                <Th>
-                                                    Notes
-                                                </Th>
-                                                <Th>
-                                                    Created On
-                                                </Th>
-                                                <Th>
-                                                    Created By
-                                                </Th>                            
-                                            </Tr>
-                                        </Thead>
-                                        <Tbody>
-                                            {notesHistory?.map((notes) => (
-                                                <Tr>
-                                                    <Th>
-                                                        {notes.id}
-                                                    </Th>
-                                                    <Th>
-                                                        {notes.type}
-                                                    </Th>
-                                                    <Th>
-                                                        {notes.notes}
-                                                    </Th>
-                                                    <Th>
-                                                        {notes.lastUpdateDate}
-                                                    </Th>
-                                                    <Th>
-                                                        {notes.createdBy}
-                                                    </Th>                          
-                                                </Tr>
-                                            ))}
-                                        </Tbody>
-                                    </Table>
-                                </TableContainer>
+                            <Stack divider={<StackDivider />} spacing='1'>
+                                <Accordion>
+                                    {notesHistory?.map((notes) => (
+                                        <AccordionItem marginBottom="1rem" border="1px" width="100%">
+                                            <h2>
+                                                <AccordionButton bgColor="table_tile">
+                                                    <Box as="span" flex='1' textAlign='left'>
+                                                        <Heading size='xs' textTransform='uppercase'>
+                                                            {notes.lastUpdateDate} -- {notes.notes.substring(0,10)}...
+                                                        </Heading>
+                                                    </Box>
+                                                    <AddIcon />
+                                                </AccordionButton>
+                                            </h2>
+                                            <AccordionPanel pb={4}>
+                                                <Notes data={{notes: notes}}></Notes>
+                                            </AccordionPanel>
+                                        </AccordionItem>
+                                    ))}
+                                </Accordion>                    
+                            </Stack>
                             </DrawerBody>
                             </>
                         ) : (<></>)}
