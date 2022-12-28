@@ -12,7 +12,7 @@ import {
 import ProjectAddEdit from './projectAddEdit';
 
 
-const ProjectAddEditModal = (props) => {
+const projectAddEditSection = (props) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   const {data} = props;
@@ -37,4 +37,4 @@ const ProjectAddEditModal = (props) => {
   );
 };
 
-export default ProjectAddEditModal;
+export default projectAddEditSection;

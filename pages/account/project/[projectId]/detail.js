@@ -33,7 +33,7 @@ import {
   TableCaption
 
 } from '@chakra-ui/react'
-import AddProjectResourceModal from "../../../../components/project/AddProjectResourceModal";
+import AddProjectResource from "../../../../components/project/AddProjectResource";
 
 
 const ProjectDetail = (props) => {
@@ -274,7 +274,7 @@ const ProjectDetail = (props) => {
                         <Button className="btn" onClick={onOpen}>Add New Project Resource</Button>
                         <Modal isOpen={isOpen} onClose={onClose} size="xl">
                           <ModalOverlay/>
-                          <AddProjectResourceModal data={addProjectResourceRequest}></AddProjectResourceModal>
+                          <AddProjectResource data={addProjectResourceRequest}></AddProjectResource>
                         </Modal>  
                         <TableContainer marginTop="1rem">
                           <Table>

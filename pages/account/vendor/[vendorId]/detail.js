@@ -33,7 +33,7 @@ import {
   TableCaption
 
 } from '@chakra-ui/react'
-import ProjectAddEditModal from "../../../../components/project/projectAddEditModal";
+import ProjectAddEditSection from "../../../../components/project/projectAddEditSection";
 
 const VendorDetail = (props) => {
   const vendorId = props.data.vendorId;
@@ -138,7 +138,7 @@ const VendorDetail = (props) => {
                   <Button className="btn" onClick={onOpen}>Create New Project</Button>
                   <Modal isOpen={isOpen} onClose={onClose} size="lg">
                     <ModalOverlay/>
-                    <ProjectAddEditModal data={createProjectRequestData}></ProjectAddEditModal>
+                    <ProjectAddEditSection data={createProjectRequestData}></ProjectAddEditSection>
                   </Modal>  
                 </Box>                  
               </HStack>

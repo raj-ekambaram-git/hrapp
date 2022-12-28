@@ -26,7 +26,7 @@ import {USER_ROLES} from "../../constants/userConstants";
 import {MODE_ADD, PROJECT_VALIDATION_SCHEMA} from "../../constants/accountConstants";
 
 
-const AddProjectResourceModal = (props) => {
+const AddProjectResource = (props) => {
   
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [isAddMode, setAddMode] = useState(true);
@@ -259,4 +259,4 @@ const AddProjectResourceModal = (props) => {
   );
 };
 
-export default AddProjectResourceModal;
+export default AddProjectResource;
