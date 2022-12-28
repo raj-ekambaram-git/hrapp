@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { accountService, userService } from '../../../../services';
 import {MODE_ADD} from "../../../../constants/accountConstants";
-import Link from "next/link";
 import {
   Card,
   CardHeader,
@@ -24,16 +23,9 @@ import {
   AccordionButton,
   AccordionPanel,
   AccordionIcon,
-  Table,
-  Thead,
-  Tbody,
-  Th,
-  Tr,
-  TableContainer,
-  TableCaption
-
 } from '@chakra-ui/react'
-import AddProjectResource from "../../../../components/project/AddProjectResource";
+import AddProjectResource from "../../../../components/project/addProjectResource";
+import ProjectResourceList from "../../../../components/project/projectResourceList";
 
 
 const ProjectDetail = (props) => {
@@ -276,70 +268,7 @@ const ProjectDetail = (props) => {
                           <ModalOverlay/>
                           <AddProjectResource data={addProjectResourceRequest}></AddProjectResource>
                         </Modal>  
-                        <TableContainer marginTop="1rem">
-                          <Table>
-                          <TableCaption></TableCaption>
-                            <Thead>
-                                <Tr bgColor="table_tile">
-                                  <Th>
-                                    Resource
-                                  </Th>
-                                  <Th>
-                                    Type
-                                  </Th>      
-                                  <Th>
-                                    Timesheet Approver
-                                  </Th>                                                                
-                                  <Th>
-                                    Price
-                                  </Th>
-                                  <Th>
-                                    Currency
-                                  </Th>
-                                  <Th>
-                                    Quantity
-                                  </Th>
-                                  <Th>
-                                    Quantity
-                                  </Th> 
-                                  <Th>
-                                    Max Budget Allocated
-                                  </Th>
-                                </Tr>   
-                              </Thead>                
-                              <Tbody>
-                                
-                                {projectResourceList?.map((projectResourceList) => (
-                                  <Tr>
-                                        <Th>
-                                          {projectResourceList.userId}
-                                        </Th>
-                                        <Th>
-                                          {projectResourceList.billable ? "Billable" : "Non Billable"}
-                                        </Th>
-                                        <Th>
-                                          {projectResourceList.isTimesheetApprover ? "Approver" : ""}
-                                        </Th> 
-                                        <Th>
-                                          {projectResourceList.unitPrice}
-                                        </Th>
-                                        <Th>
-                                          {projectResourceList.currency}
-                                        </Th>                              
-                                        <Th>
-                                          {projectResourceList.quantity}
-                                        </Th>
-                                        <Th>
-                                          {projectResourceList.uom}
-                                        </Th>                               
-                                        <Th>
-                                          {projectResourceList.budgetAllocated}
-                                        </Th>
-                                  </Tr>
-                                ))}
-                            </Tbody>    
-                          </Table>
-                        </TableContainer>     
+                        <ProjectResourceList data={{projectResourceList: projectResourceList}}/>
                       </Text>  
                     </AccordionPanel>
                   </AccordionItem>   
