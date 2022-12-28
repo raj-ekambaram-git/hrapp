@@ -15,11 +15,19 @@ import {
   Th,
   Tr,
   Box,
-  Flex,
   Heading,
   TableContainer,
   TableCaption,
-  Checkbox
+  Checkbox,
+  Drawer,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  DrawerHeader,
+  DrawerBody,
+  Stack,
+  StackDivider
+
 } from '@chakra-ui/react'
 import { userService } from '../../services';
 import {USER_ROLES} from "../../constants/userConstants";
@@ -27,8 +35,8 @@ import {MODE_ADD, PROJECT_VALIDATION_SCHEMA} from "../../constants/accountConsta
 
 
 const AddProjectResource = (props) => {
-  
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  const [size, setSize] = useState('');
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const [isAddMode, setAddMode] = useState(true);
   const [userList, setUserList] = useState([]);
   const [userId, setUserId] = useState("");
@@ -58,6 +66,11 @@ const AddProjectResource = (props) => {
 
     getUsersByVendor(vendorId);
   }, []);
+
+  const handleClick = (newSize) => {
+    setSize(newSize)
+    onOpen()
+  }
 
   async function getUsersByVendor(vendorId) {
     // setPageAuthorized(true);
@@ -112,7 +125,8 @@ const AddProjectResource = (props) => {
       };
       createProjectResource(addedResourceDetails);
       handleAddProjectResource(addedResourceDetails);
-        
+      onClose();  
+
     }
   } 
 
@@ -155,103 +169,131 @@ const AddProjectResource = (props) => {
   return (
 
     <div>
-          <ModalContent>
-              <ModalHeader>Add Project Resource</ModalHeader>
-              <ModalCloseButton />
-              <ModalBody>
-                <Box>
-                  <TableContainer>
-                    <Table>
-                    <TableCaption></TableCaption>
-                      <Thead>
-                          <Tr bgColor="table_tile">
-                            <Th>
-                              Resource
-                            </Th>
-                            <Th>
-                              Billable
-                            </Th>
-                            {timesheetApproverCheckBox ? (
-                              <>
-                                <Th>
-                                  Timesheet Approver
-                                </Th>
-                              </>
-                            ) : ("")}
-                            <Th>
-                              Price
-                            </Th>
-                            <Th>
-                              Currency
-                            </Th>
-                            <Th>
-                              Quantity
-                            </Th>
-                            <Th>
-                              Quantity
-                            </Th> 
-                            <Th>
-                              Max Budget Allocated
-                            </Th>
-                          </Tr>   
-                        </Thead>                
-                        <Tbody>
-                          <Tr>
-                                <Th>
-                                  <Select width="50%%" onChange={(ev) => handleUser(ev)}>
-                                    <option value="">Select User</option>
-                                      {userList?.map((user) => (
-                                              <option value={user.id} data-role={user.role}>{user.firstName} {user.lastName}</option>
-                                      ))}   
-                                  </Select>
-                                </Th>
-                                <Th>
-                                  <Checkbox
-                                    isChecked={billable}
-                                    onChange={(e) => setBillable(e.target.checked)}
-                                  />                                
-                                </Th>
-                                {timesheetApproverCheckBox ? (
-                                  <>
-                                    <Th>
-                                      <Checkbox
-                                        isChecked={isTimesheetApprover}
-                                        onChange={(e) => setTimesheetApprover(e.target.checked)}
-                                      />                                
-                                    </Th>                                
-                                  </>
-                                ) : ("")}
-                                <Th>
-                                  <Input type="text" onChange={(ev) => setPrice(ev.target.value)}/>
-                                </Th>
-                                <Th>
-                                  <Select width="50%%" onChange={(ev) => setCurrency(ev.target.value)}>
-                                      <option value="USD">USD</option>
-                                    </Select>
-                                </Th>                              
-                                <Th>
-                                  <Input type="text" onChange={(ev) => setQuantity(ev.target.value)}/>
-                                </Th>
-                                <Th>
-                                  <Select width="50%%" onChange={(ev) => setUOM(ev.target.value)}>
-                                      <option value="Hours">Hours</option>
-                                      <option value="Item">General Item</option>
-                                    </Select>
-                                </Th>                               
-                                <Th>
-                                  <Input type="text" onChange={(ev) => setBudgetAllocated(ev.target.value)}/>
-                                </Th>
-                          </Tr>
-                      </Tbody>    
-                    </Table>
-                  </TableContainer>      
-                </Box>                            
+          <Button
+              onClick={() => handleClick("lg")}
+              key="lg"
+              m={1}
+              >{`Add Project Resource`}
+          </Button>
+          <Drawer onClose={onClose} isOpen={isOpen} size="lg">
+                <DrawerOverlay />
+                    <DrawerContent>
+                        <DrawerCloseButton />
+                        
+                        <DrawerHeader>
+                            <Heading as="h1" size="lg" letterSpacing={'-.1rem'} marginBottom="1rem">
+                                Add Project Resource
+                            </Heading>
+                            <Heading as="h3" size="md">
+                                
+                            </Heading>
+                        </DrawerHeader>
+                        <DrawerBody>
+                          <Stack divider={<StackDivider />} spacing='1'>
+                            <Box>
+                              <TableContainer>
+                                <Table>
+                                  <TableCaption></TableCaption>
+                                  <Thead></Thead>
+                                  <Tbody border="table_border" >
+                                    <Tr >
+                                        <Th bgColor="table_tile">
+                                          Resource
+                                        </Th>
+                                        <Th>
+                                          <Select width="50%%" onChange={(ev) => handleUser(ev)} border="table_border">
+                                            <option value="">Select User</option>
+                                              {userList?.map((user) => (
+                                                      <option value={user.id} data-role={user.role}>{user.firstName} {user.lastName}</option>
+                                              ))}   
+                                          </Select>
+                                        </Th>
+                                    </Tr>
+                                    <Tr>
+                                        <Th bgColor="table_tile">
+                                          Bilable
+                                        </Th>
+                                        <Th>
+                                          <Checkbox
+                                                  isChecked={billable}
+                                                  onChange={(e) => setBillable(e.target.checked)}
+                                                />                                
+                                        </Th>
+                                    </Tr>
+                                    {timesheetApproverCheckBox ? (
+                                          <>
+                                          <Tr>
+                                            <Th bgColor="table_tile">
+                                              Timesheet Approver
+                                            </Th>
+                                            <Th>
+                                                <Checkbox
+                                                  isChecked={isTimesheetApprover}
+                                                  onChange={(e) => setTimesheetApprover(e.target.checked)}
+                                                />                                
+                                            </Th>                                
+                                          </Tr>                                    
+                                          </>
+                                      ) : ("")}
+                                    <Tr>
+                                        <Th bgColor="table_tile">
+                                          Price
+                                        </Th>
+                                        <Th>
+                                          <Input type="text" onChange={(ev) => setPrice(ev.target.value)}/>
+                                        </Th>
+                                    </Tr>
+                                    <Tr>
+                                        <Th bgColor="table_tile">
+                                          Currency
+                                        </Th>
+                                        <Th>
+                                          <Select width="25%" onChange={(ev) => setCurrency(ev.target.value)}>
+                                            <option value="USD">USD</option>
+                                          </Select>
 
-                <Button className="btn" onClick={() => handleSelectedProjectResource()}>
-                  Add Project Resource
-                </Button>
-              </ModalBody>
-          </ModalContent>      
+                                        </Th>
+                                    </Tr>
+                                    <Tr>
+                                        <Th bgColor="table_tile">
+                                          Quantity
+                                        </Th>
+                                        <Th>
+                                          <Input type="text" onChange={(ev) => setQuantity(ev.target.value)}/>
+                                        </Th>
+                                    </Tr>     
+                                    <Tr>
+                                        <Th bgColor="table_tile">
+                                          Quantity UOM
+                                        </Th>
+                                        <Th>
+                                          <Select width="35%" onChange={(ev) => setUOM(ev.target.value)}>
+                                            <option value="Hours">Hours</option>
+                                            <option value="Item">General Item</option>
+                                          </Select>
+                                        </Th>
+                                    </Tr>    
+                                    <Tr>
+                                        <Th bgColor="table_tile">
+                                          Max Budget Allocated
+                                        </Th>
+                                        <Th>
+                                          <Input type="text" onChange={(ev) => setBudgetAllocated(ev.target.value)}/>
+                                        </Th>
+                                    </Tr>                                                                                                     
+                                  </Tbody>
+                                  
+                                </Table>
+                              </TableContainer>      
+                            </Box>                            
+
+                            <Button className="btn" onClick={() => handleSelectedProjectResource()} width="button.primary.width" bgColor="button.primary.color">
+                              Add Project Resource
+                            </Button>                            
+                          </Stack>
+                        </DrawerBody>
+                    </DrawerContent>
+          </Drawer>
 
     </div>
 

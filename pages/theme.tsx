@@ -20,6 +20,11 @@ const theme = extendTheme({
         }
       }
     },
+    Table: {
+      borders: {
+        border_size: '3px'
+      }
+    },
     Input: {
       sizes: {
         timeentryBox: '4px'
@@ -27,6 +32,10 @@ const theme = extendTheme({
     }
   },
   semanticTokens: {
+    borders: {
+      accordion_border: '3px',
+      table_border: '1px'
+    },
     colors: {
       text: {
         default: '#0000FF',
@@ -63,6 +72,14 @@ const theme = extendTheme({
       submit: "#3182CE",
       nameDropDown: "white",
       entryError: "red"
+    },
+    project: {
+
+    },
+    button: {
+      primary: {
+        color: '#319795'
+      }
     }
   },
   sizes: {
@@ -74,7 +91,15 @@ const theme = extendTheme({
         input: "50px"
       },
       entry_project: "",
-      project_drop_down: "600px"
+      project_drop_down: "600px",
+    },      
+    project: {
+      add_resource: "md"
+    },
+    button: {
+      primary: {
+        width: '50%'
+      }
     }
   },
   borderWidths: {
@@ -96,9 +121,6 @@ const theme = extendTheme({
     md: '768px',
     lg: '1024px',
     xl: '1280px',
-  },
-  borders: {
-    accordion_border: '3px'
   },
   width: {
     accoridion_width: '50%'
