@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import {
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
+  InputGroup,
   useDisclosure,
   Button,
   Select,
@@ -26,12 +23,13 @@ import {
   DrawerHeader,
   DrawerBody,
   Stack,
-  StackDivider
+  StackDivider,
+  InputLeftElement
 
 } from '@chakra-ui/react'
 import { userService } from '../../services';
 import {USER_ROLES} from "../../constants/userConstants";
-import {MODE_ADD, PROJECT_VALIDATION_SCHEMA} from "../../constants/accountConstants";
+import {MODE_ADD, EMPTY_STRING} from "../../constants/accountConstants";
 
 
 const AddProjectResource = (props) => {
@@ -57,13 +55,14 @@ const AddProjectResource = (props) => {
 
   
 
-  console.log("DAAYYYY::"+JSON.stringify(data));
+  console.log("DAAYYYY::"+JSON.stringify(data.vendorId));
 
   useEffect(() => {
+    console.log("USE EFFECT")
     if(props && props.data && props.data.mode != MODE_ADD) {
       setAddMode(false);
     }
-
+    console.log("Vendor ID:::"+vendorId);
     getUsersByVendor(vendorId);
   }, []);
 
@@ -126,6 +125,7 @@ const AddProjectResource = (props) => {
       createProjectResource(addedResourceDetails);
       handleAddProjectResource(addedResourceDetails);
       onClose();  
+      setBudgetAllocated(EMPTY_STRING);
 
     }
   } 
@@ -165,6 +165,27 @@ const AddProjectResource = (props) => {
       toast.error("Something went wrong!");
     }
   };
+
+
+  function handleUnitPrice(price) {
+    console.log("UnitPrice::"+price)
+    setPrice(price);
+    if(quantity != undefined && quantity != EMPTY_STRING && price!= EMPTY_STRING && price != undefined) {
+      setBudgetAllocated(parseFloat(quantity) * parseFloat(price))
+    }else {
+      setBudgetAllocated(EMPTY_STRING);
+    }
+  }
+
+  function handleQuantity(quantity) {
+    console.log("quantity::"+quantity)
+    setQuantity(quantity);
+    if(quantity != undefined && quantity != EMPTY_STRING && price!= EMPTY_STRING && price != undefined) {
+      setBudgetAllocated(parseFloat(quantity) * parseFloat(price));
+    }else {
+      setBudgetAllocated(EMPTY_STRING);
+    }
+  }
 
   return (
 
@@ -240,7 +261,15 @@ const AddProjectResource = (props) => {
                                           Price
                                         </Th>
                                         <Th>
-                                          <Input type="text" onChange={(ev) => setPrice(ev.target.value)}/>
+                                        <InputGroup>
+                                          <InputLeftElement
+                                            pointerEvents='none'
+                                            color='gray.300'
+                                            fontSize='1.2em'
+                                            children='$'
+                                          /> 
+                                        </InputGroup>                                         
+                                          <Input type="text" width="50%" onChange={(ev) => handleUnitPrice(ev.target.value)}/>
                                         </Th>
                                     </Tr>
                                     <Tr>
@@ -259,7 +288,7 @@ const AddProjectResource = (props) => {
                                           Quantity
                                         </Th>
                                         <Th>
-                                          <Input type="text" onChange={(ev) => setQuantity(ev.target.value)}/>
+                                          <Input type="text" width="50%" onChange={(ev) => handleQuantity(ev.target.value)}/>
                                         </Th>
                                     </Tr>     
                                     <Tr>
@@ -278,7 +307,7 @@ const AddProjectResource = (props) => {
                                           Max Budget Allocated
                                         </Th>
                                         <Th>
-                                          <Input type="text" onChange={(ev) => setBudgetAllocated(ev.target.value)}/>
+                                          <Input type="text" width="50%" value={budgetAllocated} onChange={(ev) => setBudgetAllocated(ev.target.value)}/>
                                         </Th>
                                     </Tr>                                                                                                     
                                   </Tbody>

@@ -14,7 +14,8 @@ const ProjectResourceList = (props) => {
   const projectResourceList = props.data.projectResourceList;
   const addProjectResourceRequest = props.data.addProjectResourceRequest;
   
-  
+  console.log("addProjectResourceRequest::::"+JSON.stringify(addProjectResourceRequest)); 
+
   return (
 
     <div>
