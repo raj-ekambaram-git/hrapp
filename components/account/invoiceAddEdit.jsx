@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { util } from '../../helpers';
 import { accountService, userService } from "../../services";
-import {MODE_ADD, INVOICE_VALIDATION_SCHEMA, INVOICE_STATUS,INVOICE_PAY_TERMNS} from "../../constants/accountConstants";
+import {MODE_ADD, INVOICE_VALIDATION_SCHEMA, INVOICE_STATUS,INVOICE_PAY_TERMNS, EMPTY_STRING} from "../../constants/accountConstants";
 
 import {
   HStack,
@@ -44,6 +44,7 @@ const InvoiceAddEdit = (props) => {
   const [vendorList, setVendorList] = useState([]);
   const [projectList, setProjectList] = useState([]);
   const [projectType, setProjectType] = useState("");
+  const [projectId, setProjectId] = useState("");
   const [projectResources, setProjectResources] = useState([]);
   const [invoiceItemList, setInvoiceItemList] = useState([]);
   const [enableInvoiceItemAdd, setEnableInvoiceItemAdd] = useState(false);
@@ -155,7 +156,6 @@ const InvoiceAddEdit = (props) => {
     
     setEnableInvoiceItemAdd(false);
     setInvoiceItemList([]);
-    
     //Call Address table to get all the addresses by vendor
     
     const projectListResponse = await accountService.getProjectsByVendor(vendorId, userService.getAccountDetails().accountId);
@@ -163,6 +163,7 @@ const InvoiceAddEdit = (props) => {
     console.log("projectListResponse::"+JSON.stringify(projectListResponse))
     
     setProjectList(projectListResponse);
+    setProjectId(EMPTY_STRING);
 
   } 
 
