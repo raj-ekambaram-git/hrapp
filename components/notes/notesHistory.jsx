@@ -32,8 +32,8 @@ import Notes from "../../components/notes/notes";
     console.log("Notes History Props::"+JSON.stringify(props));
     console.log("notesType:::"+notesType+"--notesTypeId:::"+notesTypeId+"notesTypeTitle::::"+notesTypeTitle);
     // const 
-    const [size, setSize] = useState('')
-    const { isOpen, onOpen, onClose } = useDisclosure()
+    const [size, setSize] = useState('');
+    const { isOpen, onOpen, onClose } = useDisclosure();
 
     const [notesHistory, setNotesHistory] = useState([]);
     const [displayNotes, setDisplayNotes] = useState(false);
@@ -57,7 +57,7 @@ import Notes from "../../components/notes/notes";
     const handleClick = (newSize) => {
         setSize(newSize)
         onOpen()
-      }
+    }
 
     return (
         <div>

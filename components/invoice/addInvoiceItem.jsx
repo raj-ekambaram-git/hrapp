@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { toast } from "react-toastify";
 import {
   Drawer,
   DrawerOverlay,
@@ -10,7 +9,6 @@ import {
   DrawerBody,
   Stack,
   StackDivider,
-  Checkbox,
   useDisclosure,
   Button,
   Select,
@@ -225,90 +223,7 @@ console.log("Prop MOdal::::"+JSON.stringify(props));
                             </Stack>
                         </DrawerBody>
                     </DrawerContent>                    
-
             </Drawer>            
-          {/* <ModalContent>
-              <ModalHeader>Add Invoice Item</ModalHeader>
-              <ModalCloseButton />
-              <ModalBody>
-                <Box>
-                  <TableContainer>
-                    <Table>
-                    <TableCaption></TableCaption>
-                      <Thead>
-                          <Tr bgColor="table_tile">
-                            <Th>
-                              {projectType === PROJECT_TYPE_GENERAL ? (
-                                <>General</>
-                              ) : (
-                                <>User</>
-                              )}
-                            </Th>
-                            <Th>
-                              Price
-                            </Th>
-                            <Th>
-                              Currency
-                            </Th>
-                            <Th>
-                              Quantity
-                            </Th>
-                            <Th>
-                              UOM
-                            </Th> 
-                            <Th>
-                              Total Item
-                            </Th>
-                          </Tr>   
-                        </Thead>                
-                        <Tbody>
-                          <Tr>
-                                <Th>
-                                  {projectType == PROJECT_TYPE_GENERAL ? (
-                                    <><Input type="text" onChange={(ev) => setGeneralNote(ev.target.value)}/></>
-                                  ) : (
-                                    <>
-                                      <Select width="50%%" onChange={(ev) => setUserId(ev.target.value)}>
-                                        <option value="">Select Resource</option>
-                                          {projectResources?.map((projectResource) => (
-                                                  <option value={projectResource.userId}>{projectResource.user.firstName} {projectResource.user.lastName}</option>
-                                          ))}   
-                                      </Select>
-                                    </>
-                                  )}
-                                </Th>
-                                <Th>
-                                  <Input type="text" onChange={(ev) => setUnitPrice(ev.target.value)}/>
-                                </Th>
-                                <Th>
-                                  <Select width="50%%" onChange={(ev) => setCurrency(ev.target.value)}>
-                                      <option value="USD">USD</option>
-                                    </Select>
-                                </Th>                              
-                                <Th>
-                                  <Input type="text" onChange={(ev) => setQuantity(ev.target.value)}/>
-                                </Th>
-                                <Th>
-                                  <Select width="50%%" onChange={(ev) => setUOM(ev.target.value)}>
-                                      <option value="Hours">Hours</option>
-                                      <option value="Item">General Item</option>
-                                    </Select>
-                                </Th>                               
-                                <Th>
-                                 <Input type="text" onChange={(ev) => setTotal(ev.target.value)}/>
-                                </Th>
-                          </Tr>
-                      </Tbody>    
-                    </Table>
-                  </TableContainer>      
-                </Box>                            
-
-                <Button className="btn" onClick={() => handleInvoieItemList()}>
-                  Add
-                </Button>
-              </ModalBody>
-          </ModalContent>       */}
-
     </div>
 
 

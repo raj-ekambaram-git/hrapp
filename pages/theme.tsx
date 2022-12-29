@@ -54,6 +54,11 @@ const theme = extendTheme({
     radii: {
       button: '12px',
     },
+    sizes: {
+      project: {
+        add_project: 'lg'
+      }
+    }
   },
   colors: {
     black: '#16161D',
@@ -95,7 +100,8 @@ const theme = extendTheme({
       project_drop_down: "600px",
     },      
     project: {
-      add_resource: "md"
+      add_resource: "md",
+      add_project: "lg"
     },
     button: {
       primary: {

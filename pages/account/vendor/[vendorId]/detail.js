@@ -135,11 +135,12 @@ const VendorDetail = (props) => {
                   <Heading size='md'>Vendor Details for {vendor.name}</Heading>
                 </Box>
                 <Box  alignItems='right'>
-                  <Button className="btn" onClick={onOpen}>Create New Project</Button>
+                  {/* <Button className="btn" onClick={onOpen}>Create New Project</Button>
                   <Modal isOpen={isOpen} onClose={onClose} size="lg">
                     <ModalOverlay/>
                     <ProjectAddEditSection data={createProjectRequestData}></ProjectAddEditSection>
-                  </Modal>  
+                  </Modal>   */}
+                  <ProjectAddEditSection data={createProjectRequestData}></ProjectAddEditSection>                  
                 </Box>                  
               </HStack>
             </CardHeader>
