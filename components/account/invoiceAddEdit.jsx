@@ -185,7 +185,7 @@ const InvoiceAddEdit = (props) => {
     setEnableInvoiceItemAdd(true);
     setProjectResources(e.target.options.item(e.target.selectedIndex).getAttribute("data-projectResources"));
     setProjectType(e.target.options.item(e.target.selectedIndex).getAttribute("data-projectType"));
-
+    return;
   } 
     
 
@@ -398,7 +398,7 @@ const InvoiceAddEdit = (props) => {
                             <FormControl isRequired>
                               <FormLabel>Project</FormLabel>
                               <Select width="100%" id="projectId" {...register('projectId')} onChange={(ev) => handleProjectSelection(ev)}>
-                                <option value="">Select Project</option>
+                                <option value="" data-projectType="" data-projectResources="">Select Project</option>
                                 {projectList?.map((project) => (
                                     <option value={project.id}  data-projectType={project.type} data-projectResources={JSON.stringify(project.projectResource)}>{project.name}</option>
                                 ))}

@@ -15,21 +15,16 @@ import {
   Th,
   Tr,
   Box,
-  Flex,
-  Heading,
   TableContainer,
   TableCaption,
-  Checkbox,
-  InputArea
-} from '@chakra-ui/react'
-import { userService } from '../../services';
+} from '@chakra-ui/react';
 import {MODE_ADD, PROJECT_TYPE_GENERAL} from "../../constants/accountConstants";
 
 
 const AddInvoiceItemModal = (props) => {
   const {data} = props;
 
-console.log("Prop MOdal::::"+JSON.stringify(data.projectType));
+console.log("Prop MOdal::::"+JSON.stringify(props));
 
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [projectResources, setProjectResources] = useState([]);

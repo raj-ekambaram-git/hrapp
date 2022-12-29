@@ -25,8 +25,16 @@ const InvoiceItems = (props) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [invoiceItemList, setInvoiceItemList] = useState([]);
 
-    props.data.handleInvoieItemListModal = handleInvoieItemListModal;
-    setInvoiceItemList(props.data.invoiceItemList)
+    useEffect(() => {
+        setInvoiceItemList(props.data.invoiceItemList)
+      }, []);
+    
+      const addInvoiceData = {
+        handleInvoieItemListModal: handleInvoieItemListModal,
+        projectType: props.data.projectType,
+        projectResources: props.data.projectResources
+
+      }
 
     async function handleInvoieItemListModal(invoiceItemListJSON) {
         invoiceItemList.push(invoiceItemListJSON)
@@ -52,7 +60,7 @@ const InvoiceItems = (props) => {
             <Button className="btn" onClick={onOpen}>Add Invoice Item</Button>
             <Modal isOpen={isOpen} onClose={onClose} size="xl">
                 <ModalOverlay/>
-                <AddInvoiceItemModal data={props.data}></AddInvoiceItemModal>
+                <AddInvoiceItemModal data={addInvoiceData}></AddInvoiceItemModal>
             </Modal>  
             {invoiceItemList.length > 0 ? (<>
                 <TableContainer marginTop="1rem">
