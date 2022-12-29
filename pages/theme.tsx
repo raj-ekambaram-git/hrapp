@@ -34,7 +34,8 @@ const theme = extendTheme({
   semanticTokens: {
     borders: {
       accordion_border: '3px',
-      table_border: '1px'
+      table_border: '1px',
+      box_border: '1px'
     },
     colors: {
       text: {

@@ -139,12 +139,12 @@ console.log("Prop MOdal::::"+JSON.stringify(props));
                             </DrawerHeader>
                             <DrawerBody>
                               <Stack divider={<StackDivider />} spacing='1'>
-                                <Box>
-                                  <TableContainer>
+                                <Box border="box_border">
+                                  <TableContainer >
                                     <Table>
                                       <TableCaption></TableCaption>
                                       <Thead></Thead>
-                                      <Tbody border="table_border" >
+                                      <Tbody>
                                         <Tr >
                                             <Th bgColor="table_tile">
                                               {projectType === PROJECT_TYPE_GENERAL ? (
@@ -181,7 +181,7 @@ console.log("Prop MOdal::::"+JSON.stringify(props));
                                               Currency
                                             </Th>
                                             <Th>
-                                              <Select width="35%" onChange={(ev) => setCurrency(ev.target.value)}>
+                                              <Select width="40%" onChange={(ev) => setCurrency(ev.target.value)}>
                                                 <option value="USD">USD</option>
                                               </Select>
 

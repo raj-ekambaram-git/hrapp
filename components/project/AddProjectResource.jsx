@@ -190,12 +190,12 @@ const AddProjectResource = (props) => {
                         </DrawerHeader>
                         <DrawerBody>
                           <Stack divider={<StackDivider />} spacing='1'>
-                            <Box>
+                            <Box border="box_border">
                               <TableContainer>
                                 <Table>
                                   <TableCaption></TableCaption>
                                   <Thead></Thead>
-                                  <Tbody border="table_border" >
+                                  <Tbody>
                                     <Tr >
                                         <Th bgColor="table_tile">
                                           Resource
