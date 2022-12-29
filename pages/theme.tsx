@@ -100,6 +100,11 @@ const theme = extendTheme({
       primary: {
         width: '50%'
       }
+    },
+    invoice: {
+      quantity_input: '50%',
+      total_input: '50%',
+      price_input: '50%',
     }
   },
   borderWidths: {

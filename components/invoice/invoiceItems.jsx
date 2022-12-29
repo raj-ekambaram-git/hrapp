@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from "react";
-import AddInvoiceItemModal from "./addInvoiceItemModal";
+import AddInvoiceItem from "./addInvoiceItem";
 import {
     Text,
-    Button,
-    Modal,
-    ModalOverlay,
     Table,
     Thead,
     Tbody,
@@ -30,13 +27,13 @@ const InvoiceItems = (props) => {
       }, []);
     
       const addInvoiceData = {
-        handleInvoieItemListModal: handleInvoieItemListModal,
+        handleInvoieItemList: handleInvoieItemList,
         projectType: props.data.projectType,
         projectResources: props.data.projectResources
 
       }
 
-    async function handleInvoieItemListModal(invoiceItemListJSON) {
+    async function handleInvoieItemList(invoiceItemListJSON) {
         invoiceItemList.push(invoiceItemListJSON)
 
         setInvoiceItemList(invoiceItemList)
@@ -57,11 +54,7 @@ const InvoiceItems = (props) => {
     return (
         <div>
             <Text pt='2' fontSize='sm'>
-            <Button className="btn" onClick={onOpen}>Add Invoice Item</Button>
-            <Modal isOpen={isOpen} onClose={onClose} size="xl">
-                <ModalOverlay/>
-                <AddInvoiceItemModal data={addInvoiceData}></AddInvoiceItemModal>
-            </Modal>  
+            <AddInvoiceItem data={addInvoiceData}></AddInvoiceItem>
             {invoiceItemList.length > 0 ? (<>
                 <TableContainer marginTop="1rem">
                     <Table>
