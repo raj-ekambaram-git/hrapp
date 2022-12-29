@@ -101,7 +101,10 @@ const theme = extendTheme({
     },      
     project: {
       add_resource: "md",
-      add_project: "lg"
+      add_project: "lg",
+      details: {
+        column1: '20%'
+      }
     },
     button: {
       primary: {

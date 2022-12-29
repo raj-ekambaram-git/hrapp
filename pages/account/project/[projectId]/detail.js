@@ -15,8 +15,6 @@ import {
   Flex,
   HStack,
   Button,
-  Modal,
-  ModalOverlay,
   useDisclosure,
   Accordion,
   AccordionItem,
@@ -25,6 +23,10 @@ import {
   AccordionIcon,
 } from '@chakra-ui/react'
 import ProjectResourceList from "../../../../components/project/projectResourceList";
+import ProjectDetailSection from "../../../../components/project/projectDetailSection";
+import ProjectAccountSection from "../../../../components/project/projectAccountSection";
+import ProjectContactDetailSection from "../../../../components/project/projectContactDetailSection";
+import ProjectLocationSection from "../../../../components/project/projectLocationSection";
 
 
 const ProjectDetail = (props) => {
@@ -77,7 +79,7 @@ const ProjectDetail = (props) => {
     
     const responseData = await accountService.getProjectDetail(projectId, accoutIdToPas);
 
-    console.log("responseData::::"+JSON.stringify(responseData))
+    console.log("responseData: ProjectDetail:::"+JSON.stringify(responseData))
     const projectData =  {
       id: responseData.id.toString(),
       name: responseData.name,
@@ -93,7 +95,10 @@ const ProjectDetail = (props) => {
       budget: responseData.budget,
       totalHours: responseData.totalHours,
       averageRate: responseData.averageRate,
-      status: responseData.status
+      status: responseData.status,
+      contactName: responseData.contactName,
+      contactEmail: responseData.contactEmail,
+      contactPhone: responseData.contactPhone
    };
 
     const projectLocation =  {
@@ -157,21 +162,7 @@ const ProjectDetail = (props) => {
                       </AccordionButton>
                     </h2>
                     <AccordionPanel pb={4}>
-                    <Text pt='2' fontSize='sm'>
-                        Project ID: {project.id}
-                      </Text>             
-                      <Text pt='2' fontSize='sm'>
-                        Project Name: {project.name}
-                      </Text>                
-                      <Text pt='2' fontSize='sm'>
-                        Project Description: {project.description}
-                      </Text>    
-                      <Text pt='2' fontSize='sm'>
-                        Project Type: {project.type}
-                      </Text>                                       
-                      <Text pt='2' fontSize='sm'>
-                        Invoice Cycle: {project.invoiceCycle}
-                      </Text>                                       
+                        <ProjectDetailSection data={{project}}/>
                     </AccordionPanel>
                   </AccordionItem>
                   <AccordionItem marginBottom="1rem" border="1px" width="60%">
@@ -186,12 +177,7 @@ const ProjectDetail = (props) => {
                         </AccordionButton>
                       </h2>
                     <AccordionPanel pb={4}>
-                      <Text pt='2' fontSize='sm'>
-                        Account Name: {projectAccountName}
-                      </Text>
-                      <Text pt='2' fontSize='sm'>
-                        Vendor Name: {projectVendorName}
-                      </Text>
+                      <ProjectAccountSection data={{projectAccountName: projectAccountName, projectVendorName: projectVendorName}}/>
                     </AccordionPanel>
                   </AccordionItem>                          
                   <AccordionItem marginBottom="1rem" border="1px" width="60%">
@@ -206,15 +192,9 @@ const ProjectDetail = (props) => {
                       </AccordionButton>
                     </h2>
                     <AccordionPanel pb={4}>
-                      <Text pt='2' fontSize='sm'>
-                        Contact Name: {project.contactName}
-                      </Text>
-                      <Text pt='2' fontSize='sm'>
-                        Contact Email: {project.contactEmail}
-                      </Text>
-                      <Text pt='2' fontSize='sm'>
-                        Contact Phone: {project.contactPhone}
-                      </Text>                     
+                      
+                      <ProjectContactDetailSection data={{project}}/>
+                                     
                     </AccordionPanel>
                   </AccordionItem>
                   <AccordionItem marginBottom="1rem" border="1px" width="60%">
@@ -229,7 +209,8 @@ const ProjectDetail = (props) => {
                       </AccordionButton>
                     </h2>
                     <AccordionPanel pb={4}>
-                      <Text pt='2' fontSize='sm'>
+                      <ProjectLocationSection data={{projectLocation}}/>
+                      {/* <Text pt='2' fontSize='sm'>
                         {projectLocation.addressName}
                       </Text>
                       <Text pt='2' fontSize='sm'>
@@ -246,7 +227,7 @@ const ProjectDetail = (props) => {
                       </Text>
                       <Text pt='2' fontSize='sm'>
                         {projectLocation.country}
-                      </Text>                      
+                      </Text>                       */}
                      </AccordionPanel>
                   </AccordionItem>
                   <AccordionItem marginBottom="1rem" border="1px" width="60%">
