@@ -191,6 +191,7 @@ const UserAddEdit = (props) => {
             },
             role: formData.userRole,
             email: formData.userEmail,
+            password: formData.userPassword,
             phone: formData.userPhone,
             accountId: parseInt(formData.userAccountId),
             vendorId: parseInt(formData.userVendorId),
@@ -216,6 +217,7 @@ const UserAddEdit = (props) => {
   // update invoice in database
   const updateUser = async (userId, formData) => {
     try {
+      console.log("Update User:::")
       const res = await fetch(`/api/account/user/${userId}`, {
         method: "PUT",
         headers: {
@@ -249,6 +251,7 @@ const UserAddEdit = (props) => {
           },
           role: formData.userRole,
           email: formData.userEmail,
+          password: formData.userPassword,
           phone: formData.userPhone,
           accountId: parseInt(formData.userAccountId),
           vendorId: parseInt(formData.userVendorId),
@@ -367,7 +370,7 @@ const UserAddEdit = (props) => {
                       <Box>
                         <FormControl isRequired>
                           <FormLabel>User Passowrd</FormLabel>
-                          <Input type="text" id="userPassword"  size="md" {...register('userPassword')}  />
+                          <Input type="password" id="userPassword"  size="md" {...register('userPassword')}  />
                         </FormControl>     
                       </Box>  
                       <Box>

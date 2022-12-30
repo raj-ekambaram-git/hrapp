@@ -19,12 +19,13 @@ import {
 import { userService } from '../../services';
 import {GrLogout} from 'react-icons/gr';
 import { Tooltip, WrapItem } from '@chakra-ui/react'
-
+import { PageNotAuthorized } from "../../components/common/pageNotAuthorized";
 const Slidebar = (props) => {
  const [state,setstate]=useState(false);
  const handleclick=()=>{
     setstate(!state)
  }
+
 
  const dispatch=useDispatch();
 
@@ -58,7 +59,7 @@ const Slidebar = (props) => {
                 </div>
                 <WrapItem>
                   <Tooltip label='Logout' hasArrow arrowSize={15} placement='bottom' color="teal">
-                    <Link href={`/user/${userService.userValue.id}/logout`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
+                    <Link href="" onClick={() => userService.logout()} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
                       <div style={{weidth:"40px",marginRight:"20px",marginTop:"6px"}}>
                         <GrLogout  fontSize="27px"/>
                         
@@ -95,6 +96,7 @@ const Slidebar = (props) => {
         </>
       ) : (
         <>
+          <div> Page Not Authorized!</div>
         </>
       )}
     

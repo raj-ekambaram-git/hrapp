@@ -2,6 +2,7 @@ import { BehaviorSubject } from 'rxjs';
 import getConfig from 'next/config';
 import Router from 'next/router';
 import {USER_ROLES} from "../constants/userConstants";
+import jwtDecode from 'jwt-decode';
 
 import { fetchWrapper } from 'helpers';
 import { EMPTY_STRING } from '../constants/accountConstants';
@@ -36,16 +37,28 @@ export const userService = {
 
 };
 
+
 function isAuthenticated() {
     if( userSubject.value 
         && userSubject.value.id != EMPTY_STRING
-        && userSubject.value.id != undefined) {
-            //TODO: Also check if the email value is same from the token decryption, if not return false
+        && userSubject.value.id != undefined 
+        && isUserNameValidAgainstToken()) {            
         return true;
     }
     
     return false;
 
+}
+
+function isUserNameValidAgainstToken() {
+    const userNameValue = jwtDecode(userSubject.value.token).sub;
+    console.log("userNameValue from Token::"+userNameValue)
+    console.log("UserName from localstorage::"+userSubject.value.username)
+    if(userSubject.value.username === userNameValue) {
+        return true;
+    }else {
+        return false;
+    }
 }
 
 function isValidAccount(accountIdFromRequest) {
