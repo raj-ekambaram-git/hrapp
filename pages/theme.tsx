@@ -38,6 +38,7 @@ const theme = extendTheme({
       box_border: '1px'
     },
     colors: {
+      tooltip_color: 'red',
       text: {
         default: '#0000FF',
         _dark: '#ade3b8',
@@ -69,6 +70,8 @@ const theme = extendTheme({
   colors: {
     black: '#16161D',
     heading: '#319795',
+    tooltip_bg_color: 'gray.300',
+    tooltip_color: 'red',
     table_tile: '#e4eaee',
     paid_status: '#48BB78',
     pending_status: '#E53E3E',
