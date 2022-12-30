@@ -41,6 +41,7 @@
     "redux-persist": "^6.0.0",
     "redux-saga": "^1.2.2",
     "rxjs": "^7.6.0",
+    "validator": "^13.7.0",
     "yup": "^0.32.11"
   },
   "devDependencies": {

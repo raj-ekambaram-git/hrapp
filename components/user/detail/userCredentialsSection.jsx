@@ -18,6 +18,7 @@ import {
   HStack
 
 } from '@chakra-ui/react';
+import UserChangePassword from "./userChangePassword";
 
 
 const UserCredentialsSection = (props) => {
@@ -65,7 +66,7 @@ const UserCredentialsSection = (props) => {
                                     </Text>
                                     <Box>
                                         <Button className="btn">
-                                            Change Password
+                                            <UserChangePassword data={user}/>
                                         </Button>
                                     </Box>    
                                 </HStack>                            

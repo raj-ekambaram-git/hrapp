@@ -33,7 +33,8 @@ export const userService = {
     isTimesheetEntryUser,
     getTimesheetByUser,
     getTimesheetApprovalByUser,
-    isAuthenticated
+    isAuthenticated,
+    changePassword
 
 };
 
@@ -216,6 +217,13 @@ function login(username, password) {
             userSubject.next(user);
             localStorage.setItem('user', JSON.stringify(user));
 
+            return user;
+        });
+}
+
+function changePassword(userId,oldPassword, newPassword) {
+    return fetchWrapper.post(`${baseUrl}/account/user/`+userId+'/changepassword', { userId, oldPassword, newPassword })
+        .then(user => {
             return user;
         });
 }

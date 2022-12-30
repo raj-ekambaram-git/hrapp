@@ -1,6 +1,11 @@
 
+import validator from 'validator';
+const bcrypt = require('bcryptjs');
+
 export const util = {
-    formatPhoneNumber
+    formatPhoneNumber,
+    isStrongPassword,
+    getPasswordHash
 };
 
 
@@ -33,5 +38,21 @@ function formatPhoneNumber(value) {
     )}-${phoneNumber.slice(6, 10)}`;
   }
 
+function isStrongPassword(value) {
+  if (validator.isStrongPassword(value, {
+    minLength: 8, minLowercase: 1,
+    minUppercase: 1, minNumbers: 1, minSymbols: 1
+  })) {
+    return true;
+  } else {
+    return false;
+  }
 
-  
+}
+
+function getPasswordHash(password) {
+  const passwordSalt = bcrypt.genSaltSync(10);
+  const passwordHash = bcrypt.hashSync(password, passwordSalt);
+
+  return {passwordSalt: passwordSalt, passwordHash: passwordHash };
+}
