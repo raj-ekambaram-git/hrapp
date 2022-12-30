@@ -42,21 +42,24 @@ function MyApp({ Component, pageProps }: AppProps) {
 
     // redirect to login page if accessing a private page and not logged in 
     setUser(userService.userValue);
-    const publicPaths = ['/account/login', '/account/register'];
+    const publicPaths = ['/account/login', '/account/register', '/account/user/changepassword'];
     const path = url.split('?')[0];
 
     // if (!userService.userValue && !publicPaths.includes(path)) {
 
+    console.log("UserValue ::"+JSON.stringify(userService.userValue+"----"+path))
     if (!userService.userValue && !publicPaths.includes(path)) {
-
+      console.log("1111")
         setAuthorized(false);
         router.push({
             pathname: '/account/login',
             query: { returnUrl: router.asPath }
         });
     } else if (!userService.userValue && publicPaths.includes(path)) {
+      console.log("22222")
         setAuthorized(false);
     } else {
+      console.log("33333")
         setAuthorized(true);
     }
 }

@@ -64,7 +64,7 @@ async function hasAccess(result, res, userId, newPassword) {
       where: {
         id: parseInt(userId),
       },
-      data: {password: hashed.passwordHash, passwordSalt: hashed.passwordSalt}
+      data: {password: hashed.passwordHash, passwordSalt: hashed.passwordSalt, passwordExpired: false}
     });
 
     res.status(200).json(savedUser);

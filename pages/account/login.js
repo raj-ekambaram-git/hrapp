@@ -45,7 +45,7 @@ function Login() {
                 if(user.passwordExpired) {
                     console.log("Inside the password expired")
                     // Forward to Change Password Page now as passsword is expired
-                    router.push("/account/user/"+user.id+"/changepassword");
+                    router.push("/account/user/changepassword?userId="+user.id);
                 }else {
                     // get return url from query parameters or default to '/'
                     const returnUrl = router.query.returnUrl || '/';
