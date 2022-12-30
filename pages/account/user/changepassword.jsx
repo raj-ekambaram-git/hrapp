@@ -59,7 +59,7 @@ function ChangePassword(props) {
             }else {
               toast({
                 title: 'Change Password.',
-                description: 'Password Updated, please login with updated password again.',
+                description: 'Password updated, please login with updated password again.',
                 status: 'success',
                 position: 'top',
                 duration: 9000,
