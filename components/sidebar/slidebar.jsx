@@ -1,16 +1,10 @@
 import React, { useState,useEffect } from 'react'
-// import Slideclose from './Slideclose';
-// import Slideopen from './Slideopen';
+import { useRouter } from 'next/router';
 import styles from "./styles/slidebar.module.css"
 import {VscMenu} from "react-icons/vsc"
 import Link from "next/link";
 import Slideclose from './slideclose';
 import Slideopen from "./slideopen"
-
-// import Projects from '../../Features/Pages/Reporting/Projects';
-
-import {BsQuestionCircle} from "react-icons/bs"
-import {IoNotificationsSharp} from "react-icons/io5"
 import {FaUserCheck} from "react-icons/fa"
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -20,12 +14,19 @@ import { userService } from '../../services';
 import {GrLogout} from 'react-icons/gr';
 import { Tooltip, WrapItem } from '@chakra-ui/react'
 import { PageNotAuthorized } from "../../components/common/pageNotAuthorized";
-const Slidebar = (props) => {
- const [state,setstate]=useState(false);
- const handleclick=()=>{
-    setstate(!state)
- }
 
+
+const Slidebar = (props) => {
+  const router = useRouter();
+  const [state,setstate]=useState(false);
+  const handleclick=()=>{
+      setstate(!state)
+  }
+
+ function handleLogout(){
+  userService.logout()
+  router.push('/account/login');
+ }
 
  const dispatch=useDispatch();
 
@@ -61,7 +62,7 @@ const Slidebar = (props) => {
                 </Link>
                 <WrapItem>
                   <Tooltip label='Logout' hasArrow arrowSize={15} placement='bottom' color="teal">
-                    <Link href="" onClick={() => userService.logout()} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
+                    <Link href="" onClick={() => handleLogout()} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
                       <div style={{weidth:"40px",marginRight:"20px",marginTop:"6px"}}>
                         <GrLogout  fontSize="27px"/>
                         
