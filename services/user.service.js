@@ -44,7 +44,8 @@ function isAuthenticated() {
     if( userSubject.value 
         && userSubject.value.id != EMPTY_STRING
         && userSubject.value.id != undefined 
-        && isUserNameValidAgainstToken()) {            
+        && isUserNameValidAgainstToken()) {
+        // && !userSubject.value.passwordExpired) {            
         return true;
     }
     

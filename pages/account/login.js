@@ -40,10 +40,17 @@ function Login() {
 
     function onSubmit({ username, password }) {
         return userService.login(username, password)
-            .then(() => {
-                // get return url from query parameters or default to '/'
-                const returnUrl = router.query.returnUrl || '/';
-                router.push(returnUrl);
+            .then(user => {
+                console.log("USER AFTER LOGIN ::"+JSON.stringify(user))
+                if(user.passwordExpired) {
+                    console.log("Inside the password expired")
+                    // Forward to Change Password Page now as passsword is expired
+                    router.push("/account/user/"+user.id+"/changepassword");
+                }else {
+                    // get return url from query parameters or default to '/'
+                    const returnUrl = router.query.returnUrl || '/';
+                    router.push(returnUrl);
+                }
             })
             .catch(alertService.error);
     }
@@ -78,9 +85,6 @@ function Login() {
                                 {formState.isSubmitting && <span className="spinner-border spinner-border-sm mr-1"></span>}
                                 Login
                             </Button>
-                            {/* <Link href="#" styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
-                                Reset Password
-                            </Link> */}
                             <UserResetPassword/>
                         </HStack>
                     </form>

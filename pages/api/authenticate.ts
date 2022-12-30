@@ -67,7 +67,7 @@ async function hasAccess(result, res, user) {
       where: {
         id: parseInt(user.id),
       },
-      data: {passwordRetries: 5, passwordExpired: false, lastSignIn: new Date()} // TODO: Get the Password retires from config value
+      data: {passwordRetries: 5, lastSignIn: new Date()} // TODO: Get the Password retires from config value
     });
 
     // // create a jwt token that is valid for 7 days
@@ -80,6 +80,7 @@ async function hasAccess(result, res, user) {
         lastName: user.lastName,
         role: user.role,
         accountId: user.accountId,
+        passwordExpired: user.passwordExpired,
         token
     });
   }
