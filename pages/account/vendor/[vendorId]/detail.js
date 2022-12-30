@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { accountService, userService } from '../../../../services';
 import {MODE_ADD} from "../../../../constants/accountConstants";
-import Link from "next/link";
 import {
   Card,
   CardHeader,
@@ -10,30 +9,27 @@ import {
   Heading,
   CardBody,
   Stack,
-  Text,
   StackDivider,
   Badge,
   Flex,
   HStack,
   Button,
-  Modal,
-  ModalOverlay,
   useDisclosure,
   Accordion,
-  AccordionItem,
-  AccordionButton,
-  AccordionPanel,
-  AccordionIcon,
-  Table,
-  Thead,
-  Tbody,
-  Th,
-  Tr,
-  TableContainer,
-  TableCaption
 
 } from '@chakra-ui/react'
 import ProjectAddEditSection from "../../../../components/project/projectAddEditSection";
+import VendorDetailSection from "../../../../components/vendor/vendorDetailSection";
+import VendorBankDetailSection from "../../../../components/vendor/vendorBankDetailSection";
+import VendorContactDetailSection from "../../../../components/vendor/vendorContactDetailSection";
+import VendorContactAddressSection from "../../../../components/vendor/vendorContactAddressSection";
+import VendorAccountContactDetailSection from "../../../../components/vendor/vendorAccountContactDetailSection";
+import VendorProjectsSection from "../../../../components/vendor/vendorProjectsSection";
+
+
+
+
+
 
 const VendorDetail = (props) => {
   const vendorId = props.data.vendorId;
@@ -135,11 +131,6 @@ const VendorDetail = (props) => {
                   <Heading size='md'>Vendor Details for {vendor.name}</Heading>
                 </Box>
                 <Box  alignItems='right'>
-                  {/* <Button className="btn" onClick={onOpen}>Create New Project</Button>
-                  <Modal isOpen={isOpen} onClose={onClose} size="lg">
-                    <ModalOverlay/>
-                    <ProjectAddEditSection data={createProjectRequestData}></ProjectAddEditSection>
-                  </Modal>   */}
                   <ProjectAddEditSection data={createProjectRequestData}></ProjectAddEditSection>                  
                 </Box>                  
               </HStack>
@@ -148,194 +139,13 @@ const VendorDetail = (props) => {
             <CardBody>
               <Stack divider={<StackDivider />} spacing='1'>
                 <Accordion>
-                  <AccordionItem marginBottom="1rem" border="1px" width="60%">
-                    <h2>
-                      <AccordionButton bgColor="table_tile">
-                        <Box as="span" flex='1' textAlign='left'>
-                          <Heading size='xs' textTransform='uppercase'>
-                            Vendor Details
-                          </Heading>
-                        </Box>
-                        <AccordionIcon />
-                      </AccordionButton>
-                    </h2>
-                    <AccordionPanel pb={4}>
-                      <Text pt='2' fontSize='sm'>
-                        {vendor.name}
-                      </Text>                
-                      <Text pt='2' fontSize='sm'>
-                        {vendor.description}
-                      </Text>                
-                    </AccordionPanel>
-                  </AccordionItem>
-                  <AccordionItem marginBottom="1rem" border="1px" width="60%">
-                    <h2>
-                      <AccordionButton bgColor="table_tile">
-                        <Box as="span" flex='1' textAlign='left'>
-                          <Heading size='xs' textTransform='uppercase'>
-                            EIN and Bank Details
-                          </Heading>
-                        </Box>
-                        <AccordionIcon />
-                      </AccordionButton>
-                    </h2>
-                    <AccordionPanel pb={4}>
-                      <Text pt='2' fontSize='sm'>
-                        {vendor.ein}
-                      </Text>            
-                    </AccordionPanel>
-                  </AccordionItem>
-                  <AccordionItem marginBottom="1rem" border="1px" width="60%">
-                    <h2>
-                      <AccordionButton bgColor="table_tile">
-                        <Box as="span" flex='1' textAlign='left'>
-                          <Heading size='xs' textTransform='uppercase'>
-                            Vendor Contact
-                          </Heading>
-                        </Box>
-                        <AccordionIcon />
-                      </AccordionButton>
-                    </h2>
-                    <AccordionPanel pb={4}>
-                      <Text pt='2' fontSize='sm'>
-                        {vendor.email}
-                      </Text>
-                      <Text pt='2' fontSize='sm'>
-                        {vendor.phone}
-                      </Text>                     
-                  </AccordionPanel>
-                  </AccordionItem>
-                  <AccordionItem marginBottom="1rem" border="1px" width="60%">
-                    <h2>
-                      <AccordionButton bgColor="table_tile">
-                        <Box as="span" flex='1' textAlign='left'>
-                          <Heading size='xs' textTransform='uppercase'>
-                            Vendor Contact Address
-                          </Heading>
-                        </Box>
-                        <AccordionIcon />
-                      </AccordionButton>
-                    </h2>
-                    <AccordionPanel pb={4}>
-                    <Text pt='2' fontSize='sm'>
-                        {vendorAddress.addressName}
-                      </Text>                      
-                      <Text pt='2' fontSize='sm'>
-                        {vendorAddress.address1}
-                      </Text>
-                      <Text pt='2' fontSize='sm'>
-                        {vendorAddress.address2}
-                      </Text>
-                      <Text pt='2' fontSize='sm'>
-                        {vendorAddress.address3}
-                      </Text>
-                      <Text pt='2' fontSize='sm'>
-                        {vendorAddress.city}, {vendorAddress.state} {vendorAddress.zipCode} 
-                      </Text>
-                      <Text pt='2' fontSize='sm'>
-                        {vendorAddress.country}
-                      </Text>                      
-                     </AccordionPanel>
-                  </AccordionItem>
-                  <AccordionItem marginBottom="1rem" border="1px" width="60%">
-                    <h2>
-                      <AccordionButton bgColor="table_tile">
-                        <Box as="span" flex='1' textAlign='left'>
-                          <Heading size='xs' textTransform='uppercase'>
-                            Account Contact
-                          </Heading>
-                        </Box>
-                        <AccordionIcon />
-                      </AccordionButton>
-                    </h2>
-                    <AccordionPanel pb={4}>
-                      <Text pt='2' fontSize='sm'>
-                        {vendor.accountContactName}
-                      </Text>
-                      <Text pt='2' fontSize='sm'>
-                        {vendor.accountContactEmail}
-                      </Text>                  
-                      <Text pt='2' fontSize='sm'>
-                        {vendor.accountContactPhone}
-                      </Text>                   
-                    </AccordionPanel>
-                  </AccordionItem>                                                      
-                  <AccordionItem marginBottom="1rem" border="1px" width="60%">
-                    <h2>
-                      <AccordionButton bgColor="table_tile">
-                        <Box as="span" flex='1' textAlign='left'>
-                          <Heading size='xs' textTransform='uppercase'>
-                            Projects
-                          </Heading>
-                        </Box>
-                        <AccordionIcon />
-                      </AccordionButton>
-                    </h2>
-                    <AccordionPanel pb={4}>
-                      {vendor.project ? (
-                        <>
-                          <TableContainer>
-                            <Table>
-                            <TableCaption></TableCaption>
-                              <Thead>
-                                  <Tr bgColor="inner_table_tile">
-                                    <Th>
-                                      Projet ID
-                                    </Th>
-                                    <Th>
-                                      Project Name
-                                    </Th>
-                                    <Th>
-                                      Project Type
-                                    </Th>                                    
-                                    <Th>
-                                      Project Status
-                                    </Th>
-                                  </Tr>   
-                                </Thead>                
-                                <Tbody>
-                                  {vendor.project?.map((proj) => (
-                                    <Tr>
-                                          <Th>
-                                            {proj.id}
-                                          </Th>
-                                          <Th>
-                                            {proj.name}
-                                          </Th>
-                                          <Th>
-                                            {proj.type}
-                                          </Th>
-                                          <Th>
-                                            <HStack>
-                                              <Link href={`/account/project/${proj.id}/detail`} passref key={proj.id}>
-                                                <Button className="btn">
-                                                  Details
-                                                </Button>
-                                              </Link>
-                                              <Badge color={`${
-                                                  proj.status === "Active"
-                                                    ? "paid_status"
-                                                    : proj.status === "Inactive"
-                                                    ? "pending_status"
-                                                    : "pending_status"
-                                                }`}>{proj.status}</Badge>
-                                            </HStack>
-                                          </Th>
-                                        
-                                      </Tr>
-
-                                  ))}
-                              </Tbody>    
-                            </Table>
-                          </TableContainer>                        
-                        </>
-                      ) : (
-                        <>
-                        </>
-                      )} 
-                    </AccordionPanel>
-                  </AccordionItem>   
-                </Accordion>                
+                  <VendorDetailSection data={{vendor}}/ >
+                  <VendorBankDetailSection data={{vendor}}/>
+                  <VendorContactDetailSection data={{vendor}}/>                 
+                  <VendorContactAddressSection data={{vendorAddress}}/>
+                  <VendorAccountContactDetailSection data={{vendor}}/>
+                  <VendorProjectsSection data={{vendor}}/>
+                 </Accordion>                
                 <Box>
                   <Heading size='xs' textTransform='uppercase'>
                     Vendor Status

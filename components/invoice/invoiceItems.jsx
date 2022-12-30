@@ -94,30 +94,41 @@ const InvoiceItems = (props) => {
                             {invoiceItemList?.map((invoiceItem, index) => (
                                 <Tr>
                                     <Th>
-                                        
-                                        {props.data.projectType === PROJECT_TYPE_GENERAL ? (
-                                            <>
-                                            {invoiceItem.generalNote}</>
-                                        ) : (
-                                            <>
-                                            {invoiceItem.userId}
-                                            </>
-                                        )}                                
+                                        <Text pt='table_display_value' fontSize='table_display_value'>
+                                            {props.data.projectType === PROJECT_TYPE_GENERAL ? (
+                                                <>
+                                                {invoiceItem.generalNote}</>
+                                            ) : (
+                                                <>
+                                                {invoiceItem.userId}
+                                                </>
+                                            )}                                
+                                        </Text>
                                     </Th>
                                     <Th>
-                                        {invoiceItem.unitPrice}
+                                        <Text pt='table_display_value' fontSize='table_display_value'>
+                                            {invoiceItem.unitPrice}
+                                        </Text>
                                     </Th>
                                     <Th>
-                                        {invoiceItem.currency}
+                                        <Text pt='table_display_value' fontSize='table_display_value'>
+                                            {invoiceItem.currency}
+                                        </Text>
                                     </Th>                              
                                     <Th>
-                                        {invoiceItem.quantity}
+                                        <Text pt='table_display_value' fontSize='table_display_value'>
+                                            {invoiceItem.quantity}
+                                        </Text>
                                     </Th>
                                     <Th>
-                                        {invoiceItem.uom}
+                                        <Text pt='table_display_value' fontSize='table_display_value'>
+                                            {invoiceItem.uom}
+                                        </Text>
                                     </Th>                               
                                     <Th>
-                                        {invoiceItem.total} 
+                                        <Text pt='table_display_value' fontSize='table_display_value'>  
+                                            {invoiceItem.total} 
+                                        </Text>
                                     </Th>
                                     <Th>
                                         <DeleteIcon onClick={() => deleteInvoiceItem(index)}/>

@@ -16,7 +16,8 @@ import {
   Heading,
   TableContainer,
   TableCaption,
-  Badge
+  Badge,
+  Text
 } from '@chakra-ui/react'
 
 const UserList = (props) => {
@@ -200,28 +201,44 @@ const UserList = (props) => {
                       
                       <Tr>
                             <Th>
-                              {invoice.id}
+                              <Text pt='table_display_value' fontSize='table_display_value'>  
+                                {invoice.id}
+                              </Text>
                             </Th>
                             <Th>
-                              {invoice.type}
+                              <Text pt='table_display_value' fontSize='table_display_value'>                              
+                                {invoice.type}
+                              </Text>
                             </Th>
                             <Th>
-                              {invoice.vendor.name}
+                              <Text pt='table_display_value' fontSize='table_display_value'>
+                                {invoice.vendor.name}
+                              </Text>
                             </Th>
                             <Th>
-                              {invoice.account.name}
+                              <Text pt='table_display_value' fontSize='table_display_value'>
+                                {invoice.account.name}
+                              </Text>
                             </Th>
                             <Th>
-                              {invoice.invoiceDate}
+                              <Text pt='table_display_value' fontSize='table_display_value'>
+                                {invoice.invoiceDate}
+                              </Text>
                             </Th>
                             <Th>
-                              {invoice.dueDte}
+                              <Text pt='table_display_value' fontSize='table_display_value'>
+                                {invoice.dueDte}
+                              </Text>
                             </Th>
                             <Th>
-                              {invoice.total}
+                              <Text pt='table_display_value' fontSize='table_display_value'>
+                                {invoice.total}
+                              </Text>
                             </Th>
                             <Th>
-                              {invoice.paidAmount}
+                              <Text pt='table_display_value' fontSize='table_display_value'>
+                                {invoice.paidAmount}
+                              </Text>
                             </Th>
                             <Th>
                               <HStack>

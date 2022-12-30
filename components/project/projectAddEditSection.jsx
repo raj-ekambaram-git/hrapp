@@ -55,14 +55,7 @@ const ProjectAddEditSection = (props) => {
                             </DrawerBody>
                     </DrawerContent>                    
 
-            </Drawer>          
-          {/* <ModalContent>
-              <ModalHeader>Create a Project</ModalHeader>
-              <ModalCloseButton />
-              <ModalBody>
-                <ProjectAddEdit data={data}></ProjectAddEdit>
-              </ModalBody>
-          </ModalContent>       */}
+            </Drawer>  
 
     </div>
 

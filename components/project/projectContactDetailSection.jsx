@@ -7,6 +7,7 @@ import {
   Tr,
   TableContainer,
   TableCaption,
+  Text
 } from '@chakra-ui/react';
 
 
@@ -29,7 +30,9 @@ const ProjectContactDetailSection = (props) => {
                         Contact Name
                     </Th>
                     <Th>
-                        {project.contactName}
+                        <Text pt='table_display_value' fontSize='table_display_value'>                        
+                            {project.contactName}
+                        </Text>
                     </Th>
                 </Tr>
                 <Tr >
@@ -37,7 +40,9 @@ const ProjectContactDetailSection = (props) => {
                         Contact Email
                     </Th>
                     <Th>
-                        {project.contactEmail}
+                        <Text pt='table_display_value' fontSize='table_display_value'>
+                            {project.contactEmail}
+                        </Text>
                     </Th>
                 </Tr>  
                 <Tr >
@@ -45,7 +50,9 @@ const ProjectContactDetailSection = (props) => {
                         Contact Phone
                     </Th>
                     <Th>
-                        {project.contactPhone}
+                        <Text pt='table_display_value' fontSize='table_display_value'>
+                            {project.contactPhone}
+                        </Text>
                     </Th>
                 </Tr>                                                                                                                   
                 </Tbody>

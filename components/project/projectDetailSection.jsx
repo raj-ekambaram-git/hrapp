@@ -7,6 +7,7 @@ import {
   Tr,
   TableContainer,
   TableCaption,
+  Text
 } from '@chakra-ui/react';
 
 
@@ -28,7 +29,9 @@ const ProjectDetailSection = (props) => {
                     Project ID
                     </Th>
                     <Th>
-                    {project.id}
+                        <Text pt='table_display_value' fontSize='table_display_value'>
+                            {project.id}
+                        </Text>
                     </Th>
                 </Tr>
                 <Tr >
@@ -36,7 +39,9 @@ const ProjectDetailSection = (props) => {
                     Project Name
                     </Th>
                     <Th>
-                    {project.name}
+                        <Text pt='table_display_value' fontSize='table_display_value'>                        
+                            {project.name}
+                        </Text>
                     </Th>
                 </Tr>
                 <Tr >
@@ -44,7 +49,9 @@ const ProjectDetailSection = (props) => {
                     Project Description
                     </Th>
                     <Th>
-                    {project.description}
+                        <Text pt='table_display_value' fontSize='table_display_value'> 
+                            {project.description}
+                        </Text>
                     </Th>
                 </Tr>
                 <Tr >
@@ -52,7 +59,9 @@ const ProjectDetailSection = (props) => {
                     Project Type
                     </Th>
                     <Th>
-                    {project.type}
+                        <Text pt='table_display_value' fontSize='table_display_value'>                        
+                            {project.type}
+                        </Text>
                     </Th>
                 </Tr>
                 <Tr >
@@ -60,7 +69,9 @@ const ProjectDetailSection = (props) => {
                     Invoice Cycle
                     </Th>
                     <Th>
-                    {project.invoiceCycle}
+                        <Text pt='table_display_value' fontSize='table_display_value'>
+                            {project.invoiceCycle}
+                        </Text>
                     </Th>
                 </Tr>                                                                                                        
                 </Tbody>

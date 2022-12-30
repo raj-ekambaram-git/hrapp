@@ -7,6 +7,7 @@ import {
   Tr,
   TableContainer,
   TableCaption,
+  Text
 } from '@chakra-ui/react';
 
 
@@ -29,26 +30,28 @@ const ProjectLocationSection = (props) => {
                         Project Location
                     </Th>
                     <Th>
-                        {projectLocation.addressName} <br/>
-                        {projectLocation.address1} <br/>
-                        {projectLocation.address2 ? (
-                            <>
-                                {projectLocation.address2}<br/>
-                            </>
-                            ):(
-                            <>
-                            </>
-                            )} 
-                        {projectLocation.address3 ? (
-                            <>
-                                {projectLocation.address3}<br/>
-                            </>
-                            ):(
-                            <>
-                            </>
-                            )} 
-                        {projectLocation.city}, {projectLocation.state} {projectLocation.zipCode}  <br/>
-                        {projectLocation.country} <br/>
+                        <Text pt='table_display_value' fontSize='table_display_value'>  
+                            {projectLocation.addressName} <br/>
+                            {projectLocation.address1} <br/>
+                            {projectLocation.address2 ? (
+                                <>
+                                    {projectLocation.address2}<br/>
+                                </>
+                                ):(
+                                <>
+                                </>
+                                )} 
+                            {projectLocation.address3 ? (
+                                <>
+                                    {projectLocation.address3}<br/>
+                                </>
+                                ):(
+                                <>
+                                </>
+                                )} 
+                            {projectLocation.city}, {projectLocation.state} {projectLocation.zipCode}  <br/>
+                            {projectLocation.country} <br/>
+                        </Text>
                     </Th>
                 </Tr>
                 </Tbody>

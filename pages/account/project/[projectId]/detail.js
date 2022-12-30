@@ -210,24 +210,6 @@ const ProjectDetail = (props) => {
                     </h2>
                     <AccordionPanel pb={4}>
                       <ProjectLocationSection data={{projectLocation}}/>
-                      {/* <Text pt='2' fontSize='sm'>
-                        {projectLocation.addressName}
-                      </Text>
-                      <Text pt='2' fontSize='sm'>
-                        {projectLocation.address1}
-                      </Text>
-                      <Text pt='2' fontSize='sm'>
-                        {projectLocation.address2}
-                      </Text>
-                      <Text pt='2' fontSize='sm'>
-                        {projectLocation.address3}
-                      </Text>
-                      <Text pt='2' fontSize='sm'>
-                        {projectLocation.city}, {projectLocation.state} {projectLocation.zipCode} 
-                      </Text>
-                      <Text pt='2' fontSize='sm'>
-                        {projectLocation.country}
-                      </Text>                       */}
                      </AccordionPanel>
                   </AccordionItem>
                   <AccordionItem marginBottom="1rem" border="1px" width="60%">

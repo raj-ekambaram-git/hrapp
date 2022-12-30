@@ -54,6 +54,12 @@ const theme = extendTheme({
     radii: {
       button: '12px',
     },
+    fontSizes: {
+        table_display_value: 'sm'
+    },    
+    space:{
+      table_display_value: '1'
+    },
     sizes: {
       project: {
         add_project: 'lg'

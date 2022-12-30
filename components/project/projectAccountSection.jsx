@@ -7,6 +7,7 @@ import {
   Tr,
   TableContainer,
   TableCaption,
+  Text
 } from '@chakra-ui/react';
 
 
@@ -28,7 +29,9 @@ const ProjectAccountSection = (props) => {
                         Account
                     </Th>
                     <Th>
-                    {projectAccountName}
+                        <Text pt='table_display_value' fontSize='table_display_value'>
+                            {projectAccountName}
+                        </Text>
                     </Th>
                 </Tr>
                 <Tr >
@@ -36,7 +39,9 @@ const ProjectAccountSection = (props) => {
                         Vendor
                     </Th>
                     <Th>
-                    {projectVendorName}
+                    <Text pt='table_display_value' fontSize='table_display_value'>                        
+                        {projectVendorName}
+                    </Text>
                     </Th>
                 </Tr>                                                                                                    
                 </Tbody>
