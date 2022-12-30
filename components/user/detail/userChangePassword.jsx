@@ -52,8 +52,8 @@ const UserChangePassword = (props) => {
   async function handleChangePassword() {
 
     if(util.isStrongPassword(newPassword)) {
-      console.log("IDDDD ::"+userId)
-      const changePasswordResponse = await userService.changePassword(userId, oldPassword, newPassword);
+      console.log("IDDDD ::"+props.data.id)
+      const changePasswordResponse = await userService.changePassword(props.data.id, oldPassword, newPassword);
       if(changePasswordResponse != undefined && changePasswordResponse.error) {
         toast({
           title: 'Change Password Erropr.',
