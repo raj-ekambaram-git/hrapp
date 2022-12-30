@@ -16,13 +16,6 @@ import {
   TableContainer,
   TableCaption,
   Badge,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
-  ModalFooter,
   useDisclosure
 } from '@chakra-ui/react'
 

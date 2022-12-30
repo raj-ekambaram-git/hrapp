@@ -73,7 +73,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
       <div>
         <Alert />
-        <Layout>
+        <Layout data={{authorized}}>
           <ChakraProvider theme={theme}>
             <Component {...pageProps} />
             </ChakraProvider>

@@ -3,11 +3,18 @@ import Slidebar from "../sidebar/slidebar";
 
 
 const Layout = (props) => {
+
   return (
     <Fragment>
-      <Slidebar>
+      {props.data.authorized ? (
+        <>
+        <Slidebar>
+          <div>{props.children}</div>
+        </Slidebar>
+        </>
+      ) : (<>
          <div>{props.children}</div>
-      </Slidebar>
+      </>)}
     </Fragment>
   );
 }
