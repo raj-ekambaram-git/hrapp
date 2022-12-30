@@ -32,7 +32,7 @@ const WeeklyTimesheetEntry = (props) => {
     const [showProjectError, setShowProjectError] = useState(false);
     const [userProjectList, setUserProjectList] = useState([]);
     const [timesheetData, setTimesheetData] = useState([]);
-    
+    const userId = props.data.userId;
 
     useEffect(() => {
 
@@ -40,7 +40,7 @@ const WeeklyTimesheetEntry = (props) => {
           getProjectForUser(userId);
         }else if(userService.isTimesheetEntryUser()) {
           // getProjectForUser(userService.getAccountDetails().accountId);
-          getProjectForUser(7);
+          getProjectForUser(userId);
         }
         console.log("props.data.isAddMode:::"+JSON.stringify(props.data.isAddMode))
         setAddMode(props.data.isAddMode);

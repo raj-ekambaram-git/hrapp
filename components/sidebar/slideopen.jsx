@@ -76,20 +76,22 @@ const Slideopen = () => {
                 </div>
               </Link>     
             </Tooltip>       
-            <Tooltip label="Timesheets" placement='right' color='teal' hasArrow>
+            
               {userService.userValue ? (
                 <>
-                  <Link href={`/account/user/${userService.userValue.id}/timesheets`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
-                    <div>
-                      <VscCalendar  className={styles.icons1}/>
-                    </div>
-                  </Link>     
+                  <Tooltip label="Timesheets" placement='right' color='teal' hasArrow>
+                    <Link href={`/account/user/${userService.userValue.id}/timesheets`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
+                      <div>
+                        <VscCalendar  className={styles.icons1}/>
+                      </div>
+                    </Link>   
+                  </Tooltip>    
                 </>
               ) : (
                 <>
                 </>
               )}
-            </Tooltip>                
+                          
             </>
           )}
 

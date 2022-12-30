@@ -23,7 +23,7 @@ const TimesheetAddEdit = (props) => {
   const email = useRef("");
   const type = useRef("");
   // const userId = useRef("");
-  const userId = 7;
+  const userId = userService.userValue.id;
 
 
   const [timesheetActivityList, setTimesheetActivityList] = useState([]);
@@ -156,7 +156,7 @@ const TimesheetAddEdit = (props) => {
           </Flex>
           <Box width="100%">
             <form onSubmit={handleSubmit(onSubmit)}>
-                  <WeeklyTimesheetEntry data={{timesheetId: timesheetId, isAddMode: isAddMode, onSubmit: onSubmit, handleTimeSheetEntries: handleTimeSheetEntries}}></WeeklyTimesheetEntry>
+                  <WeeklyTimesheetEntry data={{userId: userService.userValue.id, timesheetId: timesheetId, isAddMode: isAddMode, onSubmit: onSubmit, handleTimeSheetEntries: handleTimeSheetEntries}}></WeeklyTimesheetEntry>
             </form>          
           </Box>
 
