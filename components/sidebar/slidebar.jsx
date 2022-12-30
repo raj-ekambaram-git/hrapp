@@ -98,7 +98,13 @@ const Slidebar = (props) => {
         </>
       ) : (
         <>
-          <div> Page Not Authorized!</div>
+          <div className={styles.mainContainer}>
+              
+              <Container marginLeft={2}>
+                {props.children}
+              </Container>
+            
+          </div>
         </>
       )}
     
