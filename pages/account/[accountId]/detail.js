@@ -8,13 +8,21 @@ import {
   Heading,
   CardBody,
   Stack,
-  Text,
   StackDivider,
-  Badge,
   Flex,
   HStack,
-  Button
-} from '@chakra-ui/react'
+  Button,
+  Accordion
+} from '@chakra-ui/react';
+import AccountDetailSection from "../../../components/account/detail/accountDetailSection";
+import AccountEINSection from "../../../components/account/detail/accountEINSection";
+import AccountContactDetailSection from "../../../components/account/detail/accountContactDetailSection";
+import AccountContactAddressSection from "../../../components/account/detail/accountContactAddressSection";
+import AccountStatusSection from "../../../components/account/detail/accountStatusSection";
+import AccountActionsSection from "../../../components/account/detail/accountActionsSection";
+
+
+
 
 const AccountDetail = (props) => {
   const router = useRouter();
@@ -27,7 +35,12 @@ const AccountDetail = (props) => {
   const navigateManageVendorsPage = () => router.push("/account/"+account.id+"/vendors");
   const navigateManageAccounts = () => router.push("/accounts");
   
-
+  const actionItems = {
+    navigateEditPage: navigateEditPage,
+    navigateManageAccountUsersPage: navigateManageAccountUsersPage,
+    navigateManageVendorsPage: navigateManageVendorsPage,
+    navigateManageAccounts: navigateManageAccounts
+  }
   
   
   // set default input data
@@ -75,97 +88,19 @@ const AccountDetail = (props) => {
 
             <CardBody>
               <Stack divider={<StackDivider />} spacing='4'>
-                <Box>
-                  <Heading size='xs' textTransform='uppercase'>
-                    Details
-                  </Heading>
-                  <Text pt='2' fontSize='sm'>
-                    {account.description}
-                  </Text>                
-                </Box>
-                <Box>
-                  <Heading size='xs' textTransform='uppercase'>
-                    Account EIN
-                  </Heading>
-                  <Text pt='2' fontSize='sm'>
-                    {account.ein}
-                  </Text>                
-                </Box>                
-                <Box>
-                  <Heading size='xs' textTransform='uppercase'>
-                    Account Contact Details
-                  </Heading>
-                  <Text pt='2' fontSize='sm'>
-                    {account.email}
-                  </Text>
-                  <Text pt='2' fontSize='sm'>
-                    {account.phone}
-                  </Text>                  
-                </Box>
-                <Box>
-                  <Heading size='xs' textTransform='uppercase'>
-                    Account Contact Address
-                  </Heading>
-                  <Text pt='2' fontSize='sm'>
-                    {account.addressName}
-                  </Text>                  
-                  <Text pt='2' fontSize='sm'>
-                    {account.address1}
-                  </Text>
-                  <Text pt='2' fontSize='sm'>
-                    {account.address2}
-                  </Text>
-                  <Text pt='2' fontSize='sm'>
-                    {account.address3}
-                  </Text>
-                  <Text pt='2' fontSize='sm'>
-                    {account.city}, {account.state} {account.zipCode} 
-                  </Text>
-                  <Text pt='2' fontSize='sm'>
-                    {account.country}
-                  </Text>                                                                                                            
-                </Box>
-                <Box>
-                  <Heading size='xs' textTransform='uppercase'>
-                    Account Status
-                  </Heading>
-                  <Badge color={`${
-                        account.status === "Active"
-                          ? "paid_status"
-                          : account.status === "Inactive"
-                          ? "pending_status"
-                          : "pending_status"
-                      }`}>{account.status}</Badge>
-          
-                </Box>                
+                <Accordion>
+                  <AccountDetailSection data={{account}}/>
+                  <AccountEINSection data={{account}}/>
+                  <AccountContactDetailSection data={{account}}/>
+                  <AccountContactAddressSection data={{account}}/>
+                  <AccountStatusSection data={{account}}/>
+                </Accordion>         
               </Stack>
             </CardBody>
           </Card>             
 
-          <Flex marginTop="2rem">
-                <HStack spacing={2}>
-                  <Box>
-                    <Button className="btn" onClick={navigateEditPage}>
-                      Edit
-                    </Button>
-                  </Box>
-                  <Box>
-                    <Button className="btn" onClick={navigateManageVendorsPage}>
-                      Account Vendors
-                    </Button>
-                  </Box>   
-                  <Box>
-                    <Button className="btn" onClick={navigateManageAccountUsersPage}>
-                      Account Users
-                    </Button>
-                  </Box>   
-                  <Box>
-                    <Button className="btn" onClick={navigateManageAccounts}>
-                      Manage Accounts
-                    </Button>
-                  </Box>                                                      
-                </HStack>
-              </Flex>          
+          <AccountActionsSection data={{actionItems}}/>
+       
         </>
       ) : (
         <div className="account__header">

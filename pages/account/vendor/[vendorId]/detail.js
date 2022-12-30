@@ -19,12 +19,12 @@ import {
 
 } from '@chakra-ui/react'
 import ProjectAddEditSection from "../../../../components/project/projectAddEditSection";
-import VendorDetailSection from "../../../../components/vendor/vendorDetailSection";
-import VendorBankDetailSection from "../../../../components/vendor/vendorBankDetailSection";
-import VendorContactDetailSection from "../../../../components/vendor/vendorContactDetailSection";
-import VendorContactAddressSection from "../../../../components/vendor/vendorContactAddressSection";
-import VendorAccountContactDetailSection from "../../../../components/vendor/vendorAccountContactDetailSection";
-import VendorProjectsSection from "../../../../components/vendor/vendorProjectsSection";
+import VendorDetailSection from "../../../../components/vendor/detail/vendorDetailSection";
+import VendorBankDetailSection from "../../../../components/vendor/detail/vendorBankDetailSection";
+import VendorContactDetailSection from "../../../../components/vendor/detail/vendorContactDetailSection";
+import VendorContactAddressSection from "../../../../components/vendor/detail/vendorContactAddressSection";
+import VendorAccountContactDetailSection from "../../../../components/vendor/detail/vendorAccountContactDetailSection";
+import VendorProjectsSection from "../../../../components/vendor/detail/vendorProjectsSection";
 
 
 

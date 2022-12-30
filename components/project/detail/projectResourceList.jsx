@@ -8,7 +8,7 @@ import {
   TableContainer,
   TableCaption,
 } from '@chakra-ui/react';
-import AddProjectResource from "./addProjectResource";
+import AddProjectResource from "../addProjectResource";
 
 const ProjectResourceList = (props) => {
   const projectResourceList = props.data.projectResourceList;

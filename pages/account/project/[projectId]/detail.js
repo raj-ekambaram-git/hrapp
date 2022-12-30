@@ -22,11 +22,11 @@ import {
   AccordionPanel,
   AccordionIcon,
 } from '@chakra-ui/react'
-import ProjectResourceList from "../../../../components/project/projectResourceList";
-import ProjectDetailSection from "../../../../components/project/projectDetailSection";
-import ProjectAccountSection from "../../../../components/project/projectAccountSection";
-import ProjectContactDetailSection from "../../../../components/project/projectContactDetailSection";
-import ProjectLocationSection from "../../../../components/project/projectLocationSection";
+import ProjectResourceList from "../../../../components/project/detail/projectResourceList";
+import ProjectDetailSection from "../../../../components/project/detail/projectDetailSection";
+import ProjectAccountSection from "../../../../components/project/detail/projectAccountSection";
+import ProjectContactDetailSection from "../../../../components/project/detail/projectContactDetailSection";
+import ProjectLocationSection from "../../../../components/project/detail/projectLocationSection";
 
 
 const ProjectDetail = (props) => {
