@@ -27,6 +27,8 @@ import ProjectDetailSection from "../../../../components/project/detail/projectD
 import ProjectAccountSection from "../../../../components/project/detail/projectAccountSection";
 import ProjectContactDetailSection from "../../../../components/project/detail/projectContactDetailSection";
 import ProjectLocationSection from "../../../../components/project/detail/projectLocationSection";
+import ProjectFinancialSection from "../../../../components/project/detail/projectFinancialSection";
+import ProjectStatusSection from "../../../../components/project/detail/projectStatusSection";
 
 
 const ProjectDetail = (props) => {
@@ -150,99 +152,14 @@ const ProjectDetail = (props) => {
             <CardBody>
               <Stack divider={<StackDivider />} spacing='1'>
                 <Accordion>
-                  <AccordionItem marginBottom="1rem" border="1px" width="60%">
-                    <h2>
-                      <AccordionButton bgColor="table_tile">
-                        <Box as="span" flex='1' textAlign='left'>
-                          <Heading size='xs' textTransform='uppercase'>
-                            Project Details
-                          </Heading>
-                        </Box>
-                        <AccordionIcon />
-                      </AccordionButton>
-                    </h2>
-                    <AccordionPanel pb={4}>
-                        <ProjectDetailSection data={{project}}/>
-                    </AccordionPanel>
-                  </AccordionItem>
-                  <AccordionItem marginBottom="1rem" border="1px" width="60%">
-                      <h2>
-                        <AccordionButton bgColor="table_tile">
-                          <Box as="span" flex='1' textAlign='left'>
-                            <Heading size='xs' textTransform='uppercase'>
-                              Project Account/Vendor Details
-                            </Heading>
-                          </Box>
-                          <AccordionIcon />
-                        </AccordionButton>
-                      </h2>
-                    <AccordionPanel pb={4}>
-                      <ProjectAccountSection data={{projectAccountName: projectAccountName, projectVendorName: projectVendorName}}/>
-                    </AccordionPanel>
-                  </AccordionItem>                          
-                  <AccordionItem marginBottom="1rem" border="1px" width="60%">
-                    <h2>
-                      <AccordionButton bgColor="table_tile">
-                        <Box as="span" flex='1' textAlign='left'>
-                          <Heading size='xs' textTransform='uppercase'>
-                            Project Contact
-                          </Heading>
-                        </Box>
-                        <AccordionIcon />
-                      </AccordionButton>
-                    </h2>
-                    <AccordionPanel pb={4}>
-                      
-                      <ProjectContactDetailSection data={{project}}/>
-                                     
-                    </AccordionPanel>
-                  </AccordionItem>
-                  <AccordionItem marginBottom="1rem" border="1px" width="60%">
-                    <h2>
-                      <AccordionButton bgColor="table_tile">
-                        <Box as="span" flex='1' textAlign='left'>
-                          <Heading size='xs' textTransform='uppercase'>
-                            Project Location
-                          </Heading>
-                        </Box>
-                        <AccordionIcon />
-                      </AccordionButton>
-                    </h2>
-                    <AccordionPanel pb={4}>
-                      <ProjectLocationSection data={{projectLocation}}/>
-                     </AccordionPanel>
-                  </AccordionItem>
-                  <AccordionItem marginBottom="1rem" border="1px" width="60%">
-                    <h2>
-                      <AccordionButton bgColor="table_tile">
-                        <Box as="span" flex='1' textAlign='left'>
-                          <Heading size='xs' textTransform='uppercase'>
-                            Project Resource
-                          </Heading>
-                        </Box>
-                        <AccordionIcon />
-                      </AccordionButton>
-                    </h2>
-                    <AccordionPanel pb={4}>
-                      <Text pt='2' fontSize='sm'>
-                        <ProjectResourceList data={{projectResourceList: projectResourceList, addProjectResourceRequest: addProjectResourceRequest}}/>
-                      </Text>  
-                    </AccordionPanel>
-                  </AccordionItem>   
+                  <ProjectDetailSection data={{project}}/>
+                  <ProjectAccountSection data={{projectAccountName: projectAccountName, projectVendorName: projectVendorName}}/>
+                  <ProjectContactDetailSection data={{project}}/>
+                  <ProjectLocationSection data={{projectLocation}}/>
+                  <ProjectFinancialSection data={{project}}/>
+                  <ProjectResourceList data={{projectResourceList: projectResourceList, addProjectResourceRequest: addProjectResourceRequest}}/>
                 </Accordion>                
-                <Box>
-                  <Heading size='xs' textTransform='uppercase'>
-                    Project Status
-                  </Heading>
-                  <Badge color={`${
-                        (project.status === "Created" || project.status === "Open")
-                          ? "paid_status"
-                          : project.status === "Closed"
-                          ? "pending_status"
-                          : "pending_status"
-                      }`}>{project.status}
-                  </Badge>              
-                </Box>                
+                <ProjectStatusSection data={{project}}/>
               </Stack>
             </CardBody>
           </Card>             

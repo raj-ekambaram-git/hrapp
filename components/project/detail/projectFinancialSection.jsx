@@ -17,20 +17,19 @@ import {
 } from '@chakra-ui/react';
 
 
-const ProjectContactDetailSection = (props) => {
+const ProjectAccountSection = (props) => {
     const project = props.data.project;
-
-    console.log("ProjectContactDetailSection::"+JSON.stringify(project))
-
+    
   return (
 
     <div>
+        
         <AccordionItem marginBottom="1rem" border="1px" width="60%">
             <h2>
                 <AccordionButton bgColor="table_tile">
                 <Box as="span" flex='1' textAlign='left'>
                     <Heading size='xs' textTransform='uppercase'>
-                    Project Contact
+                    Project Financials
                     </Heading>
                 </Box>
                 <AccordionIcon />
@@ -44,40 +43,30 @@ const ProjectContactDetailSection = (props) => {
                         <Tbody>
                         <Tr >
                             <Th bgColor="table_tile" width="project.details.column1">
-                                Contact Name
+                                Budget
                             </Th>
                             <Th>
-                                <Text pt='table_display_value' fontSize='table_display_value'>                        
-                                    {project.contactName}
+                                <Text pt='table_display_value' fontSize='table_display_value'>
+                                    ${project.budget}
                                 </Text>
                             </Th>
                         </Tr>
                         <Tr >
-                            <Th bgColor="table_tile">
-                                Contact Email
+                            <Th bgColor="table_tile" width="project.details.column1">
+                                Remaining Budget
                             </Th>
                             <Th>
                                 <Text pt='table_display_value' fontSize='table_display_value'>
-                                    {project.contactEmail}
+                                    ${project.budget}
                                 </Text>
                             </Th>
-                        </Tr>  
-                        <Tr >
-                            <Th bgColor="table_tile">
-                                Contact Phone
-                            </Th>
-                            <Th>
-                                <Text pt='table_display_value' fontSize='table_display_value'>
-                                    {project.contactPhone}
-                                </Text>
-                            </Th>
-                        </Tr>                                                                                                                   
+                        </Tr>                        
+                                                                                                
                         </Tbody>
                     </Table>
                 </TableContainer>    
             </AccordionPanel>
-        </AccordionItem>
-        
+        </AccordionItem>        
 
     </div>
 
@@ -85,4 +74,4 @@ const ProjectContactDetailSection = (props) => {
   );
 };
 
-export default ProjectContactDetailSection;
+export default ProjectAccountSection;
