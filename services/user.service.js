@@ -4,6 +4,7 @@ import Router from 'next/router';
 import {USER_ROLES} from "../constants/userConstants";
 
 import { fetchWrapper } from 'helpers';
+import { EMPTY_STRING } from '../constants/accountConstants';
 
 const { publicRuntimeConfig } = getConfig();
 const baseUrl = `${publicRuntimeConfig.apiUrl}`;
@@ -30,9 +31,22 @@ export const userService = {
     isManager,
     isTimesheetEntryUser,
     getTimesheetByUser,
-    getTimesheetApprovalByUser
+    getTimesheetApprovalByUser,
+    isAuthenticated
 
 };
+
+function isAuthenticated() {
+    if( userSubject.value 
+        && userSubject.value.id != EMPTY_STRING
+        && userSubject.value.id != undefined) {
+            //TODO: Also check if the email value is same from the token decryption, if not return false
+        return true;
+    }
+    
+    return false;
+
+}
 
 function isValidAccount(accountIdFromRequest) {
     if(accountIdFromRequest == userSubject.value.accountId) {

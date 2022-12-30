@@ -19,6 +19,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   try {
     const login = req.body;
+    console.log("LOGINNN:::"+JSON.stringify(login))
     
     // const savedAccount: Prisma.UserCreateInput = JSON.parse(req.body);
     // const savedAccount = await prisma.account.update({
