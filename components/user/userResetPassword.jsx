@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import {util} from '../../../helpers/util';
 import {
   useDisclosure,
   Button,
@@ -21,27 +20,24 @@ import {
   DrawerBody,
   Stack,
   StackDivider,
-  useToast
+  useToast,
+  Text
 
 } from '@chakra-ui/react'
-import { userService } from '../../../services';
+import { userService } from '../../services';
+import { EMPTY_STRING } from "../../constants/accountConstants";
+import { util } from "../../helpers";
 
 
-const UserChangePassword = (props) => {
+const UserResetPassword = (props) => {
   const [size, setSize] = useState('');
+  const [email, setEmail] = useState('');
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [userId, setUserId] = useState("");
-  const [oldPassword, setOldPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
   
-  console.log(" Chnage Passsword::"+JSON.stringify(props));
-
-  const {data} = props;
   const toast = useToast()
   
 
   useEffect(() => {
-    setUserId(props.data.id);  
   }, []);
 
   const handleClick = (newSize) => {
@@ -49,15 +45,13 @@ const UserChangePassword = (props) => {
     onOpen()
   }
 
-  async function handleChangePassword() {
-
-    if(util.isStrongPassword(newPassword)) {
-      console.log("IDDDD ::"+userId)
-      const changePasswordResponse = await userService.changePassword(userId, oldPassword, newPassword);
-      if(changePasswordResponse != undefined && changePasswordResponse.error) {
+  async function handleResetPassword() {
+    if(email != undefined && email != EMPTY_STRING && util.isValidEmail(email)) {
+      const resetPasswordResponse = await userService.resetPassword(email.toLowerCase());
+      if(resetPasswordResponse != undefined && resetPasswordResponse.error) {
         toast({
-          title: 'Change Password Erropr.',
-          description: changePasswordResponse.errorMessage,
+          title: 'Reset Password Error.',
+          description: resetPasswordResponse.errorMessage,
           status: 'error',
           position: 'top',
           duration: 9000,
@@ -66,8 +60,8 @@ const UserChangePassword = (props) => {
       }else {
         onClose();
         toast({
-          title: 'Change Password.',
-          description: 'Password Updated',
+          title: 'Reset Password Successful.',
+          description: 'Please follow instructions from reset password email to reset.',
           status: 'success',
           position: 'top',
           duration: 9000,
@@ -75,17 +69,17 @@ const UserChangePassword = (props) => {
         })
 
       }
-      
     }else {
       toast({
-        title: 'Change Password Error.',
-        description: 'Please enter valid passsword.',
+        title: 'Reset Password Error.',
+        description: 'Please enter valid email.',
         status: 'error',
         position: 'top',
         duration: 9000,
         isClosable: true,
       })
     }
+    
   }
 
   return (
@@ -95,7 +89,7 @@ const UserChangePassword = (props) => {
               onClick={() => handleClick("md")}
               key="md"
               m={1}
-              >{`Change Password`}
+              >{`Reset Password`}
           </Button>
           <Drawer onClose={onClose} isOpen={isOpen} size="md">
                 <DrawerOverlay />
@@ -104,7 +98,7 @@ const UserChangePassword = (props) => {
                         
                         <DrawerHeader>
                             <Heading as="h1" size="lg" letterSpacing={'-.1rem'} marginBottom="1rem">
-                                Change Password
+                                Reset Password
                             </Heading>
                             <Heading as="h3" size="md">
                                 
@@ -118,34 +112,31 @@ const UserChangePassword = (props) => {
                                   <TableCaption></TableCaption>
                                   <Thead>
                                     <Tr>
-                                      <Th></Th>
+                                      <Th>
+                                        <Box>
+                                          <Text>
+                                              Please enter email to reset password.
+                                          </Text>
+                                        </Box>
+                                      </Th>
+
                                     </Tr>
                                   </Thead>
                                   <Tbody>
                                     <Tr >
-                                        <Th bgColor="table_tile">
-                                          Old Password
-                                        </Th>
                                         <Th>
-                                          <Input type="password" width="100%" onChange={(ev) => setOldPassword(ev.target.value)}/>
+                                          <Input type="email" placeHolder="User Name/ Email" width="100%" onChange={(ev) => setEmail(ev.target.value)}/>
                                         </Th>
                                     </Tr>
-                                    <Tr >
-                                        <Th bgColor="table_tile">
-                                          New Password
-                                        </Th>
-                                        <Th>
-                                          <Input type="password" width="100%" onChange={(ev) => setNewPassword(ev.target.value)}/>
-                                        </Th>
-                                    </Tr>                                    
+                             
                                   </Tbody>
                                   
                                 </Table>
                               </TableContainer>      
                             </Box>                            
 
-                            <Button className="btn" onClick={() => handleChangePassword()} width="button.primary.width" bgColor="button.primary.color">
-                              Change Password
+                            <Button className="btn" onClick={() => handleResetPassword()} width="button.primary.width" bgColor="button.primary.color">
+                              Reset Password
                             </Button>                            
                           </Stack>
                         </DrawerBody>
@@ -158,4 +149,4 @@ const UserChangePassword = (props) => {
   );
 };
 
-export default UserChangePassword;
+export default UserResetPassword;

@@ -71,7 +71,7 @@ async function hasAccess(result, res, user) {
     });
 
     // // create a jwt token that is valid for 7 days
-    const token = jwt.sign({ sub: user.email }, serverRuntimeConfig.secret, { expiresIn: '7d' });
+    const token = jwt.sign({ sub: user.email }, serverRuntimeConfig.secret, { expiresIn: '7d' }); // TODO: Expiration dates from Config Values
     // return basic user details and token
     return res.status(200).json({
         id: user.id,

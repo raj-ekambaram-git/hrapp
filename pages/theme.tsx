@@ -119,6 +119,9 @@ const theme = extendTheme({
     button: {
       primary: {
         width: '50%'
+      },
+      login: {
+        width: '25%'
       }
     },
     invoice: {

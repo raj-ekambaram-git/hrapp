@@ -1,11 +1,14 @@
 
 import validator from 'validator';
+const generator = require('generate-password');
 const bcrypt = require('bcryptjs');
 
 export const util = {
     formatPhoneNumber,
     isStrongPassword,
-    getPasswordHash
+    getPasswordHash,
+    getTempPassword,
+    isValidEmail
 };
 
 
@@ -57,4 +60,16 @@ function getPasswordHash(password) {
   const passwordHash = bcrypt.hashSync(password, passwordSalt);
 
   return {passwordSalt: passwordSalt, passwordHash: passwordHash };
+}
+
+function getTempPassword() {
+  return generator.generate({
+    length: 8,
+    numbers: true,
+    symbols: true
+  });
+}
+
+async function isValidEmail(email) {
+  return validator.isEmail(email);
 }

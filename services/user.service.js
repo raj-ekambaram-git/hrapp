@@ -34,7 +34,8 @@ export const userService = {
     getTimesheetByUser,
     getTimesheetApprovalByUser,
     isAuthenticated,
-    changePassword
+    changePassword,
+    resetPassword
 
 };
 
@@ -228,6 +229,16 @@ function changePassword(userId,oldPassword, newPassword) {
         })
         .catch(err => {
             console.log("Inside errorr")
+            return {errorMessage: err, error: true};
+        });
+}
+
+function resetPassword(email) {
+    return fetchWrapper.post(`${baseUrl}/account/user/resetpassword`, { email })
+        .then(user => {
+            return user;
+        })
+        .catch(err => {
             return {errorMessage: err, error: true};
         });
 }

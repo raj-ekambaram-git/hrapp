@@ -17,7 +17,7 @@ import {
   useDisclosure,
   Accordion,
 
-} from '@chakra-ui/react'
+} from '@chakra-ui/react';
 import ProjectAddEditSection from "../../../../components/project/projectAddEditSection";
 import VendorDetailSection from "../../../../components/vendor/detail/vendorDetailSection";
 import VendorBankDetailSection from "../../../../components/vendor/detail/vendorBankDetailSection";

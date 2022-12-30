@@ -2,9 +2,25 @@ import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
-
 import { Layout } from 'components/account';
 import { userService, alertService } from 'services';
+import {
+    Card,
+    CardHeader,
+    Box,
+    Heading,
+    CardBody,
+    Stack,
+    StackDivider,
+    Badge,
+    Flex,
+    HStack,
+    Button,
+    useDisclosure,
+    Accordion,
+  
+  } from '@chakra-ui/react';
+import UserResetPassword from '../../components/user/userResetPassword';
 
 export default Login;
 
@@ -34,9 +50,18 @@ function Login() {
 
     return (
         <Layout>
-            <div className="card">
-                <h4 className="card-header">Login</h4>
-                <div className="card-body">
+
+            <Card>
+                <CardHeader bgColor="heading">
+                    <HStack spacing="50rem">
+                        <Box>
+                            <Heading size='md'>Login</Heading>
+                        </Box>
+                    </HStack>
+                </CardHeader>
+
+                <CardBody>
+                <Stack divider={<StackDivider />} spacing='1'>
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div className="form-group">
                             <label>Username</label>
@@ -48,13 +73,21 @@ function Login() {
                             <input name="password" type="password" {...register('password')} className={`form-control ${errors.password ? 'is-invalid' : ''}`} />
                             <div className="invalid-feedback">{errors.password?.message}</div>
                         </div>
-                        <button disabled={formState.isSubmitting} className="btn btn-primary">
-                            {formState.isSubmitting && <span className="spinner-border spinner-border-sm mr-1"></span>}
-                            Login
-                        </button>
+                        <HStack spacing={4}>
+                            <Button className="btn" type="submit" disabled={formState.isSubmitting} width="button.login.widht" bgColor="button.primary.color">
+                                {formState.isSubmitting && <span className="spinner-border spinner-border-sm mr-1"></span>}
+                                Login
+                            </Button>
+                            {/* <Link href="#" styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
+                                Reset Password
+                            </Link> */}
+                            <UserResetPassword/>
+                        </HStack>
                     </form>
-                </div>
-            </div>
+                </Stack>
+                </CardBody>
+            </Card>                
+
         </Layout>
     );
 }

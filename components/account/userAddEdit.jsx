@@ -190,7 +190,7 @@ const UserAddEdit = (props) => {
               ]
             },
             role: formData.userRole,
-            email: formData.userEmail,
+            email: formData.userEmail.toLowerCase(),
             password: formData.userPassword,
             phone: formData.userPhone,
             accountId: parseInt(formData.userAccountId),
@@ -250,7 +250,7 @@ const UserAddEdit = (props) => {
             }
           },
           role: formData.userRole,
-          email: formData.userEmail,
+          email: formData.userEmail.toLowerCase(),
           password: formData.userPassword,
           phone: formData.userPhone,
           accountId: parseInt(formData.userAccountId),
