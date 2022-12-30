@@ -185,6 +185,7 @@ model User {
   passwordExpired    Boolean           @default(false)
   passwordRetries    Int               @default(1)
   passwordSalt       String            @default("123456xyz")
+  lastSignIn         DateTime          @default(now())
   createdDate        DateTime          @default(now())
   lastUpdateDate     DateTime          @updatedAt
   invoiceItem        InvoiceItem[]

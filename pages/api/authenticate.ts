@@ -58,10 +58,18 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 }
 
 
-function hasAccess(result, res, user) {
+async function hasAccess(result, res, user) {
   if (result) {
     // insert login code here
     console.log("Access Granted!");
+    //Update the last sign in time stamp
+    const savedUser = await prisma.user.update({
+      where: {
+        id: parseInt(user.id),
+      },
+      data: {passwordRetries: 5, passwordExpired: false, lastSignIn: new Date()} // TODO: Get the Password retires from config value
+    });
+
     // // create a jwt token that is valid for 7 days
     const token = jwt.sign({ sub: user.email }, serverRuntimeConfig.secret, { expiresIn: '7d' });
     // return basic user details and token
