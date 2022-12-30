@@ -70,6 +70,7 @@ const theme = extendTheme({
   colors: {
     black: '#16161D',
     heading: '#319795',
+    error: '#C53030',
     tooltip_bg_color: 'gray.300',
     tooltip_color: 'red',
     table_tile: '#e4eaee',

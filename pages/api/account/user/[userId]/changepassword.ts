@@ -62,7 +62,7 @@ async function hasAccess(result, res, userId, newPassword) {
 
     const savedUser = await prisma.user.update({
       where: {
-        id: userId,
+        id: parseInt(userId),
       },
       data: {password: hashed.passwordHash, passwordSalt: hashed.passwordSalt}
     });

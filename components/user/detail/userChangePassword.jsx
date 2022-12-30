@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import util from '../../../helpers/util';
+import {util} from '../../../helpers/util';
 import {
   useDisclosure,
   Button,
@@ -20,7 +20,8 @@ import {
   DrawerHeader,
   DrawerBody,
   Stack,
-  StackDivider
+  StackDivider,
+  useToast
 
 } from '@chakra-ui/react'
 import { userService } from '../../../services';
@@ -37,19 +38,55 @@ const UserChangePassword = (props) => {
   console.log(" Chnage Passsword::"+JSON.stringify(props));
 
   const {data} = props;
-  setUserId(props.data.userId);
+  const toast = useToast()
+  
+
+  useEffect(() => {
+    setUserId(props.data.id);  
+  }, []);
 
   const handleClick = (newSize) => {
     setSize(newSize)
     onOpen()
   }
 
-  function handleChangePassword() {
+  async function handleChangePassword() {
 
     if(util.isStrongPassword(newPassword)) {
-      userService.changePassword(userId, oldPassword, newPassword);
+      console.log("IDDDD ::"+userId)
+      const changePasswordResponse = await userService.changePassword(userId, oldPassword, newPassword);
+      if(changePasswordResponse != undefined && changePasswordResponse.error) {
+        setErrorMessage(changePasswordResponse.errorMessage);
+        toast({
+          title: 'Change Password Erropr.',
+          description: changePasswordResponse.errorMessage,
+          status: 'error',
+          position: 'top',
+          duration: 9000,
+          isClosable: true,
+        })
+      }else {
+        onClose();
+        toast({
+          title: 'Change Password.',
+          description: 'Password Updated',
+          status: 'success',
+          position: 'top',
+          duration: 9000,
+          isClosable: true,
+        })
+
+      }
+      
     }else {
-      setErrorMessage("Please enter valid passsword.");
+      toast({
+        title: 'Change Password Erropr.',
+        description: 'Please enter valid passsword.',
+        status: 'error',
+        position: 'top',
+        duration: 9000,
+        isClosable: true,
+      })
     }
   }
 
@@ -77,28 +114,22 @@ const UserChangePassword = (props) => {
                         </DrawerHeader>
                         <DrawerBody>
                           <Stack divider={<StackDivider />} spacing='1'>
-                            {errorMessage ? (
-                              <>
-                                <Box border="box_border">
-                                  <Text color="heading">
-                                    {errorMessage}
-                                  </Text>
-                                </Box>
-                              </>
-                            ) : (<>
-                            </>)}
                             <Box border="box_border">
                               <TableContainer>
                                 <Table>
                                   <TableCaption></TableCaption>
-                                  <Thead></Thead>
+                                  <Thead>
+                                    <Tr>
+                                      <Th></Th>
+                                    </Tr>
+                                  </Thead>
                                   <Tbody>
                                     <Tr >
                                         <Th bgColor="table_tile">
                                           Old Password
                                         </Th>
                                         <Th>
-                                          <Input type="password" width="50%" onChange={(ev) => setOldPassword(ev.target.value)}/>
+                                          <Input type="password" width="100%" onChange={(ev) => setOldPassword(ev.target.value)}/>
                                         </Th>
                                     </Tr>
                                     <Tr >
@@ -106,7 +137,7 @@ const UserChangePassword = (props) => {
                                           New Password
                                         </Th>
                                         <Th>
-                                          <Input type="password" width="50%" onChange={(ev) => setNewPassword(ev.target.value)}/>
+                                          <Input type="password" width="100%" onChange={(ev) => setNewPassword(ev.target.value)}/>
                                         </Th>
                                     </Tr>                                    
                                   </Tbody>

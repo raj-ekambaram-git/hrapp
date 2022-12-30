@@ -225,6 +225,10 @@ function changePassword(userId,oldPassword, newPassword) {
     return fetchWrapper.post(`${baseUrl}/account/user/`+userId+'/changepassword', { userId, oldPassword, newPassword })
         .then(user => {
             return user;
+        })
+        .catch(err => {
+            console.log("Inside errorr")
+            return {errorMessage: err, error: true};
         });
 }
 
