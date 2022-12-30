@@ -16,6 +16,16 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       },
       include: {
         address: true,
+        account: {
+          select: {
+            name: true
+          }
+        },
+        vendor: {
+          select: {
+            name: true
+          }
+        }
       }
     })
       res.status(200).json(user);
