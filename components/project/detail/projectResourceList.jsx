@@ -115,7 +115,7 @@ const ProjectResourceList = (props) => {
                         <Tr>
                               <Th>
                                 <HStack spacing={4}>
-                                  <DeleteIcon onClick={() => deleteProjectResource(projectResource.id,projectResource.project.id, projectResource.budgetAllocated)}/>
+                                  <DeleteIcon onClick={() => deleteProjectResource(projectResource.id,projectResource.budgetAllocated)}/>
                                   <EditIcon onClick={() => editProjectResource(projectResource.id)}/>
                                 </HStack>
                               </Th>
