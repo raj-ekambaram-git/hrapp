@@ -46,6 +46,8 @@ const AddProjectResource = (props) => {
   const [billable, setBillable] = useState(false);
   const [isTimesheetApprover, setTimesheetApprover] = useState(false);
   const [timesheetApproverCheckBox, setTimesheetApproverCheckBox] = useState(false);
+  const [selectedUserFirstName, setSelectedUserFirstName] = useState("");
+  const [selectedUserLastName, setSelectedUserLastName] = useState("");
   
  
   const {data} = props;
@@ -96,6 +98,9 @@ const AddProjectResource = (props) => {
       setTimesheetApprover(false);
     }
 
+    setSelectedUserFirstName(user.target.options.item(user.target.selectedIndex).getAttribute("data-fn"));
+    setSelectedUserLastName(user.target.options.item(user.target.selectedIndex).getAttribute("data-ln"));
+
   }
   function handleSelectedProjectResource() {
     console.log("handleSelectedProjectResource::"+userId)
@@ -133,7 +138,11 @@ const AddProjectResource = (props) => {
         currency: currency,
         billable: billable,
         isTimesheetApprover: isTimesheetApprover,
-        uom: uom
+        uom: uom,
+        user: {
+          firstName: selectedUserFirstName,
+          lastName: selectedUserLastName
+        }
       };
 
       //LOGIC to calculage the remaining project budget
@@ -302,7 +311,7 @@ const AddProjectResource = (props) => {
                                           <Select width="50%%" onChange={(ev) => handleUser(ev)} border="table_border">
                                             <option value="">Select User</option>
                                               {userList?.map((user) => (
-                                                      <option value={user.id} data-role={user.role}>{user.firstName} {user.lastName}</option>
+                                                      <option value={user.id} data-role={user.role} data-fn={user.firstName} data-ln={user.lastName}>{user.firstName} {user.lastName}</option>
                                               ))}   
                                           </Select>
                                         </Th>

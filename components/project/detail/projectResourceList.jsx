@@ -13,16 +13,53 @@ import {
   Heading,
   AccordionIcon,
   AccordionPanel,
-  Text
+  Text,
+  HStack,
+  useToast
 } from '@chakra-ui/react';
+import {
+  DeleteIcon,EditIcon
+} from '@chakra-ui/icons';
 import AddProjectResource from "../addProjectResource";
+import { projectService } from "../../../services";
+
+
 
 const ProjectResourceList = (props) => {
+  const toast = useToast();
+
   const projectResourceList = props.data.projectResourceList;
   const addProjectResourceRequest = props.data.addProjectResourceRequest;
   
   console.log("addProjectResourceRequest::::"+JSON.stringify(addProjectResourceRequest)); 
 
+
+  async function deleteProjectResource(projectResourceId) {
+    const projectResourceDeleteResponse = await projectService.deleteProjectResource(projectResourceId);
+    console.log("projectResourceDeleteResponse:::"+JSON.stringify(projectResourceDeleteResponse));
+    if(projectResourceDeleteResponse != undefined && !projectResourceDeleteResponse.error) {
+      toast({
+        title: 'Project Resource.',
+        description: 'Successfully deleted project resource.',
+        status: 'success',
+        position: 'top',
+        duration: 3000,
+        isClosable: true,
+      })  
+    }else {
+      toast({
+        title: 'Project Resource.',
+        description: 'Error deleting project resource. Please try again or contact administrator.',
+        status: 'error',
+        position: 'top',
+        duration: 6000,
+        isClosable: true,
+      })  
+    }
+  
+  }
+
+  
   return (
 
     <div>
@@ -45,6 +82,8 @@ const ProjectResourceList = (props) => {
                 <TableCaption></TableCaption>
                   <Thead>
                       <Tr bgColor="table_tile">
+                        <Th>
+                        </Th>                        
                         <Th>
                           Resource
                         </Th>
@@ -73,31 +112,37 @@ const ProjectResourceList = (props) => {
                     </Thead>                
                     <Tbody>
                       
-                      {projectResourceList?.map((projectResourceList) => (
+                      {projectResourceList?.map((projectResource) => (
                         <Tr>
                               <Th>
-                                {projectResourceList.userId}
+                                <HStack spacing={4}>
+                                  <DeleteIcon onClick={() => deleteProjectResource(projectResource.id)}/>
+                                  <EditIcon onClick={() => editProjectResource(projectResource.id)}/>
+                                </HStack>
                               </Th>
                               <Th>
-                                {projectResourceList.billable ? "Billable" : "Non Billable"}
+                                {projectResource.user.firstName} {projectResource.user.lastName}
                               </Th>
                               <Th>
-                                {projectResourceList.isTimesheetApprover ? "Approver" : ""}
+                                {projectResource.billable ? "Billable" : "Non Billable"}
+                              </Th>
+                              <Th>
+                                {projectResource.isTimesheetApprover ? "Approver" : "No"}
                               </Th> 
                               <Th>
-                                {projectResourceList.unitPrice}
+                                {projectResource.unitPrice}
                               </Th>
                               <Th>
-                                {projectResourceList.currency}
+                                {projectResource.currency}
                               </Th>                              
                               <Th>
-                                {projectResourceList.quantity}
+                                {projectResource.quantity}
                               </Th>
                               <Th>
-                                {projectResourceList.uom}
+                                {projectResource.uom}
                               </Th>                               
                               <Th>
-                                {projectResourceList.budgetAllocated}
+                                {projectResource.budgetAllocated}
                               </Th>
                         </Tr>
                       ))}

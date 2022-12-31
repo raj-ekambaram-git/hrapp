@@ -27,7 +27,28 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           address: true,
           account: true,
           vendor: true,
-          projectResource: true            
+          projectResource: {
+            select: {
+              id: true,
+              billable: true,
+              unitPrice: true,
+              currency: true,
+              quantity: true,
+              uom: true,
+              isTimesheetApprover: true,
+              budgetAllocated: true,
+              usedBudget: true,
+              remainingBudget: true,
+              user: {
+                select: {
+                  firstName: true,
+                  lastName: true
+                }
+              }
+            }
+
+
+          }            
         }
       })
 

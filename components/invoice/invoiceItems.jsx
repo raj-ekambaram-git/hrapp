@@ -62,6 +62,8 @@ const InvoiceItems = (props) => {
                         <Thead>
                             <Tr bgColor="table_tile">
                                 <Th>
+                                </Th>   
+                                <Th>
                                     {props.data.projectType === PROJECT_TYPE_GENERAL ? (
                                         <>
                                         Genaral</>
@@ -86,13 +88,14 @@ const InvoiceItems = (props) => {
                                 <Th>
                                 Total Item 
                                 </Th>
-                                <Th>
-                                </Th>                                
                             </Tr>   
                         </Thead>                
                         <Tbody>
                             {invoiceItemList?.map((invoiceItem, index) => (
                                 <Tr>
+                                    <Th>
+                                        <DeleteIcon onClick={() => deleteInvoiceItem(index)}/>
+                                    </Th>                                      
                                     <Th>
                                         <Text pt='table_display_value' fontSize='table_display_value'>
                                             {props.data.projectType === PROJECT_TYPE_GENERAL ? (
@@ -130,9 +133,6 @@ const InvoiceItems = (props) => {
                                             {invoiceItem.total} 
                                         </Text>
                                     </Th>
-                                    <Th>
-                                        <DeleteIcon onClick={() => deleteInvoiceItem(index)}/>
-                                    </Th>                                    
                                 </Tr>
                             ))}
                         </Tbody>    

@@ -1,7 +1,6 @@
 import getConfig from 'next/config';
 
 import { fetchWrapper } from 'helpers';
-import { userService } from './user.service';
 
 const { publicRuntimeConfig } = getConfig();
 const baseUrl = `${publicRuntimeConfig.apiUrl}`;
