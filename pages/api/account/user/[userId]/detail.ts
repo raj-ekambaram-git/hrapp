@@ -28,6 +28,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         }
       }
     })
+    console.log("USER DETAILS IN THE API::"+JSON.stringify(user));
       res.status(200).json(user);
   } catch (error) {
     console.log(error)

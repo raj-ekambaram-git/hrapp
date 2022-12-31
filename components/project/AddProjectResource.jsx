@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { toast } from "react-toastify";
 import {
   InputGroup,
   useDisclosure,
@@ -24,7 +23,8 @@ import {
   DrawerBody,
   Stack,
   StackDivider,
-  InputLeftElement
+  InputLeftElement,
+  useToast
 
 } from '@chakra-ui/react'
 import { userService } from '../../services';
@@ -51,11 +51,12 @@ const AddProjectResource = (props) => {
   const {data} = props;
   const projectId = props.data.projectId;
   const vendorId = props.data.vendorId;
+  const remainingBudget = props.data.remainingBudget;
   const handleAddProjectResource = props.data.handleAddProjectResource;
-
+  const toast = useToast()
   
 
-  console.log("DAAYYYY::"+JSON.stringify(data.vendorId));
+  console.log("ADD PROJECT RESOURCE::"+JSON.stringify(data));
 
   useEffect(() => {
     console.log("USE EFFECT")
@@ -171,7 +172,19 @@ const AddProjectResource = (props) => {
     console.log("UnitPrice::"+price)
     setPrice(price);
     if(quantity != undefined && quantity != EMPTY_STRING && price!= EMPTY_STRING && price != undefined) {
-      setBudgetAllocated(parseFloat(quantity) * parseFloat(price))
+      if(remainingBudget != undefined && (parseFloat(remainingBudget) > (parseFloat(quantity) * parseFloat(price)))) {
+        setBudgetAllocated(parseFloat(quantity) * parseFloat(price))
+      }else {
+        toast({
+          title: 'Add Project Resource Error.',
+          description: 'Not sufficient budget available. Please adjust accordingly.',
+          status: 'error',
+          position: 'top',
+          duration: 9000,
+          isClosable: true,
+        })
+      }
+      
     }else {
       setBudgetAllocated(EMPTY_STRING);
     }
@@ -181,7 +194,18 @@ const AddProjectResource = (props) => {
     console.log("quantity::"+quantity)
     setQuantity(quantity);
     if(quantity != undefined && quantity != EMPTY_STRING && price!= EMPTY_STRING && price != undefined) {
-      setBudgetAllocated(parseFloat(quantity) * parseFloat(price));
+      if(remainingBudget != undefined && (parseFloat(remainingBudget) > (parseFloat(quantity) * parseFloat(price)))) {
+        setBudgetAllocated(parseFloat(quantity) * parseFloat(price))
+      }else {
+        toast({
+          title: 'Add Project Resource Error.',
+          description: 'Not sufficient budget available. Please adjust accordingly.',
+          status: 'error',
+          position: 'top',
+          duration: 9000,
+          isClosable: true,
+        })
+      }
     }else {
       setBudgetAllocated(EMPTY_STRING);
     }

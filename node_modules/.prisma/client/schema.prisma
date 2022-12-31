@@ -90,6 +90,8 @@ model ProjectResource {
   uom                 UnitOfMeasure?
   budgetAllocated     Decimal?       @default(0)
   isTimesheetApprover Boolean        @default(false)
+
+  @@unique([projectId, userId])
 }
 
 model Invoice {
@@ -151,6 +153,7 @@ model Project {
   accountId              Int               @default(0)
   account                Account?          @relation(fields: [accountId], references: [id])
   budget                 Decimal           @default(0)
+  remainingBudget        Decimal           @default(0)
   totalHours             Int?              @default(0)
   averageRate            Decimal?
   timeSheetNotesRequired Boolean           @default(false)

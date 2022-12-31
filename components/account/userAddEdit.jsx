@@ -21,11 +21,12 @@ import {
   Card,
   CardHeader,
   CardBody,
-  StackDivider
+  StackDivider,
+  useToast
 } from '@chakra-ui/react'
 
 const UserAddEdit = (props) => {
-  
+  const toast = useToast();
   const userId = props.data.userId;
   const router = useRouter();
   const firstName = useRef("");
@@ -122,6 +123,7 @@ const UserAddEdit = (props) => {
     // Call only if the user is SUPER_ADMIN and accountId as zero
     if((userService.isSuperAdmin() || userService.isAccountAdmin()) && (props && props.data && props.data.mode != MODE_ADD)) {
       const userResonse = await accountService.userDetails(props.data.userId);
+      console.log("userResonse:::userResonse::"+JSON.stringify(userResonse))
         const userData =  {
             id: userResonse.id.toString(),
             firstName: userResonse.firstName,
@@ -202,13 +204,27 @@ const UserAddEdit = (props) => {
           }), 
         });
         const data = await res.json();
-
-        toast.success(data.message);
         router.push("/account/"+userService.getAccountDetails().accountId+"/users");
+        toast({
+          title: 'Add New User.',
+          description: 'Successfully added new user.',
+          status: 'success',
+          position: 'top',
+          duration: 9000,
+          isClosable: true,
+        })
+        
         
       
     } catch (error) {
-      toast.error("Something went wrong!");
+      toast({
+        title: 'Create User Error.',
+        description: 'Not able to create user, plrease try again or contact administrator.',
+        status: 'error',
+        position: 'top',
+        duration: 9000,
+        isClosable: true,
+      })
     }
   };
 
@@ -261,12 +277,27 @@ const UserAddEdit = (props) => {
       });
 
       const data = await res.json();
-      
       router.push("/account/"+userService.getAccountDetails().accountId+"/users");
-      toast.success(data.message);
+      toast({
+        title: 'Update User.',
+        description: 'Successfully updated user.',
+        status: 'success',
+        position: 'top',
+        duration: 9000,
+        isClosable: true,
+      })
+      
+      
     } catch (error) {
       console.log(error)
-      toast.error("Something went wrong!");
+      toast({
+        title: 'Update User Error.',
+        description: 'Not able to create user, plrease try again or contact administrator.',
+        status: 'error',
+        position: 'top',
+        duration: 9000,
+        isClosable: true,
+      })
     }
   };
 
@@ -433,7 +464,7 @@ const UserAddEdit = (props) => {
                   <Stack divider={<StackDivider />} spacing='4'>
                     <Box>
                     <FormControl isRequired>
-                        <FormLabel>Addrews Name</FormLabel>
+                        <FormLabel>Address Name</FormLabel>
                         <Input type="text" id="addressName"  size="md" {...register('addressName')} />
                       </FormControl>                        
                       <FormControl isRequired>

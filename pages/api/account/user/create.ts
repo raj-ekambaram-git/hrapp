@@ -16,8 +16,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     if(user.password != undefined) {
       const passwordSalt = bcrypt.genSaltSync(10);
       const passwordHash = bcrypt.hashSync(user.password, passwordSalt);
-      user.salt = passwordSalt;
-      user.passowrd = passwordHash;
+      user.passwordSalt = passwordSalt;
+      user.password = passwordHash;
 
       console.log("passwordHash:::"+passwordHash);
 

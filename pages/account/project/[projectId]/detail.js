@@ -119,6 +119,7 @@ const ProjectDetail = (props) => {
       mode: MODE_ADD,
       projectId: projectId,
       vendorId: responseData.vendorId,
+      remainingBudget: responseData.budget,
       onClose: onClose,
       handleAddProjectResource: handleAddProjectResource
     }
