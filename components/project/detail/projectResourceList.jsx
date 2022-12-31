@@ -89,10 +89,10 @@ const ProjectResourceList = (props) => {
                         </Th>
                         <Th>
                           Type
-                        </Th>      
+                        </Th>    
                         <Th>
-                          Timesheet Approver
-                        </Th>                                                                
+                          Max Budget Allocated
+                        </Th>
                         <Th>
                           Price
                         </Th>
@@ -103,11 +103,11 @@ const ProjectResourceList = (props) => {
                           Quantity
                         </Th>
                         <Th>
-                          Quantity
+                          Quantity UOM
                         </Th> 
                         <Th>
-                          Max Budget Allocated
-                        </Th>
+                          Timesheet Approver
+                        </Th>                                                                
                       </Tr>   
                     </Thead>                
                     <Tbody>
@@ -126,8 +126,8 @@ const ProjectResourceList = (props) => {
                                 {projectResource.billable ? "Billable" : "Non Billable"}
                               </Th>
                               <Th>
-                                {projectResource.isTimesheetApprover ? "Approver" : "No"}
-                              </Th> 
+                                  <b>$</b>{projectResource.budgetAllocated}
+                              </Th>
                               <Th>
                                 {projectResource.unitPrice}
                               </Th>
@@ -139,10 +139,10 @@ const ProjectResourceList = (props) => {
                               </Th>
                               <Th>
                                 {projectResource.uom}
-                              </Th>                               
+                              </Th>      
                               <Th>
-                                {projectResource.budgetAllocated}
-                              </Th>
+                                {projectResource.isTimesheetApprover ? "Approver" : "No"}
+                              </Th> 
                         </Tr>
                       ))}
                   </Tbody>    
