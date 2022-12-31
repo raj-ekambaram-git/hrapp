@@ -21,7 +21,23 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
               id: parseInt(projectResourceId.toString())
             }
           });
-          res.status(200).json(deleteProjectResource);
+          // res.status(200).json(deleteProjectResource);
+
+        //Get the latest project resources
+      const updatedProjectResources = await prisma.projectResource.findMany({
+        where: {
+          projectId: deleteProjectResource.projectId,
+        },
+        include: {
+          user: {
+            select: {
+              firstName: true,
+              lastName: true
+            }
+          }
+        }
+      });
+      res.status(200).json(updatedProjectResources);
     }else {
         res.status(400).json({ error: true, message: 'Something went wrong while deleting project resource. Details:'})
     }
