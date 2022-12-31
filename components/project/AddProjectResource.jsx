@@ -53,7 +53,7 @@ const AddProjectResource = (props) => {
   const vendorId = props.data.vendorId;
   const remainingBudget = props.data.remainingBudget;
   const handleAddProjectResource = props.data.handleAddProjectResource;
-  const toast = useToast()
+  const toast = useToast();
   
 
   console.log("ADD PROJECT RESOURCE::"+JSON.stringify(data));

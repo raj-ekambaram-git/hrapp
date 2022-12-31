@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/router";
-import { toast } from "react-toastify";
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { util } from '../../helpers';
@@ -21,13 +20,16 @@ import {
   Card,
   CardHeader,
   CardBody,
-  StackDivider
-} from '@chakra-ui/react'
+  StackDivider,
+  useToast
+} from '@chakra-ui/react';
+
 
 const VendorEdit = (props) => {
   
   const vendorId = props.data.vendorId;
   const router = useRouter();
+  const toast = useToast();
   const description = useRef("");
   const email = useRef("");
   const type = useRef("");
@@ -122,8 +124,8 @@ const VendorEdit = (props) => {
         setVendor(vendorData);
 
         // get user and set form fields
-            const fields = ['name', "description", "email", "type","phone","accountId", "ein","status","accountContactName","accountContactEmail","accountContactPhone","addressName","address1", "address2", "address3","city","state","zipCode"];
-            fields.forEach(field => setValue(field, vendorData[field]));
+        const fields = ['name', "description", "email", "type","phone","accountId", "ein","status","accountContactName","accountContactEmail","accountContactPhone","addressName","address1", "address2", "address3","city","state","zipCode"];
+        fields.forEach(field => setValue(field, vendorData[field]));
     }
 
   }
@@ -177,12 +179,26 @@ const VendorEdit = (props) => {
         });
         const data = await res.json();
 
-        toast.success(data.message);
+        toast({
+          title: 'Add new vendor',
+          description: 'Successfullt added new vendor.',
+          status: 'success',
+          position: 'top',
+          duration: 3000,
+          isClosable: true,
+        })    
         router.push("/account/"+userService.getAccountDetails().accountId+"/vendors");
         
       
     } catch (error) {
-      toast.error("Something went wrong!");
+      toast({
+        title: 'Add Vendor Error.',
+        description: 'Please add all the required fields to add a vendor.',
+        status: 'error',
+        position: 'top',
+        duration: 9000,
+        isClosable: true,
+      })    
     }
   };
 
@@ -236,12 +252,25 @@ const VendorEdit = (props) => {
       });
 
       const data = await res.json();
-      
+      toast({
+        title: 'Vendor Updated.',
+        description: 'Successfully updated the vendor.',
+        status: 'error',
+        position: 'top',
+        duration: 9000,
+        isClosable: true,
+      })  
       router.push("/account/"+userService.getAccountDetails().accountId+"/vendors");
-      toast.success(data.message);
     } catch (error) {
       console.log(error)
-      toast.error("Something went wrong!");
+      toast({
+        title: 'Update Vendor Error.',
+        description: 'Error updating the vendor.',
+        status: 'success',
+        position: 'top',
+        duration: 3000,
+        isClosable: true,
+      })    
     }
   };
 
