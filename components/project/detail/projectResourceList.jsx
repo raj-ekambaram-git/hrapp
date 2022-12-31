@@ -37,7 +37,7 @@ const ProjectResourceList = (props) => {
     const projectResourceDeleteResponse = await projectService.deleteProjectResource(projectResourceId,projectResourceAllocatedBudget);
     console.log("projectResourceDeleteResponse:::"+JSON.stringify(projectResourceDeleteResponse));
     if(projectResourceDeleteResponse != undefined && !projectResourceDeleteResponse.error) {
-      addProjectResourceRequest.handleAddProjectResource(projectResourceDeleteResponse);
+      addProjectResourceRequest.handleAddProjectResource(projectResourceDeleteResponse, projectResourceDeleteResponse[0].project.id, (parseFloat(projectResourceDeleteResponse[0].project.remainingBudgetToAllocate)+parseFloat(projectResourceAllocatedBudget)));
       toast({
         title: 'Project Resource.',
         description: 'Successfully deleted project resource.',
