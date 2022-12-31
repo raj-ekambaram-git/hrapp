@@ -47,7 +47,7 @@ const AddProjectResource = (props) => {
   const [isTimesheetApprover, setTimesheetApprover] = useState(false);
   const [timesheetApproverCheckBox, setTimesheetApproverCheckBox] = useState(false);
 
-
+ 
   const {data} = props;
   const projectId = props.data.projectId;
   const vendorId = props.data.vendorId;
@@ -130,7 +130,7 @@ const AddProjectResource = (props) => {
 
     }
   } 
-
+ 
 
   const createProjectResource = async (requestData) => {
     try {
@@ -154,16 +154,16 @@ const AddProjectResource = (props) => {
         });
         const data = await res.json();
 
-        toast.success(data.message);
         //Close the modal
         //router.push("/account/"+userService.getAccountDetails().accountId+"/users");
         console.log("before forwarding..::"+JSON.stringify(data))
         props.data.onClose();
 
-      
+        
       
     } catch (error) {
-      toast.error("Something went wrong!");
+      console.log("ERRRORRR::"+error);
+      // toast.error("Something went wrong!"+error+"-----"+JSON.stringify(error));
     }
   };
 

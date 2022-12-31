@@ -18,6 +18,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(200).json(savedProjectResource);
   } catch (error) {
     console.log(error)
-    res.status(400).json({ message: 'Something went wrong' })
+    res.status(400).json({ error: true, message: 'Something went wrong. Details:'+error })
   }
 }
