@@ -54,7 +54,9 @@ const ProjectDetail = (props) => {
 
   const handleAddProjectResource = (e, vendorId, remainingBudget) => {
     console.log("handleAddProjectResource::::::"+JSON.stringify(e));
+    console.log("remainingBudget::::::"+remainingBudget);
     setProjectResourceList(e);
+    setProject(e[0].project);
     const addProjectResourceRequestData = {
       mode: MODE_ADD,
       projectId: projectId,
@@ -95,6 +97,8 @@ const ProjectDetail = (props) => {
       addressId: responseData.addressId,
       vendorId: responseData.vendorId,
       accountId: responseData.accountId,
+      remainingBudgetToAllocate: responseData.remainingBudgetToAllocate,
+      usedBudget: responseData.usedBudget,
       // projectResource: [],
       // invoice: [],
       budget: responseData.budget,

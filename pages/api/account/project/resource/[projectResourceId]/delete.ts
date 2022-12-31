@@ -19,26 +19,31 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         const deleteProjectResource = await prisma.projectResource.delete({
             where: {
               id: parseInt(projectResourceId.toString())
+            },
+            include: {
+              project: true
             }
           });
-          // res.status(200).json(deleteProjectResource);
+
+          console.log("deleteProjectResource::::"+JSON.stringify(deleteProjectResource))
+          res.status(200).json(deleteProjectResource);
 
         //Get the latest project resources
-      const updatedProjectResources = await prisma.projectResource.findMany({
-        where: {
-          projectId: deleteProjectResource.projectId,
-        },
-        include: {
-          project: true,
-          user: {
-            select: {
-              firstName: true,
-              lastName: true
-            }
-          }
-        }
-      });
-      res.status(200).json(updatedProjectResources);
+      // const updatedProjectResources = await prisma.projectResource.findMany({
+      //   where: {
+      //     projectId: deleteProjectResource.projectId,
+      //   },
+      //   include: {
+      //     project: true,
+      //     user: {
+      //       select: {
+      //         firstName: true,
+      //         lastName: true
+      //       }
+      //     }
+      //   }
+      // });
+      // res.status(200).json(updatedProjectResources);
     }else {
         res.status(400).json({ error: true, message: 'Something went wrong while deleting project resource. Details:'})
     }

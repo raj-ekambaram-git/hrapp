@@ -53,14 +53,24 @@ const ProjectAccountSection = (props) => {
                         </Tr>
                         <Tr >
                             <Th bgColor="table_tile" width="project.details.column1">
-                                Remaining Budget
+                                Used Budget
                             </Th>
                             <Th>
                                 <Text pt='table_display_value' fontSize='table_display_value'>
-                                    ${project.budget}
+                                    ${project.usedBudget}
                                 </Text>
                             </Th>
                         </Tr>                        
+                        <Tr>
+                        <Th bgColor="table_tile" width="project.details.column1">
+                                Remaining Budget to allocate
+                            </Th>
+                            <Th>
+                                <Text pt='table_display_value' fontSize='table_display_value'>
+                                    ${project.remainingBudgetToAllocate}
+                                </Text>
+                            </Th>
+                        </Tr>
                                                                                                 
                         </Tbody>
                     </Table>

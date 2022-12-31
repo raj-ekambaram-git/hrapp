@@ -35,6 +35,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           projectId: projectResource.projetUpdateData.projectId,
         },
         include: {
+          project: true,
           user: {
             select: {
               firstName: true,
