@@ -115,11 +115,19 @@ const ProjectDetail = (props) => {
 
     };
 
+    let alreadyConsumedBudget = 0;
+    for (const projectRsrc of responseData.projectResource) {
+      alreadyConsumedBudget = parseFloat(alreadyConsumedBudget) + parseFloat(projectRsrc.budgetAllocated);
+      console.log("projectRsrc.allocted::"+projectRsrc.budgetAllocated);
+    }
+
+    console.log("Consumed Budget:::"+alreadyConsumedBudget);
+
     const addProjectResourceRequestData = {
       mode: MODE_ADD,
       projectId: projectId,
       vendorId: responseData.vendorId,
-      remainingBudget: responseData.budget,
+      remainingBudget: parseFloat(responseData.budget)-alreadyConsumedBudget,
       onClose: onClose,
       handleAddProjectResource: handleAddProjectResource
     }

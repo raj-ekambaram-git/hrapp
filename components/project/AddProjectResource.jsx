@@ -46,7 +46,7 @@ const AddProjectResource = (props) => {
   const [billable, setBillable] = useState(false);
   const [isTimesheetApprover, setTimesheetApprover] = useState(false);
   const [timesheetApproverCheckBox, setTimesheetApproverCheckBox] = useState(false);
-
+  
  
   const {data} = props;
   const projectId = props.data.projectId;
@@ -135,7 +135,14 @@ const AddProjectResource = (props) => {
         isTimesheetApprover: isTimesheetApprover,
         uom: uom
       };
-      createProjectResource(addedResourceDetails);
+
+      //LOGIC to calculage the remaining project budget
+      let remainingProjectBudgetToUpdate = remainingBudget;
+      if(billable) {
+        remainingProjectBudgetToUpdate = parseFloat(remainingBudget)-(parseFloat(quantity)*parseFloat(price));
+        console.log("Remaining Budget"+remainingProjectBudgetToUpdate);
+      }
+      createProjectResource(addedResourceDetails, remainingProjectBudgetToUpdate);
       handleAddProjectResource(addedResourceDetails);
       setBudgetAllocated(EMPTY_STRING);
 
@@ -143,7 +150,7 @@ const AddProjectResource = (props) => {
   } 
  
 
-  const createProjectResource = async (requestData) => {
+  const createProjectResource = async (requestData, remainingBudgetToUpdate) => {
     try {
       console.log("PR Data::"+JSON.stringify(requestData))
         const res = await fetch("/api/account/project/resource/create", {
@@ -152,15 +159,22 @@ const AddProjectResource = (props) => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            projectId: parseInt(projectId),
-            userId: parseInt(userId),
-            unitPrice: price,
-            quantity: parseInt(quantity),
-            budgetAllocated: budgetAllocated,
-            currency: currency,
-            billable: billable,
-            isTimesheetApprover: isTimesheetApprover,
-            uom: uom
+            projectResourceData: {
+              projectId: parseInt(projectId),
+              userId: parseInt(userId),
+              unitPrice: price,
+              quantity: parseInt(quantity),
+              budgetAllocated: budgetAllocated,
+              currency: currency,
+              billable: billable,
+              isTimesheetApprover: isTimesheetApprover,
+              uom: uom
+            },
+            projetUpdateData: {
+              projectId: parseInt(projectId),
+              remainingBudgetToAllocate: remainingBudgetToUpdate
+            }
+
           }), 
         });
         const data = await res.json();
@@ -209,8 +223,9 @@ const AddProjectResource = (props) => {
     console.log("UnitPrice::"+price)
     setPrice(price);
     if(quantity != undefined && quantity != EMPTY_STRING && price!= EMPTY_STRING && price != undefined) {
-      if(remainingBudget != undefined && (parseFloat(remainingBudget) > (parseFloat(quantity) * parseFloat(price)))) {
-        setBudgetAllocated(parseFloat(quantity) * parseFloat(price))
+      if(remainingBudget != undefined && (parseFloat(remainingBudget) >= (parseFloat(quantity) * parseFloat(price)))) {
+        setBudgetAllocated(parseFloat(quantity) * parseFloat(price));
+        // setRemainingBudgetToUpdate(parseFloat(remainingBudget)-(parseFloat(quantity)*parseFloat(price)))
       }else {
         toast({
           title: 'Add Project Resource Error.',
@@ -232,7 +247,8 @@ const AddProjectResource = (props) => {
     setQuantity(quantity);
     if(quantity != undefined && quantity != EMPTY_STRING && price!= EMPTY_STRING && price != undefined) {
       if(remainingBudget != undefined && (parseFloat(remainingBudget) > (parseFloat(quantity) * parseFloat(price)))) {
-        setBudgetAllocated(parseFloat(quantity) * parseFloat(price))
+        setBudgetAllocated(parseFloat(quantity) * parseFloat(price));
+        // setRemainingBudgetToUpdate(parseFloat(remainingBudget)-(parseFloat(quantity)*parseFloat(price)))
       }else {
         toast({
           title: 'Add Project Resource Error.',
