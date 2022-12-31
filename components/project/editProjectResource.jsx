@@ -35,7 +35,7 @@ import {USER_ROLES} from "../../constants/userConstants";
 import {MODE_ADD, EMPTY_STRING} from "../../constants/accountConstants";
 
 
-const AddProjectResource = (props) => {
+const EditProjectResource = (props) => {
   const [size, setSize] = useState('');
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isAddMode, setAddMode] = useState(true);
@@ -54,18 +54,18 @@ const AddProjectResource = (props) => {
   
  
   const {data} = props;
-  const projectId = props.data.projectId;
-  const vendorId = props.data.vendorId;
-  let remainingBudget = props.data.remainingBudget;
-  const handleAddProjectResource = props.data.handleAddProjectResource;
+  const projectId = props.data.editProjectResourceRequest.projectId;
+  const vendorId = props.data.editProjectResourceRequest.vendorId;
+  let remainingBudget = props.data.editProjectResourceRequest.remainingBudget;
+  const handleAddProjectResource = props.data.editProjectResourceRequest.handleAddProjectResource;
   const toast = useToast();
   
 
-  console.log("ADD PROJECT RESOURCE INSIDE::"+JSON.stringify(data));
+  console.log("EDIT PROJECT RESOURCE INSIDE::"+JSON.stringify(data));
 
   useEffect(() => {
     console.log("USE EFFECT")
-    if(props && props.data && props.data.mode != MODE_ADD) {
+    if(props && props.data && props.data.editProjectResourceRequest.mode != MODE_ADD) {
       setAddMode(false);
     }
     console.log("Vendor ID:::"+vendorId);
@@ -79,6 +79,12 @@ const AddProjectResource = (props) => {
     onOpen();
   }
 
+  const handleEdit = (newSize, projectResourceId) => {
+    console.log("handleEdit CLICK :::"+vendorId);
+    getUsersByVendor(vendorId);
+    setSize(newSize);
+    onOpen();
+  }
   async function getUsersByVendor(vendorId) {
     // setPageAuthorized(true);
     console.log("getUsersByVendor::: Vendor ID ::"+vendorId);
@@ -283,14 +289,20 @@ const AddProjectResource = (props) => {
   return (
 
     <div>
-
-          <Button
-              onClick={() => handleAdd("lg")}
-              key="lg"
-              m={1}
-              >{`Add Project Resource`}
-          </Button>
-
+          {props.data.mode==MODE_ADD ? (
+            <>
+              <Button
+                  onClick={() => handleAdd("lg")}
+                  key="lg"
+                  m={1}
+                  >{`Add Project Resource`}
+              </Button>
+            </>
+          ) : (
+            <>
+              <EditIcon onClick={() => handleEdit("lg", "id")}/>
+            </>
+          )}
           <Drawer onClose={onClose} isOpen={isOpen} size="lg">
                 <DrawerOverlay />
                     <DrawerContent>
@@ -425,4 +437,4 @@ const AddProjectResource = (props) => {
   );
 };
 
-export default AddProjectResource;
+export default EditProjectResource;

@@ -18,20 +18,25 @@ import {
   useToast
 } from '@chakra-ui/react';
 import {
-  DeleteIcon,EditIcon
+  DeleteIcon
 } from '@chakra-ui/icons';
 import AddProjectResource from "../addProjectResource";
+import EditProjectResource from "../editProjectResource";
 import { projectService } from "../../../services";
+
 
 
 
 const ProjectResourceList = (props) => {
   const toast = useToast();
 
+  console.log("props.dataprops.dataprops.data::"+JSON.stringify(props.data));
   const projectResourceList = props.data.projectResourceList;
   const addProjectResourceRequest = props.data.addProjectResourceRequest;
+  const editProjectResourceRequest = props.data.addProjectResourceRequest;
+  console.log("editProjectResourceRequest:::: ALL BEFORE::: "+JSON.stringify(editProjectResourceRequest)); 
+  console.log("addProjectResourceRequest:::: BEFORE::: "+JSON.stringify(addProjectResourceRequest)); 
   
-  console.log("addProjectResourceRequest::::"+JSON.stringify(addProjectResourceRequest)); 
 
   async function deleteProjectResource(projectResourceId, projectResourceAllocatedBudget) {
     const projectResourceDeleteResponse = await projectService.deleteProjectResource(projectResourceId,projectResourceAllocatedBudget);
@@ -114,10 +119,11 @@ const ProjectResourceList = (props) => {
                     <Tbody>
                       {projectResourceList?.map((projectResource) => (
                         <Tr>
+
                               <Th>
                                 <HStack spacing={4}>
                                   <DeleteIcon onClick={() => deleteProjectResource(projectResource.id,projectResource.budgetAllocated)}/>
-                                  <EditIcon onClick={() => editProjectResource(projectResource.id)}/>
+                                  <EditProjectResource data={{editProjectResourceRequest}}></EditProjectResource>
                                 </HStack>
                               </Th>
                               <Th>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { accountService, userService } from '../../../../services';
-import {MODE_ADD} from "../../../../constants/accountConstants";
+import {MODE_ADD, MODE_EDIT} from "../../../../constants/accountConstants";
 import {
   Card,
   CardHeader,
@@ -9,18 +9,12 @@ import {
   Heading,
   CardBody,
   Stack,
-  Text,
   StackDivider,
-  Badge,
   Flex,
   HStack,
   Button,
   useDisclosure,
-  Accordion,
-  AccordionItem,
-  AccordionButton,
-  AccordionPanel,
-  AccordionIcon,
+  Accordion
 } from '@chakra-ui/react'
 import ProjectResourceList from "../../../../components/project/detail/projectResourceList";
 import ProjectDetailSection from "../../../../components/project/detail/projectDetailSection";
@@ -45,6 +39,7 @@ const ProjectDetail = (props) => {
   const [isPageAuthprized, setPageAuthorized] = useState(false);
   const [projectResourceList, setProjectResourceList] = useState([]);
   const [addProjectResourceRequest, setAddProjectResourceRequest] = useState({});
+  const [editProjectResourceRequest, setEditProjectResourceRequest] = useState({});
   
 
   const navigateProjectEditPage = () => router.push("/account/project/"+project.id);
@@ -140,6 +135,17 @@ const ProjectDetail = (props) => {
       handleAddProjectResource: handleAddProjectResource
     }
     setAddProjectResourceRequest(addProjectResourceRequestData);
+
+    const editProjectResourceRequestData = {
+      mode: MODE_EDIT,
+      projectId: projectId,
+      vendorId: responseData.vendorId,
+      remainingBudget: parseFloat(responseData.budget)-alreadyConsumedBudget,
+      onClose: onClose,
+      handleAddProjectResource: handleAddProjectResource
+    }
+    setEditProjectResourceRequest(editProjectResourceRequestData);
+
     setProjectLocation(projectLocation);
     setProjectAccountName(responseData.account.name)
     setProjectVendorName(responseData.vendor.name)
@@ -174,7 +180,7 @@ const ProjectDetail = (props) => {
                   <ProjectContactDetailSection data={{project}}/>
                   <ProjectLocationSection data={{projectLocation}}/>
                   <ProjectFinancialSection data={{project}}/>
-                  <ProjectResourceList data={{projectResourceList: projectResourceList, addProjectResourceRequest: addProjectResourceRequest}}/>
+                  <ProjectResourceList data={{projectResourceList: projectResourceList, addProjectResourceRequest: addProjectResourceRequest, editProjectResourceRequest: editProjectResourceRequest}}/>
                 </Accordion>                
                 <ProjectStatusSection data={{project}}/>
               </Stack>
