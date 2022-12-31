@@ -53,7 +53,7 @@ const AddProjectResource = (props) => {
   const {data} = props;
   const projectId = props.data.projectId;
   const vendorId = props.data.vendorId;
-  const remainingBudget = props.data.remainingBudget;
+  let remainingBudget = props.data.remainingBudget;
   const handleAddProjectResource = props.data.handleAddProjectResource;
   const toast = useToast();
   
@@ -146,12 +146,12 @@ const AddProjectResource = (props) => {
       };
 
       //LOGIC to calculage the remaining project budget
-      let remainingProjectBudgetToUpdate = remainingBudget;
+      
       if(billable) {
-        remainingProjectBudgetToUpdate = parseFloat(remainingBudget)-(parseFloat(quantity)*parseFloat(price));
-        console.log("Remaining Budget"+remainingProjectBudgetToUpdate);
+        remainingBudget = parseFloat(remainingBudget)-(parseFloat(quantity)*parseFloat(price));
+        console.log("Remaining Budget"+remainingBudget);
       }
-      createProjectResource(addedResourceDetails, remainingProjectBudgetToUpdate);
+      createProjectResource(addedResourceDetails, remainingBudget);
       setBudgetAllocated(EMPTY_STRING);
 
     }
@@ -190,9 +190,10 @@ const AddProjectResource = (props) => {
         //Close the modal
         console.log("before forwarding..::"+JSON.stringify(data))
         if(data != undefined && !data.error) {
-          console.log("Inside this condition of close UPDATED")
-          console.log("BEFORE CALLING handleAddProjectResource")
-          handleAddProjectResource(data);
+          console.log("Inside this condition of close UPDATED --- "+remainingBudgetToUpdate);
+          // remainingBudget = remainingBudgetToUpdate;
+          console.log("BEFORE CALLING handleAddProjectResource --- "+remainingBudgetToUpdate)
+          handleAddProjectResource(data, vendorId, remainingBudgetToUpdate);
           onClose();
           toast({
             title: 'Add Project Resource.',
@@ -229,7 +230,7 @@ const AddProjectResource = (props) => {
 
 
   function handleUnitPrice(price) {
-    console.log("UnitPrice::"+price)
+    console.log("handleUnitPrice ----UnitPrice::"+price+"---Quantity::"+quantity+"---remainingBudget::"+remainingBudget);
     setPrice(price);
     if(quantity != undefined && quantity != EMPTY_STRING && price!= EMPTY_STRING && price != undefined) {
       if(remainingBudget != undefined && (parseFloat(remainingBudget) >= (parseFloat(quantity) * parseFloat(price)))) {
@@ -252,7 +253,7 @@ const AddProjectResource = (props) => {
   }
 
   function handleQuantity(quantity) {
-    console.log("quantity::"+quantity)
+    console.log("handleQuantity ----UnitPrice::"+price+"---Quantity::"+quantity+"---remainingBudget::"+remainingBudget);
     setQuantity(quantity);
     if(quantity != undefined && quantity != EMPTY_STRING && price!= EMPTY_STRING && price != undefined) {
       if(remainingBudget != undefined && (parseFloat(remainingBudget) > (parseFloat(quantity) * parseFloat(price)))) {

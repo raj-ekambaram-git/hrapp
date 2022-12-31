@@ -57,9 +57,18 @@ const ProjectDetail = (props) => {
     getProjetDetails(projectId, userService.getAccountDetails().accountId);
   }, []);
 
-  const handleAddProjectResource = (e) => {
+  const handleAddProjectResource = (e, vendorId, remainingBudget) => {
     console.log("handleAddProjectResource::::::"+JSON.stringify(e));
     setProjectResourceList(e);
+    const addProjectResourceRequestData = {
+      mode: MODE_ADD,
+      projectId: projectId,
+      vendorId: vendorId,
+      remainingBudget: remainingBudget,
+      onClose: onClose,
+      handleAddProjectResource: handleAddProjectResource
+    }
+    setAddProjectResourceRequest(addProjectResourceRequestData)
     console.log("handleAddProjectResource After Pushing::::::"+JSON.stringify(projectResourceList));
   };
  
