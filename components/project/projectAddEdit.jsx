@@ -187,6 +187,7 @@ const ProjectAddEdit = (props) => {
             vendorId: parseInt(formData.vendorId),
             accountId: parseInt(formData.accountId),
             budget: formData.budget,
+            remainingBudgetToAllocate: formData.budget,
             contactName: formData.contactName,
             contactEmail: formData.contactEmail,
             contactPhone: formData.contactPhone,

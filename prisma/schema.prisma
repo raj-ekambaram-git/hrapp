@@ -89,6 +89,8 @@ model ProjectResource {
   billable            Boolean        @default(false)
   uom                 UnitOfMeasure?
   budgetAllocated     Decimal?       @default(0)
+  usedBudget          Decimal?       @default(0)
+  remainingBudget     Decimal?       @default(0)
   isTimesheetApprover Boolean        @default(false)
 
   @@unique([projectId, userId])
@@ -140,31 +142,32 @@ model InvoiceItem {
 }
 
 model Project {
-  id                     Int               @id @default(autoincrement())
-  name                   String
-  referenceCode          String
-  description            String            @default("")
-  type                   InvoiceItemType
-  invoiceCycle           InvoiceCycle
-  addressId              Int               @default(0)
-  address                Address?          @relation(fields: [addressId], references: [id])
-  vendorId               Int               @default(0)
-  vendor                 Vendor?           @relation(fields: [vendorId], references: [id])
-  accountId              Int               @default(0)
-  account                Account?          @relation(fields: [accountId], references: [id])
-  budget                 Decimal           @default(0)
-  remainingBudget        Decimal           @default(0)
-  totalHours             Int?              @default(0)
-  averageRate            Decimal?
-  timeSheetNotesRequired Boolean           @default(false)
-  status                 ProjectStatus
-  contactName            String?
-  contactEmail           String?
-  contactPhone           String?
-  createdDate            DateTime          @default(now())
-  lastUpdateDate         DateTime          @updatedAt
-  invoice                Invoice[]
-  projectResource        ProjectResource[]
+  id                        Int               @id @default(autoincrement())
+  name                      String
+  referenceCode             String
+  description               String            @default("")
+  type                      InvoiceItemType
+  invoiceCycle              InvoiceCycle
+  addressId                 Int               @default(0)
+  address                   Address?          @relation(fields: [addressId], references: [id])
+  vendorId                  Int               @default(0)
+  vendor                    Vendor?           @relation(fields: [vendorId], references: [id])
+  accountId                 Int               @default(0)
+  account                   Account?          @relation(fields: [accountId], references: [id])
+  budget                    Decimal           @default(0)
+  remainingBudgetToAllocate Decimal           @default(0)
+  usedBudget                Decimal           @default(0)
+  totalHours                Int?              @default(0)
+  averageRate               Decimal?
+  timeSheetNotesRequired    Boolean           @default(false)
+  status                    ProjectStatus
+  contactName               String?
+  contactEmail              String?
+  contactPhone              String?
+  createdDate               DateTime          @default(now())
+  lastUpdateDate            DateTime          @updatedAt
+  invoice                   Invoice[]
+  projectResource           ProjectResource[]
 
   timesheetEntries TimesheetEntries[]
 }
