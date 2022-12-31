@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/router";
-import { toast } from "react-toastify";
+
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { util } from '../../helpers';
@@ -21,13 +21,15 @@ import {
   Card,
   CardHeader,
   CardBody,
-  StackDivider
+  StackDivider,
+  useToast
 } from '@chakra-ui/react'
 
 
 const AccountAddEdit = (props) => {
   const accountId = props.data.accountId;
   const router = useRouter();
+  const toast = useToast();
   const accountName = useRef("");
   const accountDescription = useRef("");
   const addressName = useRef("");
@@ -157,11 +159,25 @@ const AccountAddEdit = (props) => {
         });
         const data = await res.json();
 
-        toast.success(data.message);
+        toast({
+          title: 'Account added.',
+          description: 'Successfully added new account.',
+          status: 'success',
+          position: 'top',
+          duration: 3000,
+          isClosable: true,
+        })    
         router.push("/accounts");
       
     } catch (error) {
-      toast.error("Something went wrong!");
+      toast({
+        title: 'Add account error.',
+        description: 'Error whild adding new account, Please try again or contact administrator.',
+        status: 'error',
+        position: 'top',
+        duration: 6000,
+        isClosable: true,
+      })   
     }
   };
 
@@ -209,10 +225,25 @@ const AccountAddEdit = (props) => {
       const data = await res.json();
 
       router.push(`/account/${accountId}/detail`);
-      toast.success(data.message);
+      toast({
+        title: 'Account updated.',
+        description: 'Successfully update account.',
+        status: 'success',
+        position: 'top',
+        duration: 3000,
+        isClosable: true,
+      })  
+
     } catch (error) {
       console.log(error)
-      toast.error("Something went wrong!");
+      toast({
+        title: 'Update account error.',
+        description: 'Error whild updating account, Please try again or contact administrator.',
+        status: 'error',
+        position: 'top',
+        duration: 6000,
+        isClosable: true,
+      })  
     }
   };
 
