@@ -152,7 +152,6 @@ const AddProjectResource = (props) => {
         console.log("Remaining Budget"+remainingProjectBudgetToUpdate);
       }
       createProjectResource(addedResourceDetails, remainingProjectBudgetToUpdate);
-      handleAddProjectResource(addedResourceDetails);
       setBudgetAllocated(EMPTY_STRING);
 
     }
@@ -191,7 +190,9 @@ const AddProjectResource = (props) => {
         //Close the modal
         console.log("before forwarding..::"+JSON.stringify(data))
         if(data != undefined && !data.error) {
-          console.log("Inside this condition of close")
+          console.log("Inside this condition of close UPDATED")
+          console.log("BEFORE CALLING handleAddProjectResource")
+          handleAddProjectResource(data);
           onClose();
           toast({
             title: 'Add Project Resource.',
@@ -201,7 +202,6 @@ const AddProjectResource = (props) => {
             duration: 3000,
             isClosable: true,
           })     
-  
         }else {
           console.log("INSIDE THE ELSEEE")
           toast({

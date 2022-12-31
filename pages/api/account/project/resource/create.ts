@@ -27,11 +27,28 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           remainingBudgetToAllocate: projectResource.projetUpdateData.remainingBudgetToAllocate
         }
       });
-      res.status(200).json(savedProjectResource);
+      // res.status(200).json(savedProjectResource);
+
+      //Get the latest project resources
+      const updatedProjectResources = await prisma.projectResource.findMany({
+        where: {
+          projectId: projectResource.projetUpdateData.projectId,
+        },
+        include: {
+          user: {
+            select: {
+              firstName: true,
+              lastName: true
+            }
+          }
+        }
+      });
+      res.status(200).json(updatedProjectResources);
+
     }
 
   } catch (error) {
     console.log(error)
-    res.status(400).json({ error: true, message: 'Something went wrong. Details:'+error })
+    res.status(400).json({ error: true, message: 'Something went wrong while creating project resource. Details:'+error })
   }
 }

@@ -58,9 +58,8 @@ const ProjectDetail = (props) => {
   }, []);
 
   const handleAddProjectResource = (e) => {
-    console.log("handleAddProjectResource::::::"+JSON.stringify(projectResourceList));
-    projectResourceList.push(e);
-    setProjectResourceList(projectResourceList);
+    console.log("handleAddProjectResource::::::"+JSON.stringify(e));
+    setProjectResourceList(e);
     console.log("handleAddProjectResource After Pushing::::::"+JSON.stringify(projectResourceList));
   };
  

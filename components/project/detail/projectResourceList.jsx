@@ -34,6 +34,13 @@ const ProjectResourceList = (props) => {
   console.log("addProjectResourceRequest::::"+JSON.stringify(addProjectResourceRequest)); 
 
 
+    const handleAddProjectResource = (e) => {
+    console.log("handleAddProjectResource::::::"+JSON.stringify(projectResourceList));
+    projectResourceList.push(e);
+    setProjectResourceList(projectResourceList);
+    console.log("handleAddProjectResource After Pushing::::::"+JSON.stringify(projectResourceList));
+  };
+
   async function deleteProjectResource(projectResourceId) {
     const projectResourceDeleteResponse = await projectService.deleteProjectResource(projectResourceId);
     console.log("projectResourceDeleteResponse:::"+JSON.stringify(projectResourceDeleteResponse));
@@ -111,7 +118,6 @@ const ProjectResourceList = (props) => {
                       </Tr>   
                     </Thead>                
                     <Tbody>
-                      
                       {projectResourceList?.map((projectResource) => (
                         <Tr>
                               <Th>
