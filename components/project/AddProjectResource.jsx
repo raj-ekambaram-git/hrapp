@@ -64,17 +64,21 @@ const AddProjectResource = (props) => {
       setAddMode(false);
     }
     console.log("Vendor ID:::"+vendorId);
-    getUsersByVendor(vendorId);
+    //getUsersByVendor(vendorId);
   }, []);
 
   const handleClick = (newSize) => {
+    console.log("HANDLE CLICK :::"+vendorId);
+    getUsersByVendor(vendorId);
     setSize(newSize)
     onOpen()
   }
 
   async function getUsersByVendor(vendorId) {
     // setPageAuthorized(true);
+    console.log("getUsersByVendor::: Vendor ID ::"+vendorId);
     const userListResponse = await userService.getUsersByVendor(vendorId, userService.getAccountDetails().accountId);
+    console.log("userListResponse inside add resource:::"+JSON.stringify(userListResponse))
     setUserList(userListResponse);
 
   }  
@@ -111,6 +115,14 @@ const AddProjectResource = (props) => {
         || budgetAllocated == undefined) {
 
           console.log("Error, Please enter the details");
+          toast({
+            title: 'Add Project Resource Error.',
+            description: 'Please add all the rfields to add a resource.',
+            status: 'error',
+            position: 'top',
+            duration: 9000,
+            isClosable: true,
+          })          
     }else {
       const addedResourceDetails = {
         userId: parseInt(userId),
@@ -125,7 +137,6 @@ const AddProjectResource = (props) => {
       };
       createProjectResource(addedResourceDetails);
       handleAddProjectResource(addedResourceDetails);
-      onClose();  
       setBudgetAllocated(EMPTY_STRING);
 
     }
@@ -155,15 +166,41 @@ const AddProjectResource = (props) => {
         const data = await res.json();
 
         //Close the modal
-        //router.push("/account/"+userService.getAccountDetails().accountId+"/users");
         console.log("before forwarding..::"+JSON.stringify(data))
-        props.data.onClose();
-
-        
+        if(data != undefined && !data.error) {
+          console.log("Inside this condition of close")
+          onClose();
+          toast({
+            title: 'Add Project Resource.',
+            description: 'Successfully add a resource.',
+            status: 'success',
+            position: 'top',
+            duration: 3000,
+            isClosable: true,
+          })     
+  
+        }else {
+          console.log("INSIDE THE ELSEEE")
+          toast({
+            title: 'Add Project Resource Error.',
+            description: 'Error creating resource.',
+            status: 'error',
+            position: 'top',
+            duration: 9000,
+            isClosable: true,
+          })     
+        }
       
     } catch (error) {
       console.log("ERRRORRR::"+error);
-      // toast.error("Something went wrong!"+error+"-----"+JSON.stringify(error));
+      toast({
+        title: 'Add Project Resource Error.',
+        description: 'Error creating resource.',
+        status: 'error',
+        position: 'top',
+        duration: 9000,
+        isClosable: true,
+      })     
     }
   };
 
