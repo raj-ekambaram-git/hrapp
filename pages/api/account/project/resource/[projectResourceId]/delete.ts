@@ -29,6 +29,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           projectId: deleteProjectResource.projectId,
         },
         include: {
+          project: true,
           user: {
             select: {
               firstName: true,

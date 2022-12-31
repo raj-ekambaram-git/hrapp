@@ -10,6 +10,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   try {
     const project = req.body;
+
+    console.log("INSIDE PROJECT UPDATE:::"+JSON.stringify(project));
     
     // const savedAccount: Prisma.UserCreateInput = JSON.parse(req.body);
     const savedProject = await prisma.project.update({

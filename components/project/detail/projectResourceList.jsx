@@ -33,8 +33,8 @@ const ProjectResourceList = (props) => {
   
   console.log("addProjectResourceRequest::::"+JSON.stringify(addProjectResourceRequest)); 
 
-  async function deleteProjectResource(projectResourceId) {
-    const projectResourceDeleteResponse = await projectService.deleteProjectResource(projectResourceId);
+  async function deleteProjectResource(projectResourceId, projectResourceAllocatedBudget) {
+    const projectResourceDeleteResponse = await projectService.deleteProjectResource(projectResourceId,projectResourceAllocatedBudget);
     console.log("projectResourceDeleteResponse:::"+JSON.stringify(projectResourceDeleteResponse));
     if(projectResourceDeleteResponse != undefined && !projectResourceDeleteResponse.error) {
       addProjectResourceRequest.handleAddProjectResource(projectResourceDeleteResponse);
@@ -115,7 +115,7 @@ const ProjectResourceList = (props) => {
                         <Tr>
                               <Th>
                                 <HStack spacing={4}>
-                                  <DeleteIcon onClick={() => deleteProjectResource(projectResource.id)}/>
+                                  <DeleteIcon onClick={() => deleteProjectResource(projectResource.id,projectResource.project.id, projectResource.budgetAllocated)}/>
                                   <EditIcon onClick={() => editProjectResource(projectResource.id)}/>
                                 </HStack>
                               </Th>
