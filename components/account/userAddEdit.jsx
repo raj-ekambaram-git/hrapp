@@ -209,7 +209,7 @@ const UserAddEdit = (props) => {
           description: 'Successfully added new user.',
           status: 'success',
           position: 'top',
-          duration: 9000,
+          duration: 3000,
           isClosable: true,
         })
         
@@ -221,7 +221,7 @@ const UserAddEdit = (props) => {
         description: 'Not able to create user, plrease try again or contact administrator.',
         status: 'error',
         position: 'top',
-        duration: 9000,
+        duration: 6000,
         isClosable: true,
       })
     }

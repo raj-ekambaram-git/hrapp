@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/router";
-import { toast } from "react-toastify";
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { util } from '../../helpers';
@@ -23,6 +22,7 @@ import {
   CardBody,
   StackDivider,
   Textarea,
+  useToast
 } from '@chakra-ui/react'
 import InvoiceItems from "../invoice/invoiceItems";
 
@@ -33,6 +33,7 @@ const InvoiceAddEdit = (props) => {
   const invoiceId = props.data.invoiceId;
   
   const router = useRouter();
+  const toast = useToast();
   
   const [invoiceItems, setInvoiceItems] = useState([]);
   const [invoice, setInvoice] = useState({});
@@ -231,12 +232,26 @@ const InvoiceAddEdit = (props) => {
         });
         const data = await res.json();
 
-        toast.success(data.message);
+        toast({
+          title: 'New Invoice.',
+          description: 'Successfully added new invoice.',
+          status: 'success',
+          position: 'top',
+          duration: 3000,
+          isClosable: true,
+        })
         router.push("/account/vendor/"+data.vendorId+"/invoices");
         
       
     } catch (error) {
-      toast.error("Something went wrong!");
+      toast({
+        title: 'Invoice Error.',
+        description: 'Not able to create invoice, plrease try again or contact administrator.',
+        status: 'error',
+        position: 'top',
+        duration: 6000,
+        isClosable: true,
+      })
     }
   };
 
@@ -274,10 +289,25 @@ const InvoiceAddEdit = (props) => {
       
       router.push("/account/vendor/"+data.vendorId+"/invoices");
 
-      toast.success(data.message);
+      toast({
+        title: 'Update Invoice.',
+        description: 'Successfully updated invoice.',
+        status: 'success',
+        position: 'top',
+        duration: 3000,
+        isClosable: true,
+      })
+
     } catch (error) {
       console.log(error)
-      toast.error("Something went wrong!");
+      toast({
+        title: 'Invoice Error.',
+        description: 'Not able to update invoice, plrease try again or contact administrator.',
+        status: 'error',
+        position: 'top',
+        duration: 6000,
+        isClosable: true,
+      })
     }
   };
 

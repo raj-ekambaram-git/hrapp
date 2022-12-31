@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/router";
-import { toast } from "react-toastify";
+
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { userService } from "../../services";
@@ -11,6 +11,7 @@ import {
   Box,
   Flex,
   Heading,
+  useToast
 } from '@chakra-ui/react'
 import WeeklyTimesheetEntry from "./weeklyTimesheetEntry";
 
@@ -18,7 +19,7 @@ const TimesheetAddEdit = (props) => {
   
   const timesheetId = props.data.timesheetId;
   const router = useRouter();
-
+  const toast = useToast();
   const name = useRef("");
   const email = useRef("");
   const type = useRef("");
@@ -91,12 +92,26 @@ const TimesheetAddEdit = (props) => {
         });
         const data = await res.json();
 
-        toast.success(data.message);
+        toast({
+          title: 'New Timesheet.',
+          description: 'Successfully created new timesheet.',
+          status: 'success',
+          position: 'top',
+          duration: 3000,
+          isClosable: true,
+        })
         router.push("/account/user/"+userService.userValue.id+"/timesheets");
         
       
     } catch (error) {
-      toast.error("Something went wrong!");
+      toast({
+        title: 'Timesheet Error.',
+        description: 'Not able to create timesheet, plrease try again or contact administrator.',
+        status: 'error',
+        position: 'top',
+        duration: 6000,
+        isClosable: true,
+      })
     }
   };
 
@@ -123,10 +138,25 @@ const TimesheetAddEdit = (props) => {
       const data = await res.json();
       
       router.push("/account/user/"+userService.userValue.id+"/timesheets");
-      toast.success(data.message);
+      toast({
+        title: 'Update Timesheet.',
+        description: 'Successfully updated timesheet.',
+        status: 'success',
+        position: 'top',
+        duration: 3000,
+        isClosable: true,
+      })
+
     } catch (error) {
       console.log(error)
-      toast.error("Something went wrong!");
+      toast({
+        title: 'Timesheet Error.',
+        description: 'Not able to update timesheet, plrease try again or contact administrator.',
+        status: 'error',
+        position: 'top',
+        duration: 6000,
+        isClosable: true,
+      })
     }
   };
 
