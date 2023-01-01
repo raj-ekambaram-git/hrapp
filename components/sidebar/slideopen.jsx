@@ -27,7 +27,7 @@ const navbarnotactive={
 
 const tooltip_style= {
   maxWidth: "100px",
-  bgColor: "#1D4044",
+  bgColor: "black",
   color: "#F7FAFC"
 }
 const Slideopen = () => {
@@ -36,7 +36,7 @@ const Slideopen = () => {
         <div className={styles.iconsbox}>
           {userService.isSuperAdmin() ? (
             <>
-              <Tooltip label="Manage Accounts" placement='right' color={tooltip_style.color} hasArrow maxWidth={tooltip_style.maxWidth} backgroundColor={tooltip_style.bgColor}>
+            <Tooltip label="Manage Accounts" placement='right' color={tooltip_style.color} hasArrow maxWidth={tooltip_style.maxWidth} backgroundColor={tooltip_style.bgColor}>
               <Link href={`/accounts`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
                 <div>
                   <MdOutlineManageAccounts  className={styles.icons1}/>

@@ -34,8 +34,11 @@
     transition: background 1s; /* For modern browsers */
     box-shadow: inset 0 0 0 0 #54b3d6;
     transition: color .3s ease-in-out, box-shadow .3s ease-in-out;
+    
   
 }
+
+
 .navlink{
   
 }
