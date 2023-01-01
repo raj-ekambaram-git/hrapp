@@ -24,20 +24,26 @@ const navbarnotactive={
   backgroundColor:"silver",
   color:"black"
 }
+
+const tooltip_style= {
+  maxWidth: "100px",
+  bgColor: "#1D4044",
+  color: "#F7FAFC"
+}
 const Slideopen = () => {
   return (
     <div className={styles.main}>
         <div className={styles.iconsbox}>
           {userService.isSuperAdmin() ? (
             <>
-              <Tooltip label="Manage Accounts" placement='right' color='teal' hasArrow>
+              <Tooltip label="Manage Accounts" placement='right' color={tooltip_style.color} hasArrow maxWidth={tooltip_style.maxWidth} backgroundColor={tooltip_style.bgColor}>
               <Link href={`/accounts`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
                 <div>
                   <MdOutlineManageAccounts  className={styles.icons1}/>
                 </div>
               </Link> 
             </Tooltip>     
-            <Tooltip label="App Settings" placement='right' color='teal' hasArrow>
+            <Tooltip label="App Settings" placement='right' color={tooltip_style.color} hasArrow maxWidth={tooltip_style.maxWidth} backgroundColor={tooltip_style.bgColor}>
               <Link href={`/app/setting/`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
                 <div>
                   <IoSettingsOutline  className={styles.icons1}/>
@@ -47,14 +53,14 @@ const Slideopen = () => {
             </>
           ) : (
             <>
-            <Tooltip label="Vendors" placement='right' color='teal' hasArrow>
+            <Tooltip label="Vendors " placement='right' color='white' hasArrow bg="red" maxWidth={tooltip_style.maxWidth} backgroundColor={tooltip_style.bgColor}> 
               <Link href={`/account/${userService.getAccountDetails().accountId}/vendors`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
                 <div>
                   <BiGridAlt  className={styles.icons1}/>
                 </div>
               </Link>
             </Tooltip>            
-            <Tooltip label="Users" placement='right' color='teal' hasArrow>
+            <Tooltip label="Users" placement='right' color={tooltip_style.color} hasArrow maxWidth={tooltip_style.maxWidth} backgroundColor={tooltip_style.bgColor}>
               <Link href={`/account/${userService.getAccountDetails().accountId}/users`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
                 <div>
                   <FiUsers  className={styles.icons1}/>
@@ -62,14 +68,14 @@ const Slideopen = () => {
                 </div>
               </Link>
             </Tooltip>
-            <Tooltip label="Invoices" placement='right' color='teal' hasArrow>            
+            <Tooltip label="Invoices" placement='right' color={tooltip_style.color} hasArrow maxWidth={tooltip_style.maxWidth} backgroundColor={tooltip_style.bgColor}>            
               <Link href={`/account/${userService.getAccountDetails().accountId}/invoices`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
                 <div>
                   <FaFileInvoiceDollar  className={styles.icons1}/>
                 </div>
               </Link>   
             </Tooltip>
-            <Tooltip label="Projects" placement='right' color='teal' hasArrow>
+            <Tooltip label="Projects" placement='right' color={tooltip_style.color} hasArrow maxWidth={tooltip_style.maxWidth} backgroundColor={tooltip_style.bgColor}>
               <Link href={`/account/${userService.getAccountDetails().accountId}/projects`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
                 <div>
                   <GrProjects  className={styles.icons1}/>
@@ -79,7 +85,7 @@ const Slideopen = () => {
             
               {userService.userValue ? (
                 <>
-                  <Tooltip label="Timesheets" placement='right' color='teal' hasArrow>
+                  <Tooltip label="Timesheets" placement='right' color={tooltip_style.color} hasArrow maxWidth={tooltip_style.maxWidth} backgroundColor={tooltip_style.bgColor}>
                     <Link href={`/account/user/${userService.userValue.id}/timesheets`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
                       <div>
                         <VscCalendar  className={styles.icons1}/>
@@ -97,7 +103,7 @@ const Slideopen = () => {
 
           {(userService.isManager() || userService.isAccountAdmin()) ? (
             <>
-            <Tooltip label="Timesheet Approvals" placement='right' color='teal' hasArrow>
+            <Tooltip label="Timesheet Approvals" placement='right' color={tooltip_style.color} hasArrow maxWidth={tooltip_style.maxWidth} backgroundColor={tooltip_style.bgColor}>
               <Link href={`/account/user/${userService.userValue.id}/timesheets/approval`} styles={({isManagerActive}) => (isManagerActive ? navbaractive: navbarnotactive)}>  
                   <div>
                     <MdOutlineApproval  className={styles.icons1}/>

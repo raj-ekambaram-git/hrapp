@@ -12,17 +12,12 @@ const navbaractive={
    color:"rgb(35,192,254)"
 }
 const navbarnotactive={
-  backgroundColor:"silver",
+  backgroundColor:"teal",
   color:"white"
 }
 
 const Slideclose = () => {
-  // const {user}=useSelector(state=>state.auth)
-  // const dispatch=useDispatch()
-  // useEffect(()=>{
-  //   if
-  // dispatch(getGoals())
-  // },[user])
+
   return (
     <div className={styles.main}>
         <div className={styles.iconsname}>

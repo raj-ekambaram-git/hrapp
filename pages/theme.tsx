@@ -77,7 +77,7 @@ const theme = extendTheme({
     paid_status: '#48BB78',
     pending_status: '#E53E3E',
     button_background: '#16161D',
-    cancel_button: 'e4eaee',
+    cancel_button: '#e4eaee',
     inner_table_tile: '#EDF2F7',
     timesheet: {
       pending_status: "#48BB78",
