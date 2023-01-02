@@ -3,13 +3,15 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import type { AppProps } from "next/app";
 import Layout from "../components/layout/layout";
-import { wrapper } from "../store";
+import { store } from "../store";
 import {ChakraProvider} from '@chakra-ui/react';
 import theme from './theme';
 import 'styles/index.css';
 
+
 import { userService } from '../services';
 import {Alert } from '../components';
+import { Provider } from 'react-redux';
 
 function MyApp({ Component, pageProps }: AppProps) {
 
@@ -75,12 +77,15 @@ function MyApp({ Component, pageProps }: AppProps) {
       </Head>
 
       <div>
-        <Alert />
-        <Layout data={{authorized}}>
-          <ChakraProvider theme={theme}>
-            <Component {...pageProps} />
-            </ChakraProvider>
-        </Layout>
+        <Provider store={store}>
+          <Alert />
+          <Layout data={{authorized}}>
+              <ChakraProvider theme={theme}>
+                <Component {...pageProps} />
+              </ChakraProvider>
+            </Layout>            
+        </Provider>            
+        
       </div>
 
     </>
@@ -90,4 +95,4 @@ function MyApp({ Component, pageProps }: AppProps) {
 
 
 
-export default wrapper.withRedux(MyApp);
+export default MyApp;
