@@ -11,14 +11,24 @@ export const timesheetService = {
 
     getTimesheetDetails,
     updateTimesheetEntry,
-    getTimesheetMeta
+    getTimesheetMetaForToday
 };
 
-function getTimesheetMeta() {
-  return fetchWrapper.get(`${baseUrl}/timesheet/calendar/`, {})
-  .then(timesheet => {
-      return timesheet;
-  });
+function getTimesheetMetaForToday() {
+  const today = new Date();
+  const todayStr = today.getFullYear()+(String(today.getMonth()+1).padStart(2, "0"))+String(today.getDate()).padStart(2, "0");
+  console.log("getTimesheetDetailsAPICall:: todayStr ----- "+todayStr);
+
+  return fetchWrapper.get(`${baseUrl}/calendar/week/`+todayStr, {})
+  .then(wkCalendar => {
+
+    console.log("wkCalendar:::"+JSON.stringify(wkCalendar))
+      return wkCalendar;
+  })        
+  .catch(err => {
+    console.log("Error Getting Timesheet Meta Data")
+    return {errorMessage: err, error: true};
+});
 }
 
 function getTimesheetDetails(timesheetId, accountId) {

@@ -51,11 +51,11 @@ const WeeklyTimesheetEntry = (props) => {
       }, []);
 
       async function getTimesheetDetailsAPICall() {
-
+        console.log("getTimesheetDetailsAPICall::"+props.data.isAddMode);
         // Call only if the user is SUPER_ADMIN and accountId as zero
         if((userService.isAccountAdmin() || userService.isSuperAdmin() || userService.isTimesheetEntryUser() || userService.isManager()) 
-              && (props && props.data && props.data.mode != MODE_ADD)) { // This is for EDIT 
-          
+              && (props && props.data && !props.data.isAddMode)) { // This is for EDIT 
+                console.log("Inside EDIT getTimesheetDetailsAPICall ...");
                 const timesheetResponse = await timesheetService.getTimesheetDetails(props.data.timesheetId, userService.getAccountDetails().accountId);
                 setTimesheetData(timesheetResponse);
                 setTimesheetName(timesheetResponse.name);
@@ -65,9 +65,12 @@ const WeeklyTimesheetEntry = (props) => {
                 console.log("isAddMode::"+isAddMode+"---STATUS:::"+timesheetResponse.status);
                 //Condition to ebale the update buttong based on the status and mode
         }else if((userService.isAccountAdmin() || userService.isSuperAdmin() || userService.isTimesheetEntryUser() || userService.isManager()) 
-        && (props && props.data && props.data.mode === MODE_ADD)) { // This is for ADD
+        && (props && props.data && props.data.isAddMode)) { // This is for ADD
             //Get Calendar Data and Timesheet Name
-            
+            console.log("Inside ADD getTimesheetDetailsAPICall ...")
+            const timesheetMetaData = await timesheetService.getTimesheetMetaForToday();
+            console.log("Week Meta Dat::"+JSON.stringify(timesheetMetaData));
+                setTimesheetName(timesheetMetaData.weekOfYearISO);
 
         }
     
@@ -224,7 +227,7 @@ const WeeklyTimesheetEntry = (props) => {
                                 <ArrowBackIcon onClick={() => changeTimesheetBefore(index)}/>
                                 {isAddMode ? (
                                     <>
-                                        <Heading size='sm'>Week Starting 1/1</Heading>
+                                        <Heading size='sm'>{timesheetName}</Heading>
                                     </>
                                 ) : (
                                     <>
