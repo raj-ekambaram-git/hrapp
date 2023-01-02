@@ -92,6 +92,8 @@ model ProjectResource {
   usedBudget          Decimal?       @default(0)
   remainingBudget     Decimal?       @default(0)
   isTimesheetApprover Boolean        @default(false)
+  fromDate            DateTime?
+  toDate              DateTime?
 
   @@unique([projectId, userId])
 }
