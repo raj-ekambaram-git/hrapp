@@ -299,7 +299,7 @@ const WeeklyTimesheetEntry = (props) => {
                     )} 
                     <TimesheetDateHeader data={weekCalendar}></TimesheetDateHeader>
                     {timesheetEntries?.map((timesheetEntry, index) => (
-                        <Grid gap="3rem" marginBottom="2rem" autoRows>
+                        <Grid gap="1rem" marginBottom="2rem" autoRows>
                             <GridItem colSpan={2} h='10'>
                                 <HStack spacing="1em">    
                                 {isAddMode || (!isAddMode && timesheetData.status != TIMESHEET_STATUS.Approved) ? (
@@ -323,7 +323,7 @@ const WeeklyTimesheetEntry = (props) => {
                                 </HStack>
                             </GridItem>
                             <GridItem colStart={3} colEnd={6} h='10'>
-                                    <HStack spacing="1em">
+                                    <HStack spacing="2em">
                                         <Box borderWidth="timesheet.entry" borderColor={timesheetEntry.entries.day1.error ? 'timesheet.entryError' : ""}>
                                             <Input type="number" id="day1"  value= {timesheetEntry.entries.day1.error ? "" : timesheetEntry.entries.day1.hours}  size="md" onChange={(ev) => setTimesheetEntry(index, ev.target.value,"1")} boxSize="timesheet.entry.input"/>
                                         </Box>    

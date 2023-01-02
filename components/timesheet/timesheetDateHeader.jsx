@@ -16,7 +16,7 @@ const TimesheetDateHeader = (props) => {
     return(
         <>
             <Box>
-            <Grid gap="23rem" autoRows>
+            <Grid gap="21rem" autoRows>
                         <GridItem colSpan={2} h='10'>
                             <Box width="timesheet.entry_project_header">
                             </Box>  
@@ -25,7 +25,7 @@ const TimesheetDateHeader = (props) => {
                         <GridItem colStart={3} colEnd={6} h='10'>
                             {calendarData.day1 != undefined ? (
                                 <>
-                                    <HStack spacing="1em">
+                                    <HStack spacing="2em">
                                         <Box width="timesheet.entry_header">
                                             <Text textAlign="center" fontWeight="bold">
                                                 {calendarData.day1.date.substring(5,10).replace("-","/")}
