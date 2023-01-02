@@ -101,6 +101,13 @@ const WeeklyTimesheetEntry = (props) => {
         const inputData = [...timesheetEntries];
         for (let i = 0; i < inputData.length; i++) {
             inputData[i].status = status;
+            inputData[i].entries.day1.date = weekCalendar.day1.date;
+            inputData[i].entries.day2.date = weekCalendar.day2.date;
+            inputData[i].entries.day3.date = weekCalendar.day3.date;
+            inputData[i].entries.day4.date = weekCalendar.day4.date;
+            inputData[i].entries.day5.date = weekCalendar.day5.date;
+            inputData[i].entries.day6.date = weekCalendar.day6.date;
+            inputData[i].entries.day7.date = weekCalendar.day7.date;
         }
         setTimesheetEntries(inputData);
         props.data.handleTimeSheetEntries(timesheetEntries);
@@ -146,31 +153,24 @@ const WeeklyTimesheetEntry = (props) => {
         switch(dayNumber) {
             case "1": 
                 timeEntryRecord.entries.day1.hours = inputValue;
-                timeEntryRecord.entries.day1.date = weekCalendar.day1.date;
                 break;
             case "2": 
                 timeEntryRecord.entries.day2.hours = inputValue;
-                timeEntryRecord.entries.day2.date = weekCalendar.day2.date;
                 break;
             case "3": 
                 timeEntryRecord.entries.day3.hours = inputValue;
-                timeEntryRecord.entries.day3.date = weekCalendar.day3.date;
                 break;
             case "4": 
                 timeEntryRecord.entries.day4.hours = inputValue;
-                timeEntryRecord.entries.day4.date = weekCalendar.day4.date;
                 break;
             case "5": 
                 timeEntryRecord.entries.day5.hours = inputValue;
-                timeEntryRecord.entries.day5.date = weekCalendar.day5.date;
                 break;
             case "6": 
                 timeEntryRecord.entries.day6.hours = inputValue;
-                timeEntryRecord.entries.day6.date = weekCalendar.day6.date;
                 break;
             case "7": 
                 timeEntryRecord.entries.day7.hours = inputValue;
-                timeEntryRecord.entries.day7.date = weekCalendar.day7.date;
                 break;
             case "projectId":
                 timeEntryRecord.projectId = parseInt(inputValue);
