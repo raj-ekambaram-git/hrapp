@@ -226,13 +226,37 @@ model Timesheet {
 }
 
 model Calendar {
-  id                    Int      @id @default(autoincrement())
-  calendarDate          DateTime
-  businessDay           Boolean
-  weekDay               Boolean
-  isMonthBeginDate      Boolean  @default(false)
-  isMonthEndDate        Boolean  @default(false)
-  vendorObservedHoliday Boolean  @default(false)
+  dateDimId            Int      @id
+  dateActual           DateTime
+  epoch                BigInt
+  daySuffix            String
+  dayName              String
+  dayOfWeek            Int
+  dayOfMonth           Int
+  dayOfQuarter         Int
+  dayOfYear            Int
+  weekOfMonth          Int
+  weekOfYear           Int
+  weekOfYearISO        String
+  monthActual          Int
+  monthName            String
+  monthNameAbbreviated String
+  quarterActual        Int
+  yearActual           Int
+  firstDayOfWeek       DateTime
+  lastDayOfWeek        DateTime
+  firstDayOfMonth      DateTime
+  lastDayOfMonth       DateTime
+  firstDayOfQuarter    DateTime
+  lastDayOfQuarter     DateTime
+  firstDayOfYear       DateTime
+  lastDayOfYear        DateTime
+  mmyyyy               String
+  mmddyyyy             String
+  mmdd                  String
+  weekend              Boolean
+
+  @@index([dateActual])
 }
 
 model TimesheetEntries {
