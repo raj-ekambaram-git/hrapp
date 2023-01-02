@@ -28,7 +28,6 @@ const TimesheetAddEdit = (props) => {
 
 
   const [timesheetActivityList, setTimesheetActivityList] = useState([]);
-  const [timesheetName, setTimesheetName] = useState(EMPTY_STRING);
   const [isPageAuthprized, setPageAuthorized] = useState(false);
   const [isPageSectionAuthorized, setPageSectionAuthorized] = useState(false);
   const [isAddMode, setAddMode] = useState(true);
@@ -59,10 +58,9 @@ const TimesheetAddEdit = (props) => {
 
   }, []);
 
-  function handleTimeSheetEntries(timesheetEntriesList, timesheetName) {
-    console.log("handleTimeSheet Entries :::"+JSON.stringify(timesheetEntriesList)+"-- timesheetName::"+timesheetName);
+  function handleTimeSheetEntries(timesheetEntriesList) {
+    console.log("handleTimeSheet Entries :::"+JSON.stringify(timesheetEntriesList));
     setTimesheetActivityList(timesheetEntriesList);
-    setTimesheetName(timesheetName);
   }
 
 
@@ -76,14 +74,14 @@ const TimesheetAddEdit = (props) => {
   // Create Account 
   const createTimesheet = async (formData) => {
     try {
-      console.log("Create Timesheet::"+formData.status+"-----timesheetActivityList:::"+JSON.stringify(timesheetActivityList)+"--TimesheetName::"+timesheetName)
+      console.log("Create Timesheet::"+formData.status+"-----timesheetActivityList:::"+JSON.stringify(timesheetActivityList)+"--TimesheetName::"+formData.timesheetName)
         const res = await fetch("/api/timesheet/create", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            name: timesheetName,
+            name: formData.timesheetName,
             type: "Weekly",
             userId: userService.userValue.id,
             status: formData.status,

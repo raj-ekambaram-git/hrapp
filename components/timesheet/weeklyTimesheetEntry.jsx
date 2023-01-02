@@ -98,15 +98,13 @@ const WeeklyTimesheetEntry = (props) => {
 
 
     function submitTimesheet(status) {
-        console.log("status:::"+status);
         const inputData = [...timesheetEntries];
         for (let i = 0; i < inputData.length; i++) {
             inputData[i].status = status;
         }
-        console.log("itimesheetName:::::"+timesheetName);
         setTimesheetEntries(inputData);
-        props.data.handleTimeSheetEntries(timesheetEntries, timesheetName);
-        props.data.onSubmit({status: status});
+        props.data.handleTimeSheetEntries(timesheetEntries);
+        props.data.onSubmit({status: status, timesheetName:timesheetName});
     }
 
     function setTimesheetEntry(index, inputValue, dayNumber) {
