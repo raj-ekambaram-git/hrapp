@@ -323,6 +323,7 @@ const WeeklyTimesheetEntry = (props) => {
                                 </HStack>
                             </GridItem>
                             <GridItem colStart={3} colEnd={6} h='10'>
+                                <HStack spacing="1rem">
                                     <HStack spacing="2em">
                                         <Box borderWidth="timesheet.entry" borderColor={timesheetEntry.entries.day1.error ? 'timesheet.entryError' : ""}>
                                             <Input type="number" id="day1"  value= {timesheetEntry.entries.day1.error ? "" : timesheetEntry.entries.day1.hours}  size="md" onChange={(ev) => setTimesheetEntry(index, ev.target.value,"1")} boxSize="timesheet.entry.input"/>
@@ -344,18 +345,19 @@ const WeeklyTimesheetEntry = (props) => {
                                         </Box>    
                                         <Box borderWidth="timesheet.entry" borderColor={timesheetEntry.entries.day7.error ? 'timesheet.entryError' : ""}>
                                             <Input type="number" id="day7"  size="md" value= {timesheetEntry.entries.day7.error ? "" : timesheetEntry.entries.day7.hours}  onChange={(ev) => setTimesheetEntry(index, ev.target.value,"7")}  boxSize="timesheet.entry.input"/>
-                                        </Box>    
-                                        <Box>
-                                            <Badge color={`${
-                                                    timesheetEntry.status === "Approved"
-                                                    ? "timesheet.approved_status"
-                                                    : (timesheetEntry.status === "Submitted" || timesheetEntry.status === "Saved")
-                                                    ? "timesheet.pending_status"
-                                                    : "timesheet.pending_status"
-                                                }`}>{timesheetEntry.status}
-                                            </Badge>
-                                        </Box>    
-                                    </HStack>                                         
+                                        </Box>   
+                                    </HStack>                                             
+                                    <Box>
+                                        <Badge color={`${
+                                                timesheetEntry.status === "Approved"
+                                                ? "timesheet.approved_status"
+                                                : (timesheetEntry.status === "Submitted" || timesheetEntry.status === "Saved")
+                                                ? "timesheet.pending_status"
+                                                : "timesheet.pending_status"
+                                            }`}>{timesheetEntry.status}
+                                        </Badge>
+                                    </Box>    
+                                </HStack>                                                                         
                             </GridItem>
                         </Grid>
                     ))}
