@@ -253,8 +253,9 @@ model Calendar {
   lastDayOfYear        DateTime
   mmyyyy               String
   mmddyyyy             String
-  mmdd                  String
+  mmdd                 String
   weekend              Boolean
+  currentWeekDates     Json
 
   @@index([dateActual])
 }

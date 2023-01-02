@@ -3,10 +3,7 @@ import React, { useState, useEffect } from "react";
 import {
     HStack,
     Box,
-    Heading,
     Text,
-    FormControl,
-    Input,
     Grid,
     GridItem
   } from '@chakra-ui/react';

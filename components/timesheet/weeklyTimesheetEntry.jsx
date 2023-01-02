@@ -32,6 +32,7 @@ const WeeklyTimesheetEntry = (props) => {
     const [showProjectError, setShowProjectError] = useState(false);
     const [userProjectList, setUserProjectList] = useState([]);
     const [timesheetData, setTimesheetData] = useState([]);
+    const [timesheetName, setTimesheetName] = useState(EMPTY_STRING);
     const userId = props.data.userId;
 
     useEffect(() => {
@@ -53,15 +54,21 @@ const WeeklyTimesheetEntry = (props) => {
 
         // Call only if the user is SUPER_ADMIN and accountId as zero
         if((userService.isAccountAdmin() || userService.isSuperAdmin() || userService.isTimesheetEntryUser() || userService.isManager()) 
-              && (props && props.data && props.data.mode != MODE_ADD)) {
+              && (props && props.data && props.data.mode != MODE_ADD)) { // This is for EDIT 
           
                 const timesheetResponse = await timesheetService.getTimesheetDetails(props.data.timesheetId, userService.getAccountDetails().accountId);
                 setTimesheetData(timesheetResponse);
+                setTimesheetName(timesheetResponse.name);
                 setTimesheetEntries(timesheetResponse.timesheetEntries);
                 console.log("timesheetResponse:::"+JSON.stringify(timesheetResponse))
 
                 console.log("isAddMode::"+isAddMode+"---STATUS:::"+timesheetResponse.status);
                 //Condition to ebale the update buttong based on the status and mode
+        }else if((userService.isAccountAdmin() || userService.isSuperAdmin() || userService.isTimesheetEntryUser() || userService.isManager()) 
+        && (props && props.data && props.data.mode === MODE_ADD)) { // This is for ADD
+            //Get Calendar Data and Timesheet Name
+            
+
         }
     
       }      

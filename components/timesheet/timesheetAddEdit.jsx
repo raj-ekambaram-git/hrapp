@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { userService } from "../../services";
-import {MODE_ADD, TIMESHEET_VALIDATION_SCHEMA} from "../../constants/accountConstants";
+import {EMPTY_STRING, MODE_ADD, TIMESHEET_VALIDATION_SCHEMA} from "../../constants/accountConstants";
 import { PageNotAuthorized } from "../../components/common/pageNotAuthorized";
 
 import {
@@ -28,6 +28,7 @@ const TimesheetAddEdit = (props) => {
 
 
   const [timesheetActivityList, setTimesheetActivityList] = useState([]);
+  const [timesheetName, setTimesheetName] = useState(EMPTY_STRING);
   const [isPageAuthprized, setPageAuthorized] = useState(false);
   const [isPageSectionAuthorized, setPageSectionAuthorized] = useState(false);
   const [isAddMode, setAddMode] = useState(true);
@@ -58,9 +59,10 @@ const TimesheetAddEdit = (props) => {
 
   }, []);
 
-  function handleTimeSheetEntries(timesheetEntriesList) {
+  function handleTimeSheetEntries(timesheetEntriesList, timesheetName) {
     console.log("handleTimeSheet Entries :::"+JSON.stringify(timesheetEntriesList));
     setTimesheetActivityList(timesheetEntriesList);
+    setTimesheetName(timesheetName);
   }
 
 
@@ -81,7 +83,7 @@ const TimesheetAddEdit = (props) => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            name: "Week Starting 3/1",
+            name: timesheetName,
             type: "Weekly",
             userId: userService.userValue.id,
             status: formData.status,

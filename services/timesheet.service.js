@@ -10,9 +10,16 @@ const baseUrl = `${publicRuntimeConfig.apiUrl}`;
 export const timesheetService = {
 
     getTimesheetDetails,
-    updateTimesheetEntry
+    updateTimesheetEntry,
+    getTimesheetMeta
 };
 
+function getTimesheetMeta() {
+  return fetchWrapper.get(`${baseUrl}/timesheet/calendar/`, {})
+  .then(timesheet => {
+      return timesheet;
+  });
+}
 
 function getTimesheetDetails(timesheetId, accountId) {
     return fetchWrapper.get(`${baseUrl}/timesheet/${timesheetId}/detail?accountId=`+accountId, {})
