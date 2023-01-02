@@ -21,7 +21,7 @@ import {
 import TimesheetDateHeader from "./timesheetDateHeader";
 import NotesHistory from "../../components/notes/notesHistory";
 import {
-    AddIcon, DeleteIcon,ArrowBackIcon,ArrowForwardIcon
+     DeleteIcon,ArrowBackIcon,ArrowForwardIcon
   } from '@chakra-ui/icons';  
 import { useDispatch } from "react-redux";
 import {submitNewTimesheet} from '../../store/modules/Timesheet/actions';
@@ -97,7 +97,6 @@ const WeeklyTimesheetEntry = (props) => {
         console.log("ISADDMODE:::"+isAddMode);
         inputData.push({projectId: "", status: "", entries: {day1: {hours: "", error: false, date: "", note: ""}, day2: {hours: "", error: false, date: "", note: ""},day3: {hours: "", error: false, date: "", note: ""},day4: {hours: "", error: false, date: "", note: ""},day5: {hours: "", error: false, date: "", note: ""},day6: {hours: "", error: false, date: "", note: ""},day7: {hours: "", error: false, date: "", note: ""}}});
         setTimesheetEntries(inputData);
-        dispatch(submitNewTimesheet("FFRREEE"));
 
     }
 
