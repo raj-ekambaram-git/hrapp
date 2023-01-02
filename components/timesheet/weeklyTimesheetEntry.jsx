@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import {EMPTY_STRING, TIMESHEET_STATUS, MODE_ADD,TIMESHEET_ENTRY_DEFAULT, NOTES_TYPE} from "../../constants/accountConstants";
 import { userService, timesheetService } from "../../services";
 import {
@@ -25,7 +26,7 @@ import {
 
   
 const WeeklyTimesheetEntry = (props) => {
-
+    const router = useRouter();
 
     const [isAddMode, setAddMode] = useState(true);
     const [timesheetEntries, setTimesheetEntries] = useState([{projectId: "", status: "", entries: {day1: {hours: "", error: false, date: "", note: ""}, day2: {hours: "", error: false, date: "", note: ""},day3: {hours: "", error: false, date: "", note: ""},day4: {hours: "", error: false, date: "", note: ""},day5: {hours: "", error: false, date: "", note: ""},day6: {hours: "", error: false, date: "", note: ""},day7: {hours: "", error: false,date: "", note: ""}}}]);
@@ -201,8 +202,9 @@ const WeeklyTimesheetEntry = (props) => {
         return timesheetTotalEntryHour;
     }
 
-    function changeTimesheetBefore(selectedDate) {
-        console.log("changeTimesheetBefore")
+    function changeTimesheetBefore() {
+        console.log("changeTimesheetBefore");
+        router.push({ pathname: '/timesheet/add', query: { manager: false }});
     }
 
     function changeTimesheetAfter(selectedDate) {
@@ -231,7 +233,7 @@ const WeeklyTimesheetEntry = (props) => {
                         </Box>
                         <Box width="timesheet.nameDropDown">
                             <HStack>
-                                <ArrowBackIcon onClick={() => changeTimesheetBefore(index)}/>
+                                <ArrowBackIcon onClick={() => changeTimesheetBefore()}/>
                                 {isAddMode ? (
                                     <>
                                         <Heading size='sm'>{timesheetName}</Heading>
