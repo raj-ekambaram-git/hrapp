@@ -60,7 +60,7 @@ const TimesheetAddEdit = (props) => {
   }, []);
 
   function handleTimeSheetEntries(timesheetEntriesList, timesheetName) {
-    console.log("handleTimeSheet Entries :::"+JSON.stringify(timesheetEntriesList));
+    console.log("handleTimeSheet Entries :::"+JSON.stringify(timesheetEntriesList)+"-- timesheetName::"+timesheetName);
     setTimesheetActivityList(timesheetEntriesList);
     setTimesheetName(timesheetName);
   }
@@ -76,7 +76,7 @@ const TimesheetAddEdit = (props) => {
   // Create Account 
   const createTimesheet = async (formData) => {
     try {
-      console.log("Create Timesheet::"+formData.status+"-----timesheetActivityList:::"+JSON.stringify(timesheetActivityList))
+      console.log("Create Timesheet::"+formData.status+"-----timesheetActivityList:::"+JSON.stringify(timesheetActivityList)+"--TimesheetName::"+timesheetName)
         const res = await fetch("/api/timesheet/create", {
           method: "POST",
           headers: {

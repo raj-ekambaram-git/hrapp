@@ -33,6 +33,7 @@ const WeeklyTimesheetEntry = (props) => {
     const [userProjectList, setUserProjectList] = useState([]);
     const [timesheetData, setTimesheetData] = useState([]);
     const [timesheetName, setTimesheetName] = useState(EMPTY_STRING);
+    const [weekCalendar, setWeekCalendar] = useState({});
     const userId = props.data.userId;
 
     useEffect(() => {
@@ -45,7 +46,6 @@ const WeeklyTimesheetEntry = (props) => {
         }
         console.log("props.data.isAddMode:::"+JSON.stringify(props.data.isAddMode))
         setAddMode(props.data.isAddMode);
-        
         getTimesheetDetailsAPICall();
     
       }, []);
@@ -60,9 +60,10 @@ const WeeklyTimesheetEntry = (props) => {
                 setTimesheetData(timesheetResponse);
                 setTimesheetName(timesheetResponse.name);
                 setTimesheetEntries(timesheetResponse.timesheetEntries);
-                console.log("timesheetResponse:::"+JSON.stringify(timesheetResponse))
+                setWeekCalendar(timesheetResponse.timesheetEntries[0].entries);
+                console.log("timesheetResponse:::"+JSON.stringify(timesheetResponse.timesheetEntries[0].entries))
 
-                console.log("isAddMode::"+isAddMode+"---STATUS:::"+timesheetResponse.status);
+                console.log("isAddMode::"+isAddMode+"---STATUS:::"+JSON.stringify(weekCalendar));
                 //Condition to ebale the update buttong based on the status and mode
         }else if((userService.isAccountAdmin() || userService.isSuperAdmin() || userService.isTimesheetEntryUser() || userService.isManager()) 
         && (props && props.data && props.data.isAddMode)) { // This is for ADD
@@ -71,6 +72,7 @@ const WeeklyTimesheetEntry = (props) => {
             const timesheetMetaData = await timesheetService.getTimesheetMetaForToday();
             console.log("Week Meta Dat::"+JSON.stringify(timesheetMetaData));
                 setTimesheetName(timesheetMetaData.weekOfYearISO);
+                setWeekCalendar(timesheetMetaData.currentWeekDates);
 
         }
     
@@ -101,9 +103,9 @@ const WeeklyTimesheetEntry = (props) => {
         for (let i = 0; i < inputData.length; i++) {
             inputData[i].status = status;
         }
-        console.log("inputData inside submit time sheet:::"+JSON.stringify(inputData));
+        console.log("itimesheetName:::::"+timesheetName);
         setTimesheetEntries(inputData);
-        props.data.handleTimeSheetEntries(timesheetEntries);
+        props.data.handleTimeSheetEntries(timesheetEntries, timesheetName);
         props.data.onSubmit({status: status});
     }
 
@@ -146,24 +148,31 @@ const WeeklyTimesheetEntry = (props) => {
         switch(dayNumber) {
             case "1": 
                 timeEntryRecord.entries.day1.hours = inputValue;
+                timeEntryRecord.entries.day1.date = weekCalendar.day1.date;
                 break;
             case "2": 
                 timeEntryRecord.entries.day2.hours = inputValue;
+                timeEntryRecord.entries.day2.date = weekCalendar.day2.date;
                 break;
             case "3": 
                 timeEntryRecord.entries.day3.hours = inputValue;
+                timeEntryRecord.entries.day3.date = weekCalendar.day3.date;
                 break;
             case "4": 
                 timeEntryRecord.entries.day4.hours = inputValue;
+                timeEntryRecord.entries.day4.date = weekCalendar.day4.date;
                 break;
             case "5": 
                 timeEntryRecord.entries.day5.hours = inputValue;
+                timeEntryRecord.entries.day5.date = weekCalendar.day5.date;
                 break;
             case "6": 
                 timeEntryRecord.entries.day6.hours = inputValue;
+                timeEntryRecord.entries.day6.date = weekCalendar.day6.date;
                 break;
             case "7": 
                 timeEntryRecord.entries.day7.hours = inputValue;
+                timeEntryRecord.entries.day7.date = weekCalendar.day7.date;
                 break;
             case "projectId":
                 timeEntryRecord.projectId = parseInt(inputValue);
@@ -289,8 +298,8 @@ const WeeklyTimesheetEntry = (props) => {
                         </>
                     ) : (
                         <></>
-                    )}
-                    <TimesheetDateHeader></TimesheetDateHeader>
+                    )} 
+                    <TimesheetDateHeader data={weekCalendar}></TimesheetDateHeader>
                     {timesheetEntries?.map((timesheetEntry, index) => (
                         <Grid gap="3rem" marginBottom="2rem" autoRows>
                             <GridItem colSpan={2} h='10'>

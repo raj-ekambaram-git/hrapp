@@ -4,12 +4,14 @@ import {
     HStack,
     Box,
     Text,
-    Grid,
+    Grid, 
     GridItem
   } from '@chakra-ui/react';
 
 const TimesheetDateHeader = (props) => {
 
+    console.log("PROPPPPPSSS::"+JSON.stringify(props));
+    const calendarData = props.data;
 
     return(
         <>
@@ -21,48 +23,57 @@ const TimesheetDateHeader = (props) => {
 
                         </GridItem>
                         <GridItem colStart={3} colEnd={6} h='10'>
-                        <HStack spacing="1em">
-                                    <Box width="timesheet.entry_header">
-                                        <Text textAlign="center" fontWeight="bold">
-                                            1/1
-                                        </Text>     
-                                    </Box>    
-                                    <Box width="timesheet.entry_header" fontWeight="bold">
-                                        <Text textAlign="center">
-                                            1/2
-                                        </Text>     
-                                    </Box>  
-                                    <Box width="timesheet.entry_header" fontWeight="bold">
-                                        <Text textAlign="center">
-                                            1/3
-                                        </Text>     
-                                    </Box>  
-                                    <Box width="timesheet.entry_header" fontWeight="bold">
-                                        <Text textAlign="center">
-                                            1/4
-                                        </Text>     
-                                    </Box>  
-                                    <Box width="timesheet.entry_header" fontWeight="bold">
-                                        <Text textAlign="center">
-                                            1/5
-                                        </Text>     
-                                    </Box>  
-                                    <Box width="timesheet.entry_header" fontWeight="bold">
-                                        <Text textAlign="center">
-                                            1/6
-                                        </Text>     
-                                    </Box>  
-                                    <Box width="timesheet.entry_header" fontWeight="bold">
-                                        <Text textAlign="center">
-                                            1/7
-                                        </Text>     
-                                    </Box>                                                                                                                                                                                      
-                                    <Box width="timesheet.entry_header" fontWeight="bold">
-                                        <Text textAlign="center">
-                                            Status
-                                        </Text>     
-                                    </Box>                                      
-                                </HStack>                                         
+                            {calendarData.day1 != undefined ? (
+                                <>
+                                    <HStack spacing="1em">
+                                        <Box width="timesheet.entry_header">
+                                            <Text textAlign="center" fontWeight="bold">
+                                                {calendarData.day1.date.substring(5,10).replace("-","/")}
+                                            </Text>     
+                                        </Box>    
+                                        <Box width="timesheet.entry_header" fontWeight="bold">
+                                            <Text textAlign="center">
+                                                {calendarData.day2.date.substring(5,10).replace("-","/")}
+                                            </Text>     
+                                        </Box>  
+                                        <Box width="timesheet.entry_header" fontWeight="bold">
+                                            <Text textAlign="center">
+                                                {calendarData.day3.date.substring(5,10).replace("-","/")}
+                                            </Text>     
+                                        </Box>  
+                                        <Box width="timesheet.entry_header" fontWeight="bold">
+                                            <Text textAlign="center">
+                                                {calendarData.day4.date.substring(5,10).replace("-","/")}
+                                            </Text>     
+                                        </Box>  
+                                        <Box width="timesheet.entry_header" fontWeight="bold">
+                                            <Text textAlign="center">
+                                                {calendarData.day5.date.substring(5,10).replace("-","/")}
+                                            </Text>     
+                                        </Box>  
+                                        <Box width="timesheet.entry_header" fontWeight="bold">
+                                            <Text textAlign="center">
+                                                {calendarData.day6.date.substring(5,10).replace("-","/")}
+                                            </Text>     
+                                        </Box>  
+                                        <Box width="timesheet.entry_header" fontWeight="bold">
+                                            <Text textAlign="center">
+                                                {calendarData.day7.date.substring(5,10).replace("-","/")}
+                                            </Text>     
+                                        </Box>                                                                                                                                                                                      
+                                        <Box width="timesheet.entry_header" fontWeight="bold">
+                                            <Text textAlign="center">
+                                                Status
+                                            </Text>     
+                                        </Box>                                      
+                                    </HStack>                                      
+                                </>
+                            ) : (
+                                <>
+                                fsgsg
+                                </>
+                            )}
+                                   
                         </GridItem>
                     </Grid>
             </Box>            
