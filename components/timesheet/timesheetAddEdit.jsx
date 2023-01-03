@@ -26,7 +26,7 @@ const TimesheetAddEdit = (props) => {
   const [isAddMode, setAddMode] = useState(true);
   
   //User Validation START
-  const formOptions = { resolver: yupResolver(TIMESHEET_VALIDATION_SCHEMA) };
+  const formOptions = {};
 
   // get functions to build form with useForm() hook
   const { handleSubmit, formState } = useForm(formOptions);

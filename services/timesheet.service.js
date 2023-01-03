@@ -11,12 +11,11 @@ export const timesheetService = {
 
     getTimesheetDetails,
     updateTimesheetEntry,
-    getTimesheetMetaForToday
+    getTimesheetMetaForDate,
+    getTimesheetByName
 };
 
-function getTimesheetMetaForToday() {
-  const today = new Date();
-  const todayStr = today.getFullYear()+(String(today.getMonth()+1).padStart(2, "0"))+String(today.getDate()).padStart(2, "0");
+function getTimesheetMetaForDate(todayStr) {
   console.log("getTimesheetDetailsAPICall:: todayStr ----- "+todayStr);
 
   return fetchWrapper.get(`${baseUrl}/calendar/week/`+todayStr, {})
@@ -35,9 +34,23 @@ function getTimesheetDetails(timesheetId, accountId) {
     return fetchWrapper.get(`${baseUrl}/timesheet/${timesheetId}/detail?accountId=`+accountId, {})
         .then(timesheet => {
             return timesheet;
-        });
+        })  
+        .catch(err => {
+          console.log("Error Getting getTimesheetDetails")
+          return {errorMessage: err, error: true};
+      });
 }
 
+function getTimesheetByName(timesheetName, userId) {
+  return fetchWrapper.get(`${baseUrl}/timesheet/byname/${timesheetName}?userId=`+userId, {})
+      .then(timesheets => {
+          return timesheets;
+      })  
+      .catch(err => {
+        console.log("Error Getting getTimesheetByName")
+        return {errorMessage: err, error: true};
+    });
+}
 
 async function updateTimesheetEntry(timesheetEntryId, status, timesheetNote) {
     try {

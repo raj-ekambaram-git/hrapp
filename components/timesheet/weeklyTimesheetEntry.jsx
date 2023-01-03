@@ -25,7 +25,9 @@ import {
   } from '@chakra-ui/icons';  
 import { useDispatch } from "react-redux";
 import {setTSEntries} from '../../store/modules/Timesheet/actions';
-import { object } from "prop-types";
+import { util } from "../../helpers/util";
+import { GiConsoleController } from "react-icons/gi";
+
 
   
 const WeeklyTimesheetEntry = (props) => {
@@ -40,6 +42,8 @@ const WeeklyTimesheetEntry = (props) => {
     const [timesheetName, setTimesheetName] = useState(EMPTY_STRING);
     const [weekCalendar, setWeekCalendar] = useState({});
     const [timesheetStartDate, setTimesheetStartDate] = useState(EMPTY_STRING);
+    const [previousWeekStart, setPreviousWeekStart] = useState(EMPTY_STRING);
+    const [nextWeekStart, setNextWeekStart] = useState(EMPTY_STRING);
     const userId = props.data.userId;
 
     useEffect(() => {
@@ -66,16 +70,25 @@ const WeeklyTimesheetEntry = (props) => {
                 setTimesheetName(timesheetResponse.name);
                 setTimesheetEntries(timesheetResponse.timesheetEntries);
                 setWeekCalendar(timesheetResponse.timesheetEntries[0].entries);
-                setTimesheetStartDate(timesheetResponse.startDate)
+                setTimesheetStartDate(timesheetResponse.startDate);
+                setNextWeekStart(util.getNextWeekStartDateString(new Date(timesheetResponse.startDate.toString()).toLocaleDateString( "en-US", { timeZone: "UTC" } ) ));
+                setPreviousWeekStart(util.getPrevioustWeekStartDateString(new Date(timesheetResponse.startDate.toString()).toLocaleDateString( "en-US", { timeZone: "UTC" } ) ));
+
                 //Condition to ebale the update buttong based on the status and mode
         }else if((userService.isAccountAdmin() || userService.isSuperAdmin() || userService.isTimesheetEntryUser() || userService.isManager()) 
         && (props && props.data && props.data.isAddMode)) { // This is for ADD
+
+            //Only if its today is the new timesheet, if the date is passed then out this under condition
+            const today = new Date();
+            const todayStr = today.getFullYear()+(String(today.getMonth()+1).padStart(2, "0"))+String(today.getDate()).padStart(2, "0");
+            setNextWeekStart(util.getNextWeekStartDateString(today.getTime()));
+            setPreviousWeekStart(util.getPrevioustWeekStartDateString(today.getTime()));
+
             //Get Calendar Data and Timesheet Name
-            const timesheetMetaData = await timesheetService.getTimesheetMetaForToday();
-            console.log("Week Meta Dat::"+JSON.stringify(timesheetMetaData));
-                setTimesheetName(timesheetMetaData.weekOfYearISO);
-                setWeekCalendar(timesheetMetaData.currentWeekDates);
-                setTimesheetStartDate(timesheetMetaData.firstDayOfWeek)
+            const timesheetMetaData = await timesheetService.getTimesheetMetaForDate(todayStr);
+            setTimesheetName(timesheetMetaData.weekOfYearISO);
+            setWeekCalendar(timesheetMetaData.currentWeekDates);
+            setTimesheetStartDate(timesheetMetaData.firstDayOfWeek)
 
         }
     
@@ -207,14 +220,25 @@ const WeeklyTimesheetEntry = (props) => {
         return timesheetTotalEntryHour;
     }
 
-    function changeTimesheetBefore() {
-        console.log("changeTimesheetBefore");
-        router.push({ pathname: '/timesheet/add', query: { manager: false }});
+    async function changeTimesheet(moveBefore, weekStartDate ) {
+        console.log("moveBefore:::"+moveBefore+"-----weekStartDate:::"+weekStartDate);
+        //Call calendar by bassing the timesheet name
+        const timesheetMetaData = await timesheetService.getTimesheetMetaForDate(weekStartDate);
+        console.log("changeTimesheet::::Week Meta Dat::"+JSON.stringify(timesheetMetaData));
+
+        //Call timesheet and see if that week timesheet name is present
+        const timesheets = await timesheetService.getTimesheetByName(timesheetMetaData.weekOfYearISO, userService.userValue.id);
+        if(timesheets != undefined && timesheets.length > 0) {
+            console.log("Timesheets already exists, so go  to that time sheet id ");
+            router.push({ pathname: '/timesheet/'+timesheets[0].id, query: { }});
+        }else {
+            console.log("Timesheet not present, so go to add new time sheet with the start date passed");
+            router.push({ pathname: '/timesheet/add', query: { manager: false, tsStartDate: timesheetMetaData.dateDimId }});
+        }
+        // If it is not present, then pass that week name to the add URL
+        // router.push({ pathname: '/timesheet/add', query: { manager: false, tsStartDate: "" }});
     }
 
-    function changeTimesheetAfter(selectedDate) {
-        console.log("changeTimesheetBefore")
-    }
 
     function deleteTimesheetEntry(removeIndex) {
         console.log("deleteTimesheetEntry:::"+removeIndex+"========")
@@ -238,15 +262,18 @@ const WeeklyTimesheetEntry = (props) => {
                         </Box>
                         <Box width="timesheet.nameDropDown">
                             <HStack>
-                                <ArrowBackIcon onClick={() => changeTimesheetBefore()}/>
+                                
                                 {isAddMode ? (
                                     <>
+                                        <ArrowBackIcon onClick={() => changeTimesheet(true, previousWeekStart)}/>
                                         <Heading size='sm'>{timesheetName}</Heading>
+                                        <ArrowForwardIcon onClick={() => changeTimesheet(false, nextWeekStart)}/>
                                     </>
                                 ) : (
                                     <>
+                                        <ArrowBackIcon onClick={() => changeTimesheet(true, previousWeekStart)}/>
                                         <Heading size='sm'>{timesheetData.name}</Heading>
-                                        <ArrowForwardIcon onClick={() => changeTimesheetAfter(index)}/>                                        
+                                        <ArrowForwardIcon onClick={() => changeTimesheet(false, nextWeekStart)}/>
                                     </>
                                 )}
                                 

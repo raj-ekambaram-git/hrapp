@@ -8,11 +8,26 @@ export const util = {
     isStrongPassword,
     getPasswordHash,
     getTempPassword,
-    isValidEmail
+    isValidEmail,
+    getPrevioustWeekStartDateString,
+    getNextWeekStartDateString
 };
 
+function getPrevioustWeekStartDateString(dateTime) {
+  const todayMinusWeek = new Date(dateTime);
+  todayMinusWeek.setDate(todayMinusWeek.getDate() - 7);
+  const todayMinusWeekStr = todayMinusWeek.getFullYear()+(String(todayMinusWeek.getMonth()+1).padStart(2, "0"))+String(todayMinusWeek.getDate()).padStart(2, "0");
+  console.log("todayMinusWeekStr:::"+todayMinusWeekStr);
+  return todayMinusWeekStr;
+}
 
-
+function getNextWeekStartDateString(dateTime) {
+  const todayPlusWeek = new Date(dateTime);
+  todayPlusWeek.setDate(todayPlusWeek.getDate() + 7);
+  const todayPlusWeekStr = todayPlusWeek.getFullYear()+(String(todayPlusWeek.getMonth()+1).padStart(2, "0"))+String(todayPlusWeek.getDate()).padStart(2, "0");
+  console.log("todayPlusWeekStr:::"+todayPlusWeekStr);
+  return todayPlusWeekStr;
+}
 function formatPhoneNumber(value) {
     // if input value is falsy eg if the user deletes the input, then just return
     if (!value) return value;
