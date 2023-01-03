@@ -33,8 +33,8 @@ import { TIMESHEET_STATUS } from "../../../constants/accountConstants";
 const ProjectTimesheets = (props) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const dispatch = useDispatch();
-
-    const project = props.data.project;
+    console.log("ProjectTimesheets::DATTA::::"+JSON.stringify(props))
+    const projectId = props.data;
     const [size, setSize] = useState('');
     
     const timesheetEntryList = useSelector(state => state.timesheet.projectTimesheets);
@@ -47,26 +47,26 @@ const ProjectTimesheets = (props) => {
 
     const handleProjectTimesheets = (newSize) => {
         
-        dispatch(fetchAllProjectTimesheets({projectId: project.id, accountId: userService.getAccountDetails().accountId }));
-        // projectService.getAllTimesheetsByProject(project.id, userService.getAccountDetails().accountId);
+        dispatch(fetchAllProjectTimesheets({projectId: projectId, accountId: userService.getAccountDetails().accountId }));
+        // projectService.getAllTimesheetsByProject(projectId, userService.getAccountDetails().accountId);
         setSize(newSize);
         onOpen();
     }
 
     function handlePendingInvoiceTimesheets() {
-      dispatch(fetchProjectTimesheetsByStatus({projectId: project.id, accountId: userService.getAccountDetails().accountId, status: TIMESHEET_STATUS.Pending }));
+      dispatch(fetchProjectTimesheetsByStatus({projectId: projectId, accountId: userService.getAccountDetails().accountId, status: TIMESHEET_STATUS.Pending }));
     }
 
     function handleApprovedTimesheets() {
-      dispatch(fetchProjectTimesheetsByStatus({projectId: project.id, accountId: userService.getAccountDetails().accountId, status: TIMESHEET_STATUS.Approved }));
+      dispatch(fetchProjectTimesheetsByStatus({projectId: projectId, accountId: userService.getAccountDetails().accountId, status: TIMESHEET_STATUS.Approved }));
     }
 
     function handleInvoicedTimesheets() {
-      dispatch(fetchProjectTimesheetsByStatus({projectId: project.id, accountId: userService.getAccountDetails().accountId, status: TIMESHEET_STATUS.Invoiced }));
+      dispatch(fetchProjectTimesheetsByStatus({projectId: projectId, accountId: userService.getAccountDetails().accountId, status: TIMESHEET_STATUS.Invoiced }));
     }
 
     function handleRejectedTimesheets() {
-      dispatch(fetchProjectTimesheetsByStatus({projectId: project.id, accountId: userService.getAccountDetails().accountId, status: TIMESHEET_STATUS.Rejected }));
+      dispatch(fetchProjectTimesheetsByStatus({projectId: projectId, accountId: userService.getAccountDetails().accountId, status: TIMESHEET_STATUS.Rejected }));
     }
     
   return (

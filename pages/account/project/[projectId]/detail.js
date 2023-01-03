@@ -205,7 +205,7 @@ const ProjectDetail = (props) => {
                     </Button>
                   </Box>   
                   <Box>
-                    <ProjectTimesheets data={{project}}/>
+                    <ProjectTimesheets data={project.id}/>
                   </Box>                    
                 </HStack>
               </Flex>          
