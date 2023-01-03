@@ -9,27 +9,31 @@ import {
     Tr,
     TableContainer,
     TableCaption,
-    useDisclosure
+    useDisclosure,
+    HStack
   
   } from '@chakra-ui/react';
   import {
     DeleteIcon
   } from '@chakra-ui/icons';
-  import {PROJECT_TYPE_GENERAL} from "../../constants/accountConstants";
-
+  import {INVOICE_CALL_TYPE, PROJECT_TYPE_GENERAL} from "../../constants/accountConstants";
+import ProjectTimesheets from "../project/detail/projectTimesheets";
+  
 const InvoiceItems = (props) => {
 
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [invoiceItemList, setInvoiceItemList] = useState([]);
-
+    const projectId = props.data.projectId;
+    const projectType = props.data.projectType;
+    const projectResources = props.data.projectResources;
     useEffect(() => {
         setInvoiceItemList(props.data.invoiceItemList)
       }, []);
     
       const addInvoiceData = {
         handleInvoieItemList: handleInvoieItemList,
-        projectType: props.data.projectType,
-        projectResources: props.data.projectResources
+        projectType: projectType,
+        projectResources: projectResources
 
       }
 
@@ -53,8 +57,10 @@ const InvoiceItems = (props) => {
 
     return (
         <div>
-            <Text pt='2' fontSize='sm'>
-            <AddInvoiceItem data={addInvoiceData}></AddInvoiceItem>
+            <HStack>
+                <AddInvoiceItem data={addInvoiceData}></AddInvoiceItem>
+                <ProjectTimesheets data={{projectId: projectId, callType: INVOICE_CALL_TYPE}}/>
+            </HStack>
             {invoiceItemList.length > 0 ? (<>
                 <TableContainer marginTop="1rem">
                     <Table>
@@ -140,7 +146,7 @@ const InvoiceItems = (props) => {
                 </TableContainer>                 
             </>) : (<></>)}
 
-            </Text>          
+                 
         </div>
   );
 };

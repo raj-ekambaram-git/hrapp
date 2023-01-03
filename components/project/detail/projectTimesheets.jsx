@@ -20,13 +20,14 @@ import {
     StackDivider,
     Badge,
     HStack,
+    Checkbox
   } from '@chakra-ui/react';
 import { userService } from "../../../services";
 import { useSelector, useDispatch } from "react-redux";
 import {fetchAllProjectTimesheets, fetchProjectTimesheetsByStatus} from '../../../store/modules/Timesheet/actions';
 import { util } from "../../../helpers/util";
 import ProjectTimesheeEntrySection from "./projectTimesheeEntrySection";
-import { TIMESHEET_STATUS } from "../../../constants/accountConstants";
+import { INVOICE_CALL_TYPE, TIMESHEET_STATUS } from "../../../constants/accountConstants";
 
 
 
@@ -34,7 +35,8 @@ const ProjectTimesheets = (props) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const dispatch = useDispatch();
     console.log("ProjectTimesheets::DATTA::::"+JSON.stringify(props))
-    const projectId = props.data;
+    const projectId = props.data.projectId;
+    const callType = props.data.callType;
     const [size, setSize] = useState('');
     
     const timesheetEntryList = useSelector(state => state.timesheet.projectTimesheets);
@@ -108,7 +110,16 @@ const ProjectTimesheets = (props) => {
                                 <Button className="btn" onClick={() => handleRejectedTimesheets()} width="timesheet.project_timesheets_button" bgColor="button.primary.color">
                                   Rejected
                                 </Button>  
-
+                                {callType==INVOICE_CALL_TYPE ? (
+                                  <>
+                                  <Button className="btn" onClick={() => handleRejectedTimesheets()} width="timesheet.project_timesheets_button" bgColor="button.primary.color">
+                                    Add to Invoice
+                                  </Button>  
+                                  </>
+                                ) : (
+                                  <>
+                                  </>
+                                )}
                               </HStack>                                                   
                             </Box>
                             <Box border="box_border">
@@ -117,6 +128,9 @@ const ProjectTimesheets = (props) => {
                                   <Thead></Thead>
                                   <Tbody>
                                     <Tr bgColor="table_tile">
+                                      <Th>
+
+                                      </Th>
                                         <Th width="timesheet.project_timesheets_name">
                                             Name
                                         </Th>
@@ -142,6 +156,17 @@ const ProjectTimesheets = (props) => {
                                     {timesheetEntryList?.map((timesheetEntry) => (
                                     
                                         <Tr>
+                                          <Th>
+                                            {(callType == INVOICE_CALL_TYPE && timesheetEntry.status == TIMESHEET_STATUS.Approved) ? (
+                                              <>
+                                                <Checkbox
+                                                  onChange={(e) => addTimesheetEntryAsInvoiceItem(e.target.checked)}
+                                                />        
+                                              </>
+                                            ) : (
+                                              <></>
+                                            )}
+                                          </Th>
                                             <Th>
                                                 {timesheetEntry.timesheet.name}
                                             </Th>

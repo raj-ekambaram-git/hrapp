@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { accountService, userService } from '../../../../services';
-import {MODE_ADD, MODE_EDIT} from "../../../../constants/accountConstants";
+import {MODE_ADD, MODE_EDIT, PROJECT_CALL_TYPE} from "../../../../constants/accountConstants";
 import {
   Card,
   CardHeader,
@@ -205,7 +205,7 @@ const ProjectDetail = (props) => {
                     </Button>
                   </Box>   
                   <Box>
-                    <ProjectTimesheets data={project.id}/>
+                  <ProjectTimesheets data={{projectId: projectId, callType: PROJECT_CALL_TYPE}}/>
                   </Box>                    
                 </HStack>
               </Flex>          

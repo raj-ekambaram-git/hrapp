@@ -183,6 +183,7 @@ const InvoiceAddEdit = (props) => {
       setProjectType("");
   
     }
+    setProjectId(e.target.value);
     setInvoiceItemList([])
     setEnableInvoiceItemAdd(true);
     setProjectResources(e.target.options.item(e.target.selectedIndex).getAttribute("data-projectResources"));
@@ -505,7 +506,7 @@ const InvoiceAddEdit = (props) => {
                   <Stack divider={<StackDivider />} spacing='4'>
                       <Box>
                         {enableInvoiceItemAdd ? (<>
-                        <InvoiceItems data={{projectType: projectType, projectResources: JSON.parse(projectResources), handleInvoieItemList: handleInvoieItemList, invoiceItemList: invoiceItemList}}></InvoiceItems>
+                          <InvoiceItems data={{projectId: projectId, projectType: projectType, projectResources: JSON.parse(projectResources), handleInvoieItemList: handleInvoieItemList, invoiceItemList: invoiceItemList}}></InvoiceItems>
                         </>) : (
                           <>
                             Enable Item Disabled

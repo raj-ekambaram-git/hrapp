@@ -15,6 +15,8 @@ export const PROJECT_TYPE_GENERAL = 'General';
 export const PROJECT_TYPE_PROJECT = 'Project';
 export const PROJECT_TYPE_STAFFING = 'Staffing';
 export const DEFAULT_NOTES = 'DEFAULT NOTES';
+export const PROJECT_CALL_TYPE = 'PROJECT';
+export const INVOICE_CALL_TYPE = 'INVOICE';
 
 
 export const TIMESHEET_ENTRY_DEFAULT = {projectId: "", status: "", entries: {day1: {hours: "", error: false, date: "", note: ""}, day2: {hours: "", error: false, date: "", note: ""},day3: {hours: "", error: false, date: "", note: ""},day4: {hours: "", error: false, date: "", note: ""},day5: {hours: "", error: false, date: "", note: ""},day6: {hours: "", error: false, date: "", note: ""},day7: {hours: "", error: false,date: "", note: ""}}};
