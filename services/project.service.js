@@ -8,9 +8,24 @@ const baseUrl = `${publicRuntimeConfig.apiUrl}`;
 export const projectService = {
 
     deleteProjectResource,
-    getAllTimesheetsByProject
+    getAllTimesheetsByProject,
+    getProjectTimesheetsByStatus
     
 };
+
+function getProjectTimesheetsByStatus(inputParam){
+    console.log("getProjectTimesheetsByStatus:::"+JSON.stringify(inputParam));
+    return fetchWrapper.get(`${baseUrl}/account/project/`+inputParam.projectId+'/timesheets/?accountId='+inputParam.accountId+'&status='+inputParam.status, {})
+                            .then(timesheets => {
+                                    console.log("timesheets:::getProjectTimesheetsByStatus:::"+JSON.stringify(timesheets))
+                                return timesheets
+                            })
+                            .catch(err => {
+                                console.log("Error getting timesheets by project."+err)
+                                return {errorMessage: err, error: true};
+                            });
+
+}
 
 /**
  * 

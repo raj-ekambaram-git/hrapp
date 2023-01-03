@@ -32,3 +32,14 @@ export const fetchAllProjectTimesheets = (inputParam) => {
       };
 }
 
+export const fetchProjectTimesheetsByStatus = (inputParam) => {
+    console.log("fetchProjectTimesheetsByStatus Data::::::"+JSON.stringify(inputParam));
+    return async (dispatch) => {
+        const projectTimesheeetByStatus = await projectService.getProjectTimesheetsByStatus(inputParam);
+        console.log("allProjectTimesheets::::"+JSON.stringify(projectTimesheeetByStatus));
+        dispatch(getAllProjectTimesheets(projectTimesheeetByStatus));
+      };
+}
+
+
+

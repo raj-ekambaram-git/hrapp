@@ -304,7 +304,8 @@ export const TIMESHEET_STATUS = {
   'Submitted': 'Submitted',
   'Approved': 'Approved',
   'Rejected': 'Rejected',
-  'Invoiced': 'Invoiced'
+  'Invoiced': 'Invoiced',
+  "Pending": "Pending"
 };
 
 export const TIMESHEET_VALIDATION_SCHEMA = Yup.object().shape({

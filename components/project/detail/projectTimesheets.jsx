@@ -9,7 +9,6 @@ import {
     Tr,
     Box,
     Heading,
-    TableContainer,
     TableCaption,
     Drawer,
     DrawerOverlay,
@@ -24,9 +23,10 @@ import {
   } from '@chakra-ui/react';
 import { userService } from "../../../services";
 import { useSelector, useDispatch } from "react-redux";
-import {fetchAllProjectTimesheets} from '../../../store/modules/Timesheet/actions';
+import {fetchAllProjectTimesheets, fetchProjectTimesheetsByStatus} from '../../../store/modules/Timesheet/actions';
 import { util } from "../../../helpers/util";
 import ProjectTimesheeEntrySection from "./projectTimesheeEntrySection";
+import { TIMESHEET_STATUS } from "../../../constants/accountConstants";
 
 
 
@@ -53,7 +53,11 @@ const ProjectTimesheets = (props) => {
         onOpen();
     }
 
-    function handlePendingInvoiceTimesheets() {
+    function handlePendingInvoiceTimesheets(newSize) {
+      dispatch(fetchProjectTimesheetsByStatus({projectId: project.id, accountId: userService.getAccountDetails().accountId, status: TIMESHEET_STATUS.Pending }));
+      // projectService.getAllTimesheetsByProject(project.id, userService.getAccountDetails().accountId);
+      setSize(newSize);
+      onOpen();
 
     }
 
@@ -160,7 +164,7 @@ const ProjectTimesheets = (props) => {
                                 </Table>
                             </Box>                            
 
-                            <Button className="btn" onClick={() => handlePendingInvoiceTimesheets()} width="button.primary.width" bgColor="button.primary.color">
+                            <Button className="btn" onClick={() => handlePendingInvoiceTimesheets("xl")} width="button.primary.width" bgColor="button.primary.color">
                               Pending Invoice Timesheets
                             </Button>                            
                           </Stack>

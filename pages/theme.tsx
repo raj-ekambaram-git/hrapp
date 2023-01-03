@@ -108,7 +108,7 @@ const theme = extendTheme({
       },
       entry_project: "",
       project_drop_down: "600px",
-      project_timesheets_name: "16%",
+      project_timesheets_name: "20%",
       project_timesheets_resource: "37%",
       project_timesheets_hours: "4%",
       project_timesheets_status: "4%",
