@@ -17,6 +17,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         dateDimId: parseInt(date.toString())
       },
       select: {
+        dateDimId: true,
         dayName: true,
         currentWeekDates: true,
         firstDayOfWeek: true,
@@ -26,7 +27,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     })
 
     console.log("currentWeek:::"+JSON.stringify(currentWeek));
-      res.status(200).json(currentWeek);
+    res.status(200).json(currentWeek);
   } catch (error) {
     console.log(error)
     res.status(400).json({ message: 'Something went wrong while updating' })
