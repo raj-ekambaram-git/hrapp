@@ -23,6 +23,7 @@ import ProjectContactDetailSection from "../../../../components/project/detail/p
 import ProjectLocationSection from "../../../../components/project/detail/projectLocationSection";
 import ProjectFinancialSection from "../../../../components/project/detail/projectFinancialSection";
 import ProjectStatusSection from "../../../../components/project/detail/projectStatusSection";
+import ProjectTimesheets from "../../../../components/project/detail/projectTimesheets";
 
 
 const ProjectDetail = (props) => {
@@ -203,7 +204,9 @@ const ProjectDetail = (props) => {
                       Invoices
                     </Button>
                   </Box>   
-                                                 
+                  <Box>
+                    <ProjectTimesheets data={{project}}/>
+                  </Box>                    
                 </HStack>
               </Flex>          
         </>

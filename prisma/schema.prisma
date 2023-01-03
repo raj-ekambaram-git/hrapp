@@ -175,30 +175,31 @@ model Project {
 }
 
 model User {
-  id                 Int               @id @default(autoincrement())
+  id                 Int                @id @default(autoincrement())
   firstName          String
   lastName           String
-  role               Role              @default(DEVELOPER)
-  email              String            @unique
-  phone              String            @default("111-111-1111")
-  account            Account?          @relation(fields: [accountId], references: [id])
-  accountId          Int?              @default(0)
-  vendor             Vendor?           @relation(fields: [vendorId], references: [id])
-  vendorId           Int?              @default(0)
-  isTimeSheetEnabled Boolean           @default(false)
+  role               Role               @default(DEVELOPER)
+  email              String             @unique
+  phone              String             @default("111-111-1111")
+  account            Account?           @relation(fields: [accountId], references: [id])
+  accountId          Int?               @default(0)
+  vendor             Vendor?            @relation(fields: [vendorId], references: [id])
+  vendorId           Int?               @default(0)
+  isTimeSheetEnabled Boolean            @default(false)
   address            Address[]
   userAttributes     UserAttributes[]
-  status             UserStatus        @default(Active)
-  password           String            @default("passw0rd")
-  passwordExpired    Boolean           @default(false)
-  passwordRetries    Int               @default(1)
-  passwordSalt       String            @default("123456xyz")
-  lastSignIn         DateTime          @default(now())
-  createdDate        DateTime          @default(now())
-  lastUpdateDate     DateTime          @updatedAt
+  status             UserStatus         @default(Active)
+  password           String             @default("passw0rd")
+  passwordExpired    Boolean            @default(false)
+  passwordRetries    Int                @default(1)
+  passwordSalt       String             @default("123456xyz")
+  lastSignIn         DateTime           @default(now())
+  createdDate        DateTime           @default(now())
+  lastUpdateDate     DateTime           @updatedAt
   invoiceItem        InvoiceItem[]
   projectResource    ProjectResource[]
   timesheet          Timesheet[]
+  TimesheetEntries   TimesheetEntries[]
 }
 
 model UserAttributes {
@@ -270,6 +271,8 @@ model TimesheetEntries {
   projectId      Int?            @default(1)
   status         TimesheetStatus
   approvedDate   DateTime?
+  approvedUser   User?           @relation(fields: [approvedBy], references: [id])
+  approvedBy     Int?
   entries        Json
   createdDate    DateTime        @default(now())
   lastUpdateDate DateTime        @default(now()) @updatedAt

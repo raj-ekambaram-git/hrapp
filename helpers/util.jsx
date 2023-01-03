@@ -1,5 +1,6 @@
 
 import validator from 'validator';
+import { EMPTY_STRING } from '../constants/accountConstants';
 const generator = require('generate-password');
 const bcrypt = require('bcryptjs');
 
@@ -10,8 +11,46 @@ export const util = {
     getTempPassword,
     isValidEmail,
     getPrevioustWeekStartDateString,
-    getNextWeekStartDateString
+    getNextWeekStartDateString,
+    getFormattedDate,
+    getTotalHours
 };
+
+function getTotalHours(entries) {
+  let totalHours = 0;
+    if(entries?.day1?.hours != undefined && entries?.day1?.hours != EMPTY_STRING ) {
+      totalHours = totalHours + parseInt(entries?.day1?.hours);
+    }
+    if(entries?.day2?.hours != undefined && entries?.day2?.hours != EMPTY_STRING) {
+      totalHours = totalHours + parseInt(entries?.day2?.hours);
+    }
+    if(entries?.day3?.hours != undefined && entries?.day3?.hours != EMPTY_STRING) {
+      totalHours = totalHours + parseInt(entries?.day3?.hours);
+    }
+    if(entries?.day4?.hours != undefined && entries?.day4?.hours != EMPTY_STRING) {
+      totalHours = totalHours + parseInt(entries?.day4?.hours);
+    }
+    if(entries?.day5?.hours != undefined && entries?.day5?.hours != EMPTY_STRING) {
+      totalHours = totalHours + parseInt(entries?.day5?.hours);
+    }
+    if(entries?.day6?.hours != undefined && entries?.day6?.hours != EMPTY_STRING) {
+      totalHours = totalHours + parseInt(entries?.day6?.hours);
+    }
+    if(entries?.day7?.hours != undefined && entries?.day7?.hours != EMPTY_STRING) {
+      totalHours = totalHours + parseInt(entries?.day7?.hours);
+    }                        
+    
+  return totalHours;
+}
+
+function getFormattedDate(dateTime) {
+  if(dateTime != undefined && dateTime != EMPTY_STRING) {
+    return (new Date(dateTime?.toString()).toLocaleDateString( "en-US", { timeZone: "UTC" }) );
+  }else {
+    return EMPTY_STRING;
+  }
+  
+}
 
 function getPrevioustWeekStartDateString(dateTime) {
   const todayMinusWeek = new Date(dateTime);
