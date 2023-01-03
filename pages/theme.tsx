@@ -108,6 +108,13 @@ const theme = extendTheme({
       },
       entry_project: "",
       project_drop_down: "600px",
+      project_timesheets_name: "16%",
+      project_timesheets_resource: "37%",
+      project_timesheets_hours: "4%",
+      project_timesheets_status: "4%",
+      project_timesheets_approved_on: "4%",
+      project_timesheets_approved_by: "37%",
+      project_timesheets_last_update: "4%"
     },      
     project: {
       add_resource: "md",

@@ -20,12 +20,13 @@ import {
     Stack,
     StackDivider,
     Badge,
+    HStack,
   } from '@chakra-ui/react';
 import { userService } from "../../../services";
 import { useSelector, useDispatch } from "react-redux";
 import {fetchAllProjectTimesheets} from '../../../store/modules/Timesheet/actions';
 import { util } from "../../../helpers/util";
-import ProjectTimesheeEntryDetail from "./projectTimesheeEntryDetail";
+import ProjectTimesheeEntrySection from "./projectTimesheeEntrySection";
 
 
 
@@ -82,31 +83,30 @@ const ProjectTimesheets = (props) => {
                         <DrawerBody>
                           <Stack divider={<StackDivider />} spacing='1'>
                             <Box border="box_border">
-                              <TableContainer>
                                 <Table>
                                   <TableCaption></TableCaption>
                                   <Thead></Thead>
                                   <Tbody>
                                     <Tr bgColor="table_tile">
-                                        <Th>
+                                        <Th width="timesheet.project_timesheets_name">
                                             Name
                                         </Th>
-                                        <Th>
+                                        <Th width="timesheet.project_timesheets_resource">
                                             Resoure
                                         </Th>
-                                        <Th>
+                                        <Th width="timesheet.project_timesheets_hours">
                                             Hours
                                         </Th>
-                                        <Th>
+                                        <Th width="timesheet.project_timesheets_status">
                                             Status
                                         </Th>
-                                        <Th>
+                                        <Th width="timesheet.project_timesheets_approved_on">
                                             Approved On
                                         </Th>
-                                        <Th>
+                                        <Th width="timesheet.project_timesheets_approved_by">
                                             Approved By
                                         </Th>                                                                                
-                                        <Th>
+                                        <Th width="timesheet.project_timesheets_last_update">
                                             Last Updated
                                         </Th>
                                     </Tr>
@@ -122,8 +122,12 @@ const ProjectTimesheets = (props) => {
                                             <Th>
                                               {timesheetEntry.entries ? (
                                                 <>
-                                                  {util.getTotalHours(timesheetEntry.entries)}
-                                                  <ProjectTimesheeEntryDetail data={timesheetEntry.entries}/>
+                                                <HStack>
+                                                  <Box marginRight={3}>
+                                                    {util.getTotalHours(timesheetEntry.entries)}
+                                                  </Box>
+                                                  <ProjectTimesheeEntrySection data={timesheetEntry.entries}/>
+                                                  </HStack>
                                                 </>
                                               ) : (
                                                 <>
@@ -154,7 +158,6 @@ const ProjectTimesheets = (props) => {
                                   </Tbody>
                                   
                                 </Table>
-                              </TableContainer>      
                             </Box>                            
 
                             <Button className="btn" onClick={() => handlePendingInvoiceTimesheets()} width="button.primary.width" bgColor="button.primary.color">
