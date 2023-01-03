@@ -233,7 +233,7 @@ const WeeklyTimesheetEntry = (props) => {
             router.push({ pathname: '/timesheet/'+timesheets[0].id, query: { }});
         }else {
             console.log("Timesheet not present, so go to add new time sheet with the start date passed");
-            router.push({ pathname: '/timesheet/add', query: { manager: false, tsStartDate: timesheetMetaData.dateDimId }});
+            // router.push({ pathname: '/timesheet/add', query: { manager: false, tsStartDate: timesheetMetaData.dateDimId }});
         }
         // If it is not present, then pass that week name to the add URL
         // router.push({ pathname: '/timesheet/add', query: { manager: false, tsStartDate: "" }});
