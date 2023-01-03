@@ -25,6 +25,7 @@ import {
   } from '@chakra-ui/icons';  
 import { useDispatch } from "react-redux";
 import {setTSEntries} from '../../store/modules/Timesheet/actions';
+import { object } from "prop-types";
 
   
 const WeeklyTimesheetEntry = (props) => {
@@ -38,6 +39,7 @@ const WeeklyTimesheetEntry = (props) => {
     const [timesheetData, setTimesheetData] = useState([]);
     const [timesheetName, setTimesheetName] = useState(EMPTY_STRING);
     const [weekCalendar, setWeekCalendar] = useState({});
+    const [timesheetStartDate, setTimesheetStartDate] = useState(EMPTY_STRING);
     const userId = props.data.userId;
 
     useEffect(() => {
@@ -64,15 +66,16 @@ const WeeklyTimesheetEntry = (props) => {
                 setTimesheetName(timesheetResponse.name);
                 setTimesheetEntries(timesheetResponse.timesheetEntries);
                 setWeekCalendar(timesheetResponse.timesheetEntries[0].entries);
+                setTimesheetStartDate(timesheetResponse.startDate)
                 //Condition to ebale the update buttong based on the status and mode
         }else if((userService.isAccountAdmin() || userService.isSuperAdmin() || userService.isTimesheetEntryUser() || userService.isManager()) 
         && (props && props.data && props.data.isAddMode)) { // This is for ADD
             //Get Calendar Data and Timesheet Name
-            console.log("Inside ADD getTimesheetDetailsAPICall ...")
             const timesheetMetaData = await timesheetService.getTimesheetMetaForToday();
             console.log("Week Meta Dat::"+JSON.stringify(timesheetMetaData));
                 setTimesheetName(timesheetMetaData.weekOfYearISO);
                 setWeekCalendar(timesheetMetaData.currentWeekDates);
+                setTimesheetStartDate(timesheetMetaData.firstDayOfWeek)
 
         }
     
@@ -111,7 +114,7 @@ const WeeklyTimesheetEntry = (props) => {
         }
         setTimesheetEntries(inputData);
         props.data.handleTimeSheetEntries(timesheetEntries);
-        props.data.onSubmit({status: status, timesheetName:timesheetName});
+        props.data.onSubmit({status: status, timesheetName:timesheetName, timesheetStartDate: timesheetStartDate});
         dispatch(setTSEntries(timesheetEntries));
     }
 

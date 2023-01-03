@@ -59,7 +59,7 @@ const TimesheetAddEdit = (props) => {
   // Create Account 
   const createTimesheet = async (formData) => {
     try {
-      console.log("Create Timesheet::"+formData.status+"-----timesheetActivityList:::"+JSON.stringify(timesheetActivityList)+"--TimesheetName::"+formData.timesheetName)
+      console.log("Create Timesheet::"+JSON.stringify(formData)+"-----timesheetActivityList:::"+JSON.stringify(timesheetActivityList)+"--TimesheetName::"+formData.timesheetName)
         const res = await fetch("/api/timesheet/create", {
           method: "POST",
           headers: {
@@ -70,6 +70,7 @@ const TimesheetAddEdit = (props) => {
             type: "Weekly",
             userId: userService.userValue.id,
             status: formData.status,
+            startDate: formData.timesheetStartDate,
             timesheetEntries: {
               create: timesheetActivityList
             }
@@ -114,6 +115,7 @@ const TimesheetAddEdit = (props) => {
         body: JSON.stringify({
           id: parseInt(timesheetId),
           name: formData.name,
+          startDate: formData.timesheetStartDate,
           type: "Weekly",
           status: formData.status,
           timesheetEntries: timesheetActivityList
