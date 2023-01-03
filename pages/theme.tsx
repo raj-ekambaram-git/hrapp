@@ -94,8 +94,9 @@ const theme = extendTheme({
     },
     button: {
       primary: {
-        color: '#319795'
-      }
+        color: '#319795',
+      },
+      secondary: '#e4eaee'
     }
   },
   sizes: {
@@ -114,7 +115,8 @@ const theme = extendTheme({
       project_timesheets_status: "4%",
       project_timesheets_approved_on: "4%",
       project_timesheets_approved_by: "37%",
-      project_timesheets_last_update: "4%"
+      project_timesheets_last_update: "4%",
+      project_timesheets_button: "20%"
     },      
     project: {
       add_resource: "md",

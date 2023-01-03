@@ -53,14 +53,22 @@ const ProjectTimesheets = (props) => {
         onOpen();
     }
 
-    function handlePendingInvoiceTimesheets(newSize) {
+    function handlePendingInvoiceTimesheets() {
       dispatch(fetchProjectTimesheetsByStatus({projectId: project.id, accountId: userService.getAccountDetails().accountId, status: TIMESHEET_STATUS.Pending }));
-      // projectService.getAllTimesheetsByProject(project.id, userService.getAccountDetails().accountId);
-      setSize(newSize);
-      onOpen();
-
     }
 
+    function handleApprovedTimesheets() {
+      dispatch(fetchProjectTimesheetsByStatus({projectId: project.id, accountId: userService.getAccountDetails().accountId, status: TIMESHEET_STATUS.Approved }));
+    }
+
+    function handleInvoicedTimesheets() {
+      dispatch(fetchProjectTimesheetsByStatus({projectId: project.id, accountId: userService.getAccountDetails().accountId, status: TIMESHEET_STATUS.Invoiced }));
+    }
+
+    function handleRejectedTimesheets() {
+      dispatch(fetchProjectTimesheetsByStatus({projectId: project.id, accountId: userService.getAccountDetails().accountId, status: TIMESHEET_STATUS.Rejected }));
+    }
+    
   return (
 
     <div>
@@ -86,6 +94,23 @@ const ProjectTimesheets = (props) => {
                         </DrawerHeader>
                         <DrawerBody>
                           <Stack divider={<StackDivider />} spacing='1'>
+                            <Box>
+                              <HStack>
+                                <Button className="btn" onClick={() => handlePendingInvoiceTimesheets()} width="timesheet.project_timesheets_button" bgColor="button.primary.color">
+                                  Pending
+                                </Button>     
+                                <Button className="btn" onClick={() => handleApprovedTimesheets()} width="timesheet.project_timesheets_button" bgColor="button.primary.color">
+                                  Approved
+                                </Button> 
+                                <Button className="btn" onClick={() => handleInvoicedTimesheets()} width="timesheet.project_timesheets_button" bgColor="button.primary.color">
+                                  Invoiced
+                                </Button>  
+                                <Button className="btn" onClick={() => handleRejectedTimesheets()} width="timesheet.project_timesheets_button" bgColor="button.primary.color">
+                                  Rejected
+                                </Button>  
+
+                              </HStack>                                                   
+                            </Box>
                             <Box border="box_border">
                                 <Table>
                                   <TableCaption></TableCaption>
@@ -145,7 +170,7 @@ const ProjectTimesheets = (props) => {
                                                     (timesheetEntry.status !== "Rejected" )
                                                     ? "paid_status"
                                                    : "pending_status"
-                                                }`}>{project.status}</Badge>
+                                                }`}>{timesheetEntry.status}</Badge>
                                             </Th>   
                                             <Th>
                                                 {util.getFormattedDate(timesheetEntry.approvedDate)}
@@ -163,10 +188,6 @@ const ProjectTimesheets = (props) => {
                                   
                                 </Table>
                             </Box>                            
-
-                            <Button className="btn" onClick={() => handlePendingInvoiceTimesheets("xl")} width="button.primary.width" bgColor="button.primary.color">
-                              Pending Invoice Timesheets
-                            </Button>                            
                           </Stack>
                         </DrawerBody>
                     </DrawerContent>

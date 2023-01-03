@@ -31,6 +31,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     whereStatusValue = [TimesheetStatus.Approved]
   } else if (status != undefined && status != EMPTY_STRING && status == TIMESHEET_STATUS.Invoiced) {
     whereStatusValue = [TimesheetStatus.Invoiced]
+  } else if (status != undefined && status != EMPTY_STRING && status == TIMESHEET_STATUS.Rejected) {
+    whereStatusValue = [TimesheetStatus.Rejected]
   }
 
 console.log("projectId ID::"+projectId+"---AccountioD::"+accountId+"--status::"+status)
