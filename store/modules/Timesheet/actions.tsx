@@ -7,10 +7,10 @@ export const submitNewTimesheet = (timsheet) => ({
 });
 
 
-export const setUser = (userObj) => {
-    console.log("userObj::::"+JSON.stringify(userObj));
+export const setTSEntries = (timesheetEntries) => {
+    console.log("timesheetEntries::::"+JSON.stringify(timesheetEntries));
     return {
-        type: ActionTypes.SUBMIT_NEW_TIMESHEET,
-        payload: userObj
+        type: ActionTypes.SET_TIMESHEET_ENTRIES,
+        payload: timesheetEntries
     }
 }

@@ -24,7 +24,7 @@ import {
      DeleteIcon,ArrowBackIcon,ArrowForwardIcon
   } from '@chakra-ui/icons';  
 import { useDispatch } from "react-redux";
-import {submitNewTimesheet} from '../../store/modules/Timesheet/actions';
+import {setTSEntries} from '../../store/modules/Timesheet/actions';
 
   
 const WeeklyTimesheetEntry = (props) => {
@@ -59,15 +59,11 @@ const WeeklyTimesheetEntry = (props) => {
         // Call only if the user is SUPER_ADMIN and accountId as zero
         if((userService.isAccountAdmin() || userService.isSuperAdmin() || userService.isTimesheetEntryUser() || userService.isManager()) 
               && (props && props.data && !props.data.isAddMode)) { // This is for EDIT 
-                console.log("Inside EDIT getTimesheetDetailsAPICall ...");
                 const timesheetResponse = await timesheetService.getTimesheetDetails(props.data.timesheetId, userService.getAccountDetails().accountId);
                 setTimesheetData(timesheetResponse);
                 setTimesheetName(timesheetResponse.name);
                 setTimesheetEntries(timesheetResponse.timesheetEntries);
                 setWeekCalendar(timesheetResponse.timesheetEntries[0].entries);
-                console.log("timesheetResponse:::"+JSON.stringify(timesheetResponse.timesheetEntries[0].entries))
-
-                console.log("isAddMode::"+isAddMode+"---STATUS:::"+JSON.stringify(weekCalendar));
                 //Condition to ebale the update buttong based on the status and mode
         }else if((userService.isAccountAdmin() || userService.isSuperAdmin() || userService.isTimesheetEntryUser() || userService.isManager()) 
         && (props && props.data && props.data.isAddMode)) { // This is for ADD
@@ -116,7 +112,10 @@ const WeeklyTimesheetEntry = (props) => {
         setTimesheetEntries(inputData);
         props.data.handleTimeSheetEntries(timesheetEntries);
         props.data.onSubmit({status: status, timesheetName:timesheetName});
+        dispatch(setTSEntries(timesheetEntries));
     }
+
+
 
     function setTimesheetEntry(index, inputValue, dayNumber) {
         console.log("setDayHours:::"+index+"----"+inputValue+"--dayNumber:::"+dayNumber)

@@ -1,12 +1,11 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { userService } from "../../services";
-import {EMPTY_STRING, MODE_ADD, TIMESHEET_VALIDATION_SCHEMA} from "../../constants/accountConstants";
+import {MODE_ADD, TIMESHEET_VALIDATION_SCHEMA} from "../../constants/accountConstants";
 import { PageNotAuthorized } from "../../components/common/pageNotAuthorized";
-
 import {
   Box,
   Flex,
@@ -14,48 +13,33 @@ import {
   useToast
 } from '@chakra-ui/react'
 import WeeklyTimesheetEntry from "./weeklyTimesheetEntry";
+import { useSelector } from "react-redux";
 
 const TimesheetAddEdit = (props) => {
   
   const timesheetId = props.data.timesheetId;
   const router = useRouter();
   const toast = useToast();
-  const name = useRef("");
-  const email = useRef("");
-  const type = useRef("");
-  // const userId = useRef("");
-  const userId = userService.userValue.id;
-
-
   const [timesheetActivityList, setTimesheetActivityList] = useState([]);
   const [isPageAuthprized, setPageAuthorized] = useState(false);
   const [isPageSectionAuthorized, setPageSectionAuthorized] = useState(false);
   const [isAddMode, setAddMode] = useState(true);
-
-  
   
   //User Validation START
   const formOptions = { resolver: yupResolver(TIMESHEET_VALIDATION_SCHEMA) };
 
   // get functions to build form with useForm() hook
-  const { register, handleSubmit, setValue, formState } = useForm(formOptions);
-  const { errors } = formState;
-
-
-  const navigateTimesheetListPage = () => router.push({ pathname: '/timesheet/'+userService.getAccountDetails().accountId+'/vendors', query: {} });
+  const { handleSubmit, formState } = useForm(formOptions);
 
   //Get Account Details only if its EditMode
   useEffect(() => {
-    console.log("props.data.mode::"+JSON.stringify(props.data.mode))
     if(props && props.data && props.data.mode != MODE_ADD) {
-      console.log("setting add mode to false...")
       setAddMode(false);
     }
 
     if(userService.isAccountAdmin() || userService.isSuperAdmin() || userService.isTimesheetEntryUser() || userService.isManager()) {
       setPageAuthorized(true);
     }
-
   }, []);
 
   function handleTimeSheetEntries(timesheetEntriesList) {
@@ -63,9 +47,10 @@ const TimesheetAddEdit = (props) => {
     setTimesheetActivityList(timesheetEntriesList);
   }
 
+  const tsEntries = useSelector(state => state.timesheet.timesheetEntries);
+  console.log("TS Entries ::"+JSON.stringify(tsEntries));
 
   function onSubmit(data) {
-    
     return isAddMode
         ? createTimesheet(data)
         : updateTimesheet(timesheetId, data);

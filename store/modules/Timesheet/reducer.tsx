@@ -2,7 +2,8 @@ import { ActionTypes } from "./constants";
 
 
 const initialState = {
-    timesheetReducerTest: "Testing"
+    timesheetReducerTest: "Testing",
+    timesheetEntries: []
 };
 
 const timesheetReducer = (state = initialState, {type, payload}) => {
@@ -12,8 +13,8 @@ const timesheetReducer = (state = initialState, {type, payload}) => {
     if(type === ActionTypes.SUBMIT_NEW_TIMESHEET) {
         console.log("inside ghe siubmit");
         newState.timesheetReducerTest = payload;
-    }else  if (type === 'SECOND_SUBMIT') {
-        newState.timesheetReducerTest = "second submit updated testing";
+    } else if (type === ActionTypes.SET_TIMESHEET_ENTRIES) {
+        newState.timesheetEntries = payload;
     }
 
     return newState;
