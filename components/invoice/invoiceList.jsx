@@ -19,6 +19,7 @@ import {
   Badge,
   Text
 } from '@chakra-ui/react'
+import { util } from "../../helpers";
 
 const UserList = (props) => {
   const router = useRouter();
@@ -222,12 +223,12 @@ const UserList = (props) => {
                             </Th>
                             <Th>
                               <Text pt='table_display_value' fontSize='table_display_value'>
-                                {invoice.invoiceDate}
+                                {util.getFormattedDate(invoice.invoiceDate)}
                               </Text>
                             </Th>
                             <Th>
                               <Text pt='table_display_value' fontSize='table_display_value'>
-                                {invoice.dueDte}
+                                {util.getFormattedDate(invoice.dueDte)}
                               </Text>
                             </Th>
                             <Th>
