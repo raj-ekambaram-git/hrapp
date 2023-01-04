@@ -28,6 +28,8 @@ const InvoiceItems = (props) => {
     const projectResources = useSelector(state => state.invoice.projectResources);
     const invoiceTotal = useSelector(state => state.invoice.invoiceTotal);
 
+    console.log("invoiceItemListNew::"+JSON.stringify(invoiceItemListNew));
+
     const projectId = props.data.projectId; 
     const projectType = props.data.projectType;
     const invoiceType = props.data.invoiceType;
@@ -42,12 +44,15 @@ const InvoiceItems = (props) => {
       }
 
     function deleteInvoiceItem(removeIndex, invoiceItemTotal) {
+        console.log("invoiceTotal:::"+JSON.stringify(invoiceTotal))
         dispatch(removeItemFromInvoiceItemList(removeIndex));   
 
         if(invoiceTotal != undefined) {
+            console.log("Not Null")
             dispatch(setInvoiceTotal(parseFloat(invoiceTotal)-parseFloat(invoiceItemTotal)));
           }else {
-            dispatch(setInvoiceTotal(parseFloat(total)));
+            console.log("Null Conidtion")
+            dispatch(setInvoiceTotal(parseFloat(invoiceItemTotal)));
           }
     }
     

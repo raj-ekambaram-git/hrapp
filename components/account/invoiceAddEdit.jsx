@@ -27,7 +27,7 @@ import {
 } from '@chakra-ui/react'
 import InvoiceItems from "../invoice/invoiceItems";
 import { useDispatch,useSelector } from "react-redux";
-import { resetInvoiceItemList, setInvoiceItemList, setProjectResources, resetProjectResources } from "../../store/modules/Invoice/actions";
+import { resetInvoiceItemList, setInvoiceItemList, setProjectResources, resetProjectResources, setInvoiceTotal } from "../../store/modules/Invoice/actions";
 import DatePicker from "../common/datePicker";
 import { InvoiceConstants } from "../../constants/invoiceConstants";
 
@@ -75,7 +75,7 @@ const InvoiceAddEdit = (props) => {
     dispatch(resetInvoiceItemList());
     if(props && props.data && props.data.mode != MODE_ADD) {
       setAddMode(false);
-      // setEnableInvoiceItemAdd(true);
+      setEnableInvoiceItemAdd(true);
     }else {
       // setValue("vendorId", incomingVendorId);
     }
@@ -146,8 +146,10 @@ const InvoiceAddEdit = (props) => {
         };
 
         // setInvoice(invoiceData);
-        console.log("invoiceResponse.invoiceItemList::::"+invoiceResponse.invoiceItems)
+        console.log("invoiceResponse.invoiceItemList::::"+JSON.stringify(invoiceResponse.invoiceItems))
         dispatch(setInvoiceItemList(invoiceResponse.invoiceItems));
+        dispatch(setInvoiceTotal(invoiceResponse.total));
+        
         // setInvoiceItemList(invoiceResponse.invoiceItemList)
 
         // get user and set form fields

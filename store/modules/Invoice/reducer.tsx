@@ -17,8 +17,15 @@ const invoiceReducer = (state = initialState, {type, payload}) => {
         console.log("SET_INVOICE_ITEM_LIST INSIDE::"+JSON.stringify(payload));
         console.log("newState:::"+JSON.stringify(newState));
         const newInvoiceList = [...newState.invoiceItemList]
-        newInvoiceList.push(payload);
-        newState.invoiceItemList = newInvoiceList;
+        if(Array.isArray(payload)) {
+            //Edit Condition
+            newState.invoiceItemList = payload;
+        }else {
+            //Add New Condtion or udpate
+            newInvoiceList.push(payload);
+            newState.invoiceItemList = newInvoiceList;
+        }
+        
     } else if(type === ActionTypes.RESET_INVOICE_ITEM_LIST) {
         newState.invoiceItemList = [];
         newState.invoiceTotal = null;
