@@ -18,6 +18,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       data: timesheetEntry,
       select: {
         timesheetId: true,
+        entries: true,
+        unitPrice: true,
+        projectId: true,
         timesheet: {
           select: {
             userId: true

@@ -2,8 +2,11 @@ import getConfig from 'next/config';
 import Router from 'next/router';
 
 import { fetchWrapper } from 'helpers';
-import { EMPTY_STRING } from '../constants/accountConstants';
+import { EMPTY_STRING, NOTES_TYPE } from '../constants/accountConstants';
 import { userService } from './user.service';
+import { notesService } from './notes.service';
+import { projectService } from './project.service';
+import { util } from '../helpers/util';
 
 const { publicRuntimeConfig } = getConfig();
 const baseUrl = `${publicRuntimeConfig.apiUrl}`;
@@ -71,6 +74,7 @@ function getTimesheetByName(timesheetName, userId) {
 
 async function updateTimesheetEntry(timesheetEntryId, status, timesheetNote) {
     try {
+ 
         const res = await fetch(`/api/timesheet/entry/${timesheetEntryId}`, {
           method: "PUT",
           headers: {
@@ -82,26 +86,23 @@ async function updateTimesheetEntry(timesheetEntryId, status, timesheetNote) {
             approvedDate: new Date()
           }),
         });
-  
         const data = await res.json();
-
-        console.log("data.res:::"+JSON.stringify(data.res))
+  
         //Timesheet entry happened, now add the notes
         if(data.message === undefined && timesheetNote != undefined && timesheetNote != EMPTY_STRING) {
+          //Create Notes
+          const createdNotes = notesService.createNotes(NOTES_TYPE.Timesheet, timesheetEntryId, timesheetNote, userService.userValue?.id);
+          if(createdNotes.error) {
+            return {error: createdNotes.errorMessage};
+          }
 
-          const notesRes = await fetch(`/api/notes/create/`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              type: "Timesheet",
-              typeId: timesheetEntryId,
-              notes: timesheetNote,
-              createdBy: userService.userValue?.id
-            }),
-          });
-          const notesData = await notesRes.json();
+          //Now update the project with the remaiing budget
+          const totalTSEHours = util.getTotalHours(data.entries);
+          console.log("totalTSEHours:::"+totalTSEHours)
+          if(totalTSEHours != undefined && totalTSEHours != EMPTY_STRING && data.unitPrice != undefined && data.unitPrice != EMPTY_STRING) {
+            projectService.updateUsedBudget(data.projectId, parseFloat(totalTSEHours)*parseFloat(data.unitPrice));
+          }
+
           
         }
   

@@ -9,15 +9,28 @@ export const projectService = {
 
     deleteProjectResource,
     getAllTimesheetsByProject,
-    getProjectTimesheetsByStatus
+    getProjectTimesheetsByStatus,
+    updateUsedBudget,
     
 };
 
+function updateUsedBudget(projectId, usedBudget) {
+    return fetchWrapper.put(`${baseUrl}/account/project/${projectId}`, {
+        id: projectId,
+        usedBudget: usedBudget
+    })
+        .then(updatedProject => {
+            return updatedProject;
+        })  
+        .catch(err => {
+          console.log("Error Updating Used Budget")
+          return {errorMessage: err, error: true};
+      });
+  }
+
 function getProjectTimesheetsByStatus(inputParam){
-    console.log("getProjectTimesheetsByStatus:::"+JSON.stringify(inputParam));
     return fetchWrapper.get(`${baseUrl}/account/project/`+inputParam.projectId+'/timesheets/?accountId='+inputParam.accountId+'&status='+inputParam.status, {})
                             .then(timesheets => {
-                                    console.log("timesheets:::getProjectTimesheetsByStatus:::"+JSON.stringify(timesheets))
                                 return timesheets
                             })
                             .catch(err => {
@@ -34,7 +47,6 @@ function getProjectTimesheetsByStatus(inputParam){
  * @returns 
  */
 function getAllTimesheetsByProject(inputParam) {
-    console.log("getAllTimesheetsByProject:::"+JSON.stringify(inputParam));
     return fetchWrapper.get(`${baseUrl}/account/project/`+inputParam.projectId+'/timesheets?accountId='+inputParam.accountId, {})
                             .then(timesheets => {
                                     console.log("timesheets:::getAllTimesheetsByProject:::"+JSON.stringify(timesheets))
@@ -50,7 +62,6 @@ function getAllTimesheetsByProject(inputParam) {
 function deleteProjectResource(projectResourceId, projectResourceAllocatedBudget) {
     return fetchWrapper.delete(`${baseUrl}/account/project/resource/`+projectResourceId+'/delete', {})
         .then(projectResource => {
-            console.log("projectResource:::projectResource: UPDATED:"+JSON.stringify(projectResource.project))
             //Now call the project project to update the remaining budget
             if(projectResource != undefined && projectResource.project != undefined) {
                 //`/api/account/project/${projectId}
