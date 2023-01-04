@@ -91,7 +91,9 @@ const ProjectTimesheets = (props) => {
           quantity: parseInt(selectedTSQuantity),
           currency: InvoiceConstants.INVOICE_CURRENCY_USD,
           uom: InvoiceConstants.INVOICE_UOM_HOURS,
-          total: selectedTSTotal
+          total: selectedTSTotal,
+          fromDate: new Date(selectedTimesheetEntry.entries?.day1.date),
+          toDate: new Date(selectedTimesheetEntry.entries?.day7?.date)
         };
           dispatch(setInvoiceItemList(addedTimesheetInvoiceItem));
           if(invoiceTotal != undefined) {
