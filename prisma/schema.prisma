@@ -408,6 +408,7 @@ enum InvoiceItemType {
   General
   Project
   Staffing
+  Timesheet
 }
 
 enum UnitOfMeasure {

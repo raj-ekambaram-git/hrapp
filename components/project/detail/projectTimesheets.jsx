@@ -25,9 +25,11 @@ import {
 import { userService } from "../../../services";
 import { useSelector, useDispatch } from "react-redux";
 import {fetchAllProjectTimesheets, fetchProjectTimesheetsByStatus} from '../../../store/modules/Timesheet/actions';
+import {setInvoiceItemList, setInvoiceTotal} from '../../../store/modules/Invoice/actions';
 import { util } from "../../../helpers/util";
 import ProjectTimesheeEntrySection from "./projectTimesheeEntrySection";
 import { INVOICE_CALL_TYPE, TIMESHEET_STATUS } from "../../../constants/accountConstants";
+import { InvoiceConstants } from "../../../constants/invoiceConstants";
 
 
 
@@ -40,6 +42,7 @@ const ProjectTimesheets = (props) => {
     const [size, setSize] = useState('');
     
     const timesheetEntryList = useSelector(state => state.timesheet.projectTimesheets);
+    const invoiceTotal = useSelector(state => state.invoice.invoiceTotal);
 
     console.log("ProjectTimesheets::timesheetList::::"+JSON.stringify(timesheetEntryList))
 
@@ -71,6 +74,43 @@ const ProjectTimesheets = (props) => {
       dispatch(fetchProjectTimesheetsByStatus({projectId: projectId, accountId: userService.getAccountDetails().accountId, status: TIMESHEET_STATUS.Rejected }));
     }
     
+    function addTimesheetEntryAsInvoiceItem(e) {
+      console.log("Checked value:::"+e.target.checked+"----Value::"+e.target.value);
+      const selectedTimesheetEntry = timesheetEntryList.find(x => x.id === parseInt(e.target.value));
+
+      if(e.target.checked) { //Add the timesheet entry to the invoice item list
+        const selectedTSQuantity = util.getTotalHours(selectedTimesheetEntry.entries);
+        const selectedTSTotal = parseFloat(selectedTSQuantity) * parseFloat(selectedTimesheetEntry.unitPrice);
+
+        const addedTimesheetInvoiceItem = {
+          timesheetEntryId: parseInt(e.target.value),
+          userId: parseInt(selectedTimesheetEntry.timesheet?.user?.id),
+          type: InvoiceConstants.INVOICE_ITEM_TYPE_TIMESHEET,
+          status: InvoiceConstants.INVOICE_STATUS.Draft,
+          unitPrice: selectedTimesheetEntry.unitPrice,
+          quantity: parseInt(selectedTSQuantity),
+          currency: InvoiceConstants.INVOICE_CURRENCY_USD,
+          uom: InvoiceConstants.INVOICE_UOM_HOURS,
+          total: selectedTSTotal
+        };
+          dispatch(setInvoiceItemList(addedTimesheetInvoiceItem));
+          if(invoiceTotal != undefined) {
+            dispatch(setInvoiceTotal(parseFloat(invoiceTotal)+parseFloat(selectedTSTotal)));
+          }else {
+            dispatch(setInvoiceTotal(parseFloat(selectedTSTotal)));
+          }
+          
+          
+        //   onClose();      
+
+      } else { // Remove the timesheet entry form the invoice item list if exists
+
+      }
+
+    }
+    function handleAddTimesheetsToInvoice() {
+
+    }
   return (
 
     <div>
@@ -112,7 +152,7 @@ const ProjectTimesheets = (props) => {
                                 </Button>  
                                 {callType==INVOICE_CALL_TYPE ? (
                                   <>
-                                  <Button className="btn" onClick={() => handleRejectedTimesheets()} width="timesheet.project_timesheets_button" bgColor="button.primary.color">
+                                  <Button className="btn" onClick={() => handleAddTimesheetsToInvoice()} width="timesheet.project_timesheets_button" bgColor="button.primary.color">
                                     Add to Invoice
                                   </Button>  
                                   </>
@@ -159,8 +199,8 @@ const ProjectTimesheets = (props) => {
                                           <Th>
                                             {(callType == INVOICE_CALL_TYPE && timesheetEntry.status == TIMESHEET_STATUS.Approved) ? (
                                               <>
-                                                <Checkbox
-                                                  onChange={(e) => addTimesheetEntryAsInvoiceItem(e.target.checked)}
+                                                <Checkbox value={timesheetEntry.id}
+                                                  onChange={(e) => addTimesheetEntryAsInvoiceItem(e)}
                                                 />        
                                               </>
                                             ) : (
@@ -168,10 +208,10 @@ const ProjectTimesheets = (props) => {
                                             )}
                                           </Th>
                                             <Th>
-                                                {timesheetEntry.timesheet.name}
+                                                {timesheetEntry.timesheet?.name}
                                             </Th>
                                             <Th>
-                                                {timesheetEntry.timesheet.user.firstName} {timesheetEntry.timesheet.user.lastName}
+                                                {timesheetEntry.timesheet?.user?.firstName} {timesheetEntry.timesheet?.user?.lastName}
                                             </Th>
                                             <Th>
                                               {timesheetEntry.entries ? (

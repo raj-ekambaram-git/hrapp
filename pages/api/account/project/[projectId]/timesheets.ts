@@ -22,7 +22,27 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const accountId = req?.query?.accountId;
   const status = req?.query?.status;
   let whereStatusValue = [TimesheetStatus.Draft];
-
+  const includeFields = {
+    approvedUser: {
+      select: {
+        firstName: true,
+        lastName: true
+      }
+    },
+    timesheet: {
+      select: {
+        name: true,
+        status: true,
+        user: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true
+          }
+        }
+      }
+    }
+   };
 
 
   if(status != undefined && status != EMPTY_STRING && status == TIMESHEET_STATUS.Pending) {
@@ -51,26 +71,7 @@ console.log("projectId ID::"+projectId+"---AccountioD::"+accountId+"--status::"+
         orderBy: {
           id: "desc"
         },
-       include: {
-        approvedUser: {
-          select: {
-            firstName: true,
-            lastName: true
-          }
-        },
-        timesheet: {
-          select: {
-            name: true,
-            status: true,
-            user: {
-              select: {
-                firstName: true,
-                lastName: true
-              }
-            }
-          }
-        }
-       }
+       include: includeFields
       });
 
       console.log("PROJECT timesheetEntries::BY STTAUS :"+JSON.stringify(timesheetEntries))
@@ -86,26 +87,7 @@ console.log("projectId ID::"+projectId+"---AccountioD::"+accountId+"--status::"+
         orderBy: {
           id: "desc"
         },
-       include: {
-        approvedUser: {
-          select: {
-            firstName: true,
-            lastName: true
-          }
-        },
-        timesheet: {
-          select: {
-            name: true,
-            status: true,
-            user: {
-              select: {
-                firstName: true,
-                lastName: true
-              }
-            }
-          }
-        }
-       }
+       include: includeFields
       });
 
       console.log("PROJECT timesheetEntries:::"+JSON.stringify(timesheetEntries))

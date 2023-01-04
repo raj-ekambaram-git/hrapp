@@ -207,7 +207,10 @@ const InvoiceAddEdit = (props) => {
     try {
 
         console.log("Create Invoice FORM Data::"+JSON.stringify(formData)+"---invoiceDate::"+JSON.stringify(invoiceDate)+"----DueDate"+dueDte)
-
+        let paidAmountValue = 0;
+        if(formData.paidAmount != undefined && formData.paidAmount != EMPTY_STRING) {
+          paidAmountValue = parseFloat(formData.paidAmount);
+        }
         const res = await fetch("/api/account/invoice/create", {
           method: "POST",
           headers: {
@@ -227,7 +230,7 @@ const InvoiceAddEdit = (props) => {
             transactionId: formData.transactionId,
             total: formData.total,
             notes: formData.notes,
-            paidAmount: formData.paidAmount,
+            paidAmount: paidAmountValue,
             status: formData.status,
             paymentTerms: formData.paymentTerms
           }), 
@@ -263,6 +266,11 @@ const InvoiceAddEdit = (props) => {
   const updateInvoice = async (invoiceId, formData) => {
     try {
 
+      let paidAmountValue = 0;
+      if(formData.paidAmount != undefined && formData.paidAmount != EMPTY_STRING) {
+        paidAmountValue = parseFloat(formData.paidAmount);
+      }
+      
       const res = await fetch(`/api/account/invoice/${invoiceId}`, {
         method: "PUT",
         headers: {
