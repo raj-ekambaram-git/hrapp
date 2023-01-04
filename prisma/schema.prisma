@@ -276,6 +276,7 @@ model TimesheetEntries {
   approvedUser   User?           @relation(fields: [approvedBy], references: [id])
   approvedBy     Int?
   entries        Json
+  unitPrice      Decimal?
   createdDate    DateTime        @default(now())
   lastUpdateDate DateTime        @default(now()) @updatedAt
   InvoiceItem    InvoiceItem[]

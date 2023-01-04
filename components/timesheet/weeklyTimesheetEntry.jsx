@@ -133,8 +133,9 @@ const WeeklyTimesheetEntry = (props) => {
 
 
 
-    function setTimesheetEntry(index, inputValue, dayNumber) {
-        console.log("setDayHours:::"+index+"----"+inputValue+"--dayNumber:::"+dayNumber)
+    function setTimesheetEntry(index, ev, dayNumber) {
+        const inputValue = ev.target.value;
+        console.log("setDayHours:::"+index+"----"+ev.target.value+"--dayNumber:::"+dayNumber)
         
         const inputData = [...timesheetEntries];
         let timeEntryRecord;
@@ -193,6 +194,7 @@ const WeeklyTimesheetEntry = (props) => {
                 break;
             case "projectId":
                 timeEntryRecord.projectId = parseInt(inputValue);
+                timeEntryRecord.unitPrice = parseInt(ev.target.options.item(ev.target.selectedIndex).getAttribute("data-unitprice"));
                 break;
             default:
                 console.log("default");                    
@@ -347,10 +349,10 @@ const WeeklyTimesheetEntry = (props) => {
                                     </>
                                 )}
                                     <Box borderWidth="timesheet.entry_project" width="timesheet.project_drop_down">
-                                        <Select id="projectId" value={timesheetEntry.projectId} onChange={(ev) => setTimesheetEntry(index, ev.target.value, "projectId")}>
+                                        <Select id="projectId" value={timesheetEntry.projectId} onChange={(ev) => setTimesheetEntry(index, ev, "projectId")}>
                                             <option value="">Select Project</option>
                                             {userProjectList?.map((project) => (
-                                                <option value={project.projectId}>{project.project.name} - {project.project.referenceCode}</option>
+                                                <option value={project.projectId} data-unitprice={project.unitPrice} >{project.project.name} - {project.project.referenceCode}</option>
                                             ))}
                                         </Select>  
                                     </Box>  
@@ -360,25 +362,25 @@ const WeeklyTimesheetEntry = (props) => {
                                 <HStack spacing="1rem">
                                     <HStack spacing="2em">
                                         <Box borderWidth="timesheet.entry" borderColor={timesheetEntry.entries.day1.error ? 'timesheet.entryError' : ""}>
-                                            <Input type="number" id="day1"  value= {timesheetEntry.entries.day1.error ? "" : timesheetEntry.entries.day1.hours}  size="md" onChange={(ev) => setTimesheetEntry(index, ev.target.value,"1")} boxSize="timesheet.entry.input"/>
+                                            <Input type="number" id="day1"  value= {timesheetEntry.entries.day1.error ? "" : timesheetEntry.entries.day1.hours}  size="md" onChange={(ev) => setTimesheetEntry(index, ev,"1")} boxSize="timesheet.entry.input"/>
                                         </Box>    
                                         <Box borderWidth="timesheet.entry" borderColor={timesheetEntry.entries.day2.error ? 'timesheet.entryError' : ""}>
-                                            <Input type="number" id="day2"  size="md" value= {timesheetEntry.entries.day2.error ? "" : timesheetEntry.entries.day2.hours}   onChange={(ev) => setTimesheetEntry(index, ev.target.value,"2")} boxSize="timesheet.entry.input"/>
+                                            <Input type="number" id="day2"  size="md" value= {timesheetEntry.entries.day2.error ? "" : timesheetEntry.entries.day2.hours}   onChange={(ev) => setTimesheetEntry(index, ev,"2")} boxSize="timesheet.entry.input"/>
                                         </Box>    
                                         <Box borderWidth="timesheet.entry" borderColor={timesheetEntry.entries.day3.error ? 'timesheet.entryError' : ""}>
-                                            <Input type="number" id="day3"  size="md" value= {timesheetEntry.entries.day3.error ? "" : timesheetEntry.entries.day3.hours}  onChange={(ev) => setTimesheetEntry(index, ev.target.value,"3")} boxSize="timesheet.entry.input"/>
+                                            <Input type="number" id="day3"  size="md" value= {timesheetEntry.entries.day3.error ? "" : timesheetEntry.entries.day3.hours}  onChange={(ev) => setTimesheetEntry(index, ev,"3")} boxSize="timesheet.entry.input"/>
                                         </Box>    
                                         <Box borderWidth="timesheet.entry" borderColor={timesheetEntry.entries.day4.error ? 'timesheet.entryError' : ""}>
-                                            <Input type="number" id="day4"  size="md" value= {timesheetEntry.entries.day4.error ? "" : timesheetEntry.entries.day4.hours}  onChange={(ev) => setTimesheetEntry(index, ev.target.value,"4")}  boxSize="timesheet.entry.input"/>
+                                            <Input type="number" id="day4"  size="md" value= {timesheetEntry.entries.day4.error ? "" : timesheetEntry.entries.day4.hours}  onChange={(ev) => setTimesheetEntry(index, ev,"4")}  boxSize="timesheet.entry.input"/>
                                         </Box>    
                                         <Box borderWidth="timesheet.entry" borderColor={timesheetEntry.entries.day5.error ? 'timesheet.entryError' : ""}>
-                                            <Input type="number" id="day5"  size="md" value= {timesheetEntry.entries.day5.error ? "" : timesheetEntry.entries.day5.hours}  onChange={(ev) => setTimesheetEntry(index, ev.target.value,"5")} boxSize="timesheet.entry.input"/>
+                                            <Input type="number" id="day5"  size="md" value= {timesheetEntry.entries.day5.error ? "" : timesheetEntry.entries.day5.hours}  onChange={(ev) => setTimesheetEntry(index, ev,"5")} boxSize="timesheet.entry.input"/>
                                         </Box>    
                                         <Box borderWidth="timesheet.entry" borderColor={timesheetEntry.entries.day6.error ? 'timesheet.entryError' : ""}>
-                                            <Input type="number" id="day6"  size="md" value= {timesheetEntry.entries.day6.error ? "" : timesheetEntry.entries.day6.hours}  onChange={(ev) => setTimesheetEntry(index, ev.target.value,"6")} boxSize="timesheet.entry.input"/>
+                                            <Input type="number" id="day6"  size="md" value= {timesheetEntry.entries.day6.error ? "" : timesheetEntry.entries.day6.hours}  onChange={(ev) => setTimesheetEntry(index, ev,"6")} boxSize="timesheet.entry.input"/>
                                         </Box>    
                                         <Box borderWidth="timesheet.entry" borderColor={timesheetEntry.entries.day7.error ? 'timesheet.entryError' : ""}>
-                                            <Input type="number" id="day7"  size="md" value= {timesheetEntry.entries.day7.error ? "" : timesheetEntry.entries.day7.hours}  onChange={(ev) => setTimesheetEntry(index, ev.target.value,"7")}  boxSize="timesheet.entry.input"/>
+                                            <Input type="number" id="day7"  size="md" value= {timesheetEntry.entries.day7.error ? "" : timesheetEntry.entries.day7.hours}  onChange={(ev) => setTimesheetEntry(index, ev,"7")}  boxSize="timesheet.entry.input"/>
                                         </Box>   
                                     </HStack>                                             
                                     <Box>
