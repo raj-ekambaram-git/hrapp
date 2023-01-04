@@ -27,6 +27,7 @@ import {
 import InvoiceItems from "../invoice/invoiceItems";
 import { useDispatch,useSelector } from "react-redux";
 import { resetInvoiceItemList, setInvoiceItemList, setProjectResources, resetProjectResources } from "../../store/modules/Invoice/actions";
+import DatePicker from "../common/datePicker";
 
 
 const InvoiceAddEdit = (props) => {
@@ -37,7 +38,8 @@ const InvoiceAddEdit = (props) => {
   const router = useRouter();
   const toast = useToast();
   
-
+  const [invoiceDate, setInvoiceDate] = useState();
+  const [dueDte, setDueDte] = useState();
   const [isPageAuthprized, setPageAuthorized] = useState(false);
   const [isPageSectionAuthorized, setPageSectionAuthorized] = useState(false);
   const [isAddMode, setAddMode] = useState(true);
@@ -195,6 +197,7 @@ const InvoiceAddEdit = (props) => {
   const createInvoice = async (formData) => {
     try {
 
+        console.log("Create Invoice FORM Data::"+JSON.stringify(formData)+"---invoiceDate::"+invoiceDate+"----DueDate"+dueDte)
 
         const res = await fetch("/api/account/invoice/create", {
           method: "POST",
@@ -207,8 +210,8 @@ const InvoiceAddEdit = (props) => {
             accountId: parseInt(formData.accountId),
             vendorId: parseInt(formData.vendorId),
             projectId: parseInt(formData.projectId),
-            invoiceDate: new Date(formData.invoiceDate),
-            dueDte: new Date(formData.dueDte),
+            invoiceDate: new Date(invoiceDate),
+            dueDte: new Date(dueDte),
             invoiceItems: {
               create: invoiceItemList
             },
@@ -441,19 +444,21 @@ const InvoiceAddEdit = (props) => {
                       <Box>
                         <FormControl isRequired>
                           <FormLabel>Invoice Date</FormLabel>
-                          <Input
+                          <DatePicker invoiceDate={invoiceDate} onDateChange={setValue} />
+                          {/* <Input
                             placeholder="Select Date and Time"
                             type="datetime-local"
-                            id="invoiceDate"  size="md" {...register('invoiceDate')} />
+                            id="invoiceDate"  size="md" {...register('invoiceDate')} /> */}
                         </FormControl>     
                       </Box>
                       <Box>
                         <FormControl>
                           <FormLabel>Due Date</FormLabel>
-                          <Input
+                          <DatePicker dueDte={dueDte} onDateChange={setInvoiceDate} />
+                          {/* <Input
                             placeholder="Select Date and Time"
                             type="datetime-local"
-                            id="dueDte"  size="md" {...register('dueDte')} />
+                            id="dueDte"  size="md" {...register('dueDte')} /> */}
                         </FormControl>     
                       </Box>  
                     </HStack>                                        
