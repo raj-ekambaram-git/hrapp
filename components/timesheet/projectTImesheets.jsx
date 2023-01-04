@@ -32,7 +32,7 @@ import { useSelector } from 'react-redux';
 const ProjectTimesheets = (props) => {
     
     const approvalList = useSelector(state => state.timesheet.approvalTimesheets);
-    
+    console.log("approvalList:::"+JSON.stringify(approvalList))
 
     return (
         <div>

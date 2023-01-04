@@ -20,19 +20,20 @@ import {
     Tbody,
     Textarea,
     Text,
-    VStack
-
-
   } from '@chakra-ui/react';
 import { EMPTY_STRING, TIMESHEET_STATUS, DEFAULT_NOTES } from "../../constants/accountConstants";
-import { timesheetService } from "../../services";
+import { timesheetService, userService} from "../../services";
 import {util} from '../../helpers/util';
 import { TimesheetHeader } from "./timesheetHeader";
+import { useDispatch } from "react-redux";
+import { fetchTimesheetsForApproval } from "../../store/modules/Timesheet/actions";
+
+
 
 
   const TimesheetEntryDetail = (props) => {
     const tsEntryDetail = props.tsEntryDetail;
-    // const 
+    const dispatch = useDispatch();
     const [size, setSize] = useState('')
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [timesheetEntryNote, setTimesheetEntryNote] = useState(DEFAULT_NOTES);
@@ -57,6 +58,7 @@ import { TimesheetHeader } from "./timesheetHeader";
             if(timesheetEntryUpdateResponse.error) {
                 setShowErrorMessage("Error Updating timesheet entry");
             }else {
+                dispatch(fetchTimesheetsForApproval(userService.userValue?.id, userService.getAccountDetails().accountId));
                 setTimesheetEntryNote(EMPTY_STRING);
                 onClose();
                 //Remove the item from the list

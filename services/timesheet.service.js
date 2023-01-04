@@ -3,6 +3,7 @@ import Router from 'next/router';
 
 import { fetchWrapper } from 'helpers';
 import { EMPTY_STRING } from '../constants/accountConstants';
+import { userService } from './user.service';
 
 const { publicRuntimeConfig } = getConfig();
 const baseUrl = `${publicRuntimeConfig.apiUrl}`;
@@ -96,7 +97,8 @@ async function updateTimesheetEntry(timesheetEntryId, status, timesheetNote) {
             body: JSON.stringify({
               type: "Timesheet",
               typeId: timesheetEntryId,
-              notes: timesheetNote
+              notes: timesheetNote,
+              createdBy: userService.userValue?.id
             }),
           });
           const notesData = await notesRes.json();

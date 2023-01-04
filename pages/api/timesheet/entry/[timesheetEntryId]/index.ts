@@ -11,13 +11,22 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const timesheetEntry = req.body;
     // const savedAccount: Prisma.UserCreateInput = JSON.parse(req.body);
-    const savedAccount = await prisma.timesheetEntries.update({
+    const savedTSEntry = await prisma.timesheetEntries.update({
       where: {
         id: timesheetEntry.id,
       },
-      data: timesheetEntry
+      data: timesheetEntry,
+      select: {
+        timesheetId: true,
+        timesheet: {
+          select: {
+            userId: true
+          }
+        }
+      }
     });
-    res.status(200).json(timesheetEntry);
+    console.log("saved TimesheetEntry::"+JSON.stringify(savedTSEntry))
+    res.status(200).json(savedTSEntry);
   } catch (error) {
     console.log(error)
     res.status(400).json({ message: 'Something went wrong while updating' })
