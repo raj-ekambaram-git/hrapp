@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { util } from '../../helpers';
 import { accountService, userService } from "../../services";
 import {MODE_ADD, INVOICE_VALIDATION_SCHEMA, INVOICE_STATUS,INVOICE_PAY_TERMNS, EMPTY_STRING} from "../../constants/accountConstants";
 
@@ -22,12 +21,15 @@ import {
   CardBody,
   StackDivider,
   Textarea,
-  useToast
+  useToast,
+  InputGroup,
+  InputLeftElement
 } from '@chakra-ui/react'
 import InvoiceItems from "../invoice/invoiceItems";
 import { useDispatch,useSelector } from "react-redux";
 import { resetInvoiceItemList, setInvoiceItemList, setProjectResources, resetProjectResources } from "../../store/modules/Invoice/actions";
 import DatePicker from "../common/datePicker";
+
 
 
 const InvoiceAddEdit = (props) => {
@@ -53,7 +55,8 @@ const InvoiceAddEdit = (props) => {
   
   //Get the invoiceItemsList if there are any
   const invoiceItemList = useSelector(state => state.invoice.invoiceItemList);
-  console.log("invoiceItemList::: ADD Fiel::"+JSON.stringify(invoiceItemList))
+  const invoiceTotal = useSelector(state => state.invoice.invoiceTotal);
+  
 
   //User Validation START
   const formOptions = { resolver: yupResolver(INVOICE_VALIDATION_SCHEMA) };
@@ -441,7 +444,7 @@ const InvoiceAddEdit = (props) => {
               </Card>              
               <Card>
                 <CardHeader bgColor="table_tile">
-                  <Heading size='sm'>Invoice Details</Heading>
+                  <Heading size='sm'>Invoice Payment Details</Heading>
                 </CardHeader>
 
                 <CardBody>
@@ -470,19 +473,37 @@ const InvoiceAddEdit = (props) => {
                       <Box>
                         <FormControl isRequired>
                           <FormLabel>Invoice Total</FormLabel>
-                          <Input type="text" id="total"  size="md" {...register('total')} />
+                          <InputGroup>
+                            <InputLeftElement
+                                pointerEvents='none'
+                                color='dollor_input'
+                                fontSize='dollar_left_element'
+                                children='$'
+                            />      
+                            <Input type="text" id="total"  value={invoiceTotal} size="md" {...register('total')} />
+                          </InputGroup>    
+                          
                         </FormControl>     
                       </Box>
                       <Box>
                       <FormControl>
                           <FormLabel>Amount Paid</FormLabel>
-                          <Input type="text" id="paidAmount"  size="md" {...register('paidAmount')} />
+                          <InputGroup>
+                            <InputLeftElement
+                                pointerEvents='none'
+                                color='dollor_input'
+                                fontSize='dollar_left_element'
+                                children='$'
+                            />      
+                            <Input type="text" id="paidAmount"  size="md" {...register('paidAmount')} />
+                          </InputGroup>                             
+                          
                       </FormControl>    
                       </Box>                                                                        
                     </HStack>
                     <Box>
                       <FormControl>
-                        <FormLabel>Notes</FormLabel>
+                        <FormLabel>Invoice Notes</FormLabel>
                         <Textarea type="text" id="notes"  size="md" {...register('notes')} />
                       </FormControl>     
                     </Box>                       

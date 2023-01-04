@@ -23,7 +23,7 @@ import {
   TableCaption,
 } from '@chakra-ui/react';
 import {EMPTY_STRING, MODE_ADD, PROJECT_TYPE_GENERAL} from "../../constants/accountConstants";
-import {setInvoiceItemList} from '../../store/modules/Invoice/actions';
+import {setInvoiceItemList, setInvoiceTotal} from '../../store/modules/Invoice/actions';
 import { useDispatch,useSelector } from "react-redux";
 
 
@@ -47,6 +47,7 @@ const AddInvoiceItem = (props) => {
   const [toDate, setToDate] = useState("");
 
   const projectResources = useSelector(state => state.invoice.projectResources);
+  const invoiceTotal = useSelector(state => state.invoice.invoiceTotal);
 
   useEffect(() => {
     if(props && props.data && props.data.mode != MODE_ADD) {
@@ -108,6 +109,13 @@ const AddInvoiceItem = (props) => {
         total: total
       };
         dispatch(setInvoiceItemList(addedInvoiceItem));
+        if(invoiceTotal != undefined) {
+          dispatch(setInvoiceTotal(parseFloat(invoiceTotal)+parseFloat(total)));
+        }else {
+          dispatch(setInvoiceTotal(parseFloat(total)));
+        }
+        
+        
         onClose();
     }
   } 

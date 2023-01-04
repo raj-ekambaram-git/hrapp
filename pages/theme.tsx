@@ -2,6 +2,8 @@
 
 import { extendTheme } from '@chakra-ui/react'
 
+
+
 const fonts = { mono: `'Menlo', monospace` }
 
 const breakpoints = {
@@ -38,6 +40,7 @@ const theme = extendTheme({
       box_border: '1px'
     },
     colors: {
+      dollor_input: 'gray.300',
       tooltip_color: 'red',
       text: {
         default: '#0000FF',
@@ -56,7 +59,8 @@ const theme = extendTheme({
       button: '12px',
     },
     fontSizes: {
-        table_display_value: 'sm'
+        table_display_value: 'sm',
+        dollar_left_element: '1.2em'
     },    
     space:{
       table_display_value: '1'
@@ -68,6 +72,7 @@ const theme = extendTheme({
     }
   },
   colors: {
+    dollor_input: 'gray.300',
     black: '#16161D',
     heading: '#319795',
     error: '#C53030',

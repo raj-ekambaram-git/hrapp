@@ -1,10 +1,12 @@
+import { EMPTY_STRING } from "../../../constants/accountConstants";
 import { ActionTypes } from "./constants";
 
 
 
 const initialState = {
     invoiceItemList: [],
-    projectResources: []
+    projectResources: [],
+    invoiceTotal: null
 };
 
 const invoiceReducer = (state = initialState, {type, payload}) => {
@@ -19,6 +21,7 @@ const invoiceReducer = (state = initialState, {type, payload}) => {
         newState.invoiceItemList = newInvoiceList;
     } else if(type === ActionTypes.RESET_INVOICE_ITEM_LIST) {
         newState.invoiceItemList = [];
+        newState.invoiceTotal = null;
     } else if( type === ActionTypes.REMOVE_ITEM_INVOICE_ITEM_LIST) {
         const newInvoiceList = [...newState.invoiceItemList]
         newInvoiceList.splice(payload, 1);
@@ -27,6 +30,8 @@ const invoiceReducer = (state = initialState, {type, payload}) => {
         newState.projectResources = payload;
     }else if(type === ActionTypes.RESET_PROJECT_RESOURCES) {
         newState.projectResources = [];
+    }else if(type === ActionTypes.SET_INVOICE_TOTAL) {
+        newState.invoiceTotal = parseFloat(payload);
     }
     
     console.log("New State:::Before Return:::"+JSON.stringify(newState));

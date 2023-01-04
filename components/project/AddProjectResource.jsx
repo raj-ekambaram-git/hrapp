@@ -356,15 +356,15 @@ const AddProjectResource = (props) => {
                                           Price
                                         </Th>
                                         <Th>
-                                        <InputGroup>
+                                        <InputGroup>                            
                                           <InputLeftElement
-                                            pointerEvents='none'
-                                            color='gray.300'
-                                            fontSize='1.2em'
-                                            children='$'
-                                          /> 
-                                        </InputGroup>                                         
+                                              pointerEvents='none'
+                                              color='dollor_input'
+                                              fontSize='dollar_left_element'
+                                              children='$'
+                                          />     
                                           <Input type="text" width="50%" onChange={(ev) => handleUnitPrice(ev.target.value)}/>
+                                        </InputGroup>                                         
                                         </Th>
                                     </Tr>
                                     <Tr>

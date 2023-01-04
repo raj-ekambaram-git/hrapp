@@ -23,7 +23,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-, "pages/index.js", "store/store.js", "store/authSlice.js", "store/index.ts", "pages/timesheet/add.jsx"  ],
+, "pages/index.js", "store/store.js", "store/authSlice.js", "store/index.ts", "pages/timesheet/add.jsx", "components/styles/inputLeftElementTheme.jsx"  ],
   "exclude": [
     "node_modules"
   ]

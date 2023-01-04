@@ -40,3 +40,10 @@ export const resetProjectResources = () => {
         payload: []
     }
 }
+
+export const setInvoiceTotal = (invoiceTotal) => {
+    return {
+        type: ActionTypes.SET_INVOICE_TOTAL,
+        payload: invoiceTotal
+    }
+}
