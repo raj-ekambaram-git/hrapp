@@ -325,7 +325,7 @@ const WeeklyTimesheetEntry = (props) => {
                 </CardHeader>
 
                 <CardBody>
-                  <Stack divider={<StackDivider />}>
+                  <Stack spacing='20px' divider={<StackDivider />}>
                     {showProjectError ? (
                         <>
                             <Heading size='sm' color="red">Select Project First</Heading>

@@ -7,7 +7,7 @@ import {
     Grid, 
     GridItem
   } from '@chakra-ui/react';
-
+  import { TimesheetHeader } from "./timesheetHeader";
 const TimesheetDateHeader = (props) => {
 
     console.log("PROPPPPPSSS::"+JSON.stringify(props));
@@ -29,37 +29,37 @@ const TimesheetDateHeader = (props) => {
                                         <HStack spacing="2em">
                                             <Box width="timesheet.entry_header">
                                                 <Text textAlign="center" fontWeight="bold">
-                                                    {calendarData.day1.date.substring(5,10).replace("-","/")}
+                                                    <TimesheetHeader day="Mon" date={calendarData.day1.date.substring(5,10).replace("-","/")}/>
                                                 </Text>     
                                             </Box>    
                                             <Box width="timesheet.entry_header" fontWeight="bold">
                                                 <Text textAlign="center">
-                                                    {calendarData.day2.date.substring(5,10).replace("-","/")}
+                                                    <TimesheetHeader day="Tue" date={calendarData.day2?.date?.substring(5,10).replace("-","/")}/>
                                                 </Text>     
                                             </Box>  
                                             <Box width="timesheet.entry_header" fontWeight="bold">
                                                 <Text textAlign="center">
-                                                    {calendarData.day3.date.substring(5,10).replace("-","/")}
+                                                    <TimesheetHeader day="Wed" date={calendarData.day3?.date?.substring(5,10).replace("-","/")}/>
                                                 </Text>     
                                             </Box>  
                                             <Box width="timesheet.entry_header" fontWeight="bold">
                                                 <Text textAlign="center">
-                                                    {calendarData.day4.date.substring(5,10).replace("-","/")}
+                                                    <TimesheetHeader day="Thu" date={calendarData.day4?.date?.substring(5,10).replace("-","/")}/>
                                                 </Text>     
                                             </Box>  
                                             <Box width="timesheet.entry_header" fontWeight="bold">
                                                 <Text textAlign="center">
-                                                    {calendarData.day5.date.substring(5,10).replace("-","/")}
+                                                    <TimesheetHeader day="Fri" date={calendarData.day5?.date?.substring(5,10).replace("-","/")}/>
                                                 </Text>     
                                             </Box>  
                                             <Box width="timesheet.entry_header" fontWeight="bold">
                                                 <Text textAlign="center">
-                                                    {calendarData.day6.date.substring(5,10).replace("-","/")}
+                                                    <TimesheetHeader day="Sat" date={calendarData.day6?.date?.substring(5,10).replace("-","/")}/>
                                                 </Text>     
                                             </Box>  
                                             <Box width="timesheet.entry_header" fontWeight="bold">
                                                 <Text textAlign="center">
-                                                    {calendarData.day7.date.substring(5,10).replace("-","/")}
+                                                    <TimesheetHeader day="Sun" date={calendarData.day7?.date?.substring(5,10).replace("-","/")}/>
                                                 </Text>     
                                             </Box>                                                                                                                                                                                      
                                         </HStack>     
