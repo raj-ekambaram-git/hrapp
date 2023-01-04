@@ -32,6 +32,14 @@ const invoiceReducer = (state = initialState, {type, payload}) => {
         newState.projectResources = [];
     }else if(type === ActionTypes.SET_INVOICE_TOTAL) {
         newState.invoiceTotal = parseFloat(payload);
+    }else if(type === ActionTypes.REMOVE_TS_INVOICE_ITEM) {
+        
+        const newInvoiceList = [...newState.invoiceItemList];
+        const timesheetEntryToRemoveIndex = newInvoiceList.findIndex(x => x.id === parseInt(payload));
+        console.log("Index of TS Entry ID::"+payload+"----"+timesheetEntryToRemoveIndex);
+        newInvoiceList.splice(timesheetEntryToRemoveIndex, 1);
+        newState.invoiceItemList = newInvoiceList;
+
     }
     
     console.log("New State:::Before Return:::"+JSON.stringify(newState));

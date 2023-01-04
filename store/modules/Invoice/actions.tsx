@@ -47,3 +47,10 @@ export const setInvoiceTotal = (invoiceTotal) => {
         payload: invoiceTotal
     }
 }
+
+export const removeTSFromInvoiceItems = (timesheetEntryId) => {
+    return {
+        type: ActionTypes.REMOVE_TS_INVOICE_ITEM,
+        payload: timesheetEntryId
+    }
+}

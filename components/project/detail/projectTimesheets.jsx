@@ -25,7 +25,7 @@ import {
 import { userService } from "../../../services";
 import { useSelector, useDispatch } from "react-redux";
 import {fetchAllProjectTimesheets, fetchProjectTimesheetsByStatus} from '../../../store/modules/Timesheet/actions';
-import {setInvoiceItemList, setInvoiceTotal} from '../../../store/modules/Invoice/actions';
+import {removeTSFromInvoiceItems, setInvoiceTotal, setInvoiceItemList} from '../../../store/modules/Invoice/actions';
 import { util } from "../../../helpers/util";
 import ProjectTimesheeEntrySection from "./projectTimesheeEntrySection";
 import { INVOICE_CALL_TYPE, TIMESHEET_STATUS } from "../../../constants/accountConstants";
@@ -40,6 +40,7 @@ const ProjectTimesheets = (props) => {
     const projectId = props.data.projectId;
     const callType = props.data.callType;
     const [size, setSize] = useState('');
+    const [enableAddTimeSheetEntry, setEnableAddTimeSheetEntry] = useState(false);
     
     const timesheetEntryList = useSelector(state => state.timesheet.projectTimesheets);
     const invoiceTotal = useSelector(state => state.invoice.invoiceTotal);
@@ -77,11 +78,14 @@ const ProjectTimesheets = (props) => {
     function addTimesheetEntryAsInvoiceItem(e) {
       console.log("Checked value:::"+e.target.checked+"----Value::"+e.target.value);
       const selectedTimesheetEntry = timesheetEntryList.find(x => x.id === parseInt(e.target.value));
+      const selectedTSQuantity = util.getTotalHours(selectedTimesheetEntry.entries);
+      const selectedTSTotal = parseFloat(selectedTSQuantity) * parseFloat(selectedTimesheetEntry.unitPrice);
+
 
       if(e.target.checked) { //Add the timesheet entry to the invoice item list
-        const selectedTSQuantity = util.getTotalHours(selectedTimesheetEntry.entries);
-        const selectedTSTotal = parseFloat(selectedTSQuantity) * parseFloat(selectedTimesheetEntry.unitPrice);
-
+        if(!enableAddTimeSheetEntry) {
+          setEnableAddTimeSheetEntry(true);
+        }
         const addedTimesheetInvoiceItem = {
           timesheetEntryId: parseInt(e.target.value),
           userId: parseInt(selectedTimesheetEntry.timesheet?.user?.id),
@@ -101,17 +105,19 @@ const ProjectTimesheets = (props) => {
           }else {
             dispatch(setInvoiceTotal(parseFloat(selectedTSTotal)));
           }
-          
-          
-        //   onClose();      
-
       } else { // Remove the timesheet entry form the invoice item list if exists
+        dispatch(removeTSFromInvoiceItems(e.target.value));   
+        if(invoiceTotal != undefined) {
+            dispatch(setInvoiceTotal(parseFloat(invoiceTotal)-parseFloat(selectedTSTotal)));
+          }else {
+            dispatch(setInvoiceTotal(parseFloat(total)));
+        }
 
       }
 
     }
     function handleAddTimesheetsToInvoice() {
-
+      onClose();   
     }
   return (
 
@@ -152,7 +158,7 @@ const ProjectTimesheets = (props) => {
                                 <Button className="btn" onClick={() => handleRejectedTimesheets()} width="timesheet.project_timesheets_button" bgColor="button.primary.color">
                                   Rejected
                                 </Button>  
-                                {callType==INVOICE_CALL_TYPE ? (
+                                {(callType==INVOICE_CALL_TYPE && enableAddTimeSheetEntry)? (
                                   <>
                                   <Button className="btn" onClick={() => handleAddTimesheetsToInvoice()} width="timesheet.project_timesheets_button" bgColor="button.primary.color">
                                     Add to Invoice
