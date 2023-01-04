@@ -444,7 +444,7 @@ const InvoiceAddEdit = (props) => {
                       <Box>
                         <FormControl isRequired>
                           <FormLabel>Invoice Date</FormLabel>
-                          <DatePicker invoiceDate={invoiceDate} onDateChange={setValue} />
+                          <DatePicker id="invoiceDate" invoiceDate={invoiceDate} onDateChange={setValue} />
                           {/* <Input
                             placeholder="Select Date and Time"
                             type="datetime-local"
@@ -454,7 +454,7 @@ const InvoiceAddEdit = (props) => {
                       <Box>
                         <FormControl>
                           <FormLabel>Due Date</FormLabel>
-                          <DatePicker dueDte={dueDte} onDateChange={setInvoiceDate} />
+                          <DatePicker id="dueDte" dueDte={dueDte} onDateChange={setInvoiceDate} />
                           {/* <Input
                             placeholder="Select Date and Time"
                             type="datetime-local"
