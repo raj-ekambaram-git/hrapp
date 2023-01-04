@@ -12,9 +12,25 @@ export const timesheetService = {
     getTimesheetDetails,
     updateTimesheetEntry,
     getTimesheetMetaForDate,
-    getTimesheetByName
+    getTimesheetByName,
+    updateTimesheetEntries
 };
 
+function updateTimesheetEntries(timesheetEntryIds, data) {
+  console.log("timesheetEntryIds:::"+JSON.stringify(timesheetEntryIds)+"*****DAta::"+JSON.stringify(data));
+
+  return fetchWrapper.put(`${baseUrl}/timesheet/entries/status/update`, {
+    tsIds: timesheetEntryIds,
+    data: data
+  }
+  ).then(tsEntries => {
+    return tsEntries;
+  }).catch(err => {
+    console.log("Successfylly Created Invooice But error updating timesheets::"+err)
+    return {errorMessage: err, error: true};
+  });
+
+}
 function getTimesheetMetaForDate(todayStr) {
   console.log("getTimesheetDetailsAPICall:: todayStr ----- "+todayStr);
 
