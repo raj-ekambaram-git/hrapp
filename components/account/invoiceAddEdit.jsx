@@ -75,7 +75,6 @@ const InvoiceAddEdit = (props) => {
     dispatch(resetInvoiceItemList());
     if(props && props.data && props.data.mode != MODE_ADD) {
       setAddMode(false);
-      setEnableInvoiceItemAdd(true);
     }else {
       // setValue("vendorId", incomingVendorId);
     }
@@ -144,7 +143,13 @@ const InvoiceAddEdit = (props) => {
             notes: invoiceResponse.notes,
             paymentTerms: invoiceResponse.paymentTerms
         };
-
+        setInvoiceType(invoiceResponse.type);
+        setProjectId(invoiceResponse.projectId);
+        setProjectType(invoiceResponse.project?.type);
+        
+        if(invoiceResponse.invoiceItems != undefined && invoiceResponse.invoiceItems.length >0){
+          setEnableInvoiceItemAdd(true);
+        }
         // setInvoice(invoiceData);
         console.log("invoiceResponse.invoiceItemList::::"+JSON.stringify(invoiceResponse.invoiceItems))
         dispatch(setInvoiceItemList(invoiceResponse.invoiceItems));

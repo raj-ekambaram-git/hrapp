@@ -28,12 +28,13 @@ const InvoiceItems = (props) => {
     const projectResources = useSelector(state => state.invoice.projectResources);
     const invoiceTotal = useSelector(state => state.invoice.invoiceTotal);
 
-    console.log("invoiceItemListNew::"+JSON.stringify(invoiceItemListNew));
+    // console.log("InvoiceItems ALL Data::"+JSON.stringify(props));
 
     const projectId = props.data.projectId; 
     const projectType = props.data.projectType;
     const invoiceType = props.data.invoiceType;
 
+    console.log("invoiceType:::"+JSON.stringify(invoiceType))
 
     useEffect(() => {
       }, []);
