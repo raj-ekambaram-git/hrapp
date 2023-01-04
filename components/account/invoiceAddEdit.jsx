@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { accountService, userService } from "../../services";
+import { accountService, invoiceService, userService } from "../../services";
 import {MODE_ADD, INVOICE_VALIDATION_SCHEMA, INVOICE_STATUS,INVOICE_PAY_TERMNS, EMPTY_STRING} from "../../constants/accountConstants";
 
 import {
@@ -208,53 +208,32 @@ const InvoiceAddEdit = (props) => {
   // Create Account 
   const createInvoice = async (formData) => {
     try {
-
-        console.log("Create Invoice FORM Data::"+JSON.stringify(formData)+"---invoiceDate::"+JSON.stringify(invoiceDate)+"----DueDate"+dueDte)
-        let paidAmountValue = 0;
-        if(formData.paidAmount != undefined && formData.paidAmount != EMPTY_STRING) {
-          paidAmountValue = parseFloat(formData.paidAmount);
+        const responseData = await invoiceService.createNewInvoice(formData, invoiceItemList, invoiceDate, dueDte);
+        if(!responseData.error) {
+          toast({
+            title: 'New Invoice.',
+            description: 'SSSSS Successfully added new invoice.',
+            status: 'success',
+            position: 'top',
+            duration: 3000,
+            isClosable: true,
+          })
+          router.push("/account/vendor/"+responseData.vendorId+"/invoices");
+        }else {
+          toast({
+            title: 'Invoice Error.',
+            description: 'DDDD Not able to create invoice, plrease try again or contact administrator.',
+            status: 'error',
+            position: 'top',
+            duration: 6000,
+            isClosable: true,
+          })
         }
-        const res = await fetch("/api/account/invoice/create", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            description: formData.description,
-            type: formData.type,
-            accountId: parseInt(formData.accountId),
-            vendorId: parseInt(formData.vendorId),
-            projectId: parseInt(formData.projectId),
-            invoiceDate: new Date(invoiceDate.date),
-            dueDte: new Date(dueDte.date),
-            invoiceItems: {
-              create: invoiceItemList
-            },
-            transactionId: formData.transactionId,
-            total: formData.total,
-            notes: formData.notes,
-            paidAmount: paidAmountValue,
-            status: formData.status,
-            paymentTerms: formData.paymentTerms
-          }), 
-        });
-        const data = await res.json();
-
-        toast({
-          title: 'New Invoice.',
-          description: 'Successfully added new invoice.',
-          status: 'success',
-          position: 'top',
-          duration: 3000,
-          isClosable: true,
-        })
-        router.push("/account/vendor/"+data.vendorId+"/invoices");
-        
-      
     } catch (error) {
+      console.log("ERRRROORRRR:"+error)
       toast({
         title: 'Invoice Error.',
-        description: 'Not able to create invoice, plrease try again or contact administrator.',
+        description: 'Not able to create invoice, plrease try again or contact administrator. Details:'+error,
         status: 'error',
         position: 'top',
         duration: 6000,
@@ -269,47 +248,28 @@ const InvoiceAddEdit = (props) => {
   const updateInvoice = async (invoiceId, formData) => {
     try {
 
-      let paidAmountValue = 0;
-      if(formData.paidAmount != undefined && formData.paidAmount != EMPTY_STRING) {
-        paidAmountValue = parseFloat(formData.paidAmount);
+      const responseData = await invoiceService.updateInvoice(formData, invoiceId, invoiceDate, dueDte,invoiceItemList);
+
+      if(!responseData.error) {
+        toast({
+          title: 'Update Invoice.',
+          description: 'Successfully updated invoice.',
+          status: 'success',
+          position: 'top',
+          duration: 3000,
+          isClosable: true,
+        })
+        router.push("/account/vendor/"+responseData.vendorId+"/invoices");
+      }else {
+        toast({
+          title: 'Invoice Error.',
+          description: 'Not able to update invoice, plrease try again or contact administrator. Error:'+responseData.error,
+          status: 'error',
+          position: 'top',
+          duration: 6000,
+          isClosable: true,
+        })
       }
-      
-      const res = await fetch(`/api/account/invoice/${invoiceId}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          id: parseInt(invoiceId),
-          description: formData.description,
-          type: formData.type,
-          accountId: parseInt(formData.accountId),
-          vendorId: parseInt(formData.vendorId),
-          projectId: parseInt(formData.projectId),
-          invoiceDate: new Date(invoiceDate.date),
-          dueDte: new Date(dueDte.date),
-          transactionId: formData.transactionId,
-          total: formData.total,
-          notes: formData.notes,
-          paidAmount: formData.paidAmount,
-          status: formData.status,
-          paymentTerms: formData.paymentTerms  
-
-        }),
-      });
-
-      const data = await res.json();
-      
-      router.push("/account/vendor/"+data.vendorId+"/invoices");
-
-      toast({
-        title: 'Update Invoice.',
-        description: 'Successfully updated invoice.',
-        status: 'success',
-        position: 'top',
-        duration: 3000,
-        isClosable: true,
-      })
 
     } catch (error) {
       console.log(error)

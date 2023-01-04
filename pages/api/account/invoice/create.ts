@@ -8,8 +8,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(405).json({ message: 'Method not allowed' });
   }
 
+  
   try {
     const invoice = req.body;
+    console.log("invoice create data::"+JSON.stringify(invoice))
     
     // const user: Prisma.UserCreateInput = JSON.parse(req.body);
     const savedInvoice = await prisma.invoice.create({
