@@ -15,7 +15,7 @@ import {
   import {
     DeleteIcon
   } from '@chakra-ui/icons';
-  import {INVOICE_CALL_TYPE, PROJECT_TYPE_GENERAL} from "../../constants/accountConstants";
+  import {INVOICE_CALL_TYPE, PROJECT_TYPE_GENERAL, PROJECT_TYPE_STAFFING} from "../../constants/accountConstants";
 import ProjectTimesheets from "../project/detail/projectTimesheets";
 import { useSelector, useDispatch } from "react-redux";
 import { removeItemFromInvoiceItemList, setInvoiceTotal } from "../../store/modules/Invoice/actions";
@@ -39,7 +39,7 @@ const InvoiceItems = (props) => {
       }
 
     function deleteInvoiceItem(removeIndex, invoiceItemTotal) {
-        dispatch(removeItemFromInvoiceItemList(removeIndex));
+        dispatch(removeItemFromInvoiceItemList(removeIndex));   
 
         if(invoiceTotal != undefined) {
             dispatch(setInvoiceTotal(parseFloat(invoiceTotal)-parseFloat(invoiceItemTotal)));
@@ -53,7 +53,9 @@ const InvoiceItems = (props) => {
         <div>
             <HStack>
                 <AddInvoiceItem data={addInvoiceData}></AddInvoiceItem>
-                <ProjectTimesheets data={{projectId: projectId, callType: INVOICE_CALL_TYPE}}/>
+                {projectType !== PROJECT_TYPE_GENERAL ? (
+                    <ProjectTimesheets data={{projectId: projectId, callType: INVOICE_CALL_TYPE}}/>
+                ) : (<></>)}
             </HStack>
             {invoiceItemListNew.length > 0 ? (<>
                 <TableContainer marginTop="1rem">

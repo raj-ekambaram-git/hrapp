@@ -208,7 +208,7 @@ const ProjectTimesheets = (props) => {
                                             </Th>                                                                                    
                                     </Tr>
                                               
-                                    ))};
+                                    ))}
                                   </Tbody>
                                   
                                 </Table>

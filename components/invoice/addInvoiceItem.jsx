@@ -21,6 +21,8 @@ import {
   Box,
   TableContainer,
   TableCaption,
+  InputGroup,
+  InputLeftElement
 } from '@chakra-ui/react';
 import {EMPTY_STRING, MODE_ADD, PROJECT_TYPE_GENERAL} from "../../constants/accountConstants";
 import {setInvoiceItemList, setInvoiceTotal} from '../../store/modules/Invoice/actions';
@@ -182,7 +184,15 @@ const AddInvoiceItem = (props) => {
                                               Price
                                             </Th>
                                             <Th>
-                                              <Input type="text" width="invoice.price_input" onChange={(ev) => handleUnitPrice(ev.target.value)}/>
+                                              <InputGroup>
+                                                <InputLeftElement
+                                                    pointerEvents='none'
+                                                    color='dollor_input'
+                                                    fontSize='dollar_left_element'
+                                                    children='$'
+                                                />      
+                                                <Input type="text" width="invoice.price_input" onChange={(ev) => handleUnitPrice(ev.target.value)}/>
+                                              </InputGroup>                             
                                             </Th>
                                         </Tr>
                                         <Tr>
@@ -220,7 +230,15 @@ const AddInvoiceItem = (props) => {
                                               Invoice Item Total
                                             </Th>
                                             <Th>
-                                              <Input type="text" width="invoice.total_input" value={total}/>
+                                              <InputGroup>
+                                                <InputLeftElement
+                                                    pointerEvents='none'
+                                                    color='dollor_input'
+                                                    fontSize='dollar_left_element'
+                                                    children='$'
+                                                />      
+                                                <Input type="text" width="invoice.total_input" value={total}/>
+                                              </InputGroup>                             
                                             </Th>
                                         </Tr>                                                                                                     
                                       </Tbody>
