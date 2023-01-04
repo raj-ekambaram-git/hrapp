@@ -20,6 +20,7 @@ import {
     Tbody,
     Textarea,
     Text,
+    Tooltip
   } from '@chakra-ui/react';
 import { EMPTY_STRING, TIMESHEET_STATUS, DEFAULT_NOTES } from "../../constants/accountConstants";
 import { timesheetService, userService} from "../../services";
@@ -142,25 +143,39 @@ import { fetchTimesheetsForApproval } from "../../store/modules/Timesheet/action
                         <Tbody>
                             <Tr>
                                 <Th>
-                                    {tsEntryDetail.entries?.day1?.hours ? tsEntryDetail.entries?.day1?.hours+ " hrs" : "0 hrs"} 
+                                    <Tooltip label={tsEntryDetail.entries?.day1?.note} maxWidth="timesheet.note_hover_width">
+                                        {tsEntryDetail.entries?.day1?.hours ? tsEntryDetail.entries?.day1?.hours+ " hrs" : "0 hrs"} 
+                                    </Tooltip>
                                 </Th>
                                 <Th>
-                                    {tsEntryDetail.entries?.day2?.hours ? tsEntryDetail.entries?.day2?.hours+ " hrs" : "0 hrs"} 
+                                    <Tooltip label={tsEntryDetail.entries?.day2?.note} maxWidth="timesheet.note_hover_width">
+                                        {tsEntryDetail.entries?.day2?.hours ? tsEntryDetail.entries?.day2?.hours+ " hrs" : "0 hrs"} 
+                                    </Tooltip>
                                 </Th>
                                 <Th>
-                                    {tsEntryDetail.entries?.day3?.hours ? tsEntryDetail.entries?.day2?.hours+ " hrs" : "0 hrs"} 
+                                    <Tooltip label={tsEntryDetail.entries?.day3?.note} maxWidth="timesheet.note_hover_width">
+                                        {tsEntryDetail.entries?.day3?.hours ? tsEntryDetail.entries?.day2?.hours+ " hrs" : "0 hrs"} 
+                                    </Tooltip>
                                 </Th>
                                 <Th>
-                                    {tsEntryDetail.entries?.day4?.hours ? tsEntryDetail.entries?.day4?.hours+ " hrs" : "0 hrs"} 
+                                    <Tooltip label={tsEntryDetail.entries?.day4?.note} maxWidth="timesheet.note_hover_width">
+                                        {tsEntryDetail.entries?.day4?.hours ? tsEntryDetail.entries?.day4?.hours+ " hrs" : "0 hrs"} 
+                                    </Tooltip>
                                 </Th>
                                 <Th>
-                                    {tsEntryDetail.entries?.day5?.hours ? tsEntryDetail.entries?.day5?.hours+ " hrs" : "0 hrs"} 
+                                    <Tooltip label={tsEntryDetail.entries?.day5?.note} maxWidth="timesheet.note_hover_width">
+                                        {tsEntryDetail.entries?.day5?.hours ? tsEntryDetail.entries?.day5?.hours+ " hrs" : "0 hrs"} 
+                                    </Tooltip>
                                 </Th>
                                 <Th>
-                                    {tsEntryDetail.entries?.day6?.hours ? tsEntryDetail.entries?.day6?.hours+ " hrs" : "0 hrs"} 
+                                    <Tooltip label={tsEntryDetail.entries?.day6?.note} maxWidth="timesheet.note_hover_width">
+                                        {tsEntryDetail.entries?.day6?.hours ? tsEntryDetail.entries?.day6?.hours+ " hrs" : "0 hrs"} 
+                                    </Tooltip>
                                 </Th>
                                 <Th>
-                                    {tsEntryDetail.entries?.day7?.hours ? tsEntryDetail.entries.day7.hours+ " hrs" : "0 hrs"} 
+                                    <Tooltip label={tsEntryDetail.entries?.day7?.note} maxWidth="timesheet.note_hover_width">
+                                        {tsEntryDetail.entries?.day7?.hours ? tsEntryDetail.entries.day7.hours+ " hrs" : "0 hrs"} 
+                                    </Tooltip>
                                 </Th>                                
                             </Tr>
                         </Tbody>

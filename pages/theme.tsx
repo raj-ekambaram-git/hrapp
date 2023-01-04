@@ -121,7 +121,8 @@ const theme = extendTheme({
       project_timesheets_approved_on: "4%",
       project_timesheets_approved_by: "30%",
       project_timesheets_last_update: "4%",
-      project_timesheets_button: "20%"
+      project_timesheets_button: "20%",
+      note_hover_width: '200px'
     },      
     project: {
       add_resource: "md",
