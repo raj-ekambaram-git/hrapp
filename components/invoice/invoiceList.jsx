@@ -233,12 +233,12 @@ const UserList = (props) => {
                             </Th>
                             <Th>
                               <Text pt='table_display_value' fontSize='table_display_value'>
-                                {invoice.total}
+                               $ {invoice.total}
                               </Text>
                             </Th>
                             <Th>
                               <Text pt='table_display_value' fontSize='table_display_value'>
-                                {invoice.paidAmount}
+                               $ {parseFloat(invoice.total)-parseFloat(invoice.paidAmount)}
                               </Text>
                             </Th>
                             <Th>

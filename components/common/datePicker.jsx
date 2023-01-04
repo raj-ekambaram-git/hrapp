@@ -165,8 +165,6 @@ const DatePicker = ({
   const [currentMonthYear, setCurrentMonthYear] = useState(() =>
     getCurrentMonthYear()
   );
-
-  console.log("Inside this ID ::"+onDateChange)
   const { onOpen, onClose, isOpen } = useDisclosure();
   const inputRef = useRef();
   const calendarRef = useRef();

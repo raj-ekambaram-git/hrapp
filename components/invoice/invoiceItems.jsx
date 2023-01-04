@@ -19,6 +19,7 @@ import {
 import ProjectTimesheets from "../project/detail/projectTimesheets";
 import { useSelector, useDispatch } from "react-redux";
 import { removeItemFromInvoiceItemList, setInvoiceTotal } from "../../store/modules/Invoice/actions";
+import { InvoiceConstants } from "../../constants/invoiceConstants";
 
 const InvoiceItems = (props) => {
     const dispatch = useDispatch();
@@ -29,6 +30,8 @@ const InvoiceItems = (props) => {
 
     const projectId = props.data.projectId; 
     const projectType = props.data.projectType;
+    const invoiceType = props.data.invoiceType;
+
 
     useEffect(() => {
       }, []);
@@ -52,10 +55,11 @@ const InvoiceItems = (props) => {
     return (
         <div>
             <HStack>
-                <AddInvoiceItem data={addInvoiceData}></AddInvoiceItem>
-                {projectType !== PROJECT_TYPE_GENERAL ? (
+                {invoiceType == InvoiceConstants.INVOICE_ITEM_TYPE_TIMESHEET ? (
                     <ProjectTimesheets data={{projectId: projectId, callType: INVOICE_CALL_TYPE}}/>
-                ) : (<></>)}
+                ) : (
+                    <AddInvoiceItem data={addInvoiceData}></AddInvoiceItem>
+                )}
             </HStack>
             {invoiceItemListNew.length > 0 ? (<>
                 <TableContainer marginTop="1rem">

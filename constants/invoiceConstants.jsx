@@ -8,6 +8,23 @@ export const InvoiceConstants = {
     'Cancelled': 'Cancelled',
   },
   INVOICE_CURRENCY_USD: 'USD',
-  INVOICE_UOM_HOURS: 'Hours'
+  INVOICE_UOM_HOURS: 'Hours',
+  INVOICE_TYPES: [
+    {
+      invoiceTypeId: "General",
+      invoiceTypeName: "General"
+    },
+    {
+      invoiceTypeId: "Staffing",
+      invoiceTypeName: "Staffing"
+    },
+    {
+      invoiceTypeId: "Project",
+      invoiceTypeName: "Project"
+    },
+    {
+      invoiceTypeId: "Timesheet",
+      invoiceTypeName: "Timesheet"
+    }
+  ]
 }
-

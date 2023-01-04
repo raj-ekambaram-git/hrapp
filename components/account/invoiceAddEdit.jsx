@@ -29,6 +29,7 @@ import InvoiceItems from "../invoice/invoiceItems";
 import { useDispatch,useSelector } from "react-redux";
 import { resetInvoiceItemList, setInvoiceItemList, setProjectResources, resetProjectResources } from "../../store/modules/Invoice/actions";
 import DatePicker from "../common/datePicker";
+import { InvoiceConstants } from "../../constants/invoiceConstants";
 
 
 
@@ -50,6 +51,7 @@ const InvoiceAddEdit = (props) => {
   const [vendorList, setVendorList] = useState([]);
   const [projectList, setProjectList] = useState([]);
   const [projectType, setProjectType] = useState("");
+  const [invoiceType, setInvoiceType] = useState("");
   const [projectId, setProjectId] = useState("");
   const [enableInvoiceItemAdd, setEnableInvoiceItemAdd] = useState(false);
   
@@ -170,8 +172,9 @@ const InvoiceAddEdit = (props) => {
 
   } 
 
-  function handleInvoiceDate(ev) {
-    console.log("handleInvoiceDate:::"+ev)
+  function handleInvoiceType(invoiceTypeValue) {
+    console.log("handleInvoiceType:::"+invoiceTypeValue);
+    setInvoiceType(invoiceTypeValue)
   }
 
 
@@ -366,10 +369,11 @@ const InvoiceAddEdit = (props) => {
                         <Box>
                           <FormControl isRequired>
                             <FormLabel>Invoice Type</FormLabel>
-                            <Select width="100%" id="type" {...register('type')} >
-                              <option value="Staffing">Staffing</option>
-                              <option value="Product">Product</option>
-                              <option value="Project">Project</option>
+                            <Select width="100%" id="type" {...register('type')} onChange={(ev) => handleInvoiceType(ev.target.value)}>
+                            <option value="">Select Invoice Type</option>
+                            {InvoiceConstants.INVOICE_TYPES?.map((invoiceType) => (
+                                    <option value={invoiceType.invoiceTypeId}>{invoiceType.invoiceTypeName}</option>
+                              ))}                                  
                             </Select>
                           </FormControl>     
                         </Box>  
@@ -527,7 +531,7 @@ const InvoiceAddEdit = (props) => {
                   <Stack divider={<StackDivider />} spacing='4'>
                       <Box>
                         {enableInvoiceItemAdd ? (<>
-                          <InvoiceItems data={{projectId: projectId, projectType: projectType}}></InvoiceItems>
+                          <InvoiceItems data={{projectId: projectId, projectType: projectType, invoiceType: invoiceType}}></InvoiceItems>
                         </>) : (
                           <>
                             Enable Item Disabled
