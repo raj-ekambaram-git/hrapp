@@ -158,16 +158,20 @@ const DatePicker = ({
   colorScheme = "blue",
   minYear = 1500,
   maxYear = new Date().getFullYear(),
-  onChange = () => {}
+  id,
+  onDateChange,
+  onChange = (e) => {console.log("SSEEE:"+JSON.stringify(e))}
 }) => {
   const [currentMonthYear, setCurrentMonthYear] = useState(() =>
     getCurrentMonthYear()
   );
 
+  console.log("Inside this ID ::"+onDateChange)
   const { onOpen, onClose, isOpen } = useDisclosure();
   const inputRef = useRef();
   const calendarRef = useRef();
   const gridRef = useRef();
+  
 
   useOutsideClick({
     ref: inputRef,
@@ -204,8 +208,11 @@ const DatePicker = ({
   };
 
   const handleInputChange = (e) => {
+    console.log("inputValue::inputValue:::"+e)
     setSelectedDate((prev) => {
       const inputValue = e.target.value;
+
+      
       const [month, day, year] = inputValue.split("/");
       const newDate = new Date(year, month - 1, day);
       const yearIsLong = year && year.length === 4;
@@ -313,7 +320,7 @@ const DatePicker = ({
                 icon={<RiArrowLeftSLine />}
               />
               {months[currentMonthYear.month - 1]}, {currentMonthYear.year}
-              <IconButton
+             <IconButton
                 onClick={incrementMonth}
                 icon={<RiArrowRightSLine />}
               />

@@ -166,6 +166,12 @@ const InvoiceAddEdit = (props) => {
     setProjectId(EMPTY_STRING);
 
   } 
+
+  function handleInvoiceDate(ev) {
+    console.log("handleInvoiceDate:::"+ev)
+  }
+
+
   async function handleProjectSelection(e) {
     
     if(projectId === "" || projectId === undefined) {
@@ -197,7 +203,7 @@ const InvoiceAddEdit = (props) => {
   const createInvoice = async (formData) => {
     try {
 
-        console.log("Create Invoice FORM Data::"+JSON.stringify(formData)+"---invoiceDate::"+invoiceDate+"----DueDate"+dueDte)
+        console.log("Create Invoice FORM Data::"+JSON.stringify(formData)+"---invoiceDate::"+JSON.stringify(invoiceDate)+"----DueDate"+dueDte)
 
         const res = await fetch("/api/account/invoice/create", {
           method: "POST",
@@ -210,8 +216,8 @@ const InvoiceAddEdit = (props) => {
             accountId: parseInt(formData.accountId),
             vendorId: parseInt(formData.vendorId),
             projectId: parseInt(formData.projectId),
-            invoiceDate: new Date(invoiceDate),
-            dueDte: new Date(dueDte),
+            invoiceDate: new Date(invoiceDate.date),
+            dueDte: new Date(dueDte.date),
             invoiceItems: {
               create: invoiceItemList
             },
@@ -266,8 +272,8 @@ const InvoiceAddEdit = (props) => {
           accountId: parseInt(formData.accountId),
           vendorId: parseInt(formData.vendorId),
           projectId: parseInt(formData.projectId),
-          invoiceDate: new Date(formData.invoiceDate),
-          dueDte: new Date(formData.dueDte),
+          invoiceDate: new Date(invoiceDate.date),
+          dueDte: new Date(dueDte.date),
           transactionId: formData.transactionId,
           total: formData.total,
           notes: formData.notes,
@@ -444,17 +450,13 @@ const InvoiceAddEdit = (props) => {
                       <Box>
                         <FormControl isRequired>
                           <FormLabel>Invoice Date</FormLabel>
-                          <DatePicker id="invoiceDate" invoiceDate={invoiceDate} onDateChange={setValue} />
-                          {/* <Input
-                            placeholder="Select Date and Time"
-                            type="datetime-local"
-                            id="invoiceDate"  size="md" {...register('invoiceDate')} /> */}
+                          <DatePicker id="invoiceDate" invoiceDate={invoiceDate} onChange={setInvoiceDate}/>
                         </FormControl>     
                       </Box>
                       <Box>
                         <FormControl>
                           <FormLabel>Due Date</FormLabel>
-                          <DatePicker id="dueDte" dueDte={dueDte} onDateChange={setInvoiceDate} />
+                          <DatePicker id="dueDte" dueDte={dueDte} onChange={setDueDte}/>
                           {/* <Input
                             placeholder="Select Date and Time"
                             type="datetime-local"
