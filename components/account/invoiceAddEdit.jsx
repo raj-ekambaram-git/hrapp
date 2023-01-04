@@ -457,10 +457,6 @@ const InvoiceAddEdit = (props) => {
                         <FormControl>
                           <FormLabel>Due Date</FormLabel>
                           <DatePicker id="dueDte" dueDte={dueDte} onChange={setDueDte}/>
-                          {/* <Input
-                            placeholder="Select Date and Time"
-                            type="datetime-local"
-                            id="dueDte"  size="md" {...register('dueDte')} /> */}
                         </FormControl>     
                       </Box>  
                     </HStack>                                        
