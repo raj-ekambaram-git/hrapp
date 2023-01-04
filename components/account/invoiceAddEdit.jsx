@@ -522,26 +522,23 @@ const InvoiceAddEdit = (props) => {
                   </Stack>
                 </CardBody>
               </Card>
-              <Card>
-                <CardHeader bgColor="table_tile">
-                  <Heading size='sm'>Invoice Items</Heading>
-                </CardHeader>
+              {enableInvoiceItemAdd ? (
+                <Card>
+                  <CardHeader bgColor="table_tile">
+                    <Heading size='sm'>Invoice Items</Heading>
+                  </CardHeader>
 
-                <CardBody>
-                  <Stack divider={<StackDivider />} spacing='4'>
-                      <Box>
-                        {enableInvoiceItemAdd ? (<>
+                  <CardBody>
+                    <Stack divider={<StackDivider />} spacing='4'>
+                        <Box>
                           <InvoiceItems data={{projectId: projectId, projectType: projectType, invoiceType: invoiceType}}></InvoiceItems>
-                        </>) : (
-                          <>
-                            Enable Item Disabled
-                          </>
-                        )}
-                          
                       </Box>                     
-                  </Stack>
-                </CardBody>
-              </Card>               
+                    </Stack>
+                  </CardBody>
+                </Card>               
+              ) : (
+                <></>
+                )}
               <Flex marginBottom={4}>
                 <HStack>
                   <Box>
