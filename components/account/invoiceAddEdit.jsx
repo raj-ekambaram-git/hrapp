@@ -25,18 +25,19 @@ import {
   useToast
 } from '@chakra-ui/react'
 import InvoiceItems from "../invoice/invoiceItems";
+import { useDispatch,useSelector } from "react-redux";
+import { resetInvoiceItemList, setInvoiceItemList } from "../../store/modules/Invoice/actions";
 
 
 const InvoiceAddEdit = (props) => {
   
   
   const invoiceId = props.data.invoiceId;
-  
+  const dispatch = useDispatch();
   const router = useRouter();
   const toast = useToast();
   
-  const [invoiceItems, setInvoiceItems] = useState([]);
-  const [invoice, setInvoice] = useState({});
+
   const [isPageAuthprized, setPageAuthorized] = useState(false);
   const [isPageSectionAuthorized, setPageSectionAuthorized] = useState(false);
   const [isAddMode, setAddMode] = useState(true);
@@ -47,9 +48,12 @@ const InvoiceAddEdit = (props) => {
   const [projectType, setProjectType] = useState("");
   const [projectId, setProjectId] = useState("");
   const [projectResources, setProjectResources] = useState([]);
-  const [invoiceItemList, setInvoiceItemList] = useState([]);
+  // const [invoiceItemList, setInvoiceItemList] = useState([]);
   const [enableInvoiceItemAdd, setEnableInvoiceItemAdd] = useState(false);
   
+  //Get the invoiceItemsList if there are any
+  const invoiceItemList = useSelector(state => state.invoice.invoiceItemList);
+  console.log("invoiceItemList::: ADD Fiel::"+JSON.stringify(invoiceItemList))
 
   //User Validation START
   const formOptions = { resolver: yupResolver(INVOICE_VALIDATION_SCHEMA) };
@@ -59,20 +63,11 @@ const InvoiceAddEdit = (props) => {
   const { errors } = formState;
 
 
-  const handlePhoneInput = (e) => {
-    // this is where we'll call the phoneNumberFormatter function
-    const formattedPhoneNumber = util.formatPhoneNumber(e.target.value);
-    // we'll set the input value using our setInputValue
-    setValue(accountPhone, formattedPhoneNumber);
-    // setAccountPhone(formattedPhoneNumber);
-  };
-  //Account Validation END
-
-  
-
   
   //Get Account Details only if its EditMode
   useEffect(() => {
+    //Reset the invoiceItem List
+    dispatch(resetInvoiceItemList());
     if(props && props.data && props.data.mode != MODE_ADD) {
       setAddMode(false);
       // setEnableInvoiceItemAdd(true);
@@ -84,9 +79,11 @@ const InvoiceAddEdit = (props) => {
       setPageAuthorized(true);
     }
 
+    // ONly for Super Admins
     if(userService.isSuperAdmin()) {
       getAccountsList();
     }
+    //Get the vndor list for creating invoices
     if(userService.isAccountAdmin() || userService.isAccountVendorRep()) {
       //This gets called only when account user is logged and create
       getVendorList(userService.getAccountDetails().accountId);
@@ -143,8 +140,9 @@ const InvoiceAddEdit = (props) => {
             paymentTerms: invoiceResponse.paymentTerms
         };
 
-        setInvoice(invoiceData);
-        setInvoiceItemList(invoiceResponse.invoiceItemList)
+        // setInvoice(invoiceData);
+        dispatch(setInvoiceItemList(invoiceResponse.invoiceItemList));
+        // setInvoiceItemList(invoiceResponse.invoiceItemList)
 
         // get user and set form fields
             const fields = ['description', "type", "vendorId","accountId","projectId", "notes","invoiceDate","dueDte","transactionId", "total", "paidAmount","status","paymentTerms"];
@@ -167,14 +165,6 @@ const InvoiceAddEdit = (props) => {
     setProjectId(EMPTY_STRING);
 
   } 
-
-  async function handleInvoieItemList(invoiceItemList) {
-
-    console.log("ADD Edit :::"+JSON.stringify(invoiceItemList))
-    setInvoiceItemList(invoiceItemList)
-
-  } 
-
   async function handleProjectSelection(e) {
     
     if(projectId === "" || projectId === undefined) {
@@ -506,7 +496,7 @@ const InvoiceAddEdit = (props) => {
                   <Stack divider={<StackDivider />} spacing='4'>
                       <Box>
                         {enableInvoiceItemAdd ? (<>
-                          <InvoiceItems data={{projectId: projectId, projectType: projectType, projectResources: JSON.parse(projectResources), handleInvoieItemList: handleInvoieItemList, invoiceItemList: invoiceItemList}}></InvoiceItems>
+                          <InvoiceItems data={{projectId: projectId, projectType: projectType, projectResources: JSON.parse(projectResources)}}></InvoiceItems>
                         </>) : (
                           <>
                             Enable Item Disabled

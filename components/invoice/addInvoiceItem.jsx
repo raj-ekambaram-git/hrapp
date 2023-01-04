@@ -23,12 +23,16 @@ import {
   TableCaption,
 } from '@chakra-ui/react';
 import {EMPTY_STRING, MODE_ADD, PROJECT_TYPE_GENERAL} from "../../constants/accountConstants";
+import {setInvoiceItemList} from '../../store/modules/Invoice/actions';
+import { useDispatch } from "react-redux";
+
 
 
 const AddInvoiceItem = (props) => {
   const {data} = props;
+  const dispatch = useDispatch();
 
-console.log("Prop MOdal::::"+JSON.stringify(props));
+
   const [size, setSize] = useState('');
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [projectResources, setProjectResources] = useState([]);
@@ -45,7 +49,6 @@ console.log("Prop MOdal::::"+JSON.stringify(props));
 
   useEffect(() => {
     if(props && props.data && props.data.mode != MODE_ADD) {
-
       setProjectType(data.projectType)
       setProjectResources(data.projectResources)
     }
@@ -104,8 +107,8 @@ console.log("Prop MOdal::::"+JSON.stringify(props));
         uom: uom,
         total: total
       };
-      props.data.handleInvoieItemListModal(addedInvoiceItem);
-        
+        dispatch(setInvoiceItemList(addedInvoiceItem));
+        onClose();
     }
   } 
 

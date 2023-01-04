@@ -9,7 +9,6 @@ import {
     Tr,
     TableContainer,
     TableCaption,
-    useDisclosure,
     HStack
   
   } from '@chakra-ui/react';
@@ -18,39 +17,28 @@ import {
   } from '@chakra-ui/icons';
   import {INVOICE_CALL_TYPE, PROJECT_TYPE_GENERAL} from "../../constants/accountConstants";
 import ProjectTimesheets from "../project/detail/projectTimesheets";
-  
-const InvoiceItems = (props) => {
+import { useSelector, useDispatch } from "react-redux";
+import { removeItemFromInvoiceItemList } from "../../store/modules/Invoice/actions";
 
-    const { isOpen, onOpen, onClose } = useDisclosure()
-    const [invoiceItemList, setInvoiceItemList] = useState([]);
-    const projectId = props.data.projectId;
+const InvoiceItems = (props) => {
+    const dispatch = useDispatch();
+
+    const invoiceItemListNew = useSelector(state => state.invoice.invoiceItemList);
+
+    const projectId = props.data.projectId; 
     const projectType = props.data.projectType;
     const projectResources = props.data.projectResources;
+
     useEffect(() => {
-        setInvoiceItemList(props.data.invoiceItemList)
       }, []);
     
       const addInvoiceData = {
-        handleInvoieItemList: handleInvoieItemList,
         projectType: projectType,
         projectResources: projectResources
-
       }
 
-    async function handleInvoieItemList(invoiceItemListJSON) {
-        invoiceItemList.push(invoiceItemListJSON)
-
-        setInvoiceItemList(invoiceItemList)
-        props.data.handleInvoieItemList(invoiceItemList);
-        onClose();
-    } 
-
     function deleteInvoiceItem(removeIndex) {
-
-        const inputData = [...invoiceItemList];
-        inputData.splice(removeIndex, 1);
-        setInvoiceItemList(inputData);
-        props.data.handleInvoieItemList(inputData);
+        dispatch(removeItemFromInvoiceItemList(removeIndex));
 
     }
     
@@ -61,7 +49,8 @@ const InvoiceItems = (props) => {
                 <AddInvoiceItem data={addInvoiceData}></AddInvoiceItem>
                 <ProjectTimesheets data={{projectId: projectId, callType: INVOICE_CALL_TYPE}}/>
             </HStack>
-            {invoiceItemList.length > 0 ? (<>
+            ---{JSON.stringify(invoiceItemListNew)}
+            {invoiceItemListNew.length > 0 ? (<>
                 <TableContainer marginTop="1rem">
                     <Table>
                         <TableCaption></TableCaption>
@@ -97,7 +86,7 @@ const InvoiceItems = (props) => {
                             </Tr>   
                         </Thead>                
                         <Tbody>
-                            {invoiceItemList?.map((invoiceItem, index) => (
+                            {invoiceItemListNew?.map((invoiceItem, index) => (
                                 <Tr>
                                     <Th>
                                         <DeleteIcon onClick={() => deleteInvoiceItem(index)}/>
