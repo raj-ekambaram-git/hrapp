@@ -201,7 +201,7 @@ const ProjectTimesheets = (props) => {
                                                 {util.getFormattedDate(timesheetEntry.approvedDate)}
                                             </Th> 
                                             <Th>
-                                                {timesheetEntry.approvedUser.firstName} {timesheetEntry.approvedUser.lastName}
+                                                {timesheetEntry?.approvedUser?.firstName} {timesheetEntry.approvedUser?.lastName}
                                             </Th> 
                                             <Th>
                                                 {util.getFormattedDate(timesheetEntry.lastUpdateDate)}
