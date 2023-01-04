@@ -26,7 +26,7 @@ import {
 } from '@chakra-ui/react'
 import InvoiceItems from "../invoice/invoiceItems";
 import { useDispatch,useSelector } from "react-redux";
-import { resetInvoiceItemList, setInvoiceItemList } from "../../store/modules/Invoice/actions";
+import { resetInvoiceItemList, setInvoiceItemList, setProjectResources, resetProjectResources } from "../../store/modules/Invoice/actions";
 
 
 const InvoiceAddEdit = (props) => {
@@ -47,8 +47,6 @@ const InvoiceAddEdit = (props) => {
   const [projectList, setProjectList] = useState([]);
   const [projectType, setProjectType] = useState("");
   const [projectId, setProjectId] = useState("");
-  const [projectResources, setProjectResources] = useState([]);
-  // const [invoiceItemList, setInvoiceItemList] = useState([]);
   const [enableInvoiceItemAdd, setEnableInvoiceItemAdd] = useState(false);
   
   //Get the invoiceItemsList if there are any
@@ -141,7 +139,8 @@ const InvoiceAddEdit = (props) => {
         };
 
         // setInvoice(invoiceData);
-        dispatch(setInvoiceItemList(invoiceResponse.invoiceItemList));
+        console.log("invoiceResponse.invoiceItemList::::"+invoiceResponse.invoiceItems)
+        dispatch(setInvoiceItemList(invoiceResponse.invoiceItems));
         // setInvoiceItemList(invoiceResponse.invoiceItemList)
 
         // get user and set form fields
@@ -154,7 +153,7 @@ const InvoiceAddEdit = (props) => {
   async function refreshProjectForVendor(vendorId) {
     
     setEnableInvoiceItemAdd(false);
-    setInvoiceItemList([]);
+    dispatch(resetInvoiceItemList());
     //Call Address table to get all the addresses by vendor
     
     const projectListResponse = await accountService.getProjectsByVendor(vendorId, userService.getAccountDetails().accountId);
@@ -169,14 +168,14 @@ const InvoiceAddEdit = (props) => {
     
     if(projectId === "" || projectId === undefined) {
       setEnableInvoiceItemAdd(false);
-      setProjectResources([]);
+      dispatch(resetProjectResources())
       setProjectType("");
   
     }
     setProjectId(e.target.value);
-    setInvoiceItemList([])
+    dispatch(resetInvoiceItemList());
     setEnableInvoiceItemAdd(true);
-    setProjectResources(e.target.options.item(e.target.selectedIndex).getAttribute("data-projectResources"));
+    dispatch(setProjectResources(JSON.parse(e.target.options.item(e.target.selectedIndex).getAttribute("data-projectResources"))))
     setProjectType(e.target.options.item(e.target.selectedIndex).getAttribute("data-projectType"));
     return;
   } 
@@ -496,7 +495,7 @@ const InvoiceAddEdit = (props) => {
                   <Stack divider={<StackDivider />} spacing='4'>
                       <Box>
                         {enableInvoiceItemAdd ? (<>
-                          <InvoiceItems data={{projectId: projectId, projectType: projectType, projectResources: JSON.parse(projectResources)}}></InvoiceItems>
+                          <InvoiceItems data={{projectId: projectId, projectType: projectType}}></InvoiceItems>
                         </>) : (
                           <>
                             Enable Item Disabled

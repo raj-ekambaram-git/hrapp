@@ -24,10 +24,10 @@ const InvoiceItems = (props) => {
     const dispatch = useDispatch();
 
     const invoiceItemListNew = useSelector(state => state.invoice.invoiceItemList);
+    const projectResources = useSelector(state => state.invoice.projectResources);
 
     const projectId = props.data.projectId; 
     const projectType = props.data.projectType;
-    const projectResources = props.data.projectResources;
 
     useEffect(() => {
       }, []);
@@ -49,7 +49,6 @@ const InvoiceItems = (props) => {
                 <AddInvoiceItem data={addInvoiceData}></AddInvoiceItem>
                 <ProjectTimesheets data={{projectId: projectId, callType: INVOICE_CALL_TYPE}}/>
             </HStack>
-            ---{JSON.stringify(invoiceItemListNew)}
             {invoiceItemListNew.length > 0 ? (<>
                 <TableContainer marginTop="1rem">
                     <Table>

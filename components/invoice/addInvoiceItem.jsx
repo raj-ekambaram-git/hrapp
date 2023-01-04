@@ -24,7 +24,7 @@ import {
 } from '@chakra-ui/react';
 import {EMPTY_STRING, MODE_ADD, PROJECT_TYPE_GENERAL} from "../../constants/accountConstants";
 import {setInvoiceItemList} from '../../store/modules/Invoice/actions';
-import { useDispatch } from "react-redux";
+import { useDispatch,useSelector } from "react-redux";
 
 
 
@@ -35,7 +35,6 @@ const AddInvoiceItem = (props) => {
 
   const [size, setSize] = useState('');
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const [projectResources, setProjectResources] = useState([]);
   const [projectType, setProjectType] = useState("General");
   const [generalNote, setGeneralNote] = useState("");
   const [unitPrice, setUnitPrice] = useState("");
@@ -47,10 +46,11 @@ const AddInvoiceItem = (props) => {
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
 
+  const projectResources = useSelector(state => state.invoice.projectResources);
+
   useEffect(() => {
     if(props && props.data && props.data.mode != MODE_ADD) {
       setProjectType(data.projectType)
-      setProjectResources(data.projectResources)
     }
     
   }, []);

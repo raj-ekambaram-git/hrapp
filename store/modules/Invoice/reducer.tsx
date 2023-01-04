@@ -3,7 +3,8 @@ import { ActionTypes } from "./constants";
 
 
 const initialState = {
-    invoiceItemList: []
+    invoiceItemList: [],
+    projectResources: []
 };
 
 const invoiceReducer = (state = initialState, {type, payload}) => {
@@ -22,6 +23,10 @@ const invoiceReducer = (state = initialState, {type, payload}) => {
         const newInvoiceList = [...newState.invoiceItemList]
         newInvoiceList.splice(payload, 1);
         newState.invoiceItemList = newInvoiceList;
+    } else if(type === ActionTypes.SET_PROJECT_RESOURCES) {
+        newState.projectResources = payload;
+    }else if(type === ActionTypes.RESET_PROJECT_RESOURCES) {
+        newState.projectResources = [];
     }
     
     console.log("New State:::Before Return:::"+JSON.stringify(newState));
