@@ -27,12 +27,12 @@ import {
   } from '@chakra-ui/icons';  
   import {TIMESHEET_STATUS} from "../../constants/accountConstants";
   import TimesheetEntryDetail from './timesheetEntryDetail';
+import { useSelector } from 'react-redux';
+  
 const ProjectTimesheets = (props) => {
-    const approvalList = props.timesheetList;
-
-    function removeUpdatedItemFromList() {
-        console.log("removeUpdatedItemFromList......")
-    }
+    
+    const approvalList = useSelector(state => state.timesheet.approvalTimesheets);
+    
 
     return (
         <div>

@@ -7,25 +7,27 @@ import { ActionTypes } from "./constants";
 const initialState = {
     timesheetReducerTest: "Testing",
     timesheetEntries: [],
-    projectTimesheets: []
+    projectTimesheets: [],
+    approvalTimesheets: []
 };
 
 const timesheetReducer = (state = initialState, {type, payload}) => {
-
-    const newState = {...state};
+    const newState = {...state}; 
 
     if(type === ActionTypes.SUBMIT_NEW_TIMESHEET) {
-        console.log("inside ghe siubmit");
         newState.timesheetReducerTest = payload;
     } else if (type === ActionTypes.SET_TIMESHEET_ENTRIES) {
         newState.timesheetEntries = payload;
-    }  else if (type === ActionTypes.GET_ALL_PROJECT_TIMESHEETS) {
+    } else if (type === ActionTypes.GET_ALL_PROJECT_TIMESHEETS) {
         if(!payload.error) {
             newState.projectTimesheets = payload;
         }
+    } else if (type === ActionTypes.GET_APPROVAL_TIMESHEETS) {
+        if(!payload.error) {
+            newState.approvalTimesheets = payload;
+        }
     } 
-    
-    console.log("New State:::Before Return:::"+JSON.stringify(newState));
+
     return newState;
 };
 

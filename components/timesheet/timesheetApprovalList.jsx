@@ -9,14 +9,16 @@ import {
 
 import { PageNotAuthorized } from "../common/pageNotAuthorized";
 import ProjectTimesheets from './projectTImesheets';
+import { useDispatch, useSelector } from "react-redux";
+import { fetchTimesheetsForApproval } from "../../store/modules/Timesheet/actions";
 
 const TimesheetApprovalList = (props) => {
   const router = useRouter();
+  const dispatch = useDispatch();
+
   const { data } = props.userData;
   const { isManager } = props.userData;
   const { isApprovalList } = props.userData;
-  console.log("timesheetList::"+JSON.stringify(props))
-  const [timesheetApprovalList, setTimesheetApprovalList] = useState([]);
   const [isPageAuthprized, setPageAuthorized] = useState(false);
 
   useEffect(() => {
@@ -24,25 +26,14 @@ const TimesheetApprovalList = (props) => {
     if(isManager && isApprovalList && (userService.isManager() || userService.isAccountAdmin())) {
       //get API call with accountId and VendorId
       if(userService.isSuperAdmin()) {
-        getTimesheetApprovalList(data.userId, "NaN");
+        dispatch(fetchTimesheetsForApproval(userId, "NaN"));
       }else {
-        getTimesheetApprovalList(data.userId, userService.getAccountDetails().accountId);
+        dispatch(fetchTimesheetsForApproval(data.userId, userService.getAccountDetails().accountId));
       }
       setPageAuthorized(true);
     }
 
   }, []);
-  
-    /**
-   * Function to get the list of accounts for a drop down
-   */
-    async function getTimesheetApprovalList(userId, accountId) {
-      // setPageAuthorized(true);
-      const responseData = await userService.getTimesheetApprovalByUser(userId, accountId);
-      setTimesheetApprovalList(responseData);
-
-    }
-
   
   return (
 
@@ -69,7 +60,7 @@ const TimesheetApprovalList = (props) => {
                   
                 </Heading>
               </Flex>
-              <ProjectTimesheets timesheetList={timesheetApprovalList}/>
+              <ProjectTimesheets/>
           </div>
       ) : (
         <> 

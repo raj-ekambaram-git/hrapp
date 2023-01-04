@@ -13,7 +13,8 @@ export const util = {
     getPrevioustWeekStartDateString,
     getNextWeekStartDateString,
     getFormattedDate,
-    getTotalHours
+    getTotalHours,
+    getDayMonthFormat
 };
 
 function getTotalHours(entries) {
@@ -41,6 +42,15 @@ function getTotalHours(entries) {
     }                        
     
   return totalHours;
+}
+
+function getDayMonthFormat(dateTime) {
+  if(dateTime != undefined && dateTime != EMPTY_STRING) {
+    return ((new Date(dateTime?.toString()).getMonth()+1)+"/"+ (new Date(dateTime?.toString()).getDate()+1));
+  }else {
+    return EMPTY_STRING;
+  }
+  
 }
 
 function getFormattedDate(dateTime) {

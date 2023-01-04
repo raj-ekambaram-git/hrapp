@@ -19,12 +19,16 @@ import {
     Thead,
     Tbody,
     Textarea,
-    Text
+    Text,
+    VStack
 
 
   } from '@chakra-ui/react';
 import { EMPTY_STRING, TIMESHEET_STATUS, DEFAULT_NOTES } from "../../constants/accountConstants";
 import { timesheetService } from "../../services";
+import {util} from '../../helpers/util';
+import { TimesheetHeader } from "./timesheetHeader";
+
 
   const TimesheetEntryDetail = (props) => {
     const tsEntryDetail = props.tsEntryDetail;
@@ -89,10 +93,10 @@ import { timesheetService } from "../../services";
                 <DrawerCloseButton />
                 <DrawerHeader>
                     <Heading as="h1" size="lg" letterSpacing={'-.1rem'} marginBottom="1rem">
-                        {tsEntryDetail.timesheet.name}
+                        {tsEntryDetail.timesheet?.name}
                     </Heading>
                     <Heading as="h3" size="md">
-                        {tsEntryDetail.timesheet.user.firstName} {tsEntryDetail.timesheet.user.lastName}
+                        {tsEntryDetail.timesheet?.user?.firstName} {tsEntryDetail.timesheet?.user?.lastName}
                     </Heading>
                     {showErrorMessage ? (
                         <>
@@ -111,50 +115,50 @@ import { timesheetService } from "../../services";
                         <Thead>
                             <Tr bgColor="table_tile">
                                 <Th>
-                                    1/1
+                                    <TimesheetHeader day="Mon" date={util.getDayMonthFormat(tsEntryDetail.entries?.day1?.date)}/>
                                 </Th>
                                 <Th>
-                                    1/2
+                                    <TimesheetHeader day="Tue" date={util.getDayMonthFormat(tsEntryDetail.entries?.day2?.date)}/>                                
                                 </Th>
                                 <Th>
-                                    1/3
+                                    <TimesheetHeader day="Wed" date={util.getDayMonthFormat(tsEntryDetail.entries?.day3?.date)}/>                                
                                 </Th>
                                 <Th>
-                                    1/4
+                                    <TimesheetHeader day="Thu" date={util.getDayMonthFormat(tsEntryDetail.entries?.day4?.date)}/>                                
                                 </Th>
                                 <Th>
-                                    1/1
+                                    <TimesheetHeader day="Fri" date={util.getDayMonthFormat(tsEntryDetail.entries?.day5?.date)}/>                                
                                 </Th>
                                 <Th>
-                                    1/1
+                                    <TimesheetHeader day="Sat" date={util.getDayMonthFormat(tsEntryDetail.entries?.day6?.date)}/>                                
                                 </Th>
                                 <Th>
-                                    1/1
+                                    <TimesheetHeader day="Sun" date={util.getDayMonthFormat(tsEntryDetail.entries?.day7?.date)}/>                                
                                 </Th>                                
                             </Tr>
                         </Thead>
                         <Tbody>
                             <Tr>
                                 <Th>
-                                    {tsEntryDetail.entries.day1.hours ? tsEntryDetail.entries.day1.hours+ " hrs" : "0 hrs"} 
+                                    {tsEntryDetail.entries?.day1?.hours ? tsEntryDetail.entries?.day1?.hours+ " hrs" : "0 hrs"} 
                                 </Th>
                                 <Th>
-                                    {tsEntryDetail.entries.day2.hours ? tsEntryDetail.entries.day2.hours+ " hrs" : "0 hrs"} 
+                                    {tsEntryDetail.entries?.day2?.hours ? tsEntryDetail.entries?.day2?.hours+ " hrs" : "0 hrs"} 
                                 </Th>
                                 <Th>
-                                    {tsEntryDetail.entries.day3.hours ? tsEntryDetail.entries.day2.hours+ " hrs" : "0 hrs"} 
+                                    {tsEntryDetail.entries?.day3?.hours ? tsEntryDetail.entries?.day2?.hours+ " hrs" : "0 hrs"} 
                                 </Th>
                                 <Th>
-                                    {tsEntryDetail.entries.day4.hours ? tsEntryDetail.entries.day4.hours+ " hrs" : "0 hrs"} 
+                                    {tsEntryDetail.entries?.day4?.hours ? tsEntryDetail.entries?.day4?.hours+ " hrs" : "0 hrs"} 
                                 </Th>
                                 <Th>
-                                    {tsEntryDetail.entries.day5.hours ? tsEntryDetail.entries.day5.hours+ " hrs" : "0 hrs"} 
+                                    {tsEntryDetail.entries?.day5?.hours ? tsEntryDetail.entries?.day5?.hours+ " hrs" : "0 hrs"} 
                                 </Th>
                                 <Th>
-                                    {tsEntryDetail.entries.day6.hours ? tsEntryDetail.entries.day6.hours+ " hrs" : "0 hrs"} 
+                                    {tsEntryDetail.entries?.day6?.hours ? tsEntryDetail.entries?.day6?.hours+ " hrs" : "0 hrs"} 
                                 </Th>
                                 <Th>
-                                    {tsEntryDetail.entries.day7.hours ? tsEntryDetail.entries.day7.hours+ " hrs" : "0 hrs"} 
+                                    {tsEntryDetail.entries?.day7?.hours ? tsEntryDetail.entries.day7.hours+ " hrs" : "0 hrs"} 
                                 </Th>                                
                             </Tr>
                         </Tbody>
