@@ -23,6 +23,23 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           }
       },
         include: {
+          invoiceItems: {
+            select: {
+              description: true,
+              type: true,
+              unitPrice: true,
+              currency: true,
+              quantity: true,
+              uom: true,
+              total: true,
+              status: true,
+              userId: true,
+              timesheetEntryId: true,
+              fromDate: true,
+              toDate: true
+
+            }
+          },
           vendor: {
             select: {
               id: true,
@@ -34,8 +51,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
               id: true,
               name: true
             }
-          },
-          invoiceItems: true
+          }
         }
       })
       

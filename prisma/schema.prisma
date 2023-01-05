@@ -143,6 +143,7 @@ model InvoiceItem {
   toDate           DateTime?
   createdDate      DateTime          @default(now())
   lastUpdateDate   DateTime          @updatedAt
+  markForDelete    Boolean           @default(false)
 }
 
 model Project {

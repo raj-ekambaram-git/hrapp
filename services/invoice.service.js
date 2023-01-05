@@ -16,8 +16,8 @@ export const invoiceService = {
 
 };
 
-function updateInvoice(formData, invoiceId, invoiceDate, dueDte, invoiceItemList) {
-  
+function updateInvoice(formData, invoiceId, invoiceDate, dueDte, invoiceItemList, invoiceTotal) {
+  console.log("updateInvoice::::invoiceItemList:::"+JSON.stringify(invoiceItemList));
   
   let paidAmountValue = 0;
   if(formData.paidAmount != undefined && formData.paidAmount != EMPTY_STRING) {
@@ -34,11 +34,14 @@ function updateInvoice(formData, invoiceId, invoiceDate, dueDte, invoiceItemList
         invoiceDate: new Date(invoiceDate.date),
         dueDte: new Date(dueDte.date),
         transactionId: formData.transactionId,
-        total: formData.total,
+        total: invoiceTotal,
         notes: formData.notes,
         paidAmount: formData.paidAmount,
         status: formData.status,
-        paymentTerms: formData.paymentTerms  
+        paymentTerms: formData.paymentTerms,  
+        invoiceItems: {
+          create: invoiceItemList
+        }
       }
   )
   .then(invoice => {

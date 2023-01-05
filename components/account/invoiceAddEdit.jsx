@@ -257,7 +257,7 @@ const InvoiceAddEdit = (props) => {
   const updateInvoice = async (invoiceId, formData) => {
     try {
 
-      const responseData = await invoiceService.updateInvoice(formData, invoiceId, invoiceDate, dueDte,invoiceItemList);
+      const responseData = await invoiceService.updateInvoice(formData, invoiceId, invoiceDate, dueDte,invoiceItemList, invoiceTotal);
 
       if(!responseData.error) {
         toast({
