@@ -30,6 +30,7 @@ import { useDispatch,useSelector } from "react-redux";
 import { resetInvoiceItemList, setInvoiceItemList, setProjectResources, resetProjectResources, setInvoiceTotal, setInvoicePaidAmount } from "../../store/modules/Invoice/actions";
 import DatePicker from "../common/datePicker";
 import { InvoiceConstants } from "../../constants/invoiceConstants";
+import InvoiceTransaction from "../invoice/transaction/invoiceTransaction";
 
 
 
@@ -308,13 +309,13 @@ const InvoiceAddEdit = (props) => {
             align="center"
             justify="space-between"
             wrap="wrap"
-            padding="1.5rem"
+            padding="page.heading"
             bg="heading"
             color="white"
-            marginBottom="2rem"
-            width="60%"
+            marginBottom="page.heading_marginBottom"
+            width="page.heading_width"
           >
-            <Heading as="h1" size="lg" letterSpacing={'-.1rem'}>
+            <Heading as="h4" size="md">
               {isAddMode ? (
                   <div>New {isVendor? "Vendor": "Account"} Invoice</div>
               ) : (
@@ -322,11 +323,12 @@ const InvoiceAddEdit = (props) => {
               )}              
             </Heading>
           </Flex>
-          <Box width="60%">
+          <Flex>
+          <Box width="page.heading_width">
           <form onSubmit={handleSubmit(onSubmit)}>
             <Stack spacing={4}>
               <Card>
-                <CardHeader bgColor="table_tile">
+                <CardHeader>
                   <Heading size='sm'>Invoice Details {invoiceId ? (<> for {invoiceId}</>) : (<></>)} </Heading>
                 </CardHeader>
 
@@ -335,7 +337,7 @@ const InvoiceAddEdit = (props) => {
                       <Box>
                         <FormControl isRequired>
                           <FormLabel>Invoice Reference/Details</FormLabel>
-                          <Input type="text" {...register('description')}  id="description"  size="md" />
+                          <Input type="text" {...register('description')}  id="description"  size="md" maxWidth="40%" />
                         </FormControl>     
                       </Box>
                       <HStack spacing={8}>
@@ -489,12 +491,12 @@ const InvoiceAddEdit = (props) => {
                                     fontSize='dollar_left_element'
                                     children='$'
                                 />      
-                                <Input type="text" value={invoicePaidAmount} isReadOnly/>
+                                <HStack>
+                                  <Input type="text" value={invoicePaidAmount} isReadOnly/>
+                                  <InvoiceTransaction/>
+                                </HStack>
                               </InputGroup>                             
                           </FormControl>    
-                        </Box>   
-                        <Box>
-                          Invoice Transactions    
                         </Box>   
                         </>
                       ) : (
@@ -543,7 +545,7 @@ const InvoiceAddEdit = (props) => {
             </Stack>
           </form>          
         </Box>
-
+        </Flex>
       </div>
       ) : (
         <> 
