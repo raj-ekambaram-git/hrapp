@@ -18,6 +18,10 @@ import {
   TableCaption,
   Badge
 } from '@chakra-ui/react'
+import { PageMainHeader } from "../common/pageMainHeader";
+import { PageNotAuthorized } from "../common/pageNotAuthorized";
+
+
 
 const UserList = (props) => {
   const router = useRouter();
@@ -72,31 +76,16 @@ const UserList = (props) => {
     <div>
       {isPageAuthprized ? (
         <div>
-              <Flex
-                as="nav"
-                align="center"
-                justify="space-between"
-                wrap="wrap"
-                padding="1.5rem"
-                bg="heading"
-                color="white"
-                marginBottom="2rem"
-                width="100%"
-              >
-                <Heading as="h1" size="lg" letterSpacing={'-.1rem'}>
-                  {isVendor ? (
-                    <>Vendor Users</>
-                  ) : (
-                    <>Account Users</>
-                  )}
-                  
-                </Heading>
-              </Flex>
-    
+
+              {isVendor ? (
+                <PageMainHeader heading="Vendor Users"/>
+              ) : (
+                <PageMainHeader heading="Account Users"/>
+              )}
               <Flex marginBottom="2rem">
                 <HStack>
                   <Box>
-                    <Button className="btn" onClick={navigatePage}>
+                    <Button  onClick={navigatePage}>
                       {isVendor ? (
                         <>Add New Vendor User</>
                       ) : (
@@ -197,27 +186,9 @@ const UserList = (props) => {
           </div>
       ) : (
         <> 
-          <Flex
-            as="nav"
-            align="center"
-            justify="space-between"
-            wrap="wrap"
-            padding="1.5rem"
-            bg="teal.500"
-            color="white"
-            marginBottom="2rem"
-            width="100%"
-          >
-            <Heading as="h1" size="lg" letterSpacing={'-.1rem'}>
-              Not authorized to view this page. Please contact administrator.
-            </Heading>
-          </Flex>        
+          <PageNotAuthorized/>
         </>
       ) }
-
-
-
-      
       </div>    
   );
 };

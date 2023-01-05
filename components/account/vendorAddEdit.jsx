@@ -370,26 +370,26 @@ const VendorEdit = (props) => {
 
                   <CardBody>
                     <Stack maxWidth="page.single_input" spacing="1rem">
-                        <HStack spacing="1rem">
-                          <FormControl isRequired>
-                              <FormLabel>Address Name</FormLabel>
-                              <Input type="text" id="addressName"  size="md" {...register('addressName')} />
-                            </FormControl>                          
-                            <FormControl isRequired>
-                              <FormLabel>Address1</FormLabel>
-                              <Input type="text" id="address1"  size="md" {...register('address1')} />
-                            </FormControl>   
-                          </HStack>  
-                          <HStack>
-                            <FormControl>
-                              <FormLabel>Address2</FormLabel>
-                              <Input type="text" id="address2"  size="md" {...register('address2')} />
-                            </FormControl>     
-                            <FormControl>
-                              <FormLabel>Address3</FormLabel>
-                              <Input type="text" id="address3"  size="md" {...register('address3')} />
-                            </FormControl>     
-                          </HStack>
+                      <FormControl isRequired>
+                        <FormLabel>Address Name</FormLabel>
+                        <Input type="text" id="addressName"  size="md" {...register('addressName')} />
+                      </FormControl>                          
+                      <FormControl isRequired>
+                        <FormLabel>Address1</FormLabel>
+                        <Input type="text" id="address1"  size="md" {...register('address1')} />
+                      </FormControl>   
+                      <HStack spacing="1rem">
+                        </HStack>  
+                        <HStack>
+                          <FormControl>
+                            <FormLabel>Address2</FormLabel>
+                            <Input type="text" id="address2"  size="md" {...register('address2')} />
+                          </FormControl>     
+                          <FormControl>
+                            <FormLabel>Address3</FormLabel>
+                            <Input type="text" id="address3"  size="md" {...register('address3')} />
+                          </FormControl>     
+                        </HStack>
                       <HStack spacing="1rem">
                           <FormControl isRequired>
                             <FormLabel>City</FormLabel>

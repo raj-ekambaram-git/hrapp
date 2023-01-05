@@ -23,6 +23,8 @@ import {
   StackDivider,
   useToast
 } from '@chakra-ui/react'
+import {PageNotAuthorized} from '../../components/common/pageNotAuthorized'
+import {PageMainHeader} from '../../components/common/pageMainHeader'
 
 const UserAddEdit = (props) => {
   const toast = useToast();
@@ -306,48 +308,38 @@ const UserAddEdit = (props) => {
     <div>
       {isPageAuthprized ? (
         <div> 
-          <Flex
-            as="nav"
-            align="center"
-            justify="space-between"
-            wrap="wrap"
-            padding="1.5rem"
-            bg="heading"
-            color="white"
-            marginBottom="2rem"
-            width="60%"
-          >
-            <Heading as="h1" size="lg" letterSpacing={'-.1rem'}>
-              {isAddMode ? (
-                  <div>New {isVendor? "Vendor": "Account"} User</div>
-              ) : (
-                <div>Update {isVendor? "Vendor": "Account"} User</div>
-              )}              
-            </Heading>
-          </Flex>
-          <Box width="60%">
+          
+          {isAddMode ? (
+            <div>{isVendor?( <PageMainHeader heading="New Vendor User"/>):( <PageMainHeader heading="New Account User"/>)}</div>
+          ) : (
+            <div>{isVendor? (<PageMainHeader heading="Update Vendor User"/>): (<PageMainHeader heading="Update Account User"/>)}</div>
+          )}              
+
+          <Box width="page.sub_heading_width">
           <form onSubmit={handleSubmit(onSubmit)}>
             <Stack spacing={4}>
               <Card>
-                <CardHeader bgColor="table_tile">
-                  <Heading size='sm'>User Details</Heading>
+                <CardHeader>
+                  <Heading size='xs'>User Details</Heading>
                 </CardHeader>
 
                 <CardBody>
-                  <Stack divider={<StackDivider />} spacing='4'>
+                    <Stack spacing={4}>
+                      <HStack spacing="10rem">
                       <Box>
                         <FormControl isRequired>
                           <FormLabel>First Name</FormLabel>
-                          <Input type="text" {...register('firstName')}  id="firstName"  size="md" />
+                          <Input type="text" {...register('firstName')}  id="firstName"  size="md"/>
                         </FormControl>     
                       </Box>
                       <Box>
                         <FormControl isRequired>
                             <FormLabel>Last Name</FormLabel>
-                            <Input type="text" id="lastName" {...register('lastName')}  size="md" />
+                            <Input type="text" id="lastName" {...register('lastName')}  size="md"/>
                         </FormControl>    
                       </Box>  
-                      <HStack spacing={8}>
+                      </HStack>
+                      <HStack spacing="16rem">
                         <Box>
                           <FormControl isRequired>
                             <FormLabel>User Status</FormLabel>
@@ -381,6 +373,26 @@ const UserAddEdit = (props) => {
                             </Select>
                           </FormControl>     
                         </Box>  
+                      </HStack>                          
+                      <Box>
+                        <FormControl isRequired>
+                          <FormLabel>Emaail/UserId</FormLabel>
+                          <Input type="text" id="userEmail"  size="md" {...register('userEmail')} maxWidth="page.single_input"   />
+                        </FormControl>     
+                      </Box>    
+                      <Box>
+                        <FormControl isRequired>
+                          <FormLabel>User Passowrd</FormLabel>
+                          <Input type="password" id="userPassword"  size="md" {...register('userPassword')}  maxWidth="page.single_input" />
+                        </FormControl>     
+                      </Box>  
+                      <HStack spacing="10rem">
+                        <Box>
+                          <FormControl isRequired>
+                              <FormLabel>User Phone</FormLabel>
+                              <Input type="tel" id="userPhone"  size="md" {...register('userPhone')} />
+                            </FormControl>      
+                        </Box>                           
                         <Box>
                           <FormControl isRequired>
                             <FormLabel>Enable Timesheet</FormLabel>
@@ -389,32 +401,15 @@ const UserAddEdit = (props) => {
                               <option value="true">Yes</option>
                             </Select>
                           </FormControl>     
-                        </Box>                          
-                      </HStack>                          
-                      <Box>
-                        <FormControl isRequired>
-                          <FormLabel>Emaail/UserId</FormLabel>
-                          <Input type="text" id="userEmail"  size="md" {...register('userEmail')}  />
-                        </FormControl>     
-                      </Box>    
-                      <Box>
-                        <FormControl isRequired>
-                          <FormLabel>User Passowrd</FormLabel>
-                          <Input type="password" id="userPassword"  size="md" {...register('userPassword')}  />
-                        </FormControl>     
-                      </Box>  
-                      <Box>
-                        <FormControl isRequired>
-                            <FormLabel>User Phone</FormLabel>
-                            <Input type="tel" id="userPhone"  size="md" {...register('userPhone')}  />
-                          </FormControl>      
-                      </Box>                                                                    
+                        </Box>   
+                      </HStack>
+                                                                 
                   </Stack>
                 </CardBody>
               </Card>              
               <Card>
-                <CardHeader bgColor="table_tile">
-                  <Heading size='sm'>User Account/Vendor Details</Heading>
+                <CardHeader>
+                  <Heading size='xs'>User Account/Vendor Details</Heading>
                 </CardHeader>
 
                 <CardBody>
@@ -455,21 +450,21 @@ const UserAddEdit = (props) => {
                 </CardBody>
               </Card>
               <Card>
-                <CardHeader bgColor="table_tile">
-                  <Heading size='sm'>User Addreses</Heading>
+                <CardHeader>
+                  <Heading size='xs'>User Addreses</Heading>
                 </CardHeader>
 
                 <CardBody>
-                  <Stack divider={<StackDivider />} spacing='4'>
-                    <Box>
+                  <Stack maxWidth="page.single_input" spacing="1rem">
                     <FormControl isRequired>
-                        <FormLabel>Address Name</FormLabel>
-                        <Input type="text" id="addressName"  size="md" {...register('addressName')} />
-                      </FormControl>                        
-                      <FormControl isRequired>
-                        <FormLabel>Address1</FormLabel>
-                        <Input type="text" id="address1"  size="md" {...register('address1')} />
-                      </FormControl>     
+                      <FormLabel>Address Name</FormLabel>
+                      <Input type="text" id="addressName"  size="md" {...register('addressName')} />
+                    </FormControl>                        
+                    <FormControl isRequired>
+                      <FormLabel>Address1</FormLabel>
+                      <Input type="text" id="address1"  size="md" {...register('address1')} />
+                    </FormControl>    
+                    <HStack>
                       <FormControl>
                         <FormLabel>Address2</FormLabel>
                         <Input type="text" id="address2"  size="md" {...register('address2')} />
@@ -478,40 +473,33 @@ const UserAddEdit = (props) => {
                         <FormLabel>Address3</FormLabel>
                         <Input type="text" id="address3"  size="md" {...register('address3')} />
                       </FormControl>     
-                    </Box>
-                    <HStack>
-                      <Box>
-                        <FormControl isRequired>
-                          <FormLabel>City</FormLabel>
-                          <Input type="text" id="city"  size="md" {...register('city')} />
-                        </FormControl>     
-                      </Box>
-                      <Box>
-                        <FormControl isRequired>
-                          <FormLabel>State</FormLabel>
-                          <Select id="state" {...register('state')} >
-                            <option value="">State</option>
-                            {US_STATES?.map((state) => (
-                                <option value={state.id}>{state.name}</option>
-                                ))}
-                          </Select>
-
-                        </FormControl>     
-                      </Box>
-                      <Box>
-                        <FormControl isRequired>
-                          <FormLabel>ZipCode</FormLabel>
-                          <Input type="text" id="zipCode"  size="md" {...register('zipCode')} />
-                        </FormControl>     
-                      </Box>
-                      <Box>
-                        <FormControl isRequired>
-                          <FormLabel>Country</FormLabel>
-                          <Select id="country" {...register('country')} >
-                            <option value="USA">USA</option>
-                          </Select>
-                        </FormControl>     
-                      </Box>                                                                        
+                    </HStack>                       
+                    <HStack spacing="1rem">
+                      <FormControl isRequired>
+                        <FormLabel>City</FormLabel>
+                        <Input type="text" id="city"  size="md" {...register('city')} />
+                      </FormControl>     
+                      <FormControl isRequired>
+                        <FormLabel>State</FormLabel>
+                        <Select id="state" {...register('state')} >
+                          <option value="">State</option>
+                          {US_STATES?.map((state) => (
+                              <option value={state.id}>{state.name}</option>
+                              ))}
+                        </Select>
+                      </FormControl>     
+                    </HStack>
+                    <HStack spacing="1rem">
+                      <FormControl isRequired>
+                        <FormLabel>ZipCode</FormLabel>
+                        <Input type="text" id="zipCode"  size="md" {...register('zipCode')} />
+                      </FormControl>     
+                      <FormControl isRequired>
+                        <FormLabel>Country</FormLabel>
+                        <Select id="country" {...register('country')} >
+                          <option value="USA">USA</option>
+                        </Select>
+                      </FormControl>     
                     </HStack>
                   </Stack>
                 </CardBody>
@@ -540,23 +528,7 @@ const UserAddEdit = (props) => {
 
       </div>
       ) : (
-        <> 
-        <Flex
-          as="nav"
-          align="center"
-          justify="space-between"
-          wrap="wrap"
-          padding="1.5rem"
-          bg="teal.500"
-          color="white"
-          marginBottom="2rem"
-          width="100%"
-        >
-          <Heading as="h1" size="lg" letterSpacing={'-.1rem'}>
-            Not authorized to view this page. Please contact administrator.
-          </Heading>
-        </Flex>        
-      </>
+        <PageNotAuthorized/>   
       )}
     </div>
 
