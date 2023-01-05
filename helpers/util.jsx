@@ -15,8 +15,17 @@ export const util = {
     getFormattedDate,
     getTotalHours,
     getDayMonthFormat,
-    getDecimalValue
+    getDecimalValue,
+    getZeroPriceForNull
 };
+
+function getZeroPriceForNull(value) {
+  if(value === undefined || value === EMPTY_STRING || value === null) {
+    return parseFloat(0);
+  }else {
+    return parseFloat(value);
+  }
+}
 
 function getDecimalValue(value) {
   if(value === undefined || value === EMPTY_STRING || value === null) {

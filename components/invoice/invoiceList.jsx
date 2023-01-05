@@ -238,7 +238,7 @@ const UserList = (props) => {
                             </Th>
                             <Th>
                               <Text pt='table_display_value' fontSize='table_display_value'>
-                               $ {parseFloat(invoice.total)-parseFloat(invoice.paidAmount)}
+                               $ {parseFloat(invoice.total)-util.getZeroPriceForNull(invoice.paidAmount)}
                               </Text>
                             </Th>
                             <Th>
