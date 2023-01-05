@@ -309,12 +309,7 @@ const EditProjectResource = (props) => {
                         <DrawerCloseButton />
                         
                         <DrawerHeader>
-                            <Heading as="h1" size="lg" letterSpacing={'-.1rem'} marginBottom="1rem">
-                                Add Project Resource
-                            </Heading>
-                            <Heading as="h3" size="md">
-                                
-                            </Heading>
+                          Add Project Resource
                         </DrawerHeader>
                         <DrawerBody>
                           <Stack divider={<StackDivider />} spacing='1'>

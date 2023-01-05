@@ -43,10 +43,8 @@ const InvoiceTransaction = (props) => {
                 <DrawerOverlay />
                     <DrawerContent>
                         <DrawerCloseButton />
-                        <DrawerHeader bgColor="heading">
-                            <Heading as="h5" size="md">
+                        <DrawerHeader>
                                 Transactions
-                            </Heading>
                         </DrawerHeader>
                         <DrawerBody>
 

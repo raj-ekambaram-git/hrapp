@@ -97,12 +97,7 @@ const UserResetPassword = (props) => {
                         <DrawerCloseButton />
                         
                         <DrawerHeader>
-                            <Heading as="h1" size="lg" letterSpacing={'-.1rem'} marginBottom="1rem">
-                                Reset Password
-                            </Heading>
-                            <Heading as="h3" size="md">
-                                
-                            </Heading>
+                          Reset Password
                         </DrawerHeader>
                         <DrawerBody>
                           <Stack divider={<StackDivider />} spacing='1'>

@@ -77,12 +77,7 @@ import Notes from "../../components/notes/notes";
                         {displayNotes ? (
                             <>
                             <DrawerHeader>
-                                <Heading as="h1" size="lg" letterSpacing={'-.1rem'} marginBottom="1rem">
-                                    Notes
-                                </Heading>
-                                <Heading as="h3" size="md">
-                                    for {notesType} {notesTypeTitle}
-                                </Heading>
+                                    Notes for {notesType} {notesTypeTitle}
                             </DrawerHeader>
                             <DrawerBody>
                             <Stack divider={<StackDivider />} spacing='1'>

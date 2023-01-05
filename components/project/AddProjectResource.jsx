@@ -298,7 +298,7 @@ const AddProjectResource = (props) => {
                     <DrawerContent>
                         <DrawerCloseButton />
                         <DrawerHeader>
-                        <DrawerMainHeader heading="Add Project Resource"/>
+                            Add Project Resource
                         </DrawerHeader>
                         <DrawerBody>
                           <Stack>

@@ -136,7 +136,7 @@ const ProjectTimesheets = (props) => {
                     <DrawerContent>
                         <DrawerCloseButton />
                         <DrawerHeader>
-                          <DrawerMainHeader heading="Project Timesheets"/>
+                          Project Timesheets
                         </DrawerHeader>
                         <DrawerBody>
                           <Stack divider={<StackDivider />} spacing='1'>

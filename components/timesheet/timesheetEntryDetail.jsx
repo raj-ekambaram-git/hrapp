@@ -92,10 +92,9 @@ import {DrawerMainHeader} from '../../components/common/drawerMainHeader';
                 <DrawerContent>
                 <DrawerCloseButton />
                 <DrawerHeader>
-                    <DrawerMainHeader heading={tsEntryDetail.timesheet?.name}/>
-                    <Heading as="h3" size="md">
-                        {tsEntryDetail.timesheet?.user?.firstName} {tsEntryDetail.timesheet?.user?.lastName}
-                    </Heading>
+                    {tsEntryDetail.timesheet?.name} of {tsEntryDetail.timesheet?.user?.firstName} {tsEntryDetail.timesheet?.user?.lastName}
+                </DrawerHeader>                    
+                <DrawerBody>
                     {showErrorMessage ? (
                         <>
                         <Text color="timesheet.entryError">{showErrorMessage}</Text>
@@ -104,8 +103,7 @@ import {DrawerMainHeader} from '../../components/common/drawerMainHeader';
                         <>
                         </>
                     )}
-                </DrawerHeader>
-                <DrawerBody>
+                
                    
                 <TableContainer display="flex">
                     <Table>

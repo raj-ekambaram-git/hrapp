@@ -42,9 +42,7 @@ const ProjectAddEditSection = (props) => {
                     <DrawerContent>
                         <DrawerCloseButton />
                             <DrawerHeader>
-                                <Heading as="h4" size="md">
                                 Create a Project for vendor
-                                </Heading>
                             </DrawerHeader>
                             <DrawerBody>
                               <Stack divider={<StackDivider />} spacing='1'>

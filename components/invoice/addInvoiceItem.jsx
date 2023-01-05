@@ -142,11 +142,7 @@ const AddInvoiceItem = (props) => {
                     <DrawerContent>
                         <DrawerCloseButton />
                             <DrawerHeader>
-                                <Heading as="h1" size="lg" letterSpacing={'-.1rem'} marginBottom="1rem">
                                     Add Invoice Item
-                                </Heading>
-                                <Heading as="h3" size="md">
-                                </Heading>
                             </DrawerHeader>
                             <DrawerBody>
                               <Stack divider={<StackDivider />} spacing='1'>
