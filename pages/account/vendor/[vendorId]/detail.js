@@ -124,20 +124,25 @@ const VendorDetail = (props) => {
     <div>
       {isPageAuthprized ? (
         <>
-          <Card>
-            <CardHeader bgColor="heading">
-              <HStack spacing="50rem">
-                <Box>
-                  <Heading size='md'>Vendor Details for {vendor.name}</Heading>
-                </Box>
-                <Box  alignItems='right'>
-                  <ProjectAddEditSection data={createProjectRequestData}></ProjectAddEditSection>                  
-                </Box>                  
-              </HStack>
-            </CardHeader>
 
-            <CardBody>
-              <Stack divider={<StackDivider />} spacing='1'>
+          <Flex
+            as="nav"
+            align="center"
+            justify="space-between"
+            wrap="wrap"
+            padding="page.heading"
+            bg="heading"
+            color="white"
+            marginBottom="page.heading_marginBottom"
+            width="page.heading_width"
+          >
+            <Heading size='md'>Vendor Details for {vendor.name}</Heading>
+            <Box alignItems='right'>
+                  <ProjectAddEditSection data={createProjectRequestData}></ProjectAddEditSection>                  
+            </Box>                  
+          </Flex>
+          <Flex>
+              <Stack width="page.sub_heading_width">
                 <Accordion>
                   <VendorDetailSection data={{vendor}}/ >
                   <VendorBankDetailSection data={{vendor}}/>
@@ -160,8 +165,7 @@ const VendorDetail = (props) => {
                   </Badge>              
                 </Box>                
               </Stack>
-            </CardBody>
-          </Card>             
+          </Flex>         
 
           <Flex marginTop="2rem">
                 <HStack spacing={2}>

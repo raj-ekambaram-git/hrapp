@@ -55,18 +55,18 @@ const VendorList = (props) => {
     <div>
       {isPageAuthprized ? (
         <div>
-              <Flex
-                as="nav"
-                align="center"
-                justify="space-between"
-                wrap="wrap"
-                padding="1.5rem"
-                bg="heading"
-                color="white"
-                marginBottom="2rem"
-                width="100%"
-              >
-                <Heading as="h1" size="lg" letterSpacing={'-.1rem'}>
+          <Flex
+            as="nav"
+            align="center"
+            justify="space-between"
+            wrap="wrap"
+            padding="page.heading"
+            bg="heading"
+            color="white"
+            marginBottom="page.heading_marginBottom"
+            width="page.heading_width"
+          >
+                <Heading as="h4" size="md">
                   Account Vendors
                 </Heading>
               </Flex>
@@ -80,86 +80,88 @@ const VendorList = (props) => {
                   </Box>
                 </HStack>
               </Flex>
-              <TableContainer>
-                <Table>
-                <TableCaption></TableCaption>
-                  <Thead>
-                      <Tr bgColor="table_tile">
-                        <Th>
-                          Vendor ID
-                        </Th>
-                        <Th>
-                          Vendor Name
-                        </Th>
-                        <Th>
-                          Vendor Type
-                        </Th>
-                        <Th>
-                          Vendor Contact Email
-                        </Th>
-                        <Th>
-                          Vendor Contact Phone
-                        </Th>
-                        <Th>
-                          Vendor EIN
-                        </Th>
-                        <Th>
-                          Vendor Created Date
-                        </Th>
-                        <Th>
-                          Vendor Status
-                        </Th>
-                      </Tr>   
-                    </Thead>                
-                    <Tbody>
-                      {vendorList?.map((vendor) => (
-                        
-                        
-                        <Tr>
-                              <Th>
-                                {vendor.id}
-                              </Th>
-                              <Th>
-                                {vendor.name}
-                              </Th>
-                              <Th>
-                                {vendor.type}
-                              </Th>
-                              <Th>
-                                {vendor.email}
-                              </Th>
-                              <Th>
-                                {vendor.phone}
-                              </Th>
-                              <Th>
-                                {vendor.ein}
-                              </Th>  
-                              <Th>
-                                {vendor.createdDate}
-                              </Th>
-                              <Th>
-                                <HStack>
-                                  <Link href={`/account/vendor/${vendor.id}/detail`} passref key={vendor.id}>
-                                    <Button className="btn">
-                                      Details
-                                    </Button>
-                                  </Link>
-                                  <Badge color={`${
-                                      vendor.status === "Active"
-                                        ? "paid_status"
-                                        : vendor.status === "Inactive"
-                                        ? "pending_status"
-                                        : "pending_status"
-                                    }`}>{vendor.status}</Badge>
-                                </HStack>
-                              </Th>
+              <Flex>
+                  <TableContainer>
+                    <Table>
+                    <TableCaption></TableCaption>
+                      <Thead>
+                          <Tr bgColor="table_tile">
+                            <Th>
+                              Vendor ID
+                            </Th>
+                            <Th>
+                              Vendor Name
+                            </Th>
+                            <Th>
+                              Vendor Type
+                            </Th>
+                            <Th>
+                              Vendor Contact Email
+                            </Th>
+                            <Th>
+                              Vendor Contact Phone
+                            </Th>
+                            <Th>
+                              Vendor EIN
+                            </Th>
+                            <Th>
+                              Vendor Created Date
+                            </Th>
+                            <Th>
+                              Vendor Status
+                            </Th>
+                          </Tr>   
+                        </Thead>                
+                        <Tbody>
+                          {vendorList?.map((vendor) => (
                             
-                          </Tr>
+                            
+                            <Tr>
+                                  <Th>
+                                    {vendor.id}
+                                  </Th>
+                                  <Th>
+                                    {vendor.name}
+                                  </Th>
+                                  <Th>
+                                    {vendor.type}
+                                  </Th>
+                                  <Th>
+                                    {vendor.email}
+                                  </Th>
+                                  <Th>
+                                    {vendor.phone}
+                                  </Th>
+                                  <Th>
+                                    {vendor.ein}
+                                  </Th>  
+                                  <Th>
+                                    {vendor.createdDate}
+                                  </Th>
+                                  <Th>
+                                    <HStack>
+                                      <Link href={`/account/vendor/${vendor.id}/detail`} passref key={vendor.id}>
+                                        <Button className="btn">
+                                          Details
+                                        </Button>
+                                      </Link>
+                                      <Badge color={`${
+                                          vendor.status === "Active"
+                                            ? "paid_status"
+                                            : vendor.status === "Inactive"
+                                            ? "pending_status"
+                                            : "pending_status"
+                                        }`}>{vendor.status}</Badge>
+                                    </HStack>
+                                  </Th>
+                                
+                              </Tr>
 
-                      ))}
-                  </Tbody>    
-                </Table>
-              </TableContainer>
+                          ))}
+                      </Tbody>    
+                    </Table>
+                  </TableContainer>
+                </Flex>
           </div>
       ) : (
         <> 

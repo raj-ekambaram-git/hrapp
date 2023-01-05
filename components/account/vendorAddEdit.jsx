@@ -284,13 +284,13 @@ const VendorEdit = (props) => {
             align="center"
             justify="space-between"
             wrap="wrap"
-            padding="1.5rem"
+            padding="page.heading"
             bg="heading"
             color="white"
-            marginBottom="2rem"
-            width="50%"
+            marginBottom="page.heading_marginBottom"
+            width="page.heading_width"
           >
-            <Heading as="h1" size="lg" letterSpacing={'-.1rem'}>
+            <Heading as="h4" size="md">
                {isAddMode ? (
                     <div>New Vendor</div>
                 ) : (
@@ -298,11 +298,11 @@ const VendorEdit = (props) => {
                 )}              
             </Heading>
           </Flex>
-          <Box width="50%">
+          <Box width="page.sub_heading_width">
           <form onSubmit={handleSubmit(onSubmit)}>
             <Stack spacing={4}>
               <Card>
-                <CardHeader bgColor="table_tile">
+                <CardHeader>
                   <Heading size='sm'>Vendor Details</Heading>
                 </CardHeader>
 
@@ -311,16 +311,16 @@ const VendorEdit = (props) => {
                       <Box>
                         <FormControl isRequired>
                           <FormLabel>Vendor Name</FormLabel>
-                          <Input type="text" {...register('name')}  id="name"  size="md" />
+                          <Input type="text" {...register('name')}  id="name"  size="md" maxWidth="page.single_input"/>
                         </FormControl>     
                       </Box>
                       <Box>
                         <FormControl isRequired>
                             <FormLabel>Vendor Descirption</FormLabel>
-                            <Input type="text" id="description" {...register('description')}  size="md" />
+                            <Input type="text" id="description" {...register('description')}  size="md" maxWidth="page.single_input"/>
                         </FormControl>    
                       </Box>  
-                      <HStack spacing={8}>
+                      <HStack spacing={4}>
                         <Box>
                           <FormControl isRequired>
                             <FormLabel>Vendor Status</FormLabel>
@@ -347,7 +347,7 @@ const VendorEdit = (props) => {
                       <Box>
                         <FormControl isRequired>
                           <FormLabel>Account EIN</FormLabel>
-                          <Input type="text" id="ein"  size="md" {...register('ein')}  />
+                          <Input type="text" id="ein"  size="md" {...register('ein')} maxWidth="page.single_input" />
                         </FormControl>     
                       </Box>                                                                                                         
                   </Stack>
@@ -359,57 +359,52 @@ const VendorEdit = (props) => {
                 </CardHeader>
 
                 <CardBody>
-                  <Stack divider={<StackDivider />} spacing='4'>
+                  <Stack maxWidth="page.single_input" spacing="1rem">
                     <HStack>
-                      <Box>
                         <FormControl isRequired>
                           <FormLabel>Vendor Email</FormLabel>
                           <Input type="email" id="email"  size="md" {...register('email')}  />
                         </FormControl>     
-                      </Box>
-                      <Box>
                         <FormControl isRequired>
                             <FormLabel>Account Phone</FormLabel>
                             <Input type="tel" id="phone"  size="md" {...register('phone')}  />
                           </FormControl>      
-                      </Box>                                                                    
                       </HStack>
                     </Stack>
                   </CardBody>
                 </Card>
                 <Card>
-                  <CardHeader bgColor="table_tile">
+                  <CardHeader>
                     <Heading size='sm'>Vendor Addreses</Heading>
                   </CardHeader>
 
                   <CardBody>
-                    <Stack divider={<StackDivider />} spacing='4'>
-                      <Box>
-                      <FormControl isRequired>
-                          <FormLabel>Address Name</FormLabel>
-                          <Input type="text" id="addressName"  size="md" {...register('addressName')} />
-                        </FormControl>                          
-                        <FormControl isRequired>
-                          <FormLabel>Address1</FormLabel>
-                          <Input type="text" id="address1"  size="md" {...register('address1')} />
-                        </FormControl>     
-                        <FormControl>
-                          <FormLabel>Address2</FormLabel>
-                          <Input type="text" id="address2"  size="md" {...register('address2')} />
-                        </FormControl>     
-                        <FormControl>
-                          <FormLabel>Address3</FormLabel>
-                          <Input type="text" id="address3"  size="md" {...register('address3')} />
-                        </FormControl>     
-                      </Box>
-                      <HStack>
-                        <Box>
+                    <Stack maxWidth="page.single_input" spacing="1rem">
+                        <HStack spacing="1rem">
+                          <FormControl isRequired>
+                              <FormLabel>Address Name</FormLabel>
+                              <Input type="text" id="addressName"  size="md" {...register('addressName')} />
+                            </FormControl>                          
+                            <FormControl isRequired>
+                              <FormLabel>Address1</FormLabel>
+                              <Input type="text" id="address1"  size="md" {...register('address1')} />
+                            </FormControl>   
+                          </HStack>  
+                          <HStack>
+                            <FormControl>
+                              <FormLabel>Address2</FormLabel>
+                              <Input type="text" id="address2"  size="md" {...register('address2')} />
+                            </FormControl>     
+                            <FormControl>
+                              <FormLabel>Address3</FormLabel>
+                              <Input type="text" id="address3"  size="md" {...register('address3')} />
+                            </FormControl>     
+                          </HStack>
+                      <HStack spacing="1rem">
                           <FormControl isRequired>
                             <FormLabel>City</FormLabel>
                             <Input type="text" id="city"  size="md" {...register('city')} />
                           </FormControl>     
-                        </Box>
-                        <Box>
                           <FormControl isRequired>
                             <FormLabel>State</FormLabel>
                             <Select id="state" {...register('state')} >
@@ -418,23 +413,19 @@ const VendorEdit = (props) => {
                                   <option value={state.id}>{state.name}</option>
                                   ))}
                             </Select>
-
                           </FormControl>     
-                        </Box>
-                        <Box>
+                      </HStack>
+                      <HStack spacing="1rem">
                           <FormControl isRequired>
                             <FormLabel>ZipCode</FormLabel>
                             <Input type="text" id="zipCode"  size="md" {...register('zipCode')} />
                           </FormControl>     
-                        </Box>
-                        <Box>
                           <FormControl isRequired>
                             <FormLabel>Country</FormLabel>
                             <Select id="country" {...register('country')} >
                               <option value="USA">USA</option>
                             </Select>
                           </FormControl>     
-                        </Box>                                                                        
                       </HStack>
                     </Stack>
                   </CardBody>

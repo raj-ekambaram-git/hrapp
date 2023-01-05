@@ -324,7 +324,7 @@ const InvoiceAddEdit = (props) => {
             </Heading>
           </Flex>
           <Flex>
-          <Box width="page.heading_width">
+          <Box width="page.sub_heading_width">
           <form onSubmit={handleSubmit(onSubmit)}>
             <Stack spacing={4}>
               <Card>
@@ -337,7 +337,7 @@ const InvoiceAddEdit = (props) => {
                       <Box>
                         <FormControl isRequired>
                           <FormLabel>Invoice Reference/Details</FormLabel>
-                          <Input type="text" {...register('description')}  id="description"  size="md" maxWidth="40%" />
+                          <Input type="text" {...register('description')}  id="description"  size="md" maxWidth="page.single_input%" />
                         </FormControl>     
                       </Box>
                       <HStack spacing={8}>
