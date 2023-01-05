@@ -24,6 +24,10 @@ import {
   StackDivider,
   useToast
 } from '@chakra-ui/react'
+import { PageMainHeader } from "../common/pageMainHeader";
+import { PageNotAuthorized } from "../common/pageNotAuthorized";
+
+
 
 
 const AccountAddEdit = (props) => {
@@ -253,73 +257,57 @@ const AccountAddEdit = (props) => {
     <div>
       {isPageAuthprized ? (
         <div> 
-          <Flex
-            as="nav"
-            align="center"
-            justify="space-between"
-            wrap="wrap"
-            padding="1.5rem"
-            bg="heading"
-            color="white"
-            marginBottom="2rem"
-            width="50%"
-          >
-            <Heading as="h1" size="lg" letterSpacing={'-.1rem'}>
-               {isAddMode ? (
-                    <div>New Account</div>
-                ) : (
-                    <div>Update Account</div>
-                )}              
-            </Heading>
-          </Flex>
-          <Box width="50%">
+          {isAddMode ? (
+              <PageMainHeader heading="New Account"/>
+          ) : (
+              <PageMainHeader heading="Update Account"/>
+          )}              
+          <Box width="page.sub_heading_width">
           <form onSubmit={handleSubmit(onSubmit)}>
             <Stack spacing={4}>
               <Card>
-                <CardHeader bgColor="table_tile">
-                  <Heading size='sm'>Account Details</Heading>
+                <CardHeader>
+                  <Heading size='xs'>Account Details</Heading>
                 </CardHeader>
 
                 <CardBody>
-                  <Stack divider={<StackDivider />} spacing='4'>
-                      <Box>
+                  <Stack>
                         <FormControl isRequired>
                           <FormLabel>Account Name</FormLabel>
-                          <Input type="text" {...register('accountName')}  id="accountName"  size="md" />
+                          <Input type="text" {...register('accountName')}  id="accountName"  size="md" maxWidth="page.single_input"/>
                         </FormControl>     
-                      </Box>
-                      <Box>
                         <FormControl isRequired>
                             <FormLabel>Account Descirption</FormLabel>
-                            <Input type="text" id="accountDescription" {...register('accountDescription')}  size="md" />
-                        </FormControl>    
-                      </Box>    
-                      <Box>
-                        <FormControl isRequired>
-                          <FormLabel>Account Status</FormLabel>
-                          <Select width="25%" id="accountStatus" {...register('accountStatus')} >
-                              <option value="Active">Active</option>
-                              <option value="Inactive">Inactive</option>
-                          </Select>
-                        </FormControl>     
-                      </Box>    
-                      <Box>
-                        <FormControl isRequired>
-                          <FormLabel>Account EIN</FormLabel>
-                          <Input type="text" id="accountEIN"  size="md" {...register('accountEIN')} />
-                        </FormControl>     
-                      </Box>                                                                                                         
+                            <Input type="text" id="accountDescription" {...register('accountDescription')}  size="md" maxWidth="page.single_input"/>
+                        </FormControl>   
+                        <HStack spacing="15rem">
+                          <Box>
+                          <FormControl isRequired>
+                            <FormLabel>Account EIN</FormLabel>
+                            <Input type="text" id="accountEIN"  size="md" {...register('accountEIN')} />
+                          </FormControl>  
+                          </Box>
+                          <Box>
+                          <FormControl isRequired>
+                            <FormLabel>Account Status</FormLabel>
+                            <Select id="accountStatus" {...register('accountStatus')} >
+                                <option value="Active">Active</option>
+                                <option value="Inactive">Inactive</option>
+                            </Select>
+                          </FormControl>     
+                          </Box>
+                        </HStack>   
                   </Stack>
                 </CardBody>
               </Card>              
               <Card>
-                <CardHeader bgColor="table_tile">
-                  <Heading size='sm'>Account Contact</Heading>
+                <CardHeader>
+                  <Heading size='xs'>Account Contact</Heading>
                 </CardHeader>
 
                 <CardBody>
                   <Stack divider={<StackDivider />} spacing='4'>
-                    <HStack>
+                    <HStack spacing="10rem">
                       <Box>
                         <FormControl isRequired>
                           <FormLabel>Account Email</FormLabel>
@@ -338,30 +326,30 @@ const AccountAddEdit = (props) => {
                 </Card>
 
                 <Card>
-                  <CardHeader bgColor="table_tile">
-                    <Heading size='sm'>Account Addreses</Heading>
+                  <CardHeader>
+                    <Heading size='xs'>Account Addreses</Heading>
                   </CardHeader>
 
                   <CardBody>
-                    <Stack divider={<StackDivider />} spacing='4'>
-                      <Box>
-                      <FormControl isRequired>
+                    <Stack maxWidth="page.single_input" spacing="1rem">
+                        <FormControl isRequired>
                           <FormLabel>Address Name</FormLabel>
                           <Input type="text" id="addressName"  size="md" {...register('addressName')} />
                         </FormControl>                         
                         <FormControl isRequired>
                           <FormLabel>Address1</FormLabel>
                           <Input type="text" id="address1"  size="md" {...register('address1')} />
-                        </FormControl>     
-                        <FormControl>
-                          <FormLabel>Address2</FormLabel>
-                          <Input type="text" id="address2"  size="md" {...register('address2')} />
-                        </FormControl>     
-                        <FormControl>
-                          <FormLabel>Address3</FormLabel>
-                          <Input type="text" id="address3"  size="md" {...register('address3')} />
-                        </FormControl>     
-                      </Box>
+                        </FormControl>    
+                        <HStack>
+                          <FormControl>
+                            <FormLabel>Address2</FormLabel>
+                            <Input type="text" id="address2"  size="md" {...register('address2')} />
+                          </FormControl>     
+                          <FormControl>
+                            <FormLabel>Address3</FormLabel>
+                            <Input type="text" id="address3"  size="md" {...register('address3')} />
+                          </FormControl>     
+                        </HStack>
                       <HStack>
                         <Box>
                           <FormControl isRequired>
@@ -378,9 +366,10 @@ const AccountAddEdit = (props) => {
                                   <option value={state.id}>{state.name}</option>
                                   ))}
                             </Select>
-
                           </FormControl>     
                         </Box>
+                        </HStack>
+                        <HStack>
                         <Box>
                           <FormControl isRequired>
                             <FormLabel>ZipCode</FormLabel>
@@ -427,21 +416,7 @@ const AccountAddEdit = (props) => {
         </div>
       ) : (
         <> 
-        <Flex
-          as="nav"
-          align="center"
-          justify="space-between"
-          wrap="wrap"
-          padding="1.5rem"
-          bg="teal.500"
-          color="white"
-          marginBottom="2rem"
-          width="100%"
-        >
-          <Heading as="h1" size="lg" letterSpacing={'-.1rem'}>
-            Not authorized to view this page. Please contact administrator.
-          </Heading>
-        </Flex>        
+        <PageNotAuthorized/>
       </>
       )}
     </div>

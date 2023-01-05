@@ -18,7 +18,7 @@ import {
   Badge,
   useDisclosure
 } from '@chakra-ui/react'
-
+import {PageMainHeader} from '../../components/common/pageMainHeader'
 
 
 export default function Home(props) {
@@ -66,22 +66,7 @@ export default function Home(props) {
     <div>
       {isPageAuthprized ? (
         <div>
-              <Flex
-                as="nav"
-                align="center"
-                justify="space-between"
-                wrap="wrap"
-                padding="1.5rem"
-                bg="heading"
-                color="white"
-                marginBottom="2rem"
-                width="100%"
-              >
-                <Heading as="h1" size="lg" letterSpacing={'-.1rem'}>
-                  Accounts
-                </Heading>
-              </Flex>
-    
+              <PageMainHeader heading="Accounts"/>
               <Flex marginBottom="2rem">
                 <HStack>
                   <Box>
