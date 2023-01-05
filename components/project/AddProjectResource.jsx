@@ -33,6 +33,8 @@ import {
 import { userService } from '../../services';
 import {USER_ROLES} from "../../constants/userConstants";
 import {MODE_ADD, EMPTY_STRING} from "../../constants/accountConstants";
+import { DrawerMainHeader } from "../common/drawerMainHeader";
+
 
 
 const AddProjectResource = (props) => {
@@ -291,21 +293,15 @@ const AddProjectResource = (props) => {
               >{`Add Project Resource`}
           </Button>
 
-          <Drawer onClose={onClose} isOpen={isOpen} size="lg">
+          <Drawer onClose={onClose} isOpen={isOpen} size={size}>
                 <DrawerOverlay />
                     <DrawerContent>
                         <DrawerCloseButton />
-                        
                         <DrawerHeader>
-                            <Heading as="h1" size="lg" letterSpacing={'-.1rem'} marginBottom="1rem">
-                                Add Project Resource
-                            </Heading>
-                            <Heading as="h3" size="md">
-                                
-                            </Heading>
+                        <DrawerMainHeader heading="Add Project Resource"/>
                         </DrawerHeader>
                         <DrawerBody>
-                          <Stack divider={<StackDivider />} spacing='1'>
+                          <Stack>
                             <Box border="box_border">
                               <TableContainer>
                                 <Table>

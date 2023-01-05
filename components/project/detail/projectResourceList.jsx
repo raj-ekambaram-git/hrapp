@@ -80,8 +80,7 @@ const ProjectResourceList = (props) => {
               <AccordionIcon />
             </AccordionButton>
           </h2>
-          <AccordionPanel pb={4}>
-            <Text pt='2' fontSize='sm'>
+          <AccordionPanel>
               <AddProjectResource data={addProjectResourceRequest}></AddProjectResource>
               <TableContainer marginTop="1rem">
                 <Table>
@@ -155,7 +154,7 @@ const ProjectResourceList = (props) => {
                   </Tbody>    
                 </Table>
               </TableContainer>                 
-            </Text>  
+            
           </AccordionPanel>
         </AccordionItem>   
 

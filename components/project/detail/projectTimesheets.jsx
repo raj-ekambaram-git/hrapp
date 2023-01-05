@@ -30,6 +30,7 @@ import { util } from "../../../helpers/util";
 import ProjectTimesheeEntrySection from "./projectTimesheeEntrySection";
 import { INVOICE_CALL_TYPE, TIMESHEET_STATUS } from "../../../constants/accountConstants";
 import { InvoiceConstants } from "../../../constants/invoiceConstants";
+import { DrawerMainHeader } from "../../common/drawerMainHeader";
 
 
 
@@ -130,17 +131,12 @@ const ProjectTimesheets = (props) => {
               >{`Project Timesheets`}
           </Button>
 
-          <Drawer onClose={onClose} isOpen={isOpen} size="xl">
+          <Drawer onClose={onClose} isOpen={isOpen} size={size}>
                 <DrawerOverlay />
                     <DrawerContent>
                         <DrawerCloseButton />
                         <DrawerHeader>
-                            <Heading as="h1" size="lg" letterSpacing={'-.1rem'} marginBottom="1rem">
-                                Project Timesheets
-                            </Heading>
-                            <Heading as="h3" size="md">
-                                
-                            </Heading>
+                          <DrawerMainHeader heading="Project Timesheets"/>
                         </DrawerHeader>
                         <DrawerBody>
                           <Stack divider={<StackDivider />} spacing='1'>
