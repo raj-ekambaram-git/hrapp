@@ -17,7 +17,11 @@ export const invoiceService = {
 };
 
 function updateInvoice(formData, invoiceId, invoiceDate, dueDte, invoiceItemList, invoiceTotal) {
-  console.log("updateInvoice::::invoiceItemList:::"+JSON.stringify(invoiceItemList));
+
+
+  const result = invoiceItemList.map((invoiceItem) => delete invoiceItem["timesheetEntry"]);
+
+  console.log("updateInvoice::::invoiceItemList:::"+JSON.stringify(result));
   
   let paidAmountValue = 0;
   if(formData.paidAmount != undefined && formData.paidAmount != EMPTY_STRING) {
@@ -29,8 +33,6 @@ function updateInvoice(formData, invoiceId, invoiceDate, dueDte, invoiceItemList
         description: formData.description,
         type: formData.type,
         accountId: parseInt(formData.accountId),
-        // vendorId: parseInt(formData.vendorId),
-        // projectId: parseInt(formData.projectId),
         invoiceDate: new Date(invoiceDate.date),
         dueDte: new Date(dueDte.date),
         transactionId: formData.transactionId,
