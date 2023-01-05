@@ -6,7 +6,8 @@ import { ActionTypes } from "./constants";
 const initialState = {
     invoiceItemList: [],
     projectResources: [],
-    invoiceTotal: null
+    invoiceTotal: null,
+    invoicePaidAmount: null
 };
 
 const invoiceReducer = (state = initialState, {type, payload}) => {
@@ -35,11 +36,11 @@ const invoiceReducer = (state = initialState, {type, payload}) => {
         newState.invoiceItemList = newInvoiceList;
     } else if(type === ActionTypes.SET_PROJECT_RESOURCES) {
         newState.projectResources = payload;
-    }else if(type === ActionTypes.RESET_PROJECT_RESOURCES) {
+    } else if(type === ActionTypes.RESET_PROJECT_RESOURCES) {
         newState.projectResources = [];
-    }else if(type === ActionTypes.SET_INVOICE_TOTAL) {
+    } else if(type === ActionTypes.SET_INVOICE_TOTAL) {
         newState.invoiceTotal = parseFloat(payload);
-    }else if(type === ActionTypes.REMOVE_TS_INVOICE_ITEM) {
+    } else if(type === ActionTypes.REMOVE_TS_INVOICE_ITEM) {
         
         const newInvoiceList = [...newState.invoiceItemList];
         const timesheetEntryToRemoveIndex = newInvoiceList.findIndex(x => x.id === parseInt(payload));
@@ -47,6 +48,8 @@ const invoiceReducer = (state = initialState, {type, payload}) => {
         newInvoiceList.splice(timesheetEntryToRemoveIndex, 1);
         newState.invoiceItemList = newInvoiceList;
 
+    } else if(type === ActionTypes.INVOICE_PAID_AMOUNT) {
+        newState.invoicePaidAmount = parseFloat(payload);
     }
     
     console.log("New State:::Before Return:::"+JSON.stringify(newState));

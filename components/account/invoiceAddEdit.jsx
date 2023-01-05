@@ -20,7 +20,6 @@ import {
   CardHeader,
   CardBody,
   StackDivider,
-  Textarea,
   useToast,
   InputGroup,
   InputLeftElement,
@@ -28,7 +27,7 @@ import {
 } from '@chakra-ui/react'
 import InvoiceItems from "../invoice/invoiceItems";
 import { useDispatch,useSelector } from "react-redux";
-import { resetInvoiceItemList, setInvoiceItemList, setProjectResources, resetProjectResources, setInvoiceTotal } from "../../store/modules/Invoice/actions";
+import { resetInvoiceItemList, setInvoiceItemList, setProjectResources, resetProjectResources, setInvoiceTotal, setInvoicePaidAmount } from "../../store/modules/Invoice/actions";
 import DatePicker from "../common/datePicker";
 import { InvoiceConstants } from "../../constants/invoiceConstants";
 
@@ -56,6 +55,7 @@ const InvoiceAddEdit = (props) => {
   const [projectId, setProjectId] = useState(EMPTY_STRING);
   const [vendorName, setVendorName] = useState(EMPTY_STRING);
   const [projectName, setProjectName] = useState(EMPTY_STRING);
+  const [status, setStatus] = useState(EMPTY_STRING);
   const [enableInvoiceItemAdd, setEnableInvoiceItemAdd] = useState(false);
   const [disableUpdate, setDisableUpdate] = useState(false);
 
@@ -63,6 +63,7 @@ const InvoiceAddEdit = (props) => {
   //Get the invoiceItemsList if there are any
   const invoiceItemList = useSelector(state => state.invoice.invoiceItemList);
   const invoiceTotal = useSelector(state => state.invoice.invoiceTotal);
+  const invoicePaidAmount = useSelector(state => state.invoice.invoicePaidAmount);
   
 
   //User Validation START
@@ -131,21 +132,22 @@ const InvoiceAddEdit = (props) => {
 
         console.log("invoiceResponse:::"+JSON.stringify(invoiceResponse));
 
-        const invoiceData =  {
-            id: invoiceResponse.id.toString(),
-            description: invoiceResponse.description,
-            type: invoiceResponse.type,
-            vendorId: invoiceResponse.vendorId,
-            accountId: invoiceResponse.accountId,
-            projectId: invoiceResponse.projectId,            
-            invoiceDate: invoiceResponse.invoiceDate,
-            invoiceItemList: invoiceResponse.invoiceItemList,
-            dueDte: invoiceResponse.dueDte,
-            total: invoiceResponse.total,
-            paidAmount: invoiceResponse.paidAmount,
-            status: invoiceResponse.status,
-            paymentTerms: invoiceResponse.paymentTerms
-        };
+        // const invoiceData =  {
+        //     id: invoiceResponse.id.toString(),
+        //     description: invoiceResponse.description,
+        //     type: invoiceResponse.type,
+        //     vendorId: invoiceResponse.vendorId,
+        //     accountId: invoiceResponse.accountId,
+        //     projectId: invoiceResponse.projectId,            
+        //     invoiceDate: invoiceResponse.invoiceDate,
+        //     invoiceItemList: invoiceResponse.invoiceItemList,
+        //     dueDte: invoiceResponse.dueDte,
+        //     total: invoiceResponse.total,
+        //     paidAmount: invoiceResponse.paidAmount,
+        //     status: invoiceResponse.status,
+        //     paymentTerms: invoiceResponse.paymentTerms
+        // };
+        setStatus(invoiceResponse.status);
         setInvoiceType(invoiceResponse.type);
         setProjectId(invoiceResponse.projectId);
         setProjectType(invoiceResponse.project?.type);
@@ -160,8 +162,9 @@ const InvoiceAddEdit = (props) => {
         console.log("invoiceResponse.invoiceItemList::::"+JSON.stringify(invoiceResponse.invoiceItems))
         dispatch(setInvoiceItemList(invoiceResponse.invoiceItems));
         dispatch(setInvoiceTotal(invoiceResponse.total));
+        dispatch(setInvoicePaidAmount(invoiceResponse.paidAmount));
         
-        const fields = ['description', "type", "vendorId","accountId","projectId","invoiceDate","dueDte", "total", "paidAmount","status","paymentTerms"];
+        const fields = ['description', "type", "vendorId","accountId","projectId","invoiceDate","dueDte", "total","status","paymentTerms"];
         fields.forEach(field => setValue(field, invoiceResponse[field]));
     }
 
@@ -474,21 +477,30 @@ const InvoiceAddEdit = (props) => {
                           
                         </FormControl>     
                       </Box>
-                      <Box>
-                      <FormControl>
-                          <FormLabel>Amount Paid</FormLabel>
-                          <InputGroup>
-                            <InputLeftElement
-                                pointerEvents='none'
-                                color='dollor_input'
-                                fontSize='dollar_left_element'
-                                children='$'
-                            />      
-                            <Input type="text" id="paidAmount"  size="md" {...register('paidAmount')} />
-                          </InputGroup>                             
-                          
-                      </FormControl>    
-                      </Box>                                                                        
+                      {(!isAddMode && (status !== InvoiceConstants.INVOICE_STATUS.Draft && status !== EMPTY_STRING)) ? (
+                        <>
+                        <Box>
+                          <FormControl>
+                              <FormLabel>Amount Paid</FormLabel>
+                              <InputGroup>
+                                <InputLeftElement
+                                    pointerEvents='none'
+                                    color='dollor_input'
+                                    fontSize='dollar_left_element'
+                                    children='$'
+                                />      
+                                <Input type="text" value={invoicePaidAmount} isReadOnly/>
+                              </InputGroup>                             
+                          </FormControl>    
+                        </Box>   
+                        <Box>
+                          Invoice Transactions    
+                        </Box>   
+                        </>
+                      ) : (
+                        <></>
+                      )}
+                                                                    
                     </HStack>
                   </Stack>
                 </CardBody>
