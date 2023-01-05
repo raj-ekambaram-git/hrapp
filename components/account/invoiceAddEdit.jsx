@@ -323,7 +323,7 @@ const InvoiceAddEdit = (props) => {
             <Stack spacing={4}>
               <Card>
                 <CardHeader bgColor="table_tile">
-                  <Heading size='sm'>Invoice Details</Heading>
+                  <Heading size='sm'>Invoice Details {invoiceId ? (<> for {invoiceId}</>) : (<></>)} </Heading>
                 </CardHeader>
 
                 <CardBody>
