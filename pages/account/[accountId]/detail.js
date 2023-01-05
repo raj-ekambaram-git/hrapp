@@ -20,7 +20,8 @@ import AccountContactDetailSection from "../../../components/account/detail/acco
 import AccountContactAddressSection from "../../../components/account/detail/accountContactAddressSection";
 import AccountStatusSection from "../../../components/account/detail/accountStatusSection";
 import AccountActionsSection from "../../../components/account/detail/accountActionsSection";
-
+import {PageMainHeader} from '../../../components/common/pageMainHeader';
+import {PageNotAuthorized} from '../../../components/common/pageNotAuthorized';
 
 
 
@@ -81,34 +82,23 @@ const AccountDetail = (props) => {
     <div>
       {isPageAuthprized ? (
         <>
-          <Card>
-            <CardHeader bgColor="heading">
-              <Heading size='md'>Account Details for {account.name}</Heading>
-            </CardHeader>
-
-            <CardBody>
-              <Stack divider={<StackDivider />} spacing='4'>
-                <Accordion>
-                  <AccountDetailSection data={{account}}/>
-                  <AccountEINSection data={{account}}/>
-                  <AccountContactDetailSection data={{account}}/>
-                  <AccountContactAddressSection data={{account}}/>
-                  <AccountStatusSection data={{account}}/>
-                </Accordion>         
-              </Stack>
-            </CardBody>
-          </Card>             
-
-          <AccountActionsSection data={{actionItems}}/>
+        <PageMainHeader heading="Account Details for" param1={account.name}/>
+        <Flex>
+            <Stack width="page.sub_heading_width">
+              <Accordion>
+                <AccountDetailSection data={{account}}/>
+                <AccountEINSection data={{account}}/>
+                <AccountContactDetailSection data={{account}}/>
+                <AccountContactAddressSection data={{account}}/>
+                <AccountStatusSection data={{account}}/>
+              </Accordion>         
+            </Stack>
+        </Flex>
+        <AccountActionsSection data={{actionItems}}/>
        
         </>
       ) : (
-        <div className="account__header">
-          <div className="iaccount_header-logo">
-            <h3>Not Authorized to view this page. Please contact administrator.</h3>
-          </div>
-        </div>
-
+        <PageNotAuthorized/>
       )}
     </div>
   );

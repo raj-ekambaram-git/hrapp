@@ -20,44 +20,35 @@ import {
   Text
 } from '@chakra-ui/react'
 import { util } from "../../helpers";
+import {PageMainHeader} from '../../components/common/pageMainHeader'
+import {PageNotAuthorized} from '../../components/common/pageNotAuthorized'
 
-const UserList = (props) => {
+const InvoiceList = (props) => {
   const router = useRouter();
   const { data } = props.invoiceList;
   const { requestMode } = props.invoiceList;
-  console.log("MMMMMMM invoiceList::"+JSON.stringify(data))
-  console.log("Uodates requestMode::"+JSON.stringify(requestMode))
   const [invoiceList, setInvoiceList] = useState([]);
   const [isPageAuthprized, setPageAuthorized] = useState(false);
 
   useEffect(() => {
 
     if((userService.isAccountAdmin() || userService.isSuperAdmin() || userService.isAccountVendorRep())) {
-      console.log("11111")
       //get API call with accountId and VendorId
       if(userService.isSuperAdmin()) {
-        console.log("22222")
-        if(requestMode == "VENDOR") {
-          console.log("33333")
+       if(requestMode == "VENDOR") {
           getInvoiceListByVendor(data.vendorId, "NaN")
         }else if (requestMode == "PROJECT") {
-          console.log("44444")
           getInvoiceListByProject(data.projectId, "NaN")
         }else {
-          console.log("55555")
           getInvoiceListByAccount(data.accountId)
         }
         
       }else {
-        console.log("66666")
         if(requestMode == "VENDOR") {
-          console.log("77777")
           getInvoiceListByVendor(data.vendorId, userService.getAccountDetails().accountId)
         }else if (requestMode == "PROJECT") {
-          console.log("999999")
           getInvoiceListByProject(data.projectId, userService.getAccountDetails().accountId)
         }else {
-          console.log("99999")
           getInvoiceListByAccount(data.accountId)
         }
         
@@ -89,7 +80,6 @@ const UserList = (props) => {
     async function getInvoiceListByVendor(vendorId, accountId) {
       // setPageAuthorized(true);
       const responseData = await accountService.getInvoiceListByVendor(vendorId, accountId);
-      console.log("rgetInvoiceListByVendor::::esoinse :+"+JSON.stringify(responseData))
       setInvoiceList(responseData);
 
     }
@@ -97,7 +87,6 @@ const UserList = (props) => {
     async function getInvoiceListByProject(projectId, accountId) {
       // setPageAuthorized(true);
       const responseData = await accountService.getInvoiceListByProject(projectId, accountId);
-      console.log("getInvoiceListByProject :::resoinse :+"+JSON.stringify(responseData))
       setInvoiceList(responseData);
 
     }    
@@ -106,7 +95,6 @@ const UserList = (props) => {
       console.log("getInvoiceListByAccount:::"+accountId)
       // setPageAuthorized(true);
       const responseData = await accountService.getInvoiceListByAccount(accountId);
-      console.log("rgetInvoiceListByVendor::::esoinse :+"+JSON.stringify(responseData))
       setInvoiceList(responseData);
 
     }    
@@ -128,27 +116,12 @@ const UserList = (props) => {
     <div>
       {isPageAuthprized ? (
         <div>
-              <Flex
-                as="nav"
-                align="center"
-                justify="space-between"
-                wrap="wrap"
-                padding="1.5rem"
-                bg="heading"
-                color="white"
-                marginBottom="2rem"
-                width="100%"
-              >
-                <Heading as="h1" size="lg" letterSpacing={'-.1rem'}>
-                  {requestMode == "VENDOR" ? (
-                    <>Vendor Invoices</>
-                  ) : (
-                    <>Account Invoices</>
-                  )}
-                  
-                </Heading>
-              </Flex>
-    
+              {requestMode == "VENDOR" ? (
+                <PageMainHeader heading="Vendor Invoices"/>
+              ) : (
+                <PageMainHeader heading="Account Invoices"/>
+              )}
+
               <Flex marginBottom="2rem">
                 <HStack>
                   <Box>
@@ -266,23 +239,7 @@ const UserList = (props) => {
               </TableContainer>
           </div>
       ) : (
-        <> 
-          <Flex
-            as="nav"
-            align="center"
-            justify="space-between"
-            wrap="wrap"
-            padding="1.5rem"
-            bg="teal.500"
-            color="white"
-            marginBottom="2rem"
-            width="100%"
-          >
-            <Heading as="h1" size="lg" letterSpacing={'-.1rem'}>
-              Not authorized to view this page. Please contact administrator.
-            </Heading>
-          </Flex>        
-        </>
+          <PageNotAuthorized/>
       ) }
 
 
@@ -292,4 +249,4 @@ const UserList = (props) => {
   );
 };
 
-export default UserList;
+export default InvoiceList;

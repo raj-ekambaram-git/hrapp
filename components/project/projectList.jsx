@@ -82,11 +82,11 @@ const ProjectList = (props) => {
       {isPageAuthprized ? (
         <div>
 
-                  {isVendor ? (
-                    <PageMainHeader heading="Vendor Projects"/>
-                  ) : (
-                    <PageMainHeader heading="Account Projects"/>
-                  )}
+              {isVendor ? (
+                <PageMainHeader heading="Vendor Projects"/>
+              ) : (
+                <PageMainHeader heading="Account Projects"/>
+              )}
 
     
               <Flex marginBottom="2rem">
