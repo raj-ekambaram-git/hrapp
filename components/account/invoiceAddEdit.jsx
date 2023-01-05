@@ -23,7 +23,8 @@ import {
   Textarea,
   useToast,
   InputGroup,
-  InputLeftElement
+  InputLeftElement,
+  Text
 } from '@chakra-ui/react'
 import InvoiceItems from "../invoice/invoiceItems";
 import { useDispatch,useSelector } from "react-redux";
@@ -50,9 +51,11 @@ const InvoiceAddEdit = (props) => {
   const [accountsList, setAccountsList] = useState([]);
   const [vendorList, setVendorList] = useState([]);
   const [projectList, setProjectList] = useState([]);
-  const [projectType, setProjectType] = useState("");
-  const [invoiceType, setInvoiceType] = useState("");
-  const [projectId, setProjectId] = useState("");
+  const [projectType, setProjectType] = useState(EMPTY_STRING);
+  const [invoiceType, setInvoiceType] = useState(EMPTY_STRING);
+  const [projectId, setProjectId] = useState(EMPTY_STRING);
+  const [vendorName, setVendorName] = useState(EMPTY_STRING);
+  const [projectName, setProjectName] = useState(EMPTY_STRING);
   const [enableInvoiceItemAdd, setEnableInvoiceItemAdd] = useState(false);
   
   //Get the invoiceItemsList if there are any
@@ -146,20 +149,19 @@ const InvoiceAddEdit = (props) => {
         setInvoiceType(invoiceResponse.type);
         setProjectId(invoiceResponse.projectId);
         setProjectType(invoiceResponse.project?.type);
-        
+        setVendorName(invoiceResponse.vendor?.name);
+        setProjectName(invoiceResponse.project?.name);
+
         if(invoiceResponse.invoiceItems != undefined && invoiceResponse.invoiceItems.length >0){
           setEnableInvoiceItemAdd(true);
         }
-        // setInvoice(invoiceData);
+
         console.log("invoiceResponse.invoiceItemList::::"+JSON.stringify(invoiceResponse.invoiceItems))
         dispatch(setInvoiceItemList(invoiceResponse.invoiceItems));
         dispatch(setInvoiceTotal(invoiceResponse.total));
         
-        // setInvoiceItemList(invoiceResponse.invoiceItemList)
-
-        // get user and set form fields
-            const fields = ['description', "type", "vendorId","accountId","projectId", "notes","invoiceDate","dueDte","transactionId", "total", "paidAmount","status","paymentTerms"];
-            fields.forEach(field => setValue(field, invoiceResponse[field]));
+        const fields = ['description', "type", "vendorId","accountId","projectId", "notes","invoiceDate","dueDte","transactionId", "total", "paidAmount","status","paymentTerms"];
+        fields.forEach(field => setValue(field, invoiceResponse[field]));
     }
 
   }
@@ -396,12 +398,18 @@ const InvoiceAddEdit = (props) => {
                           <Box>
                             <FormControl isRequired>
                               <FormLabel>Vendor</FormLabel>
-                              <Select width="100%" id="vendorId" {...register('vendorId')} onChange={(ev) => refreshProjectForVendor(ev.target.value)}>
-                                  <option value="">Select an Vendor</option>
-                                  {vendorList?.map((vendor) => (
-                                    <option value={vendor.id}>{vendor.name}</option>
-                                  ))}
-                            </Select>
+                              {isAddMode ? (
+                                <Select width="100%" id="vendorId" {...register('vendorId')} onChange={(ev) => refreshProjectForVendor(ev.target.value)}>
+                                    <option value="">Select an Vendor</option>
+                                    {vendorList?.map((vendor) => (
+                                      <option value={vendor.id}>{vendor.name}</option>
+                                    ))}
+                              </Select>
+                              ) : (<>
+                              <Text>
+                                {vendorName}
+                              </Text>
+                              </>)}
                             </FormControl>     
                           </Box>
                         </>
@@ -409,12 +417,19 @@ const InvoiceAddEdit = (props) => {
                         <Box>
                             <FormControl isRequired>
                               <FormLabel>Project</FormLabel>
-                              <Select width="100%" id="projectId" {...register('projectId')} onChange={(ev) => handleProjectSelection(ev)}>
-                                <option value="" data-projectType="" data-projectResources="">Select Project</option>
-                                {projectList?.map((project) => (
-                                    <option value={project.id}  data-projectType={project.type} data-projectResources={JSON.stringify(project.projectResource)}>{project.name}</option>
-                                ))}
-                              </Select>
+                              {isAddMode ? (
+                                <Select width="100%" id="projectId" {...register('projectId')} onChange={(ev) => handleProjectSelection(ev)}>
+                                  <option value="" data-projectType="" data-projectResources="">Select Project</option>
+                                  {projectList?.map((project) => (
+                                      <option value={project.id}  data-projectType={project.type} data-projectResources={JSON.stringify(project.projectResource)}>{project.name}</option>
+                                  ))}
+                                </Select>
+                              ) : (<>
+                              <Text>
+                                {projectName}
+                              </Text>
+                                
+                              </>)}
                             </FormControl>     
                         </Box>                          
                     </HStack>

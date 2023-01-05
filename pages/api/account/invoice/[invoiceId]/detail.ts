@@ -23,7 +23,18 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           }
       },
         include: {
-          project: true,
+          vendor: {
+            select: {
+              id: true,
+              name: true
+            }
+          },
+          project: {
+            select: {
+              id: true,
+              name: true
+            }
+          },
           invoiceItems: true
         }
       })
@@ -38,7 +49,18 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           }
       },
         include: {
-          project: true          
+          vendor: {
+            select: {
+              id: true,
+              name: true
+            }
+          },
+          project: {
+            select: {
+              id: true,
+              name: true
+            }
+          }      
         }
       })
         res.status(200).json(invoices[0]);
