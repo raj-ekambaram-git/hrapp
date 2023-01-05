@@ -30,7 +30,8 @@ const ProjectAddEditSection = (props) => {
   return (
 
     <div>
-          <Button
+          <Button size="xs"
+              color="black"
               onClick={() => handleClick("lg")}
               key="lg"
               m={1}
@@ -41,11 +42,8 @@ const ProjectAddEditSection = (props) => {
                     <DrawerContent>
                         <DrawerCloseButton />
                             <DrawerHeader>
-                                <Heading as="h1" size="lg" letterSpacing={'-.1rem'} marginBottom="1rem">
-                                Create a Project
-                                </Heading>
-                                <Heading as="h3" size="md">
-                                    for vendor
+                                <Heading as="h4" size="md">
+                                Create a Project for vendor
                                 </Heading>
                             </DrawerHeader>
                             <DrawerBody>

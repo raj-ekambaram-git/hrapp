@@ -6,7 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { util } from '../../helpers';
 import { accountService, userService, addressService } from "../../services";
 import {MODE_ADD, PROJECT_VALIDATION_SCHEMA, PROJECT_STATUS, PROJECT_TYPES, INVOICE_CYCLE, INVOICE_PAY_TERMS} from "../../constants/accountConstants";
-import Link from "next/link";
+import { PageNotAuthorized } from "../../components/common/pageNotAuthorized";
 import {
   HStack,
   Button,
@@ -22,8 +22,11 @@ import {
   CardHeader,
   CardBody,
   StackDivider,
-  Textarea
-} from '@chakra-ui/react'
+  Textarea,
+  InputLeftElement,
+  InputGroup
+} from '@chakra-ui/react';
+import {PageMainHeader} from '../../components/common/pageMainHeader';
 
 const ProjectAddEdit = (props) => {
   
@@ -271,54 +274,42 @@ const ProjectAddEdit = (props) => {
     <div>
       {isPageAuthprized ? (
         <div> 
-          <Flex
-            as="nav"
-            align="center"
-            justify="space-between"
-            wrap="wrap"
-            padding="1.5rem"
-            bg="heading"
-            color="white"
-            marginBottom="2rem"
-            width="100%"
-          >
-            <Heading as="h1" size="lg" letterSpacing={'-.1rem'}>
-              {isAddMode ? (
-                  <div>New Project</div>
-              ) : (
-                <div>Update Project</div>
-              )}              
-            </Heading>
-          </Flex>
-          <Box width="100%">
+
+          {isAddMode ? (
+              <PageMainHeader heading="New Project"/>
+          ) : (
+            <PageMainHeader heading="Update Project"/>
+          )}              
+
+          <Box width="page.sub_heading_width">
           <form onSubmit={handleSubmit(onSubmit)}>
             <Stack spacing={4}>
               <Card>
-                <CardHeader bgColor="table_tile">
-                  <Heading size='sm'>Project Details</Heading>
+                <CardHeader>
+                  <Heading size='xs'>Project Details</Heading>
                 </CardHeader>
 
                 <CardBody>
-                  <Stack divider={<StackDivider />} spacing='4'>
+                  <Stack spacing={4}>
                       <Box>
                         <FormControl isRequired>
                           <FormLabel>Project Name</FormLabel>
-                          <Input type="text" {...register('name')}  id="name"  size="md" />
+                          <Input type="text" {...register('name')}  id="name"  size="md" maxWidth="page.single_input"/>
                         </FormControl>     
                       </Box>
                       <Box>
                         <FormControl isRequired>
                             <FormLabel>Project Details</FormLabel>
-                            <Textarea type="text" id="description" {...register('description')}  size="md" />
+                            <Textarea type="text" id="description" {...register('description')}  size="md" maxWidth="page.single_input"/>
                         </FormControl>    
                       </Box>  
                       <Box>
                         <FormControl isRequired>
                             <FormLabel>Project Reference</FormLabel>
-                            <Input type="text" id="referenceCode" {...register('referenceCode')}  size="md" />
+                            <Input type="text" id="referenceCode" {...register('referenceCode')}  size="md" maxWidth="page.single_input"/>
                         </FormControl>    
                       </Box>                        
-                      <HStack spacing={3}>
+                      <HStack spacing="10rem">
                         <Box>
                           <FormControl isRequired>
                             <FormLabel>Projet Status</FormLabel>
@@ -339,6 +330,8 @@ const ProjectAddEdit = (props) => {
                             </Select>
                           </FormControl>     
                         </Box> 
+                      </HStack>
+                      <HStack spacing="7rem">
                         <Box>
                           <FormControl isRequired>
                             <FormLabel>Projet Invoice Cycle</FormLabel>
@@ -365,13 +358,13 @@ const ProjectAddEdit = (props) => {
                 </CardBody>
               </Card>              
               <Card>
-                <CardHeader bgColor="table_tile">
-                  <Heading size='sm'>Projet Account/Vendor</Heading>
+                <CardHeader>
+                  <Heading size='xs'>Projet Account/Vendor</Heading>
                 </CardHeader>
 
                 <CardBody>
                   <Stack divider={<StackDivider />} spacing='4'>
-                    <HStack>
+                    <HStack spacting="10rem">
                       {isPageSectionAuthorized ? (
                         <>                      
                           <Box>
@@ -406,7 +399,7 @@ const ProjectAddEdit = (props) => {
                     <Box>
                         <FormControl isRequired>
                             <FormLabel>Project Location</FormLabel>
-                              <Select width="50%" id="addressId" {...register('addressId')}>
+                              <Select width="40%" id="addressId" {...register('addressId')}>
                                 {addressList?.map((address) => (
                                     <option value={address.id}>{address.addressName},{address.address1},{address.city}</option>
                                 ))}
@@ -457,7 +450,15 @@ const ProjectAddEdit = (props) => {
                       <Box>
                         <FormControl isRequired>
                           <FormLabel>Project Total Budget</FormLabel>
-                          <Input type="text" {...register('budget')}  id="budget"  size="md" />                    
+                          <InputGroup>
+                            <InputLeftElement
+                                      pointerEvents='none'
+                                      color='dollor_input'
+                                      fontSize='dollar_left_element'
+                                      children='$'
+                                  />   
+                            <Input type="text" {...register('budget')}  id="budget"  size="md" />                    
+                          </InputGroup>
                         </FormControl>     
                       </Box>
                       <Box>
@@ -469,7 +470,15 @@ const ProjectAddEdit = (props) => {
                       <Box>
                         <FormControl>
                           <FormLabel>Project Average Rate</FormLabel>
-                          <Input type="text" {...register('averageRate')}  id="averageRate"  size="md" />
+                          <InputGroup>
+                            <InputLeftElement
+                                      pointerEvents='none'
+                                      color='dollor_input'
+                                      fontSize='dollar_left_element'
+                                      children='$'
+                                  />  
+                            <Input type="text" {...register('averageRate')}  id="averageRate"  size="md" />
+                          </InputGroup>
                         </FormControl>     
                       </Box>
                     </HStack>
@@ -501,22 +510,8 @@ const ProjectAddEdit = (props) => {
       </div>
       ) : (
         <> 
-        <Flex
-          as="nav"
-          align="center"
-          justify="space-between"
-          wrap="wrap"
-          padding="1.5rem"
-          bg="teal.500"
-          color="white"
-          marginBottom="2rem"
-          width="100%"
-        >
-          <Heading as="h1" size="lg" letterSpacing={'-.1rem'}>
-            Not authorized to view this page. Please contact administrator.
-          </Heading>
-        </Flex>        
-      </>
+          <PageNotAuthorized/>            
+        </>
       )}
     </div>
 

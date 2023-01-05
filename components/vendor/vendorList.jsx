@@ -17,6 +17,7 @@ import {
   TableCaption,
   Badge
 } from '@chakra-ui/react'
+import { PageMainHeader } from "../common/pageMainHeader";
 
 const VendorList = (props) => {
   const router = useRouter();
@@ -55,22 +56,7 @@ const VendorList = (props) => {
     <div>
       {isPageAuthprized ? (
         <div>
-          <Flex
-            as="nav"
-            align="center"
-            justify="space-between"
-            wrap="wrap"
-            padding="page.heading"
-            bg="heading"
-            color="white"
-            marginBottom="page.heading_marginBottom"
-            width="page.heading_width"
-          >
-                <Heading as="h4" size="md">
-                  Account Vendors
-                </Heading>
-              </Flex>
-    
+              <PageMainHeader heading="Account Vendors"/>    
               <Flex marginBottom="2rem">
                 <HStack>
                   <Box>

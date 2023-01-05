@@ -1,7 +1,7 @@
 
 
 import { extendTheme } from '@chakra-ui/react';
-import {cardTheme, accordionTheme} from '../components/styles';
+import {cardTheme, accordionTheme, buttonTheme} from '../components/styles';
 
 
 
@@ -17,7 +17,8 @@ const breakpoints = {
 const theme = extendTheme({
   components: {
     Card: cardTheme,
-    Accordion: accordionTheme
+    Accordion: accordionTheme,
+    Button: buttonTheme
   },
   semanticTokens: {
     borders: {

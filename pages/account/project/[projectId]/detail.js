@@ -24,7 +24,7 @@ import ProjectLocationSection from "../../../../components/project/detail/projec
 import ProjectFinancialSection from "../../../../components/project/detail/projectFinancialSection";
 import ProjectStatusSection from "../../../../components/project/detail/projectStatusSection";
 import ProjectTimesheets from "../../../../components/project/detail/projectTimesheets";
-
+import {PageMainHeader} from '../../../../components/common/pageMainHeader';
 
 const ProjectDetail = (props) => {
   const projectId = props.data.projectId;
@@ -169,18 +169,13 @@ const ProjectDetail = (props) => {
     <div>
       {isPageAuthprized ? (
         <>
-          <Card>
-            <CardHeader bgColor="heading">
-              <HStack spacing="50rem">
-                <Box>
-                  <Heading size='md'>Project Details for {project.name}</Heading>
-                </Box>
-              </HStack>
-            </CardHeader>
 
-            <CardBody>
-              <Stack divider={<StackDivider />} spacing='1'>
-                <Accordion>
+          <PageMainHeader heading="Project Details for" param1={project.name}/>
+          <Flex>
+              <Stack width="page.sub_heading_width">
+                {/* <Accordion marginBottom="1rem" border="1px" width="60%"> */}
+
+                <Accordion variant="mainPage">
                   <ProjectDetailSection data={{project}}/>
                   <ProjectAccountSection data={{projectAccountName: projectAccountName, projectVendorName: projectVendorName}}/>
                   <ProjectContactDetailSection data={{project}}/>
@@ -190,9 +185,7 @@ const ProjectDetail = (props) => {
                 </Accordion>                
                 <ProjectStatusSection data={{project}}/>
               </Stack>
-            </CardBody>
-          </Card>             
-
+          </Flex>
           <Flex marginTop="2rem">
                 <HStack spacing={2}>
                   <Box>

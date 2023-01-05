@@ -143,7 +143,9 @@ const VendorDetail = (props) => {
           </Flex>
           <Flex>
               <Stack width="page.sub_heading_width">
-                <Accordion>
+                {/* <Accordion marginBottom="1rem" border="1px" width="60%"> */}
+
+                <Accordion variant="mainPage">
                   <VendorDetailSection data={{vendor}}/ >
                   <VendorBankDetailSection data={{vendor}}/>
                   <VendorContactDetailSection data={{vendor}}/>                 
@@ -152,7 +154,7 @@ const VendorDetail = (props) => {
                   <VendorProjectsSection data={{vendor}}/>
                  </Accordion>                
                 <Box>
-                  <Heading size='xs' textTransform='uppercase'>
+                  <Heading size='xs' textTransform='uppercase' marginBottom="1rem">
                     Vendor Status
                   </Heading>
                   <Badge color={`${

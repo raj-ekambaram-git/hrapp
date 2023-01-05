@@ -1,13 +1,15 @@
-export { PageNotAuthorized };
+export { PageMainHeader };
 import {
     Flex,
     Heading
   } from '@chakra-ui/react'
 
-function PageNotAuthorized() {
+function PageMainHeader(props) {
+    const heading = props.heading;
+    const param1 = props.param1;
     return (
         <>
-          <Flex
+            <Flex
             as="nav"
             align="center"
             justify="space-between"
@@ -17,11 +19,16 @@ function PageNotAuthorized() {
             color="white"
             marginBottom="page.heading_marginBottom"
             width="page.heading_width"
-          >
-            <Heading as="h1" size="sm">
-              Not authorized to view this page. Please contact administrator.
-            </Heading>
-          </Flex>          
+            >
+             <Heading size='md'>{heading} {param1}</Heading>
+            </Flex>        
         </>
     );
 }
+
+
+
+
+
+
+  

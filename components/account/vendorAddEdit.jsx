@@ -6,6 +6,7 @@ import { util } from '../../helpers';
 import { accountService, userService } from "../../services";
 import {MODE_ADD, VENDOR_VALIDATION_SCHEMA, USER_ROLES} from "../../constants/accountConstants";
 import {US_STATES} from "../../constants/commonConstants";
+import { PageNotAuthorized } from "../../components/common/pageNotAuthorized";
 import {
   HStack,
   Button,
@@ -23,6 +24,7 @@ import {
   StackDivider,
   useToast
 } from '@chakra-ui/react';
+import { PageMainHeader } from "../common/pageMainHeader";
 
 
 const VendorEdit = (props) => {
@@ -279,31 +281,19 @@ const VendorEdit = (props) => {
     <div>
       {isPageAuthprized ? (
         <div> 
-          <Flex
-            as="nav"
-            align="center"
-            justify="space-between"
-            wrap="wrap"
-            padding="page.heading"
-            bg="heading"
-            color="white"
-            marginBottom="page.heading_marginBottom"
-            width="page.heading_width"
-          >
-            <Heading as="h4" size="md">
-               {isAddMode ? (
-                    <div>New Vendor</div>
-                ) : (
-                    <div>Update Vendor</div>
-                )}              
-            </Heading>
-          </Flex>
+          
+          {isAddMode ? (
+              <PageMainHeader heading="New Vendor"/>
+          ) : (
+              <PageMainHeader heading="Update Vendor"/>
+          )}              
+
           <Box width="page.sub_heading_width">
           <form onSubmit={handleSubmit(onSubmit)}>
             <Stack spacing={4}>
               <Card>
                 <CardHeader>
-                  <Heading size='sm'>Vendor Details</Heading>
+                  <Heading size='xs'>Vendor Details</Heading>
                 </CardHeader>
 
                 <CardBody>
@@ -355,7 +345,7 @@ const VendorEdit = (props) => {
               </Card>              
               <Card>
                 <CardHeader bgColor="table_tile">
-                  <Heading size='sm'>Vendor Contact</Heading>
+                  <Heading size='xs'>Vendor Contact</Heading>
                 </CardHeader>
 
                 <CardBody>
@@ -375,7 +365,7 @@ const VendorEdit = (props) => {
                 </Card>
                 <Card>
                   <CardHeader>
-                    <Heading size='sm'>Vendor Addreses</Heading>
+                    <Heading size='xs'>Vendor Addreses</Heading>
                   </CardHeader>
 
                   <CardBody>
@@ -432,7 +422,7 @@ const VendorEdit = (props) => {
                 </Card>
                 <Card>
                   <CardHeader bgColor="table_tile">
-                    <Heading size='sm'>Account Contact</Heading>
+                    <Heading size='xs'>Account Contact</Heading>
                   </CardHeader>
 
                   <CardBody>
@@ -464,7 +454,7 @@ const VendorEdit = (props) => {
                 <Flex marginBottom={4}>
                   <HStack>
                     <Box>
-                    <Button className="btn" onClick={navigateVendorListPage}>
+                    <Button onClick={navigateVendorListPage}>
                         Discard
                       </Button>
                     </Box>
@@ -486,22 +476,8 @@ const VendorEdit = (props) => {
         </div>
       ) : (
         <> 
-        <Flex
-          as="nav"
-          align="center"
-          justify="space-between"
-          wrap="wrap"
-          padding="1.5rem"
-          bg="teal.500"
-          color="white"
-          marginBottom="2rem"
-          width="100%"
-        >
-          <Heading as="h1" size="lg" letterSpacing={'-.1rem'}>
-            Not authorized to view this page. Please contact administrator.
-          </Heading>
-        </Flex>        
-      </>
+          <PageNotAuthorized/>   
+        </>
       )}
     </div>
 

@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { accountService, userService } from "../../services";
-import {USER_ROLE_DESC} from "../../constants/accountConstants";
+import { PageNotAuthorized } from "../../components/common/pageNotAuthorized";
 import {
   HStack,
   Button,
@@ -18,6 +18,7 @@ import {
   TableCaption,
   Badge
 } from '@chakra-ui/react'
+import {PageMainHeader} from '../../components/common/pageMainHeader'
 
 const ProjectList = (props) => {
   const router = useRouter();
@@ -28,7 +29,6 @@ const ProjectList = (props) => {
   const [projectList, setProjectList] = useState([]);
   const [isPageAuthprized, setPageAuthorized] = useState(false);
 
-  console.log("MANNNNNNNNNN")
   useEffect(() => {
 
     if(isVendor) {
@@ -81,31 +81,18 @@ const ProjectList = (props) => {
     <div>
       {isPageAuthprized ? (
         <div>
-              <Flex
-                as="nav"
-                align="center"
-                justify="space-between"
-                wrap="wrap"
-                padding="1.5rem"
-                bg="heading"
-                color="white"
-                marginBottom="2rem"
-                width="100%"
-              >
-                <Heading as="h1" size="lg" letterSpacing={'-.1rem'}>
+
                   {isVendor ? (
-                    <>Vendor Projects</>
+                    <PageMainHeader heading="Vendor Projects"/>
                   ) : (
-                    <>Account Projects</>
+                    <PageMainHeader heading="Account Projects"/>
                   )}
-                  
-                </Heading>
-              </Flex>
+
     
               <Flex marginBottom="2rem">
                 <HStack>
                   <Box>
-                    <Button className="btn" onClick={navigatePage}>
+                    <Button onClick={navigatePage}>
                       {isVendor ? (
                         <>Add New Vendor Project</>
                       ) : (
@@ -148,8 +135,6 @@ const ProjectList = (props) => {
                   </Thead>                
                   <Tbody>
                     {projectList?.map((project) => (
-                      
-                      
                       <Tr>
                             <Th>
                             {project.id}
@@ -177,7 +162,7 @@ const ProjectList = (props) => {
                             <Th>
                               <HStack>
                                 <Link href={`/account/project/${project.id}/detail`} passref key={project.id}>
-                                  <Button className="btn">
+                                  <Button>
                                     Details
                                   </Button>
                                 </Link>
@@ -200,21 +185,7 @@ const ProjectList = (props) => {
           </div>
       ) : (
         <> 
-          <Flex
-            as="nav"
-            align="center"
-            justify="space-between"
-            wrap="wrap"
-            padding="1.5rem"
-            bg="teal.500"
-            color="white"
-            marginBottom="2rem"
-            width="100%"
-          >
-            <Heading as="h1" size="lg" letterSpacing={'-.1rem'}>
-              Not authorized to view this page. Please contact administrator.
-            </Heading>
-          </Flex>        
+         <PageNotAuthorized/>      
         </>
       ) }
 

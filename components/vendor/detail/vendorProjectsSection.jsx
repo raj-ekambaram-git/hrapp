@@ -29,9 +29,9 @@ const VendorProjectsSection = (props) => {
 
     <div>
 
-        <AccordionItem marginBottom="1rem" border="1px" width="60%">
+        <AccordionItem>
             <h2>
-            <AccordionButton bgColor="table_tile">
+            <AccordionButton>
                 <Box as="span" flex='1' textAlign='left'>
                 <Heading size='xs' textTransform='uppercase'>
                     Projects
