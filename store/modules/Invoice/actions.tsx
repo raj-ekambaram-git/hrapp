@@ -1,4 +1,5 @@
 
+import { invoiceService } from '../../../services';
 import { ActionTypes } from './constants';
 
 
@@ -60,4 +61,33 @@ export const setInvoicePaidAmount = (invoicePaidAmount) => {
         type: ActionTypes.INVOICE_PAID_AMOUNT,
         payload: invoicePaidAmount
     }
+}
+
+export const setInvoiceTransactions = (invoiceTransactions) => {
+    return {
+        type: ActionTypes.SET_INVOICE_TRANSACTIONS,
+        payload: invoiceTransactions
+    }
+}
+
+export const getInvoiceTransactions = (invoiceId) => {
+    return {
+        type: ActionTypes.GET_INVOICE_TRANSACTIONS,
+        payload: invoiceId
+    }
+}
+
+export const updateInvoiceTransactions = (invoiceTransaction) => {
+    return {
+        type: ActionTypes.UPDATE_INVOICE_TRANSACTIONS,
+        payload: invoiceTransaction
+    }
+}
+
+export const fetchInvoiceTransactions = (invoiceId, accountId) => {
+    return async (dispatch) => {
+        const responseData = await invoiceService.getInvoiceTransactions(invoiceId, accountId);
+        console.log("fetchInvoiceTransactions::"+JSON.stringify(responseData))
+        dispatch(getInvoiceTransactions(responseData));
+      };
 }

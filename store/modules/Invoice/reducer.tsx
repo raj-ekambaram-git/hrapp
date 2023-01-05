@@ -7,7 +7,8 @@ const initialState = {
     invoiceItemList: [],
     projectResources: [],
     invoiceTotal: null,
-    invoicePaidAmount: null
+    invoicePaidAmount: null,
+    invoiceTransactions: []
 };
 
 const invoiceReducer = (state = initialState, {type, payload}) => {
@@ -50,6 +51,12 @@ const invoiceReducer = (state = initialState, {type, payload}) => {
 
     } else if(type === ActionTypes.INVOICE_PAID_AMOUNT) {
         newState.invoicePaidAmount = parseFloat(payload);
+    } else if(type === ActionTypes.GET_INVOICE_TRANSACTIONS) {
+        newState.invoiceTransactions = payload;
+    } else if(type === ActionTypes.SET_INVOICE_TRANSACTIONS) {
+        
+    } else if(type === ActionTypes.UPDATE_INVOICE_TRANSACTIONS) {
+        
     }
     
     console.log("New State:::Before Return:::"+JSON.stringify(newState));

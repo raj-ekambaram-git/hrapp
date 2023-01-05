@@ -118,7 +118,7 @@ model Invoice {
   createdDate        DateTime             @default(now())
   lastUpdateDate     DateTime             @updatedAt
   invoiceItems       InvoiceItem[]
-  InvoiceTransaction InvoiceTransaction[]
+  invoiceTransaction InvoiceTransaction[]
 }
 
 model InvoiceItem {
@@ -146,14 +146,14 @@ model InvoiceItem {
 }
 
 model InvoiceTransaction {
-  id              Int                    @id @default(autoincrement())
-  type            InvoiceTransactionType
+  id              Int                      @id @default(autoincrement())
   amount          Decimal
   transactionData String
-  invoice         Invoice?               @relation(fields: [invoiceId], references: [id])
+  invoice         Invoice?                 @relation(fields: [invoiceId], references: [id])
   invoiceId       Int?
-  createdDate     DateTime               @default(now())
-  lastUpdatedDate DateTime               @updatedAt
+  status          InvoiceTransactionStatus
+  createdDate     DateTime                 @default(now())
+  lastUpdatedDate DateTime                 @updatedAt
 }
 
 model Project {
@@ -475,7 +475,7 @@ enum ConfigStatus {
   MarkForDelete
 }
 
-enum InvoiceTransactionType {
+enum InvoiceTransactionStatus {
   Pending
   Paid
   Refund

@@ -13,10 +13,25 @@ const baseUrl = `${publicRuntimeConfig.apiUrl}`;
 export const invoiceService = {
 
     createNewInvoice,
-    updateInvoice
+    updateInvoice,
+    getInvoiceTransactions
 
 };
 
+  function getInvoiceTransactions(invoiceId, accountId) {
+    console.log("getInvoiceTransactions:: INVOICE ID:::"+invoiceId+"*****ACCOUNTID::"+accountId);
+    return fetchWrapper.get(`${baseUrl}/account/invoice/`+invoiceId+'/transactions?accountId='+accountId, {}
+    )
+    .then(invoiceTransactions => {
+      console.log("Inside the getInvoiceTransactions service ::"+JSON.stringify(invoiceTransactions));
+      return invoiceTransactions;
+    })
+    .catch(err => {
+      console.log("Error Getting Invoice::"+err)
+      return {errorMessage: err, error: true};
+    });
+
+  }
 function updateInvoice(formData, invoiceId, invoiceDate, dueDte, invoiceItemList, invoiceTotal) {
 
   console.log("updateInvoice:: BEFORE::::invoiceItemList:::"+JSON.stringify(invoiceItemList));

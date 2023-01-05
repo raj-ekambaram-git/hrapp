@@ -30,7 +30,7 @@ import { useDispatch,useSelector } from "react-redux";
 import { resetInvoiceItemList, setInvoiceItemList, setProjectResources, resetProjectResources, setInvoiceTotal, setInvoicePaidAmount } from "../../store/modules/Invoice/actions";
 import DatePicker from "../common/datePicker";
 import { InvoiceConstants } from "../../constants/invoiceConstants";
-import InvoiceTransaction from "../invoice/transaction/invoiceTransaction";
+import InvoiceTransactions from "../invoice/transaction/invoiceTransactions";
 import {PageNotAuthorized} from '../../components/common/pageNotAuthorized';
 import {PageMainHeader} from '../../components/common/pageMainHeader';
 
@@ -466,7 +466,7 @@ const InvoiceAddEdit = (props) => {
                                 />      
                                 <HStack>
                                   <Input type="text" value={invoicePaidAmount} isReadOnly/>
-                                  <InvoiceTransaction/>
+                                  <InvoiceTransactions invoiceId={invoiceId}/>
                                 </HStack>
                               </InputGroup>                             
                           </FormControl>    
@@ -522,21 +522,7 @@ const InvoiceAddEdit = (props) => {
       </div>
       ) : (
         <> 
-        <Flex
-          as="nav"
-          align="center"
-          justify="space-between"
-          wrap="wrap"
-          padding="1.5rem"
-          bg="teal.500"
-          color="white"
-          marginBottom="2rem"
-          width="100%"
-        >
-          <Heading as="h1" size="lg" letterSpacing={'-.1rem'}>
-            Not authorized to view this page. Please contact administrator.
-          </Heading>
-        </Flex>        
+        <PageNotAuthorized/>      
       </>
       )}
     </div>
