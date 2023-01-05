@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { accountService, invoiceService, userService } from "../../services";
-import {MODE_ADD, INVOICE_VALIDATION_SCHEMA, INVOICE_STATUS,INVOICE_PAY_TERMNS, EMPTY_STRING} from "../../constants/accountConstants";
+import {MODE_ADD, INVOICE_VALIDATION_SCHEMA, INVOICE_STATUS,INVOICE_PAY_TERMS, EMPTY_STRING} from "../../constants/accountConstants";
 
 import {
   HStack,
@@ -348,7 +348,7 @@ const InvoiceAddEdit = (props) => {
                           <FormControl isRequired>
                             <FormLabel>Payment Terms</FormLabel>
                             <Select width="100%" id="paymentTerms" {...register('paymentTerms')} >
-                              {INVOICE_PAY_TERMNS?.map((paymentTerm) => (
+                              {INVOICE_PAY_TERMS?.map((paymentTerm) => (
                                     <option value={paymentTerm.paymentTermId}>{paymentTerm.paymentTermName}</option>
                               ))}                                
                             </Select>

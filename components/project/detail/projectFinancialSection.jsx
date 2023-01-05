@@ -43,6 +43,17 @@ const ProjectAccountSection = (props) => {
                         <Tbody>
                         <Tr >
                             <Th bgColor="table_tile" width="project.details.column1">
+                                Payment Terms
+                            </Th>
+                            <Th>
+                                <Text pt='table_display_value' fontSize='table_display_value'>
+                                    {project.paymentTerms}
+                                </Text>
+                            </Th>
+                        </Tr>
+
+                        <Tr >
+                            <Th bgColor="table_tile" width="project.details.column1">
                                 Budget
                             </Th>
                             <Th>

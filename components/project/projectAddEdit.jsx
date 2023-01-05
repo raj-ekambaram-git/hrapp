@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { util } from '../../helpers';
 import { accountService, userService, addressService } from "../../services";
-import {MODE_ADD, PROJECT_VALIDATION_SCHEMA, PROJECT_STATUS, PROJECT_TYPES, INVOICE_CYCLE} from "../../constants/accountConstants";
+import {MODE_ADD, PROJECT_VALIDATION_SCHEMA, PROJECT_STATUS, PROJECT_TYPES, INVOICE_CYCLE, INVOICE_PAY_TERMS} from "../../constants/accountConstants";
 import Link from "next/link";
 import {
   HStack,
@@ -22,11 +22,6 @@ import {
   CardHeader,
   CardBody,
   StackDivider,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
   Textarea
 } from '@chakra-ui/react'
 
@@ -44,7 +39,7 @@ const ProjectAddEdit = (props) => {
   const accountId = useRef("");
   const budget = useRef("");
   const totalHours = useRef("");
-  const averageRate = useRef("");
+  const averageRate = useRef(0);
   
   const [project, setProject] = useState({});
   const [isPageAuthprized, setPageAuthorized] = useState(false);
@@ -135,6 +130,7 @@ const ProjectAddEdit = (props) => {
             contactName: projectResponse.contactName,
             contactEmail: projectResponse.contactEmail,
             contactPhone: projectResponse.contactPhone,            
+            paymentTerms: projectResponse.paymentTerms,
             budget: projectResponse.budget,
             totalHours: projectResponse.totalHours,
             averageRate: projectResponse.averageRate,
@@ -144,7 +140,7 @@ const ProjectAddEdit = (props) => {
         setProject(projetData);
 
         // get user and set form fields
-            const fields = ['name','referenceCode', "description", "type", "invoiceCycle","contactName","contactEmail","contactPhone","addressId","vendorId", "accountId","budget","totalHours","status", "averageRate"];
+            const fields = ['name','referenceCode', "description", "type", "invoiceCycle","contactName","contactEmail","contactPhone","addressId","vendorId", "accountId","budget","totalHours","status", "averageRate", 'paymentTerms'];
             fields.forEach(field => setValue(field, projetData[field]));
     }
 
@@ -188,11 +184,12 @@ const ProjectAddEdit = (props) => {
             accountId: parseInt(formData.accountId),
             budget: formData.budget,
             remainingBudgetToAllocate: formData.budget,
+            paymentTerms: formData.paymentTerms,
             contactName: formData.contactName,
             contactEmail: formData.contactEmail,
             contactPhone: formData.contactPhone,
             totalHours: parseInt(formData.totalHours),
-            averageRate: formData.averageRate,            
+            averageRate: util.getDecimalValue(formData.averageRate),            
             status: formData.status
 
           }), 
@@ -240,6 +237,7 @@ const ProjectAddEdit = (props) => {
           vendorId: parseInt(formData.vendorId),
           accountId: parseInt(formData.accountId),
           budget: formData.budget,
+          paymentTerms: formData.paymentTerms,
           contactName: formData.contactName,
           contactEmail: formData.contactEmail,
           contactPhone: formData.contactPhone,
@@ -350,7 +348,18 @@ const ProjectAddEdit = (props) => {
                                 ))}   
                             </Select>
                           </FormControl>     
+                        </Box>  
+                        <Box>
+                          <FormControl isRequired>
+                            <FormLabel>Projet Payment Terms</FormLabel>
+                            <Select width="100%" id="paymentTerms" {...register('paymentTerms')} >
+                              {INVOICE_PAY_TERMS?.map((paymentTerm) => (
+                                      <option value={paymentTerm.paymentTermId}>{paymentTerm.paymentTermName}</option>
+                                ))}                                
+                            </Select>
+                          </FormControl>     
                         </Box>                                                 
+
                       </HStack>                          
                   </Stack>
                 </CardBody>

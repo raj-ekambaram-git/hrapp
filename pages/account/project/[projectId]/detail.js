@@ -100,6 +100,7 @@ const ProjectDetail = (props) => {
       accountId: responseData.accountId,
       remainingBudgetToAllocate: responseData.remainingBudgetToAllocate,
       usedBudget: responseData.usedBudget,
+      paymentTerms: responseData.paymentTerms,
       // projectResource: [],
       // invoice: [],
       budget: responseData.budget,

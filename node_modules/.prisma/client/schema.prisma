@@ -168,6 +168,7 @@ model Project {
   contactName               String?
   contactEmail              String?
   contactPhone              String?
+  paymentTerms              PaymentTerms      @default(Net60)
   createdDate               DateTime          @default(now())
   lastUpdateDate            DateTime          @updatedAt
   invoice                   Invoice[]
@@ -405,6 +406,8 @@ enum PaymentTerms {
   Net45
   Net60
   Net90
+  Net180
+  Net365
 }
 
 enum InvoiceItemType {

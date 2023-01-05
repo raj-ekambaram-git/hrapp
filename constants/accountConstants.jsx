@@ -99,8 +99,6 @@ export const ACCOUNT_VALIDATION_SCHEMA = Yup.object().shape({
     vendorId: Yup.string().required('Account ZipCode is required'),
     accountId: Yup.string().required('Account Country is required'),
     budget: Yup.string().required('User Role is required'),
-    totalHours: Yup.string().required('User Email is required'),
-    averageRate: Yup.string().required('User Phone is required'),
     status: Yup.string().required('User Phone is required'),
 
   });   
@@ -261,7 +259,7 @@ export const INVOICE_CYCLE = [
 ];  
 
 
-export const INVOICE_PAY_TERMNS = [
+export const INVOICE_PAY_TERMS = [
   {
   paymentTermId: "Net30",
   paymentTermName: "Net30"

@@ -14,8 +14,15 @@ export const util = {
     getNextWeekStartDateString,
     getFormattedDate,
     getTotalHours,
-    getDayMonthFormat
+    getDayMonthFormat,
+    getDecimalValue
 };
+
+function getDecimalValue(value) {
+  if(value === undefined || value === EMPTY_STRING || value === null) {
+    return null;
+  }
+}
 
 function getTotalHours(entries) {
   let totalHours = 0;
