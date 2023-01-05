@@ -32,15 +32,14 @@ import { useSelector } from 'react-redux';
 const ProjectTimesheets = (props) => {
     
     const approvalList = useSelector(state => state.timesheet.approvalTimesheets);
-    console.log("approvalList:::"+JSON.stringify(approvalList))
 
     return (
         <div>
              <Card>
-                <CardHeader bgColor="table_tile">
+                <CardHeader>
                     <HStack spacing="50rem">
                     <Box>
-                        <Heading size='md'>Projects</Heading>
+                        <Heading size='xs'>Projects</Heading>
                     </Box>
                     </HStack>
                 </CardHeader>

@@ -31,6 +31,8 @@ import { resetInvoiceItemList, setInvoiceItemList, setProjectResources, resetPro
 import DatePicker from "../common/datePicker";
 import { InvoiceConstants } from "../../constants/invoiceConstants";
 import InvoiceTransaction from "../invoice/transaction/invoiceTransaction";
+import {PageNotAuthorized} from '../../components/common/pageNotAuthorized';
+import {PageMainHeader} from '../../components/common/pageMainHeader';
 
 
 
@@ -132,22 +134,6 @@ const InvoiceAddEdit = (props) => {
         const invoiceResponse = await accountService.getInvoiceDetail(props.data.invoiceId, userService.getAccountDetails().accountId);
 
         console.log("invoiceResponse:::"+JSON.stringify(invoiceResponse));
-
-        // const invoiceData =  {
-        //     id: invoiceResponse.id.toString(),
-        //     description: invoiceResponse.description,
-        //     type: invoiceResponse.type,
-        //     vendorId: invoiceResponse.vendorId,
-        //     accountId: invoiceResponse.accountId,
-        //     projectId: invoiceResponse.projectId,            
-        //     invoiceDate: invoiceResponse.invoiceDate,
-        //     invoiceItemList: invoiceResponse.invoiceItemList,
-        //     dueDte: invoiceResponse.dueDte,
-        //     total: invoiceResponse.total,
-        //     paidAmount: invoiceResponse.paidAmount,
-        //     status: invoiceResponse.status,
-        //     paymentTerms: invoiceResponse.paymentTerms
-        // };
         setStatus(invoiceResponse.status);
         setInvoiceType(invoiceResponse.type);
         setProjectId(invoiceResponse.projectId);
@@ -304,40 +290,27 @@ const InvoiceAddEdit = (props) => {
     <div>
       {isPageAuthprized ? (
         <div> 
-          <Flex
-            as="nav"
-            align="center"
-            justify="space-between"
-            wrap="wrap"
-            padding="page.heading"
-            bg="heading"
-            color="white"
-            marginBottom="page.heading_marginBottom"
-            width="page.heading_width"
-          >
-            <Heading as="h4" size="md">
-              {isAddMode ? (
-                  <div>New {isVendor? "Vendor": "Account"} Invoice</div>
-              ) : (
-                <div>Update {isVendor? "Vendor": "Account"} Invoice</div>
-              )}              
-            </Heading>
-          </Flex>
+          
+          {isAddMode ? (
+              <div>{isVendor? (<PageMainHeader heading="New Vendor Invoice"/>): (<PageMainHeader heading="New Account Invoice"/>)}</div>
+          ) : (
+            <div>{isVendor? (<PageMainHeader heading="Update Vendor Invoice"/>): (<PageMainHeader heading="Update Account Invoice"/>)}</div>
+          )}              
           <Flex>
           <Box width="page.sub_heading_width">
           <form onSubmit={handleSubmit(onSubmit)}>
             <Stack spacing={4}>
               <Card>
                 <CardHeader>
-                  <Heading size='sm'>Invoice Details {invoiceId ? (<> for {invoiceId}</>) : (<></>)} </Heading>
+                  <Heading size='xs'>Invoice Details {invoiceId ? (<> for {invoiceId}</>) : (<></>)} </Heading>
                 </CardHeader>
 
                 <CardBody>
-                  <Stack divider={<StackDivider />} spacing='4'>
+                  <Stack spacing={4}>
                       <Box>
                         <FormControl isRequired>
                           <FormLabel>Invoice Reference/Details</FormLabel>
-                          <Input type="text" {...register('description')}  id="description"  size="md" maxWidth="page.single_input%" />
+                          <Input type="text" {...register('description')}  id="description"  size="md"  maxWidth="page.single_input" />
                         </FormControl>     
                       </Box>
                       <HStack spacing={8}>
@@ -377,8 +350,8 @@ const InvoiceAddEdit = (props) => {
                 </CardBody>
               </Card>              
               <Card>
-                <CardHeader bgColor="table_tile">
-                  <Heading size='sm'>User Account/Vendor Details</Heading>
+                <CardHeader>
+                  <Heading size='xs'>User Account/Vendor Details</Heading>
                 </CardHeader>
 
                 <CardBody>
@@ -443,8 +416,8 @@ const InvoiceAddEdit = (props) => {
                 </CardBody>
               </Card>              
               <Card>
-                <CardHeader bgColor="table_tile">
-                  <Heading size='sm'>Invoice Payment Details</Heading>
+                <CardHeader>
+                  <Heading size='xs'>Invoice Payment Details</Heading>
                 </CardHeader>
 
                 <CardBody>
@@ -509,8 +482,8 @@ const InvoiceAddEdit = (props) => {
               </Card>
               {enableInvoiceItemAdd ? (
                 <Card>
-                  <CardHeader bgColor="table_tile">
-                    <Heading size='sm'>Invoice Items</Heading>
+                  <CardHeader>
+                    <Heading size='xs'>Invoice Items</Heading>
                   </CardHeader>
 
                   <CardBody>

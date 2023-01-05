@@ -14,6 +14,8 @@ import {
 } from '@chakra-ui/react'
 import WeeklyTimesheetEntry from "./weeklyTimesheetEntry";
 import { useSelector } from "react-redux";
+import { PageMainHeader } from "../../components/common/pageMainHeader";
+
 
 const TimesheetAddEdit = (props) => {
   
@@ -152,25 +154,11 @@ const TimesheetAddEdit = (props) => {
     <div>
       {isPageAuthprized ? (
         <div> 
-          <Flex
-            as="nav"
-            align="center"
-            justify="space-between"
-            wrap="wrap"
-            padding="1.5rem"
-            bg="heading"
-            color="white"
-            marginBottom="2rem"
-            width="100%"
-          >
-            <Heading as="h1" size="lg" letterSpacing={'-.1rem'}>
-               {isAddMode ? (
-                    <div>New Timesheet</div>
-                ) : (
-                    <div>Update Timesheet</div>
-                )}              
-            </Heading>
-          </Flex>
+          {isAddMode ? (
+              <PageMainHeader heading="New Timesheet"/>
+          ) : (
+              <PageMainHeader heading="Update Timesheet"/>
+          )}              
           <Box width="100%">
             <form onSubmit={handleSubmit(onSubmit)}>
                   <WeeklyTimesheetEntry data={{userId: userService.userValue.id, timesheetId: timesheetId, isAddMode: isAddMode, onSubmit: onSubmit, handleTimeSheetEntries: handleTimeSheetEntries}}></WeeklyTimesheetEntry>

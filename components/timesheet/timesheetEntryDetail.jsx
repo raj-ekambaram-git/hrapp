@@ -28,7 +28,7 @@ import {util} from '../../helpers/util';
 import { TimesheetHeader } from "./timesheetHeader";
 import { useDispatch } from "react-redux";
 import { fetchTimesheetsForApproval } from "../../store/modules/Timesheet/actions";
-
+import {DrawerMainHeader} from '../../components/common/drawerMainHeader';
 
 
 
@@ -87,17 +87,12 @@ import { fetchTimesheetsForApproval } from "../../store/modules/Timesheet/action
                 m={1}
                 >{`Approve / Reject`}
             </Button>
-
-                        
-                        
             <Drawer onClose={onClose} isOpen={isOpen} size="lg">
                 <DrawerOverlay />
                 <DrawerContent>
                 <DrawerCloseButton />
                 <DrawerHeader>
-                    <Heading as="h1" size="lg" letterSpacing={'-.1rem'} marginBottom="1rem">
-                        {tsEntryDetail.timesheet?.name}
-                    </Heading>
+                    <DrawerMainHeader heading={tsEntryDetail.timesheet?.name}/>
                     <Heading as="h3" size="md">
                         {tsEntryDetail.timesheet?.user?.firstName} {tsEntryDetail.timesheet?.user?.lastName}
                     </Heading>

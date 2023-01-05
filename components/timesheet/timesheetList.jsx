@@ -18,6 +18,7 @@ import {
   Badge
 } from '@chakra-ui/react'
 import { PageNotAuthorized } from "../common/pageNotAuthorized";
+import { PageMainHeader } from "../common/pageMainHeader";
 
 const TimesheetList = (props) => {
   const router = useRouter();
@@ -72,26 +73,11 @@ const TimesheetList = (props) => {
     <div>
       {isPageAuthprized ? (
         <div>
-              <Flex
-                as="nav"
-                align="center"
-                justify="space-between"
-                wrap="wrap"
-                padding="1.5rem"
-                bg="heading"
-                color="white"
-                marginBottom="2rem"
-                width="100%"
-              >
-                <Heading as="h1" size="lg" letterSpacing={'-.1rem'}>
-                  {isManager ? (
-                    <>Timesheets to Approve</>
-                  ) : (
-                    <>Timesheets</>
-                  )}
-                  
-                </Heading>
-              </Flex>
+              {isManager ? (
+                <PageMainHeader heading="Timesheets to Approve"/>
+              ) : (
+                <PageMainHeader heading="Timesheets"/>
+              )}
     
               <Flex marginBottom="2rem">
                 <HStack>
