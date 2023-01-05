@@ -57,6 +57,8 @@ const InvoiceAddEdit = (props) => {
   const [vendorName, setVendorName] = useState(EMPTY_STRING);
   const [projectName, setProjectName] = useState(EMPTY_STRING);
   const [enableInvoiceItemAdd, setEnableInvoiceItemAdd] = useState(false);
+  const [disableUpdate, setDisableUpdate] = useState(false);
+
   
   //Get the invoiceItemsList if there are any
   const invoiceItemList = useSelector(state => state.invoice.invoiceItemList);
@@ -151,6 +153,7 @@ const InvoiceAddEdit = (props) => {
         setProjectType(invoiceResponse.project?.type);
         setVendorName(invoiceResponse.vendor?.name);
         setProjectName(invoiceResponse.project?.name);
+
 
         if(invoiceResponse.invoiceItems != undefined && invoiceResponse.invoiceItems.length >0){
           setEnableInvoiceItemAdd(true);
@@ -272,7 +275,7 @@ const InvoiceAddEdit = (props) => {
       }else {
         toast({
           title: 'Invoice Error.',
-          description: 'Not able to update invoice, plrease try again or contact administrator. Error:'+responseData.error,
+          description: responseData.errorMessage,
           status: 'error',
           position: 'top',
           duration: 6000,

@@ -2,8 +2,9 @@ import getConfig from 'next/config';
 import Router from 'next/router';
 
 import { fetchWrapper } from 'helpers';
-import { EMPTY_STRING,INVOICE_STATUS,TIMESHEET_STATUS } from '../constants/accountConstants';
+import { EMPTY_STRING,TIMESHEET_STATUS } from '../constants/accountConstants';
 import { InvoiceConstants} from '../constants/invoiceConstants';
+import { ErrorMessage} from '../constants/errorMessage';
 import { timesheetService } from './timesheet.service';
 
 const { publicRuntimeConfig } = getConfig();
@@ -18,10 +19,21 @@ export const invoiceService = {
 
 function updateInvoice(formData, invoiceId, invoiceDate, dueDte, invoiceItemList, invoiceTotal) {
 
+  console.log("updateInvoice:: BEFORE::::invoiceItemList:::"+JSON.stringify(invoiceItemList));
+  //If current status is not cancelled and one of the timesheetn etntry status is "Invoiced" then throw error
+  if((formData.status !== InvoiceConstants.INVOICE_STATUS.Draft
+        && formData.status !== InvoiceConstants.INVOICE_STATUS.Cancelled)) {
+          const anyInvoiceTSEPresent = invoiceItemList.filter((invoiceItem) => invoiceItem.timesheetEntry?.status == TIMESHEET_STATUS.Invoiced);
+          console.log("anyInvoiceTSEPresent:::"+anyInvoiceTSEPresent);
+          if(anyInvoiceTSEPresent != undefined && anyInvoiceTSEPresent != EMPTY_STRING && anyInvoiceTSEPresent.length > 0) {
+            //Timesheet Entry with Ibvouce status is already present, so throw an error
+            return {errorMessage: ErrorMessage.TIMESHEET_ALREADY_INVOICED, error: true};
+          }
+        }
 
   const result = invoiceItemList.map((invoiceItem) => delete invoiceItem["timesheetEntry"]);
-
-  console.log("updateInvoice::::invoiceItemList:::"+JSON.stringify(result));
+  console.log("updateInvoice::::result:::"+JSON.stringify(result));
+  console.log("updateInvoice::::invoiceItemList:::"+JSON.stringify(invoiceItemList));
   
   let paidAmountValue = 0;
   if(formData.paidAmount != undefined && formData.paidAmount != EMPTY_STRING) {
@@ -47,6 +59,9 @@ function updateInvoice(formData, invoiceId, invoiceDate, dueDte, invoiceItemList
       }
   )
   .then(invoice => {
+    
+    console.log("Inside the update service ::"+JSON.stringify(invoice)+"*******invoiceItemList:::"+JSON.stringify(invoiceItemList));
+    updateTSEntriesAsInvoiced(invoice, invoiceItemList);
     return invoice;
   })
   .catch(err => {
@@ -86,18 +101,7 @@ function createNewInvoice(formData, invoiceItemList, invoiceDate, dueDte) {
   .then(async invoice => {
 
     console.log("Inside the create service ::"+JSON.stringify(invoice)+"*******invoiceItemList:::"+JSON.stringify(invoiceItemList));
-    //If Invoice Type is Timesheet and the status as submitted, then update timeshee entry status as Invoiced
-    if(invoice.type === InvoiceConstants.INVOICE_ITEM_TYPE_TIMESHEET && invoice.status === TIMESHEET_STATUS.Submitted) {
-      //Get the TImesheetEntries ID as an array
-      let tsEntriyIDs = invoiceItemList.map( (item) => item.timesheetEntryId);
-      console.log("IDSSS:"+JSON.stringify(tsEntriyIDs));
-      const data = {status: TIMESHEET_STATUS.Invoiced};
-      const udpateTSEntries = await timesheetService.updateTimesheetEntries(tsEntriyIDs, data);
-      if(udpateTSEntries.error) {
-        console.log("Error updating the timnesheet etnrries"+udpateTSEntries.errorMessage)
-        return {errorMessage: udpateTSEntries.errorMessage, error: true};
-      }
-    }
+    updateTSEntriesAsInvoiced(invoice, invoiceItemList);
 
       return invoice;
   })        
@@ -106,3 +110,24 @@ function createNewInvoice(formData, invoiceItemList, invoiceDate, dueDte) {
     return {errorMessage: err, error: true};
 });
 }
+
+
+
+async function updateTSEntriesAsInvoiced(invoice, invoiceItemList) {
+
+    //If Invoice Type is Timesheet and the status as submitted, then update timeshee entry status as Invoiced
+    if(invoice.type === InvoiceConstants.INVOICE_ITEM_TYPE_TIMESHEET && (invoice.status != InvoiceConstants.INVOICE_STATUS.Draft 
+                                                                        && invoice.status != InvoiceConstants.INVOICE_STATUS.Cancelled)) {
+          //Get the TImesheetEntries ID as an array
+        let tsEntriyIDs = invoiceItemList.map( (item) => item.timesheetEntryId);
+        console.log("IDSSS:"+JSON.stringify(tsEntriyIDs));
+        const data = {status: TIMESHEET_STATUS.Invoiced};
+        const udpateTSEntries = await timesheetService.updateTimesheetEntries(tsEntriyIDs, data);
+        if(udpateTSEntries.error) {
+          console.log("Error updating the timnesheet etnrries"+udpateTSEntries.errorMessage)
+          return {errorMessage: udpateTSEntries.errorMessage, error: true};
+        }
+      
+    }
+}
+  

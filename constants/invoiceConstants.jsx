@@ -4,6 +4,7 @@ export const InvoiceConstants = {
     'Draft': 'Draft',
     'Submitted': 'Submitted',
     'Pending': 'Pending',
+    'Paid': 'Paid',
     'PartiallyPaid': 'PartiallyPaid',
     'Cancelled': 'Cancelled',
   },
