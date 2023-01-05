@@ -136,12 +136,12 @@ const ProjectAddEdit = (props) => {
             averageRate: projectResponse.averageRate,
             status: projectResponse.status
         };
-
+        refreshAddressForVendor(projectResponse.vendorId);
         setProject(projetData);
 
-        // get user and set form fields
-            const fields = ['name','referenceCode', "description", "type", "invoiceCycle","contactName","contactEmail","contactPhone","addressId","vendorId", "accountId","budget","totalHours","status", "averageRate", 'paymentTerms'];
-            fields.forEach(field => setValue(field, projetData[field]));
+        const fields = ['name','referenceCode', "description", "type", "invoiceCycle","contactName","contactEmail","contactPhone","addressId","vendorId", "accountId","budget","totalHours","status", "averageRate", 'paymentTerms'];
+        fields.forEach(field => setValue(field, projetData[field]));
+        
     }
 
   }
