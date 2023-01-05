@@ -141,11 +141,9 @@ const InvoiceAddEdit = (props) => {
             invoiceDate: invoiceResponse.invoiceDate,
             invoiceItemList: invoiceResponse.invoiceItemList,
             dueDte: invoiceResponse.dueDte,
-            transactionId: invoiceResponse.transactionId,
             total: invoiceResponse.total,
             paidAmount: invoiceResponse.paidAmount,
             status: invoiceResponse.status,
-            notes: invoiceResponse.notes,
             paymentTerms: invoiceResponse.paymentTerms
         };
         setInvoiceType(invoiceResponse.type);
@@ -163,7 +161,7 @@ const InvoiceAddEdit = (props) => {
         dispatch(setInvoiceItemList(invoiceResponse.invoiceItems));
         dispatch(setInvoiceTotal(invoiceResponse.total));
         
-        const fields = ['description', "type", "vendorId","accountId","projectId", "notes","invoiceDate","dueDte","transactionId", "total", "paidAmount","status","paymentTerms"];
+        const fields = ['description', "type", "vendorId","accountId","projectId","invoiceDate","dueDte", "total", "paidAmount","status","paymentTerms"];
         fields.forEach(field => setValue(field, invoiceResponse[field]));
     }
 
@@ -462,12 +460,6 @@ const InvoiceAddEdit = (props) => {
                     </HStack>                                        
                     <HStack>
                       <Box>
-                        <FormControl>
-                          <FormLabel>Transaction Data</FormLabel>
-                          <Input type="text" id="transactionId"  size="md" {...register('transactionId')} />
-                        </FormControl>     
-                      </Box>
-                      <Box>
                         <FormControl isRequired>
                           <FormLabel>Invoice Total</FormLabel>
                           <InputGroup>
@@ -498,12 +490,6 @@ const InvoiceAddEdit = (props) => {
                       </FormControl>    
                       </Box>                                                                        
                     </HStack>
-                    <Box>
-                      <FormControl>
-                        <FormLabel>Invoice Notes</FormLabel>
-                        <Textarea type="text" id="notes"  size="md" {...register('notes')} />
-                      </FormControl>     
-                    </Box>                       
                   </Stack>
                 </CardBody>
               </Card>

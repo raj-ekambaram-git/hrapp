@@ -47,10 +47,7 @@ function updateInvoice(formData, invoiceId, invoiceDate, dueDte, invoiceItemList
         accountId: parseInt(formData.accountId),
         invoiceDate: new Date(invoiceDate.date),
         dueDte: new Date(dueDte.date),
-        transactionId: formData.transactionId,
         total: invoiceTotal,
-        notes: formData.notes,
-        paidAmount: formData.paidAmount,
         status: formData.status,
         paymentTerms: formData.paymentTerms,  
         invoiceItems: {
@@ -90,10 +87,7 @@ function createNewInvoice(formData, invoiceItemList, invoiceDate, dueDte) {
         invoiceItems: {
           create: invoiceItemList
         },
-        transactionId: formData.transactionId,
         total: formData.total,
-        notes: formData.notes,
-        paidAmount: paidAmountValue,
         status: formData.status,
         paymentTerms: formData.paymentTerms
       }
