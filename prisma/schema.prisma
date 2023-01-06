@@ -302,6 +302,9 @@ model Notes {
   type           NotesType
   typeId         Int
   notes          String
+  childId        Int?      @unique
+  child          Notes?    @relation("NotesHistory", fields: [childId], references: [id])
+  parent         Notes?    @relation("NotesHistory")
   createdUser    User?     @relation(fields: [createdBy], references: [id])
   createdBy      Int?
   createdDate    DateTime  @default(now())
