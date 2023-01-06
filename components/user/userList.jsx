@@ -1,8 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/router";
-import Link from "next/link";
-import { accountService, userService } from "../../services";
-import {USER_ROLE_DESC} from "../../constants/accountConstants";
+import { userService } from "../../services";
+
 import {
   HStack,
   Button,
@@ -20,6 +19,8 @@ import {
 } from '@chakra-ui/react'
 import { PageMainHeader } from "../common/pageMainHeader";
 import { PageNotAuthorized } from "../common/pageNotAuthorized";
+import { UserListForAccount } from "./userListForAccount";
+import { UserListForVendor } from "./userListForVendor";
 
 
 
@@ -63,6 +64,8 @@ const UserList = (props) => {
     async function getUsersList(vendorId, accountId) {
       // setPageAuthorized(true);
       const responseData = await userService.getUsersByVendor(vendorId, accountId);
+
+      console.log("USERS LIST:::"+JSON.stringify(responseData));
       setUsersList(responseData);
 
     }
@@ -130,9 +133,12 @@ const UserList = (props) => {
                     </Tr>   
                   </Thead>                
                   <Tbody>
-                    {usersList?.map((user) => (
-                      
-                      
+                    {isVendor ? (
+                        <UserListForVendor usersList={usersList}/>
+                      ) : (
+                        <UserListForAccount usersList={usersList}/>
+                      )}
+                    {/* {usersList?.map((user) => (
                       <Tr>
                             <Th>
                             {user.id}
@@ -179,7 +185,7 @@ const UserList = (props) => {
                           
                         </Tr>
 
-                    ))}
+                    ))} */}
                 </Tbody>    
               </Table>
               </TableContainer>
