@@ -16,6 +16,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       },
       include: {
         address: true,
+        userRoles: true,
         account: {
           select: {
             name: true

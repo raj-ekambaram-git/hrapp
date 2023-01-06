@@ -52,6 +52,8 @@ const UserAddEdit = (props) => {
   const state = useRef("");
   const zipCode = useRef("");
   const addressId = useRef("");
+  const userRolesId = useRef("");
+  
 
   const [accountPhone, setAccountPhone] = useState("");
   const [user, setUser] = useState({});
@@ -139,6 +141,7 @@ const UserAddEdit = (props) => {
             userVendorId: userResonse.vendorId,
             timeSheetEnabled: userResonse.isTimeSheetEnabled,
             userStatus: userResonse.status,
+            userRolesId: userResonse.userRoles[0]?.id,
             addressId: userResonse.address[0].id,
             addressName: userResonse.address[0].addressName,
             address1: userResonse.address[0].address1,
@@ -153,7 +156,7 @@ const UserAddEdit = (props) => {
         setUser(userData);
 
         // get user and set form fields
-            const fields = ['firstName', "lastName","userType", "userRole", "userEmail","userPhone","userAccountId", "userVendorId","timeSheetEnabled","userStatus","addressName","address1", "address2", "address3","city","state","zipCode"];
+            const fields = ['firstName', "lastName","userType", "userRole", "userEmail","userPhone","userAccountId", "userVendorId","timeSheetEnabled","userStatus","addressName","address1", "address2", "address3","city","state","zipCode","userRolesId"];
             fields.forEach(field => setValue(field, userData[field]));
     }
 
@@ -193,6 +196,13 @@ const UserAddEdit = (props) => {
                   zipCode: formData.zipCode,
                   country: formData.country,
                   status: "A"
+                }
+              ]
+            },
+            userRoles: {
+              create: [
+                {
+                  role: formData.userRole
                 }
               ]
             },
@@ -268,6 +278,17 @@ const UserAddEdit = (props) => {
                 zipCode: formData.zipCode,
                 country: formData.country,
                 status: "A"
+              }
+            }
+          },
+          userRoles: {
+            update: {
+              where: {
+                id: user.userRolesId,
+              },
+              data:
+              {
+                role: userRole
               }
             }
           },
@@ -413,7 +434,7 @@ const UserAddEdit = (props) => {
                     <HStack spacing="16rem">
                       <Box>
                           <FormControl isRequired>
-                            <FormLabel>User Role</FormLabel>
+                            <FormLabel>User Role ::</FormLabel>
                             <Select width="100%" id="userRole" {...register('userRole')} >
                               {userService.isSuperAdmin() ? (
                                 <>
@@ -462,7 +483,10 @@ const UserAddEdit = (props) => {
                       ) : (<></>)}     
                       {userService.isAccountAdmin() ? (
                         <>
-                          <Box>
+                        {/* <Box>
+
+                        </Box> */}
+                          {/* <Box>
                             <FormControl isRequired>
                               <FormLabel>Vendor</FormLabel>
                               <Select width="100%" id="userVendorId" {...register('userVendorId')} >
@@ -472,7 +496,7 @@ const UserAddEdit = (props) => {
                                   ))}
                             </Select>
                             </FormControl>     
-                          </Box>
+                          </Box> */}
                         </>
                       ) : ("")}
                     </HStack>
