@@ -18,10 +18,6 @@ import {
     HStack
   } from '@chakra-ui/react';
 
-import {
-  DeleteIcon
-} from '@chakra-ui/icons';
-
 import { useSelector, useDispatch } from "react-redux";
 import { fetchInvoiceTransactions } from "../../../store/modules/Invoice/actions";
 import { userService } from "../../../services";
@@ -72,9 +68,6 @@ const InvoiceTransactions = (props) => {
                               <Thead>
                                   <Tr bgColor="table_tile">
                                       <Th>
-                                          
-                                      </Th>                                    
-                                      <Th>
                                           ID
                                       </Th>
                                       <Th>
@@ -91,18 +84,12 @@ const InvoiceTransactions = (props) => {
                                       </Th>
                                       <Th>
                                           Notes
-                                      </Th>                                  
+                                      </Th>  
                                   </Tr>   
                               </Thead>   
                               <Tbody>
                                 {invoiceTransactions?.map((invoiceTransaction) => (
                                   <Tr>
-                                      <Th>
-                                      <HStack spacing={4}>
-                                        <DeleteIcon onClick={() => deleteProjectResource(projectResource.id,projectResource.budgetAllocated)}/>
-                                        <AddEditTransaction isAddMode={false}/>
-                                      </HStack>
-                                      </Th>                                    
                                       <Th>
                                           {invoiceTransaction.id}
                                       </Th>

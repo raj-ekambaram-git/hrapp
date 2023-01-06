@@ -26,14 +26,13 @@ function createInvoiceTransaction(formData, accountId) {
   console.log("Before calling the ccreateInvoiceTransaction....."+JSON.stringify(formData))
   //Before Creating, make sure that invoiceTotal is greater than the paid amount and there is room to pay
   return fetchWrapper.get(`${baseUrl}/account/invoice/${formData.invoiceId}/detail?accountId=`+accountId, {})
-  
   .then(async invoice => {
     console.log("Inside the createInvoice Transaction fetchin invoice::"+JSON.stringify(invoice))
     //Check if invoie is valid
     if((util.getZeroPriceForNull(invoice.total) > util.getZeroPriceForNull(invoice.paidAmount))
       && ((formData.status === InvoiceConstants.INVOICE_TRANSSACTION__STATUS.Refund 
             || formData.status === InvoiceConstants.INVOICE_TRANSSACTION__STATUS.Cancelled)
-          && (util.getZeroPriceForNull(formData.amount)>util.getZeroPriceForNull(invoice.paidAmount)))) {
+          && (util.getZeroPriceForNull(formData.amount)<util.getZeroPriceForNull(invoice.paidAmount)))) {
       console.log("Inside more payment needed condition, so creating the transaction")
       return fetchWrapper.post(`${baseUrl}/account/invoice/`+formData.invoiceId+`/transaction/create`, {
         amount: formData.amount,
@@ -55,6 +54,7 @@ function createInvoiceTransaction(formData, accountId) {
       });
   
     }else {
+      console.log("Error COndition here with the status")
       return {errorMessage: ErrorMessage.INVOICE_TRANSACTION_ALREADY_PAID, error: true};
     }
 

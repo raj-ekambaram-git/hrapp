@@ -61,6 +61,8 @@ const AddEditTransaction = (props) => {
                 };
                 console.log("invoiceTransDatta::::"+JSON.stringify(invoiceTransData));
                 const responseData = invoiceService.createInvoiceTransaction(invoiceTransData, userService.getAccountDetails().accountId);
+
+                console.log("handleTransacionSubmit::::responseData::::"+JSON.stringify(responseData));
                 if(responseData.error) {
                     toast({
                         title: 'New Invoice Transaction.',
