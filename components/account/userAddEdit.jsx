@@ -26,6 +26,8 @@ import {
 import {PageNotAuthorized} from '../../components/common/pageNotAuthorized'
 import {PageMainHeader} from '../../components/common/pageMainHeader'
 
+
+
 const UserAddEdit = (props) => {
   const toast = useToast();
   const userId = props.data.userId;
@@ -36,6 +38,7 @@ const UserAddEdit = (props) => {
   const userEmail = useRef("");
   const userPassword = useRef("");
   const userRole = useRef("");
+  const userType = useRef("");
   const timeSheetEnabled = useRef("");
   const userPhone = useRef("");
   const userAccountId = useRef("");
@@ -65,7 +68,6 @@ const UserAddEdit = (props) => {
   // get functions to build form with useForm() hook
   const { register, handleSubmit, setValue, formState } = useForm(formOptions);
   const { errors } = formState;
-
 
   const handlePhoneInput = (e) => {
     // this is where we'll call the phoneNumberFormatter function
@@ -129,6 +131,7 @@ const UserAddEdit = (props) => {
             id: userResonse.id.toString(),
             firstName: userResonse.firstName,
             lastName: userResonse.lastName,
+            userType: userResonse.type,
             userRole: userResonse.role,
             userEmail: userResonse.email,
             userPhone: userResonse.phone,
@@ -150,7 +153,7 @@ const UserAddEdit = (props) => {
         setUser(userData);
 
         // get user and set form fields
-            const fields = ['firstName', "lastName", "userRole", "userEmail","userPhone","userAccountId", "userVendorId","timeSheetEnabled","userStatus","addressName","address1", "address2", "address3","city","state","zipCode"];
+            const fields = ['firstName', "lastName","userType", "userRole", "userEmail","userPhone","userAccountId", "userVendorId","timeSheetEnabled","userStatus","addressName","address1", "address2", "address3","city","state","zipCode"];
             fields.forEach(field => setValue(field, userData[field]));
     }
 
@@ -174,6 +177,7 @@ const UserAddEdit = (props) => {
           body: JSON.stringify({
             firstName: formData.firstName,
             lastName: formData.lastName,
+            type: formData.userType,
             address: {
               create: [
                 {
@@ -244,6 +248,7 @@ const UserAddEdit = (props) => {
           id: parseInt(userId),
           firstName: formData.firstName,
           lastName: formData.lastName,
+          type: formData.userType,
           address: {
             update: {
               where: {
@@ -339,11 +344,53 @@ const UserAddEdit = (props) => {
                         </FormControl>    
                       </Box>  
                       </HStack>
-                      <HStack spacing="16rem">
+                      <HStack spacing="10rem">
+                        <Box>
+                          <FormControl isRequired>
+                            <FormLabel>Emaail/UserId</FormLabel>
+                            <Input type="text" id="userEmail"  size="md" {...register('userEmail')}/>
+                          </FormControl>     
+                        </Box>    
+                        <Box>
+                          <FormControl isRequired>
+                            <FormLabel>User Passowrd</FormLabel>
+                            <Input type="password" id="userPassword"  size="md" {...register('userPassword')}/>
+                          </FormControl>     
+                        </Box>  
+                      </HStack> 
+                      <HStack spacing="10rem">
+                        <Box>
+                          <FormControl isRequired>
+                              <FormLabel>User Phone</FormLabel>
+                              <Input type="tel" id="userPhone"  size="md" {...register('userPhone')} />
+                            </FormControl>      
+                        </Box>   
+                        <Box>
+                          <FormControl isRequired>
+                            <FormLabel>Type</FormLabel>
+                            <Select width="100%" id="userType" {...register('userType')} >
+                              <option value="Employee">Employee</option>
+                              <option value="Contractor">Contractor</option>
+                              <option value="LeadContact">Lead Contact</option>
+                            </Select>
+                          </FormControl>     
+                        </Box>                                                  
+                      </HStack>
+                      <HStack spacing="13.5rem">
+                      <Box>
+                          <FormControl isRequired>
+                            <FormLabel>Enable Timesheet</FormLabel>
+                            <Select width="100%" id="timeSheetEnabled" {...register('timeSheetEnabled')} >
+                              <option value="false">No</option>
+                              <option value="true">Yes</option>
+                            </Select>
+                          </FormControl>     
+                        </Box>   
                         <Box>
                           <FormControl isRequired>
                             <FormLabel>User Status</FormLabel>
                             <Select width="100%" id="userStatus" {...register('userStatus')} >
+                            <option value="">Select Status</option>
                               <option value="Active">Active</option>
                               <option value="Inactive">Inactive</option>
                               <option value="Error">Error</option>
@@ -352,7 +399,19 @@ const UserAddEdit = (props) => {
                             </Select>
                           </FormControl>     
                         </Box>  
-                        <Box>
+                      </HStack>     
+                  </Stack>
+                </CardBody>
+              </Card>   
+              <Card>
+                <CardHeader>
+                  <Heading size='xs'>Roles</Heading>
+                </CardHeader>
+
+                <CardBody>
+                  <Stack divider={<StackDivider />} spacing='4'>
+                    <HStack spacing="16rem">
+                      <Box>
                           <FormControl isRequired>
                             <FormLabel>User Role</FormLabel>
                             <Select width="100%" id="userRole" {...register('userRole')} >
@@ -372,41 +431,12 @@ const UserAddEdit = (props) => {
 
                             </Select>
                           </FormControl>     
-                        </Box>  
-                      </HStack>                          
-                      <Box>
-                        <FormControl isRequired>
-                          <FormLabel>Emaail/UserId</FormLabel>
-                          <Input type="text" id="userEmail"  size="md" {...register('userEmail')} maxWidth="page.single_input"   />
-                        </FormControl>     
-                      </Box>    
-                      <Box>
-                        <FormControl isRequired>
-                          <FormLabel>User Passowrd</FormLabel>
-                          <Input type="password" id="userPassword"  size="md" {...register('userPassword')}  maxWidth="page.single_input" />
-                        </FormControl>     
                       </Box>  
-                      <HStack spacing="10rem">
-                        <Box>
-                          <FormControl isRequired>
-                              <FormLabel>User Phone</FormLabel>
-                              <Input type="tel" id="userPhone"  size="md" {...register('userPhone')} />
-                            </FormControl>      
-                        </Box>                           
-                        <Box>
-                          <FormControl isRequired>
-                            <FormLabel>Enable Timesheet</FormLabel>
-                            <Select width="50%" id="timeSheetEnabled" {...register('timeSheetEnabled')} >
-                              <option value="false">No</option>
-                              <option value="true">Yes</option>
-                            </Select>
-                          </FormControl>     
-                        </Box>   
-                      </HStack>
-                                                                 
+                    </HStack>                                            
                   </Stack>
                 </CardBody>
-              </Card>              
+              </Card>
+     
               <Card>
                 <CardHeader>
                   <Heading size='xs'>User Account/Vendor Details</Heading>

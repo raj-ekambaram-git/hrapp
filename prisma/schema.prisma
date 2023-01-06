@@ -380,6 +380,9 @@ enum UserAttributeKeys {
 enum UserStatus {
   Active
   Inactive
+  Approved
+  Rejected
+  Error
 }
 
 enum Role {

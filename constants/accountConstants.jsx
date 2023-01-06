@@ -54,6 +54,7 @@ export const ACCOUNT_VALIDATION_SCHEMA = Yup.object().shape({
     userAccountId: Yup.string().required('User Account is required'),
     userPassword: Yup.string().required('User Password is required'),
     timeSheetEnabled: Yup.string().required('TimeSheet is required'),
+    userType: Yup.string().required('Type is required'),
 
   });  
 
