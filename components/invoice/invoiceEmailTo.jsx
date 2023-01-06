@@ -23,6 +23,8 @@ import {
   } from '@chakra-ui/icons';
 import { useDispatch, useSelector } from "react-redux";
 import AddInvoiceEmailTo from "./addInvoiceEmailTo";
+import { removeEmailFromInvoiceEmailListByIndex } from "../../store/modules/Invoice/actions";
+
 
 
 const InvoiceEmailTo = (props) => {
@@ -37,6 +39,9 @@ const InvoiceEmailTo = (props) => {
     function handleInvoiceEmailTo(newSize) {
         setSize(newSize);
         onOpen();
+    }
+    function deleteInvoiceEmailTo(indexVal){
+        dispatch(removeEmailFromInvoiceEmailListByIndex(indexVal));
     }
 
     return (
