@@ -5,7 +5,6 @@ import {
   DrawerContent,
   DrawerCloseButton,
   DrawerHeader,
-  Heading,
   DrawerBody,
   Stack,
   StackDivider,
@@ -233,7 +232,7 @@ const AddInvoiceItem = (props) => {
                                                     fontSize='dollar_left_element'
                                                     children='$'
                                                 />      
-                                                <Input type="text" width="invoice.total_input" value={total}/>
+                                                <Input type="text" width="invoice.total_input" value={total} onChange={(ev) => setTotal(ev.target.value)}/>
                                               </InputGroup>                             
                                             </Th>
                                         </Tr>                                                                                                     

@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { util } from '../../helpers';
-import { accountService, userService, addressService } from "../../services";
+import { accountService, userService } from "../../services";
 import {MODE_ADD, PROJECT_VALIDATION_SCHEMA, PROJECT_STATUS, PROJECT_TYPES, INVOICE_CYCLE, INVOICE_PAY_TERMS} from "../../constants/accountConstants";
 import { PageNotAuthorized } from "../../components/common/pageNotAuthorized";
 import {
