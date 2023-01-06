@@ -25,11 +25,17 @@ import {
 } from '@chakra-ui/react'
 import {PageNotAuthorized} from '../../components/common/pageNotAuthorized'
 import {PageMainHeader} from '../../components/common/pageMainHeader'
+import ManageVendors from "../user/vendor/manageVendors";
+import { useDispatch, useSelector } from "react-redux";
+import {fetchVendorsByAccount, resetVendorsByAccount} from '../../store/modules/Vendor/actions'
+import { resetUserVendors } from "../../store/modules/User/actions";
+
 
 
 
 const UserAddEdit = (props) => {
   const toast = useToast();
+  const dispatch = useDispatch();
   const userId = props.data.userId;
   const router = useRouter();
   const firstName = useRef("");
@@ -64,6 +70,8 @@ const UserAddEdit = (props) => {
   const [accountsList, setAccountsList] = useState([]);
   const [vendorList, setVendorList] = useState([]);
 
+  const vendorListNew = useSelector(state => state.vendor.vendorsByAccount);
+
   //User Validation START
   const formOptions = { resolver: yupResolver(USER_VALIDATION_SCHEMA) };
 
@@ -83,6 +91,10 @@ const UserAddEdit = (props) => {
 
   //Get Account Details only if its EditMode
   useEffect(() => {
+    //Reset Everything here
+    dispatch(resetUserVendors());
+    dispatch(resetVendorsByAccount);
+
     if(props && props.data && props.data.mode != MODE_ADD) {
       setAddMode(false);
     }
@@ -105,8 +117,9 @@ const UserAddEdit = (props) => {
 
   async function getVendorList(accountId) {
     // setPageAuthorized(true);
-    const vendorListResponse = await accountService.getVendorList(accountId);
-    setVendorList(vendorListResponse);
+    // const vendorListResponse = await accountService.getVendorList(accountId);
+    dispatch(fetchVendorsByAccount(accountId))
+    // setVendorList(vendorListResponse);
     setValue("userAccountId",userService.getAccountDetails().accountId);
 
 }  
@@ -483,20 +496,22 @@ const UserAddEdit = (props) => {
                       ) : (<></>)}     
                       {userService.isAccountAdmin() ? (
                         <>
-                        {/* <Box>
-
-                        </Box> */}
-                          {/* <Box>
+                          {!isAddMode? (
+                            <>
+                              <ManageVendors data={{userId: userId, userFirstName: user.firstName, userLastName: user.lastName}}/>
+                            </>
+                          ): (<></>)}
+                          <Box>
                             <FormControl isRequired>
                               <FormLabel>Vendor</FormLabel>
                               <Select width="100%" id="userVendorId" {...register('userVendorId')} >
                                   <option value="">Select an Vendor</option>
-                                  {vendorList?.map((vendor) => (
+                                  {vendorListNew?.map((vendor) => (
                                     <option value={vendor.id}>{vendor.name}</option>
                                   ))}
                             </Select>
                             </FormControl>     
-                          </Box> */}
+                          </Box>
                         </>
                       ) : ("")}
                     </HStack>

@@ -35,11 +35,21 @@ export const userService = {
     getTimesheetApprovalByUser,
     isAuthenticated,
     changePassword,
-    resetPassword
+    resetPassword,
+    getUserVendors
 
 };
 
-
+function getUserVendors (userId, accountId) {
+    return fetchWrapper.get(`${baseUrl}/account/user/${userId}/vendors?accountId=`+accountId, {})
+    .then(userVendors => {
+        return userVendors;
+    })  
+    .catch(err => {
+      console.log("Error Getting getUserVendors")
+      return {errorMessage: err, error: true};
+  });
+}
 function isAuthenticated() {
     if( userSubject.value 
         && userSubject.value.id != EMPTY_STRING
