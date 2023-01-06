@@ -9,8 +9,10 @@ import theme from './theme';
 import 'styles/index.css';
 
 
+
+
 import { userService } from '../services';
-import {Alert } from '../components';
+import {Alert, Spinner } from '../components';
 import { Provider } from 'react-redux';
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -18,6 +20,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
   const [user, setUser] = useState(null);
   const [authorized, setAuthorized] = useState(false);
+  const [loading, setLoading] = useState(false);
   const store = useStore(pageProps.initialReduxState);
 
 
@@ -26,7 +29,10 @@ function MyApp({ Component, pageProps }: AppProps) {
       authCheck(router.asPath);
 
       // on route change start - hide page content by setting authorized to false  
-      const hideContent = () => setAuthorized(false);
+      const hideContent = () => {
+        setLoading(true);
+        setAuthorized(false);
+      };
       router.events.on('routeChangeStart', hideContent);
 
       // on route change complete - run auth check 
@@ -48,23 +54,19 @@ function MyApp({ Component, pageProps }: AppProps) {
     const publicPaths = ['/account/login', '/account/register', '/account/user/changepassword'];
     const path = url.split('?')[0];
 
-    // if (!userService.userValue && !publicPaths.includes(path)) {
-
-    console.log("UserValue ::"+JSON.stringify(userService.userValue+"----"+path))
     if (!userService.userValue && !publicPaths.includes(path)) {
-      console.log("1111")
         setAuthorized(false);
         router.push({
             pathname: '/account/login',
             query: { returnUrl: router.asPath }
         });
     } else if (!userService.userValue && publicPaths.includes(path)) {
-      console.log("22222")
         setAuthorized(false);
     } else {
-      console.log("33333")
         setAuthorized(true);
     }
+
+    setLoading(false);
 }
 
 
@@ -82,7 +84,16 @@ function MyApp({ Component, pageProps }: AppProps) {
           <Alert />
           <Layout data={{authorized}}>
               <ChakraProvider theme={theme}>
-                <Component {...pageProps} />
+                {loading? (
+                  <>
+                  <Spinner/>
+                  </>
+                ) : (
+                  <>
+                    <Component {...pageProps} />
+                  </>
+                )}
+                
               </ChakraProvider>
             </Layout>            
         </Provider>            
