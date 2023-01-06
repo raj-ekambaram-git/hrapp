@@ -26,9 +26,6 @@ import {
     Text,
     useToast
   } from '@chakra-ui/react';
-  import {
-    EditIcon
-  } from '@chakra-ui/icons';
 import { EMPTY_STRING } from "../../../constants/accountConstants";
 import { InvoiceConstants } from "../../../constants/invoiceConstants";
 import { ErrorMessage } from "../../../constants/errorMessage";
@@ -92,9 +89,8 @@ const AddEditTransaction = (props) => {
 
     return (
         <div>
-            {props.isAddMode ? (<>
                 <Popover
-                    returnFocusOnClose={false}
+                    returnFocusOnClose={true}
                     isOpen={isOpen}
                     onClose={onClose}
                     placement='bottom-start'
@@ -185,9 +181,6 @@ const AddEditTransaction = (props) => {
                     </PopoverFooter>
                     </PopoverContent>
                 </Popover>                   
-            </>) : (<>
-                <EditIcon onClick={() => handleEdit("lg", "id")}/>
-                </>)}
        </div>
       
 

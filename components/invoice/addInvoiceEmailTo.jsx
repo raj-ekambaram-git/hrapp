@@ -51,7 +51,7 @@ const AddInvoiceEmailTo = (props) => {
     return (
         <div>
                 <Popover
-                    returnFocusOnClose={false}
+                    returnFocusOnClose={true}
                     isOpen={isOpen}
                     onClose={onClose}
                     placement='bottom-start'
