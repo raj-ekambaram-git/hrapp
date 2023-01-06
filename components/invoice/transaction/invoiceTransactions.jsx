@@ -52,7 +52,7 @@ const InvoiceTransactions = (props) => {
               onClick={() => handleInvoiceTransactions("xl")}
               key="xl"
               m={1}
-              >{`Payments`}
+              >{`Payments Received`}
           </Button>
 
           <Drawer onClose={onClose} isOpen={isOpen} size={size}>
