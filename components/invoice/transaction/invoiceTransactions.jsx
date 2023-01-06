@@ -52,7 +52,7 @@ const InvoiceTransactions = (props) => {
               onClick={() => handleInvoiceTransactions("xl")}
               key="xl"
               m={1}
-              >{`Invoice Transactions`}
+              >{`Payments`}
           </Button>
 
           <Drawer onClose={onClose} isOpen={isOpen} size={size}>
@@ -114,9 +114,10 @@ const InvoiceTransactions = (props) => {
                               </Tbody>  
                             </Table>      
                             {util.getZeroPriceForNull(invoiceTotal)> util.getZeroPriceForNull(invoicePaidAmount) ? (
-                                <Box>
+                                <HStack>
+                                  <Button variant='outline'  onClick={onClose} >Cancel</Button>
                                   <AddEditTransaction isAddMode={true} invoiceId={props.invoiceId}/>
-                                </Box>
+                                </HStack>
                             ) : (
                                 <></>
                               )}

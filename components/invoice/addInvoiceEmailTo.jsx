@@ -59,6 +59,7 @@ const AddInvoiceEmailTo = (props) => {
                 >
                     <PopoverTrigger>
                         <Button
+                            bgColor="button.primary.color"
                             onClick={onToggle}
                             key="xl"
                             m={1}

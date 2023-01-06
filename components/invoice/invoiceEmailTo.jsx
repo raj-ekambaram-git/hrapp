@@ -16,7 +16,9 @@ import {
     Tr,
     Box,
     TableCaption,
-    Tooltip
+    Tooltip,
+    Button,
+    HStack
   } from '@chakra-ui/react';
 import {
     EmailIcon, DeleteIcon
@@ -48,7 +50,7 @@ const InvoiceEmailTo = (props) => {
         <div>
 
             <Tooltip label={invoiceEmailTo.map((emailTo) => <p>{emailTo}</p>)}>
-            <EmailIcon boxSize={8} onClick={() => handleInvoiceEmailTo("lg")}/>
+                <EmailIcon boxSize={8} onClick={() => handleInvoiceEmailTo("lg")}/>
             </Tooltip>
 
             <Drawer onClose={onClose} isOpen={isOpen} size={size}>
@@ -91,12 +93,15 @@ const InvoiceEmailTo = (props) => {
                                         </Tbody>
                                     </Table>
   
-                                </Box>                            
-                                <AddInvoiceEmailTo/>
+                                </Box> 
+                                <HStack>
+                                    <Button variant='outline'  onClick={onClose} >Cancel</Button>
+                                    <AddInvoiceEmailTo/>
+                                </HStack>                           
                             </Stack>
                         </DrawerBody>
                     </DrawerContent>                    
-            </Drawer>         
+            </Drawer>          
         </div>
     );
 };
