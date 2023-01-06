@@ -32,7 +32,7 @@ model Address {
   userId         Int?
   Vendor         Vendor?       @relation(fields: [vendorId], references: [id])
   vendorId       Int?
-  Project        Project[]
+  project        Project[]
 }
 
 model Account {
@@ -47,34 +47,35 @@ model Account {
   createdDate    DateTime        @default(now())
   lastUpdateDate DateTime        @updatedAt
   address        Address[]
-  Invoice        Invoice[]
-  Vendor         Vendor[]
-  User           User[]
-  Project        Project[]
-  AccountConfig  AccountConfig[]
+  invoice        Invoice[]
+  vendor         Vendor[]
+  user           User[]
+  project        Project[]
+  accountConfig  AccountConfig[]
 }
 
 model Vendor {
-  id                  Int          @id @default(autoincrement())
+  id                  Int           @id @default(autoincrement())
   name                String
   description         String?
   email               String
-  phone               String       @default("111-111-1111")
-  type                VendorType   @default(Staffing)
+  phone               String        @default("111-111-1111")
+  type                VendorType    @default(Staffing)
   address             Address[]
-  account             Account?     @relation(fields: [accountId], references: [id])
-  accountId           Int?         @default(0)
-  ein                 String       @unique
+  account             Account?      @relation(fields: [accountId], references: [id])
+  accountId           Int?          @default(0)
+  ein                 String        @unique
   bankDetails         String?
   status              VendorStatus
-  createdDate         DateTime     @default(now())
+  createdDate         DateTime      @default(now())
   accountContactName  String?
   accountContactEmail String?
   accountContactPhone String?
-  lastUpdateDate      DateTime     @updatedAt
+  lastUpdateDate      DateTime      @updatedAt
   invoice             Invoice[]
   user                User[]
   project             Project[]
+  vendorUsers         VendorUsers[]
 }
 
 model ProjectResource {
@@ -194,6 +195,7 @@ model User {
   firstName          String
   lastName           String
   role               Role               @default(DEVELOPER)
+  type               UserType           @default(Employee)
   email              String             @unique
   phone              String             @default("111-111-1111")
   account            Account?           @relation(fields: [accountId], references: [id])
@@ -214,8 +216,10 @@ model User {
   invoiceItem        InvoiceItem[]
   projectResource    ProjectResource[]
   timesheet          Timesheet[]
-  TimesheetEntries   TimesheetEntries[]
-  Notes              Notes[]
+  timesheetEntries   TimesheetEntries[]
+  notes              Notes[]
+  vendorUsers        VendorUsers[]
+  userRoles          UserRoles[]
 }
 
 model UserAttributes {
@@ -228,6 +232,30 @@ model UserAttributes {
 
   user   User @relation(fields: [userId], references: [id])
   userId Int
+}
+
+model VendorUsers {
+  id             Int              @id @default(autoincrement())
+  vendor         Vendor?          @relation(fields: [vendorId], references: [id])
+  vendorId       Int?             @default(0)
+  user           User?            @relation(fields: [userId], references: [id])
+  userId         Int?             @default(0)
+  status         VendorUserStatus
+  createdDate    DateTime         @default(now())
+  lastUpdateDate DateTime         @updatedAt
+
+  @@unique([vendorId, userId])
+}
+
+model UserRoles {
+  id             Int      @id @default(autoincrement())
+  user           User?    @relation(fields: [userId], references: [id])
+  userId         Int?     @default(0)
+  role           Role
+  createdDate    DateTime @default(now())
+  lastUpdateDate DateTime @updatedAt
+
+  @@unique([userId, role])
 }
 
 model Timesheet {
@@ -484,4 +512,15 @@ enum InvoiceTransactionStatus {
   Paid
   Refund
   Cancelled
+}
+
+enum UserType {
+  Employee
+  Contractor
+  LeadContact
+}
+
+enum VendorUserStatus {
+  Active
+  Inactive
 }
