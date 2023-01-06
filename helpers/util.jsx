@@ -162,4 +162,3 @@ function isValidEmail(email) {
   return validator.isEmail(email);
 }
 
-

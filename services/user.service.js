@@ -36,9 +36,34 @@ export const userService = {
     isAuthenticated,
     changePassword,
     resetPassword,
-    getUserVendors
+    getUserVendors,
+    addUserVendor,
+    removeUserVendor
 
 };
+
+function removeUserVendor (removeRequest) {
+    return fetchWrapper.post(`${baseUrl}/account/user/vendor/delete`, {removeRequest})
+        .then(userVendor => {
+            return userVendor;
+        })
+        .catch(err => {
+            console.log("Error removeUserVendor::"+err)
+            return {errorMessage: err, error: true};
+        });
+}
+
+function addUserVendor (userVendorData, accountId) {
+    return fetchWrapper.post(`${baseUrl}/account/user/vendor/create`, {userVendorData})
+        .then(userVendor => {
+            return userVendor;
+        })
+        .catch(err => {
+            console.log("Error addUserVendor::"+err)
+            return {errorMessage: err, error: true};
+        });
+}
+
 
 function getUserVendors (userId, accountId) {
     return fetchWrapper.get(`${baseUrl}/account/user/${userId}/vendors?accountId=`+accountId, {})

@@ -28,6 +28,12 @@ const userReducer = (state = initialState, {type, payload}) => {
         newState.userVendors = payload;
     } else if(type === ActionTypes.RESET_USER_VENDORS) {
         newState.userVendors = [];
+    } else if(type === ActionTypes.ADD_USER_VENDOR) {
+        newState.userVendors.push(payload);
+    } else if(type === ActionTypes.REMOVE_USER_VENDOR_BY_INDEX) {
+        const newUserVendors = [...newState.userVendors];
+        newUserVendors.splice(payload, 1);
+        newState.userVendors = newUserVendors;
     }
     
     console.log("userReducer:::New State:::Before Return:::"+JSON.stringify(newState));

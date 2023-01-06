@@ -35,3 +35,19 @@ export const fetchUserVendors = (userId, accountId) => {
         dispatch(getUserVendors(responseData));
       };
 }
+
+export const addUserVendor = (userVendorData, accountId) => {
+    return async (dispatch) => {
+        const responseData = await userService.addUserVendor(userVendorData, accountId);
+        console.log("addUserVendor::"+JSON.stringify(responseData))
+        dispatch(setUserVendors(responseData));
+      };
+}
+
+export const removeUserVendorByIndex = (userVendorIndex) => {
+    return {
+        type: ActionTypes.REMOVE_USER_VENDOR_BY_INDEX,
+        payload: userVendorIndex
+    }
+}
+

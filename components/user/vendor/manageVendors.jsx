@@ -15,10 +15,20 @@ import {
   DrawerHeader,
   DrawerBody,
   Stack,
+  FormControl,
+  FormLabel,
+  Select,
+  Th,
+  Tr,
+  useToast
 } from '@chakra-ui/react';
+import {
+  DeleteIcon
+} from '@chakra-ui/icons';
 import { useDispatch, useSelector } from "react-redux";
-import {fetchUserVendors} from '../../../store/modules/User/actions'
+import {fetchUserVendors, setUserVendors, removeUserVendorByIndex} from '../../../store/modules/User/actions'
 import { userService } from "../../../services";
+import { EMPTY_STRING } from "../../../constants/accountConstants";
 
 
 const ManageVendors = (props) => {
@@ -26,27 +36,78 @@ const ManageVendors = (props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {data} = props;
   const dispatch = useDispatch();
-  // const [userFirstName, setUserFirstName] = useState(EMPTY_STRING);
-  // const [userLastName, setUserLastName] = useState(EMPTY_STRING);
+  const toast = useToast();
+  const [userVendorId, setUserVendorId] = useState(EMPTY_STRING);
 
-  console.log("ManageVendor::"+JSON.stringify(data))
-
-  // const userFirstName = props.userData.userFirstName;
-  // const userId = props.userData.userId ;
-  const invoiceTransactions = useSelector(state => state.user.userVendors);
+  const userVendors = useSelector(state => state.user.userVendors);
+  const vendorListNew = useSelector(state => state.vendor.vendorsByAccount);
 
   function handleManageVendors(newSize) {
     setSize(newSize);
     onOpen();
-    getVendorsForAccount();
   }
 
   useEffect(() => {
     dispatch(fetchUserVendors(data.userId, userService.getAccountDetails().accountId))
   }, []);
 
-  function getVendorsForAccount() {
+  async function handleRemoveVendorFromUser(userVenId, removedIndex) {
+    const userVendorRequest = {
+      id: parseInt(userVenId),
+      accountId: userService.getAccountDetails().accountId
+    };
+    const responseData = await userService.removeUserVendor(userVendorRequest,);
+    if(responseData != undefined && responseData!= EMPTY_STRING && responseData.error) {
+      toast({
+        title: 'REmove Vendor from an user.',
+        description: 'Error removing vendor to an user. Details::'+responseData.errorMessage,
+        status: 'error',
+        position: 'top',
+        duration: 9000,
+        isClosable: true,
+      })
+    }else {
+      dispatch(removeUserVendorByIndex(removedIndex));
+      toast({
+        title: 'Remvoe Vendor to an user.',
+        description: 'Successfully remove vendor to this user.',
+        status: 'success',
+        position: 'top',
+        duration: 3000,
+        isClosable: true,
+      })
+    }
+  }
 
+
+  async function handleAddVendorToUser() {
+    const userVendorRequest = {
+      userId: parseInt(data.userId),
+      vendorId: parseInt(userVendorId),
+      status: "Active"
+    };
+    const responseData = await userService.addUserVendor(userVendorRequest, userService.getAccountDetails().accountId);
+    if(responseData != undefined && responseData!= EMPTY_STRING && responseData.error) {
+      toast({
+        title: 'Add Vendo to an user.',
+        description: 'Error adding vendor to an user. Details::'+responseData.errorMessage,
+        status: 'error',
+        position: 'top',
+        duration: 9000,
+        isClosable: true,
+      })
+    }else {
+      dispatch(setUserVendors(responseData));
+      toast({
+        title: 'Add Vendo to an user.',
+        description: 'Successfully added vendor to this user.',
+        status: 'success',
+        position: 'top',
+        duration: 3000,
+        isClosable: true,
+      })
+    }
+    
   }
   return (
 
@@ -67,20 +128,47 @@ const ManageVendors = (props) => {
                             Manage Vendors for user {data.userFirstName} {data.userLastName}
                         </DrawerHeader>
                         <DrawerBody>
-                          <Stack>
+                          <Stack spacing={8}>
                             <Box border="box_border">
                               <TableContainer>
-                                <Table>
-                                  <TableCaption></TableCaption>
-                                  <Thead></Thead>
-                                  <Tbody> {JSON.stringify(invoiceTransactions)}</Tbody>
-                                  
+                                <Table variant="manageUserVendors">
+                                <Thead>
+                                    <Tr bgColor="table_tile">
+                                      <Th>
+                                      </Th>
+                                      <Th>
+                                        Vendor
+                                      </Th>                                      
+                                    </Tr>
+                                  </Thead>
+                                  <Tbody> 
+                                  {userVendors?.map((userVendor, index) => (
+                                    <Tr>
+                                      <Th>
+                                        <DeleteIcon onClick={() => handleRemoveVendorFromUser(userVendor.id, index)}/>
+                                      </Th>
+                                      <Th>
+                                        {userVendor.vendor?.name}
+                                      </Th>                                      
+                                    </Tr>
+                                  ))}                                    
+                                  </Tbody>
                                 </Table>
                               </TableContainer>      
                             </Box>                            
-
-                            <Button className="btn" onClick={() => handleSelectedProjectResource()} width="button.primary.width" bgColor="button.primary.color">
-                              Add Project Resource
+                            <Box>
+                              <FormControl isRequired>
+                                <FormLabel>Vendor</FormLabel>
+                                <Select width="50%" onChange={(ev) => setUserVendorId(ev.target.value)}>
+                                    <option value="">Select an Vendor</option>
+                                    {vendorListNew?.map((vendor) => (
+                                      <option value={vendor.id}>{vendor.name}</option>
+                                    ))}
+                              </Select>
+                              </FormControl>     
+                            </Box> 
+                            <Button onClick={() => handleAddVendorToUser()} size="sm" width="30%" bgColor="button.primary.color">
+                              Add Vendor
                             </Button>                            
                           </Stack>
                         </DrawerBody>

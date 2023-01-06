@@ -116,10 +116,8 @@ const UserAddEdit = (props) => {
   }, []);
 
   async function getVendorList(accountId) {
-    // setPageAuthorized(true);
-    // const vendorListResponse = await accountService.getVendorList(accountId);
+    console.log("Inside getVendorList ::"+accountId)
     dispatch(fetchVendorsByAccount(accountId))
-    // setVendorList(vendorListResponse);
     setValue("userAccountId",userService.getAccountDetails().accountId);
 
 }  
@@ -301,7 +299,7 @@ const UserAddEdit = (props) => {
               },
               data:
               {
-                role: userRole
+                role: formData.userRole
               }
             }
           },
@@ -501,7 +499,7 @@ const UserAddEdit = (props) => {
                               <ManageVendors data={{userId: userId, userFirstName: user.firstName, userLastName: user.lastName}}/>
                             </>
                           ): (<></>)}
-                          <Box>
+                          {/* <Box>
                             <FormControl isRequired>
                               <FormLabel>Vendor</FormLabel>
                               <Select width="100%" id="userVendorId" {...register('userVendorId')} >
@@ -511,7 +509,7 @@ const UserAddEdit = (props) => {
                                   ))}
                             </Select>
                             </FormControl>     
-                          </Box>
+                          </Box> */}
                         </>
                       ) : ("")}
                     </HStack>
