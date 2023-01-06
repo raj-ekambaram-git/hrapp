@@ -59,7 +59,15 @@ const invoiceReducer = (state = initialState, {type, payload}) => {
         
     } else if(type === ActionTypes.SET_INVOICE_EMAIL_TO) {
         console.log("newState.invoiceEmailTo::"+JSON.stringify(newState.invoiceEmailTo))
-        newState.invoiceEmailTo.push(payload);
+        const newInvoiceEmailToList = [...newState.invoiceEmailTo]
+        if(Array.isArray(payload)) {
+            //Edit Condition
+            newState.invoiceEmailTo = payload;
+        }else {
+            //Add New Condtion or udpate
+            newInvoiceEmailToList.push(payload);
+            newState.invoiceEmailTo = newInvoiceEmailToList;
+        }
     } else if(type === ActionTypes.RESET_INVOICE_EMAIL_TO) {
         newState.invoiceEmailTo = [];
     } else if(type === ActionTypes.REMOVE_EMAIL_TO_FROM_LIST) {

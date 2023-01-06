@@ -70,6 +70,7 @@ const InvoiceAddEdit = (props) => {
   const invoiceItemList = useSelector(state => state.invoice.invoiceItemList);
   const invoiceTotal = useSelector(state => state.invoice.invoiceTotal);
   const invoicePaidAmount = useSelector(state => state.invoice.invoicePaidAmount);
+  const invoiceEmailTos = useSelector(state => state.invoice.invoiceEmailTo);
   
 
   //User Validation START
@@ -144,14 +145,20 @@ const InvoiceAddEdit = (props) => {
         setProjectType(invoiceResponse.project?.type);
         setVendorName(invoiceResponse.vendor?.name);
         setProjectName(invoiceResponse.project?.name);
+        
 
+        if(invoiceResponse.invoiceEmailTo != undefined && invoiceResponse.invoiceEmailTo.length >0){
+          setEnableEmailIcon(true);
+          dispatch(setInvoiceEmailTo(invoiceResponse.invoiceEmailTo));
+        }
 
         if(invoiceResponse.invoiceItems != undefined && invoiceResponse.invoiceItems.length >0){
           setEnableInvoiceItemAdd(true);
+          dispatch(setInvoiceItemList(invoiceResponse.invoiceItems));
         }
 
         console.log("invoiceResponse.invoiceItemList::::"+JSON.stringify(invoiceResponse.invoiceItems))
-        dispatch(setInvoiceItemList(invoiceResponse.invoiceItems));
+        
         dispatch(setInvoiceTotal(invoiceResponse.total));
         dispatch(setInvoicePaidAmount(invoiceResponse.paidAmount));
         
@@ -227,7 +234,7 @@ const InvoiceAddEdit = (props) => {
   // Create Account 
   const createInvoice = async (formData) => {
     try {
-        const responseData = await invoiceService.createNewInvoice(formData, invoiceItemList, invoiceDate, dueDte);
+        const responseData = await invoiceService.createNewInvoice(formData, invoiceItemList, invoiceDate, dueDte, invoiceEmailTos);
         if(!responseData.error) {
           toast({
             title: 'New Invoice.',
@@ -267,7 +274,7 @@ const InvoiceAddEdit = (props) => {
   const updateInvoice = async (invoiceId, formData) => {
     try {
 
-      const responseData = await invoiceService.updateInvoice(formData, invoiceId, invoiceDate, dueDte,invoiceItemList, invoiceTotal);
+      const responseData = await invoiceService.updateInvoice(formData, invoiceId, invoiceDate, dueDte,invoiceItemList, invoiceTotal, invoiceEmailTos);
 
       if(!responseData.error) {
         toast({

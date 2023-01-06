@@ -73,21 +73,23 @@ function createInvoiceTransaction(formData, accountId) {
   });
 }
 
-  function getInvoiceTransactions(invoiceId, accountId) {
-    console.log("getInvoiceTransactions:: INVOICE ID:::"+invoiceId+"*****ACCOUNTID::"+accountId);
-    return fetchWrapper.get(`${baseUrl}/account/invoice/`+invoiceId+'/transactions?accountId='+accountId, {}
-    )
-    .then(invoiceTransactions => {
-      console.log("Inside the getInvoiceTransactions service ::"+JSON.stringify(invoiceTransactions));
-      return invoiceTransactions;
-    })
-    .catch(err => {
-      console.log("Error Getting Invoice::"+err)
-      return {errorMessage: err, error: true};
-    });
+function getInvoiceTransactions(invoiceId, accountId) {
+  console.log("getInvoiceTransactions:: INVOICE ID:::"+invoiceId+"*****ACCOUNTID::"+accountId);
+  return fetchWrapper.get(`${baseUrl}/account/invoice/`+invoiceId+'/transactions?accountId='+accountId, {}
+  )
+  .then(invoiceTransactions => {
+    console.log("Inside the getInvoiceTransactions service ::"+JSON.stringify(invoiceTransactions));
+    return invoiceTransactions;
+  })
+  .catch(err => {
+    console.log("Error Getting Invoice::"+err)
+    return {errorMessage: err, error: true};
+  });
 
-  }
-function updateInvoice(formData, invoiceId, invoiceDate, dueDte, invoiceItemList, invoiceTotal) {
+}
+
+
+function updateInvoice(formData, invoiceId, invoiceDate, dueDte, invoiceItemList, invoiceTotal, invoiceEmailTos) {
 
   console.log("updateInvoice:: BEFORE::::invoiceItemList:::"+JSON.stringify(invoiceItemList));
   //If current status is not cancelled and one of the timesheetn etntry status is "Invoiced" then throw error
@@ -122,7 +124,8 @@ function updateInvoice(formData, invoiceId, invoiceDate, dueDte, invoiceItemList
         paymentTerms: formData.paymentTerms,  
         invoiceItems: {
           create: invoiceItemList
-        }
+        },
+        invoiceEmailTo: invoiceEmailTos
       }
   )
   .then(invoice => {
@@ -139,7 +142,7 @@ function updateInvoice(formData, invoiceId, invoiceDate, dueDte, invoiceItemList
 
 
 
-function createNewInvoice(formData, invoiceItemList, invoiceDate, dueDte) {
+function createNewInvoice(formData, invoiceItemList, invoiceDate, dueDte, invoiceEmailTos) {
   console.log("Before calling the create invoice....."+JSON.stringify(formData))
   let paidAmountValue = 0;
   if(formData.paidAmount != undefined && formData.paidAmount != EMPTY_STRING) {
@@ -157,6 +160,7 @@ function createNewInvoice(formData, invoiceItemList, invoiceDate, dueDte) {
         invoiceItems: {
           create: invoiceItemList
         },
+        invoiceEmailTo: invoiceEmailTos,
         total: formData.total,
         status: formData.status,
         paymentTerms: formData.paymentTerms
