@@ -91,7 +91,7 @@ async function updateTimesheetEntry(timesheetEntryId, status, timesheetNote) {
         //Timesheet entry happened, now add the notes
         if(data.message === undefined && timesheetNote != undefined && timesheetNote != EMPTY_STRING) {
           //Create Notes
-          const createdNotes = notesService.createNotes(NOTES_TYPE.Timesheet, timesheetEntryId, timesheetNote, userService.userValue?.id);
+          const createdNotes = notesService.createNotes(NOTES_TYPE.TimesheetEntry, timesheetEntryId, timesheetNote, userService.userValue?.id);
           if(createdNotes.error) {
             return {error: createdNotes.errorMessage};
           }
