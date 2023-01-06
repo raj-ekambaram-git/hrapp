@@ -148,6 +148,7 @@ model InvoiceItem {
 model InvoiceTransaction {
   id              Int                      @id @default(autoincrement())
   amount          Decimal
+  transactionId   Int
   transactionData String
   invoice         Invoice?                 @relation(fields: [invoiceId], references: [id])
   invoiceId       Int?

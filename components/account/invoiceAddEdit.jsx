@@ -466,7 +466,7 @@ const InvoiceAddEdit = (props) => {
                                 />      
                                 <HStack>
                                   <Input type="text" value={invoicePaidAmount} isReadOnly/>
-                                  <InvoiceTransactions invoiceId={invoiceId}/>
+                                   <InvoiceTransactions invoiceId={invoiceId}/>
                                 </HStack>
                               </InputGroup>                             
                           </FormControl>    

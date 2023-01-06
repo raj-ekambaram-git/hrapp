@@ -23,7 +23,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           invoice:{
             accountId: parseInt(accountId.toString())
           }
-      },
+        },
+        include: {
+          invoice: {
+            select: {
+              total: true,
+              paidAmount: true
+            }
+          }
+        }
       })
       console.log("invoiceTransactions:::"+JSON.stringify(invoiceTransactions))
         res.status(200).json(invoiceTransactions);
