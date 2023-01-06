@@ -579,7 +579,8 @@ const UserAddEdit = (props) => {
                     </Button>
                   </Box>
                   <Box>
-                    <Button type="submit">
+                    <Button type="submit"  disabled={formState.isSubmitting}>
+                    {formState.isSubmitting && <span className="spinner-border spinner-border-sm mr-1"></span>}
                       {isAddMode ? (
                           <div>Add New {isVendor? "Vendor": "Account"} User</div>
                       ) : (
