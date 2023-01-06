@@ -27,11 +27,17 @@ function createInvoiceTransaction(formData, accountId) {
   //Before Creating, make sure that invoiceTotal is greater than the paid amount and there is room to pay
   return fetchWrapper.get(`${baseUrl}/account/invoice/${formData.invoiceId}/detail?accountId=`+accountId, {})
   .then(async invoice => {
-    console.log("Inside the createInvoice Transaction fetchin invoice::"+JSON.stringify(invoice))
+    console.log((formData.status == InvoiceConstants.INVOICE_TRANSSACTION__STATUS.Refund 
+      || formData.status == InvoiceConstants.INVOICE_TRANSSACTION__STATUS.Cancelled))
+    console.log("Inside the createInvoice Transaction fetchin invoice::"+(
+      (formData.status == InvoiceConstants.INVOICE_TRANSSACTION__STATUS.Refund 
+      || formData.status == InvoiceConstants.INVOICE_TRANSSACTION__STATUS.Cancelled)
+    && (util.getZeroPriceForNull(formData.amount)<util.getZeroPriceForNull(invoice.paidAmount))))
     //Check if invoie is valid
-    if((util.getZeroPriceForNull(invoice.total) > util.getZeroPriceForNull(invoice.paidAmount))
-      && ((formData.status === InvoiceConstants.INVOICE_TRANSSACTION__STATUS.Refund 
-            || formData.status === InvoiceConstants.INVOICE_TRANSSACTION__STATUS.Cancelled)
+    if(((formData.status == InvoiceConstants.INVOICE_TRANSSACTION__STATUS.Paid || formData.status == InvoiceConstants.INVOICE_TRANSSACTION__STATUS.Pending) && 
+      util.getZeroPriceForNull(invoice.total) > util.getZeroPriceForNull(invoice.paidAmount))
+      || ((formData.status == InvoiceConstants.INVOICE_TRANSSACTION__STATUS.Refund 
+            || formData.status == InvoiceConstants.INVOICE_TRANSSACTION__STATUS.Cancelled)
           && (util.getZeroPriceForNull(formData.amount)<util.getZeroPriceForNull(invoice.paidAmount)))) {
       console.log("Inside more payment needed condition, so creating the transaction")
       return fetchWrapper.post(`${baseUrl}/account/invoice/`+formData.invoiceId+`/transaction/create`, {
@@ -45,7 +51,9 @@ function createInvoiceTransaction(formData, accountId) {
       .then(async invoiceTransaction => {
         //If the invoiceTransaction is successfuly created, then do the math and update the paid amount
         console.log("Succesfully Created the transacton:::"+JSON.stringify(invoiceTransaction));
-        updateTotalPaidAmount(invoiceTransaction, invoice);
+        //Call to updat only if the status is NOT pending
+        if(invoiceTransaction.status !== InvoiceConstants.INVOICE_TRANSSACTION__STATUS.Pending)
+          updateTotalPaidAmount(invoiceTransaction, invoice);
         return invoiceTransaction;
       })        
       .catch(err => {

@@ -103,7 +103,8 @@ const InvoiceTransactions = (props) => {
                                           {invoiceTransaction.status}
                                       </Th>
                                       <Th>
-                                          {util.getFormattedDate(invoiceTransaction.lastUpdatedDate)}
+                                          {/* {util.getFormattedDate(invoiceTransaction.lastUpdatedDate)} */}
+                                          {invoiceTransaction.lastUpdatedDate}
                                       </Th>
                                       <Th>
                                           {invoiceTransaction.transactionData}

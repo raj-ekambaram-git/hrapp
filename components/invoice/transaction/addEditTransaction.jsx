@@ -46,7 +46,7 @@ const AddEditTransaction = (props) => {
     const invoiceId = props.invoiceId;
 
 
-    function handleTransacionSubmit() {
+    async function handleTransacionSubmit() {
         //Validate if the values are present and thorw error if any field is not entered
         if(tranAmount !== undefined && tranAmount !== EMPTY_STRING
             && tranReferenceNo !== undefined && tranReferenceNo !== EMPTY_STRING
@@ -60,7 +60,7 @@ const AddEditTransaction = (props) => {
                     transactionId: tranReferenceNo
                 };
                 console.log("invoiceTransDatta::::"+JSON.stringify(invoiceTransData));
-                const responseData = invoiceService.createInvoiceTransaction(invoiceTransData, userService.getAccountDetails().accountId);
+                const responseData = await invoiceService.createInvoiceTransaction(invoiceTransData, userService.getAccountDetails().accountId);
 
                 console.log("handleTransacionSubmit::::responseData::::"+JSON.stringify(responseData));
                 if(responseData.error) {

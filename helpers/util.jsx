@@ -77,6 +77,14 @@ function getFormattedDate(dateTime) {
   }
   
 }
+function getFormattedDateWithTime(dateTime) {
+  if(dateTime != undefined && dateTime != EMPTY_STRING) {
+    return (new Date(dateTime?.toString()).toLocaleDateString( "en-US", { timeZone: "UTC" }) );
+  }else {
+    return EMPTY_STRING;
+  }
+  
+}
 
 function getPrevioustWeekStartDateString(dateTime) {
   const todayMinusWeek = new Date(dateTime);
