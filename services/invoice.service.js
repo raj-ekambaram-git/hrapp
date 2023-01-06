@@ -6,6 +6,9 @@ import { EMPTY_STRING,TIMESHEET_STATUS } from '../constants/accountConstants';
 import { InvoiceConstants} from '../constants/invoiceConstants';
 import { ErrorMessage} from '../constants/errorMessage';
 import { timesheetService } from './timesheet.service';
+import { util } from '../helpers/util';
+
+
 
 const { publicRuntimeConfig } = getConfig();
 const baseUrl = `${publicRuntimeConfig.apiUrl}`;
@@ -14,9 +17,53 @@ export const invoiceService = {
 
     createNewInvoice,
     updateInvoice,
-    getInvoiceTransactions
+    getInvoiceTransactions,
+    createInvoiceTransaction
 
 };
+
+function createInvoiceTransaction(formData, accountId) {
+  console.log("Before calling the ccreateInvoiceTransaction....."+JSON.stringify(formData))
+  //Before Creating, make sure that invoiceTotal is greater than the paid amount and there is room to pay
+  return fetchWrapper.get(`${baseUrl}/account/invoice/${formData.invoiceId}/detail?accountId=`+accountId, {})
+  
+  .then(async invoice => {
+    console.log("Inside the createInvoice Transaction fetchin invoice::"+JSON.stringify(invoice))
+    //Check if invoie is valid
+    if((util.getZeroPriceForNull(invoice.total) > util.getZeroPriceForNull(invoice.paidAmount))
+      && ((formData.status === InvoiceConstants.INVOICE_TRANSSACTION__STATUS.Refund 
+            || formData.status === InvoiceConstants.INVOICE_TRANSSACTION__STATUS.Cancelled)
+          && (util.getZeroPriceForNull(formData.amount)>util.getZeroPriceForNull(invoice.paidAmount)))) {
+      console.log("Inside more payment needed condition, so creating the transaction")
+      return fetchWrapper.post(`${baseUrl}/account/invoice/`+formData.invoiceId+`/transaction/create`, {
+        amount: formData.amount,
+        transactionData: formData.transactionData,
+        status: formData.status,
+        invoiceId: parseInt(formData.invoiceId),
+        transactionId: formData.transactionId
+        }
+      )
+      .then(async invoiceTransaction => {
+        //If the invoiceTransaction is successfuly created, then do the math and update the paid amount
+        console.log("Succesfully Created the transacton:::"+JSON.stringify(invoiceTransaction));
+        updateTotalPaidAmount(invoiceTransaction, invoice);
+        return invoiceTransaction;
+      })        
+      .catch(err => {
+        console.log("Error createInvoiceTransaction"+err)
+        return {errorMessage: err, error: true};
+      });
+  
+    }else {
+      return {errorMessage: ErrorMessage.INVOICE_TRANSACTION_ALREADY_PAID, error: true};
+    }
+
+  })  
+  .catch(err => {
+    console.log("Error createInvoiceTransaction"+err)
+    return {errorMessage: err, error: true};
+  });
+}
 
   function getInvoiceTransactions(invoiceId, accountId) {
     console.log("getInvoiceTransactions:: INVOICE ID:::"+invoiceId+"*****ACCOUNTID::"+accountId);
@@ -117,7 +164,7 @@ function createNewInvoice(formData, invoiceItemList, invoiceDate, dueDte) {
   .catch(err => {
     console.log("Error Creating Invoice"+err)
     return {errorMessage: err, error: true};
-});
+  });
 }
 
 
@@ -140,3 +187,29 @@ async function updateTSEntriesAsInvoiced(invoice, invoiceItemList) {
     }
 }
   
+
+async function updateTotalPaidAmount(invoiceTransaction, invoice) {
+  console.log("updateTotalPaidAmount::invoiceTransaction::"+JSON.stringify(invoiceTransaction)+"*****INVOICE:::"+JSON.stringify(invoice));
+
+  let finalPaidAmount = 0;
+  if(invoiceTransaction.status === InvoiceConstants.INVOICE_TRANSSACTION__STATUS.Refund
+    || invoiceTransaction.status === InvoiceConstants.INVOICE_TRANSSACTION__STATUS.Cancelled) {
+      finalPaidAmount = parseFloat(invoice.paidAmount)-parseFloat(invoiceTransaction.amount);
+  }else if (invoiceTransaction.status === InvoiceConstants.INVOICE_TRANSSACTION__STATUS.Paid) {
+    finalPaidAmount = parseFloat(invoiceTransaction.amount)+parseFloat(invoice.paidAmount)
+  }
+
+  return fetchWrapper.put(`${baseUrl}/account/invoice/`+invoice.id, {
+      id: invoice.id,
+      paidAmount: finalPaidAmount
+    }
+  )
+  .then(invoice => {
+    //TODO: Update the Project with the revenue status
+    return invoice;
+  })
+  .catch(err => {
+    console.log("Error Updating Invoice::"+err)
+    return {errorMessage: err, error: true};
+  });
+}

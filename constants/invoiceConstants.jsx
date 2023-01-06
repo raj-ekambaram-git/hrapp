@@ -8,6 +8,12 @@ export const InvoiceConstants = {
     'PartiallyPaid': 'PartiallyPaid',
     'Cancelled': 'Cancelled',
   },
+  INVOICE_TRANSSACTION__STATUS: {
+    'Pending': 'Pending',
+    'Paid': 'Paid',
+    'Refund': 'Refund',
+    'Cancelled': 'Cancelled',
+  },
   INVOICE_CURRENCY_USD: 'USD',
   INVOICE_UOM_HOURS: 'Hours',
   INVOICE_TYPES: [
@@ -27,5 +33,23 @@ export const InvoiceConstants = {
       invoiceTypeId: "Timesheet",
       invoiceTypeName: "Timesheet"
     }
-  ]
+  ],
+  INVOICE_TRAN_STATUS_LOOKUP: [
+    {
+      invoiceTranStatusId: "Pending",
+      invoiceTranStatusName: "Pending"
+    },
+    {
+      invoiceTranStatusId: "Paid",
+      invoiceTranStatusName: "Paid"
+    },
+    {
+      invoiceTranStatusId: "Refund",
+      invoiceTranStatusName: "Refund"
+    },
+    {
+      invoiceTranStatusId: "Cancelled",
+      invoiceTranStatusName: "Cancelled"
+    }
+  ]  
 }

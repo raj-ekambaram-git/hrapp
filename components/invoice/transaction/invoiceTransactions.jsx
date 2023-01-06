@@ -36,6 +36,9 @@ const InvoiceTransactions = (props) => {
     console.log("props.invoiceId::"+props.invoiceId)
 
     const invoiceTransactions = useSelector(state => state.invoice.invoiceTransactions);
+    const invoiceTotal = useSelector(state => state.invoice.invoiceTotal);
+    const invoicePaidAmount = useSelector(state => state.invoice.invoicePaidAmount);
+
 
     useEffect(() => {
       dispatch(fetchInvoiceTransactions(props.invoiceId,userService.getAccountDetails().accountId))
@@ -97,7 +100,7 @@ const InvoiceTransactions = (props) => {
                                       <Th>
                                       <HStack spacing={4}>
                                         <DeleteIcon onClick={() => deleteProjectResource(projectResource.id,projectResource.budgetAllocated)}/>
-                                        {/* <AddEditTransaction/> */}
+                                        <AddEditTransaction isAddMode={false}/>
                                       </HStack>
                                       </Th>                                    
                                       <Th>
@@ -122,9 +125,9 @@ const InvoiceTransactions = (props) => {
                                 ))}
                               </Tbody>  
                             </Table>      
-                            {parseFloat(invoiceTransactions[0]?.invoice?.total) > parseFloat(invoiceTransactions[0]?.invoice?.paidAmount) ? (
+                            {util.getZeroPriceForNull(invoiceTotal)> util.getZeroPriceForNull(invoicePaidAmount) ? (
                                 <Box>
-                                  <AddEditTransaction/>
+                                  <AddEditTransaction isAddMode={true} invoiceId={props.invoiceId}/>
                                 </Box>
                             ) : (
                                 <></>
