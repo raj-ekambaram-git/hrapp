@@ -42,7 +42,7 @@ console.log("Vendor ID::"+vendorId+"---AccountioD::"+accountId)
         }
       });
       res.status(200).json(users);
-    } else if (accountId != EMPTY_STRING && accountId != undefined && vendorId == EMPTY_STRING){
+    } else if (accountId != EMPTY_STRING && accountId != undefined && (vendorId == EMPTY_STRING || vendorId == undefined)){
       console.log("2222")
       const users = await prisma.user.findMany({
         where: {

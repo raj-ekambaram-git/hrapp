@@ -1,15 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { accountService, userService } from '../../../../services';
-import {MODE_ADD} from "../../../../constants/accountConstants";
+import {EMPTY_STRING, MODE_ADD} from "../../../../constants/accountConstants";
 import {
-  Card,
-  CardHeader,
   Box,
   Heading,
-  CardBody,
   Stack,
-  StackDivider,
   Badge,
   Flex,
   HStack,
@@ -25,7 +21,10 @@ import VendorContactDetailSection from "../../../../components/vendor/detail/ven
 import VendorContactAddressSection from "../../../../components/vendor/detail/vendorContactAddressSection";
 import VendorAccountContactDetailSection from "../../../../components/vendor/detail/vendorAccountContactDetailSection";
 import VendorProjectsSection from "../../../../components/vendor/detail/vendorProjectsSection";
-
+import VendorUserAddSection from "../../../../components/vendor/vendorUserAddSection";
+import { useDispatch, useSelector } from "react-redux";
+import { resetVendorUsers, setVendorUsers } from "../../../../store/modules/Vendor/actions";
+import { fetchUsersByAccount, resetUsersByAccount} from "../../../../store/modules/Account/actions";
 
 
 
@@ -35,6 +34,8 @@ const VendorDetail = (props) => {
   const vendorId = props.data.vendorId;
 
   const router = useRouter();
+  const dispatch = useDispatch();
+
   const { isOpen, onOpen, onClose } = useDisclosure()
   
   const [vendor, setVendor] = useState({});
@@ -58,6 +59,8 @@ const VendorDetail = (props) => {
 
   // set default input data
   useEffect(() => {
+    dispatch(resetVendorUsers());
+    dispatch(resetUsersByAccount());
     getVendorDetails(vendorId, userService.getAccountDetails().accountId);
   }, []);
 
@@ -115,6 +118,10 @@ const VendorDetail = (props) => {
 
   setVendorAddress(vendorAddressData)
   setVendor(responseData)
+  if(responseData.vendorUsers != undefined && responseData.vendorUsers != EMPTY_STRING && responseData.vendorUsers?.length >0) {
+    dispatch(setVendorUsers(responseData.vendorUsers))
+  }
+  
 
 
   }
@@ -138,7 +145,10 @@ const VendorDetail = (props) => {
           >
             <Heading size='md'>Vendor Details for {vendor.name}</Heading>
             <Box alignItems='right'>
+              <HStack>
+                  <VendorUserAddSection data={{vendorId: vendorId, vendorName: vendor.name}}/>
                   <ProjectAddEditSection data={createProjectRequestData}></ProjectAddEditSection>                  
+              </HStack>                  
             </Box>                  
           </Flex>
           <Flex>

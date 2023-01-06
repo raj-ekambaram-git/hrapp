@@ -24,7 +24,25 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       },
         include: {
           address: true,
-          project: true
+          project: true,
+          vendorUsers: {
+            select: {
+              id: true,
+              vendorId: true,
+              status: true,
+              user: {
+                select: {
+                  id: true,
+                  firstName: true,
+                  lastName: true,
+                  email: true,
+                  status: true,
+                  phone: true,
+                  userRoles: true
+                }
+              }
+            }
+          }
         }
       })
       
@@ -37,10 +55,28 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             equals: parseInt(vendorId.toString())            
           }
       },
-        include: {
-          address: true,
-          project: true          
+      include: {
+        address: true,
+        project: true,
+        vendorUsers: {
+          select: {
+            id: true,
+            vendorId: true,
+            status: true,
+            user: {
+              select: {
+                id: true,
+                firstName: true,
+                lastName: true,
+                email: true,
+                status: true,
+                phone: true,
+                userRoles: true
+              }
+            }
+          }
         }
+      }
       })
         res.status(200).json(vendors[0]);
   

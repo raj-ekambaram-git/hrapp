@@ -19,8 +19,18 @@ export const accountService = {
     getInvoiceDetail,
     getProjectDetail,
     getAddressByVendor,
-    getProjectsByVendor
+    getProjectsByVendor,
+    getUserList
 };
+
+function getUserList(accountId) {
+    console.log("getUserList:::"+accountId)
+    return fetchWrapper.get(`${baseUrl}/account/`+accountId+'/users', {})
+        .then(accountUsers => {
+            return accountUsers;
+        });
+}
+
 
 function getProjectsByVendor(vendorId, accountId) {
     return fetchWrapper.get(`${baseUrl}/account/vendor/`+vendorId+'/projects?accountId='+accountId, {})
@@ -100,6 +110,7 @@ function getInvoiceDetail(invoiceId, accountId) {
 function getVendorDetail(vendorId, accountId) {
     return fetchWrapper.get(`${baseUrl}/account/vendor/${vendorId}/detail?accountId=`+accountId, {})
         .then(vendor => {
+            console.log("getVendorDetail:::"+JSON.stringify(vendor))
             return vendor;
         });
 }

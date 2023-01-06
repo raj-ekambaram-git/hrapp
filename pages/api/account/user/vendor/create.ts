@@ -17,13 +17,26 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       const savedUserVendor = await prisma.vendorUsers.create({
         data: userVendorData.userVendorData,
         include: {
+          user: {
+            select: {
+              id: true,
+              firstName: true,
+              lastName: true,
+              email: true,
+              status: true,
+              phone: true,
+              userRoles: true
+            }
+          },
           vendor: {
             select: {
               name: true
-            }
+            },
           }
         }
       });
+
+      console.log("savedUserVendor:::"+JSON.stringify(savedUserVendor))
       res.status(200).json(savedUserVendor);
   
     

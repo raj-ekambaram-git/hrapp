@@ -35,3 +35,27 @@ export const fetchVendorsByAccount = (accountId) => {
         dispatch(getUserVendors(responseData));
       };
 }
+
+export const setVendorUsers = (vendorUsers) => {
+    console.log("setVendorUser::::ACTIONS:::"+JSON.stringify(vendorUsers));
+    return {
+        type: ActionTypes.SET_VENDOR_USERS,
+        payload: vendorUsers
+    }
+}
+
+export const resetVendorUsers = () => {
+    console.log("resetVendorUsers::")
+    return {
+        type: ActionTypes.RESET_VENDOR_USERS,
+        payload: []
+    }
+}
+
+export const removeUserFromVendorByIndex = (removeIndex) => {
+    return {
+        type: ActionTypes.REMOVE_USER_FROM_VENDOR_BY_INDEX,
+        payload: removeIndex
+    }
+}
+
