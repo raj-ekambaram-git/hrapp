@@ -424,13 +424,13 @@ const ProjectAddEdit = (props) => {
                         </FormControl>     
                       </Box>
                       <Box>
-                        <FormControl>
+                        <FormControl isRequired>
                           <FormLabel>Project Contact Email</FormLabel>
                           <Input type="text" {...register('contactEmail')}  id="contactEmail"  size="md" />
                         </FormControl>     
                       </Box>
                       <Box>
-                        <FormControl>
+                        <FormControl isRequired>
                           <FormLabel>Project Contact Phone</FormLabel>
                           <Input type="text" {...register('contactPhone')}  id="contactPhone"  size="md" />
                         </FormControl>     

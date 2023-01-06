@@ -27,7 +27,8 @@ import {
 } from '@chakra-ui/react'
 import InvoiceItems from "../invoice/invoiceItems";
 import { useDispatch,useSelector } from "react-redux";
-import { resetInvoiceItemList, setInvoiceItemList, setProjectResources, resetProjectResources, setInvoiceTotal, setInvoicePaidAmount } from "../../store/modules/Invoice/actions";
+import { resetInvoiceItemList, setInvoiceItemList, setProjectResources, resetProjectResources, setInvoiceTotal, setInvoicePaidAmount, setInvoiceEmailTo,
+  resetInvoiceEmailTo, removeEmailFromInvoiceEmailListByIndex } from "../../store/modules/Invoice/actions";
 import DatePicker from "../common/datePicker";
 import { InvoiceConstants } from "../../constants/invoiceConstants";
 import InvoiceTransactions from "../invoice/transaction/invoiceTransactions";
@@ -157,13 +158,20 @@ const InvoiceAddEdit = (props) => {
 
   }
 
-  async function refreshProjectForVendor(vendorId) {
+  async function refreshProjectForVendor(selectedVendorObj) {
     
     setEnableInvoiceItemAdd(false);
     dispatch(resetInvoiceItemList());
+    dispatch(resetInvoiceEmailTo());
+    
+    const vendorEmail =  selectedVendorObj.target.options.item(selectedVendorObj.target.selectedIndex).getAttribute("data-email");
+    if(vendorEmail != undefined && vendorEmail != EMPTY_STRING) {
+      dispatch(setInvoiceEmailTo(vendorEmail.trim()));
+    }
+    
     //Call Address table to get all the addresses by vendor
     
-    const projectListResponse = await accountService.getProjectsByVendor(vendorId, userService.getAccountDetails().accountId);
+    const projectListResponse = await accountService.getProjectsByVendor(selectedVendorObj.target.value, userService.getAccountDetails().accountId);
 
     console.log("projectListResponse::"+JSON.stringify(projectListResponse))
     
@@ -188,9 +196,16 @@ const InvoiceAddEdit = (props) => {
     }
     setProjectId(e.target.value);
     dispatch(resetInvoiceItemList());
+    dispatch(removeEmailFromInvoiceEmailListByIndex(1));
     setEnableInvoiceItemAdd(true);
     dispatch(setProjectResources(JSON.parse(e.target.options.item(e.target.selectedIndex).getAttribute("data-projectResources"))))
     setProjectType(e.target.options.item(e.target.selectedIndex).getAttribute("data-projectType"));
+
+    const projectEmail =  e.target.options.item(e.target.selectedIndex).getAttribute("data-email");
+    if(projectEmail != undefined && projectEmail != EMPTY_STRING) {
+      dispatch(setInvoiceEmailTo(projectEmail.trim()));
+    }
+
     return;
   } 
     
@@ -378,10 +393,10 @@ const InvoiceAddEdit = (props) => {
                             <FormControl isRequired>
                               <FormLabel>Vendor</FormLabel>
                               {isAddMode ? (
-                                <Select width="100%" id="vendorId" {...register('vendorId')} onChange={(ev) => refreshProjectForVendor(ev.target.value)}>
+                                <Select width="100%" id="vendorId" {...register('vendorId')} onChange={(ev) => refreshProjectForVendor(ev)}>
                                     <option value="">Select an Vendor</option>
                                     {vendorList?.map((vendor) => (
-                                      <option value={vendor.id}>{vendor.name}</option>
+                                      <option value={vendor.id} data-email={vendor.email}>{vendor.name}</option>
                                     ))}
                               </Select>
                               ) : (<>
@@ -400,7 +415,7 @@ const InvoiceAddEdit = (props) => {
                                 <Select width="100%" id="projectId" {...register('projectId')} onChange={(ev) => handleProjectSelection(ev)}>
                                   <option value="" data-projectType="" data-projectResources="">Select Project</option>
                                   {projectList?.map((project) => (
-                                      <option value={project.id}  data-projectType={project.type} data-projectResources={JSON.stringify(project.projectResource)}>{project.name}</option>
+                                      <option value={project.id}  data-email={project.contactEmail} data-projectType={project.type} data-projectResources={JSON.stringify(project.projectResource)}>{project.name}</option>
                                   ))}
                                 </Select>
                               ) : (<>

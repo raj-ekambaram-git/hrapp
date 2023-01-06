@@ -91,3 +91,32 @@ export const fetchInvoiceTransactions = (invoiceId, accountId) => {
         dispatch(getInvoiceTransactions(responseData));
       };
 }
+
+export const setInvoiceEmailTo = (invoiceEmailTo) => {
+    console.log("setInvoiceEmailTo::::ACTIONS:::"+JSON.stringify(invoiceEmailTo));
+    return {
+        type: ActionTypes.SET_INVOICE_EMAIL_TO,
+        payload: invoiceEmailTo
+    }
+}
+
+export const resetInvoiceEmailTo = () => {
+    return {
+        type: ActionTypes.RESET_INVOICE_EMAIL_TO,
+        payload: []
+    }
+}
+
+export const removeEmailFromInvoiceEmailList = (email) => {
+    return {
+        type: ActionTypes.REMOVE_EMAIL_TO_FROM_LIST,
+        payload: email
+    }
+}
+
+export const removeEmailFromInvoiceEmailListByIndex = (emailIndex) => {
+    return {
+        type: ActionTypes.REMOVE_EMAIL_TO_FROM_LIST_BY_INDEX,
+        payload: emailIndex
+    }
+}

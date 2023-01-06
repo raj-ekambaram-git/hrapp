@@ -8,7 +8,8 @@ const initialState = {
     projectResources: [],
     invoiceTotal: null,
     invoicePaidAmount: null,
-    invoiceTransactions: []
+    invoiceTransactions: [],
+    invoiceEmailTo: []
 };
 
 const invoiceReducer = (state = initialState, {type, payload}) => {
@@ -45,7 +46,6 @@ const invoiceReducer = (state = initialState, {type, payload}) => {
         
         const newInvoiceList = [...newState.invoiceItemList];
         const timesheetEntryToRemoveIndex = newInvoiceList.findIndex(x => x.id === parseInt(payload));
-        console.log("Index of TS Entry ID::"+payload+"----"+timesheetEntryToRemoveIndex);
         newInvoiceList.splice(timesheetEntryToRemoveIndex, 1);
         newState.invoiceItemList = newInvoiceList;
 
@@ -57,6 +57,21 @@ const invoiceReducer = (state = initialState, {type, payload}) => {
         
     } else if(type === ActionTypes.UPDATE_INVOICE_TRANSACTIONS) {
         
+    } else if(type === ActionTypes.SET_INVOICE_EMAIL_TO) {
+        console.log("newState.invoiceEmailTo::"+JSON.stringify(newState.invoiceEmailTo))
+        newState.invoiceEmailTo.push(payload);
+    } else if(type === ActionTypes.RESET_INVOICE_EMAIL_TO) {
+        newState.invoiceEmailTo = [];
+    } else if(type === ActionTypes.REMOVE_EMAIL_TO_FROM_LIST) {
+        const newInvoiceEmailToList = [...newState.invoiceEmailTo];
+        const emailToRemoveIndex = newInvoiceEmailToList.findIndex(x => x === payload);
+        newInvoiceEmailToList.splice(emailToRemoveIndex, 1);
+        newState.invoiceEmailTo = newInvoiceEmailToList;
+    } else if(type === ActionTypes.REMOVE_EMAIL_TO_FROM_LIST_BY_INDEX) {
+        const newInvoiceEmailToList = [...newState.invoiceEmailTo];
+        newInvoiceEmailToList.splice(payload, 1);
+        newState.invoiceEmailTo = newInvoiceEmailToList;
+
     }
     
     console.log("New State:::Before Return:::"+JSON.stringify(newState));
