@@ -34,6 +34,7 @@ import { InvoiceConstants } from "../../constants/invoiceConstants";
 import InvoiceTransactions from "../invoice/transaction/invoiceTransactions";
 import {PageNotAuthorized} from '../../components/common/pageNotAuthorized';
 import {PageMainHeader} from '../../components/common/pageMainHeader';
+import InvoiceEmailTo from "../invoice/invoiceEmailTo";
 
 
 
@@ -83,6 +84,7 @@ const InvoiceAddEdit = (props) => {
   useEffect(() => {
     //Reset the invoiceItem List
     dispatch(resetInvoiceItemList());
+    dispatch(resetInvoiceEmailTo());
     if(props && props.data && props.data.mode != MODE_ADD) {
       setAddMode(false);
     }else {
@@ -425,7 +427,13 @@ const InvoiceAddEdit = (props) => {
                                 
                               </>)}
                             </FormControl>     
-                        </Box>                          
+                        </Box>  
+                        <Box>
+                          <FormControl>
+                                <FormLabel>&nbsp;</FormLabel>
+                                <InvoiceEmailTo/>
+                          </FormControl>
+                        </Box>                        
                     </HStack>
                   </Stack>
                 </CardBody>
