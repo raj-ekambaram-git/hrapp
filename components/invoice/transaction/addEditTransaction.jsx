@@ -31,6 +31,7 @@ import { InvoiceConstants } from "../../../constants/invoiceConstants";
 import { ErrorMessage } from "../../../constants/errorMessage";
 import { invoiceService, userService } from "../../../services";
 import { useSelector } from "react-redux";
+import { util } from "../../../helpers/util";
   
 const AddEditTransaction = (props) => {
     const toast = useToast();
@@ -45,7 +46,7 @@ const AddEditTransaction = (props) => {
 
     async function handleTransacionSubmit() {
         //Validate if the values are present and thorw error if any field is not entered
-        if(tranAmount !== undefined && tranAmount !== EMPTY_STRING
+        if(tranAmount !== undefined && tranAmount !== EMPTY_STRING && util.getZeroPriceForNull(tranAmount) > 0
             && tranReferenceNo !== undefined && tranReferenceNo !== EMPTY_STRING
             && tranStatus !== undefined && tranStatus !== EMPTY_STRING
             && tranNotes !== undefined && tranNotes !== EMPTY_STRING) {
@@ -70,6 +71,7 @@ const AddEditTransaction = (props) => {
                         isClosable: true,
                       })
                 }else {
+                    onClose();
                     toast({
                         title: 'New Invoice Transaction.',
                         description: 'Successfully added new invoice transaction.',
@@ -78,7 +80,7 @@ const AddEditTransaction = (props) => {
                         duration: 3000,
                         isClosable: true,
                       })
-                      onClose();
+                      
                 }
         }else {
             setShowErrorMessage(ErrorMessage.INVOICE_TRANSACTION_FORM_ERROR);
@@ -102,7 +104,7 @@ const AddEditTransaction = (props) => {
                             onClick={onToggle}
                             key="xl"
                             m={1}
-                            >{`Add`}
+                            >{`Add New`}
                         </Button>  
                     </PopoverTrigger>
                     <PopoverContent>
