@@ -158,7 +158,7 @@ function getTempPassword() {
   });
 }
 
-async function isValidEmail(email) {
+function isValidEmail(email) {
   return validator.isEmail(email);
 }
 

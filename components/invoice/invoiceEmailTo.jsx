@@ -9,25 +9,21 @@ import {
     Stack,
     StackDivider,
     useDisclosure,
-    Button,
-    Select,
-    Input,
     Table,
     Thead,
     Tbody,
     Th,
     Tr,
     Box,
-    TableContainer,
     TableCaption,
-    InputGroup,
-    InputLeftElement,
     Tooltip
   } from '@chakra-ui/react';
 import {
-    EmailIcon
+    EmailIcon, DeleteIcon
   } from '@chakra-ui/icons';
 import { useDispatch, useSelector } from "react-redux";
+import AddInvoiceEmailTo from "./addInvoiceEmailTo";
+
 
 const InvoiceEmailTo = (props) => {
     const {data} = props;
@@ -43,15 +39,11 @@ const InvoiceEmailTo = (props) => {
         onOpen();
     }
 
-    function handleInvoiceEmailToAdd() {
-
-    }
-
     return (
         <div>
 
             <Tooltip label={invoiceEmailTo.map((emailTo) => <p>{emailTo}</p>)}>
-            <EmailIcon boxSize={8} onClick={() => handleInvoiceEmailTo("md")}/>
+            <EmailIcon boxSize={8} onClick={() => handleInvoiceEmailTo("lg")}/>
             </Tooltip>
 
             <Drawer onClose={onClose} isOpen={isOpen} size={size}>
@@ -62,21 +54,40 @@ const InvoiceEmailTo = (props) => {
                                     Invoice Email To
                             </DrawerHeader>
                             <DrawerBody>
-                              <Stack divider={<StackDivider />} spacing='1'>
+                              <Stack divider={<StackDivider />} spacing="4">
                                 <Box border="box_border">
                                     <Table>
                                         <TableCaption></TableCaption>
-                                        <Thead></Thead>
-                                        <Tbody>
-                                            <Tr >
+                                        <Thead>
+                                            <Tr bgColor="table_tile">
+                                                <Th>
+                                                </Th>
+                                                <Th>
+                                                    Send Invoice To
+                                                </Th>                                                
                                             </Tr>
+                                        </Thead>
+                                        <Tbody>
+                                        {invoiceEmailTo?.map((emailTo, index) => (
+                                            <Tr >
+                                                <Th>
+                                                    {(index != 0 && index!=1)? (
+                                                        <DeleteIcon boxSize={4} onClick={() => deleteInvoiceEmailTo(index)}/> 
+                                                    ) : (
+                                                        <></>
+                                                    ) }
+                                                    
+                                                </Th>
+                                                <Th>
+                                                    {emailTo}
+                                                </Th>                                                
+                                            </Tr>
+                                        ))}
                                         </Tbody>
                                     </Table>
   
                                 </Box>                            
-                                <Button onClick={() => handleInvoiceEmailToAdd()}>
-                                  Add
-                                </Button>
+                                <AddInvoiceEmailTo/>
                             </Stack>
                         </DrawerBody>
                     </DrawerContent>                    

@@ -62,6 +62,7 @@ const InvoiceAddEdit = (props) => {
   const [projectName, setProjectName] = useState(EMPTY_STRING);
   const [status, setStatus] = useState(EMPTY_STRING);
   const [enableInvoiceItemAdd, setEnableInvoiceItemAdd] = useState(false);
+  const [enableEmailIcon, setEnableEmailIcon] = useState(false);
   const [disableUpdate, setDisableUpdate] = useState(false);
 
   
@@ -200,6 +201,7 @@ const InvoiceAddEdit = (props) => {
     dispatch(resetInvoiceItemList());
     dispatch(removeEmailFromInvoiceEmailListByIndex(1));
     setEnableInvoiceItemAdd(true);
+    setEnableEmailIcon(true);
     dispatch(setProjectResources(JSON.parse(e.target.options.item(e.target.selectedIndex).getAttribute("data-projectResources"))))
     setProjectType(e.target.options.item(e.target.selectedIndex).getAttribute("data-projectType"));
 
@@ -429,10 +431,12 @@ const InvoiceAddEdit = (props) => {
                             </FormControl>     
                         </Box>  
                         <Box>
-                          <FormControl>
+                          {enableEmailIcon ? (<>
+                            <FormControl>
                                 <FormLabel>&nbsp;</FormLabel>
                                 <InvoiceEmailTo/>
-                          </FormControl>
+                            </FormControl>
+                          </>) : (<></>)}
                         </Box>                        
                     </HStack>
                   </Stack>
