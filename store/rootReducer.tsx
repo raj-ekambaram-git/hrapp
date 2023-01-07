@@ -5,13 +5,15 @@ import invoiceReducer from "./modules/Invoice/reducer";
 import userReducer from "./modules/User/reducer";
 import vendorReducer from "./modules/Vendor/reducer";
 import accountReducer from "./modules/Account/reducer";
+import notesReducer from "./modules/Notes/reducer";
 
 const rootReducer = combineReducers({
     timesheet: timesheetReducer,
     invoice: invoiceReducer,
     user: userReducer,
     vendor: vendorReducer,
-    account: accountReducer
+    account: accountReducer,
+    notes: notesReducer,
     
 });
 

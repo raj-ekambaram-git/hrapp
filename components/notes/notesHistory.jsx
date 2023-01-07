@@ -24,8 +24,13 @@ import {
 import { EMPTY_STRING } from "../../constants/accountConstants";
 import { notesService } from "../../services";
 import Notes from "../../components/notes/notes";
+import { useSelector, useDispatch } from "react-redux";
+import { setNotesByType,resetNotesByType } from "../../store/modules/Notes/actions";
+
+
 
   const NotesHistory = (props) => {
+    const dispatch = useDispatch();
     const notesType = props.data.notesType;
     const notesTypeId = props.data.notesTypeId;
     const notesTypeTitle = props.data.notesTypeTitle;
@@ -35,17 +40,19 @@ import Notes from "../../components/notes/notes";
     const [size, setSize] = useState('');
     const { isOpen, onOpen, onClose } = useDisclosure();
 
-    const [notesHistory, setNotesHistory] = useState([]);
+    // const [notesHistory, setNotesHistory] = useState([]);
     const [displayNotes, setDisplayNotes] = useState(false);
     
+    const notesHistory = useSelector(state => state.notes.notesByTpe);
 
     useEffect(() => {
+        dispatch(resetNotesByType());
       }, []);
 
     async function getNotesHistory() {
         const notesHistoryResponse = await notesService.getNotesHistory(notesType, notesTypeId);
         console.log("notesHistoryResponse:::"+JSON.stringify(notesHistoryResponse));
-        setNotesHistory(notesHistoryResponse);
+        dispatch(setNotesByType(notesHistoryResponse))
     }
     const handleClick = (newSize) => {
         if(notesTypeId != undefined && notesTypeId != EMPTY_STRING) {
