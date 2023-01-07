@@ -71,7 +71,7 @@ const AddEditNote = (props) => {
         <PopoverBody>
             <ShowInlineErrorMessage showErrorMessage={showErrorMessage}/>
             <Box>
-                <Textarea type="text" id="note"  onChange={(ev) => setNote(ev.target.value)} placeholder="Add Comment"/>
+                <Textarea value={note} onChange={(ev) => setNote(ev.target.value)} placeholder="Add Comment"/>
             </Box>
         </PopoverBody>
         <PopoverFooter display='flex' justifyContent='flex-end'>
