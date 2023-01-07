@@ -64,7 +64,25 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             lastName: true
           }
         },
-        replies: true
+        replies: {
+          select: {
+            repliesRelation:{
+              select: {
+                id: true
+              }
+            },
+            id: true,
+            type: true,
+            typeId: true,
+            notes: true,
+            createdUser: {
+              select: {
+                firstName: true,
+                lastName: true
+              }
+            }
+          }
+        }
       }
     })
 

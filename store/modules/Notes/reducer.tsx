@@ -5,7 +5,8 @@ import { ActionTypes } from "./constants";
 
 const initialState = {
     notesByTpe: [],
-    notesType: {}
+    notesType: {},
+    replies: []
 };
 
 const accountReducer = (state = initialState, {type, payload}) => {
@@ -27,12 +28,26 @@ const accountReducer = (state = initialState, {type, payload}) => {
         newState.notesByTpe = payload;
     } else if(type === ActionTypes.RESET_NOTES_BY_TYPE) {
         newState.notesByTpe = [];
-    }else if(type === ActionTypes.SET_NOTES_TYPE) {
+    } else if(type === ActionTypes.SET_NOTES_TYPE) {
         newState.notesType = payload;
     } else if(type === ActionTypes.GET_NOTES_BY_TYPE) {
         newState.notesType = payload;
     } else if(type === ActionTypes.RESET_NOTES_TYPE) {
         newState.notesType =  {};
+    } else if(type === ActionTypes.SET_REPLIES) {
+        const newReplies = [...newState.replies]
+        if(Array.isArray(payload)) {
+            //Edit Condition
+            newState.replies = payload;
+        }else {
+            //Add New Condtion or udpate
+            newReplies.unshift(payload);
+            newState.replies = newReplies;
+        }
+    } else if(type === ActionTypes.GET_REPLIES) {
+        newState.replies = payload;
+    } else if(type === ActionTypes.RESET_REPLIES) {
+        newState.replies =  [];
     } 
 
     console.log("notesReducer:::New State:::Before Return:::"+JSON.stringify(newState));

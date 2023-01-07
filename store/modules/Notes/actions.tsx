@@ -62,3 +62,27 @@ export const resetNotesType = () => {
         payload: {}
     }
 }
+
+export const setReplies = (replies) => {
+    console.log("setReplies::::ACTIONS:::"+JSON.stringify(replies));
+    return {
+        type: ActionTypes.SET_REPLIES,
+        payload: replies
+    }
+}
+
+export const getReplies = (replies) => {
+    console.log("getReplies::::ACTIONS:::"+JSON.stringify(replies));
+    return {
+        type: ActionTypes.GET_REPLIES,
+        payload: replies
+    }
+}
+
+export const resetReplies = () => {
+    console.log("resetReplies::")
+    return {
+        type: ActionTypes.RESET_REPLIES,
+        payload: []
+    }
+}

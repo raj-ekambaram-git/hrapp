@@ -19,9 +19,9 @@ import {
 import { EMPTY_STRING } from "../../constants/accountConstants";
 import { notesService } from "../../services";
 import { useSelector, useDispatch } from "react-redux";
-import { setNotesByType,resetNotesByType } from "../../store/modules/Notes/actions";
+import { setNotesByType,resetNotesByType, resetReplies } from "../../store/modules/Notes/actions";
 import AddEditNote from './addEditNote'
-import {NoteFooter} from './noteFooter';
+import NoteFooter from './noteFooter';
 
 
 
@@ -40,6 +40,7 @@ import {NoteFooter} from './noteFooter';
 
     useEffect(() => {
         dispatch(resetNotesByType());
+        dispatch(resetReplies());
       }, []);
 
     async function getNotesHistory() {
@@ -49,7 +50,7 @@ import {NoteFooter} from './noteFooter';
     }
     const handleClick = (newSize) => {
         if(notesType?.typeId != undefined && notesType?.typeId != EMPTY_STRING) {
-            console.log("Inside the tsEntryDetail")
+            dispatch(resetReplies());
             getNotesHistory();
             setDisplayNotes(true);  
         }
@@ -87,9 +88,7 @@ import {NoteFooter} from './noteFooter';
                                                 {note.notes}
                                             </CardBody>
                                             <Divider/>
-                                            <CardFooter>
-                                                <NoteFooter note={note}/>
-                                            </CardFooter>                                        
+                                            <NoteFooter note={note}/>
                                         </Card>
                                         ))}
                                 </Stack>

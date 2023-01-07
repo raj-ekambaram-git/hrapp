@@ -21,6 +21,25 @@ const comment = definePartsStyle({
   }
 
 })
+
+const replies = definePartsStyle({
+  container: {
+    alignContent: 'center',
+    width: '80%',
+    borderWidth: '1px',
+    borderRadius: 'lg',
+    overflow: 'hidden', 
+    border: "1px",
+    
+  },
+  footer: {
+    maxH: "5px",
+    alignItems: "center",
+    fontSize: '12px',
+    bgColor: '#EDF2F7'
+  }
+
+})
   
 const baseStyle = definePartsStyle({
   // define the part you're going to style
@@ -46,4 +65,4 @@ const sizes = definePartsStyle({
   },
 })
 
-export const cardTheme = defineMultiStyleConfig({ baseStyle, sizes, variants: {comment} })
+export const cardTheme = defineMultiStyleConfig({ baseStyle, sizes, variants: {comment, replies} })

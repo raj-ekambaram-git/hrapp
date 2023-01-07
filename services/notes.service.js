@@ -23,10 +23,21 @@ function getNotesHistory(type, typeId) {
 
 
 function createNotes(type, typeId, notes, createdBy) {
+    return fetchWrapper.post(`${baseUrl}/notes/create`, {type: type, typeId: typeId, notes: notes, createdBy: createdBy})
+        .then(notes => {
+            return notes;
+        })        
+        .catch(err => {
+            console.log("Inside createNotes Error")
+            return {errorMessage: err, error: true};
+        });
+}
+
+function createReply(type, typeId, notes, createdBy, notesId) {
     const reply = {
-        type: type, typeId: typeId, notes: "Reply Note for type ID"+typeId, createdBy: createdBy, mode: "Reply"
+        type: type, typeId: typeId, notes: notes, createdBy: createdBy, mode: "Reply"
     }
-    return fetchWrapper.post(`${baseUrl}/notes/create`, {type: type, typeId: typeId, notes: notes, createdBy: createdBy, replies : {create: [reply]}})
+    return fetchWrapper.post(`${baseUrl}/notes/reply/`+notesId, {id:notesId, replies : {create: [reply]}})
         .then(notes => {
             return notes;
         })        

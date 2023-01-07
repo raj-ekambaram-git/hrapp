@@ -56,45 +56,9 @@ const AddEditNote = (props) => {
             </Box>
             <Box>
                 <Button colorScheme='red' onClick={handleNoteSubmit}>Comment</Button>   
-            </Box>
-            
+            </Box>            
         </Stack>
-
         </>
-    //     <Popover
-    //     returnFocusOnClose={true}
-    //     isOpen={isOpen}
-    //     onClose={onClose}
-    //     placement='bottom-start'
-    //     closeOnBlur={false}
-    // >
-    //     <PopoverTrigger>
-    //         <Button
-    //             bgColor="button.primary.color"
-    //             onClick={onToggle}
-    //             key="xl"
-    //             m={1}
-    //             >{popoverTitle}
-    //         </Button>  
-    //     </PopoverTrigger>
-    //     <PopoverContent>
-    //     <PopoverHeader>{popoverTitle}</PopoverHeader>
-    //     <PopoverArrow />
-    //     <PopoverCloseButton />
-    //     <PopoverBody>
-    //         <ShowInlineErrorMessage showErrorMessage={showErrorMessage}/>
-    //         <Box>
-    //             <Textarea value={note} onChange={(ev) => setNote(ev.target.value)} placeholder="Add Comment"/>
-    //         </Box>
-    //     </PopoverBody>
-    //     <PopoverFooter display='flex' justifyContent='flex-end'>
-    //         <ButtonGroup size='sm'>
-    //         <Button variant='outline'  onClick={onClose} >Cancel</Button>
-    //         <Button colorScheme='red' onClick={handleNoteSubmit}>Apply</Button>
-    //         </ButtonGroup>
-    //     </PopoverFooter>
-    //     </PopoverContent>
-    // </Popover>    
     );
 };
 
