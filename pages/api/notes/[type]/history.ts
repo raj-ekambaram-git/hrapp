@@ -48,6 +48,17 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       where: {
         typeId: parseInt(typeId.toString()),
         type: typeValue
+      },
+      orderBy: {
+        id: "desc"
+      },
+      include: {
+        createdUser: {
+          select: {
+            firstName: true,
+            lastName: true
+          }
+        }
       }
     })
       res.status(200).json(notesHistory);

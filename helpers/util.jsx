@@ -16,7 +16,8 @@ export const util = {
     getTotalHours,
     getDayMonthFormat,
     getDecimalValue,
-    getZeroPriceForNull
+    getZeroPriceForNull,
+    getFormattedDateWithTime
 };
 
 function getZeroPriceForNull(value) {

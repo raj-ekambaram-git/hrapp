@@ -13,15 +13,13 @@ const accountReducer = (state = initialState, {type, payload}) => {
     const newState = {...state};
 
     if(type === ActionTypes.SET_NOTES_BY_TYPE) {
-        console.log("SET_NOTES_BY_TYPE INSIDE::"+JSON.stringify(payload));
-        console.log("newState:::"+JSON.stringify(newState));
         const newNotesByType = [...newState.notesByTpe]
         if(Array.isArray(payload)) {
             //Edit Condition
             newState.notesByTpe = payload;
         }else {
             //Add New Condtion or udpate
-            newNotesByType.push(payload);
+            newNotesByType.unshift(payload);
             newState.notesByTpe = newNotesByType;
         }
         

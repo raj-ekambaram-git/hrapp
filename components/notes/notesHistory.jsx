@@ -8,32 +8,27 @@ import {
     useDisclosure,
     Button,
     DrawerBody,
-    Heading,
     Stack,
     StackDivider,
-    Accordion,
-    AccordionItem,
-    AccordionButton,
     Box,
-    AccordionPanel
-
+    Card,
+    CardBody,
+    CardFooter,
+    Divider,
+    Spacer
   } from '@chakra-ui/react';
-  import {
-    AddIcon
-  } from '@chakra-ui/icons';  
 import { EMPTY_STRING } from "../../constants/accountConstants";
 import { notesService } from "../../services";
-import Notes from "../../components/notes/notes";
 import { useSelector, useDispatch } from "react-redux";
-import { setNotesByType,resetNotesByType, resetNotesType } from "../../store/modules/Notes/actions";
+import { setNotesByType,resetNotesByType } from "../../store/modules/Notes/actions";
 import AddEditNote from './addEditNote'
+import { util } from "../../helpers/util";
+
 
 
   const NotesHistory = (props) => {
     const dispatch = useDispatch();
 
-    console.log("Notes History Props::"+JSON.stringify(props));
-    // const 
     const [size, setSize] = useState('');
     const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -87,7 +82,18 @@ import AddEditNote from './addEditNote'
                                         <AddEditNote popoverTitle="New Comment"/>
                                     </Box>
                                     
-                                    <Accordion>
+                                        {notesHistory?.map((notes) => (
+                                        <Card variant="comment"> 
+                                            <CardBody>
+                                                {notes.notes}
+                                            </CardBody>
+                                            <Divider/>
+                                            <CardFooter>
+                                                {/* By {notes.createdUser.firstName} {notes.createdUser.lastName} on {util.getFormattedDateWithTime(notes.lastUpdateDate)} */}
+                                            </CardFooter>                                        
+                                        </Card>
+                                        ))}
+                                    {/* <Accordion>
                                         {notesHistory?.map((notes) => (
                                             <AccordionItem marginBottom="1rem" border="1px" width="100%">
                                                 <h2>
@@ -105,7 +111,7 @@ import AddEditNote from './addEditNote'
                                                 </AccordionPanel>
                                             </AccordionItem>
                                         ))}
-                                    </Accordion>                    
+                                    </Accordion>                     */}
                                 </Stack>
                                 </DrawerBody>
                                 </>

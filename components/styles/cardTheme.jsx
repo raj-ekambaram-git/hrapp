@@ -4,6 +4,24 @@ import { createMultiStyleConfigHelpers } from '@chakra-ui/react'
 const { definePartsStyle, defineMultiStyleConfig } =
   createMultiStyleConfigHelpers(cardAnatomy.keys)
 
+
+const comment = definePartsStyle({
+  container: {
+    borderWidth: '1px',
+    borderRadius: 'lg',
+    overflow: 'hidden', 
+    border: "1px",
+    
+  },
+  footer: {
+    maxH: "5px",
+    alignItems: "center",
+    fontSize: '12px',
+    bgColor: '#EDF2F7'
+  }
+
+})
+  
 const baseStyle = definePartsStyle({
   // define the part you're going to style
   container: {
@@ -28,4 +46,4 @@ const sizes = definePartsStyle({
   },
 })
 
-export const cardTheme = defineMultiStyleConfig({ baseStyle, sizes })
+export const cardTheme = defineMultiStyleConfig({ baseStyle, sizes, variants: {comment} })

@@ -12,7 +12,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const notes = req.body;
     
     const savedNotes = await prisma.notes.create({
-      data: notes
+      data: notes,
+      include: {
+        createdUser: {
+          select: {
+            firstName: true,
+            lastName: true
+          }
+        }
+      }
     });
     res.status(200).json(savedNotes);
   } catch (error) {
