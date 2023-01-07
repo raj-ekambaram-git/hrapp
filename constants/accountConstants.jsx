@@ -314,12 +314,3 @@ export const TIMESHEET_VALIDATION_SCHEMA = Yup.object().shape({
   name: Yup.string().required('First Name is required'),
 
 });    
-
-export const NOTES_TYPE = {
-  'Timesheet': 'Timesheet',
-  'Account': 'Account',
-  'Invoice': 'Invoice',
-  'Project': 'Project',
-  'User': 'User',
-  "TimesheetEntry": "TimesheetEntry"
-};

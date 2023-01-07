@@ -1,12 +1,16 @@
 export { PageMainHeader };
 import {
     Flex,
-    Heading
+    Heading,
+    Box
   } from '@chakra-ui/react'
+import NotesHistory from '../notes/notesHistory';
+  
 
 function PageMainHeader(props) {
     const heading = props.heading;
     const param1 = props.param1;
+    const notesData = props.notesData
     return (
         <>
             <Flex
@@ -21,7 +25,14 @@ function PageMainHeader(props) {
             width="page.heading_width"
             >
              <Heading size='md'>{heading} {param1}</Heading>
-            </Flex>        
+             {notesData?.type ? (
+                <Box color="black">
+                    <NotesHistory data={{notesType: notesData?.type, notesTypeId: notesData?.typeId, notesTypeTitle: notesData?.typeTile}}></NotesHistory>
+                </Box>                                        
+             ) : (<></>)}
+            </Flex>       
+
+        
         </>
     );
 }

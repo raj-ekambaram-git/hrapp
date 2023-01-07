@@ -3,13 +3,8 @@ import { useRouter } from "next/router";
 import { accountService, userService } from '../../../../services';
 import {MODE_ADD, MODE_EDIT, PROJECT_CALL_TYPE} from "../../../../constants/accountConstants";
 import {
-  Card,
-  CardHeader,
   Box,
-  Heading,
-  CardBody,
   Stack,
-  StackDivider,
   Flex,
   HStack,
   Button,
@@ -25,10 +20,12 @@ import ProjectFinancialSection from "../../../../components/project/detail/proje
 import ProjectStatusSection from "../../../../components/project/detail/projectStatusSection";
 import ProjectTimesheets from "../../../../components/project/detail/projectTimesheets";
 import {PageMainHeader} from '../../../../components/common/pageMainHeader';
+import { NotesConstants } from "../../../../constants";
+
 
 const ProjectDetail = (props) => {
   const projectId = props.data.projectId;
-
+  
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure()
   
@@ -45,14 +42,18 @@ const ProjectDetail = (props) => {
 
   const navigateProjectEditPage = () => router.push("/account/project/"+project.id);
   const navigateProjectInvoicesPage = () => router.push("/account/project/"+project.id+"/invoices");
-  
-
 
   // set default input data
   useEffect(() => {
     getProjetDetails(projectId, userService.getAccountDetails().accountId);
   }, []);
 
+  //To Enable Notes
+  const notesData = {
+    type: NotesConstants.NOTES_TYPE.Project,
+    typeId: projectId,
+    notesTypeTitle: project.name
+  }
   const handleAddProjectResource = (e, vendorId, remainingBudget) => {
     console.log("handleAddProjectResource::::::"+JSON.stringify(e));
     console.log("remainingBudget::::::"+remainingBudget);
@@ -170,7 +171,7 @@ const ProjectDetail = (props) => {
       {isPageAuthprized ? (
         <>
 
-          <PageMainHeader heading="Project Details for" param1={project.name}/>
+          <PageMainHeader heading="Project Details for" param1={project.name} notesData={notesData}/>
           <Flex>
               <Stack width="page.sub_heading_width">
                 {/* <Accordion marginBottom="1rem" border="1px" width="60%"> */}

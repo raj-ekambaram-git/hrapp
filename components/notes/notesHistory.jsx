@@ -40,13 +40,6 @@ import Notes from "../../components/notes/notes";
     
 
     useEffect(() => {
-        console.log("props.notesTypeId:::"+JSON.stringify(notesTypeId));
-        if(notesTypeId != undefined && notesTypeId != EMPTY_STRING) {
-            console.log("Inside the tsEntryDetail")
-            getNotesHistory();
-            setDisplayNotes(true);  
-        }
-    
       }, []);
 
     async function getNotesHistory() {
@@ -55,6 +48,11 @@ import Notes from "../../components/notes/notes";
         setNotesHistory(notesHistoryResponse);
     }
     const handleClick = (newSize) => {
+        if(notesTypeId != undefined && notesTypeId != EMPTY_STRING) {
+            console.log("Inside the tsEntryDetail")
+            getNotesHistory();
+            setDisplayNotes(true);  
+        }
         setSize(newSize)
         onOpen()
     }
