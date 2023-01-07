@@ -1,7 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
 import { NextApiRequest, NextApiResponse } from "next"
-import { EMPTY_STRING } from "../../../../constants/accountConstants";
 import prisma from "../../../../lib/prisma";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
@@ -17,15 +16,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     User = "User"
   }
 
-  enum NotesMode {
-    New = "New",
-    Reply = "Reply",
-  }
+ 
 
   try {
+    const notesId = req.query?.notesId;
     const type = req.query?.type;
-    let typeValue = NotesType.Timesheet;
+    const typeId = req.query?.typeId;
 
+    let typeValue = NotesType.Timesheet;
+  
     switch(type) {
       case NotesType.Timesheet: 
         typeValue = NotesType.Timesheet;
@@ -43,19 +42,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         typeValue = NotesType.User;
       break;
     }
-
-    const typeId = req.query?.typeId;
-
-    console.log("TYPE:::"+typeValue+"-----TYPE ID::"+typeId);
-    const notesHistory = await prisma.notes.findMany({
+    console.log("notesId:::"+notesId+"-----notesType::");
+    const notesHistory = await prisma.notes.findFirst({
       where: {
-        typeId: parseInt(typeId.toString()),
+        id: parseInt(notesId.toString()),
         type: typeValue,
-        mode: NotesMode.New
+        typeId: parseInt(typeId.toString())
 
-      },
-      orderBy: {
-        id: "desc"
       },
       include: {
         createdUser: {

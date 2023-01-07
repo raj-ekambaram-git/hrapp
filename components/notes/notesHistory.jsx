@@ -15,14 +15,13 @@ import {
     CardBody,
     CardFooter,
     Divider,
-    Spacer
   } from '@chakra-ui/react';
 import { EMPTY_STRING } from "../../constants/accountConstants";
 import { notesService } from "../../services";
 import { useSelector, useDispatch } from "react-redux";
 import { setNotesByType,resetNotesByType } from "../../store/modules/Notes/actions";
 import AddEditNote from './addEditNote'
-import { util } from "../../helpers/util";
+import {NoteFooter} from './noteFooter';
 
 
 
@@ -82,14 +81,14 @@ import { util } from "../../helpers/util";
                                         <AddEditNote popoverTitle="New Comment"/>
                                     </Box>
                                     
-                                        {notesHistory?.map((notes) => (
+                                        {notesHistory?.map((note) => (
                                         <Card variant="comment"> 
                                             <CardBody>
-                                                {notes.notes}
+                                                {note.notes}
                                             </CardBody>
                                             <Divider/>
                                             <CardFooter>
-                                                By&nbsp;<b>{notes.createdUser?.firstName} {notes.createdUser?.lastName}</b>&nbsp;on&nbsp; <b>{util.getFormattedDateWithTime(notes.lastUpdateDate)}</b>
+                                                <NoteFooter note={note}/>
                                             </CardFooter>                                        
                                         </Card>
                                         ))}

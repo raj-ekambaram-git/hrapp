@@ -13,7 +13,8 @@ import {
     ButtonGroup,
     Box,
     useDisclosure,
-    Textarea
+    Textarea,
+    Stack
   } from '@chakra-ui/react';
 import { EMPTY_STRING } from "../../constants/accountConstants";
 import { useDispatch, useSelector } from "react-redux";
@@ -48,40 +49,52 @@ const AddEditNote = (props) => {
     }
 
     return (
-        <Popover
-        returnFocusOnClose={true}
-        isOpen={isOpen}
-        onClose={onClose}
-        placement='bottom-start'
-        closeOnBlur={false}
-    >
-        <PopoverTrigger>
-            <Button
-                bgColor="button.primary.color"
-                onClick={onToggle}
-                key="xl"
-                m={1}
-                >{popoverTitle}
-            </Button>  
-        </PopoverTrigger>
-        <PopoverContent>
-        <PopoverHeader>{popoverTitle}</PopoverHeader>
-        <PopoverArrow />
-        <PopoverCloseButton />
-        <PopoverBody>
-            <ShowInlineErrorMessage showErrorMessage={showErrorMessage}/>
-            <Box>
-                <Textarea value={note} onChange={(ev) => setNote(ev.target.value)} placeholder="Add Comment"/>
+        <>
+        <Stack spacing={5} marginBottom={6}>
+            <Box border={1}>
+                <Textarea border='1px' value={note} onChange={(ev) => setNote(ev.target.value)} placeholder="Add Comment"/>     
             </Box>
-        </PopoverBody>
-        <PopoverFooter display='flex' justifyContent='flex-end'>
-            <ButtonGroup size='sm'>
-            <Button variant='outline'  onClick={onClose} >Cancel</Button>
-            <Button colorScheme='red' onClick={handleNoteSubmit}>Apply</Button>
-            </ButtonGroup>
-        </PopoverFooter>
-        </PopoverContent>
-    </Popover>    
+            <Box>
+                <Button colorScheme='red' onClick={handleNoteSubmit}>Comment</Button>   
+            </Box>
+            
+        </Stack>
+
+        </>
+    //     <Popover
+    //     returnFocusOnClose={true}
+    //     isOpen={isOpen}
+    //     onClose={onClose}
+    //     placement='bottom-start'
+    //     closeOnBlur={false}
+    // >
+    //     <PopoverTrigger>
+    //         <Button
+    //             bgColor="button.primary.color"
+    //             onClick={onToggle}
+    //             key="xl"
+    //             m={1}
+    //             >{popoverTitle}
+    //         </Button>  
+    //     </PopoverTrigger>
+    //     <PopoverContent>
+    //     <PopoverHeader>{popoverTitle}</PopoverHeader>
+    //     <PopoverArrow />
+    //     <PopoverCloseButton />
+    //     <PopoverBody>
+    //         <ShowInlineErrorMessage showErrorMessage={showErrorMessage}/>
+    //         <Box>
+    //             <Textarea value={note} onChange={(ev) => setNote(ev.target.value)} placeholder="Add Comment"/>
+    //         </Box>
+    //     </PopoverBody>
+    //     <PopoverFooter display='flex' justifyContent='flex-end'>
+    //         <ButtonGroup size='sm'>
+    //         <Button variant='outline'  onClick={onClose} >Cancel</Button>
+    //         <Button colorScheme='red' onClick={handleNoteSubmit}>Apply</Button>
+    //         </ButtonGroup>
+    //     </PopoverFooter>
+    //     </PopoverContent>
+    // </Popover>    
     );
 };
 

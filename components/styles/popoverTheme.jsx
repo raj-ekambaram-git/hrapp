@@ -5,9 +5,10 @@ const { definePartsStyle, defineMultiStyleConfig } =
   createMultiStyleConfigHelpers(popoverAnatomy.keys)
 
 const baseStyle = definePartsStyle({
-  // define the part you're going to style
+  popper: {
+  },
   content:{
-    width: "500px"
+    width: "500px",
   },
    header: {
     bgColor:"heading",
@@ -16,11 +17,13 @@ const baseStyle = definePartsStyle({
   },
   body: {
     marginTop: "1rem",
-
+    textArea: {
+      border: "1px"
+    },
   },
   footer: {
+    bgColor: '#EDF2F7',
     button: {
-      
     }
   },
 })

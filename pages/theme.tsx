@@ -21,7 +21,8 @@ const theme = extendTheme({
     Button: buttonTheme,
     Drawer: drawerTheme,
     Popover: popoverTheme,
-    Box: boxTheme
+    Box: boxTheme,
+
   },
   semanticTokens: {
     borders: {

@@ -23,7 +23,10 @@ function getNotesHistory(type, typeId) {
 
 
 function createNotes(type, typeId, notes, createdBy) {
-    return fetchWrapper.post(`${baseUrl}/notes/create`, {type: type, typeId: typeId, notes: notes, createdBy: createdBy})
+    const reply = {
+        type: type, typeId: typeId, notes: "Reply Note for type ID"+typeId, createdBy: createdBy, mode: "Reply"
+    }
+    return fetchWrapper.post(`${baseUrl}/notes/create`, {type: type, typeId: typeId, notes: notes, createdBy: createdBy, replies : {create: [reply]}})
         .then(notes => {
             return notes;
         })        
