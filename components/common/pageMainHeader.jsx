@@ -1,16 +1,28 @@
+import React, { useState, useEffect } from "react";
 export { PageMainHeader };
 import {
     Flex,
     Heading,
     Box
   } from '@chakra-ui/react'
+import { useDispatch } from 'react-redux';
 import NotesHistory from '../notes/notesHistory';
-  
+import { setNotesType, resetNotesType } from "../../store/modules/Notes/actions";
+
 
 function PageMainHeader(props) {
     const heading = props.heading;
     const param1 = props.param1;
-    const notesData = props.notesData
+    const dispatch = useDispatch();
+    const notesData = props.notesData;
+
+
+      // set default input data
+  useEffect(() => {
+    dispatch(resetNotesType())
+    dispatch(setNotesType(notesData));
+  }, []);
+
     return (
         <>
             <Flex
@@ -24,12 +36,10 @@ function PageMainHeader(props) {
             marginBottom="page.heading_marginBottom"
             width="page.heading_width"
             >
-             <Heading size='md'>{heading} {param1}</Heading>
-             {notesData?.type ? (
-                <Box color="black">
-                    <NotesHistory data={{notesType: notesData?.type, notesTypeId: notesData?.typeId, notesTypeTitle: notesData?.typeTile}}></NotesHistory>
-                </Box>                                        
-             ) : (<></>)}
+            <Heading size='md'>{heading} {param1}</Heading>
+            <Box color="black">
+                <NotesHistory></NotesHistory>
+            </Box>                                        
             </Flex>       
 
         

@@ -20,7 +20,6 @@ import {
   Th,
   Tr,
   useToast,
-  Text
 } from '@chakra-ui/react';
 import {
   DeleteIcon
@@ -30,6 +29,8 @@ import {fetchUserVendors, setUserVendors, removeUserVendorByIndex} from '../../.
 import { userService } from "../../../services";
 import { EMPTY_STRING } from "../../../constants/accountConstants";
 import { ErrorMessage } from "../../../constants/errorMessage";
+import { ShowInlineErrorMessage } from "../../common/showInlineErrorMessage";
+
 
 
 const ManageVendors = (props) => {
@@ -166,14 +167,7 @@ const ManageVendors = (props) => {
                             </Box>                            
                             <Box>
                               <Box>
-                                {showErrorMessage ? (
-                                    <>
-                                    <Text color="timesheet.entryError">{showErrorMessage}</Text>
-                                    </>
-                                ) : (
-                                    <>
-                                    </>
-                                )}
+                                <ShowInlineErrorMessage showErrorMessage={showErrorMessage}/>
                             </Box>                          
                             <FormControl isRequired>
                               <FormLabel>Vendor</FormLabel>

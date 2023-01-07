@@ -28,7 +28,8 @@ import {util} from '../../helpers/util';
 import { TimesheetHeader } from "./timesheetHeader";
 import { useDispatch } from "react-redux";
 import { fetchTimesheetsForApproval } from "../../store/modules/Timesheet/actions";
-import {DrawerMainHeader} from '../../components/common/drawerMainHeader';
+import { ShowInlineErrorMessage } from "../common/showInlineErrorMessage";
+
 
 
 
@@ -95,16 +96,7 @@ import {DrawerMainHeader} from '../../components/common/drawerMainHeader';
                     {tsEntryDetail.timesheet?.name} of {tsEntryDetail.timesheet?.user?.firstName} {tsEntryDetail.timesheet?.user?.lastName}
                 </DrawerHeader>                    
                 <DrawerBody>
-                    {showErrorMessage ? (
-                        <>
-                        <Text color="timesheet.entryError">{showErrorMessage}</Text>
-                        </>
-                    ) : (
-                        <>
-                        </>
-                    )}
-                
-                   
+                    <ShowInlineErrorMessage showErrorMessage={showErrorMessage}/>
                 <TableContainer display="flex">
                     <Table>
                         <TableCaption></TableCaption>

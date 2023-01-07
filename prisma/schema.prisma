@@ -337,6 +337,9 @@ model Notes {
   createdBy      Int?
   createdDate    DateTime  @default(now())
   lastUpdateDate DateTime  @default(now()) @updatedAt
+
+  @@index([type, typeId])
+  @@index([childId])
 }
 
 model AppConfig {

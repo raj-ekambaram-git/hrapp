@@ -28,6 +28,7 @@ import { ErrorMessage } from "../../constants/errorMessage";
 import { util } from "../../helpers/util";
 import { useDispatch } from "react-redux";
 import {setInvoiceEmailTo} from '../../store/modules/Invoice/actions';
+import { ShowInlineErrorMessage } from "../common/showInlineErrorMessage";
 
   
 const AddInvoiceEmailTo = (props) => {
@@ -72,14 +73,7 @@ const AddInvoiceEmailTo = (props) => {
                     <PopoverCloseButton />
                     <PopoverBody>
                         <Box>
-                            {showErrorMessage ? (
-                                <>
-                                <Text color="timesheet.entryError">{showErrorMessage}</Text>
-                                </>
-                            ) : (
-                                <>
-                                </>
-                            )}
+                            <ShowInlineErrorMessage showErrorMessage={showErrorMessage}/>
                         </Box>
                         <Table>
                             <Thead>

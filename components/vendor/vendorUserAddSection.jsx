@@ -32,6 +32,8 @@ import { ErrorMessage } from "../../constants/errorMessage";
 import { fetchUsersByAccount } from "../../store/modules/Account/actions";
 import { setVendorUsers, removeUserFromVendorByIndex } from "../../store/modules/Vendor/actions";
 import { userService } from "../../services";
+import { ShowInlineErrorMessage } from "../common/showInlineErrorMessage";
+
 
 
 const VendorUserAddSection = (props) => {
@@ -213,14 +215,7 @@ const VendorUserAddSection = (props) => {
                                   </TableContainer>
                                 </Box>
                                 <Box>
-                                  {showErrorMessage ? (
-                                      <>
-                                      <Text color="timesheet.entryError">{showErrorMessage}</Text>
-                                      </>
-                                  ) : (
-                                      <>
-                                      </>
-                                  )}
+                                  <ShowInlineErrorMessage showErrorMessage={showErrorMessage}/>
                                 </Box>                                    
                                 <Box>
                                 <FormControl isRequired>

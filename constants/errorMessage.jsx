@@ -5,4 +5,6 @@ export const ErrorMessage = {
   INVOICE_EMAIL_TO_FORM_ERROR: "Email is required and should be valid.",
   SELECT_VENDOR_REQUIRED: "Please select a vendor.",
   SELECT_USER_REQUIRED: "Please select an user.",
+  COMMENTS_REQUIRED: "Commers are required.",
+  
 }

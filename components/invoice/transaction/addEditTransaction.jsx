@@ -30,8 +30,9 @@ import { EMPTY_STRING } from "../../../constants/accountConstants";
 import { InvoiceConstants } from "../../../constants/invoiceConstants";
 import { ErrorMessage } from "../../../constants/errorMessage";
 import { invoiceService, userService } from "../../../services";
-import { useSelector } from "react-redux";
 import { util } from "../../../helpers/util";
+import { ShowInlineErrorMessage } from "../../common/showInlineErrorMessage";
+
   
 const AddEditTransaction = (props) => {
     const toast = useToast();
@@ -113,14 +114,7 @@ const AddEditTransaction = (props) => {
                     <PopoverCloseButton />
                     <PopoverBody>
                         <Box>
-                            {showErrorMessage ? (
-                                <>
-                                <Text color="timesheet.entryError">{showErrorMessage}</Text>
-                                </>
-                            ) : (
-                                <>
-                                </>
-                            )}
+                            <ShowInlineErrorMessage showErrorMessage={showErrorMessage}/>
                         </Box>
                         <Table>
                             <Thead>

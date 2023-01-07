@@ -59,6 +59,6 @@ export const resetNotesType = () => {
     console.log("resetNotesType::")
     return {
         type: ActionTypes.RESET_NOTES_TYPE,
-        payload: []
+        payload: {}
     }
 }

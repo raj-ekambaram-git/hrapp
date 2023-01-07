@@ -21,11 +21,12 @@ import ProjectStatusSection from "../../../../components/project/detail/projectS
 import ProjectTimesheets from "../../../../components/project/detail/projectTimesheets";
 import {PageMainHeader} from '../../../../components/common/pageMainHeader';
 import { NotesConstants } from "../../../../constants";
+import { useDispatch } from "react-redux";
 
 
 const ProjectDetail = (props) => {
   const projectId = props.data.projectId;
-  
+  const dispatch = useDispatch();
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure()
   
@@ -42,18 +43,19 @@ const ProjectDetail = (props) => {
 
   const navigateProjectEditPage = () => router.push("/account/project/"+project.id);
   const navigateProjectInvoicesPage = () => router.push("/account/project/"+project.id+"/invoices");
+  //To Enable Notes
+  const notesData = {
+    type: NotesConstants.NOTES_TYPE.Project,
+    typeId: parseInt(projectId),
+    typeName: project.name
+  }
 
   // set default input data
   useEffect(() => {
     getProjetDetails(projectId, userService.getAccountDetails().accountId);
   }, []);
 
-  //To Enable Notes
-  const notesData = {
-    type: NotesConstants.NOTES_TYPE.Project,
-    typeId: projectId,
-    notesTypeTitle: project.name
-  }
+
   const handleAddProjectResource = (e, vendorId, remainingBudget) => {
     console.log("handleAddProjectResource::::::"+JSON.stringify(e));
     console.log("remainingBudget::::::"+remainingBudget);

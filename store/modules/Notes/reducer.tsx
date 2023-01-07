@@ -1,9 +1,11 @@
 import { EMPTY_STRING } from "../../../constants/accountConstants";
+import { NotesConstants } from "../../../constants";
 import { ActionTypes } from "./constants";
+
 
 const initialState = {
     notesByTpe: [],
-    notesType: EMPTY_STRING
+    notesType: {}
 };
 
 const accountReducer = (state = initialState, {type, payload}) => {
@@ -31,11 +33,11 @@ const accountReducer = (state = initialState, {type, payload}) => {
         newState.notesType = payload;
     } else if(type === ActionTypes.GET_NOTES_BY_TYPE) {
         newState.notesType = payload;
-    } else if(type === ActionTypes.RESET_NOTES_BY_TYPE) {
-        newState.notesType = EMPTY_STRING;
+    } else if(type === ActionTypes.RESET_NOTES_TYPE) {
+        newState.notesType =  {};
     } 
 
-    console.log("accountReducer:::New State:::Before Return:::"+JSON.stringify(newState));
+    console.log("notesReducer:::New State:::Before Return:::"+JSON.stringify(newState));
     return newState;
 };
 
