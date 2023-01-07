@@ -89,29 +89,10 @@ import { util } from "../../helpers/util";
                                             </CardBody>
                                             <Divider/>
                                             <CardFooter>
-                                                {/* By {notes.createdUser.firstName} {notes.createdUser.lastName} on {util.getFormattedDateWithTime(notes.lastUpdateDate)} */}
+                                                By&nbsp;<b>{notes.createdUser?.firstName} {notes.createdUser?.lastName}</b>&nbsp;on&nbsp; <b>{util.getFormattedDateWithTime(notes.lastUpdateDate)}</b>
                                             </CardFooter>                                        
                                         </Card>
                                         ))}
-                                    {/* <Accordion>
-                                        {notesHistory?.map((notes) => (
-                                            <AccordionItem marginBottom="1rem" border="1px" width="100%">
-                                                <h2>
-                                                    <AccordionButton bgColor="table_tile">
-                                                        <Box as="span" flex='1' textAlign='left'>
-                                                            <Heading size='xs' textTransform='uppercase'>
-                                                                {notes.lastUpdateDate} -- {notes.notes.substring(0,10)}...
-                                                            </Heading>
-                                                        </Box>
-                                                        <AddIcon />
-                                                    </AccordionButton>
-                                                </h2>
-                                                <AccordionPanel pb={4}>
-                                                    <Notes data={{notes: notes}}></Notes>
-                                                </AccordionPanel>
-                                            </AccordionItem>
-                                        ))}
-                                    </Accordion>                     */}
                                 </Stack>
                                 </DrawerBody>
                                 </>

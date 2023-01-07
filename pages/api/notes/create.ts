@@ -22,6 +22,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         }
       }
     });
+    console.log("savedNotes::::"+JSON.stringify(savedNotes))
     res.status(200).json(savedNotes);
   } catch (error) {
     console.log(error)
