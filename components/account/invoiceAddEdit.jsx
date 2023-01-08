@@ -35,6 +35,7 @@ import InvoiceTransactions from "../invoice/transaction/invoiceTransactions";
 import {PageNotAuthorized} from '../../components/common/pageNotAuthorized';
 import {PageMainHeader} from '../../components/common/pageMainHeader';
 import InvoiceEmailTo from "../invoice/invoiceEmailTo";
+import { NotesConstants } from "../../constants";
 
 
 
@@ -79,7 +80,14 @@ const InvoiceAddEdit = (props) => {
   // get functions to build form with useForm() hook
   const { register, handleSubmit, setValue, formState } = useForm(formOptions);
   const { errors } = formState;
-
+  
+  //To Enable Notes
+  const notesData = {
+    type: NotesConstants.NOTES_TYPE.Invoice,
+    typeId: parseInt(invoiceId),
+    typeName: EMPTY_STRING
+  }
+  
 
   
   //Get Account Details only if its EditMode
@@ -320,7 +328,7 @@ const InvoiceAddEdit = (props) => {
           {isAddMode ? (
               <div>{isVendor? (<PageMainHeader heading="New Vendor Invoice"/>): (<PageMainHeader heading="New Account Invoice"/>)}</div>
           ) : (
-            <div>{isVendor? (<PageMainHeader heading="Update Vendor Invoice"/>): (<PageMainHeader heading="Update Account Invoice"/>)}</div>
+            <div>{isVendor? (<PageMainHeader heading="Update Vendor Invoice" notesData={notesData}/>): (<PageMainHeader heading="Update Account Invoice" notesData={notesData}/>)}</div>
           )}              
           <Flex>
           <Box width="page.sub_heading_width">
