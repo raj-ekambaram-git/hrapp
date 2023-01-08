@@ -6,7 +6,8 @@ export const NotesConstants = {
         'Invoice': 'Invoice',
         'Project': 'Project',
         'User': 'User',
-        "TimesheetEntry": "TimesheetEntry"
+        "TimesheetEntry": "TimesheetEntry",
+        "TimesheetApproval": "TimesheetApproval"
     },
     NOTES_MODE: {
         "Reply": "Reply",

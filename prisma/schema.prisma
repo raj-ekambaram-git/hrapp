@@ -505,6 +505,7 @@ enum NotesType {
   Project
   User
   TimesheetEntry
+  TimesheetApproval
 }
 
 enum ConfigStatus {
