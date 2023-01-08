@@ -29,6 +29,7 @@ import ManageVendors from "../user/vendor/manageVendors";
 import { useDispatch, useSelector } from "react-redux";
 import {fetchVendorsByAccount, resetVendorsByAccount} from '../../store/modules/Vendor/actions'
 import { resetUserVendors } from "../../store/modules/User/actions";
+import { NotesConstants } from "../../constants";
 
 
 
@@ -89,6 +90,13 @@ const UserAddEdit = (props) => {
   //Account Validation END
 
 
+  //To Enable Notes
+  const notesData = {
+    type: NotesConstants.NOTES_TYPE.User,
+    typeId: parseInt(userId),
+    typeName: user.firstName
+  }
+  
   //Get Account Details only if its EditMode
   useEffect(() => {
     //Reset Everything here
@@ -349,7 +357,7 @@ const UserAddEdit = (props) => {
           {isAddMode ? (
             <div>{isVendor?( <PageMainHeader heading="New Vendor User"/>):( <PageMainHeader heading="New Account User"/>)}</div>
           ) : (
-            <div>{isVendor? (<PageMainHeader heading="Update Vendor User"/>): (<PageMainHeader heading="Update Account User"/>)}</div>
+            <div>{isVendor? (<PageMainHeader heading="Update Vendor User" notesData={notesData}/>): (<PageMainHeader heading="Update Account User" notesData={notesData}/>)}</div>
           )}              
 
           <Box width="page.sub_heading_width">
