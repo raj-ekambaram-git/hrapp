@@ -65,6 +65,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           }
         },
         replies: {
+          orderBy: {
+            id: "desc"
+          },
           select: {
             repliesRelation:{
               select: {

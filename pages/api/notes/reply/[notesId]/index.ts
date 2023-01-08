@@ -16,7 +16,38 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         where: {
           id: reply.id,
         },
-        data: reply
+        data: reply,
+        include: {
+          createdUser: {
+            select: {
+              firstName: true,
+              lastName: true
+            }
+          },
+          replies: {
+            orderBy: {
+              id: "desc"
+            },
+            select: {
+              repliesRelation:{
+                select: {
+                  id: true
+                }
+              },
+              id: true,
+              type: true,
+              typeId: true,
+              notes: true,
+              lastUpdateDate: true,
+              createdUser: {
+                select: {
+                  firstName: true,
+                  lastName: true
+                }
+              }
+            }
+          }
+        }
       });
     console.log("savedReply::::"+JSON.stringify(savedReply))
     res.status(200).json(savedReply);

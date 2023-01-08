@@ -62,7 +62,8 @@ const replyDetails = definePartsStyle({
     borderRadius: 'lg',
     overflow: 'hidden', 
     border: "1px",
-    alignSelf: "right"
+    alignSelf: "right",
+    marginBottom: '1rem'
   },
   footer: {
     maxH: "5px",

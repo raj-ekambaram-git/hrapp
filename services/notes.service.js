@@ -1,6 +1,7 @@
 import getConfig from 'next/config';
 
 import { fetchWrapper } from 'helpers';
+import { NotesConstants } from '../constants';
 
 const { publicRuntimeConfig } = getConfig();
 const baseUrl = `${publicRuntimeConfig.apiUrl}`;
@@ -36,7 +37,7 @@ function createNotes(type, typeId, notes, createdBy) {
 
 function createReply(type, typeId, notes, createdBy, notesId) {
     const reply = {
-        type: type, typeId: typeId, notes: notes, createdBy: createdBy, mode: "Reply"
+        type: type, typeId: typeId, notes: notes, createdBy: createdBy, mode: NotesConstants.NOTES_MODE.Reply
     }
     return fetchWrapper.post(`${baseUrl}/notes/reply/`+notesId, {id:notesId, replies : {create: [reply]}})
         .then(notes => {

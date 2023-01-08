@@ -35,7 +35,7 @@ function NotesReplies(props) {
         if(replyValue != undefined && replyValue != EMPTY_STRING) {
             const responseData = await notesService.createReply(notesType?.type, notesType?.typeId, replyValue, userService.userValue?.id, noteId);
             if(!responseData.error) {
-                dispatch(setReplies(responseData));
+                dispatch(setReplies(responseData.replies));
             }else {
                 setShowErrorMessage(responseData.errorMessage)
             }
