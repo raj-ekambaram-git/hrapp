@@ -1,5 +1,5 @@
 
-import InvoiceList from "../../../../components/Invoice/InvoiceList";
+import InvoiceList from "../../../../components/invoice/invoiceList";
 import prisma from "../../../../lib/prisma";
 
 export default function VendorInvoices(props) {
