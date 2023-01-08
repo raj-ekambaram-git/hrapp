@@ -48,7 +48,7 @@ function NotesReplies(props) {
 
     return (
         <>
-            {selecteRepliesNote === noteId ? (<>
+            {(selecteRepliesNote === noteId) ? (<>
                 <Stack spacing={2} marginBottom={3} marginTop={4} marginLeft={12} marginRight={4}>
                     <ShowInlineErrorMessage showErrorMessage={showErrorMessage}/>
                     <Box border={1}>
@@ -58,6 +58,8 @@ function NotesReplies(props) {
                         <Button colorScheme='red' onClick={handleReplySubmit}>Reply</Button>   
                     </Box>            
                 </Stack>
+                </>) : (<></>)}
+                {(selecteRepliesNote === noteId && noteReplies?.length >0) ? (<>
                 <Card variant="replies"> 
                     <CardHeader>
                         Replies

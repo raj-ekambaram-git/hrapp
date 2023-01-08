@@ -32,9 +32,13 @@ function NoteFooter(props) {
                         By&nbsp;<b>{note.createdUser?.firstName} {note.createdUser?.lastName}</b>&nbsp;on&nbsp; <b>{util.getFormattedDateWithTime(note.lastUpdateDate)}</b>&nbsp;
                     </Box>
                     <Box>
+                        <Button bgColor="secondary_button" size='xs' onClick={handleReplySubmit}>
                             {note.replies?.length>0 ? (<>
-                                <Button bgColor="heading" size='xs' onClick={handleReplySubmit}><Text fontSize='15px'>Replies</Text></Button>
-                            </>) : (<></>)}
+                                <Text fontSize='15px'>Replies</Text>
+                            </>) : (<>
+                                <Text fontSize='15px'>Reply</Text>
+                            </>)}
+                        </Button>
                     </Box>
                 </HStack>
             </CardFooter>  

@@ -66,6 +66,7 @@ const theme = extendTheme({
     dollor_input: 'gray.300',
     black: '#16161D',
     heading: '#319795',
+    secondary_button: '#81E6D9',
     error: '#C53030',
     tooltip_bg_color: 'gray.300',
     tooltip_color: 'red',
