@@ -131,6 +131,9 @@ const VendorList = (props) => {
                                           Details
                                         </Button>
                                       </Link> */}
+                                    <Button className="btn" onClick={() => router.push(`/account/vendor/${vendor.id}/detail`)}>
+                                      Details
+                                    </Button>
                                       <Badge color={`${
                                           vendor.status === "Active"
                                             ? "paid_status"
