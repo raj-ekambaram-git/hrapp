@@ -39,7 +39,7 @@ export async function getStaticPaths() {
 
   return {
     paths: [{ params: { projectId: "1" } }],
-    fallback: true,
+    fallback: false,
   };
 
 } 

@@ -112,7 +112,7 @@ export async function getStaticPaths() {
 
   return {
     paths: [{ params: { accountId: "5" } }],
-    fallback: true,
+    fallback: false,
   };
 
 } 

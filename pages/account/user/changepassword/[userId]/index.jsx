@@ -3,8 +3,8 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import { Layout } from 'components/account';
-import { userService, alertService } from 'services';
-import {util} from '../../../helpers/util';
+import { userService } from 'services';
+import {util} from '../../../../../helpers/util';
 import {
     Card,
     CardHeader,
@@ -17,7 +17,7 @@ import {
     Button,
     useToast
   } from '@chakra-ui/react';
-import { EMPTY_STRING } from '../../../constants/accountConstants';
+import { EMPTY_STRING } from '../../../../../constants/accountConstants';
 
 
 export default ChangePassword;
@@ -25,13 +25,20 @@ export default ChangePassword;
 function ChangePassword(props) {
     const router = useRouter();
     const toast = useToast()
+    const userId = props.data.userId;
 
-    const userId = router.query.userId;
-    if(router.query.userId === undefined || router.query.userId === EMPTY_STRING) {
+    if(userId === undefined || userId=== EMPTY_STRING) {
         router.push({
             pathname: '/account/login'
         });
     }
+
+    // const userId = router.query.userId;
+    // if(router.query.userId === undefined || router.query.userId === EMPTY_STRING) {
+    //     router.push({
+    //         pathname: '/account/login'
+    //     });
+    // }
     // form validation rules 
     const validationSchema = Yup.object().shape({
         oldPassword: Yup.string().required('Old Password is required'),
@@ -124,3 +131,27 @@ function ChangePassword(props) {
 }
 
 
+
+export async function getStaticPaths() {
+
+    return {
+      paths: [{ params: { userId: "1" } }],
+      fallback: false,
+    };
+  
+  } 
+  
+  export async function getStaticProps(context) {
+    const { userId } = context.params;
+  
+    return {
+      props: {
+        data: {
+          userId: userId
+        }
+      },
+      revalidate: 1,
+    };
+  
+  }
+  

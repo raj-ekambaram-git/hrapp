@@ -1,7 +1,7 @@
 
 
 import { extendTheme } from '@chakra-ui/react';
-import {cardTheme, accordionTheme, buttonTheme, drawerTheme, popoverTheme, boxTheme} from '../components/styles';
+import {cardTheme, accordionTheme, buttonTheme, drawerTheme, popoverTheme, boxTheme} from '.';
 
 
 

@@ -245,8 +245,8 @@ export default VendorDetail;
 export async function getStaticPaths() {
 
   return {
-    paths: [{ params: { vendorId: "1" } }],
-    fallback: true,
+    paths: [{ params: { vendorId: "3" } }],
+    fallback: false,
   };
 
 } 

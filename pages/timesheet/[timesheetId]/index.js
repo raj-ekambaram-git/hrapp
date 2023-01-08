@@ -28,7 +28,7 @@ export async function getStaticPaths() {
 
   return {
     paths: [{ params: { timesheetId: "5" } }],
-    fallback: true,
+    fallback: false,
   };
 
 } 

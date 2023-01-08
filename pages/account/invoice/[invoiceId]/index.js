@@ -37,7 +37,7 @@ export async function getStaticPaths() {
 
   return {
     paths: [{ params: { invoiceId: "5" } }],
-    fallback: true,
+    fallback: false,
   };
 
 } 
