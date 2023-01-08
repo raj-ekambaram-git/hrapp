@@ -19,7 +19,7 @@ import {
 import { EMPTY_STRING } from "../../constants/accountConstants";
 import { notesService } from "../../services";
 import { useSelector, useDispatch } from "react-redux";
-import { setNotesByType,resetNotesByType, resetReplies } from "../../store/modules/Notes/actions";
+import { setNotesByType,resetNotesByType, resetReplies, resetRepliesSelectedNote } from "../../store/modules/Notes/actions";
 import AddEditNote from './addEditNote'
 import NoteFooter from './noteFooter';
 
@@ -41,6 +41,7 @@ import NoteFooter from './noteFooter';
     useEffect(() => {
         dispatch(resetNotesByType());
         dispatch(resetReplies());
+        dispatch(resetRepliesSelectedNote())
       }, []);
 
     async function getNotesHistory() {

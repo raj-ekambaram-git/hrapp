@@ -6,5 +6,6 @@ export const ErrorMessage = {
   SELECT_VENDOR_REQUIRED: "Please select a vendor.",
   SELECT_USER_REQUIRED: "Please select an user.",
   COMMENTS_REQUIRED: "Commers are required.",
+  REPLY_REQUIRED: "Reply required.",
   
 }

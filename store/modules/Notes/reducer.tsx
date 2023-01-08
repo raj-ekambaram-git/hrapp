@@ -6,10 +6,11 @@ import { ActionTypes } from "./constants";
 const initialState = {
     notesByTpe: [],
     notesType: {},
-    replies: []
+    replies: [],
+    selecteRepliesNote: null
 };
 
-const accountReducer = (state = initialState, {type, payload}) => {
+const notesReducer = (state = initialState, {type, payload}) => {
 
     const newState = {...state};
 
@@ -48,10 +49,16 @@ const accountReducer = (state = initialState, {type, payload}) => {
         newState.replies = payload;
     } else if(type === ActionTypes.RESET_REPLIES) {
         newState.replies =  [];
+    } else if(type === ActionTypes.SET_REPLIES_SELETED_NOTE) {
+        newState.selecteRepliesNote = payload;
+    } else if(type === ActionTypes.GET_REPLIES_SELETED_NOTE) {
+        newState.selecteRepliesNote = payload;
+    } else if(type === ActionTypes.RESET_REPLIES_SELETED_NOTE) {
+        newState.selecteRepliesNote =  null;
     } 
 
     console.log("notesReducer:::New State:::Before Return:::"+JSON.stringify(newState));
     return newState;
 };
 
-export default accountReducer;
+export default notesReducer;

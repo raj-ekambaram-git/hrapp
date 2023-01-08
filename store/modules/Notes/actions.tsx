@@ -86,3 +86,28 @@ export const resetReplies = () => {
         payload: []
     }
 }
+
+
+export const setRepliesSelectedNote = (selecteRepliesNote) => {
+    console.log("setRepliesSelectedNote::::ACTIONS:::"+JSON.stringify(selecteRepliesNote));
+    return {
+        type: ActionTypes.SET_REPLIES_SELETED_NOTE,
+        payload: selecteRepliesNote
+    }
+}
+
+export const getRepliesSelectedNote = (selecteRepliesNote) => {
+    console.log("getRepliesSelectedNote::::ACTIONS:::"+JSON.stringify(selecteRepliesNote));
+    return {
+        type: ActionTypes.GET_REPLIES_SELETED_NOTE,
+        payload: selecteRepliesNote
+    }
+}
+
+export const resetRepliesSelectedNote = () => {
+    console.log("resetRepliesSelectedNote::")
+    return {
+        type: ActionTypes.RESET_REPLIES_SELETED_NOTE,
+        payload: null
+    }
+}

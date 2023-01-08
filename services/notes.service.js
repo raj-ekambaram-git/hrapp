@@ -8,7 +8,8 @@ const baseUrl = `${publicRuntimeConfig.apiUrl}`;
 export const notesService = {
 
     getNotesHistory,
-    createNotes
+    createNotes,
+    createReply
     
 };
 

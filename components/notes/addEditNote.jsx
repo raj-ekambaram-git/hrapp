@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 import {
     Button,
@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { notesService, userService } from "../../services";
 import { ErrorMessage } from "../../constants/errorMessage";
 import { setNotesByType } from "../../store/modules/Notes/actions";
-
+import { ShowInlineErrorMessage } from "../common/showInlineErrorMessage";
 
 const AddEditNote = (props) => {
     const dispatch = useDispatch();
@@ -41,6 +41,7 @@ const AddEditNote = (props) => {
     return (
         <>
         <Stack spacing={5} marginBottom={6}>
+            <ShowInlineErrorMessage showErrorMessage={showErrorMessage}/>
             <Box border={1}>
                 <Textarea border='1px' value={note} onChange={(ev) => setNote(ev.target.value)} placeholder="Add Comment"/>     
             </Box>

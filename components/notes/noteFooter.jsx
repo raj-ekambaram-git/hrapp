@@ -9,9 +9,8 @@ import {
    HStack,
   } from '@chakra-ui/react';
 import { useDispatch } from "react-redux";
-import { setReplies, resetReplies } from "../../store/modules/Notes/actions";
+import { setReplies, resetReplies, setRepliesSelectedNote, resetRepliesSelectedNote } from "../../store/modules/Notes/actions";
 import NotesReplies from './notesReplies';
-import Link from "next/link";
 
 
 function NoteFooter(props) {
@@ -20,7 +19,9 @@ function NoteFooter(props) {
 
     async function handleReplySubmit() {
         dispatch(resetReplies())
+        dispatch(resetRepliesSelectedNote())
         dispatch(setReplies(note.replies))
+        dispatch(setRepliesSelectedNote(note.id))
     }
 
     return (
@@ -38,6 +39,7 @@ function NoteFooter(props) {
                 </HStack>
             </CardFooter>  
             <NotesReplies noteId={note.id}/>
+            
         </>
     );
 };
