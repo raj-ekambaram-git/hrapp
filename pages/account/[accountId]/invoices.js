@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import prisma from "../../../lib/prisma";
-import InvoiceList from "../../../components/Invoice/InvoiceList";
+import InvoiceList from "../../../components/invoice/invoiceList";
 
 export default function Home(props) {
   const { data } = props;
