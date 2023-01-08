@@ -75,6 +75,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             type: true,
             typeId: true,
             notes: true,
+            lastUpdateDate: true,
             createdUser: {
               select: {
                 firstName: true,

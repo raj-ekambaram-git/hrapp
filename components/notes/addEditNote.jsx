@@ -2,15 +2,6 @@ import React, { useState, useEffect } from "react";
 
 import {
     Button,
-    Popover,
-    PopoverTrigger,
-    PopoverContent,
-    PopoverHeader,
-    PopoverArrow,
-    PopoverCloseButton,
-    PopoverBody,
-    PopoverFooter,
-    ButtonGroup,
     Box,
     useDisclosure,
     Textarea,
@@ -20,7 +11,6 @@ import { EMPTY_STRING } from "../../constants/accountConstants";
 import { useDispatch, useSelector } from "react-redux";
 import { notesService, userService } from "../../services";
 import { ErrorMessage } from "../../constants/errorMessage";
-import { ShowInlineErrorMessage } from "../../components/common/showInlineErrorMessage";
 import { setNotesByType } from "../../store/modules/Notes/actions";
 
 

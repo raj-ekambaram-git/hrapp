@@ -23,13 +23,22 @@ const comment = definePartsStyle({
 })
 
 const replies = definePartsStyle({
+  header: {
+    bgColor: '#E6FFFA',
+    border: '1px',
+    fontSize: '12px',
+    fontWeight: 'bold'
+  },
   container: {
-    alignContent: 'center',
-    width: '80%',
+    marginTop: '1rem',
+    marginBottom: '1rem',
+    marginLeft: '3rem',
+    width: '90%',
     borderWidth: '1px',
     borderRadius: 'lg',
     overflow: 'hidden', 
     border: "1px",
+    alignSelf: "right"
     
   },
   footer: {
