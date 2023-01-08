@@ -126,11 +126,11 @@ const VendorList = (props) => {
                                   </Th>
                                   <Th>
                                     <HStack>
-                                      <Link href={`/account/vendor/${vendor.id}/detail`} passref key={vendor.id}>
+                                      {/* <Link href={`/account/vendor/${vendor.id}/detail`} passref key={vendor.id}>
                                         <Button className="btn">
                                           Details
                                         </Button>
-                                      </Link>
+                                      </Link> */}
                                       <Badge color={`${
                                           vendor.status === "Active"
                                             ? "paid_status"
