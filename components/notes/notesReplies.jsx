@@ -48,6 +48,7 @@ function NotesReplies(props) {
 
     return (
         <>
+            ====={selecteRepliesNote}+++
             {selecteRepliesNote === noteId ? (<>
                 <Stack spacing={2} marginBottom={3} marginTop={4} marginLeft={12} marginRight={4}>
                     <ShowInlineErrorMessage showErrorMessage={showErrorMessage}/>

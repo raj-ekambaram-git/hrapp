@@ -54,6 +54,7 @@ const notesReducer = (state = initialState, {type, payload}) => {
     } else if(type === ActionTypes.GET_REPLIES_SELETED_NOTE) {
         newState.selecteRepliesNote = payload;
     } else if(type === ActionTypes.RESET_REPLIES_SELETED_NOTE) {
+        console.log("resettingninignngis")
         newState.selecteRepliesNote =  null;
     } 
 

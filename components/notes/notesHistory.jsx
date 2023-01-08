@@ -52,8 +52,11 @@ import NoteFooter from './noteFooter';
     const handleClick = (newSize) => {
         if(notesType?.typeId != undefined && notesType?.typeId != EMPTY_STRING) {
             dispatch(resetReplies());
+            dispatch(resetNotesByType());
+            dispatch(resetRepliesSelectedNote())
             getNotesHistory();
             setDisplayNotes(true);  
+            
         }
         setSize(newSize)
         onOpen()
