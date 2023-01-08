@@ -105,7 +105,7 @@ export const ACCOUNT_VALIDATION_SCHEMA = Yup.object().shape({
 
   });   
   
-  export const USER_ROLES = [
+  export const USER_ROLES_LOOKUP = [
     {
       roleID: "ACCOUNT_ADMIN",
       roleName: "Account Admin"

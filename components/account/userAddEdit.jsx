@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { util } from '../../helpers';
 import { accountService, userService } from "../../services";
-import {MODE_ADD, USER_VALIDATION_SCHEMA, USER_ROLES, USER_ROLES_SUPERADMIN} from "../../constants/accountConstants";
+import {MODE_ADD, USER_VALIDATION_SCHEMA, USER_ROLES_SUPERADMIN, USER_ROLES_LOOKUP} from "../../constants/accountConstants";
 import {US_STATES} from "../../constants/commonConstants";
 import {
   HStack,
@@ -463,7 +463,7 @@ const UserAddEdit = (props) => {
                                 </>
                               ) : (
                                 <>
-                                  {USER_ROLES?.map((userRole) => (
+                                  {USER_ROLES_LOOKUP?.map((userRole) => (
                                         <option value={userRole.roleID}>{userRole.roleName}</option>
                                   ))}                                
                                 </>
