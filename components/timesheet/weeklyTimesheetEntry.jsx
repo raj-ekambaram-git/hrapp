@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import {EMPTY_STRING, TIMESHEET_STATUS, MODE_ADD,TIMESHEET_ENTRY_DEFAULT, NOTES_TYPE} from "../../constants/accountConstants";
+import {EMPTY_STRING, TIMESHEET_STATUS,TIMESHEET_ENTRY_DEFAULT} from "../../constants/accountConstants";
 import { userService, timesheetService } from "../../services";
 import {
     HStack,
@@ -27,6 +27,7 @@ import { useDispatch } from "react-redux";
 import {setTSEntries} from '../../store/modules/Timesheet/actions';
 import { util } from "../../helpers/util";
 import { GiConsoleController } from "react-icons/gi";
+import { NotesConstants } from "../../constants";
 
 
   
@@ -289,7 +290,7 @@ const WeeklyTimesheetEntry = (props) => {
                                         {!isAddMode ? (
                                             <>
                                                 <Box>
-                                                    <NotesHistory data={{notesType: NOTES_TYPE.Timesheet, notesTypeId: props.data.timesheetId, notesTypeTitle: timesheetData.name}}></NotesHistory>
+                                                    <NotesHistory data={{notesType: NotesConstants.NOTES_TYPE.Timesheet, notesTypeId: props.data.timesheetId, notesTypeTitle: timesheetData.name}}></NotesHistory>
                                                 </Box>                                        
                                             </>
                                         ) : (

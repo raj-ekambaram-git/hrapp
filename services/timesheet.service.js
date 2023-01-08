@@ -2,11 +2,12 @@ import getConfig from 'next/config';
 import Router from 'next/router';
 
 import { fetchWrapper } from 'helpers';
-import { EMPTY_STRING, NOTES_TYPE } from '../constants/accountConstants';
+import { EMPTY_STRING } from '../constants/accountConstants';
 import { userService } from './user.service';
 import { notesService } from './notes.service';
 import { projectService } from './project.service';
 import { util } from '../helpers/util';
+import { NotesConstants } from '../constants';
 
 const { publicRuntimeConfig } = getConfig();
 const baseUrl = `${publicRuntimeConfig.apiUrl}`;
@@ -91,7 +92,7 @@ async function updateTimesheetEntry(timesheetEntryId, status, timesheetNote) {
         //Timesheet entry happened, now add the notes
         if(data.message === undefined && timesheetNote != undefined && timesheetNote != EMPTY_STRING) {
           //Create Notes
-          const createdNotes = notesService.createNotes(NOTES_TYPE.TimesheetEntry, timesheetEntryId, timesheetNote, userService.userValue?.id);
+          const createdNotes = notesService.createNotes(NotesConstants.NOTES_TYPE.TimesheetEntry, timesheetEntryId, timesheetNote, userService.userValue?.id);
           if(createdNotes.error) {
             return {error: createdNotes.errorMessage};
           }
