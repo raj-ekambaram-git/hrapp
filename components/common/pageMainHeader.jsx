@@ -38,7 +38,7 @@ function PageMainHeader(props) {
             >
             <Heading size='md'>{heading} {param1}</Heading>
             <Box color="black">
-                <NotesHistory></NotesHistory>
+                <NotesHistory/>
             </Box>                                        
             </Flex>       
 

@@ -2,16 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { accountService, userService } from "../../../services";
 import {
-  Card,
-  CardHeader,
-  Box,
-  Heading,
-  CardBody,
   Stack,
-  StackDivider,
   Flex,
-  HStack,
-  Button,
   Accordion
 } from '@chakra-ui/react';
 import AccountDetailSection from "../../../components/account/detail/accountDetailSection";
@@ -22,6 +14,7 @@ import AccountStatusSection from "../../../components/account/detail/accountStat
 import AccountActionsSection from "../../../components/account/detail/accountActionsSection";
 import {PageMainHeader} from '../../../components/common/pageMainHeader';
 import {PageNotAuthorized} from '../../../components/common/pageNotAuthorized';
+import { NotesConstants } from "../../../constants";
 
 
 
@@ -36,6 +29,13 @@ const AccountDetail = (props) => {
   const navigateManageVendorsPage = () => router.push("/account/"+account.id+"/vendors");
   const navigateManageAccounts = () => router.push("/accounts");
   
+    //To Enable Notes
+    const notesData = {
+      type: NotesConstants.NOTES_TYPE.Account,
+      typeId: parseInt(accountId),
+      typeName: account.name
+    }
+
   const actionItems = {
     navigateEditPage: navigateEditPage,
     navigateManageAccountUsersPage: navigateManageAccountUsersPage,
@@ -82,7 +82,7 @@ const AccountDetail = (props) => {
     <div>
       {isPageAuthprized ? (
         <>
-        <PageMainHeader heading="Account Details for" param1={account.name}/>
+        <PageMainHeader heading="Account Details for" param1={account.name} notesData={notesData}/>
         <Flex>
             <Stack width="page.sub_heading_width">
               <Accordion>

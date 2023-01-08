@@ -42,9 +42,11 @@ import NoteFooter from './noteFooter';
         dispatch(resetNotesByType());
         dispatch(resetReplies());
         dispatch(resetRepliesSelectedNote())
+        setDisplayNotes(true);  
       }, []);
 
     async function getNotesHistory() {
+        console.log("Dsddss")
         const notesHistoryResponse = await notesService.getNotesHistory(notesType?.type, notesType?.typeId);
         console.log("notesHistoryResponse:::"+JSON.stringify(notesHistoryResponse));
         dispatch(setNotesByType(notesHistoryResponse))

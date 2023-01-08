@@ -501,6 +501,7 @@ enum NotesType {
   Timesheet
   Account
   Invoice
+  Vendor
   Project
   User
   TimesheetEntry

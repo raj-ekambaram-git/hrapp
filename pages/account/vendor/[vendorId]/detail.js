@@ -24,7 +24,10 @@ import VendorProjectsSection from "../../../../components/vendor/detail/vendorPr
 import VendorUserAddSection from "../../../../components/vendor/vendorUserAddSection";
 import { useDispatch, useSelector } from "react-redux";
 import { resetVendorUsers, setVendorUsers } from "../../../../store/modules/Vendor/actions";
-import { fetchUsersByAccount, resetUsersByAccount} from "../../../../store/modules/Account/actions";
+import { NotesConstants } from "../../../../constants";
+import NotesHistory from "../../../../components/notes/notesHistory";
+import { resetUsersByAccount } from "../../../../store/modules/Account/actions";
+
 
 
 
@@ -56,6 +59,14 @@ const VendorDetail = (props) => {
     onClose: onClose,
     modalRequest: true
   }
+
+    //To Enable Notes
+    const notesData = {
+      type: NotesConstants.NOTES_TYPE.Vendor,
+      typeId: parseInt(vendorId),
+      typeName: vendor.name
+    }
+
 
   // set default input data
   useEffect(() => {
@@ -146,6 +157,7 @@ const VendorDetail = (props) => {
             <Heading size='md'>Vendor Details for {vendor.name}</Heading>
             <Box alignItems='right'>
               <HStack>
+                  <NotesHistory/>
                   <VendorUserAddSection data={{vendorId: vendorId, vendorName: vendor.name}}/>
                   <ProjectAddEditSection data={createProjectRequestData}></ProjectAddEditSection>                  
               </HStack>                  
