@@ -123,7 +123,7 @@ const VendorList = (props) => {
                                   </Th>  
                                   <Th>
                                     {vendor.createdDate}
-                                  </Th>
+                                  </Th> 
                                   <Th>
                                     <HStack>
                                       {/* <Link href={`/account/vendor/${vendor.id}/detail`} passref key={vendor.id}>
