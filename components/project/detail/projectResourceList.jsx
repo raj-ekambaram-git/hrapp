@@ -20,7 +20,7 @@ import {
 import {
   DeleteIcon
 } from '@chakra-ui/icons';
-import AddProjectResource from "../addProjectResource";
+import AddProjectResource from "../addProjectResourceSection";
 import EditProjectResource from "../editProjectResource";
 import { projectService } from "../../../services";
 
