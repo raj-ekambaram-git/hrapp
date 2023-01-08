@@ -111,7 +111,7 @@ export default AccountDetail;
 export async function getStaticPaths() {
 
   return {
-    paths: [{ params: { accountId: "5" } }],
+    paths: [{ params: { accountId: "0" } }],
     fallback: false,
   };
 

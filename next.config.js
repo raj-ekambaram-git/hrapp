@@ -6,7 +6,7 @@ module.exports = {
   publicRuntimeConfig: {
       apiUrl: process.env.NODE_ENV === 'development'
           ? 'http://localhost:3000/api' // development api
-          : 'http://3egsck5pqq.us-east-1.awsapprunner.com:3000/api' // production api
+          : 'http://3egsck5pqq.us-east-1.awsapprunner.com/api' // production api
   },
   eslint: {
     // Warning: This allows production builds to successfully complete even if
