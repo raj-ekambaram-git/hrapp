@@ -67,7 +67,7 @@ import NoteFooter from './noteFooter';
     return (
         <div>
             {(notesType?.type != undefined && notesType?.typeId != undefined) ? (<>
-                <Button
+                <Button size="xs"
                     onClick={() => handleClick("lg")}
                     key="lg"
                     m={1}

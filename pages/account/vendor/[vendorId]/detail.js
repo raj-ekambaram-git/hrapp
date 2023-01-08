@@ -27,6 +27,7 @@ import { resetVendorUsers, setVendorUsers } from "../../../../store/modules/Vend
 import { NotesConstants } from "../../../../constants";
 import NotesHistory from "../../../../components/notes/notesHistory";
 import { resetUsersByAccount } from "../../../../store/modules/Account/actions";
+import { resetNotesType, setNotesType } from "../../../../store/modules/Notes/actions";
 
 
 
@@ -72,7 +73,9 @@ const VendorDetail = (props) => {
   useEffect(() => {
     dispatch(resetVendorUsers());
     dispatch(resetUsersByAccount());
+    dispatch(resetNotesType())
     getVendorDetails(vendorId, userService.getAccountDetails().accountId);
+    dispatch(setNotesType(notesData));
   }, []);
 
 
@@ -157,7 +160,9 @@ const VendorDetail = (props) => {
             <Heading size='md'>Vendor Details for {vendor.name}</Heading>
             <Box alignItems='right'>
               <HStack>
-                  <NotesHistory/>
+                  <Box color="black">
+                    <NotesHistory/>
+                  </Box>
                   <VendorUserAddSection data={{vendorId: vendorId, vendorName: vendor.name}}/>
                   <ProjectAddEditSection data={createProjectRequestData}></ProjectAddEditSection>                  
               </HStack>                  
