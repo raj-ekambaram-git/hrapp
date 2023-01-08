@@ -69,8 +69,6 @@ import NoteFooter from './noteFooter';
             {(notesType?.type != undefined && notesType?.typeId != undefined) ? (<>
                 <Button size="xs"
                     onClick={() => handleClick("lg")}
-                    key="lg"
-                    m={1}
                     >{`Comments`}
                 </Button>
                 <Drawer onClose={onClose} isOpen={isOpen} size={size}>
