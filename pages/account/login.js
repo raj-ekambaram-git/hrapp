@@ -84,7 +84,7 @@ function Login() {
                             <div className="invalid-feedback">{errors.password?.message}</div>
                         </div>
                         <HStack spacing={4}>
-                            <Button className="btn" type="submit" disabled={formState.isSubmitting} width="button.login.widht" bgColor="button.primary.color">
+                            <Button type="submit" disabled={formState.isSubmitting} width="button.login.widht" bgColor="button.primary.color">
                                 {formState.isSubmitting && <span className="spinner-border spinner-border-sm mr-1"></span>}
                                 Login
                             </Button>
