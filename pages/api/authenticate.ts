@@ -71,7 +71,7 @@ async function hasAccess(result, res, user) {
     });
 
     // // create a jwt token that is valid for 7 days
-    const authToken = jwt.sign({ sub: user.email+"_"+user.accountId}, serverRuntimeConfig.secret, { expiresIn: '1d' }); // TODO: Expiration dates from Config Values
+    const authToken = jwt.sign({ sub: user.email+"_"+user.accountId+"_"+serverRuntimeConfig.clientId}, serverRuntimeConfig.secret, { expiresIn: '1d' }); // TODO: Expiration dates from Config Values
     const accountToken = jwt.sign({ sub: user.accountId }, serverRuntimeConfig.secret, { expiresIn: '1d' }); // TODO: Expiration dates from Config Values
     // return basic user details and token
     return res.status(200).json({

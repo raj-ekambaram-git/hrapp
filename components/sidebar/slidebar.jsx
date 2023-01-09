@@ -34,7 +34,7 @@ const Slidebar = (props) => {
   return (
     <div className={styles.main}>
 
-      {userService.isAuthenticated() ? (
+      {userService.userValue ? (
         <>
           <div className={styles.navbar}>
 

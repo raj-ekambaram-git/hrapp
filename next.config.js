@@ -1,7 +1,8 @@
 module.exports = {
   reactStrictMode: false,
   serverRuntimeConfig: {
-      secret: '123456789'
+      secret: '123456789',
+      clientId: '11122'
   },
   publicRuntimeConfig: {
       apiUrl: process.env.NODE_ENV === 'development'

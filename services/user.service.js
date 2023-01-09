@@ -1,6 +1,5 @@
 import { BehaviorSubject } from 'rxjs';
 import getConfig from 'next/config';
-import Router from 'next/router';
 import {UserConstants} from "../constants/userConstants";
 import jwtDecode from 'jwt-decode';
 
@@ -8,6 +7,8 @@ import { fetchWrapper } from 'helpers';
 import { EMPTY_STRING } from '../constants/accountConstants';
 
 const { publicRuntimeConfig } = getConfig();
+const { serverRuntimeConfig } = getConfig();
+
 const baseUrl = `${publicRuntimeConfig.apiUrl}`;
 const userSubject = new BehaviorSubject(process.browser && JSON.parse(localStorage.getItem('user')));
 
@@ -90,7 +91,9 @@ function isAuthenticated() {
 
 function isUserNameValidAgainstToken() {
     const userNameValue = jwtDecode(userSubject.value?.authToken).sub;
-    if(userSubject.value?.username+"_"+userSubject.value?.accountId === userNameValue) {
+    console.log("getConfig():::"+JSON.stringify(getConfig() ))
+    console.log("userNameValue::"+JSON.stringify(serverRuntimeConfig.clientId))
+    if(userSubject.value?.username+"_"+userSubject.value?.accountId+"_"+serverRuntimeConfig.clientId === userNameValue) {
         return true;
     }else {
         return false;
