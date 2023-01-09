@@ -39,7 +39,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
               timesheetEntry: {
                 select: {
                   id: true,
-                  status: true
+                  status: true,
+                  entries: true,
+                  unitPrice: true
                 }
               },
               fromDate: true,
@@ -61,7 +63,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           }
         }
       })
-      
+        console.log("invoices::::"+JSON.stringify(invoices))
         res.status(200).json(invoices[0]);
   
     } else if (invoiceId != "" && invoiceId != undefined && accountId != "" && accountId != undefined && accountId == "NaN") {

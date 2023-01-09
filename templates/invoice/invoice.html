@@ -143,8 +143,12 @@
 
               <td>
                 JackBoys Inc.<br>
-                {{customerName}}<br>
+                {{customerName.name}} --- {{customerName.age}} --- {{customerName.items}}<br>
                 example@example.com
+adad
+                {{#each customerName.items}}
+                    {{name}}--OOO
+                {{/each}}
               </td>
             </tr>
           </table>

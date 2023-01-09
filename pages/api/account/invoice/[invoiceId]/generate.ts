@@ -8,7 +8,7 @@ export default async (req, res) => {
   // and also set a default name with the logical operator
   console.log("GEnerate Invoice ::"+JSON.stringify(req.body))
   // const { name } = JSON.parse(req.body);
-  const customerName = 'Raj Ekambaram';
+  const customerName = {name: "RRRR", age: "24", items: [{name: "111"}, {name: "222"}]};
 
   try {
     // read our invoice-template.html file using node fs module
