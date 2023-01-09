@@ -4,7 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import { Layout } from 'components/account';
 import { userService } from 'services';
-import {util} from '../../../../../helpers/util';
+import {util} from '../../../../helpers/util';
 import {
     Card,
     CardHeader,
@@ -17,7 +17,7 @@ import {
     Button,
     useToast
   } from '@chakra-ui/react';
-import { EMPTY_STRING } from '../../../../../constants/accountConstants';
+import { EMPTY_STRING } from '../../../../constants/accountConstants';
 
 
 export default ChangePassword;
