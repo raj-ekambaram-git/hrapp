@@ -4,6 +4,8 @@ import { ActionTypes } from "./constants";
 
 const initialState = {
     userVendors: [],
+    selectedUserId: null,
+    loggedInUser: null
 
 };
 
@@ -34,7 +36,13 @@ const userReducer = (state = initialState, {type, payload}) => {
         const newUserVendors = [...newState.userVendors];
         newUserVendors.splice(payload, 1);
         newState.userVendors = newUserVendors;
-    }
+    } else if(type === ActionTypes.SET_LOGGED_IN_USER) {
+        newState.loggedInUser = payload;
+    } else if(type === ActionTypes.SET_SELECTED_USER_ID) {
+        newState.selectedUserId = payload;
+    } else if(type === ActionTypes.REMOVE_LOGGED_IN_USER) {
+        newState.loggedInUser = null;
+    } 
     
     console.log("userReducer:::New State:::Before Return:::"+JSON.stringify(newState));
     return newState;

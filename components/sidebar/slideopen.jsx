@@ -54,14 +54,14 @@ const Slideopen = () => {
           ) : (
             <>
             <Tooltip label="Vendors " placement='right' color='white' hasArrow bg="red" maxWidth={tooltip_style.maxWidth} backgroundColor={tooltip_style.bgColor}> 
-              <Link href={`/account/${userService.getAccountDetails().accountId}/vendors`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
+              <Link href={`/account/vendors`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
                 <div>
                   <BiGridAlt  className={styles.icons1}/>
                 </div>
               </Link>
             </Tooltip>            
             <Tooltip label="Users" placement='right' color={tooltip_style.color} hasArrow maxWidth={tooltip_style.maxWidth} backgroundColor={tooltip_style.bgColor}>
-              <Link href={`/account/${userService.getAccountDetails().accountId}/users`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
+              <Link href={`/account/users`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
                 <div>
                   <FiUsers  className={styles.icons1}/>
                   
@@ -69,14 +69,14 @@ const Slideopen = () => {
               </Link>
             </Tooltip>
             <Tooltip label="Invoices" placement='right' color={tooltip_style.color} hasArrow maxWidth={tooltip_style.maxWidth} backgroundColor={tooltip_style.bgColor}>            
-              <Link href={`/account/${userService.getAccountDetails().accountId}/invoices`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
+              <Link href={`/account/invoices`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
                 <div>
                   <FaFileInvoiceDollar  className={styles.icons1}/>
                 </div>
               </Link>   
             </Tooltip>
             <Tooltip label="Projects" placement='right' color={tooltip_style.color} hasArrow maxWidth={tooltip_style.maxWidth} backgroundColor={tooltip_style.bgColor}>
-              <Link href={`/account/${userService.getAccountDetails().accountId}/projects`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
+              <Link href={`/account/projects`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
                 <div>
                   <GrProjects  className={styles.icons1}/>
                 </div>
@@ -86,7 +86,7 @@ const Slideopen = () => {
               {userService.userValue ? (
                 <>
                   <Tooltip label="Timesheets" placement='right' color={tooltip_style.color} hasArrow maxWidth={tooltip_style.maxWidth} backgroundColor={tooltip_style.bgColor}>
-                    <Link href={`/account/user/${userService.userValue.id}/timesheets`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
+                    <Link href={`/account/user/timesheets`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
                       <div>
                         <VscCalendar  className={styles.icons1}/>
                       </div>

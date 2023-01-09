@@ -1,5 +1,5 @@
 import UserAddEdit from "../../../components/account/userAddEdit";
-import {MODE_ADD} from "../../../constants/accountConstants";
+import {EMPTY_STRING, MODE_ADD} from "../../../constants/accountConstants";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 
@@ -14,7 +14,7 @@ const AddNewUser = (props) => {
 
 const requestData = {
   mode: MODE_ADD,
-  userId: "",
+  userId: EMPTY_STRING,
   isVendor: isVendor
 }
 

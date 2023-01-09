@@ -1,4 +1,4 @@
-import Link from "next/link";
+
 import {
   Tr,
   Th,
@@ -6,9 +6,23 @@ import {
   Button,
   Badge
   } from '@chakra-ui/react'
+import { useRouter } from 'next/router';
+import { useDispatch } from 'react-redux';
 import { USER_ROLE_DESC } from "../../constants/accountConstants";
+import { setSelectedUserId } from '../../store/modules/User/actions';
+
+
 
 function UserListForAccount(props) {
+  const dispatch = useDispatch();
+  const router = useRouter();
+
+  function handleUserEditSelection(userId){
+    dispatch(setSelectedUserId(userId))
+    router.push("/account/user/edit");
+
+  }
+
   const usersList = props.usersList;
     return (
         <>
@@ -42,11 +56,9 @@ function UserListForAccount(props) {
               </Th>
               <Th>
                 <HStack>
-                  <Link href={`/account/user/${user.id}`} passref key={user.id}>
-                    <Button className="btn">
-                      Details
-                    </Button>
-                  </Link>
+                  <Button onClick={() => handleUserEditSelection(user.id)}>
+                    Edit
+                  </Button>                  
                   <Badge color={`${
                       user.status === "Active"
                         ? "paid_status"

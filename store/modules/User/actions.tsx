@@ -51,3 +51,25 @@ export const removeUserVendorByIndex = (userVendorIndex) => {
     }
 }
 
+export const setLoggedInUser = (user) => {
+    console.log("setLoggedInUser::::ACTIONS:::"+JSON.stringify(user));
+    return {
+        type: ActionTypes.SET_LOGGED_IN_USER,
+        payload: user
+    }
+}
+
+export const setSelectedUserId = (selectedUserId) => {
+    console.log("setSelectedUserId::::ACTIONS:::"+JSON.stringify(selectedUserId));
+    return {
+        type: ActionTypes.SET_SELECTED_USER_ID,
+        payload: selectedUserId
+    }
+}
+
+export const removeLoggedInUser = () => {
+    return {
+        type: ActionTypes.REMOVE_LOGGED_IN_USER,
+        payload: null
+    }
+}

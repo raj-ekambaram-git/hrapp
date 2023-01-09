@@ -12,19 +12,20 @@ import {
     CardBody,
     Stack,
     StackDivider,
-    Badge,
-    Flex,
     HStack,
     Button,
-    useDisclosure,
-    Accordion,
   
   } from '@chakra-ui/react';
 import UserResetPassword from '../../components/user/userResetPassword';
+import { useDispatch } from 'react-redux';
+import {setSelectedAccountId} from '../../store/modules/Account/actions'
+import {setLoggedInUser} from '../../store/modules/User/actions'
 
 export default Login;
 
+
 function Login() {
+    const dispatch = useDispatch();
     const router = useRouter();
 
     // form validation rules 
@@ -47,6 +48,8 @@ function Login() {
                     // Forward to Change Password Page now as passsword is expired
                     router.push("/account/user/changepassword/"+user.id);
                 }else {
+                    dispatch(setSelectedAccountId(user.accountId))
+                    dispatch(setLoggedInUser(user))
                     // get return url from query parameters or default to '/'
                     const returnUrl = router.query.returnUrl || '/';
                     router.push(returnUrl);

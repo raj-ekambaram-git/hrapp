@@ -1,4 +1,5 @@
-import InvoiceList from "../../../components/invoice/invoiceList";
+import { useSelector } from "react-redux";
+import InvoiceList from "../../components/invoice/invoiceList";
 
 export default function Home(props) {
   const accountId = useSelector(state => state.account.selectedAccountId);

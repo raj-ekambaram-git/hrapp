@@ -238,7 +238,7 @@ const UserAddEdit = (props) => {
           }), 
         });
         const data = await res.json();
-        router.push("/account/"+userService.getAccountDetails().accountId+"/users");
+        router.push("/account/users");
         toast({
           title: 'Add New User.',
           description: 'Successfully added new user.',
@@ -323,7 +323,7 @@ const UserAddEdit = (props) => {
       });
 
       const data = await res.json();
-      router.push("/account/"+userService.getAccountDetails().accountId+"/users");
+      router.push("/account/users");
       toast({
         title: 'Update User.',
         description: 'Successfully updated user.',

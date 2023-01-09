@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { accountService, userService } from '../../../../services';
+import { accountService, userService } from '../../../services';
 import {
   Card,
   CardHeader,
@@ -14,17 +14,18 @@ import {
   Accordion,
 
 } from '@chakra-ui/react'
-import UserDetailSection from "../../../../components/user/detail/userDetailSection";
-import UserAccountDetailSection from "../../../../components/user/detail/userAccountDetailSection";
-import UserCredentialsSection from "../../../../components/user/detail/userCredentialsSection";
-import UserContactSection from "../../../../components/user/detail/userContactSection";
+import UserDetailSection from "../../../components/user/detail/userDetailSection";
+import UserAccountDetailSection from "../../../components/user/detail/userAccountDetailSection";
+import UserCredentialsSection from "../../../components/user/detail/userCredentialsSection";
+import UserContactSection from "../../../components/user/detail/userContactSection";
+import { useSelector } from "react-redux";
 
 
 
 
 
 const UserDetail = (props) => {
-  const userId = props.data.userId;
+  const userId = useSelector(state => state.user.loggedInUser);
 
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -114,28 +115,3 @@ const UserDetail = (props) => {
 };
 
 export default UserDetail;
-
-
-
-export async function getStaticPaths() {
-
-  return {
-    paths: [{ params: { userId: "1" } }],
-    fallback: false,
-  };
-
-} 
-
-export async function getStaticProps(context) {
-  const { userId } = context.params;
-
-  return {
-    props: {
-      data: {
-        userId: userId
-      }
-    },
-    revalidate: 1,
-  };
-
-}

@@ -55,7 +55,7 @@ const Slidebar = (props) => {
                 <div>
                   <p style={{marginTop:"5px"}}> Hi, {userService.userValue.firstName} {userService.userValue.lastName}!</p>
                 </div>
-                <Link href={`/account/user/${userService.userValue.id}/detail`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
+                <Link href={`/account/user/detail`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
                   <div style={{weidth:"40px",marginRight:"20px",marginTop:"6px"}}>
                     <FaUserCheck fontSize="27px"/>
                   </div>
