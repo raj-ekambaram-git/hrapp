@@ -27,7 +27,7 @@ const Slidebar = (props) => {
  function handleLogout(){
   userService.logout()
   dispatch(removeLoggedInUser())
-  router.push('/account/login');
+  router.push('/login');
  }
 
  

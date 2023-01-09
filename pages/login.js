@@ -16,10 +16,10 @@ import {
     Button,
   
   } from '@chakra-ui/react';
-import UserResetPassword from '../../components/user/userResetPassword';
+import UserResetPassword from '../components/user/userResetPassword';
 import { useDispatch } from 'react-redux';
-import {setSelectedAccountId} from '../../store/modules/Account/actions'
-import {setLoggedInUser} from '../../store/modules/User/actions'
+import {setSelectedAccountId} from '../store/modules/Account/actions'
+import {setLoggedInUser} from '../store/modules/User/actions'
 
 export default Login;
 
@@ -47,7 +47,7 @@ function Login() {
                     dispatch(setLoggedInUser(user))
                     console.log("Inside the password expired")
                     // Forward to Change Password Page now as passsword is expired
-                    router.push("/account/user/changepassword/");
+                    router.push("/changepassword/");
                 }else {
                     dispatch(setSelectedAccountId(user.accountId))
                     dispatch(setLoggedInUser(user))
