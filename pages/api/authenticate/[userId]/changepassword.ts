@@ -1,6 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
 import { NextApiRequest, NextApiResponse } from "next"
+const bcrypt = require('bcryptjs');
 import prisma from "../../../../lib/prisma";
 import {util} from '../../../../helpers/util';
 
@@ -12,22 +13,30 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const user = req.body;
 
-    if(user.email != undefined ) {
-      //Generate Password 
-      const tempPassword = util.getTempPassword();
-
-      console.log("tempPassword::::"+tempPassword);
-      const passwordHash = util.getPasswordHash(tempPassword);
-
-      const savedUser = await prisma.user.update({
+    if(user.newPassword != undefined && user.oldPassword != undefined && user.userId != undefined) {
+      //Get the acutal user and check if the old password is correct or else throw error
+      const userRecord = await prisma.user.findUnique({
         where: {
-          email: user.email,
-        },
-        data: {password: passwordHash.passwordHash, passwordSalt: passwordHash.passwordSalt, passwordExpired: true, passwordRetries: 5} //TODO: Get the starting password retries from Config
+          id: parseInt(user.userId),
+        }
       });
-  
-      res.status(200).json(savedUser);
-    
+
+      if(userRecord != undefined) {
+        bcrypt.compare(user.oldPassword, userRecord.password, function(err, result) {  // Compare
+          // if passwords match
+          if (result) {
+                console.log("It matches!")
+                hasAccess(true, res, user.userId, user.newPassword);
+          }
+          // if passwords do not match
+          else {
+                console.log("Invalid password!");
+                hasAccess(false, res, user.userId, user.newPassword);
+          }
+        });
+      }else {
+        res.status(400).json({ message: 'Something went wrong while changing password' })
+      }
   
     }else {
       res.status(400).json({ message: 'Something went wrong while changing password' })
@@ -55,7 +64,7 @@ async function hasAccess(result, res, userId, newPassword) {
       where: {
         id: parseInt(userId),
       },
-      data: {password: hashed.passwordHash, passwordSalt: hashed.passwordSalt}
+      data: {password: hashed.passwordHash, passwordSalt: hashed.passwordSalt, passwordExpired: false}
     });
 
     res.status(200).json(savedUser);

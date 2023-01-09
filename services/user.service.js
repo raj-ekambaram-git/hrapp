@@ -249,7 +249,6 @@ function isTimesheetEntryUser() {
 }
 
 function login(username, password) {
-    console.log("${baseUrl}:::"+baseUrl)
     return fetchWrapper.post(`${baseUrl}/authenticate`, { username, password })
         .then(user => {
             // publish user to subscribers and store in local storage to stay logged in between page refreshes
@@ -263,7 +262,7 @@ function login(username, password) {
 }
 
 function changePassword(userId,oldPassword, newPassword) {
-    return fetchWrapper.post(`${baseUrl}/account/user/`+userId+'/changepassword', { userId, oldPassword, newPassword })
+    return fetchWrapper.post(`${baseUrl}/authenticate/`+userId+'/changepassword', { userId, oldPassword, newPassword })
         .then(user => {
             return user;
         })
@@ -274,7 +273,7 @@ function changePassword(userId,oldPassword, newPassword) {
 }
 
 function resetPassword(email) {
-    return fetchWrapper.post(`${baseUrl}/account/user/resetpassword`, { email })
+    return fetchWrapper.post(`${baseUrl}/authenticate/resetpassword`, { email })
         .then(user => {
             return user;
         })

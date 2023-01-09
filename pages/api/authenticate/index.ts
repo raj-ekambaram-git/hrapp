@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 import getConfig from 'next/config';
 import { NextApiRequest, NextApiResponse } from "next"
-import prisma from "../../lib/prisma";
+import prisma from "../../../lib/prisma";
 
 
 
