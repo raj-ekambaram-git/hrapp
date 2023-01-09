@@ -25,10 +25,11 @@ import {
   useToast
 } from '@chakra-ui/react';
 import { PageMainHeader } from "../common/pageMainHeader";
-
+import { useDispatch, useSelector } from "react-redux";
+import { resetSelectedAccountId } from "../../store/modules/Account/actions";
 
 const VendorEdit = (props) => {
-  
+  const dispatch = useDispatch();
   const vendorId = props.data.vendorId;
   const router = useRouter();
   const toast = useToast();
@@ -36,7 +37,6 @@ const VendorEdit = (props) => {
   const email = useRef("");
   const type = useRef("");
   const phone = useRef("");
-  const accountId = useRef("");
   const ein = useRef("");
   const status = useRef("");
   const accountContactName = useRef("");
@@ -56,8 +56,11 @@ const VendorEdit = (props) => {
   const [isPageAuthprized, setPageAuthorized] = useState(false);
   const [isPageSectionAuthorized, setPageSectionAuthorized] = useState(false);
   const [isAddMode, setAddMode] = useState(true);
+  // const [accountId, setAccountId] = useState(true);
   
-  
+  //Handle Account ID 
+  const accountId = useSelector(state => state.account.selectedAccountId);
+
   //User Validation START
   const formOptions = { resolver: yupResolver(VENDOR_VALIDATION_SCHEMA) };
 
@@ -75,14 +78,16 @@ const VendorEdit = (props) => {
   };
   //Account Validation END
 
-  const navigateVendorListPage = () => router.push({ pathname: '/account/'+userService.getAccountDetails().accountId+'/vendors', query: {} });
+  const navigateVendorListPage = () => router.push({ pathname: '/account//vendors', query: {} });
 
   //Get Account Details only if its EditMode
   useEffect(() => {
     if(props && props.data && props.data.mode != MODE_ADD) {
       setAddMode(false);
     }
-    setValue("accountId",userService.getAccountDetails().accountId);
+
+    //Handle Account ID between the super account and others
+    setValue("accountId",accountId);
 
     if(userService.isAccountAdmin() || userService.isSuperAdmin()) {
       setPageAuthorized(true);
@@ -98,7 +103,7 @@ const VendorEdit = (props) => {
     // Call only if the user is SUPER_ADMIN and accountId as zero
     if((userService.isAccountAdmin() || userService.isSuperAdmin()) && (props && props.data && props.data.mode != MODE_ADD)) {
       
-      const vendorResponse = await accountService.getVendorDetail(props.data.vendorId, userService.getAccountDetails().accountId);
+      const vendorResponse = await accountService.getVendorDetail(props.data.vendorId, accountId);
         const vendorData =  {
             id: vendorResponse.id.toString(),
             name: vendorResponse.name,
@@ -189,7 +194,7 @@ const VendorEdit = (props) => {
           duration: 3000,
           isClosable: true,
         })    
-        router.push("/account/"+userService.getAccountDetails().accountId+"/vendors");
+        router.push("/account/vendors");
         
       
     } catch (error) {
@@ -257,12 +262,12 @@ const VendorEdit = (props) => {
       toast({
         title: 'Vendor Updated.',
         description: 'Successfully updated the vendor.',
-        status: 'error',
+        status: 'success',
         position: 'top',
         duration: 9000,
         isClosable: true,
       })  
-      router.push("/account/"+userService.getAccountDetails().accountId+"/vendors");
+      router.push("/account/vendors");
     } catch (error) {
       console.log(error)
       toast({

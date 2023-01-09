@@ -14,7 +14,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     Account = "Account",
     Invoice = "Invoice",
     Project = "Project",
-    User = "User"
+    User = "User",
+    Vendor = "Vendor"
   }
 
   enum NotesMode {
@@ -32,6 +33,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       break;
       case NotesType.Account: 
         typeValue = NotesType.Account;
+      break;
+      case NotesType.Vendor: 
+        typeValue = NotesType.Vendor;
       break;
       case NotesType.Invoice: 
         typeValue = NotesType.Invoice;

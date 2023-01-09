@@ -18,9 +18,13 @@ import {
   Badge
 } from '@chakra-ui/react'
 import { PageMainHeader } from "../common/pageMainHeader";
+import { setSelectedVendorId } from "../../store/modules/Vendor/actions";
+import { useDispatch } from "react-redux";
+
 
 const VendorList = (props) => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const { data } = props.vendorList;
   
   console.log("VendorList::"+JSON.stringify(data))
@@ -44,6 +48,11 @@ const VendorList = (props) => {
       const responseData = await accountService.getVendorList(accountId);
       setVendorList(responseData);
 
+  }
+  
+  function handleVendorDetailSelection(vendorId) {
+    dispatch(setSelectedVendorId(vendorId))
+    router.push("/account/vendor/detail");
   }
 
   
@@ -126,12 +135,7 @@ const VendorList = (props) => {
                                   </Th> 
                                   <Th>
                                     <HStack>
-                                      {/* <Link href={`/account/vendor/${vendor.id}/detail`} passref key={vendor.id}>
-                                        <Button className="btn">
-                                          Details
-                                        </Button>
-                                      </Link> */}
-                                    <Button className="btn" onClick={() => router.push(`/account/vendor/${vendor.id}/detail`)}>
+                                    <Button onClick={() => handleVendorDetailSelection(vendor.id)}>
                                       Vendor Details
                                     </Button>
                                       <Badge color={`${

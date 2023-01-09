@@ -2,7 +2,8 @@ import { ActionTypes } from "./constants";
 
 const initialState = {
     vendorsByAccount: [],
-    vendorUsers: []
+    vendorUsers: [],
+    selectedVendorId: null
 };
 
 const vendorReducer = (state = initialState, {type, payload}) => {
@@ -42,6 +43,10 @@ const vendorReducer = (state = initialState, {type, payload}) => {
         const newVendorUsers = [...newState.vendorUsers];
         newVendorUsers.splice(payload, 1);
         newState.vendorUsers = newVendorUsers;
+    } else if(type === ActionTypes.SET_SELECTED_VENDOR_ID) {
+        newState.selectedVendorId = payload;
+    } else if(type === ActionTypes.RESET_SELECTED_VENDOR_ID) {
+        newState.selectedVendorId = null;
     }
     
     console.log("vendorReducer:::New State:::Before Return:::"+JSON.stringify(newState));

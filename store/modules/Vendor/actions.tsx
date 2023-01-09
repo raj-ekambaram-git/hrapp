@@ -59,3 +59,18 @@ export const removeUserFromVendorByIndex = (removeIndex) => {
     }
 }
 
+export const setSelectedVendorId = (vendorId) => {
+    console.log("setSelectedVendorId::::ACTIONS:::"+JSON.stringify(vendorId));
+    return {
+        type: ActionTypes.SET_SELECTED_VENDOR_ID,
+        payload: vendorId
+    }
+}
+
+export const resetSelectedVendorId = () => {
+    console.log("resetSelectedVendorId::")
+    return {
+        type: ActionTypes.RESET_SELECTED_VENDOR_ID,
+        payload: null
+    }
+}

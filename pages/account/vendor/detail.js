@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { accountService, userService } from '../../../../services';
-import {EMPTY_STRING, MODE_ADD} from "../../../../constants/accountConstants";
+import { accountService, userService } from '../../../services';
+import {EMPTY_STRING, MODE_ADD} from "../../../constants/accountConstants";
 import {
   Box,
   Heading,
@@ -14,28 +14,25 @@ import {
   Accordion,
 
 } from '@chakra-ui/react';
-import ProjectAddEditSection from "../../../../components/project/projectAddEditSection";
-import VendorDetailSection from "../../../../components/vendor/detail/vendorDetailSection";
-import VendorBankDetailSection from "../../../../components/vendor/detail/vendorBankDetailSection";
-import VendorContactDetailSection from "../../../../components/vendor/detail/vendorContactDetailSection";
-import VendorContactAddressSection from "../../../../components/vendor/detail/vendorContactAddressSection";
-import VendorAccountContactDetailSection from "../../../../components/vendor/detail/vendorAccountContactDetailSection";
-import VendorProjectsSection from "../../../../components/vendor/detail/vendorProjectsSection";
-import VendorUserAddSection from "../../../../components/vendor/vendorUserAddSection";
+import ProjectAddEditSection from "../../../components/project/projectAddEditSection";
+import VendorDetailSection from "../../../components/vendor/detail/vendorDetailSection";
+import VendorBankDetailSection from "../../../components/vendor/detail/vendorBankDetailSection";
+import VendorContactDetailSection from "../../../components/vendor/detail/vendorContactDetailSection";
+import VendorContactAddressSection from "../../../components/vendor/detail/vendorContactAddressSection";
+import VendorAccountContactDetailSection from "../../../components/vendor/detail/vendorAccountContactDetailSection";
+import VendorProjectsSection from "../../../components/vendor/detail/vendorProjectsSection";
+import VendorUserAddSection from "../../../components/vendor/vendorUserAddSection";
 import { useDispatch, useSelector } from "react-redux";
-import { resetVendorUsers, setVendorUsers } from "../../../../store/modules/Vendor/actions";
-import { NotesConstants } from "../../../../constants";
-import NotesHistory from "../../../../components/notes/notesHistory";
-import { resetUsersByAccount } from "../../../../store/modules/Account/actions";
-import { resetNotesType, setNotesType } from "../../../../store/modules/Notes/actions";
-
-
-
+import { resetVendorUsers, setVendorUsers } from "../../../store/modules/Vendor/actions";
+import { NotesConstants } from "../../../constants";
+import NotesHistory from "../../../components/notes/notesHistory";
+import { resetUsersByAccount } from "../../../store/modules/Account/actions";
+import { resetNotesType, setNotesType } from "../../../store/modules/Notes/actions";
 
 
 
 const VendorDetail = (props) => {
-  const vendorId = props.data.vendorId;
+  const vendorId = useSelector(state => state.vendor.selectedVendorId);
 
   const router = useRouter();
   const dispatch = useDispatch();
@@ -46,11 +43,11 @@ const VendorDetail = (props) => {
   const [vendorAddress, setVendorAddress] = useState({});
   const [isPageAuthprized, setPageAuthorized] = useState(false);
 
-  const navigateVendorEditPage = () => router.push("/account/vendor/"+vendor.id);
-  const navigateManageVendorUsersPage = () => router.push("/account/vendor/"+vendor.id+"/users");
-  const navigateVendorInvoicesPage = () => router.push("/account/vendor/"+vendor.id+"/invoices");
-  const navigateVendorProjectsPage = () => router.push("/account/vendor/"+vendor.id+"/projects");
-  const manageVendorsForAccount = () => router.push("/account/"+userService.getAccountDetails().accountId+"/vendors");
+  const navigateVendorEditPage = () => router.push("/account/vendor/edit");
+  const navigateManageVendorUsersPage = () => router.push("/account/vendor//users");
+  const navigateVendorInvoicesPage = () => router.push("/account/vendor//invoices");
+  const navigateVendorProjectsPage = () => router.push("/account/vendor/projects");
+  const manageVendorsForAccount = () => router.push("/account/vendors");
   
 
   const createProjectRequestData = {
@@ -240,27 +237,3 @@ const VendorDetail = (props) => {
 
 export default VendorDetail;
 
-
-
-export async function getStaticPaths() {
-
-  return {
-    paths: [{ params: { vendorId: "3" } }],
-    fallback: false,
-  };
-
-} 
-
-export async function getStaticProps(context) {
-  const { vendorId } = context.params;
-
-  return {
-    props: {
-      data: {
-        vendorId: vendorId
-      }
-    },
-    revalidate: 1,
-  };
-
-}
