@@ -29,6 +29,9 @@ import { TimesheetHeader } from "./timesheetHeader";
 import { useDispatch } from "react-redux";
 import { fetchTimesheetsForApproval } from "../../store/modules/Timesheet/actions";
 import { ShowInlineErrorMessage } from "../common/showInlineErrorMessage";
+import { NotesConstants } from "../../constants";
+import NotesHistory from "../notes/notesHistory";
+import { setNotesType } from "../../store/modules/Notes/actions";
 
 
 
@@ -41,6 +44,12 @@ import { ShowInlineErrorMessage } from "../common/showInlineErrorMessage";
     const [timesheetEntryNote, setTimesheetEntryNote] = useState(DEFAULT_NOTES);
     const [timesheetEntryDetail, setTimesheetEntryDetail] = useState({});
     const [showErrorMessage, setShowErrorMessage] = useState(EMPTY_STRING);
+
+    const notesData = {
+        type: NotesConstants.NOTES_TYPE.TimesheetEntry,
+        typeId: parseInt(tsEntryDetail.id),
+        typeName: NotesConstants.NOTES_TYPE.Timesheet
+      }
 
     useEffect(() => {
         console.log("props.tsEntryDetail:::"+JSON.stringify(tsEntryDetail));
@@ -78,6 +87,7 @@ import { ShowInlineErrorMessage } from "../common/showInlineErrorMessage";
     const handleClick = (newSize) => {
         setSize(newSize)
         onOpen()
+        dispatch(setNotesType(notesData))
       }
 
     return (
@@ -177,16 +187,16 @@ import { ShowInlineErrorMessage } from "../common/showInlineErrorMessage";
 
                 <HStack marginTop="3rem">
                     <Box marginRight="1rem">
-                        <Button className="btn" onClick={() => updateTimesheetEntry(tsEntryDetail.id,TIMESHEET_STATUS.Approved)} bgColor="timesheet.approved_status">
+                        <Button size="xs" onClick={() => updateTimesheetEntry(tsEntryDetail.id,TIMESHEET_STATUS.Approved)} bgColor="timesheet.approved_status">
                             Approve
                         </Button>
                     </Box>
                     <Box>
-                        <Button className="btn" onClick={() => updateTimesheetEntry(tsEntryDetail.id,TIMESHEET_STATUS.Rejected)} bgColor="timesheet.rejected_status">
+                        <Button size="xs"  onClick={() => updateTimesheetEntry(tsEntryDetail.id,TIMESHEET_STATUS.Rejected)} bgColor="timesheet.rejected_status">
                             Reject
                         </Button>
                     </Box>
-
+                    <NotesHistory/>                    
                 </HStack>
                     
                 </DrawerBody>

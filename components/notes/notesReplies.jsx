@@ -55,7 +55,7 @@ function NotesReplies(props) {
                         <Textarea border='1px' value={replyValue} onChange={(ev) => setReplyValue(ev.target.value)} placeholder="Add Reply"/>     
                     </Box>
                     <Box>
-                        <Button colorScheme='red' onClick={handleReplySubmit}>Reply</Button>   
+                        <Button colorScheme='red' size="xs" onClick={handleReplySubmit}>Reply</Button>   
                     </Box>            
                 </Stack>
                 </>) : (<></>)}

@@ -46,7 +46,7 @@ const AddEditNote = (props) => {
                 <Textarea border='1px' value={note} onChange={(ev) => setNote(ev.target.value)} placeholder="Add Comment"/>     
             </Box>
             <Box>
-                <Button colorScheme='red' onClick={handleNoteSubmit}>Comment</Button>   
+                <Button colorScheme='red' size="xs" onClick={handleNoteSubmit}>Comment</Button>   
             </Box>            
         </Stack>
         </>
