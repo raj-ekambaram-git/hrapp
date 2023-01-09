@@ -19,10 +19,14 @@ import {
   useDisclosure
 } from '@chakra-ui/react'
 import {PageMainHeader} from '../../components/common/pageMainHeader'
+import { useDispatch } from "react-redux";
+import { resetSelectedAccountId, setSelectedAccountId } from "../../store/modules/Account/actions";
 
 
 export default function Home(props) {
   const router = useRouter();
+  const dispatch = useDispatch();
+
   const [accounts, setAccounts] = useState([]);
   const [isPageAuthprized, setPageAuthorized] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -58,8 +62,14 @@ export default function Home(props) {
     performAccountsAPICall();
   }, []);
   
-  const navigatePage = () => router.push("/account/add");
+  function handleAccoundDetailSelection(accountId) {
+    console.log("handleAccoundDetailSelection::"+accountId)
+    dispatch(resetSelectedAccountId())
+    dispatch(setSelectedAccountId(accountId))
+    router.push("/account/detail");
+  }
 
+  const navigatePage = () => router.push("/account/add");
   return (
 
     
@@ -124,11 +134,12 @@ export default function Home(props) {
                             </Th>
                             <Th>
                               <HStack>
-                                <Link href={`/account/${account.id}/detail`} passref key={account.id}>
-                                  <Button className="btn">
+                                {/* <Link href={`/account/${account.id}/detail`} passref key={account.id}> */}
+                                
+                                  <Button onClick={() => handleAccoundDetailSelection(account.id)}>
                                     Details
                                   </Button>
-                                </Link>
+                                {/* </Link> */}
                                 <Badge color={`${
                                     account.status === "Active"
                                       ? "paid_status"

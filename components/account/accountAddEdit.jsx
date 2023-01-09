@@ -27,9 +27,6 @@ import {
 import { PageMainHeader } from "../common/pageMainHeader";
 import { PageNotAuthorized } from "../common/pageNotAuthorized";
 
-
-
-
 const AccountAddEdit = (props) => {
   const accountId = props.data.accountId;
   const router = useRouter();
@@ -83,7 +80,6 @@ const AccountAddEdit = (props) => {
       setPageAuthorized(true);
     }
     async function getAccountDetailsAPICall() {
-
       // Call only if the user is SUPER_ADMIN and accountId as zero
       if(userService.isSuperAdmin() && (props && props.data && props.data.mode != MODE_ADD)) {
         setPageAuthorized(true);
@@ -228,7 +224,7 @@ const AccountAddEdit = (props) => {
 
       const data = await res.json();
 
-      router.push(`/account/${accountId}/detail`);
+      router.push(`/account/detail`);
       toast({
         title: 'Account updated.',
         description: 'Successfully update account.',

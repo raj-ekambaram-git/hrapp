@@ -1,7 +1,8 @@
 import { ActionTypes } from "./constants";
 
 const initialState = {
-    accountUsers: []
+    accountUsers: [],
+    selectedAccountId: null
 };
 
 const accountReducer = (state = initialState, {type, payload}) => {
@@ -25,6 +26,10 @@ const accountReducer = (state = initialState, {type, payload}) => {
         newState.accountUsers = payload;
     } else if(type === ActionTypes.RESET_USERS_BY_ACCOUNT) {
         newState.accountUsers = [];
+    } else if(type === ActionTypes.SET_SELECTED_ACCOUNT_ID) {
+        newState.selectedAccountId = payload;
+    } else if(type === ActionTypes.RESET_SELECTED_ACCOUNT_ID) {
+        newState.selectedAccountId = null;
     } 
 
     console.log("accountReducer:::New State:::Before Return:::"+JSON.stringify(newState));

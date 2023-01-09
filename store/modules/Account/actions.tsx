@@ -37,3 +37,19 @@ export const fetchUsersByAccount = (accountId) => {
 }
 
 
+
+export const setSelectedAccountId = (accountId) => {
+    console.log("setSelectedAccountId::::ACTIONS:::"+JSON.stringify(accountId));
+    return {
+        type: ActionTypes.SET_SELECTED_ACCOUNT_ID,
+        payload: accountId
+    }
+}
+
+export const resetSelectedAccountId = () => {
+    console.log("resetSelectedAccountId::")
+    return {
+        type: ActionTypes.RESET_SELECTED_ACCOUNT_ID,
+        payload: null
+    }
+}
