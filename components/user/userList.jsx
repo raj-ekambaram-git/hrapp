@@ -21,6 +21,7 @@ import { PageMainHeader } from "../common/pageMainHeader";
 import { PageNotAuthorized } from "../common/pageNotAuthorized";
 import { UserListForAccount } from "./userListForAccount";
 import { UserListForVendor } from "./userListForVendor";
+import { useSelector } from "react-redux";
 
 
 
@@ -28,9 +29,11 @@ const UserList = (props) => {
   const router = useRouter();
   const { data } = props.userList;
   const { isVendor } = props.userList;
-  console.log("UserList::"+JSON.stringify(data))
   const [usersList, setUsersList] = useState([]);
   const [isPageAuthprized, setPageAuthorized] = useState(false);
+
+  const accountId = useSelector(state => state.account.selectedAccountId);
+  
 
   useEffect(() => {
 
@@ -39,7 +42,7 @@ const UserList = (props) => {
       if(userService.isSuperAdmin()) {
         getUsersList(data.vendorId, "NaN")
       }else {
-        getUsersList(data.vendorId, userService.getAccountDetails().accountId)
+        getUsersList(data.vendorId, accountId)
       }
       setPageAuthorized(true);
       
@@ -47,9 +50,9 @@ const UserList = (props) => {
     }else {
       //Since this is just the account call only accountId
       if(userService.isSuperAdmin()) {
-        getUsersList("", data.accountId)
+        getUsersList("", accountId)
       }else {
-        getUsersList("", userService.getAccountDetails().accountId)
+        getUsersList("", accountId)
       }
       
      setPageAuthorized(true);

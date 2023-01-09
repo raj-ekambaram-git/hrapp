@@ -62,22 +62,26 @@ console.log("Vendor ID::"+vendorId+"---AccountioD::"+accountId)
       res.status(200).json(users);
 
     }else if (vendorId != EMPTY_STRING && vendorId != undefined && accountId == "NaN") {
-      const users = await prisma.user.findMany({
+      const users = await prisma.vendorUsers.findMany({
         where: {
             vendorId: {
-              equals: parseInt(vendorId.toString())
-            }
+              equals: parseInt(vendorId.toString())            
+            },
         },
         orderBy: {
           id: "desc"
         },
         include: {
-          vendor: true,
-          account: true
+          user: true,
+          vendor: {
+            select: {
+              name: true,
+              account: true
+            }
+          },
+          
         }
-
       });
-
       res.status(200).json(users);
     }
 

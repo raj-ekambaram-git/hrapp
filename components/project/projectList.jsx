@@ -19,6 +19,7 @@ import {
   Badge
 } from '@chakra-ui/react'
 import {PageMainHeader} from '../../components/common/pageMainHeader'
+import { useSelector } from "react-redux";
 
 const ProjectList = (props) => {
   const router = useRouter();
@@ -28,18 +29,16 @@ const ProjectList = (props) => {
   console.log("ProjectList:   isVendor:"+JSON.stringify(isVendor))
   const [projectList, setProjectList] = useState([]);
   const [isPageAuthprized, setPageAuthorized] = useState(false);
+  const accountId = useSelector(state => state.account.selectedAccountId);
 
   useEffect(() => {
 
     if(isVendor) {
-      console.log("111111")
       //get API call with accountId and VendorId
       if(userService.isSuperAdmin()) {
-        console.log("2222222")
         getProjectList(data.vendorId, "NaN")
       }else {
-        console.log("333333")
-        getProjectList(data.vendorId, userService.getAccountDetails().accountId)
+        getProjectList(data.vendorId, accountId)
       }
       setPageAuthorized(true);
       
