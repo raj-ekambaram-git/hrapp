@@ -32,28 +32,28 @@ const Slideclose = () => {
         ): (
           <>
             
-            <Link href={`/account/${userService.getAccountDetails().accountId}/vendors`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
+            <Link href={`/account/vendors`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
               <div>
                 <p>Vendors</p>
               </div>
             </Link>
             
-            <Link href={`/account/${userService.getAccountDetails().accountId}/users`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
+            <Link href={`/account/users`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
               <div>
               <p>Users</p>
               </div>
             </Link>
-            <Link href={`/account/${userService.getAccountDetails().accountId}/invoices`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
+            <Link href={`/account/invoices`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
               <div>
               <p>Invoices</p>
               </div>
             </Link>
-            <Link href={`/account/${userService.getAccountDetails().accountId}/projects`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
+            <Link href={`/account/projects`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
               <div>
               <p>Projects</p>
               </div>
             </Link>         
-            <Link href={`/account/user/${userService.userValue.id}/timesheets`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
+            <Link href={`/account/user/timesheets`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
               <div>
               <p>My Timesheet</p>
               </div>
@@ -63,7 +63,7 @@ const Slideclose = () => {
 
           {(userService.isManager() || userService.isAccountAdmin()) ? (
             <>
-            <Link href={`/account/user/${userService.userValue.id}/timesheets/approval`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
+            <Link href={`/account/user/timesheets/approval`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
               <div>
               <p>Timesheets to Approve</p>
               </div>

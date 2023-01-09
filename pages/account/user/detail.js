@@ -27,6 +27,7 @@ import { useSelector } from "react-redux";
 const UserDetail = (props) => {
   const userId = useSelector(state => state.user.loggedInUser?.id);
 
+  
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure()
   
@@ -36,16 +37,14 @@ const UserDetail = (props) => {
 
   // set default input data
   useEffect(() => {
-    getUserDetails(userId, userService.getAccountDetails().accountId);
+    getUserDetails();
   }, []);
 
 
 
-  async function getUserDetails(userId, accountId) {
+  async function getUserDetails() {
     setPageAuthorized(true);
-
-    const userResonse = await accountService.userDetails(props.data.userId);
-    console.log("userResonse:::"+JSON.stringify(userResonse));
+    const userResonse = await accountService.userDetails(userId);
     const userData =  {
         id: userResonse.id.toString(),
         firstName: userResonse.firstName,
@@ -54,20 +53,20 @@ const UserDetail = (props) => {
         userEmail: userResonse.email,
         userPhone: userResonse.phone,
         userAccountId: userResonse.accountId,
-        userAccountName: userResonse.account.name,
+        userAccountName: userResonse.account?.name,
         userVendorId: userResonse.vendorId,
-        userVendorName: userResonse.vendor.name,
+        userVendorName: userResonse.vendor?.name,
         timeSheetEnabled: userResonse.isTimeSheetEnabled,
         userStatus: userResonse.status,
-        addressId: userResonse.address[0].id,
-        addressName: userResonse.address[0].addressName,
-        address1: userResonse.address[0].address1,
-        address2: userResonse.address[0].address2,
-        address3: userResonse.address[0].address3,
-        city: userResonse.address[0].city,
-        state: userResonse.address[0].state,
-        zipCode: userResonse.address[0].zipCode,
-        country: userResonse.address[0].country
+        addressId: userResonse.address[0]?.id,
+        addressName: userResonse.address[0]?.addressName,
+        address1: userResonse.address[0]?.address1,
+        address2: userResonse.address[0]?.address2,
+        address3: userResonse.address[0]?.address3,
+        city: userResonse.address[0]?.city,
+        state: userResonse.address[0]?.state,
+        zipCode: userResonse.address[0]?.zipCode,
+        country: userResonse.address[0]?.country
     };
 
     setUser(userData);
