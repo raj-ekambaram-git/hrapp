@@ -79,7 +79,7 @@ const UserChangePassword = (props) => {
     }else {
       toast({
         title: 'Change Password Error.',
-        description: 'Please enter valid passsword.',
+        description: 'Please enter valid passsword matching the password combinations.',
         status: 'error',
         position: 'top',
         duration: 9000,
