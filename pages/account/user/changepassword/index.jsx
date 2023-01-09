@@ -130,28 +130,3 @@ function ChangePassword(props) {
     );
 }
 
-
-
-export async function getStaticPaths() {
-
-    return {
-      paths: [{ params: { userId: "1" } }],
-      fallback: false,
-    };
-  
-  } 
-  
-  export async function getStaticProps(context) {
-    const { userId } = context.params;
-  
-    return {
-      props: {
-        data: {
-          userId: userId
-        }
-      },
-      revalidate: 1,
-    };
-  
-  }
-  
