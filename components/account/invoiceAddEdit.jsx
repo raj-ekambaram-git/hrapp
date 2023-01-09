@@ -126,6 +126,18 @@ const InvoiceAddEdit = (props) => {
 
 }  
 
+  async function handleDownloadInvoice() {
+    const invoiceBuffer = await invoiceService.generateInvoice(invoiceId, userService.getAccountDetails().accountId)
+    if(!invoiceBuffer.error) {
+      const blob = new Blob([invoiceBuffer]);
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'invoice_'+invoiceId+'.pdf';
+      link.click();
+  
+    }
+    
+  }
   /**
    * Function to get the list of accounts for a drop down
    */
@@ -230,10 +242,6 @@ const InvoiceAddEdit = (props) => {
     
 
   function onSubmit(data) {
-    console.log("DDAAA::"+JSON.stringify(data))
-
-    console.log("invoice Item List :::"+JSON.stringify(invoiceItemList));
-
     return isAddMode
         ? createInvoice(data)
         : updateInvoice(invoiceId, data);
@@ -329,7 +337,7 @@ const InvoiceAddEdit = (props) => {
               <div>{isVendor? (<PageMainHeader heading="New Vendor Invoice"/>): (<PageMainHeader heading="New Account Invoice"/>)}</div>
           ) : (
             <div>{isVendor? (<PageMainHeader heading="Update Vendor Invoice" notesData={notesData}/>): (<PageMainHeader heading="Update Account Invoice" notesData={notesData}/>)}</div>
-          )}              
+          )}    
           <Flex>
           <Box width="page.sub_heading_width">
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -509,6 +517,17 @@ const InvoiceAddEdit = (props) => {
                                 <HStack>
                                   <Input type="text" value={invoicePaidAmount} isReadOnly/>
                                    <InvoiceTransactions invoiceId={invoiceId}/>
+                                   {(!isAddMode && (status !== EMPTY_STRING && (status !== InvoiceConstants.INVOICE_STATUS.Submitted || status !== InvoiceConstants.INVOICE_STATUS.Paid || status !== InvoiceConstants.INVOICE_STATUS.PartiallyPaid))) ? (
+                                    <Box>
+                                      <Button size="xs"
+                                          onClick={() => handleDownloadInvoice()}
+                                          >{`Download Invoice`}
+                                        </Button>          
+                                      </Box>
+                                    ) : (
+                                      <></>
+                                    )}
+                                    
                                 </HStack>
                               </InputGroup>                             
                           </FormControl>    

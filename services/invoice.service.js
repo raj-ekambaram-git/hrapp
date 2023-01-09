@@ -18,9 +18,27 @@ export const invoiceService = {
     createNewInvoice,
     updateInvoice,
     getInvoiceTransactions,
-    createInvoiceTransaction
+    createInvoiceTransaction,
+    generateInvoice
 
 };
+
+async function generateInvoice(invoiceId, accountId) {
+
+
+    const data = await fetch(`${baseUrl}/account/invoice/${invoiceId}/generate`, {
+      method: 'POST',
+      body: {invoiceId: invoiceId, acountId: accountId},
+    });
+    // convert the response into an array Buffer
+    if(data.arrayBuffer) {
+      return data.arrayBuffer();
+    }else {
+      return {errorMessage: "Error Creating Invoice FIle", error: true};
+    }
+    
+
+}
 
 function createInvoiceTransaction(formData, accountId) {
   console.log("Before calling the ccreateInvoiceTransaction....."+JSON.stringify(formData))
