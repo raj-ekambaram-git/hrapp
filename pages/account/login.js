@@ -46,7 +46,7 @@ function Login() {
                 if(user.passwordExpired) {
                     console.log("Inside the password expired")
                     // Forward to Change Password Page now as passsword is expired
-                    router.push("/account/user/changepassword/"+user.id);
+                    router.push("/account/user/changepassword/");
                 }else {
                     dispatch(setSelectedAccountId(user.accountId))
                     dispatch(setLoggedInUser(user))

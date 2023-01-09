@@ -4,7 +4,7 @@ import TimesheetList from "../../../components/timesheet/timesheetList";
 
 
 export default function UserTimesheets(props) {
-  const userId = useSelector(state => state.user.loggedInUser.id);
+  const userId = useSelector(state => state.user.loggedInUser?.id);
 
   console.log("UserTimesheets::::"+userId)
   const data = {

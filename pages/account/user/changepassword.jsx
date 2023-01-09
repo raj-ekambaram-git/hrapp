@@ -4,7 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import { Layout } from 'components/account';
 import { userService } from 'services';
-import {util} from '../../../../helpers/util';
+import {util} from '../../../helpers/util';
 import {
     Card,
     CardHeader,
@@ -17,7 +17,8 @@ import {
     Button,
     useToast
   } from '@chakra-ui/react';
-import { EMPTY_STRING } from '../../../../constants/accountConstants';
+import { EMPTY_STRING } from '../../../constants/accountConstants';
+import { useSelector } from 'react-redux';
 
 
 export default ChangePassword;
@@ -25,7 +26,7 @@ export default ChangePassword;
 function ChangePassword(props) {
     const router = useRouter();
     const toast = useToast()
-    const userId = props.data.userId;
+    const userId = useSelector(state => state?.user?.loggedInUser?.id);
 
     if(userId === undefined || userId=== EMPTY_STRING) {
         router.push({
