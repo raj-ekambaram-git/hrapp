@@ -316,7 +316,7 @@ const AddProjectResource = (props) => {
                                           <Select width="50%%" onChange={(ev) => handleUser(ev)} border="table_border">
                                             <option value="">Select User</option>
                                               {userList?.map((user) => (
-                                                      <option value={user.id} data-role={user.role} data-fn={user.firstName} data-ln={user.lastName}>{user.firstName} {user.lastName}</option>
+                                                      <option value={user.user?.id} data-role={user.user?.role} data-fn={user.user?.firstName} data-ln={user.user?.lastName}>{user.user?.firstName} {user.user?.lastName}</option>
                                               ))}   
                                           </Select>
                                         </Th>
