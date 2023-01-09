@@ -89,10 +89,8 @@ function isAuthenticated() {
 }
 
 function isUserNameValidAgainstToken() {
-    const userNameValue = jwtDecode(userSubject.value?.token).sub;
-    console.log("userNameValue from Token::"+userNameValue)
-    console.log("UserName from localstorage::"+userSubject.value?.username)
-    if(userSubject.value?.username === userNameValue) {
+    const userNameValue = jwtDecode(userSubject.value?.authToken).sub;
+    if(userSubject.value?.username+"_"+userSubject.value?.accountId === userNameValue) {
         return true;
     }else {
         return false;
