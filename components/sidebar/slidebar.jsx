@@ -8,7 +8,7 @@ import Slideopen from "./slideopen"
 import {FaUserCheck} from "react-icons/fa"
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  Container
+  Container, Flex, HStack, Text, Box
 } from '@chakra-ui/react'
 import { userService } from '../../services';
 import {GrLogout} from 'react-icons/gr';
@@ -49,27 +49,33 @@ const Slidebar = (props) => {
               </div>
             </div>
             {/* right div */}
-            <div className={styles.navbarrightmain}>
-                <div>
-                  <p style={{marginTop:"5px"}}> Hi, {userService.userValue.firstName} {userService.userValue.lastName}!</p>
-                </div>
-                <Link href={`/account/user/detail`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
-                  <div style={{weidth:"40px",marginRight:"20px",marginTop:"6px"}}>
-                    <FaUserCheck fontSize="27px"/>
-                  </div>
-                </Link>
-                <WrapItem>
-                  <Tooltip label='Logout' hasArrow arrowSize={15} placement='bottom' color="teal">
-                    <Link href="" onClick={() => handleLogout()} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
+              <div className={styles.navbarrightmain}>
+                <HStack spacing={2}>
+                  <Flex marginRight="1rem">
+                      <Box> Hi, {userService.userValue.firstName} {userService.userValue.lastName}!</Box>
+                  </Flex>
+                  <Flex>
+                    <Link href={`/account/user/detail`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
                       <div style={{weidth:"40px",marginRight:"20px",marginTop:"6px"}}>
-                        <GrLogout  fontSize="27px"/>
-                        
+                        <FaUserCheck fontSize="27px"/>
                       </div>
                     </Link>
-                  </Tooltip>
-                </WrapItem>                
-                
-            </div>
+                  </Flex>
+                  <Flex>
+                    <WrapItem>
+                      <Tooltip label='Logout' hasArrow arrowSize={15} placement='bottom' color="teal">
+                        <Link href="" onClick={() => handleLogout()} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
+                          <div style={{weidth:"40px",marginRight:"20px",marginTop:"6px"}}>
+                            <GrLogout  fontSize="27px"/>
+                            
+                          </div>
+                        </Link>
+                      </Tooltip>
+                    </WrapItem> 
+                    </Flex>    
+                  </HStack>            
+                  
+              </div>
             
             </div>
 
