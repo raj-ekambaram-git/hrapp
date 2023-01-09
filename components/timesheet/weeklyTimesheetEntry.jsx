@@ -290,7 +290,7 @@ const WeeklyTimesheetEntry = (props) => {
                                         {!isAddMode ? (
                                             <>
                                                 <Box>
-                                                    <NotesHistory data={{notesType: NotesConstants.NOTES_TYPE.Timesheet, notesTypeId: props.data.timesheetId, notesTypeTitle: timesheetData.name}}></NotesHistory>
+                                                    {/* <NotesHistory data={{notesType: NotesConstants.NOTES_TYPE.Timesheet, notesTypeId: props.data.timesheetId, notesTypeTitle: timesheetData.name}}></NotesHistory> */}
                                                 </Box>                                        
                                             </>
                                         ) : (

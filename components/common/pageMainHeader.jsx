@@ -16,7 +16,7 @@ function PageMainHeader(props) {
     const dispatch = useDispatch();
     const notesData = props.notesData;
 
-
+  console.log("PageMainHeader::::Notes Data:::"+JSON.stringify(notesData))
       // set default input data
   useEffect(() => {
     dispatch(resetNotesType())

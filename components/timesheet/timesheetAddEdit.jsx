@@ -15,6 +15,7 @@ import {
 import WeeklyTimesheetEntry from "./weeklyTimesheetEntry";
 import { useSelector } from "react-redux";
 import { PageMainHeader } from "../../components/common/pageMainHeader";
+import { NotesConstants } from "../../constants";
 
 
 const TimesheetAddEdit = (props) => {
@@ -27,6 +28,13 @@ const TimesheetAddEdit = (props) => {
   const [isPageSectionAuthorized, setPageSectionAuthorized] = useState(false);
   const [isAddMode, setAddMode] = useState(true);
   
+
+  const notesData = {
+    type: NotesConstants.NOTES_TYPE.Timesheet,
+    typeId: parseInt(timesheetId),
+    typeName: NotesConstants.NOTES_TYPE.Timesheet
+  }
+
   //User Validation START
   const formOptions = {};
 
@@ -157,7 +165,7 @@ const TimesheetAddEdit = (props) => {
           {isAddMode ? (
               <PageMainHeader heading="New Timesheet"/>
           ) : (
-              <PageMainHeader heading="Update Timesheet"/>
+              <PageMainHeader heading="Update Timesheet" notesData={notesData}/>
           )}              
           <Box width="100%">
             <form onSubmit={handleSubmit(onSubmit)}>
