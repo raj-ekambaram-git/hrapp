@@ -44,6 +44,7 @@ function Login() {
             .then(user => {
                 console.log("USER AFTER LOGIN ::"+JSON.stringify(user))
                 if(user.passwordExpired) {
+                    dispatch(setLoggedInUser(user))
                     console.log("Inside the password expired")
                     // Forward to Change Password Page now as passsword is expired
                     router.push("/account/user/changepassword/");

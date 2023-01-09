@@ -13,11 +13,12 @@ import {
 import { userService } from '../../services';
 import {GrLogout} from 'react-icons/gr';
 import { Tooltip, WrapItem } from '@chakra-ui/react'
-import { PageNotAuthorized } from "../../components/common/pageNotAuthorized";
+import { removeLoggedInUser } from '../../store/modules/User/actions';
 
 
 const Slidebar = (props) => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [state,setstate]=useState(false);
   const handleclick=()=>{
       setstate(!state)
@@ -25,14 +26,11 @@ const Slidebar = (props) => {
 
  function handleLogout(){
   userService.logout()
+  dispatch(removeLoggedInUser())
   router.push('/account/login');
  }
 
- const dispatch=useDispatch();
-
-   
  
-
   return (
     <div className={styles.main}>
 

@@ -77,10 +77,10 @@ function getUserVendors (userId, accountId) {
 }
 function isAuthenticated() {
     if( userSubject.value 
-        && userSubject.value.id != EMPTY_STRING
-        && userSubject.value.id != undefined 
-        && isUserNameValidAgainstToken()) {
-        // && !userSubject.value.passwordExpired) {            
+        && userSubject.value?.id != EMPTY_STRING
+        && userSubject.value?.id != undefined 
+        && isUserNameValidAgainstToken()
+        && !userSubject.value?.passwordExpired) {            
         return true;
     }
     
@@ -89,10 +89,10 @@ function isAuthenticated() {
 }
 
 function isUserNameValidAgainstToken() {
-    const userNameValue = jwtDecode(userSubject.value.token).sub;
+    const userNameValue = jwtDecode(userSubject.value?.token).sub;
     console.log("userNameValue from Token::"+userNameValue)
-    console.log("UserName from localstorage::"+userSubject.value.username)
-    if(userSubject.value.username === userNameValue) {
+    console.log("UserName from localstorage::"+userSubject.value?.username)
+    if(userSubject.value?.username === userNameValue) {
         return true;
     }else {
         return false;
@@ -100,7 +100,7 @@ function isUserNameValidAgainstToken() {
 }
 
 function isValidAccount(accountIdFromRequest) {
-    if(accountIdFromRequest == userSubject.value.accountId) {
+    if(accountIdFromRequest == userSubject.value?.accountId) {
         return true
     }
     return false;
@@ -150,15 +150,15 @@ function getAccountsList() {
 
 function getAccountDetails() {
     if(userSubject.value) {
-        return {accountId: userSubject.value.accountId};
+        return {accountId: userSubject.value?.accountId};
     }
     return {accountId: 1};
 }
 
 function isSuperAdmin() {
     if( userSubject.value 
-        && userSubject.value.role == UserConstants.USER_ROLES.SUPER_ADMIN
-        && userSubject.value.accountId == UserConstants.SUPER_ADMIN_ID) {
+        && userSubject.value?.role == UserConstants.USER_ROLES.SUPER_ADMIN
+        && userSubject.value?.accountId == UserConstants.SUPER_ADMIN_ID) {
         return true;
     }
     
@@ -167,8 +167,8 @@ function isSuperAdmin() {
 
 function isAccountAdmin() {
     if( userSubject.value 
-        && userSubject.value.role == UserConstants.USER_ROLES.ACCOUNT_ADMIN
-        && userSubject.value.role != UserConstants.SUPER_ADMIN_ID) {
+        && userSubject.value?.role == UserConstants.USER_ROLES.ACCOUNT_ADMIN
+        && userSubject.value?.role != UserConstants.SUPER_ADMIN_ID) {
         return true;
     }
     
@@ -177,8 +177,8 @@ function isAccountAdmin() {
 
 function isAccountUser() {
     if( userSubject.value 
-        && userSubject.value.role == UserConstants.USER_ROLES.ACCOUNT_USER
-        && userSubject.value.role != UserConstants.SUPER_ADMIN_ID) {
+        && userSubject.value?.role == UserConstants.USER_ROLES.ACCOUNT_USER
+        && userSubject.value?.role != UserConstants.SUPER_ADMIN_ID) {
         return true;
     }
     
@@ -187,8 +187,8 @@ function isAccountUser() {
 
 function isEmployee() {
     if( userSubject.value 
-        && userSubject.value.role == UserConstants.USER_ROLES.ACCOUNT_VENDOR_EMPLOYEE 
-        && userSubject.value.role != UserConstants.SUPER_ADMIN_ID) {
+        && userSubject.value?.role == UserConstants.USER_ROLES.ACCOUNT_VENDOR_EMPLOYEE 
+        && userSubject.value?.role != UserConstants.SUPER_ADMIN_ID) {
         return true;
     }
     
@@ -197,8 +197,8 @@ function isEmployee() {
 
 function isContractor() {
     if( userSubject.value 
-        && userSubject.value.role == UserConstants.USER_ROLES.ACCOUNT_VENDOR_CONTRACTOR 
-        && userSubject.value.role != UserConstants.SUPER_ADMIN_ID) {
+        && userSubject.value?.role == UserConstants.USER_ROLES.ACCOUNT_VENDOR_CONTRACTOR 
+        && userSubject.value?.role != UserConstants.SUPER_ADMIN_ID) {
         return true;
     }
     
@@ -207,8 +207,8 @@ function isContractor() {
 
 function isManager() {
     if( userSubject.value 
-        && userSubject.value.role == UserConstants.USER_ROLES.ACCOUNT_MANAGER 
-        && userSubject.value.role != UserConstants.SUPER_ADMIN_ID) {
+        && userSubject.value?.role == UserConstants.USER_ROLES.ACCOUNT_MANAGER 
+        && userSubject.value?.role != UserConstants.SUPER_ADMIN_ID) {
         return true;
     }
     
@@ -219,8 +219,8 @@ function isManager() {
 
 function isAccountVendorRep() {
     if( userSubject.value 
-        && userSubject.value.role == UserConstants.USER_ROLES.ACCOUNT_VENDOR_REP
-        && userSubject.value.role != UserConstants.SUPER_ADMIN_ID) {
+        && userSubject.value?.role == UserConstants.USER_ROLES.ACCOUNT_VENDOR_REP
+        && userSubject.value?.role != UserConstants.SUPER_ADMIN_ID) {
         return true;
     }
     
@@ -229,8 +229,8 @@ function isAccountVendorRep() {
 
 function isRegularUser() {
     if( userSubject.value 
-        && ( userSubject.value.role == UserConstants.USER_ROLES.ACCOUNT_VENDOR_EMPLOYEE  || userSubject.value.role == UserConstants.USER_ROLES.ACCOUNT_VENDOR_CONTRACTOR )
-        && userSubject.value.role != UserConstants.SUPER_ADMIN_ID) {
+        && ( userSubject.value?.role == UserConstants.USER_ROLES.ACCOUNT_VENDOR_EMPLOYEE  || userSubject.value?.role == UserConstants.USER_ROLES.ACCOUNT_VENDOR_CONTRACTOR )
+        && userSubject.value?.role != UserConstants.SUPER_ADMIN_ID) {
         return true;
     }
     
@@ -239,8 +239,8 @@ function isRegularUser() {
 
 function isTimesheetEntryUser() {
     if( userSubject.value 
-        && ( userSubject.value.role == UserConstants.USER_ROLES.ACCOUNT_VENDOR_EMPLOYEE  || userSubject.value.role == UserConstants.USER_ROLES.ACCOUNT_VENDOR_CONTRACTOR )
-        && userSubject.value.role != UserConstants.SUPER_ADMIN_ID) {
+        && ( userSubject.value?.role == UserConstants.USER_ROLES.ACCOUNT_VENDOR_EMPLOYEE  || userSubject.value?.role == UserConstants.USER_ROLES.ACCOUNT_VENDOR_CONTRACTOR )
+        && userSubject.value?.role != UserConstants.SUPER_ADMIN_ID) {
         return true;
     }
     
