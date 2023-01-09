@@ -120,3 +120,10 @@ export const removeEmailFromInvoiceEmailListByIndex = (emailIndex) => {
         payload: emailIndex
     }
 }
+
+export const setSelectedInvoiceId = (selectedInvoiceId) => {
+    return {
+        type: ActionTypes.SET_SELECTED_INVOICE_ID,
+        payload: selectedInvoiceId
+    }
+}

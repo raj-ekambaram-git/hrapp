@@ -1,6 +1,5 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import Link from "next/link";
 import { accountService, userService } from "../../services";
 
 import {
@@ -13,7 +12,6 @@ import {
   Tr,
   Box,
   Flex,
-  Heading,
   TableContainer,
   TableCaption,
   Badge,
@@ -22,9 +20,14 @@ import {
 import { util } from "../../helpers";
 import {PageMainHeader} from '../../components/common/pageMainHeader'
 import {PageNotAuthorized} from '../../components/common/pageNotAuthorized'
+import { useDispatch } from "react-redux";
+import { setSelectedInvoiceId } from "../../store/modules/Invoice/actions";
+
 
 const InvoiceList = (props) => {
   const router = useRouter();
+  const dispatch = useDispatch();
+
   const { data } = props.invoiceList;
   const { requestMode } = props.invoiceList;
   const [invoiceList, setInvoiceList] = useState([]);
@@ -98,6 +101,12 @@ const InvoiceList = (props) => {
       setInvoiceList(responseData);
 
     }    
+
+    function handleInvoiceDetailSelection(invoiceId) {
+      dispatch(setSelectedInvoiceId(invoiceId))
+      router.push("/account/invoice/detail");
+  
+    }
 
     let navigatePage;
     if(requestMode == "VENDOR") {
@@ -216,11 +225,9 @@ const InvoiceList = (props) => {
                             </Th>
                             <Th>
                               <HStack>
-                                <Link href={`/account/invoice/${invoice.id}`} passref key={invoice.id}>
-                                  <Button className="btn">
+                                <Button onClick={() => handleInvoiceDetailSelection(invoice.id)}>
                                     Details
                                   </Button>
-                                </Link>
                                 <Badge color={`${
                                     invoice.status === "Paid"
                                       ? "paid_status"

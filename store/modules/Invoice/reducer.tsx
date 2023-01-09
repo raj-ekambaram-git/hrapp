@@ -1,4 +1,3 @@
-import { EMPTY_STRING } from "../../../constants/accountConstants";
 import { ActionTypes } from "./constants";
 
 
@@ -9,7 +8,8 @@ const initialState = {
     invoiceTotal: null,
     invoicePaidAmount: null,
     invoiceTransactions: [],
-    invoiceEmailTo: []
+    invoiceEmailTo: [],
+    selectedInvoiceId: null
 };
 
 const invoiceReducer = (state = initialState, {type, payload}) => {
@@ -80,6 +80,8 @@ const invoiceReducer = (state = initialState, {type, payload}) => {
         newInvoiceEmailToList.splice(payload, 1);
         newState.invoiceEmailTo = newInvoiceEmailToList;
 
+    } else if(type === ActionTypes.SET_SELECTED_INVOICE_ID) {
+        newState.selectedInvoiceId = payload;
     }
     
     console.log("New State:::Before Return:::"+JSON.stringify(newState));

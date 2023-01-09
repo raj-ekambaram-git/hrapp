@@ -252,7 +252,7 @@ const InvoiceAddEdit = (props) => {
             duration: 3000,
             isClosable: true,
           })
-          router.push("/account/vendor/"+responseData.vendorId+"/invoices");
+          router.push("/account/invoices");
         }else {
           toast({
             title: 'Invoice Error.',
@@ -293,7 +293,7 @@ const InvoiceAddEdit = (props) => {
           duration: 3000,
           isClosable: true,
         })
-        router.push("/account/vendor/"+responseData.vendorId+"/invoices");
+        router.push("/account/vendor/invoices");
       }else {
         toast({
           title: 'Invoice Error.',
