@@ -104,7 +104,7 @@ const Slideopen = () => {
           {(userService.isManager() || userService.isAccountAdmin()) ? (
             <>
             <Tooltip label="Timesheet Approvals" placement='right' color={tooltip_style.color} hasArrow maxWidth={tooltip_style.maxWidth} backgroundColor={tooltip_style.bgColor}>
-              <Link href={`/account/user/${userService.userValue.id}/timesheets/approval`} styles={({isManagerActive}) => (isManagerActive ? navbaractive: navbarnotactive)}>  
+              <Link href={`/account/user/timesheets/approval`} styles={({isManagerActive}) => (isManagerActive ? navbaractive: navbarnotactive)}>  
                   <div>
                     <MdOutlineApproval  className={styles.icons1}/>
                   </div>

@@ -8,7 +8,9 @@ const initialState = {
     timesheetReducerTest: "Testing",
     timesheetEntries: [],
     projectTimesheets: [],
-    approvalTimesheets: []
+    approvalTimesheets: [],
+    selectedTimesheetId: null,
+    selectedTimesheetEntryId: null,
 };
 
 const timesheetReducer = (state = initialState, {type, payload}) => {
@@ -26,7 +28,11 @@ const timesheetReducer = (state = initialState, {type, payload}) => {
         if(!payload.error) {
             newState.approvalTimesheets = payload;
         }
-    } 
+    } else if(type === ActionTypes.SET_SELECTED_TIMESHEET_ENTRY_ID) {
+        newState.selectedTimesheetEntryId = payload
+    } else if(type === ActionTypes.SET_SELECTED_TIMESHEET_ID) {
+        newState.selectedTimesheetId = payload
+    }
 
     return newState;
 };

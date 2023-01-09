@@ -25,7 +25,7 @@ import { useSelector } from "react-redux";
 
 
 const UserDetail = (props) => {
-  const userId = useSelector(state => state.user.loggedInUser);
+  const userId = useSelector(state => state.user.loggedInUser.id);
 
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure()

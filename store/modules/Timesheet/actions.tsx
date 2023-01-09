@@ -48,3 +48,16 @@ export const fetchTimesheetsForApproval = (userId, accountId) => {
       };
 }
 
+export const setSelectedTimesheetId = (selectedTimeSheetId) => {
+    return {
+        type: ActionTypes.SET_SELECTED_TIMESHEET_ID,
+        payload: selectedTimeSheetId
+    }
+}
+
+export const setSelectedTimesheetEntryId = (selectedTimeSheetEntryId) => {
+    return {
+        type: ActionTypes.SET_SELECTED_TIMESHEET_ENTRY_ID,
+        payload: selectedTimeSheetEntryId
+    }
+}

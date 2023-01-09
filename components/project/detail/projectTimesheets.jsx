@@ -37,7 +37,6 @@ import { DrawerMainHeader } from "../../common/drawerMainHeader";
 const ProjectTimesheets = (props) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const dispatch = useDispatch();
-    console.log("ProjectTimesheets::DATTA::::"+JSON.stringify(props))
     const projectId = props.data.projectId;
     const callType = props.data.callType;
     const [size, setSize] = useState('');
@@ -46,7 +45,6 @@ const ProjectTimesheets = (props) => {
     const timesheetEntryList = useSelector(state => state.timesheet.projectTimesheets);
     const invoiceTotal = useSelector(state => state.invoice.invoiceTotal);
 
-    console.log("ProjectTimesheets::timesheetList::::"+JSON.stringify(timesheetEntryList))
 
     useEffect(() => {
 

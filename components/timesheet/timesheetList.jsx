@@ -12,16 +12,20 @@ import {
   Tr,
   Box,
   Flex,
-  Heading,
   TableContainer,
   TableCaption,
   Badge
 } from '@chakra-ui/react'
 import { PageNotAuthorized } from "../common/pageNotAuthorized";
 import { PageMainHeader } from "../common/pageMainHeader";
+import { useDispatch } from "react-redux";
+import { setSelectedTimesheetId } from "../../store/modules/Timesheet/actions";
+
+
 
 const TimesheetList = (props) => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const { data } = props.userData;
   const { isManager } = props.userData;
   console.log("timesheetList::"+JSON.stringify(props))
@@ -64,6 +68,11 @@ const TimesheetList = (props) => {
 
     }
 
+    function handleTimesheetSelection(timesheetId){
+      dispatch(setSelectedTimesheetId(timesheetId))
+      router.push("/timesheet");
+  
+    }
   
   const navigatePage = () => router.push({ pathname: '/timesheet/add', query: { manager: isManager }});
   
@@ -129,11 +138,9 @@ const TimesheetList = (props) => {
                             </Th>
                             <Th>
                               <HStack>
-                                <Link href={`/timesheet/${timesheet.id}`}>
-                                  <Button className="btn">
+                                  <Button onClick={() => handleTimesheetSelection(timesheet.id)}>
                                     Details
                                   </Button>
-                                </Link>
                                 <Badge color={`${
                                       timesheet.status === "Approved"
                                       ? "timesheet.approved_status"

@@ -88,7 +88,7 @@ const TimesheetAddEdit = (props) => {
           duration: 3000,
           isClosable: true,
         })
-        router.push("/account/user/"+userService.userValue.id+"/timesheets");
+        router.push("/account/user/timesheets");
         
       
     } catch (error) {
@@ -126,7 +126,7 @@ const TimesheetAddEdit = (props) => {
 
       const data = await res.json();
       
-      router.push("/account/user/"+userService.userValue.id+"/timesheets");
+      router.push("/account/user/timesheets");
       toast({
         title: 'Update Timesheet.',
         description: 'Successfully updated timesheet.',
