@@ -145,7 +145,7 @@ const TimesheetList = (props) => {
                                       timesheet.status === "Approved"
                                       ? "timesheet.approved_status"
                                       : (timesheet.status === "Submitted" || timesheet.status === "Saved")
-                                      ? "timesheet.pending_status"
+                                      ? "timesheet.approved_status"
                                       : "timesheet.pending_status"
                                   }`}>{timesheet.status}</Badge>
                               </HStack>
