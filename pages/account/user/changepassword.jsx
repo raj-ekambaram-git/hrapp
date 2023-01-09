@@ -28,11 +28,11 @@ function ChangePassword(props) {
     const toast = useToast()
     const userId = useSelector(state => state?.user?.loggedInUser?.id);
 
-    if(userId === undefined || userId=== EMPTY_STRING) {
-        router.push({
-            pathname: '/account/login'
-        });
-    }
+    // if(userId === undefined || userId=== EMPTY_STRING) {
+    //     router.push({
+    //         pathname: '/account/login'
+    //     });
+    // }
 
     // const userId = router.query.userId;
     // if(router.query.userId === undefined || router.query.userId === EMPTY_STRING) {
