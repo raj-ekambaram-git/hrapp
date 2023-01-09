@@ -1,14 +1,17 @@
 
-import {MODE_EDIT} from "../../../../constants/accountConstants";
+import {MODE_EDIT} from "../../../constants/accountConstants";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import ProjectAddEdit from "../../../../components/project/projectAddEdit";
+import ProjectAddEdit from "../../../components/project/projectAddEdit";
+import { useSelector } from "react-redux";
 
 
 const EditProject = (props) => {
   const router = useRouter();
   const [isVendor, setVendor] = useState(true);
 
+  const projectId = useSelector(state => state.project.selectedProjectId);
+  
   useEffect(() => {
     if(router.query && router.query.vendor) {
       setVendor(router.query.vendor)
@@ -17,7 +20,7 @@ const EditProject = (props) => {
 
   console.log("Edit User::"+JSON.stringify(props))
   
-  const projectId = props.data.projectId;
+  
   const requestData = {
     mode: MODE_EDIT,
     projectId: projectId,
@@ -32,28 +35,3 @@ const EditProject = (props) => {
     );
   };
 export default EditProject;
-
-
-
-export async function getStaticPaths() {
-
-  return {
-    paths: [{ params: { projectId: "1" } }],
-    fallback: false,
-  };
-
-} 
-
-export async function getStaticProps(context) {
-  console.log("Static prosp::"+JSON.stringify(context))
-  
-  const { projectId } = context.params;
-  return {
-    props: {
-      data: {
-        projectId: projectId
-      },
-    },
-    revalidate: 1,
-  };
-}

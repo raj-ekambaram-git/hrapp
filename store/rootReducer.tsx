@@ -6,6 +6,7 @@ import userReducer from "./modules/User/reducer";
 import vendorReducer from "./modules/Vendor/reducer";
 import accountReducer from "./modules/Account/reducer";
 import notesReducer from "./modules/Notes/reducer";
+import projectReducer from "./modules/Project/reducer";
 
 const rootReducer = combineReducers({
     timesheet: timesheetReducer,
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
     vendor: vendorReducer,
     account: accountReducer,
     notes: notesReducer,
+    project: projectReducer
     
 });
 

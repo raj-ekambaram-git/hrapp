@@ -1,6 +1,5 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import Link from "next/link";
 import { accountService, userService } from "../../services";
 import { PageNotAuthorized } from "../../components/common/pageNotAuthorized";
 import {
@@ -13,16 +12,18 @@ import {
   Tr,
   Box,
   Flex,
-  Heading,
   TableContainer,
   TableCaption,
   Badge
 } from '@chakra-ui/react'
 import {PageMainHeader} from '../../components/common/pageMainHeader'
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setSelectedProjectId } from "../../store/modules/Project/actions";
+
 
 const ProjectList = (props) => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const { data } = props.projectList;
   const { isVendor } = props.projectList;
   console.log("ProjectList::"+JSON.stringify(data))
@@ -69,6 +70,11 @@ const ProjectList = (props) => {
       const responseData = await accountService.getProjectList(vendorId, accountId);
       setProjectList(responseData);
 
+    }
+
+    function handleProjectDetailSelection(projectId){
+      dispatch(setSelectedProjectId(projectId))
+      router.push("/account/project/detail");
     }
 
   
@@ -160,11 +166,9 @@ const ProjectList = (props) => {
                             </Th>
                             <Th>
                               <HStack>
-                                <Link href={`/account/project/${project.id}/detail`} passref key={project.id}>
-                                  <Button>
+                                  <Button onClick={() => handleProjectDetailSelection(project.id)}>
                                     Details
                                   </Button>
-                                </Link>
                                 <Badge color={`${
                                     (project.status === "Created" || project.status === "Open" )
                                       ? "paid_status"

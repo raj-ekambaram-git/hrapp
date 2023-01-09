@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { accountService, userService } from '../../../../services';
-import {MODE_ADD, MODE_EDIT, PROJECT_CALL_TYPE} from "../../../../constants/accountConstants";
+import { accountService, userService } from '../../../services';
+import {MODE_ADD, MODE_EDIT, PROJECT_CALL_TYPE} from "../../../constants/accountConstants";
 import {
   Box,
   Stack,
@@ -11,25 +11,26 @@ import {
   useDisclosure,
   Accordion
 } from '@chakra-ui/react'
-import ProjectResourceList from "../../../../components/project/detail/projectResourceList";
-import ProjectDetailSection from "../../../../components/project/detail/projectDetailSection";
-import ProjectAccountSection from "../../../../components/project/detail/projectAccountSection";
-import ProjectContactDetailSection from "../../../../components/project/detail/projectContactDetailSection";
-import ProjectLocationSection from "../../../../components/project/detail/projectLocationSection";
-import ProjectFinancialSection from "../../../../components/project/detail/projectFinancialSection";
-import ProjectStatusSection from "../../../../components/project/detail/projectStatusSection";
-import ProjectTimesheets from "../../../../components/project/detail/projectTimesheets";
-import {PageMainHeader} from '../../../../components/common/pageMainHeader';
-import { NotesConstants } from "../../../../constants";
-import { useDispatch } from "react-redux";
+import ProjectResourceList from "../../../components/project/detail/projectResourceList";
+import ProjectDetailSection from "../../../components/project/detail/projectDetailSection";
+import ProjectAccountSection from "../../../components/project/detail/projectAccountSection";
+import ProjectContactDetailSection from "../../../components/project/detail/projectContactDetailSection";
+import ProjectLocationSection from "../../../components/project/detail/projectLocationSection";
+import ProjectFinancialSection from "../../../components/project/detail/projectFinancialSection";
+import ProjectStatusSection from "../../../components/project/detail/projectStatusSection";
+import ProjectTimesheets from "../../../components/project/detail/projectTimesheets";
+import {PageMainHeader} from '../../../components/common/pageMainHeader';
+import { NotesConstants } from "../../../constants";
+import { useDispatch, useSelector } from "react-redux";
 
 
 const ProjectDetail = (props) => {
-  const projectId = props.data.projectId;
+  
   const dispatch = useDispatch();
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure()
-  
+
+  const projectId = useSelector(state => state.project.selectedProjectId);
   
   const [project, setProject] = useState({});
   const [projectLocation, setProjectLocation] = useState({});
@@ -41,8 +42,7 @@ const ProjectDetail = (props) => {
   const [editProjectResourceRequest, setEditProjectResourceRequest] = useState({});
   
 
-  const navigateProjectEditPage = () => router.push("/account/project/"+project.id);
-  const navigateProjectInvoicesPage = () => router.push("/account/project/"+project.id+"/invoices");
+
   //To Enable Notes
   const notesData = {
     type: NotesConstants.NOTES_TYPE.Project,
@@ -192,12 +192,12 @@ const ProjectDetail = (props) => {
           <Flex marginTop="2rem">
                 <HStack spacing={2}>
                   <Box>
-                    <Button className="btn" onClick={navigateProjectEditPage}>
+                    <Button onClick={() => router.push("/account/project/edit")}>
                       Edit
                     </Button>
                   </Box>
                   <Box>
-                    <Button className="btn" onClick={navigateProjectInvoicesPage}>
+                    <Button onClick={() => router.push("/account/project/invoices")}>
                       Invoices
                     </Button>
                   </Box>   
@@ -220,28 +220,3 @@ const ProjectDetail = (props) => {
 };
 
 export default ProjectDetail;
-
-
-
-export async function getStaticPaths() {
-
-  return {
-    paths: [{ params: { projectId: "1" } }],
-    fallback: false,
-  };
-
-} 
-
-export async function getStaticProps(context) {
-  const { projectId } = context.params;
-
-  return {
-    props: {
-      data: {
-        projectId: projectId
-      }
-    },
-    revalidate: 1,
-  };
-
-}

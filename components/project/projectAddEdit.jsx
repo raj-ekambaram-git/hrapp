@@ -209,7 +209,7 @@ const ProjectAddEdit = (props) => {
         props.data.onClose();
       }else {
         console.log("NOT INSIDE")
-        router.push("/account/vendor/"+formData.vendorId+"/projects");
+        router.push("/account/projects");
       }
 
       
@@ -259,7 +259,7 @@ const ProjectAddEdit = (props) => {
       if(props.data.modalRequest) {
         props.data.onClose();
       }else {
-        router.push("/account/vendor/"+formData.vendorId+"/projects");
+        router.push("/account/projects");
       }
       toast.success(data.message);
     } catch (error) {
