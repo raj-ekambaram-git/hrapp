@@ -26,7 +26,7 @@ export const invoiceService = {
 async function generateInvoice(invoiceId, accountId) {
 
 
-    const data = await fetch(`${baseUrl}/account/invoice/${invoiceId}/generate`, {
+    const data = await fetchWrapper(`${baseUrl}/account/invoice/${invoiceId}/generate`, {
       method: 'POST',
       body: {invoiceId: invoiceId, acountId: accountId},
     });

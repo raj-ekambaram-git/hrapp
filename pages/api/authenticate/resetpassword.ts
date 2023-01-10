@@ -3,6 +3,7 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import prisma from "../../../lib/prisma";
 import {util} from '../../../helpers/util';
+import { emailService } from "../../../services";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method !== 'POST') {
@@ -26,6 +27,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         data: {password: passwordHash.passwordHash, passwordSalt: passwordHash.passwordSalt, passwordExpired: true, passwordRetries: 5} //TODO: Get the starting password retries from Config
       });
   
+      if(savedUser) {
+        //Send Reset Password Email now
+        const emailResponse = emailService.sendEmail({body: tempPassword})
+        console.log("Email Response :::"+emailResponse)
+      }
       res.status(200).json(savedUser);
     
   

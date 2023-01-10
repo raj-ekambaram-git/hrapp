@@ -1,6 +1,9 @@
 module.exports = {
   reactStrictMode: false,
   serverRuntimeConfig: {
+    apiUrl: process.env.NODE_ENV === 'development'
+    ? 'http://localhost:3000/api' // development api
+    : 'https://mpik62bzs8.us-east-1.awsapprunner.com/api', // production api
       secret: '123456789',
       clientId: '11122'
   },
