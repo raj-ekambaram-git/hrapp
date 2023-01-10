@@ -26,6 +26,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import AddInvoiceEmailTo from "./addInvoiceEmailTo";
 import { removeEmailFromInvoiceEmailListByIndex } from "../../store/modules/Invoice/actions";
+import { invoiceService } from "../../services";
 
 
 
@@ -35,14 +36,21 @@ const InvoiceEmailTo = (props) => {
   
     const [size, setSize] = useState('');
     const { isOpen, onOpen, onClose } = useDisclosure()
-  
+    const invoiceId = useSelector(state => state.invoice.selectedInvoiceId);
     const invoiceEmailTo = useSelector(state => state.invoice.invoiceEmailTo);
 
     function handleInvoiceEmailTo(newSize) {
         setSize(newSize);
         onOpen();
     }
-    function deleteInvoiceEmailTo(indexVal){
+    async function deleteInvoiceEmailTo(indexVal){
+
+        const newInvoiceEmailToList = [...invoiceEmailTo];
+        const emailToRemoveIndex = newInvoiceEmailToList.findIndex(x => x === indexVal);
+        newInvoiceEmailToList.splice(emailToRemoveIndex, 1);
+        console.log("removing emailTo:::"+JSON.stringify(newInvoiceEmailToList))
+        const responseData = await invoiceService.updateInvoiceEmailTo(invoiceId, newInvoiceEmailToList);
+
         dispatch(removeEmailFromInvoiceEmailListByIndex(indexVal));
     }
 
