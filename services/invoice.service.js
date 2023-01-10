@@ -25,16 +25,17 @@ export const invoiceService = {
 
 async function generateInvoice(invoiceId, accountId) {
 
-
-    const data = await fetchWrapper(`${baseUrl}/account/invoice/${invoiceId}/generate`, {
+    // const data = await fetchWrapper.postWithoutJSON(`${baseUrl}/account/invoice/${invoiceId}/generate`,{invoiceId: invoiceId, acountId: accountId});
+    const data = await fetch(`${baseUrl}/account/invoice/${invoiceId}/generate`, {
       method: 'POST',
       body: {invoiceId: invoiceId, acountId: accountId},
+      headers: fetchWrapper.authHeader(`${baseUrl}/account/invoice/${invoiceId}/generate`),
     });
     // convert the response into an array Buffer
     if(data.arrayBuffer) {
       return data.arrayBuffer();
     }else {
-      return {errorMessage: "Error Creating Invoice FIle", error: true};
+      return {errorMessage: "Error generateInvoice", error: true};
     }
     
 
