@@ -20,17 +20,20 @@ export const invoiceService = {
     getInvoiceTransactions,
     createInvoiceTransaction,
     generateInvoice,
-    updateInvoiceEmailTo
+    updateInvoiceEmailTo    
 
 };
 
-async function generateInvoice(invoiceId, accountId) {
+function generateInvoice(invoiceId, accountId) {
 
-    // const data = await fetchWrapper.postWithoutJSON(`${baseUrl}/account/invoice/${invoiceId}/generate`,{invoiceId: invoiceId, acountId: accountId});
+  return fetchWrapper.get(`${baseUrl}/account/invoice/`+invoiceId+'/generate/detail?accountId='+accountId, {}
+  )
+  .then(async generateInvoiceDetail => {
+    const authHeader = JSON.stringify(fetchWrapper.authHeader(`${baseUrl}/account/invoice/${invoiceId}/generate`));
     const data = await fetch(`${baseUrl}/account/invoice/${invoiceId}/generate`, {
       method: 'POST',
-      body: {invoiceId: invoiceId, acountId: accountId},
-      headers: fetchWrapper.authHeader(`${baseUrl}/account/invoice/${invoiceId}/generate`),
+      body: JSON.stringify(generateInvoiceDetail),
+      headers: { 'Content-Type': 'application/json', 'Authorization': authHeader},
     });
     // convert the response into an array Buffer
     if(data.arrayBuffer) {
@@ -38,6 +41,13 @@ async function generateInvoice(invoiceId, accountId) {
     }else {
       return {errorMessage: "Error generateInvoice", error: true};
     }
+  })
+  .catch(err => {
+    console.log("Error generateInvoice::"+err)
+    return {errorMessage: err, error: true};
+  });
+
+
     
 
 }

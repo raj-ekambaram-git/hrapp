@@ -1,16 +1,21 @@
 // import the necessary node libraries
 import fs from 'fs';
+import { NextApiRequest, NextApiResponse } from "next"
 import puppeteer from 'puppeteer';
 import handlers from 'handlebars';
 
-export default async (req, res) => {
+export default async (req: NextApiRequest, res: NextApiResponse) => {
   // extract the customer name from the req.body object
   // and also set a default name with the logical operator
-  console.log("GEnerate Invoice ::"+JSON.stringify(req.body))
+  
   // const { name } = JSON.parse(req.body);
-  const customerName = {name: "RRRR", age: "24", items: [{name: "111"}, {name: "222"}]};
-
+  
+  console.log("GENERATE:::"+JSON.stringify(req.body))
   try {
+
+    //Now make the generate/detail call to get the latest invoice details for the file getting generated
+
+    const customerName = {name: "RRRR", age: "24", items: [{name: "111"}, {name: "222"}]};
     // read our invoice-template.html file using node fs module
     const file = fs.readFileSync('templates/invoice/invoice.html', 'utf8');
 
