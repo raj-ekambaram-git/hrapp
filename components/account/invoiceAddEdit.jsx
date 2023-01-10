@@ -23,7 +23,8 @@ import {
   useToast,
   InputGroup,
   InputLeftElement,
-  Text
+  Text,
+  Badge
 } from '@chakra-ui/react'
 import InvoiceItems from "../invoice/invoiceItems";
 import { useDispatch,useSelector } from "react-redux";
@@ -379,11 +380,22 @@ const InvoiceAddEdit = (props) => {
                         <Box>
                           <FormControl isRequired>
                             <FormLabel>Invoice Status</FormLabel>
-                            <Select width="100%" id="status" {...register('status')} >
-                                {INVOICE_STATUS?.map((invoiceStatus) => (
-                                        <option value={invoiceStatus.invoiceStatusId}>{invoiceStatus.invoiceStatusName}</option>
-                                ))}   
-                            </Select>
+                                {(status === InvoiceConstants.INVOICE_STATUS.Paid || status === InvoiceConstants.INVOICE_STATUS.PartiallyPaid) ? (<>
+                                  <Badge color={`${
+                                    status === "Paid"
+                                      ? "paid_status"
+                                      : invoice.status === "Pending"
+                                      ? "pending_status"
+                                      : "pending_status"
+                                  }`}>{status}</Badge>                            
+                                </>) : (<>
+                                  <Select width="100%" id="status" {...register('status')} >
+                                      {INVOICE_STATUS?.map((invoiceStatus) => (
+                                              <option value={invoiceStatus.invoiceStatusId}>{invoiceStatus.invoiceStatusName}</option>
+                                      ))}   
+                                  </Select>
+
+                                </>)}
                           </FormControl>     
                         </Box>  
                       </HStack>                          
@@ -565,7 +577,7 @@ const InvoiceAddEdit = (props) => {
                     </Button>
                   </Box>
                   <Box>
-                    {status != InvoiceConstants.INVOICE_STATUS.Paid ? (<>
+                    {(status != InvoiceConstants.INVOICE_STATUS.Paid || status != InvoiceConstants.INVOICE_STATUS.PartiallyPaid) ? (<>
                       <Button type="submit">
                         {isAddMode ? (
                             <div>Add New Invoice</div>

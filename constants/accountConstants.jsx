@@ -182,14 +182,6 @@ export const INVOICE_STATUS = [
     invoiceStatusName: "Pending"
   },
   {
-    invoiceStatusId: "PartiallyPaid",
-    invoiceStatusName: "PartiallyPaid"
-  },
-  {
-    invoiceStatusId: "Paid",
-    invoiceStatusName: "Paid"
-  },
-  {
     invoiceStatusId: "Cancelled",
     invoiceStatusName: "Cancelled"
   }      
