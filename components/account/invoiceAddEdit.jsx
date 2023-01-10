@@ -565,13 +565,15 @@ const InvoiceAddEdit = (props) => {
                     </Button>
                   </Box>
                   <Box>
-                    <Button type="submit">
-                      {isAddMode ? (
-                          <div>Add New Invoice</div>
-                      ) : (
-                        <div>Update Invoice</div>
-                      )}              
-                    </Button>
+                    {status != InvoiceConstants.INVOICE_STATUS.Paid ? (<>
+                      <Button type="submit">
+                        {isAddMode ? (
+                            <div>Add New Invoice</div>
+                        ) : (
+                          <div>Update Invoice</div>
+                        )}              
+                      </Button>
+                    </>) : (<></>)}
                   </Box>
                 </HStack>
               </Flex>                   
