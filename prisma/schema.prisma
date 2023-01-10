@@ -33,6 +33,10 @@ model Address {
   Vendor         Vendor?       @relation(fields: [vendorId], references: [id])
   vendorId       Int?
   project        Project[]
+
+  @@index([accountId])
+  @@index([accountId, vendorId, userId])
+  @@index([vendorId, userId])
 }
 
 model Account {
