@@ -31,5 +31,5 @@ export function middleware(request: NextRequest) {
 
 // See "Matching Paths" below to learn more
 export const config = {
-  matcher: ['/account/:path*', '/accounts']
+  matcher: ['/account/:path*', '/api/account/:path*', '/api/calendar/:path*', '/api/notes/:path*', '/api/timesheet/:path*', '/accounts']
 }
