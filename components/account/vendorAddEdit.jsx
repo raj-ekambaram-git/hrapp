@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { util } from '../../helpers';
-import { accountService, userService } from "../../services";
+import { accountService, userService, vendorService } from "../../services";
 import {MODE_ADD, VENDOR_VALIDATION_SCHEMA, USER_ROLES} from "../../constants/accountConstants";
 import {US_STATES} from "../../constants/commonConstants";
 import { PageNotAuthorized } from "../../components/common/pageNotAuthorized";
@@ -148,55 +148,27 @@ const VendorEdit = (props) => {
   const createVendor = async (formData) => {
     try {
       console.log("Create Veendorrr::"+JSON.stringify(formData))
-        const res = await fetch("/api/account/vendor/create", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            name: formData.name,
-            description: formData.description,
-            address: {
-              create: [
-                {
-                  type: "V",
-                  accountId: parseInt(formData.accountId),
-                  addressName: formData.addressName,
-                  address1: formData.address1,
-                  address2: formData.address2,
-                  address3: formData.address3,
-                  city: formData.city,
-                  state: formData.state,
-                  zipCode: formData.zipCode,
-                  country: formData.country,
-                  status: "A"
-                }
-              ]
-            },
-            email: formData.email,
-            type: formData.type,
-            phone: formData.phone,
-            accountId: parseInt(formData.accountId),
-            ein: formData.ein,
-            status: formData.status,
-            accountContactName: formData.accountContactName,
-            accountContactEmail: formData.accountContactEmail,
-            accountContactPhone: formData.accountContactPhone
-          }), 
-        });
-        const data = await res.json();
-
-        toast({
-          title: 'Add new vendor',
-          description: 'Successfullt added new vendor.',
-          status: 'success',
-          position: 'top',
-          duration: 3000,
-          isClosable: true,
-        })    
-        router.push("/account/vendors");
-        
-      
+        const responseData = vendorService.createVendor(formData);
+        if(responseData.error) {
+          toast({
+            title: 'Add Vendor Error.',
+            description: 'Error creating a new vendor.',
+            status: 'error',
+            position: 'top',
+            duration: 9000,
+            isClosable: true,
+          })    
+        }else {
+          toast({
+            title: 'Add new vendor',
+            description: 'Successfullt added new vendor.',
+            status: 'success',
+            position: 'top',
+            duration: 3000,
+            isClosable: true,
+          })    
+          router.push("/account/vendors");
+        }
     } catch (error) {
       toast({
         title: 'Add Vendor Error.',
@@ -215,65 +187,34 @@ const VendorEdit = (props) => {
   const updateVendor = async (vendorId, formData) => {
     console.log("JSON Data::"+JSON.stringify(formData))
     try {
-      const res = await fetch(`/api/account/vendor/${vendorId}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          id: parseInt(vendorId),
-          name: formData.name,
-          description: formData.description,
-          address: {
-            update: {
-              where: {
-                id: vendor.addressId,
-              },
-              data:
-              {
-                type: "V",
-                addressName: formData.addressName,
-                address1: formData.address1,
-                address2: formData.address2,
-                address3: formData.address3,
-                accountId: parseInt(formData.accountId),
-                city: formData.city,
-                state: formData.state,
-                zipCode: formData.zipCode,
-                country: formData.country,
-                status: "A"
-              }
-            }
-          },
-          email: formData.email,
-          type: formData.type,
-          phone: formData.phone,
-          accountId: parseInt(formData.accountId),
-          ein: formData.ein,
-          status: formData.status,
-          accountContactName: formData.accountContactName,
-          accountContactEmail: formData.accountContactEmail,
-          accountContactPhone: formData.accountContactPhone
+      const responseData = vendorService.updateVendor(formData, vendorId, vendor.addressId)
+      if(responseData.error) {
+        toast({
+          title: 'Update Vendor Error.',
+          description: 'Error updating the vendor.',
+          status: 'error',
+          position: 'top',
+          duration: 3000,
+          isClosable: true,
+        })    
+      } else {
+        toast({
+          title: 'Vendor Updated.',
+          description: 'Successfully updated the vendor.',
+          status: 'success',
+          position: 'top',
+          duration: 9000,
+          isClosable: true,
+        })  
+        router.push("/account/vendors");
+      }
 
-        }),
-      });
-
-      const data = await res.json();
-      toast({
-        title: 'Vendor Updated.',
-        description: 'Successfully updated the vendor.',
-        status: 'success',
-        position: 'top',
-        duration: 9000,
-        isClosable: true,
-      })  
-      router.push("/account/vendors");
     } catch (error) {
       console.log(error)
       toast({
         title: 'Update Vendor Error.',
         description: 'Error updating the vendor.',
-        status: 'success',
+        status: 'error',
         position: 'top',
         duration: 3000,
         isClosable: true,
