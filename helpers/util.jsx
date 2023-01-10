@@ -30,7 +30,7 @@ function isOdd(value) {
 }
 
 function getZeroPriceForNull(value) {
-  if(value === undefined || value === EMPTY_STRING || value === null) {
+  if(value === undefined || value === EMPTY_STRING || value === null || isNaN(value)) {
     return parseFloat(0);
   }else {
     return parseFloat(value);

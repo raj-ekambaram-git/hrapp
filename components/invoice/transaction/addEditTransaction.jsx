@@ -32,10 +32,13 @@ import { ErrorMessage } from "../../../constants/errorMessage";
 import { invoiceService, userService } from "../../../services";
 import { util } from "../../../helpers/util";
 import { ShowInlineErrorMessage } from "../../common/showInlineErrorMessage";
+import { useDispatch } from "react-redux";
+import { updateInvoiceTransactions } from "../../../store/modules/Invoice/actions";
 
   
 const AddEditTransaction = (props) => {
     const toast = useToast();
+    const dispatch = useDispatch();
     const { isOpen, onToggle, onClose } = useDisclosure()
     const [tranAmount, setTranAmount] = useState(EMPTY_STRING);
     const [tranReferenceNo, setTranReferenceNo] = useState(EMPTY_STRING);
@@ -72,6 +75,7 @@ const AddEditTransaction = (props) => {
                         isClosable: true,
                       })
                 }else {
+                    dispatch(updateInvoiceTransactions(responseData));
                     onClose();
                     toast({
                         title: 'New Invoice Transaction.',

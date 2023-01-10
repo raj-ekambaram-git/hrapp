@@ -13,6 +13,7 @@ export const InvoiceConstants = {
     'Paid': 'Paid',
     'Refund': 'Refund',
     'Cancelled': 'Cancelled',
+    'PartiallyPaid': 'PartiallyPaid',
   },
   INVOICE_CURRENCY_USD: 'USD',
   INVOICE_UOM_HOURS: 'Hours',

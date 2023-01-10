@@ -64,11 +64,11 @@ function createInvoiceTransaction(formData, accountId) {
       || formData.status == InvoiceConstants.INVOICE_TRANSSACTION__STATUS.Cancelled)
     && (util.getZeroPriceForNull(formData.amount)<util.getZeroPriceForNull(invoice.paidAmount))))
     //Check if invoie is valid
-    if(((formData.status == InvoiceConstants.INVOICE_TRANSSACTION__STATUS.Paid || formData.status == InvoiceConstants.INVOICE_TRANSSACTION__STATUS.Pending) && 
-      util.getZeroPriceForNull(invoice.total) > util.getZeroPriceForNull(invoice.paidAmount))
+    if(((formData.status == InvoiceConstants.INVOICE_TRANSSACTION__STATUS.Paid || formData.status == InvoiceConstants.INVOICE_TRANSSACTION__STATUS.PartiallyPaid || formData.status == InvoiceConstants.INVOICE_TRANSSACTION__STATUS.Pending) && 
+      util.getZeroPriceForNull(invoice.total) >= (util.getZeroPriceForNull(invoice.paidAmount)+util.getZeroPriceForNull(formData.amount)))
       || ((formData.status == InvoiceConstants.INVOICE_TRANSSACTION__STATUS.Refund 
             || formData.status == InvoiceConstants.INVOICE_TRANSSACTION__STATUS.Cancelled)
-          && (util.getZeroPriceForNull(formData.amount)<util.getZeroPriceForNull(invoice.paidAmount)))) {
+          && (util.getZeroPriceForNull(formData.amount)<= (util.getZeroPriceForNull(invoice.paidAmount)- util.getZeroPriceForNull(formData.amount))))) {
       console.log("Inside more payment needed condition, so creating the transaction")
       return fetchWrapper.post(`${baseUrl}/account/invoice/`+formData.invoiceId+`/transaction/create`, {
         amount: formData.amount,
@@ -92,7 +92,7 @@ function createInvoiceTransaction(formData, accountId) {
       });
   
     }else {
-      console.log("Error COndition here with the status")
+      console.log("Error Condition here with the status")
       return {errorMessage: ErrorMessage.INVOICE_TRANSACTION_ALREADY_PAID, error: true};
     }
 
@@ -252,14 +252,22 @@ async function updateTotalPaidAmount(invoiceTransaction, invoice) {
   let finalPaidAmount = 0;
   if(invoiceTransaction.status === InvoiceConstants.INVOICE_TRANSSACTION__STATUS.Refund
     || invoiceTransaction.status === InvoiceConstants.INVOICE_TRANSSACTION__STATUS.Cancelled) {
-      finalPaidAmount = parseFloat(invoice.paidAmount)-parseFloat(invoiceTransaction.amount);
+      finalPaidAmount = util.getZeroPriceForNull(invoice.paidAmount)-util.getZeroPriceForNull(invoiceTransaction.amount);
   }else if (invoiceTransaction.status === InvoiceConstants.INVOICE_TRANSSACTION__STATUS.Paid) {
-    finalPaidAmount = parseFloat(invoiceTransaction.amount)+parseFloat(invoice.paidAmount)
+    finalPaidAmount = util.getZeroPriceForNull(invoiceTransaction.amount)+util.getZeroPriceForNull(invoice.paidAmount)
+  }
+
+  let udpateStatus = invoice.status;
+  if(invoice.total == finalPaidAmount) {
+    udpateStatus = InvoiceConstants.INVOICE_STATUS.Paid;
+  } else if(finalPaidAmount > 0) {
+    udpateStatus = InvoiceConstants.INVOICE_STATUS.PartiallyPaid;
   }
 
   return fetchWrapper.put(`${baseUrl}/account/invoice/`+invoice.id, {
       id: invoice.id,
-      paidAmount: finalPaidAmount
+      paidAmount: finalPaidAmount,
+      status: udpateStatus
     }
   )
   .then(invoice => {

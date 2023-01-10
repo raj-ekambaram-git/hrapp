@@ -56,6 +56,15 @@ const invoiceReducer = (state = initialState, {type, payload}) => {
     } else if(type === ActionTypes.SET_INVOICE_TRANSACTIONS) {
         
     } else if(type === ActionTypes.UPDATE_INVOICE_TRANSACTIONS) {
+        const newInvoiceTransactions = [...newState.invoiceTransactions]
+        if(Array.isArray(payload)) {
+            //Edit Condition
+            newState.invoiceTransactions = payload;
+        }else {
+            //Add New Condtion or udpate
+            newInvoiceTransactions.push(payload);
+            newState.invoiceTransactions = newInvoiceTransactions;
+        }
         
     } else if(type === ActionTypes.SET_INVOICE_EMAIL_TO) {
         console.log("newState.invoiceEmailTo::"+JSON.stringify(newState.invoiceEmailTo))
