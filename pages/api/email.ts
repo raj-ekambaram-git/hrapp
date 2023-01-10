@@ -1,6 +1,9 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
 import { NextApiRequest, NextApiResponse } from "next"
+import { invoiceService } from "../../services";
+import fs from 'fs';
+import { Buffer, Blob } from "buffer";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const mail = require('@sendgrid/mail');
@@ -11,18 +14,19 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   try {
-    const emailRequest = req.body;
-
-    console.log("emailRequest:::"+JSON.stringify(emailRequest))
-
-    //Successfully saved the temp password, now send the email
-      if(emailRequest) {
+    const {emailRequest} = req.body;
+      if(emailRequest && !emailRequest.withAttachment) {
         await mail.send({
-          to: 'raj.ekambaram@yahoo.com',
-          from: 'admin@dsquaredtech.us',
-          subject: 'New Message!',
-          text: 'Text Message',
-          html: 'Test Message with temp password :'+emailRequest.body,
+          from: {
+            email: emailRequest.from
+          },
+          personalizations: [
+            {
+              to: emailRequest.to,
+              dynamic_template_data: emailRequest.templateData,
+            }
+          ],
+          template_id: emailRequest.template_id
         }).then((emailResponse) => {
           console.log("emailResponse::"+JSON.stringify(emailResponse))
           res.status(200).json(emailRequest);

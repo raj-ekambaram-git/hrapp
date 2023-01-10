@@ -29,7 +29,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   
       if(savedUser) {
         //Send Reset Password Email now
-        const emailResponse = emailService.sendEmail({body: tempPassword})
+        const emailResponse = emailService.sendEmail(getTempPasswordEmailRequest(savedUser, tempPassword));
         console.log("Email Response :::"+emailResponse)
       }
       res.status(200).json(savedUser);
@@ -47,28 +47,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 }
 
 
-async function hasAccess(result, res, userId, newPassword) {
-  if (result) {
-    // insert login code here
-    console.log("Access Granted! ::"+userId);
 
-    //Old Password is correct, so create the new password and update the user record
-    const hashed = util.getPasswordHash(newPassword);
-
-    console.log("hashed:::"+JSON.stringify(hashed));
-
-    const savedUser = await prisma.user.update({
-      where: {
-        id: parseInt(userId),
-      },
-      data: {password: hashed.passwordHash, passwordSalt: hashed.passwordSalt}
-    });
-
-    res.status(200).json(savedUser);
+function getTempPasswordEmailRequest(resetUser, tempPassword) {
+  return {
+    from: "admin@dsquaretech.us",
+    to: resetUser.email,
+    templateData: {
+      tempPassword: tempPassword
+    },
+    template_id: 'd-fe0e6d3b03a846fd957bb052a2d343e3'
   }
-  else {
-    // insert access denied code here
-    console.log("Access Denied! ::"+userId);
-    res.status(400).json({ message: 'Invalid old password. Please enter valid old password to change it.' });
-  }
+
 }
