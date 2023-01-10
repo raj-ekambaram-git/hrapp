@@ -136,9 +136,10 @@
           <table>
             <tr>
               <td>
-                Rona, Inc.<br>
-                Earth<br>
-                Universe, 3rd Dimension
+                {{account.name}} <br>
+                {{#each account.address}}
+                  {{address1}}, {{city}}, {{state}}, {{zipCode}}
+                {{/each}}
               </td>
 
               <td>
@@ -147,6 +148,7 @@
                 example@example.com
                 {{#each invoiceEmailTo}}
                     {{this}}--OOO
+                    {{break}}
                 {{/each}}
               </td>
             </tr>
