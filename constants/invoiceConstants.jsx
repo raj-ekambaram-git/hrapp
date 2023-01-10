@@ -52,5 +52,72 @@ export const InvoiceConstants = {
       invoiceTranStatusId: "Cancelled",
       invoiceTranStatusName: "Cancelled"
     }
-  ]  
+  ] ,
+  INVOICE_DETAIL_TO_GENERATE_FILE: {
+    include: {
+      account: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          address: {
+            where: {
+              vendorId: null,
+              userId: null
+            }
+          }
+        },
+      },
+      invoiceItems: {
+        select: {
+          description: true,
+          type: true,
+          unitPrice: true,
+          currency: true,
+          quantity: true,
+          uom: true,
+          total: true,
+          status: true,
+          userId: true,
+          user: {
+            select: {
+              firstName: true,
+              lastName: true
+            }
+          },
+          timesheetEntryId: true,
+          timesheetEntry: {
+            select: {
+              id: true,
+              status: true,
+              entries: true,
+              unitPrice: true
+            }
+          },
+          fromDate: true,
+          toDate: true
+
+        }
+      },
+      vendor: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          address: {
+            where: {
+              userId: null
+            }
+          }
+        }
+      },
+      project: {
+        select: {
+          id: true,
+          name: true,
+          referenceCode: true
+        }
+      }
+    }
+  }
 }

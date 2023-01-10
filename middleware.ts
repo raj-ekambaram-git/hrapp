@@ -7,6 +7,7 @@ import jwtDecode from 'jwt-decode';
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
     const token = request.headers.get('Authorization');
+    console.log("pathname:::"+pathname+"------token:::"+token)
     if(pathname.startsWith('/api')) { // This is the API Authorization
       if( token != undefined) {
         const updatedToken = token.replace("Bearer ", "").trim()
@@ -31,5 +32,5 @@ export function middleware(request: NextRequest) {
 
 // See "Matching Paths" below to learn more
 export const config = {
-  matcher: ['/account/:path*', '/api/account/:path*', '/api/calendar/:path*', '/api/notes/:path*', '/api/timesheet/:path*', '/accounts']
+  matcher: ['/account/:path*', '/api/calendar/:path*', '/api/notes/:path*', '/api/timesheet/:path*', '/accounts']
 }

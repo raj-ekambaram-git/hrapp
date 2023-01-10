@@ -1,4 +1,6 @@
- 
+    export const CommonConstants ={
+        fromEmail: "admin@dsquaredtech.us"
+    }
   export const US_STATES = [
     {
         name: "Alabama",

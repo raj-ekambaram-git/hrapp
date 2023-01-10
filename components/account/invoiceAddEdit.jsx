@@ -254,7 +254,7 @@ const InvoiceAddEdit = (props) => {
         if(!responseData.error) {
           toast({
             title: 'New Invoice.',
-            description: 'SSSSS Successfully added new invoice.',
+            description: 'Successfully added new invoice.',
             status: 'success',
             position: 'top',
             duration: 3000,
@@ -264,7 +264,7 @@ const InvoiceAddEdit = (props) => {
         }else {
           toast({
             title: 'Invoice Error.',
-            description: 'DDDD Not able to create invoice, plrease try again or contact administrator.',
+            description: 'Not able to create invoice, plrease try again or contact administrator.',
             status: 'error',
             position: 'top',
             duration: 6000,

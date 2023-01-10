@@ -29,6 +29,7 @@ function generateInvoice(invoiceId, accountId) {
   return fetchWrapper.get(`${baseUrl}/account/invoice/`+invoiceId+'/generate/detail?accountId='+accountId, {}
   )
   .then(async generateInvoiceDetail => {
+    console.log("generateInvoiceDetail::"+JSON.stringify(generateInvoiceDetail))
     const authHeader = JSON.stringify(fetchWrapper.authHeader(`${baseUrl}/account/invoice/${invoiceId}/generate`));
     const data = await fetch(`${baseUrl}/account/invoice/${invoiceId}/generate`, {
       method: 'POST',
@@ -46,9 +47,6 @@ function generateInvoice(invoiceId, accountId) {
     console.log("Error generateInvoice::"+err)
     return {errorMessage: err, error: true};
   });
-
-
-    
 
 }
 

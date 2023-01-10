@@ -35,6 +35,27 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           console.log("Error sending reset password"+err)
           return {errorMessage: err, error: true};
         });
+      }else {
+        await mail.send({
+          from: {
+            email: emailRequest.from
+          },
+          personalizations: [
+            {
+              to: emailRequest.to,
+              dynamic_template_data: emailRequest.templateData,
+            }
+          ],
+          template_id: emailRequest.template_id,
+          attachments: emailRequest.attachments
+        }).then((emailResponse) => {
+          console.log("emailResponse::"+JSON.stringify(emailResponse))
+          res.status(200).json(emailRequest);
+        })
+        .catch(err => {
+          console.log("Error sending reset password"+err)
+          return {errorMessage: err, error: true};
+        });
       }
 
   } catch (error) {
