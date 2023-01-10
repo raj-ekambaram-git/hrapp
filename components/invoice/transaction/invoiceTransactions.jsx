@@ -114,14 +114,14 @@ const InvoiceTransactions = (props) => {
                                 ))}
                               </Tbody>  
                             </Table>      
-                            {util.getZeroPriceForNull(invoiceTotal)> util.getZeroPriceForNull(invoicePaidAmount) ? (
+                            {/* {util.getZeroPriceForNull(invoiceTotal) > util.getZeroPriceForNull(invoicePaidAmount) ? ( */}
                                 <HStack>
                                   <Button variant='outline'  onClick={onClose} >Cancel</Button>
                                   <AddEditTransaction isAddMode={true} invoiceId={props.invoiceId}/>
                                 </HStack>
-                            ) : (
+                            {/* ) : (
                                 <></>
-                              )}
+                              )} */}
                           </Stack>
                         </DrawerBody>
                     </DrawerContent>
