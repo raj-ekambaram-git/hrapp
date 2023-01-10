@@ -165,10 +165,9 @@ const InvoiceAddEdit = (props) => {
         setProjectType(invoiceResponse.project?.type);
         setVendorName(invoiceResponse.vendor?.name);
         setProjectName(invoiceResponse.project?.name);
-        
+        setEnableEmailIcon(true);
 
         if(invoiceResponse.invoiceEmailTo != undefined && invoiceResponse.invoiceEmailTo.length >0){
-          setEnableEmailIcon(true);
           dispatch(setInvoiceEmailTo(invoiceResponse.invoiceEmailTo));
         }
 

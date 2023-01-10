@@ -26,9 +26,10 @@ import {
 import { EMPTY_STRING } from "../../constants/accountConstants";
 import { ErrorMessage } from "../../constants/errorMessage";
 import { util } from "../../helpers/util";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {setInvoiceEmailTo} from '../../store/modules/Invoice/actions';
 import { ShowInlineErrorMessage } from "../common/showInlineErrorMessage";
+import { invoiceService } from "../../services";
 
   
 const AddInvoiceEmailTo = (props) => {
@@ -36,10 +37,15 @@ const AddInvoiceEmailTo = (props) => {
     const { isOpen, onToggle, onClose } = useDisclosure()
     const [emailTo, setEmailTo] = useState(EMPTY_STRING);
     const [showErrorMessage, setShowErrorMessage] = useState(EMPTY_STRING);
+    const invoiceId = useSelector(state => state.invoice.selectedInvoiceId);
+    const invoiceEmailTo = useSelector(state => state.invoice.invoiceEmailTo);
 
-
-    function handleEmailToSubmit() {
+    async function handleEmailToSubmit() {
         if(emailTo != undefined && emailTo != EMPTY_STRING && util.isValidEmail(emailTo)) {
+            const localInvoiceEmailTo = [...invoiceEmailTo];
+            localInvoiceEmailTo.push(emailTo);
+            console.log("emailTo:::"+JSON.stringify(localInvoiceEmailTo))
+            const responseData = await invoiceService.updateInvoiceEmailTo(invoiceId, localInvoiceEmailTo);
             dispatch(setInvoiceEmailTo(emailTo));
             setShowErrorMessage(EMPTY_STRING);
             onClose()

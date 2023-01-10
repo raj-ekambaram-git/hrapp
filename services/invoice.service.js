@@ -19,7 +19,8 @@ export const invoiceService = {
     updateInvoice,
     getInvoiceTransactions,
     createInvoiceTransaction,
-    generateInvoice
+    generateInvoice,
+    updateInvoiceEmailTo
 
 };
 
@@ -107,6 +108,22 @@ function getInvoiceTransactions(invoiceId, accountId) {
 
 }
 
+function updateInvoiceEmailTo(invoiceId, invoiceEmailTos) {
+
+  return fetchWrapper.put(`${baseUrl}/account/invoice/`+invoiceId, {
+    id: parseInt(invoiceId),
+    invoiceEmailTo: invoiceEmailTos
+  })
+  .then(invoice => {
+    console.log("Inside the updateInvoiceEmailTo service ::"+JSON.stringify(invoice)+"*******invoiceEmailTos:::"+JSON.stringify(invoiceEmailTos));
+    return invoice;
+  })
+  .catch(err => {
+    console.log("Error Updating Invoice::"+err)
+    return {errorMessage: err, error: true};
+  });
+
+}
 
 function updateInvoice(formData, invoiceId, invoiceDate, dueDte, invoiceItemList, invoiceTotal, invoiceEmailTos) {
 
