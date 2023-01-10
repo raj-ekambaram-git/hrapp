@@ -6,12 +6,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Invoice</title>
   <style>
+
     body {
       margin-top: 5rem;
     }
-
+    
     .invoice-box {
-      width: 600px;
+      width: 800px;
       max-width: 800px;
       margin: auto;
       padding: 30px;
@@ -22,83 +23,115 @@
       font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
       color: #555;
     }
-
+    
     .invoice-box table {
       width: 100%;
       line-height: inherit;
       text-align: left;
+      padding-bottom: 30px;
     }
-
+    
     .invoice-box table td {
       padding: 5px;
       vertical-align: top;
     }
-
+    
     .invoice-box table tr td:nth-child(2) {
       text-align: right;
     }
-
+    
     .invoice-box table tr.top table td {
       padding-bottom: 20px;
     }
-
+    
     .invoice-box table tr.top table td.title {
       font-size: 45px;
       line-height: 45px;
       color: #333;
+      width: 55%;
+      background-color: #e4eaee;
     }
-
+    
     .invoice-box table tr.information table td {
       padding-bottom: 40px;
+      font-weight: bold;
     }
-
+    
     .invoice-box table tr.heading td {
       background: #eee;
       border-bottom: 1px solid #ddd;
-      font-weight: bold;
+      font-weight: bolder;
+      text-align: left;
     }
-
+    
     .invoice-box table tr.details td {
-      padding-bottom: 20px;
+      padding-bottom: 15px;
     }
-
+    .invoice-box table tr.details_odd td {
+      padding-bottom: 15px;
+    }
+    .invoice-box table tr.details_even td {
+      padding-bottom: 15px;
+      background-color: #E6FFFA;
+    }
+    
     .invoice-box table tr.item td {
       border-bottom: 1px solid #eee;
     }
-
+    
     .invoice-box table tr.item.last td {
       border-bottom: none;
     }
-
-    .invoice-box table tr.total td:nth-child(2) {
-      border-top: 2px solid #eee;
+    
+    .invoice-box table tr.total {
+      border-top: 2px solid;
+      width: 100%;
       font-weight: bold;
     }
-
+    .invoice-box table tr.total td:nth-child(3) {
+      background-color: #319795;
+      font-weight: bolder;
+      color: black;
+    }
+    
+    .invoice-details {
+      background-color: #319795;
+      font-weight: bolder;
+      color: black;
+    }
+    
+    .footer {
+      padding-top: 5px;
+      text-align: center;
+      border-top: 1px solid;
+      font-weight: bolder;
+    }
+    
+    
     @media only screen and (max-width: 600px) {
       .invoice-box table tr.top table td {
         width: 100%;
         display: block;
         text-align: center;
       }
-
+    
       .invoice-box table tr.information table td {
         width: 100%;
         display: block;
         text-align: center;
       }
     }
-
+    
     /** RTL **/
     .rtl {
       direction: rtl;
       font-family: Tahoma, 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
     }
-
+    
     .rtl table {
       text-align: right;
     }
-
+    
     .rtl table tr td:nth-child(2) {
       text-align: left;
     }
@@ -108,8 +141,8 @@
 <body>
   <div class="invoice-box">
     <table cellpadding="0" cellspacing="0">
-      <tr class="top">
-        <td colspan="2">
+      <tr class="top" width="100%">
+        <td colspan="5">
           <table>
             <tr>
               <td class="title">
@@ -121,10 +154,10 @@
                 </svg>
               </td>
 
-              <td>
-                Invoice #: 123<br>
-                Created: January 1, 2020<br>
-                Due: February 1, 2020
+              <td class="invoice-details">
+                <div>Invoice #: {{id}}</div>
+                <div>Created: {{{dateFormat invoiceDate}}}</div>
+                <div>Due: {{{dateFormat dueDte}}}</div>
               </td>
             </tr>
           </table>
@@ -132,24 +165,42 @@
       </tr>
 
       <tr class="information">
-        <td colspan="2">
+        <td colspan="5">
           <table>
             <tr>
               <td>
                 {{account.name}} <br>
+                {{account.email}} <br>
                 {{#each account.address}}
-                  {{address1}}, {{city}}, {{state}}, {{zipCode}}
+                  {{address1}}<br>
+                  {{#if @address2}}
+                    {{address2}}<br>
+                  {{/if}}
+                  {{#if @address3}}
+                    {{address3}}<br>
+                  {{/if}}
+                  {{city}}, {{state}}, {{zipCode}}<br>
+                  {{county}} <br>
+
                 {{/each}}
               </td>
 
               <td>
-                JackBoys Inc.<br>
-                {{id}} --- {{type}}<br>
-                example@example.com
-                {{#each invoiceEmailTo}}
-                    {{this}}--OOO
-                    {{break}}
-                {{/each}}
+                <b>Bill To: </b><br>
+                {{vendor.name}}<br>
+                {{vendor.email}}<br>
+                {{#each vendor.address}}
+                  {{address1}}<br>
+                  {{#if @address2}}
+                    {{address2}}<br>
+                  {{/if}}
+                  {{#if @address3}}
+                    {{address3}}<br>
+                  {{/if}}
+                  {{city}}, {{state}}, {{zipCode}}<br>
+                  {{county}}
+                {{/each}}        
+                <b>Project Reference: </b>{{project.referenceCode}}       
               </td>
             </tr>
           </table>
@@ -158,72 +209,70 @@
 
       <tr class="heading">
         <td>
-          Payment Method
+          Services
         </td>
-
         <td>
-          Check #
+          Description
+        </td>
+        <td>
+          Qty
+        </td>
+        <td>
+          Rate
+        </td>
+        <td width="15%">
+          Amount
         </td>
       </tr>
-
-      <tr class="details">
-        <td>
-          Check
-        </td>
-
-        <td>
-          1000
-        </td>
+      {{#each invoiceItems}}
+      <tr 
+      {{#if (isOdd @index)}}
+        class="details_odd" 
+      {{else}}
+        class="details_even" 
+      {{/if}}
+      >
+          <td>
+            {{user.firstName}} {{user.lastName}} -- {{type}}
+          </td>
+          <td>
+            {{type}}: {{{dateFormat fromDate}}} - {{{dateFormat toDate}}}
+          </td>
+          <td>
+            {{quantity}}
+          </td>
+          <td>
+            $ {{unitPrice}}
+          </td>
+          <td>
+            $ {{total}}
+          </td>
       </tr>
-
-      <tr class="heading">
-        <td>
-          Item
-        </td>
-
-        <td>
-          Price
-        </td>
-      </tr>
-
-      <tr class="item">
-        <td>
-          Real Estate
-        </td>
-
-        <td>
-          $33,000.00
-        </td>
-      </tr>
-
-      <tr class="item">
-        <td>
-          Lamborghini
-        </td>
-
-        <td>
-          $250,000.00
-        </td>
-      </tr>
-
-      <tr class="item last">
-        <td>
-          Another stuff
-        </td>
-
-        <td>
-          $10.00
-        </td>
-      </tr>
+      {{/each}}       
 
       <tr class="total">
-        <td></td>
-
-        <td>
-          Total: $283,010.00
+        <td colspan="3">
         </td>
+        <td align="right">
+          <div>Total:</div> 
+        </td>
+        <td align="left">
+          <div>${{total}}</div> 
+        </td>        
       </tr>
     </table>
+    <div class="footer">
+      <div></div>
+      
+      <div class="make_payment">
+        <div>
+          Make all checks payable to {{account.name}}
+        </div>
+      </div>
+      <div class="thanks">
+        Thank you for your business!
+      </div>
+    </div>
   </div>
 </body>
 

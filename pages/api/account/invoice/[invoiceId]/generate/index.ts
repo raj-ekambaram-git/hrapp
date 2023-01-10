@@ -3,6 +3,7 @@ import fs from 'fs';
 import { NextApiRequest, NextApiResponse } from "next"
 import puppeteer from 'puppeteer';
 import handlers from 'handlebars';
+import { util } from '../../../../../../helpers/util';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   // extract the customer name from the req.body object
@@ -24,18 +25,20 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     // compile the file with handlebars and inject the customerName variable
     const template = handlers.compile(`${file}`);
+    handlers.registerHelper('dateFormat', util.getFormattedDate)
+    handlers.registerHelper('isOdd', util.isOdd)
     const html = template(invoiceDetail);
 
     // simulate a chrome browser with puppeteer and navigate to a new page
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
-
     // set our compiled html template as the pages content
     // then waitUntil the network is idle to make sure the content has been loaded
     await page.setContent(html, { waitUntil: 'networkidle0' });
+    await page.addStyleTag({ path: 'templates/invoice/invoice.css' })
 
     // convert the page to pdf with the .pdf() method
-    const pdf = await page.pdf({ format: 'A4' });
+    const pdf = await page.pdf({ format: 'A4', printBackground: true });
     await browser.close();
 
     // send the result to the client

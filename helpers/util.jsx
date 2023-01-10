@@ -17,8 +17,17 @@ export const util = {
     getDayMonthFormat,
     getDecimalValue,
     getZeroPriceForNull,
-    getFormattedDateWithTime
+    getFormattedDateWithTime,
+    isOdd
 };
+
+function isOdd(value) {
+  if(value % 2 == 0) {
+    return false
+  }
+
+  return true;
+}
 
 function getZeroPriceForNull(value) {
   if(value === undefined || value === EMPTY_STRING || value === null) {

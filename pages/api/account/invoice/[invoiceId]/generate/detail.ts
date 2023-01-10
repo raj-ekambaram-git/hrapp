@@ -28,6 +28,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             select: {
               id: true,
               name: true,
+              email: true,
               address: {
                 where: {
                   vendorId: null,
@@ -47,6 +48,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
               total: true,
               status: true,
               userId: true,
+              user: {
+                select: {
+                  firstName: true,
+                  lastName: true
+                }
+              },
               timesheetEntryId: true,
               timesheetEntry: {
                 select: {
@@ -65,6 +72,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             select: {
               id: true,
               name: true,
+              email: true,
               address: {
                 where: {
                   accountId: parseInt(accountId.toString()),
