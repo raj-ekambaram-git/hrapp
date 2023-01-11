@@ -289,6 +289,17 @@ const InvoiceAddEdit = (props) => {
   // Create Account 
   const createInvoice = async (formData) => {
     try {
+        if(invoiceItemList?.length <= 0 ) {
+          toast({
+            title: 'Invoice Error.',
+            description: 'Add at least one item to submit this invoice.',
+            status: 'error',
+            position: 'top',
+            duration: 6000,
+            isClosable: true,
+          })
+          return;
+        }
         const responseData = await invoiceService.createNewInvoice(formData, invoiceItemList, invoiceDate, dueDte, invoiceEmailTos);
         if(!responseData.error) {
           toast({
@@ -333,7 +344,17 @@ const InvoiceAddEdit = (props) => {
   // update invoice in database
   const updateInvoice = async (invoiceId, formData) => {
     try {
-
+      if(invoiceItemList?.length <= 0 ) {
+        toast({
+          title: 'Invoice Error.',
+          description: 'Add at least one item to submit this invoice.',
+          status: 'error',
+          position: 'top',
+          duration: 6000,
+          isClosable: true,
+        })
+        return;
+      }
       const responseData = await invoiceService.updateInvoice(formData, invoiceId, invoiceDate, dueDte,invoiceItemList, invoiceTotal, invoiceEmailTos);
 
       if(!responseData.error) {

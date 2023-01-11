@@ -227,8 +227,8 @@ function createNewInvoice(formData, invoiceItemList, invoiceDate, dueDte, invoic
         accountId: parseInt(formData.accountId),
         vendorId: parseInt(formData.vendorId),
         projectId: parseInt(formData.projectId),
-        invoiceDate: new Date(invoiceDate.date),
-        dueDte: new Date(dueDte.date),
+        invoiceDate: new Date(invoiceDate),
+        dueDte: new Date(dueDte),
         invoiceItems: {
           create: invoiceItemList
         },
