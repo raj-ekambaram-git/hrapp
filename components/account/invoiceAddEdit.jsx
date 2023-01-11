@@ -74,7 +74,7 @@ const InvoiceAddEdit = (props) => {
   const invoiceTotal = useSelector(state => state.invoice.invoiceTotal);
   const invoicePaidAmount = useSelector(state => state.invoice.invoicePaidAmount);
   const invoiceEmailTos = useSelector(state => state.invoice.invoiceEmailTo);
-  
+  const selectedVendorId = useSelector(state => state.vendor.selectedVendorId);
 
   //User Validation START
   const formOptions = { resolver: yupResolver(INVOICE_VALIDATION_SCHEMA) };
@@ -277,7 +277,12 @@ const InvoiceAddEdit = (props) => {
             duration: 3000,
             isClosable: true,
           })
-          router.push("/account/invoices");
+          if(selectedVendorId != undefined && selectedVendorId != null) {
+            router.push("/account/vendor/invoices");
+          }else {
+            router.push("/account/invoices");
+          }
+          
         }else {
           toast({
             title: 'Invoice Error.',
@@ -318,7 +323,11 @@ const InvoiceAddEdit = (props) => {
           duration: 3000,
           isClosable: true,
         })
-        router.push("/account/vendor/invoices");
+        if(selectedVendorId != undefined && selectedVendorId != null) {
+          router.push("/account/vendor/invoices");
+        }else {
+          router.push("/account/invoices");
+        }
       }else {
         toast({
           title: 'Invoice Error.',

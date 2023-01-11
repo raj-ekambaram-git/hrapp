@@ -126,7 +126,7 @@ const ProjectTimesheets = (props) => {
               onClick={() => handleProjectTimesheets("xl")}
               key="xl"
               m={1}
-              >{`Project Timesheets`}
+              >{`Timesheets`}
           </Button>
 
           <Drawer onClose={onClose} isOpen={isOpen} size={size}>

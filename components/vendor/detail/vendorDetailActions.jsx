@@ -30,22 +30,22 @@ const VendorDetailActions = (props) => {
                   </Box>
                   <Box>
                     <Button size="xs" bgColor="header_actions" onClick={manageVendorsForAccount}>
-                     Account Vendors
+                     All Vendors
                     </Button>
                   </Box>   
                   <Box>
                     <Button size="xs" bgColor="header_actions" onClick={navigateManageVendorUsersPage}>
-                      Vendor Users
+                      Users
                     </Button>
                   </Box>   
                   <Box>
                     <Button size="xs" bgColor="header_actions" onClick={navigateVendorProjectsPage}>
-                      Vendor Projects
+                      Projects
                     </Button>
                   </Box>                   
                   <Box>
                     <Button size="xs" bgColor="header_actions" onClick={navigateVendorInvoicesPage}>
-                      Vendor Invoices
+                      Invoices
                     </Button>
                   </Box>                                                      
                 </HStack>
