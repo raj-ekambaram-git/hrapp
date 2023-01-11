@@ -76,11 +76,10 @@ const VendorList = (props) => {
                 </HStack>
               </Flex>
               <Flex>
-                  <TableContainer>
                     <Table>
                     <TableCaption></TableCaption>
                       <Thead>
-                          <Tr bgColor="table_tile">
+                          <Tr>
                             <Th>
                               Vendor ID
                             </Th>
@@ -153,7 +152,6 @@ const VendorList = (props) => {
                           ))}
                       </Tbody>    
                     </Table>
-                  </TableContainer>
                 </Flex>
           </div>
       ) : (
