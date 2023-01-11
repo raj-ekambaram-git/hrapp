@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { accountService, userService } from '../../../services';
-import {MODE_ADD, MODE_EDIT, PROJECT_CALL_TYPE} from "../../../constants/accountConstants";
+import {MODE_ADD, MODE_EDIT} from "../../../constants/accountConstants";
 import {
-  Box,
   Stack,
   Flex,
-  HStack,
-  Button,
   useDisclosure,
   Accordion
 } from '@chakra-ui/react'
@@ -18,10 +15,10 @@ import ProjectContactDetailSection from "../../../components/project/detail/proj
 import ProjectLocationSection from "../../../components/project/detail/projectLocationSection";
 import ProjectFinancialSection from "../../../components/project/detail/projectFinancialSection";
 import ProjectStatusSection from "../../../components/project/detail/projectStatusSection";
-import ProjectTimesheets from "../../../components/project/detail/projectTimesheets";
 import {PageMainHeader} from '../../../components/common/pageMainHeader';
 import { NotesConstants } from "../../../constants";
 import { useDispatch, useSelector } from "react-redux";
+import ProjectDetailActions from "../../../components/project/detail/projectDetailActions";
 
 
 const ProjectDetail = (props) => {
@@ -173,7 +170,8 @@ const ProjectDetail = (props) => {
       {isPageAuthprized ? (
         <>
 
-          <PageMainHeader heading="Project Details for" param1={project.name} notesData={notesData}/>
+          <PageMainHeader heading="Project Details for" param1={project.name} notesData={notesData}/>       
+          <ProjectDetailActions/>
           <Flex>
               <Stack width="page.sub_heading_width">
                 {/* <Accordion marginBottom="1rem" border="1px" width="60%"> */}
@@ -189,23 +187,6 @@ const ProjectDetail = (props) => {
                 <ProjectStatusSection data={{project}}/>
               </Stack>
           </Flex>
-          <Flex marginTop="2rem">
-                <HStack spacing={2}>
-                  <Box>
-                    <Button onClick={() => router.push("/account/project/edit")}>
-                      Edit
-                    </Button>
-                  </Box>
-                  <Box>
-                    <Button onClick={() => router.push("/account/project/invoices")}>
-                      Invoices
-                    </Button>
-                  </Box>   
-                  <Box>
-                  <ProjectTimesheets data={{projectId: projectId, callType: PROJECT_CALL_TYPE}}/>
-                  </Box>                    
-                </HStack>
-              </Flex>          
         </>
       ) : (
         <div className="account__header">

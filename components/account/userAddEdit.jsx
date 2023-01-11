@@ -362,6 +362,16 @@ const UserAddEdit = (props) => {
             <div>{isVendor? (<PageMainHeader heading="Update Vendor User" notesData={notesData}/>): (<PageMainHeader heading="Update Account User" notesData={notesData}/>)}</div>
           )}              
 
+          {userService.isAccountAdmin() ? (
+            <>
+              {!isAddMode? (
+                <>
+                  <ManageVendors data={{userId: userId, userFirstName: user.firstName, userLastName: user.lastName}}/>
+                  {/* <AllocateProject data={{userId: userId, userFirstName: user.firstName, userLastName: user.lastName}}/> */}
+                </>
+              ): (<></>)}
+            </>
+          ) : ("")}
           <Box width="page.sub_heading_width">
           <form onSubmit={handleSubmit(onSubmit)}>
             <Stack spacing={4}>
@@ -478,44 +488,31 @@ const UserAddEdit = (props) => {
                   </Stack>
                 </CardBody>
               </Card>
-     
-              <Card>
-                <CardHeader>
-                  <Heading size='xs'>User Account/Vendor Details</Heading>
-                </CardHeader>
+              {isPageSectionAuthorized ? (
+                <Card>
+                  <CardHeader>
+                    <Heading size='xs'>User Account/Vendor Details</Heading>
+                  </CardHeader>
 
-                <CardBody>
-                  <Stack divider={<StackDivider />} spacing='4'>
-                    <HStack>
-                      {isPageSectionAuthorized ? (
-                        <>                      
-                          <Box>
-                            <FormControl isRequired>
-                              <FormLabel>Account</FormLabel>
-                              <Select width="100%" id="userAccountId" {...register('userAccountId')} >
-                                  <option value="">Select an Account</option>
-                                  {accountsList?.map((account) => (
-                                    <option value={account.id}>{account.name}</option>
-                                  ))}
-                            </Select>
-                            </FormControl>     
-                          </Box>
-                        </>
-                      ) : (<></>)}     
-                      {userService.isAccountAdmin() ? (
-                        <>
-                          {!isAddMode? (
-                            <>
-                              <ManageVendors data={{userId: userId, userFirstName: user.firstName, userLastName: user.lastName}}/>
-                              {/* <AllocateProject data={{userId: userId, userFirstName: user.firstName, userLastName: user.lastName}}/> */}
-                            </>
-                          ): (<></>)}
-                        </>
-                      ) : ("")}
-                    </HStack>
-                  </Stack>
-                </CardBody>
-              </Card>
+                  <CardBody>
+                    <Stack divider={<StackDivider />} spacing='4'>
+                      <HStack>
+                           <Box>
+                              <FormControl isRequired>
+                                <FormLabel>Account</FormLabel>
+                                <Select width="100%" id="userAccountId" {...register('userAccountId')} >
+                                    <option value="">Select an Account</option>
+                                    {accountsList?.map((account) => (
+                                      <option value={account.id}>{account.name}</option>
+                                    ))}
+                              </Select>
+                              </FormControl>     
+                            </Box>
+                      </HStack>
+                    </Stack>
+                  </CardBody>
+                </Card>
+              ) : (<></>)}     
               <Card>
                 <CardHeader>
                   <Heading size='xs'>User Addreses</Heading>

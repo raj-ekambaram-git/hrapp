@@ -20,6 +20,7 @@ import {
   Th,
   Tr,
   useToast,
+  Flex
 } from '@chakra-ui/react';
 import {
   DeleteIcon
@@ -121,8 +122,8 @@ const ManageVendors = (props) => {
   return (
 
     <div>
-
-          <Button
+      <Flex marginBottom="1rem" borderRadius="lg" alignSelf="center">
+          <Button size="xs" bgColor="header_actions" 
               onClick={() => handleManageVendors("lg")}
               key="lg"
               m={1}
@@ -185,7 +186,8 @@ const ManageVendors = (props) => {
                           </Stack>
                         </DrawerBody>
                     </DrawerContent>
-          </Drawer>
+           </Drawer>
+        </Flex>
 
     </div>
 

@@ -122,7 +122,7 @@ const ProjectTimesheets = (props) => {
 
     <div>
         
-        <Button
+        <Button size="xs" bgColor="header_actions"
               onClick={() => handleProjectTimesheets("xl")}
               key="xl"
               m={1}

@@ -256,9 +256,9 @@ const WeeklyTimesheetEntry = (props) => {
 
     return (
         <>
-            <Stack spacing={4}>
-              <Card>
-                <CardHeader bgColor="table_tile">
+            <Stack spacing={2}>
+              <Card variant="timesheet">
+                <CardHeader> 
                     <HStack gap="16rem">
                         <Box>
                             <Heading size='sm'>Timesheet Entry</Heading>
@@ -298,12 +298,12 @@ const WeeklyTimesheetEntry = (props) => {
                                             </>
                                         )}
                                         <Box>
-                                            <Button className="btn" bgColor="timesheet.save" onClick={() => submitTimesheet(TIMESHEET_STATUS.Saved)}>
+                                            <Button size="xs" bgColor="header_actions" onClick={() => submitTimesheet(TIMESHEET_STATUS.Saved)}>
                                                 Save
                                             </Button>
                                         </Box>
                                         <Box>
-                                            <Button bgColor="timesheet.submit" onClick={() => submitTimesheet(TIMESHEET_STATUS.Submitted)}>
+                                            <Button size="xs" bgColor="header_actions" onClick={() => submitTimesheet(TIMESHEET_STATUS.Submitted)}>
                                                 {isAddMode ? (
                                                     <>Submit</>
                                                 ) : (
