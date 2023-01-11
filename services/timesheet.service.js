@@ -18,8 +18,53 @@ export const timesheetService = {
     updateTimesheetEntry,
     getTimesheetMetaForDate,
     getTimesheetByName,
-    updateTimesheetEntries
+    updateTimesheetEntries,
+    createTimesheet,
+    updateTimesheet
 };
+
+function createTimesheet(formData, userId, timesheetActivityList) {
+
+  return fetchWrapper.post(`${baseUrl}/timesheet/create`, {
+        name: formData.timesheetName,
+        type: "Weekly",
+        userId: userId,
+        status: formData.status,
+        startDate: formData.timesheetStartDate,
+        timesheetEntries: {
+          create: timesheetActivityList
+        }
+      }
+  )
+  .then(async timesheet => {
+      return timesheet;
+  })        
+  .catch(err => {
+    console.log("Error Creating createTimesheet"+err)
+    return {errorMessage: err, error: true};
+  });
+}
+
+function updateTimesheet(formData, timesheetId,timesheetActivityList) {
+
+    return fetchWrapper.put(`${baseUrl}/timesheet/`+timesheetId, {
+        id: parseInt(timesheetId),
+        name: formData.name,
+        startDate: formData.timesheetStartDate,
+        type: "Weekly",
+        status: formData.status,
+        timesheetEntries: timesheetActivityList
+    }
+  )
+  .then(async timesheet => {
+    return timesheet;
+  })        
+  .catch(err => {
+    console.log("Error Creating createTimesheet"+err)
+    return {errorMessage: err, error: true};
+  });
+
+}
 
 function updateTimesheetEntries(timesheetEntryIds, data) {
   console.log("timesheetEntryIds:::"+JSON.stringify(timesheetEntryIds)+"*****DAta::"+JSON.stringify(data));

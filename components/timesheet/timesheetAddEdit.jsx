@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { userService } from "../../services";
+import { timesheetService, userService } from "../../services";
 import {MODE_ADD, TIMESHEET_VALIDATION_SCHEMA} from "../../constants/accountConstants";
 import { PageNotAuthorized } from "../../components/common/pageNotAuthorized";
 import {
@@ -70,34 +70,28 @@ const TimesheetAddEdit = (props) => {
   const createTimesheet = async (formData) => {
     try {
       console.log("Create Timesheet::"+JSON.stringify(formData)+"-----timesheetActivityList:::"+JSON.stringify(timesheetActivityList)+"--TimesheetName::"+formData.timesheetName)
-        const res = await fetch("/api/timesheet/create", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            name: formData.timesheetName,
-            type: "Weekly",
-            userId: userService.userValue.id,
-            status: formData.status,
-            startDate: formData.timesheetStartDate,
-            timesheetEntries: {
-              create: timesheetActivityList
-            }
-          }), 
-        });
-        const data = await res.json();
-
-        toast({
-          title: 'New Timesheet.',
-          description: 'Successfully created new timesheet.',
-          status: 'success',
-          position: 'top',
-          duration: 3000,
-          isClosable: true,
-        })
-        router.push("/account/user/timesheets");
-        
+        const responseData = await timesheetService.createTimesheet(formData, userService.userValue.id, timesheetActivityList);
+        if(responseData.error) {
+          toast({
+            title: 'New Timesheet.',
+            description: 'Not able to create timesheet, plrease try again or contact administrator.',
+            status: 'error',
+            position: 'top',
+            duration: 3000,
+            isClosable: true,
+          })
+          
+        }else {
+          toast({
+            title: 'New Timesheet.',
+            description: 'Successfully created new timesheet.',
+            status: 'success',
+            position: 'top',
+            duration: 3000,
+            isClosable: true,
+          })
+          router.push("/account/user/timesheets");
+        }
       
     } catch (error) {
       toast({
@@ -117,32 +111,29 @@ const TimesheetAddEdit = (props) => {
   const updateTimesheet = async (timesheetId, formData) => {
     console.log("JSON Data::"+JSON.stringify(formData))
     try {
-      const res = await fetch(`/api/timesheet/${timesheetId}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          id: parseInt(timesheetId),
-          name: formData.name,
-          startDate: formData.timesheetStartDate,
-          type: "Weekly",
-          status: formData.status,
-          timesheetEntries: timesheetActivityList
-        }),
-      });
+      const responseData = await timesheetService.updateTimesheet(formData, timesheetId, timesheetActivityList);
+      if(responseData.error) {
+        toast({
+          title: 'Timesheet Error.',
+          description: 'Not able to update timesheet, plrease try again or contact administrator. Details:'+responseData.errorMessage,
+          status: 'error',
+          position: 'top',
+          duration: 6000,
+          isClosable: true,
+        })
+  
 
-      const data = await res.json();
-      
-      router.push("/account/user/timesheets");
-      toast({
-        title: 'Update Timesheet.',
-        description: 'Successfully updated timesheet.',
-        status: 'success',
-        position: 'top',
-        duration: 3000,
-        isClosable: true,
-      })
+      }else {
+        router.push("/account/user/timesheets");
+        toast({
+          title: 'Update Timesheet.',
+          description: 'Successfully updated timesheet.',
+          status: 'success',
+          position: 'top',
+          duration: 3000,
+          isClosable: true,
+        })
+      }
 
     } catch (error) {
       console.log(error)
