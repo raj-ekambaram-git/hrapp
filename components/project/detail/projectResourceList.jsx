@@ -23,12 +23,14 @@ import {
 import AddProjectResource from "../addProjectResourceSection";
 import EditProjectResource from "../editProjectResource";
 import { projectService } from "../../../services";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setSelectedProjectResources } from "../../../store/modules/Project/actions";
 
 
 
 
 const ProjectResourceList = (props) => {
+  const dispatch = useDispatch();
   const toast = useToast();
 
   console.log("props.dataprops.dataprops.data::"+JSON.stringify(props.data));
@@ -47,6 +49,8 @@ const ProjectResourceList = (props) => {
     if(projectResourceDeleteResponse != undefined && !projectResourceDeleteResponse.error) {
       addProjectResourceRequest.handleAddProjectResource(projectResourceDeleteResponse, projectResourceDeleteResponse[0].project.id, 
                                                           (parseFloat(projectResourceDeleteResponse[0].project.remainingBudgetToAllocate)+parseFloat(projectResourceAllocatedBudget)));
+      
+      dispatch(setSelectedProjectResources(projectResourceDeleteResponse));
       toast({
         title: 'Project Resource.',
         description: 'Successfully deleted project resource.',
@@ -55,6 +59,7 @@ const ProjectResourceList = (props) => {
         duration: 3000,
         isClosable: true,
       })  
+
     }else {
       toast({
         title: 'Project Resource.',

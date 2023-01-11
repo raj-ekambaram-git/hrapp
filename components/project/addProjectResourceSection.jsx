@@ -34,10 +34,13 @@ import { userService } from '../../services';
 import {UserConstants} from "../../constants";
 import {MODE_ADD, EMPTY_STRING} from "../../constants/accountConstants";
 import { DrawerMainHeader } from "../common/drawerMainHeader";
+import { useDispatch } from "react-redux";
+import { setSelectedProjectResources } from "../../store/modules/Project/actions";
 
 
 
 const AddProjectResource = (props) => {
+  const dispatch = useDispatch();
   const [size, setSize] = useState('');
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isAddMode, setAddMode] = useState(true);
@@ -53,6 +56,7 @@ const AddProjectResource = (props) => {
   const [timesheetApproverCheckBox, setTimesheetApproverCheckBox] = useState(false);
   const [selectedUserFirstName, setSelectedUserFirstName] = useState("");
   const [selectedUserLastName, setSelectedUserLastName] = useState("");
+  
   
  
   const {data} = props;
@@ -202,6 +206,7 @@ const AddProjectResource = (props) => {
           // remainingBudget = remainingBudgetToUpdate;
           console.log("BEFORE CALLING handleAddProjectResource --- "+remainingBudgetToUpdate)
           handleAddProjectResource(data, vendorId, remainingBudgetToUpdate);
+          dispatch(setSelectedProjectResources(data))
           onClose();
           toast({
             title: 'Add Project Resource.',
