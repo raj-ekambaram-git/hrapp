@@ -9,3 +9,11 @@ export const setSelectedProjectId = (selectedProjectId) => {
         payload: selectedProjectId
     }
 }
+
+export const setSelectedProjectResources = (selectedProjectResources) => {
+    console.log("setSelectedProjectResources::::ACTIONS:::"+JSON.stringify(selectedProjectResources));
+    return {
+        type: ActionTypes.SET_SELECTED_PROJECT_RESOURCES,
+        payload: selectedProjectResources
+    }
+}

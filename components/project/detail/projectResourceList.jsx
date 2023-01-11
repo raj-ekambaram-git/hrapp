@@ -23,6 +23,7 @@ import {
 import AddProjectResource from "../addProjectResourceSection";
 import EditProjectResource from "../editProjectResource";
 import { projectService } from "../../../services";
+import { useSelector } from "react-redux";
 
 
 
@@ -31,7 +32,9 @@ const ProjectResourceList = (props) => {
   const toast = useToast();
 
   console.log("props.dataprops.dataprops.data::"+JSON.stringify(props.data));
-  const projectResourceList = props.data.projectResourceList;
+  // const projectResourceList = props.data.projectResourceList;
+  const projectResourceList = useSelector(state => state.project.projectResources);
+
   const addProjectResourceRequest = props.data.addProjectResourceRequest;
   const editProjectResourceRequest = props.data.addProjectResourceRequest;
   console.log("editProjectResourceRequest:::: ALL BEFORE::: "+JSON.stringify(editProjectResourceRequest)); 

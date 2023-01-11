@@ -19,6 +19,7 @@ import {PageMainHeader} from '../../../components/common/pageMainHeader';
 import { NotesConstants } from "../../../constants";
 import { useDispatch, useSelector } from "react-redux";
 import ProjectDetailActions from "../../../components/project/detail/projectDetailActions";
+import { setSelectedProjectResources } from "../../../store/modules/Project/actions";
 
 
 const ProjectDetail = (props) => {
@@ -129,7 +130,7 @@ const ProjectDetail = (props) => {
       alreadyConsumedBudget = parseFloat(alreadyConsumedBudget) + parseFloat(projectRsrc.budgetAllocated);
       console.log("projectRsrc.allocted::"+projectRsrc.budgetAllocated);
     }
-
+    
     console.log("Consumed Budget:::"+alreadyConsumedBudget);
 
     const addProjectResourceRequestData = {
@@ -156,9 +157,9 @@ const ProjectDetail = (props) => {
     setProjectAccountName(responseData.account.name)
     setProjectVendorName(responseData.vendor.name)
     setProjectResourceList(responseData.projectResource);
+    dispatch(setSelectedProjectResources(responseData.projectResource))
 
-
-    console.log("project Resource list::"+JSON.stringify(projectResourceList))
+    console.log("responseData.projectResourcet::"+JSON.stringify(responseData.projectResource))
     setProject(projectData)
 
     

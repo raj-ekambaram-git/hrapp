@@ -3,8 +3,8 @@ import { ActionTypes } from "./constants";
 
 
 const initialState = {
-    selectedProjectId: null
-
+    selectedProjectId: null,
+    projectResources: []
 };
 
 const projectReducer = (state = initialState, {type, payload}) => {
@@ -13,6 +13,16 @@ const projectReducer = (state = initialState, {type, payload}) => {
 
     if(type === ActionTypes.SET_SELECTED_PROJECT_ID) {
         newState.selectedProjectId = payload;
+    } else if(type === ActionTypes.SET_SELECTED_PROJECT_RESOURCES) {
+        const newProjectResources = [...newState.projectResources]
+        if(Array.isArray(payload)) {
+            //Edit Condition
+            newState.projectResources = payload;
+        }else {
+            //Add New Condtion or udpate
+            newProjectResources.push(payload);
+            newState.projectResources = newProjectResources;
+        }
     }
     
     console.log("projectReducer:::New State:::Before Return:::"+JSON.stringify(newState));
