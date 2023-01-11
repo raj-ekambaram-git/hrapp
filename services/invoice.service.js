@@ -29,12 +29,22 @@ export const invoiceService = {
 function generateInvoiceWithoutDetail(invoiceId) {
 
   return fetch(`${baseUrl}/account/invoice/${invoiceId}/generate`, {})
-  .then( data => {
-    if(data.arrayBuffer) {
-      return data.arrayBuffer();
-    }else {
-      return {errorMessage: "Error generateInvoice", error: true};
-    }
+  .then( response => {
+    return response.text().then(text => {
+      const data = text && JSON.parse(text);
+      
+      if (!response.ok) {
+          if ([401, 403].includes(response.status) && userService.userValue) {
+              // auto logout if 401 Unauthorized or 403 Forbidden response returned from api
+              userService.logout();
+          }
+
+          const error = (data && data.message) || response.statusText;
+          return Promise.reject(error);
+      }
+
+      return data;
+  });
   })
   .catch(err => {
     return {errorMessage: err, error: true};
