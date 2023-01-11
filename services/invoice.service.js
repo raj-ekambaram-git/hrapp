@@ -163,7 +163,7 @@ function updateInvoiceEmailTo(invoiceId, invoiceEmailTos) {
 
 function updateInvoice(formData, invoiceId, invoiceDate, dueDte, invoiceItemList, invoiceTotal, invoiceEmailTos) {
 
-  console.log("updateInvoice:: BEFORE::::invoiceItemList:::"+JSON.stringify(invoiceItemList));
+  console.log("updateInvoice:: BEFORE::::invoiceItemList:::"+JSON.stringify(formData)+"*******"+invoiceDate);
   //If current status is not cancelled and one of the timesheetn etntry status is "Invoiced" then throw error
   if((formData.status !== InvoiceConstants.INVOICE_STATUS.Draft
         && formData.status !== InvoiceConstants.INVOICE_STATUS.Cancelled)) {
@@ -189,8 +189,8 @@ function updateInvoice(formData, invoiceId, invoiceDate, dueDte, invoiceItemList
         description: formData.description,
         type: formData.type,
         accountId: parseInt(formData.accountId),
-        invoiceDate: new Date(invoiceDate.date),
-        dueDte: new Date(dueDte.date),
+        invoiceDate: new Date(invoiceDate),
+        dueDte: new Date(dueDte),
         total: invoiceTotal,
         status: formData.status,
         paymentTerms: formData.paymentTerms,  

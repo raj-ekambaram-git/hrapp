@@ -14,10 +14,14 @@ import {
   PopoverContent,
   PopoverTrigger,
   useDisclosure,
-  useOutsideClick
+  useOutsideClick,
+  HStack
 } from "@chakra-ui/react";
 import { normalizeEventKey } from "@chakra-ui/utils";
 import { RiArrowLeftSLine, RiArrowRightSLine } from "react-icons/ri";
+import {
+  CalendarIcon
+} from '@chakra-ui/icons';
 
 const removeEmptyWeeks = (week) => week.length;
 
@@ -159,8 +163,7 @@ const DatePicker = ({
   minYear = 1500,
   maxYear = new Date().getFullYear(),
   id,
-  onDateChange,
-  onChange = (e) => {console.log("SSEEE:"+JSON.stringify(e))}
+  onChange = (e) => {}
 }) => {
   const [currentMonthYear, setCurrentMonthYear] = useState(() =>
     getCurrentMonthYear()
@@ -186,8 +189,10 @@ const DatePicker = ({
   const [selectedDate, setSelectedDate] = useState(() =>
     getDateObject(getCurrentDate())
   );
+  const [updatedDate, setUpdatedDate] = useState(false);
 
-  const updateSelectedDate = (date) => {
+  const updateSelectedDate = (date, updated) => {
+    setUpdatedDate(updated);
     setSelectedDate(getDateObject(date));
   };
 
@@ -206,7 +211,6 @@ const DatePicker = ({
   };
 
   const handleInputChange = (e) => {
-    console.log("inputValue::inputValue:::"+e)
     setSelectedDate((prev) => {
       const inputValue = e.target.value;
 
@@ -282,8 +286,9 @@ const DatePicker = ({
   }, [selectedDate, setCurrentMonthYear]);
 
   useEffect(() => {
-    onChange({ date: selectedDate.rawDate });
+    onChange({ date: selectedDate.rawDate, updatedDate: updatedDate });
   }, [onChange, selectedDate]);
+
 
   useEffect(() => {
     const calenderNode = gridRef.current;
@@ -302,12 +307,15 @@ const DatePicker = ({
       placement="bottom-start"
     >
       <PopoverTrigger>
-        <Input
-          ref={inputRef}
-          size="md"
-          value={getInputValue(selectedDate)}
-          onChange={handleInputChange}
-        />
+        <Box>
+          <HStack>
+            <Input
+              onChange={handleInputChange}
+              hidden
+            />
+            <CalendarIcon/>
+          </HStack>
+        </Box>
       </PopoverTrigger>
       <PopoverContent onClick={(e) => e.stopPropagation()}>
         <PopoverBody p={2}>
@@ -360,7 +368,7 @@ const DatePicker = ({
                     key={`${day.date.getDate()}-${day.date.getMonth()}`}
                     p={0}
                     m={0}
-                    onClick={() => updateSelectedDate(day.date)}
+                    onClick={() => updateSelectedDate(day.date, true)}
                   >
                     {day.date.getDate()}
                   </GridItem>

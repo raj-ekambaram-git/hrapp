@@ -37,6 +37,7 @@ import {PageNotAuthorized} from '../../components/common/pageNotAuthorized';
 import {PageMainHeader} from '../../components/common/pageMainHeader';
 import InvoiceEmailTo from "../invoice/invoiceEmailTo";
 import { NotesConstants } from "../../constants";
+import { util } from "../../helpers/util";
 
 
 
@@ -167,6 +168,8 @@ const InvoiceAddEdit = (props) => {
         setVendorName(invoiceResponse.vendor?.name);
         setProjectName(invoiceResponse.project?.name);
         setEnableEmailIcon(true);
+        setInvoiceDate(invoiceResponse.invoiceDate)
+        setDueDte(invoiceResponse.dueDte)
 
         if(invoiceResponse.invoiceEmailTo != undefined && invoiceResponse.invoiceEmailTo.length >0){
           dispatch(setInvoiceEmailTo(invoiceResponse.invoiceEmailTo));
@@ -213,6 +216,20 @@ const InvoiceAddEdit = (props) => {
   function handleInvoiceType(invoiceTypeValue) {
     console.log("handleInvoiceType:::"+invoiceTypeValue);
     setInvoiceType(invoiceTypeValue)
+  }
+
+  function handleInvoiceDate(e) {
+    if(e != undefined && e.updatedDate) {
+      setInvoiceDate(util.getFormattedDate(e.date))
+      // setValue("invoiceDate", util.getFormattedDate(e.date))
+    }
+  }
+
+  function handleDueDate(e) {
+    if(e != undefined && e.updatedDate) {
+      setDueDte(util.getFormattedDate(e.date))
+      // setValue("invoiceDate", util.getFormattedDate(e.date))
+    }
   }
 
 
@@ -506,21 +523,23 @@ const InvoiceAddEdit = (props) => {
 
                 <CardBody>
                   <Stack divider={<StackDivider />} spacing='4'>
-                    <HStack>
+                    <HStack spacing="5.5rem">
                       <Box>
-                        <FormControl isRequired>
                           <FormLabel>Invoice Date</FormLabel>
-                          <DatePicker id="invoiceDate" invoiceDate={invoiceDate} onChange={setInvoiceDate}/>
-                        </FormControl>     
+                          <HStack>
+                            <Input type="text" id="invoiceDate"  value={util.getFormattedDate(invoiceDate)} size="md" {...register('invoiceDate')}/>
+                            <DatePicker onChange={handleInvoiceDate}/> 
+                          </HStack>
                       </Box>
                       <Box>
-                        <FormControl>
-                          <FormLabel>Due Date</FormLabel>
-                          <DatePicker id="dueDte" dueDte={dueDte} onChange={setDueDte}/>
-                        </FormControl>     
+                           <FormLabel>Due Date</FormLabel>
+                          <HStack>
+                            <Input type="text" id="dueDte"  value={util.getFormattedDate(dueDte)} size="md" {...register('dueDte')}/>
+                            <DatePicker onChange={handleDueDate}/> 
+                          </HStack>  
                       </Box>  
                     </HStack>                                        
-                    <HStack>
+                    <HStack spacing="6rem">
                       <Box>
                         <FormControl isRequired>
                           <FormLabel>Invoice Total</FormLabel>
