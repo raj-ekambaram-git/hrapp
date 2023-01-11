@@ -34,6 +34,7 @@ function PageMainHeader(props) {
             color="white"
             marginBottom="page.heading_marginBottom"
             width="page.heading_width"
+            borderRadius='9px'
             >
             <Heading size='md'>{heading} {param1}</Heading>
             <Box color="black">
