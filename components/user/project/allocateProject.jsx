@@ -20,10 +20,12 @@ import {
   Th,
   Tr,
   useToast,
-  Text
+  Text,
+  Tooltip,
+  HStack
 } from '@chakra-ui/react';
 import {
-  DeleteIcon
+  DeleteIcon,InfoIcon
 } from '@chakra-ui/icons';
 import { useDispatch, useSelector } from "react-redux";
 import { userService } from "../../../services";
@@ -176,7 +178,16 @@ const AllocateProject = (props) => {
                                 <ShowInlineErrorMessage showErrorMessage={showErrorMessage}/>
                             </Box>                          
                             <FormControl isRequired>
-                              <FormLabel>Project</FormLabel>
+                              <HStack>
+                              <Text>
+                                <FormLabel>
+                                  Project
+                                </FormLabel>
+                              </Text>
+                              <Tooltip label="Assign user to at least one vendor to have the project listed">
+                                <InfoIcon/>
+                              </Tooltip>
+                              </HStack>                              
                               <Select width="50%" onChange={(ev) => setUserProjectId(ev.target.value)}>
                                   <option value="">Select a Project</option>
                                   {availableProjectsForUser?.map((userVendor) => {
@@ -191,6 +202,7 @@ const AllocateProject = (props) => {
                                     )
                                   })}                                     
                               </Select>
+                              
                             </FormControl>     
                             </Box> 
                             <Button onClick={() => handleAddProjectToUser()} size="sm" width="30%" bgColor="button.primary.color">
