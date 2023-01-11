@@ -77,7 +77,7 @@ const AccountDetail = (props) => {
         <PageMainHeader heading="Account Details for" param1={account.name} notesData={notesData}/>
         <Flex>
             <Stack width="page.sub_heading_width">
-              <Accordion>
+              <Accordion variant="mainPage">
                 <AccountDetailSection data={{account}}/>
                 <AccountEINSection data={{account}}/>
                 <AccountContactDetailSection data={{account}}/>

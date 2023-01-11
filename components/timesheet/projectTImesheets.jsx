@@ -46,7 +46,7 @@ const ProjectTimesheets = (props) => {
 
                 <CardBody>
                   <Stack divider={<StackDivider />} spacing='1'>
-                    <Accordion>
+                        <Accordion variant="mainPage">
                         {approvalList?.map((timesheet) => (
                             <AccordionItem marginBottom="1rem" border="1px" width="80%">
                                 <h2>
