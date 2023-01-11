@@ -507,20 +507,9 @@ const UserAddEdit = (props) => {
                           {!isAddMode? (
                             <>
                               <ManageVendors data={{userId: userId, userFirstName: user.firstName, userLastName: user.lastName}}/>
-                              <AllocateProject data={{userId: userId, userFirstName: user.firstName, userLastName: user.lastName}}/>
+                              {/* <AllocateProject data={{userId: userId, userFirstName: user.firstName, userLastName: user.lastName}}/> */}
                             </>
                           ): (<></>)}
-                          {/* <Box>
-                            <FormControl isRequired>
-                              <FormLabel>Vendor</FormLabel>
-                              <Select width="100%" id="userVendorId" {...register('userVendorId')} >
-                                  <option value="">Select an Vendor</option>
-                                  {vendorListNew?.map((vendor) => (
-                                    <option value={vendor.id}>{vendor.name}</option>
-                                  ))}
-                            </Select>
-                            </FormControl>     
-                          </Box> */}
                         </>
                       ) : ("")}
                     </HStack>
