@@ -17,3 +17,19 @@ export const setSelectedProjectResources = (selectedProjectResources) => {
         payload: selectedProjectResources
     }
 }
+
+export const setSelectedProjectRemainingBudget = (remainingBudget) => {
+    console.log("setSelectedProjectRemainingBudget::::ACTIONS:::"+JSON.stringify(remainingBudget));
+    return {
+        type: ActionTypes.SET_SELECTED_PROJECT_REMAINING_BUDGET,
+        payload: remainingBudget
+    }
+}
+
+export const setSelectedProjectVendorId = (vendorId) => {
+    console.log("setSelectedProjectVendorId::::ACTIONS:::"+JSON.stringify(vendorId));
+    return {
+        type: ActionTypes.SET_SELECTED_PROJECT_VENDOR_ID,
+        payload: vendorId
+    }
+}

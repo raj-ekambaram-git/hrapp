@@ -4,7 +4,9 @@ import { ActionTypes } from "./constants";
 
 const initialState = {
     selectedProjectId: null,
-    projectResources: []
+    projectResources: [],
+    vendorId: null,
+    remainingBudget: null
 };
 
 const projectReducer = (state = initialState, {type, payload}) => {
@@ -23,6 +25,10 @@ const projectReducer = (state = initialState, {type, payload}) => {
             newProjectResources.push(payload);
             newState.projectResources = newProjectResources;
         }
+    }else if(type === ActionTypes.SET_SELECTED_PROJECT_VENDOR_ID) {
+        newState.vendorId = payload;
+    } else if(type === ActionTypes.SET_SELECTED_PROJECT_REMAINING_BUDGET) {
+        newState.remainingBudget = payload;
     }
     
     console.log("projectReducer:::New State:::Before Return:::"+JSON.stringify(newState));
