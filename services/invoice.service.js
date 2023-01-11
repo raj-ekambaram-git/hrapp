@@ -20,9 +20,27 @@ export const invoiceService = {
     getInvoiceTransactions,
     createInvoiceTransaction,
     generateInvoice,
-    updateInvoiceEmailTo    
+    updateInvoiceEmailTo,
+    generateInvoiceWithoutDetail
 
 };
+
+
+function generateInvoiceWithoutDetail(invoiceId) {
+
+  return fetch(`${baseUrl}/account/invoice/${invoiceId}/generate`, {})
+  .then( data => {
+    if(data.arrayBuffer) {
+      return data.arrayBuffer();
+    }else {
+      return {errorMessage: "Error generateInvoice", error: true};
+    }
+  })
+  .catch(err => {
+    return {errorMessage: err, error: true};
+  });
+
+}
 
 function generateInvoice(invoiceId, accountId) {
 
