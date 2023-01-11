@@ -219,7 +219,7 @@ const InvoiceAddEdit = (props) => {
   }
 
   function handleInvoiceDate(e) {
-    if(e != undefined && e.updatedDate) {
+    if(e != undefined && (e.updatedDate || (!e.updatedDate && invoiceDate === undefined))) {
       setInvoiceDate(util.getFormattedDate(e.date))
       // setValue("invoiceDate", util.getFormattedDate(e.date))
     }
