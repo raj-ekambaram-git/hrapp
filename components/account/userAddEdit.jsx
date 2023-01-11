@@ -28,8 +28,9 @@ import {PageMainHeader} from '../../components/common/pageMainHeader'
 import ManageVendors from "../user/vendor/manageVendors";
 import { useDispatch, useSelector } from "react-redux";
 import {fetchVendorsByAccount, resetVendorsByAccount} from '../../store/modules/Vendor/actions'
-import { resetUserVendors } from "../../store/modules/User/actions";
+import { resetUserProjects, resetUserVendors, setUserProjects } from "../../store/modules/User/actions";
 import { NotesConstants } from "../../constants";
+import AllocateProject from "../user/project/allocateProject";
 
 
 
@@ -102,6 +103,7 @@ const UserAddEdit = (props) => {
     //Reset Everything here
     dispatch(resetUserVendors());
     dispatch(resetVendorsByAccount);
+    dispatch(resetUserProjects);
 
     if(props && props.data && props.data.mode != MODE_ADD) {
       setAddMode(false);
@@ -171,8 +173,8 @@ const UserAddEdit = (props) => {
             zipCode: userResonse.address[0].zipCode,
             country: userResonse.address[0].country
         };
-
         setUser(userData);
+        dispatch(setUserProjects(userResonse.projectResource))
 
         // get user and set form fields
             const fields = ['firstName', "lastName","userType", "userRole", "userEmail","userPhone","userAccountId", "userVendorId","timeSheetEnabled","userStatus","addressName","address1", "address2", "address3","city","state","zipCode","userRolesId"];
@@ -505,6 +507,7 @@ const UserAddEdit = (props) => {
                           {!isAddMode? (
                             <>
                               <ManageVendors data={{userId: userId, userFirstName: user.firstName, userLastName: user.lastName}}/>
+                              <AllocateProject data={{userId: userId, userFirstName: user.firstName, userLastName: user.lastName}}/>
                             </>
                           ): (<></>)}
                           {/* <Box>

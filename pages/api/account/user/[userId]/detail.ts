@@ -26,6 +26,18 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           select: {
             name: true
           }
+        },
+        projectResource: {
+          select: {
+            id: true,
+            project: {
+              select: {
+                name: true,
+                id: true,
+                referenceCode: true
+              }
+            },
+          }
         }
       }
     })

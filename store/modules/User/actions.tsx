@@ -73,3 +73,44 @@ export const removeLoggedInUser = () => {
         payload: null
     }
 }
+
+
+export const setAvailableProjectsForUser = (userId) => {
+    console.log("setAvailableProjectsForUser::::ACTIONS:::"+JSON.stringify(userId));
+    return {
+        type: ActionTypes.SET_AVAILABLE_PROJECTS_FOR_USER,
+        payload: userId
+    }
+}
+
+export const getAvailableProjectsForUser = (projects) => {
+    console.log("getAvailableProjectsForUser::::ACTIONS:::"+JSON.stringify(projects));
+    return {
+        type: ActionTypes.GET_AVAILABLE_PROJECTS_FOR_USER,
+        payload: projects
+    }
+}
+
+export const fetchAvailableProjectsForUser = (userId, accountId) => {
+    return async (dispatch) => {
+        const responseData = await userService.getAvailableProjectsForUser(userId, accountId);
+        console.log("fetchAvailableProjectsForUser::"+JSON.stringify(responseData))
+        dispatch(getAvailableProjectsForUser(responseData));
+      };
+}
+
+
+export const setUserProjects = (userProjects) => {
+    console.log("setUserProjects::::ACTIONS:::"+JSON.stringify(userProjects));
+    return {
+        type: ActionTypes.SET_USER_PROJECTS,
+        payload: userProjects
+    }
+}
+
+export const resetUserProjects = () => {
+    return {
+        type: ActionTypes.RESET_USER_PROJECTS,
+        payload: []
+    }
+}

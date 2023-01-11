@@ -4,6 +4,7 @@ export const ErrorMessage = {
   INVOICE_TRANSACTION_ALREADY_PAID: "This invoice is completely paid or amount you entering is more than the total invoice amount, so no need for more payment.",
   INVOICE_EMAIL_TO_FORM_ERROR: "Email is required and should be valid.",
   SELECT_VENDOR_REQUIRED: "Please select a vendor.",
+  SELECT_PROJECT_REQUIRED: "Please select a project.",
   SELECT_USER_REQUIRED: "Please select an user.",
   COMMENTS_REQUIRED: "Commers are required.",
   REPLY_REQUIRED: "Reply required.",

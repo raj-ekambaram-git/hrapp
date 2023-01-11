@@ -39,9 +39,21 @@ export const userService = {
     resetPassword,
     getUserVendors,
     addUserVendor,
-    removeUserVendor
+    removeUserVendor,
+    getAvailableProjectsForUser
 
 };
+
+function getAvailableProjectsForUser(userId, accountId) {
+    return fetchWrapper.get(`${baseUrl}/account/user/${userId}/availableprojects?accountId=`+accountId, {})
+    .then(availableProjects => {
+        return availableProjects;
+    })  
+    .catch(err => {
+      console.log("Error Getting getAvailableProjectsForUser")
+      return {errorMessage: err, error: true};
+  });
+}
 
 function removeUserVendor (removeRequest) {
     return fetchWrapper.post(`${baseUrl}/account/user/vendor/delete`, {removeRequest})
