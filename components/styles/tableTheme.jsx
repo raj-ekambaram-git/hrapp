@@ -25,8 +25,12 @@ const list = definePartsStyle({
 const baseStyle = definePartsStyle({
   // define the part you're going to style
   table: {
-    borderRadius: 'lg',
-
+    rounded: "40px",
+    d: 'inline-block',
+    border: "2px solid",
+    borderColor:"gray.200",
+    borderRadius: "50px",
+    variant:"simple"
   },
   thead: {
     bgColor: 'table_tile',
