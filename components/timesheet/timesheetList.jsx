@@ -138,7 +138,7 @@ const TimesheetList = (props) => {
                             </Th>
                             <Th>
                               <HStack>
-                                  <Button onClick={() => handleTimesheetSelection(timesheet.id)}>
+                                  <Button size="xs" bgColor="header_actions" onClick={() => handleTimesheetSelection(timesheet.id)}>
                                     Details
                                   </Button>
                                 <Badge color={`${

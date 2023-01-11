@@ -56,7 +56,7 @@ function UserListForAccount(props) {
               </Th>
               <Th>
                 <HStack>
-                  <Button onClick={() => handleUserEditSelection(user.id)}>
+                  <Button size="xs" bgColor="header_actions" onClick={() => handleUserEditSelection(user.id)}>
                     Edit
                   </Button>                  
                   <Badge color={`${

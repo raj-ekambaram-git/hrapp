@@ -134,7 +134,7 @@ const VendorList = (props) => {
                                   </Th> 
                                   <Th>
                                     <HStack>
-                                    <Button onClick={() => handleVendorDetailSelection(vendor.id)}>
+                                    <Button size="xs" bgColor="header_actions" onClick={() => handleVendorDetailSelection(vendor.id)}>
                                       Vendor Details
                                     </Button>
                                       <Badge color={`${

@@ -92,7 +92,7 @@ import { setNotesType } from "../../store/modules/Notes/actions";
 
     return (
         <div>
-            <Button
+            <Button size="xs" bgColor="header_actions"
                 onClick={() => handleClick("lg")}
                 key="lg"
                 m={1}

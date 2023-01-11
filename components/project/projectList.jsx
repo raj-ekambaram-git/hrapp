@@ -166,7 +166,7 @@ const ProjectList = (props) => {
                             </Th>
                             <Th>
                               <HStack>
-                                  <Button onClick={() => handleProjectDetailSelection(project.id)}>
+                                  <Button size="xs" bgColor="header_actions" onClick={() => handleProjectDetailSelection(project.id)}>
                                     Details
                                   </Button>
                                 <Badge color={`${

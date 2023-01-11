@@ -225,7 +225,7 @@ const InvoiceList = (props) => {
                             </Th>
                             <Th>
                               <HStack>
-                                <Button onClick={() => handleInvoiceDetailSelection(invoice.id)}>
+                                <Button size="xs" bgColor="header_actions" onClick={() => handleInvoiceDetailSelection(invoice.id)}>
                                     Details
                                   </Button>
                                 <Badge color={`${

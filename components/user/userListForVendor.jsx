@@ -43,7 +43,7 @@ function UserListForVendor(props) {
               <Th>
                 <HStack>
                   <Link href={`/account/user/${user.user?.id}`} passref key={user.user?.id}>
-                    <Button className="btn">
+                    <Button size="xs" bgColor="header_actions">
                       Details
                     </Button>
                   </Link>

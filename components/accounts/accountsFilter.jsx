@@ -136,7 +136,7 @@ export default function Home(props) {
                               <HStack>
                                 {/* <Link href={`/account/${account.id}/detail`} passref key={account.id}> */}
                                 
-                                  <Button onClick={() => handleAccoundDetailSelection(account.id)}>
+                                  <Button size="xs" bgColor="header_actions" onClick={() => handleAccoundDetailSelection(account.id)}>
                                     Details
                                   </Button>
                                 {/* </Link> */}
