@@ -90,7 +90,6 @@ const baseStyle = definePartsStyle({
   body: {
     rounded: "40px",
     borderRadius: 'lg',
-    overflow: 'hidden', 
   },
   footer: {
     
