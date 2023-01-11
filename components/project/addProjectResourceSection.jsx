@@ -31,7 +31,7 @@ import {
   EditIcon
 } from '@chakra-ui/icons';
 import { userService } from '../../services';
-import {USER_ROLES} from "../../constants/userConstants";
+import {UserConstants} from "../../constants";
 import {MODE_ADD, EMPTY_STRING} from "../../constants/accountConstants";
 import { DrawerMainHeader } from "../common/drawerMainHeader";
 
@@ -94,7 +94,7 @@ const AddProjectResource = (props) => {
     console.log("HANDLE USER...")
     setUserId(user.target.value);
     
-    if(user.target.options.item(user.target.selectedIndex).getAttribute("data-role") === USER_ROLES.ACCOUNT_MANAGER) {
+    if(user.target.options.item(user.target.selectedIndex).getAttribute("data-role") === UserConstants.USER_ROLES.ACCOUNT_MANAGER) {
       console.log("HANDLE USER...MANAGER...")
       setTimesheetApproverCheckBox(true);
       
