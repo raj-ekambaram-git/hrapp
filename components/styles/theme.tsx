@@ -5,7 +5,9 @@ import {cardTheme, accordionTheme, buttonTheme, drawerTheme, popoverTheme, boxTh
 
 
 
-const fonts = { mono: `'Menlo', monospace` }
+const fonts = { mono: `'Menlo', monospace`,
+heading: `'Open Sans', sans-serif`,
+body: `'Raleway', sans-serif`,}
 
 const breakpoints = {
   sm: '40em',
