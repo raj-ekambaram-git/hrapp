@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-
+const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
 
 export const POST_METHOD = 'POST';
 
@@ -33,7 +33,7 @@ export const ACCOUNT_VALIDATION_SCHEMA = Yup.object().shape({
     country: Yup.string().required('Account Country is required'),
     accountEIN: Yup.string().required('Account EIN is required'),
     accountEmail: Yup.string().required('Account Email is required'),
-    accountPhone: Yup.string().required('Account Phone is required'),
+    accountPhone: Yup.string().matches(phoneRegExp, 'Phone number is not valid'),
     
 
   });
@@ -50,7 +50,7 @@ export const ACCOUNT_VALIDATION_SCHEMA = Yup.object().shape({
     country: Yup.string().required('Account Country is required'),
     userRole: Yup.string().required('User Role is required'),
     userEmail: Yup.string().required('User Email is required'),
-    userPhone: Yup.string().required('User Phone is required'),
+    userPhone: Yup.string().matches(phoneRegExp, 'Phone number is not valid'),
     userAccountId: Yup.string().required('User Account is required'),
     userPassword: Yup.string().required('User Password is required'),
     timeSheetEnabled: Yup.string().required('TimeSheet is required'),
@@ -75,13 +75,13 @@ export const ACCOUNT_VALIDATION_SCHEMA = Yup.object().shape({
     description: Yup.string().required('Last Name is required'),
     email: Yup.string().required('Account Address1 is required'),
     type: Yup.string().required('Account City is required'),
-    phone: Yup.string().required('Account State is required'),
+    phone: Yup.string().matches(phoneRegExp, 'Phone number is not valid'),
     accountId: Yup.string().required('Account ZipCode is required'),
     ein: Yup.string().required('Account Country is required'),
     status: Yup.string().required('User Role is required'),
     accountContactName: Yup.string().required('User Email is required'),
     accountContactEmail: Yup.string().required('User Phone is required'),
-    accountContactPhone: Yup.string().required('User Account is required'),
+    accountContactPhone: Yup.string().matches(phoneRegExp, 'Phone number is not valid'),
     addressName: Yup.string().required('Account Name is required'),
     address1: Yup.string().required('Account Address1 is required'),
     city: Yup.string().required('Account City is required'),
