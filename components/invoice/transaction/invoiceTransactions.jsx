@@ -49,7 +49,8 @@ const InvoiceTransactions = (props) => {
     <div>
         
         <Button
-              size="sm"
+              size="xs"
+              bgColor="header_actions"
               onClick={() => handleInvoiceTransactions("xl")}
               key="xl"
               m={1}

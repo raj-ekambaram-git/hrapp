@@ -338,6 +338,27 @@ const InvoiceAddEdit = (props) => {
           ) : (
             <div>{isVendor? (<PageMainHeader heading="Update Vendor Invoice" notesData={notesData}/>): (<PageMainHeader heading="Update Account Invoice" notesData={notesData}/>)}</div>
           )}    
+          {(!isAddMode && (status !== InvoiceConstants.INVOICE_STATUS.Draft && status !== EMPTY_STRING)) ? (
+            <>
+            <Flex marginBottom="1rem" borderRadius="lg" alignSelf="center">
+                <HStack>
+                  <InvoiceTransactions invoiceId={invoiceId}/>
+                  {(!isAddMode && (status !== EMPTY_STRING && (status !== InvoiceConstants.INVOICE_STATUS.Submitted || status !== InvoiceConstants.INVOICE_STATUS.Paid || status !== InvoiceConstants.INVOICE_STATUS.PartiallyPaid))) ? (
+                    <Box>
+                      <Button size="xs" bgColor="header_actions"
+                          onClick={() => handleDownloadInvoice()}
+                          >{`Download Invoice`}
+                        </Button>          
+                      </Box>
+                    ) : (
+                      <></>
+                    )}
+                </HStack>
+            </Flex>   
+            </>
+          ) : (
+            <></>
+          )}          
           <Flex>
           <Box width="page.sub_heading_width">
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -384,8 +405,10 @@ const InvoiceAddEdit = (props) => {
                                   <Badge color={`${
                                     status === "Paid"
                                       ? "paid_status"
-                                      : invoice.status === "Pending"
+                                      : status === "Pending"
                                       ? "pending_status"
+                                      : status === "PartiallyPaid"
+                                      ? "paid_status"
                                       : "pending_status"
                                   }`}>{status}</Badge>                            
                                 </>) : (<>
@@ -527,18 +550,6 @@ const InvoiceAddEdit = (props) => {
                                 />      
                                 <HStack>
                                   <Input type="number" value={invoicePaidAmount} isReadOnly/>
-                                   <InvoiceTransactions invoiceId={invoiceId}/>
-                                   {(!isAddMode && (status !== EMPTY_STRING && (status !== InvoiceConstants.INVOICE_STATUS.Submitted || status !== InvoiceConstants.INVOICE_STATUS.Paid || status !== InvoiceConstants.INVOICE_STATUS.PartiallyPaid))) ? (
-                                    <Box>
-                                      <Button size="xs"
-                                          onClick={() => handleDownloadInvoice()}
-                                          >{`Download Invoice`}
-                                        </Button>          
-                                      </Box>
-                                    ) : (
-                                      <></>
-                                    )}
-                                    
                                 </HStack>
                               </InputGroup>                             
                           </FormControl>    
