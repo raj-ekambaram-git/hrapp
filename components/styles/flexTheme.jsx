@@ -1,13 +1,5 @@
 import { defineStyle, defineStyleConfig } from '@chakra-ui/react'
 
-const comment = defineStyle({
-  maxW: 'sm', 
-  borderWidth: '1px',
-  borderRadius: 'lg',
-  overflow: 'hidden', 
-  bgColor: 'red'
-})
-
 const headerActions = defineStyle({
   maxW: 'sm', 
   borderWidth: '1px',
@@ -16,9 +8,9 @@ const headerActions = defineStyle({
   bgColor: 'red'
 })
 
-export const boxTheme = defineStyleConfig({
+export const flexTheme = defineStyleConfig({
   defaultProps: {
     size: 'sm',
   },
-  variants: { comment, headerActions }
+  variants: { headerActions }
 })

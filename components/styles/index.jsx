@@ -5,3 +5,4 @@ export * from './drawerTheme';
 export * from './popoverTheme';
 export * from './boxTheme';
 export * from './tableTheme';
+export * from './flexTheme';
