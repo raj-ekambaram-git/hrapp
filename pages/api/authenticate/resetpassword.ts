@@ -4,6 +4,7 @@ import { NextApiRequest, NextApiResponse } from "next"
 import prisma from "../../../lib/prisma";
 import {util} from '../../../helpers/util';
 import { emailService } from "../../../services";
+import { CommonConstants, EmailConstants } from "../../../constants";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method !== 'POST') {
@@ -50,12 +51,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
 function getTempPasswordEmailRequest(resetUser, tempPassword) {
   return {
-    from: "admin@dsquaretech.us",
+    withAttachment: false,
+    from: CommonConstants.fromEmail,
     to: resetUser.email,
     templateData: {
       tempPassword: tempPassword
     },
-    template_id: 'd-fe0e6d3b03a846fd957bb052a2d343e3'
+    template_id: EmailConstants.emailTemplate.resetPasswordTemplateId
   }
 
 }
