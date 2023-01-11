@@ -29,17 +29,19 @@ const baseStyle = definePartsStyle({
     d: 'inline-block',
     border: "2px solid",
     borderColor:"gray.200",
-    borderRadius: "50px",
-    variant:"simple"
+    borderRadius: "20px",
+    variant:"simple",
+    borderSpacing: "0 1em"
   },
   thead: {
     bgColor: 'table_tile',
-    borderRadius: 'full',
+  },
+  tr: {
+    
   },
   th: {
   },
   tbody: {
-    borderRadius: 'full',
   }
 })
 

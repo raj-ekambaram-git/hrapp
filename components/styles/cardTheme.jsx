@@ -80,13 +80,17 @@ const replyDetails = definePartsStyle({
 const baseStyle = definePartsStyle({
   // define the part you're going to style
   container: {
+    borderRadius: "50px"
   },
   header: {
     bgColor:"table_tile",
-    padding:"page.heading"
+    padding:"page.heading",
+    borderRadius: "5px"
   },
   body: {
-    
+    rounded: "40px",
+    borderRadius: 'lg',
+    overflow: 'hidden', 
   },
   footer: {
     
