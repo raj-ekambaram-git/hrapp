@@ -77,10 +77,10 @@ export default function Home(props) {
       {isPageAuthprized ? (
         <div>
               <PageMainHeader heading="Accounts"/>
-              <Flex marginBottom="2rem">
+              <Flex marginBottom="1rem">
                 <HStack>
                   <Box>
-                    <Button className="btn" onClick={navigatePage}>
+                    <Button size="xs" bgColor="header_actions" onClick={navigatePage}>
                       Add New Account 
                     </Button>
                   </Box>

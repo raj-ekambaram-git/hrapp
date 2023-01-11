@@ -94,10 +94,10 @@ const ProjectList = (props) => {
               )}
 
     
-              <Flex marginBottom="2rem">
+              <Flex marginBottom="1rem">
                 <HStack>
                   <Box>
-                    <Button onClick={navigatePage}>
+                    <Button size="xs" bgColor="header_actions"  onClick={navigatePage}>
                       {isVendor ? (
                         <>Add New Vendor Project</>
                       ) : (

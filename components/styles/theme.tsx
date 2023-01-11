@@ -106,7 +106,7 @@ const theme = extendTheme({
       heading: ".75rem",
       heading_marginBottom: "2rem",
       sub_heading: ".5rem",
-      sub_heading_marginBottom: "1.5rem"
+      sub_heading_marginBottom: "1rem"
     }
   },
   sizes: {

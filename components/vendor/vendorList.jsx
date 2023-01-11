@@ -66,10 +66,10 @@ const VendorList = (props) => {
       {isPageAuthprized ? (
         <div>
               <PageMainHeader heading="Account Vendors"/>    
-              <Flex marginBottom="2rem">
+              <Flex marginBottom="1rem">
                 <HStack>
                   <Box>
-                    <Button className="btn" onClick={navigatePage}>
+                    <Button size="xs" bgColor="header_actions" onClick={navigatePage}>
                       Add New Vendor 
                     </Button>
                   </Box>

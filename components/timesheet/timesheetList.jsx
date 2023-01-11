@@ -88,10 +88,10 @@ const TimesheetList = (props) => {
                 <PageMainHeader heading="Timesheets"/>
               )}
     
-              <Flex marginBottom="2rem">
+              <Flex marginBottom="1rem">
                 <HStack>
                   <Box>
-                    <Button className="btn" onClick={navigatePage}>
+                    <Button size="xs" bgColor="header_actions"  onClick={navigatePage}>
                         Add New Timesheet
                     </Button>
                   </Box>

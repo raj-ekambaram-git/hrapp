@@ -28,6 +28,7 @@ import { NotesConstants } from "../../../constants";
 import NotesHistory from "../../../components/notes/notesHistory";
 import { resetUsersByAccount } from "../../../store/modules/Account/actions";
 import { resetNotesType, setNotesType } from "../../../store/modules/Notes/actions";
+import VendorDetailActions from "../../../components/vendor/detail/vendorDetailActions";
 
 
 
@@ -42,13 +43,6 @@ const VendorDetail = (props) => {
   const [vendor, setVendor] = useState({});
   const [vendorAddress, setVendorAddress] = useState({});
   const [isPageAuthprized, setPageAuthorized] = useState(false);
-
-  const navigateVendorEditPage = () => router.push("/account/vendor/edit");
-  const navigateManageVendorUsersPage = () => router.push("/account/vendor//users");
-  const navigateVendorInvoicesPage = () => router.push("/account/vendor//invoices");
-  const navigateVendorProjectsPage = () => router.push("/account/vendor/projects");
-  const manageVendorsForAccount = () => router.push("/account/vendors");
-  
 
   const createProjectRequestData = {
     mode: MODE_ADD,
@@ -165,6 +159,7 @@ const VendorDetail = (props) => {
               </HStack>                  
             </Box>                  
           </Flex>
+          <VendorDetailActions/>
           <Flex>
               <Stack width="page.sub_heading_width">
                 {/* <Accordion marginBottom="1rem" border="1px" width="60%"> */}
@@ -192,36 +187,6 @@ const VendorDetail = (props) => {
                 </Box>                
               </Stack>
           </Flex>         
-
-          <Flex marginTop="2rem">
-                <HStack spacing={2}>
-                  <Box>
-                    <Button className="btn" onClick={navigateVendorEditPage}>
-                      Edit
-                    </Button>
-                  </Box>
-                  <Box>
-                    <Button className="btn" onClick={manageVendorsForAccount}>
-                     Account Vendors
-                    </Button>
-                  </Box>   
-                  <Box>
-                    <Button className="btn" onClick={navigateManageVendorUsersPage}>
-                      Vendor Users
-                    </Button>
-                  </Box>   
-                  <Box>
-                    <Button className="btn" onClick={navigateVendorProjectsPage}>
-                      Vendor Projects
-                    </Button>
-                  </Box>                   
-                  <Box>
-                    <Button className="btn" onClick={navigateVendorInvoicesPage}>
-                      Vendor Invoices
-                    </Button>
-                  </Box>                                                      
-                </HStack>
-              </Flex>          
         </>
       ) : (
         <div className="account__header">
