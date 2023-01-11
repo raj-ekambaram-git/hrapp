@@ -508,7 +508,7 @@ const InvoiceAddEdit = (props) => {
                                 fontSize='dollar_left_element'
                                 children='$'
                             />      
-                            <Input type="text" id="total"  value={invoiceTotal} size="md" {...register('total')} />
+                            <Input type="number" id="total"  value={invoiceTotal} size="md" {...register('total')} />
                           </InputGroup>    
                           
                         </FormControl>     
@@ -526,7 +526,7 @@ const InvoiceAddEdit = (props) => {
                                     children='$'
                                 />      
                                 <HStack>
-                                  <Input type="text" value={invoicePaidAmount} isReadOnly/>
+                                  <Input type="number" value={invoicePaidAmount} isReadOnly/>
                                    <InvoiceTransactions invoiceId={invoiceId}/>
                                    {(!isAddMode && (status !== EMPTY_STRING && (status !== InvoiceConstants.INVOICE_STATUS.Submitted || status !== InvoiceConstants.INVOICE_STATUS.Paid || status !== InvoiceConstants.INVOICE_STATUS.PartiallyPaid))) ? (
                                     <Box>
