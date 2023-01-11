@@ -221,14 +221,13 @@ const InvoiceAddEdit = (props) => {
   function handleInvoiceDate(e) {
     if(e != undefined && (e.updatedDate || (!e.updatedDate && invoiceDate === undefined))) {
       setInvoiceDate(util.getFormattedDate(e.date))
-      // setValue("invoiceDate", util.getFormattedDate(e.date))
+
     }
   }
 
   function handleDueDate(e) {
     if(e != undefined && e.updatedDate) {
       setDueDte(util.getFormattedDate(e.date))
-      // setValue("invoiceDate", util.getFormattedDate(e.date))
     }
   }
 
@@ -254,8 +253,31 @@ const InvoiceAddEdit = (props) => {
       dispatch(setInvoiceEmailTo(projectEmail.trim()));
     }
 
+    const projectPaymentTerm =  e.target.options.item(e.target.selectedIndex).getAttribute("data-paymentTerm");
+    if(projectPaymentTerm != undefined && projectPaymentTerm != EMPTY_STRING) {
+      setValue("paymentTerms", projectPaymentTerm)
+      if(invoiceDate != undefined && invoiceDate != EMPTY_STRING) {
+        setDueDte(util.getDueDateByPayTerms(new Date(invoiceDate.toString()), projectPaymentTerm))
+      }else {
+        setDueDte(util.getDueDateByPayTerms(new Date(), projectPaymentTerm))
+      }
+      
+    }
+
+
     return;
   } 
+ 
+  function handlePaymentTerms(projectPaymentTerm) {
+    if(projectPaymentTerm != undefined && projectPaymentTerm != EMPTY_STRING) {
+      if(invoiceDate != undefined && invoiceDate != EMPTY_STRING) {
+        setDueDte(util.getDueDateByPayTerms(new Date(invoiceDate.toString()), projectPaymentTerm))
+      }else {
+        setDueDte(util.getDueDateByPayTerms(new Date(), projectPaymentTerm))
+      }
+      
+    }
+  }
     
 
   function onSubmit(data) {
@@ -417,7 +439,7 @@ const InvoiceAddEdit = (props) => {
                         <Box>
                           <FormControl isRequired>
                             <FormLabel>Payment Terms</FormLabel>
-                            <Select width="100%" id="paymentTerms" {...register('paymentTerms')} >
+                            <Select width="100%" id="paymentTerms" {...register('paymentTerms')}  onChange={(ev) => handlePaymentTerms(ev.target.value)}>
                               {INVOICE_PAY_TERMS?.map((paymentTerm) => (
                                     <option value={paymentTerm.paymentTermId}>{paymentTerm.paymentTermName}</option>
                               ))}                                
@@ -502,7 +524,7 @@ const InvoiceAddEdit = (props) => {
                                 <Select width="100%" id="projectId" {...register('projectId')} onChange={(ev) => handleProjectSelection(ev)}>
                                   <option value="" data-projectType="" data-projectResources="">Select Project</option>
                                   {projectList?.map((project) => (
-                                      <option value={project.id}  data-email={project.contactEmail} data-projectType={project.type} data-projectResources={JSON.stringify(project.projectResource)}>{project.name}</option>
+                                      <option value={project.id} data-paymentTerm={project.paymentTerms} data-email={project.contactEmail} data-projectType={project.type} data-projectResources={JSON.stringify(project.projectResource)}>{project.name}</option>
                                   ))}
                                 </Select>
                               ) : (<>

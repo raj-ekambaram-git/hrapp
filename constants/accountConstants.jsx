@@ -254,29 +254,46 @@ export const INVOICE_CYCLE = [
 
 
 export const INVOICE_PAY_TERMS = [
+{
+  paymentTermId: "Net7",
+  paymentTermName: "Net7",
+  paymentDays: 7
+  },
+{
+  paymentTermId: "Net15",
+  paymentTermName: "Net15",
+  paymentDays: 15
+  },
+      
   {
   paymentTermId: "Net30",
-  paymentTermName: "Net30"
+  paymentTermName: "Net30",
+  paymentDays: 30
   },
   {
     paymentTermId: "Net45",
-    paymentTermName: "Net45"
+    paymentTermName: "Net45",
+    paymentDays: 45
   },    
   {
     paymentTermId: "Net60",
-    paymentTermName: "Net60"
+    paymentTermName: "Net60",
+    paymentDays: 60
   },
   {
     paymentTermId: "Net90",
-    paymentTermName: "Net90"
+    paymentTermName: "Net90",
+    paymentDays: 90
   },
   {
     paymentTermId: "Net180",
-    paymentTermName: "Net180"
+    paymentTermName: "Net180",
+    paymentDays: 180
   },
   {
     paymentTermId: "Net365",
-    paymentTermName: "Net365"
+    paymentTermName: "Net365",
+    paymentDays: 365
   }            
 
 ];  

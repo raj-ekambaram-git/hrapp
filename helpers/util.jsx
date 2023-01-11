@@ -1,6 +1,6 @@
 
 import validator from 'validator';
-import { EMPTY_STRING } from '../constants/accountConstants';
+import { EMPTY_STRING, INVOICE_PAY_TERMS } from '../constants/accountConstants';
 const generator = require('generate-password');
 const bcrypt = require('bcryptjs');
 
@@ -18,9 +18,18 @@ export const util = {
     getDecimalValue,
     getZeroPriceForNull,
     getFormattedDateWithTime,
-    isOdd
+    isOdd,
+    getDueDateByPayTerms
 };
 
+function getDueDateByPayTerms(invoiceDate, payTermInput) {
+  console.log("incoiceDate:::"+invoiceDate+"******PayTerms:::"+payTermInput)
+  const payTerm = INVOICE_PAY_TERMS.filter((payTerm) => payTerm.paymentTermId == payTermInput);
+  var result = invoiceDate.setDate(invoiceDate.getDate() + payTerm[0]?.paymentDays);
+
+  return getFormattedDate(new Date(result))
+
+}
 function isOdd(value) {
   if(value % 2 == 0) {
     return false
