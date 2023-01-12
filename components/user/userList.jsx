@@ -19,22 +19,30 @@ import {
 } from '@chakra-ui/react'
 import { PageMainHeader } from "../common/pageMainHeader";
 import { PageNotAuthorized } from "../common/pageNotAuthorized";
-import { UserListForAccount } from "./userListForAccount";
-import { UserListForVendor } from "./userListForVendor";
-import { useSelector } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
+import { EMPTY_STRING, UserConstants, USER_ROLE_DESC } from "../../constants";
+import SortTable from "../common/SortTable";
+import { util } from "../../helpers";
+import { setSelectedUserId } from "../../store/modules/User/actions";
 
 
 const UserList = (props) => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const { data } = props.userList;
   const { isVendor } = props.userList;
   const [usersList, setUsersList] = useState([]);
   const [isPageAuthprized, setPageAuthorized] = useState(false);
+  const USER_ACCOUNT_LIST_TABLE_COLUMNS = React.useMemo(() => UserConstants.USER_ACCOUNT_LIST_TABLE_META)
+  const USER_VENDOR_LIST_TABLE_COLUMNS = React.useMemo(() => UserConstants.USER_VENDOR_LIST_TABLE_META)
 
   const accountId = useSelector(state => state.account.selectedAccountId);
   
+  function handleUserEditSelection(userId){
+    dispatch(setSelectedUserId(userId))
+    router.push("/account/user/edit");
 
+  }
   useEffect(() => {
 
     if(isVendor) {
@@ -69,7 +77,22 @@ const UserList = (props) => {
       const responseData = await userService.getUsersByVendor(vendorId, accountId);
 
       console.log("USERS LIST:::"+JSON.stringify(responseData));
-      setUsersList(responseData);
+      if(responseData != undefined && responseData != EMPTY_STRING) {
+        const updatedUserList =  responseData.map((user, index)=> {
+          if(isVendor) {
+
+          }else {
+            user.role = user.role ? (<>{USER_ROLE_DESC[user.role]}</>) : "N/A"
+            user.vendorName = user.vendor?.name ? (<>{user.vendor?.name}</>) : "N/A"
+            user.createdDate = util.getFormattedDate(user.createdDate)
+            user.userAction = <Button size="xs" bgColor="header_actions" onClick={() => handleUserEditSelection(user.id)}>Edit</Button>
+            user.status = <Badge color={`${(user.status === "Active" || user.status === "Approved")? "paid_status" : "pending_status"}`}>{user.status}</Badge>
+          }
+          return user;
+        });
+        setUsersList(updatedUserList);
+      }      
+      
 
     }
 
@@ -102,7 +125,12 @@ const UserList = (props) => {
                 </HStack>
               </Flex>
               <TableContainer display="flex">
-              <Table>
+                      {isVendor ? (
+                        <SortTable  columns={USER_VENDOR_LIST_TABLE_COLUMNS} data={usersList} />
+                      ) : (
+                        <SortTable  columns={USER_ACCOUNT_LIST_TABLE_COLUMNS} data={usersList} />
+                      )}                
+              {/* <Table>
               <TableCaption></TableCaption>
                 <Thead>
                     <Tr bgColor="table_tile">
@@ -142,7 +170,7 @@ const UserList = (props) => {
                         <UserListForAccount usersList={usersList}/>
                       )}
                 </Tbody>    
-              </Table>
+              </Table> */}
               </TableContainer>
           </div>
       ) : (

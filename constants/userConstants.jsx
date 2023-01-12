@@ -9,5 +9,86 @@ export const UserConstants = {
         ACCOUNT_VENDOR_CONTRACTOR: "ACCOUNT_VENDOR_CONTRACTOR",
         ACCOUNT_MANAGER: "ACCOUNT_MANAGER",
         DEVELOPER: "DEVELOPER" 
-    } 
+    } ,
+    USER_ACCOUNT_LIST_TABLE_META: [
+        {
+          Header: "ID",
+          accessor: "id"
+        },
+        {
+          Header: "First Name",
+          accessor: "firstName"
+        },    
+        {
+          Header: "Last Name",
+          accessor: "lastName"
+        },
+        {
+          Header: "User Id/Email",
+          accessor: "email"
+        },
+        {
+          Header: "Role",
+          accessor: 'role',
+        },
+        {
+          Header: "Account",
+          accessor: "account.name"
+        },
+        {
+          Header: "Vendor",
+          accessor: 'vendorName'
+        },
+        {
+          Header: "Created",
+          accessor: "createdDate"
+        },   
+        {
+            Header: "",
+            accessor: "userAction"
+        },  
+        {
+            Header: "Status",
+            accessor: "status"
+        }, 
+  
+      ],
+    USER_VENDOR_LIST_TABLE_META: [
+        {
+          Header: "ID",
+          accessor: "user?.id"
+        },
+        {
+          Header: "First Name",
+          accessor: "user?.firstName"
+        },    
+        {
+          Header: "Last Name",
+          accessor: "user?.lastName"
+        },
+        {
+          Header: "User Id/Email",
+          accessor: "user?.email"
+        },
+        {
+          Header: "Role",
+          accessor: 'user?.role ? (<>{USER_ROLE_DESC[user?.role]}</>) : "N/A"',
+        },
+        {
+          Header: "Account",
+          accessor: "vendor?.account?.name"
+        },
+        {
+          Header: "Vendor",
+          accessor: 'vendor ? (<>{vendor?.name}</>) : "N/A"'
+        },
+        {
+          Header: "Created",
+          accessor: "user?.createdDate"
+        },   
+        {
+            Header: "Status",
+            accessor: "user?.status"
+          },     
+      ]
 }
