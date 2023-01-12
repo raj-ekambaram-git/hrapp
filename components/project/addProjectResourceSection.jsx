@@ -173,10 +173,6 @@ const AddProjectResource = (props) => {
         //Close the modal
         console.log("before forwarding..::"+JSON.stringify(data))
         if(data != undefined && !data.error) {
-          console.log("Inside this condition of close UPDATED --- "+remainingBudgetToUpdate);
-          // remainingBudget = remainingBudgetToUpdate;
-          console.log("BEFORE CALLING handleAddProjectResource --- "+remainingBudgetToUpdate)
-          // handleAddProjectResource(data, vendorId, remainingBudgetToUpdate);
           dispatch(setSelectedProjectResources(data))
           onClose();
           toast({
