@@ -34,6 +34,15 @@ const projectReducer = (state = initialState, {type, payload}) => {
         const newProjectResourceList = [...newState.projectResources]
         newProjectResourceList.splice(payload, 1);
         newState.projectResources = newProjectResourceList;
+    } else if(type === ActionTypes.UPDATE_PROJECT_RESOURCE_ENTRY) {
+        const newProjectResourceList = [...newState.projectResources]
+        let updateProjectResource = newProjectResourceList.map(projectResource => {
+            if (projectResource.id == payload.id) {
+                projectResource = payload
+            }
+            return projectResource;
+          })
+        newState.projectResources = updateProjectResource;
     }
     
     console.log("projectReducer:::New State:::Before Return:::"+JSON.stringify(newState));

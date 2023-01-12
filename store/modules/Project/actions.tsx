@@ -41,3 +41,11 @@ export const removeProjectResourceByIndex = (projectResourceIndex) => {
         payload: projectResourceIndex
     }
 }
+
+export const updateProjectResourceEntry = (projectResource) => {
+    console.log("updateProjectResourceEntry::::ACTIONS:::"+JSON.stringify(projectResource));
+    return {
+        type: ActionTypes.UPDATE_PROJECT_RESOURCE_ENTRY,
+        payload: projectResource
+    }
+}

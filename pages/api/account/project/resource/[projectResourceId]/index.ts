@@ -40,7 +40,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           remainingBudgetToAllocate: projetUpdateData.remainingBudgetToAllocate
         }
       });
-      res.status(200).json(savedProject);
+      res.status(200).json(savedProjectResource);
 
     }
 

@@ -34,7 +34,7 @@ import { projectService, userService } from '../../services';
 import {UserConstants} from "../../constants";
 import {MODE_ADD, EMPTY_STRING} from "../../constants/accountConstants";
 import { useDispatch, useSelector } from "react-redux";
-import { setSelectedProjectRemainingBudget, setSelectedProjectResources } from "../../store/modules/Project/actions";
+import { setSelectedProjectRemainingBudget, setSelectedProjectResources, updateProjectResourceEntry } from "../../store/modules/Project/actions";
 
 
 
@@ -226,10 +226,11 @@ const AddProjectResource = (props) => {
       console.log("PR Data::"+JSON.stringify(requestData))
       const data = await projectService.updateProjectResource(requestData, remainingBudgetToUpdate)
         //Close the modal
-        console.log("before forwarding..::"+JSON.stringify(data))
+        console.log("updateProjectResource:::::before forwarding..::"+JSON.stringify(data))
         if(data != undefined && !data.error) {
           // dispatch(setSelectedProjectResources(data))
           dispatch(setSelectedProjectRemainingBudget(remainingBudgetToUpdate))
+          dispatch(updateProjectResourceEntry(data))
           onClose();
           resetInput();
           toast({
