@@ -13,17 +13,19 @@ import {
 } from "@chakra-ui/react";
 import { ChevronUpIcon, ChevronDownIcon } from "@chakra-ui/icons";
 
-function SortTable({ columns, data }) {
+function SortTable({ columns, data, variant }) {
   const {
     getTableProps,
     getTableBodyProps,
     headerGroups,
     rows,
+    variantVal,
     prepareRow
   } = useTable(
     {
       columns,
-      data
+      data,
+      variant
     },
     useSortBy
   );
@@ -34,7 +36,7 @@ function SortTable({ columns, data }) {
   const firstPageRows = rows;
   return (
     <>
-      <Table {...getTableProps()} variant="sortTable">
+      <Table {...getTableProps()} variant={variantVal}>
         <Thead>
           {headerGroups.map((headerGroup) => (
             <Tr {...headerGroup.getHeaderGroupProps()}>

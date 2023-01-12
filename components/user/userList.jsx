@@ -131,9 +131,9 @@ const UserList = (props) => {
               </Flex>
               <TableContainer display="flex">
                       {isVendor ? (
-                        <SortTable  columns={USER_VENDOR_LIST_TABLE_COLUMNS} data={usersList} />
+                        <SortTable  variant="sortTable" columns={USER_VENDOR_LIST_TABLE_COLUMNS} data={usersList} />
                       ) : (
-                        <SortTable  columns={USER_ACCOUNT_LIST_TABLE_COLUMNS} data={usersList} />
+                        <SortTable  variant="sortTable" columns={USER_ACCOUNT_LIST_TABLE_COLUMNS} data={usersList} />
                       )}                
               {/* <Table>
               <TableCaption></TableCaption>

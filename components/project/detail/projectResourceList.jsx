@@ -106,7 +106,7 @@ const ProjectResourceList = (props) => {
           </h2>
           <AccordionPanel>
               <AddProjectResource/>
-              <SortTable columns={PROJECT_RESOURCE_TABLE_COLUMNS} data={projectResourceListTable} />
+              <SortTable variant="sortTable" columns={PROJECT_RESOURCE_TABLE_COLUMNS} data={projectResourceListTable} />
           </AccordionPanel>
         </AccordionItem>   
 

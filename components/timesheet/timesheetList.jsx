@@ -110,7 +110,7 @@ const TimesheetList = (props) => {
                 </HStack>
               </Flex>
               <TableContainer display="flex">
-              <SortTable columns={TIMESHEET_LIST_TABLE_COLUMNS} data={timesheetList} />
+              <SortTable variant="sortTable" columns={TIMESHEET_LIST_TABLE_COLUMNS} data={timesheetList} />
               </TableContainer>
           </div>
       ) : (

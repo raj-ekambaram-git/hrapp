@@ -113,7 +113,7 @@ const ProjectList = (props) => {
                 </HStack>
               </Flex>
               <TableContainer display="flex">
-                <SortTable columns={PROJECT_LIST_TABLE_COLUMNS} data={projectList} />
+                <SortTable variant="sortTable" columns={PROJECT_LIST_TABLE_COLUMNS} data={projectList} />
               </TableContainer>
           </div>
       ) : (

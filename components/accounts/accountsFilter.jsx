@@ -89,7 +89,7 @@ export default function Home(props) {
                 </HStack>
               </Flex>
               <TableContainer>
-                  <SortTable columns={ACCOUNT_LIST_TABLE_COLUMNS} data={accounts} />
+                  <SortTable variant="sortTable" columns={ACCOUNT_LIST_TABLE_COLUMNS} data={accounts} />
               </TableContainer>
           </div>
       ) : (

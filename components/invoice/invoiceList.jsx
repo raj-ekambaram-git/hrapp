@@ -158,7 +158,7 @@ const InvoiceList = (props) => {
                 </HStack>
               </Flex>
               <TableContainer display="flex">
-                <SortTable  columns={INVOICE_LIST_TABLE_COLUMNS} data={invoiceList} />
+                <SortTable  variant="sortTable" columns={INVOICE_LIST_TABLE_COLUMNS} data={invoiceList} />
               </TableContainer>
           </div>
       ) : (

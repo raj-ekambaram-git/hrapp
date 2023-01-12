@@ -81,7 +81,7 @@ const VendorList = (props) => {
                 </HStack>
               </Flex>
               <Flex>
-                <SortTable columns={VENDOR_LIST_TABLE_COLUMNS} data={vendorList} />
+                <SortTable variant="sortTable" columns={VENDOR_LIST_TABLE_COLUMNS} data={vendorList} />
                 </Flex>
           </div>
       ) : (
