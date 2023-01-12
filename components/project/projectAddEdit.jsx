@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/router";
-import { toast } from "react-toastify";
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { util } from '../../helpers';
@@ -24,7 +23,8 @@ import {
   StackDivider,
   Textarea,
   InputLeftElement,
-  InputGroup
+  InputGroup,
+  useToast
 } from '@chakra-ui/react';
 import {PageMainHeader} from '../../components/common/pageMainHeader';
 
@@ -32,6 +32,7 @@ const ProjectAddEdit = (props) => {
   
   const projectId = props.data.projectId;
   const router = useRouter();
+  const toast = useToast();
 
   const referenceCode = useRef("");
   const description = useRef("");
@@ -199,11 +200,26 @@ const ProjectAddEdit = (props) => {
         });
         const data = await res.json();
 
-        toast.success(data.message);
-        //Close the modal
-        //router.push("/account/"+userService.getAccountDetails().accountId+"/users");
-        console.log("Prosp:::"+JSON.stringify(props.data))
-        console.log("before forwarding..::"+props.data.modalRequest)
+        if(data.error) {
+          toast({
+            title: 'New Project.',
+            description: 'Error creating project',
+            status: 'error',
+            position: 'top',
+            duration: 6000,
+            isClosable: true,
+          })
+        }else {
+          toast({
+            title: 'New Project.',
+            description: 'Successfully created new project.',
+            status: 'success',
+            position: 'top',
+            duration: 3000,
+            isClosable: true,
+          })
+        }
+
       if(props.data.modalRequest) {
         console.log("isnide")
         props.data.onClose();
@@ -252,9 +268,26 @@ const ProjectAddEdit = (props) => {
       });
 
       const data = await res.json();
+      if(data.error) {
+        toast({
+          title: 'New Project.',
+          description: 'Error creating project',
+          status: 'error',
+          position: 'top',
+          duration: 6000,
+          isClosable: true,
+        })
+      }else {
+        toast({
+          title: 'New Project.',
+          description: 'Successfully created new project.',
+          status: 'success',
+          position: 'top',
+          duration: 3000,
+          isClosable: true,
+        })
+      }
 
-      console.log("Prosp:::"+JSON.stringify(props.data))
-      console.log("before forwarding..::"+props.data.modalRequest)
 
       if(props.data.modalRequest) {
         props.data.onClose();
