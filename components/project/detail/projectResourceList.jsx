@@ -44,6 +44,7 @@ const ProjectResourceList = (props) => {
 
   function refreshProjectListforTableDisplay() {
      const tempprojectResourceList =  [...projectResourceList].map((projectResource, index)=> {
+      console.log("index:::"+index)
         projectResource.editAction = <AddProjectResource data={{projectResource: projectResource, mode: MODE_EDIT}}/>
         projectResource.deleteAction = <DeleteIcon boxSize={4} onClick={() => deleteProjectResource(projectResource.id,projectResource.billable, index)}/>;
         if(projectResource.billable) {
@@ -52,6 +53,7 @@ const ProjectResourceList = (props) => {
           projectResource.type = <Badge color="pending_status">Non Billable</Badge>;
         }
         projectResource.userName = projectResource?.user?.firstName+" "+projectResource?.user?.lastName;
+        projectResource.budgetAllocatedWithDollar = "$ "+projectResource.budgetAllocated
         return projectResource;
       });
       setProjectResourceListTable(projectResourceList);
@@ -59,6 +61,7 @@ const ProjectResourceList = (props) => {
   }
 
   async function deleteProjectResource(projectResourceId, projectResourceAllocatedBudget, billable, selectIndex) {
+    console.log("selectIndex:::"+selectIndex)
     const projectResourceDeleteResponse = await projectService.deleteProjectResource(projectResourceId,projectResourceAllocatedBudget, billable);
     console.log("projectResourceDeleteResponse:::"+JSON.stringify(projectResourceDeleteResponse));
     if(projectResourceDeleteResponse != undefined && !projectResourceDeleteResponse.error) {
@@ -106,7 +109,11 @@ const ProjectResourceList = (props) => {
           </h2>
           <AccordionPanel>
               <AddProjectResource/>
-              <SortTable variant="sortTable" columns={PROJECT_RESOURCE_TABLE_COLUMNS} data={projectResourceListTable} />
+              {projectResourceListTable.length > 0 ? (<>
+                <TableContainer>
+                  <SortTable variant="sortTable" columns={PROJECT_RESOURCE_TABLE_COLUMNS} data={projectResourceListTable} />
+                </TableContainer>
+              </>) : (<></>)}
           </AccordionPanel>
         </AccordionItem>   
 

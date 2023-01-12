@@ -20,7 +20,7 @@ export const ProjectConstants = {
     },
     {
       Header: "Budget",
-      accessor: "budgetAllocated",
+      accessor: "budgetAllocatedWithDollar",
     },
     {
       Header: "Price",

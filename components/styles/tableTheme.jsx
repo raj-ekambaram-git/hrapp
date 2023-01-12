@@ -25,6 +25,7 @@ const list = definePartsStyle({
 
 const sortTable = definePartsStyle({
   table: {
+    marginTop: "3rem"
   },
   thead: {
     bgColor: 'table_tile',

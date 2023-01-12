@@ -11,7 +11,6 @@ import {
   Th,
   Tr,
   Box,
-  Heading,
   TableContainer,
   TableCaption,
   Checkbox,
@@ -22,9 +21,9 @@ import {
   DrawerHeader,
   DrawerBody,
   Stack,
-  StackDivider,
   InputLeftElement,
-  useToast
+  useToast,
+  HStack
 
 } from '@chakra-ui/react';
 import {
@@ -35,6 +34,8 @@ import {UserConstants} from "../../constants";
 import {MODE_ADD, EMPTY_STRING} from "../../constants/accountConstants";
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedProjectRemainingBudget, setSelectedProjectResources, updateProjectResourceEntry } from "../../store/modules/Project/actions";
+import { util } from "../../helpers/util";
+import DatePicker from "../common/datePicker";
 
 
 
@@ -107,6 +108,18 @@ const AddProjectResource = (props) => {
     onOpen();
   }
 
+  function handleFromDate(e) {
+    if(e != undefined && (e.updatedDate || (!e.updatedDate && fromDate === undefined))) {
+      setFromDate(util.getFormattedDate(e.date))
+
+    }
+  }
+
+  function handleToDate(e) {
+    if(e != undefined && (e.updatedDate || (!e.updatedDate && toDate === undefined))) {
+      setToDate(util.getFormattedDate(e.date))
+    }
+  }
   async function getUsersByVendor(vendorId) {
     // setPageAuthorized(true);
     console.log("getUsersByVendor::: Vendor ID ::"+vendorId);
@@ -182,6 +195,8 @@ const AddProjectResource = (props) => {
         currency: currency,
         billable: billable,
         isTimesheetApprover: isTimesheetApprover,
+        fromDate: fromDate,
+        toDate: toDate,
         uom: uom,
         user: {
           firstName: selectedUserFirstName,
@@ -367,7 +382,7 @@ const AddProjectResource = (props) => {
     <div>
 
           {isAddMode ? (<>
-            <Button size="xs" bgColor="header_actions"
+            <Button size="xs" bgColor="header_actions" 
                 onClick={() => handleAdd("lg")}
                 key="lg"
                 m={1}
@@ -484,12 +499,35 @@ const AddProjectResource = (props) => {
                                     </Tr>    
                                     <Tr>
                                         <Th bgColor="table_tile">
+                                          From Date
+                                        </Th>
+                                        <Th>
+                                          <HStack>
+                                            <Input type="text" id="fromDate"  value={util.getFormattedDate(fromDate)} size="md" onChange={handleFromDate}/>
+                                            <DatePicker onChange={handleFromDate}/> 
+                                          </HStack>
+                                        </Th>
+                                    </Tr>          
+                                    <Tr>
+                                        <Th bgColor="table_tile">
+                                          To Date
+                                        </Th>
+                                        <Th>
+                                          <HStack>
+                                            <Input type="text" id="toDate"  value={util.getFormattedDate(toDate)} size="md" onChange={handleFromDate}/>
+                                            <DatePicker onChange={handleToDate}/> 
+                                          </HStack>
+                                        </Th>
+                                    </Tr>                                                                    
+                                    <Tr>
+                                        <Th bgColor="table_tile">
                                           Max Budget Allocated
                                         </Th>
                                         <Th>
                                           <Input type="text" width="50%" value={budgetAllocated} onChange={(ev) => setBudgetAllocated(ev.target.value)}/>
                                         </Th>
-                                    </Tr>                                                                                                     
+                                    </Tr>    
+
                                   </Tbody>
                                   
                                 </Table>

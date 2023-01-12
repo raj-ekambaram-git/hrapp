@@ -1,6 +1,7 @@
 import getConfig from 'next/config';
 
 import { fetchWrapper } from 'helpers';
+import { request } from 'http';
 
 const { publicRuntimeConfig } = getConfig();
 const baseUrl = `${publicRuntimeConfig.apiUrl}`;
@@ -26,6 +27,8 @@ function updateProjectResource(requestData, remainingBudgetToUpdate) {
             userId: parseInt(requestData.userId),
             unitPrice: requestData.unitPrice,
             quantity: parseInt(requestData.quantity),
+            fromDate: new Date(requestData.fromDate),
+            toDate: new Date(requestData.toDate),
             budgetAllocated: requestData.budgetAllocated,
             currency: requestData.currency,
             billable: requestData.billable,
@@ -54,6 +57,8 @@ function createProjectResource(requestData, remainingBudgetToUpdate) {
             userId: parseInt(requestData.userId),
             unitPrice: requestData.unitPrice,
             quantity: parseInt(requestData.quantity),
+            fromDate: new Date(requestData.fromDate),
+            toDate: new Date(requestData.toDate),
             budgetAllocated: requestData.budgetAllocated,
             currency: requestData.currency,
             billable: requestData.billable,

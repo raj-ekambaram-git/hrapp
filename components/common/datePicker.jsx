@@ -194,6 +194,7 @@ const DatePicker = ({
   const updateSelectedDate = (date, updated) => {
     setUpdatedDate(updated);
     setSelectedDate(getDateObject(date));
+    onClose();
   };
 
   const incrementMonth = () => {
