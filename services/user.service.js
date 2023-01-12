@@ -40,10 +40,116 @@ export const userService = {
     getUserVendors,
     addUserVendor,
     removeUserVendor,
-    getAvailableProjectsForUser
+    getAvailableProjectsForUser,
+    createUser,
+    updateUser
+
 
 };
 
+function updateUser(userId, formData, addressId) {
+
+    return fetchWrapper.put(`${baseUrl}/account/user/`+userId, {
+        id: parseInt(userId),
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        type: formData.userType,
+        address: {
+          update: {
+            where: {
+              id: addressId,
+            },
+            data:
+            {
+              type: "U",
+              addressName: formData.addressName,
+              address1: formData.address1,
+              address2: formData.address2,
+              address3: formData.address3,
+              accountId: parseInt(formData.userAccountId),
+              vendorId: parseInt(formData.userVendorId),
+              city: formData.city,
+              state: formData.state,
+              zipCode: formData.zipCode,
+              country: formData.country,
+              status: "A"
+            }
+          }
+        },
+        // userRoles: {
+        //   update: {
+        //     where: {
+        //       id: user.userRolesId,
+        //     },
+        //     data:
+        //     {
+        //       role: formData.userRole
+        //     }
+        //   }
+        // },          
+        email: formData.userEmail.toLowerCase(),
+        password: formData.userPassword,
+        phone: formData.userPhone,
+        accountId: parseInt(formData.userAccountId),
+        vendorId: parseInt(formData.userVendorId),
+        status: formData.userStatus
+      }
+  )
+  .then(user => {
+    return user;
+  })
+  .catch(err => {
+    console.log("Error Updating User::"+err)
+    return {errorMessage: err, error: true};
+});
+}
+
+function createUser(formData, userRoles) {
+
+    return fetchWrapper.post(`${baseUrl}/account/user/create`, {
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        type: formData.userType,
+        address: {
+          create: [
+            {
+              type: "U",
+              addressName: formData.addressName,
+              address1: formData.address1,
+              address2: formData.address2,
+              address3: formData.address3,
+              accountId: parseInt(formData.userAccountId),
+              vendorId: parseInt(formData.userVendorId),
+              city: formData.city,
+              state: formData.state,
+              zipCode: formData.zipCode,
+              country: formData.country,
+              status: "A"
+            }
+          ]
+        },
+        // userRoles: userRoles,
+        email: formData.userEmail.toLowerCase(),
+        password: formData.userPassword,
+        phone: formData.userPhone,
+        accountId: parseInt(formData.userAccountId),
+        vendorId: parseInt(formData.userVendorId),
+        isTimeSheetEnabled: false,
+        status: formData.userStatus,
+        password: "defaultPassword"
+        }
+    )
+    .then(async user => {
+  
+        return user;
+    })        
+    .catch(err => {
+      console.log("Error Creating User"+err)
+      return {errorMessage: err, error: true};
+    });
+  }
+
+  
 function getAvailableProjectsForUser(userId, accountId) {
     return fetchWrapper.get(`${baseUrl}/account/user/${userId}/availableprojects?accountId=`+accountId, {})
     .then(availableProjects => {
@@ -185,7 +291,7 @@ function isAccountAdmin() {
         return true;
     }
     
-    return false;
+    return true;
 }
 
 function isAccountUser() {

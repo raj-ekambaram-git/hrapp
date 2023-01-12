@@ -12,6 +12,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const user = req.body;
 
+    console.log("API CREATE::"+JSON.stringify(user))
     //get Salt for passowrd
     if(user.password != undefined) {
       const passwordSalt = bcrypt.genSaltSync(10);

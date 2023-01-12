@@ -30,7 +30,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {fetchVendorsByAccount, resetVendorsByAccount} from '../../store/modules/Vendor/actions'
 import { resetUserProjects, resetUserVendors, setUserProjects } from "../../store/modules/User/actions";
 import { NotesConstants } from "../../constants";
-import AllocateProject from "../user/project/allocateProject";
+import ManageUserRoles from "../user/manageUserRoles";
 
 
 
@@ -45,7 +45,6 @@ const UserAddEdit = (props) => {
   const userStatus = useRef("");
   const userEmail = useRef("");
   const userPassword = useRef("");
-  const userRole = useRef("");
   const userType = useRef("");
   const timeSheetEnabled = useRef("");
   const userPhone = useRef("");
@@ -60,7 +59,6 @@ const UserAddEdit = (props) => {
   const state = useRef("");
   const zipCode = useRef("");
   const addressId = useRef("");
-  const userRolesId = useRef("");
   
 
   const [accountPhone, setAccountPhone] = useState("");
@@ -70,6 +68,7 @@ const UserAddEdit = (props) => {
   const [isAddMode, setAddMode] = useState(true);
   const [isVendor, setVendor] = useState(true);
   const [accountsList, setAccountsList] = useState([]);
+  const [userRoles, setUserRoles] = useState([]);
   const [vendorList, setVendorList] = useState([]);
 
   const vendorListNew = useSelector(state => state.vendor.vendorsByAccount);
@@ -130,7 +129,20 @@ const UserAddEdit = (props) => {
     dispatch(fetchVendorsByAccount(accountId))
     setValue("userAccountId",userService.getAccountDetails().accountId);
 
-}  
+  }  
+
+  function handleUserRoles(userRole) {
+    console.log("HANDLE USER ROLE...."+userRole.target.value)
+    const newUserRoles = [...userRoles]
+    if(userRole.target.checked) {
+      newUserRoles.push(userRole.target.value);
+    }else {
+      const roleToRemoveIndex = newUserRoles.findIndex(x => x === userRole.target.value);
+      newUserRoles.splice(roleToRemoveIndex, 1);
+    }
+    setUserRoles(newUserRoles)
+    console.log("newUserRoles:::"+JSON.stringify(newUserRoles))
+  }
   
   /**
    * Function to get the list of accounts for a drop down
@@ -155,14 +167,12 @@ const UserAddEdit = (props) => {
             firstName: userResonse.firstName,
             lastName: userResonse.lastName,
             userType: userResonse.type,
-            userRole: userResonse.role,
             userEmail: userResonse.email,
             userPhone: userResonse.phone,
             userAccountId: userResonse.accountId,
             userVendorId: userResonse.vendorId,
             timeSheetEnabled: userResonse.isTimeSheetEnabled,
             userStatus: userResonse.status,
-            userRolesId: userResonse.userRoles[0]?.id,
             addressId: userResonse.address[0].id,
             addressName: userResonse.address[0].addressName,
             address1: userResonse.address[0].address1,
@@ -177,7 +187,7 @@ const UserAddEdit = (props) => {
         dispatch(setUserProjects(userResonse.projectResource))
 
         // get user and set form fields
-            const fields = ['firstName', "lastName","userType", "userRole", "userEmail","userPhone","userAccountId", "userVendorId","timeSheetEnabled","userStatus","addressName","address1", "address2", "address3","city","state","zipCode","userRolesId"];
+            const fields = ['firstName', "lastName","userType", "userEmail","userPhone","userAccountId", "userVendorId","timeSheetEnabled","userStatus","addressName","address1", "address2", "address3","city","state","zipCode"];
             fields.forEach(field => setValue(field, userData[field]));
     }
 
@@ -193,62 +203,27 @@ const UserAddEdit = (props) => {
   // Create Account 
   const createUser = async (formData) => {
     try {
-        const res = await fetch("/api/account/user/create", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            firstName: formData.firstName,
-            lastName: formData.lastName,
-            type: formData.userType,
-            address: {
-              create: [
-                {
-                  type: "U",
-                  addressName: formData.addressName,
-                  address1: formData.address1,
-                  address2: formData.address2,
-                  address3: formData.address3,
-                  accountId: parseInt(formData.userAccountId),
-                  vendorId: parseInt(formData.userVendorId),
-                  city: formData.city,
-                  state: formData.state,
-                  zipCode: formData.zipCode,
-                  country: formData.country,
-                  status: "A"
-                }
-              ]
-            },
-            userRoles: {
-              create: [
-                {
-                  role: formData.userRole
-                }
-              ]
-            },
-            role: formData.userRole,
-            email: formData.userEmail.toLowerCase(),
-            password: formData.userPassword,
-            phone: formData.userPhone,
-            accountId: parseInt(formData.userAccountId),
-            vendorId: parseInt(formData.userVendorId),
-            isTimeSheetEnabled: false,
-            status: formData.userStatus,
-            password: "defaultPassword"
-
-          }), 
-        });
-        const data = await res.json();
-        router.push("/account/users");
-        toast({
-          title: 'Add New User.',
-          description: 'Successfully added new user.',
-          status: 'success',
-          position: 'top',
-          duration: 3000,
-          isClosable: true,
-        })
+      const responseData = await userService.createUser(formData)
+        if(responseData.error) {
+          toast({
+            title: 'Create User Error.',
+            description: 'Not able to create user, plrease try again or contact administrator. Detail:'+responseData.errorMessage,
+            status: 'error',
+            position: 'top',
+            duration: 6000,
+            isClosable: true,
+          })
+        }else {
+          router.push("/account/users");
+          toast({
+            title: 'Add New User.',
+            description: 'Successfully added new user.',
+            status: 'success',
+            position: 'top',
+            duration: 3000,
+            isClosable: true,
+          })
+        }
         
         
       
@@ -270,70 +245,28 @@ const UserAddEdit = (props) => {
   const updateUser = async (userId, formData) => {
     try {
       console.log("Update User:::")
-      const res = await fetch(`/api/account/user/${userId}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          id: parseInt(userId),
-          firstName: formData.firstName,
-          lastName: formData.lastName,
-          type: formData.userType,
-          address: {
-            update: {
-              where: {
-                id: user.addressId,
-              },
-              data:
-              {
-                type: "U",
-                addressName: formData.addressName,
-                address1: formData.address1,
-                address2: formData.address2,
-                address3: formData.address3,
-                accountId: parseInt(formData.userAccountId),
-                vendorId: parseInt(formData.userVendorId),
-                city: formData.city,
-                state: formData.state,
-                zipCode: formData.zipCode,
-                country: formData.country,
-                status: "A"
-              }
-            }
-          },
-          userRoles: {
-            update: {
-              where: {
-                id: user.userRolesId,
-              },
-              data:
-              {
-                role: formData.userRole
-              }
-            }
-          },
-          role: formData.userRole,
-          email: formData.userEmail.toLowerCase(),
-          password: formData.userPassword,
-          phone: formData.userPhone,
-          accountId: parseInt(formData.userAccountId),
-          vendorId: parseInt(formData.userVendorId),
-          status: formData.userStatus
+      const responseData = userService.updateUser(userId, formData, user.addressId)
 
-        }),
-      });
-
-      const data = await res.json();
-      router.push("/account/users");
-      toast({
-        title: 'Update User.',
-        description: 'Successfully updated user.',
-        status: 'success',
-        position: 'top',
-        duration: 9000,
-        isClosable: true,
-      })
+      if(responseData.error) {
+        toast({
+          title: 'Update User Error.',
+          description: 'Not able to create user, plrease try again or contact administrator.Detail:'+responseData.errorMessage,
+          status: 'error',
+          position: 'top',
+          duration: 9000,
+          isClosable: true,
+        })
+      }else {
+        router.push("/account/users");
+        toast({
+          title: 'Update User.',
+          description: 'Successfully updated user.',
+          status: 'success',
+          position: 'top',
+          duration: 9000,
+          isClosable: true,
+        })
+      }
       
       
     } catch (error) {
@@ -463,7 +396,7 @@ const UserAddEdit = (props) => {
                 <CardBody>
                   <Stack divider={<StackDivider />} spacing='4'>
                     <HStack spacing="16rem">
-                      <Box>
+                      {/* <Box>
                           <FormControl isRequired>
                             <FormLabel>User Role ::</FormLabel>
                             <Select width="100%" id="userRole" {...register('userRole')} >
@@ -480,10 +413,10 @@ const UserAddEdit = (props) => {
                                   ))}                                
                                 </>
                               )}
-
                             </Select>
                           </FormControl>     
-                      </Box>  
+                      </Box>   */}
+                      <ManageUserRoles onChange={handleUserRoles}/>
                     </HStack>                                            
                   </Stack>
                 </CardBody>
