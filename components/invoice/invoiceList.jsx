@@ -22,6 +22,8 @@ import {PageMainHeader} from '../../components/common/pageMainHeader'
 import {PageNotAuthorized} from '../../components/common/pageNotAuthorized'
 import { useDispatch } from "react-redux";
 import { setSelectedInvoiceId } from "../../store/modules/Invoice/actions";
+import { EMPTY_STRING, InvoiceConstants } from "../../constants";
+import SortTable from "../common/SortTable";
 
 
 const InvoiceList = (props) => {
@@ -32,6 +34,7 @@ const InvoiceList = (props) => {
   const { requestMode } = props.invoiceList;
   const [invoiceList, setInvoiceList] = useState([]);
   const [isPageAuthprized, setPageAuthorized] = useState(false);
+  const INVOICE_LIST_TABLE_COLUMNS = React.useMemo(() => InvoiceConstants.INVOICE_LIST_TABLE_META)
 
   useEffect(() => {
 
@@ -98,8 +101,18 @@ const InvoiceList = (props) => {
       console.log("getInvoiceListByAccount:::"+accountId)
       // setPageAuthorized(true);
       const responseData = await accountService.getInvoiceListByAccount(accountId);
-      setInvoiceList(responseData);
-
+      if(responseData != undefined && responseData != EMPTY_STRING) {
+        const updatedInvoiceList =  responseData.map((invoice, index)=> {
+          invoice.detailAction = <Button size="xs" bgColor="header_actions" onClick={() => handleInvoiceDetailSelection(invoice.id)}>Details</Button>
+          invoice.status = <Badge color={`${(invoice.status === "Paid" || invoice.status === "PartiallyPaid") ? "paid_status": invoice.status === "Pending" ? "pending_status": "pending_status"}`}>{invoice.status}</Badge>
+          invoice.amount = "$ "+(parseFloat(invoice.total)-util.getZeroPriceForNull(invoice.paidAmount))
+          invoice.paidAmount = "$ "+(parseFloat(invoice.total)-util.getZeroPriceForNull(invoice.paidAmount))
+          invoice.formattedInvoiceDate = util.getFormattedDate(invoice.invoiceDate)
+          invoice.formattedDueDate = util.getFormattedDate(invoice.dueDte)
+          return invoice;
+        });
+        setInvoiceList(updatedInvoiceList );
+      }
     }    
 
     function handleInvoiceDetailSelection(invoiceId) {
@@ -145,7 +158,8 @@ const InvoiceList = (props) => {
                 </HStack>
               </Flex>
               <TableContainer display="flex">
-              <Table>
+                <SortTable  columns={INVOICE_LIST_TABLE_COLUMNS} data={invoiceList} />
+              {/* <Table>
               <TableCaption></TableCaption>
                 <Thead>
                     <Tr bgColor="table_tile">
@@ -242,7 +256,7 @@ const InvoiceList = (props) => {
 
                     ))}
                 </Tbody>    
-              </Table>
+              </Table> */}
               </TableContainer>
           </div>
       ) : (

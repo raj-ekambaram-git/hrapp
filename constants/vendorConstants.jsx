@@ -2,7 +2,7 @@ import React from "react";
 
 export const VendorConstants = {
 
-  VENDOR_LIST: [
+  VENDOR_LIST_TABLE_META: [
     {
       Header: "ID",
       accessor: "id"
