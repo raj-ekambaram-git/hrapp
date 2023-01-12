@@ -86,32 +86,40 @@ const InvoiceList = (props) => {
     async function getInvoiceListByVendor(vendorId, accountId) {
       // setPageAuthorized(true);
       const responseData = await accountService.getInvoiceListByVendor(vendorId, accountId);
-      setInvoiceList(responseData);
+      if(responseData != undefined && responseData != EMPTY_STRING) {
+        setInvoiceList(updateInvoicesForDisplay(responseData) );
+      }
 
     }
 
     async function getInvoiceListByProject(projectId, accountId) {
       // setPageAuthorized(true);
       const responseData = await accountService.getInvoiceListByProject(projectId, accountId);
-      setInvoiceList(responseData);
+      if(responseData != undefined && responseData != EMPTY_STRING) {
+        setInvoiceList(updateInvoicesForDisplay(responseData) );
+      }
 
     }    
+
+    function updateInvoicesForDisplay(responseData) {
+      return responseData.map((invoice)=> {
+        invoice.detailAction = <Button size="xs" bgColor="header_actions" onClick={() => handleInvoiceDetailSelection(invoice.id)}>Details</Button>
+        invoice.status = <Badge color={`${(invoice.status === "Paid" || invoice.status === "PartiallyPaid") ? "paid_status": invoice.status === "Pending" ? "pending_status": "pending_status"}`}>{invoice.status}</Badge>
+        invoice.amount = "$ "+(parseFloat(invoice.total)-util.getZeroPriceForNull(invoice.paidAmount))
+        invoice.paidAmount = "$ "+(parseFloat(invoice.total)-util.getZeroPriceForNull(invoice.paidAmount))
+        invoice.formattedInvoiceDate = util.getFormattedDate(invoice.invoiceDate)
+        invoice.formattedDueDate = util.getFormattedDate(invoice.dueDte)
+        return invoice;
+      });
+      
+    }
 
     async function getInvoiceListByAccount(accountId) {
       console.log("getInvoiceListByAccount:::"+accountId)
       // setPageAuthorized(true);
       const responseData = await accountService.getInvoiceListByAccount(accountId);
       if(responseData != undefined && responseData != EMPTY_STRING) {
-        const updatedInvoiceList =  responseData.map((invoice, index)=> {
-          invoice.detailAction = <Button size="xs" bgColor="header_actions" onClick={() => handleInvoiceDetailSelection(invoice.id)}>Details</Button>
-          invoice.status = <Badge color={`${(invoice.status === "Paid" || invoice.status === "PartiallyPaid") ? "paid_status": invoice.status === "Pending" ? "pending_status": "pending_status"}`}>{invoice.status}</Badge>
-          invoice.amount = "$ "+(parseFloat(invoice.total)-util.getZeroPriceForNull(invoice.paidAmount))
-          invoice.paidAmount = "$ "+(parseFloat(invoice.total)-util.getZeroPriceForNull(invoice.paidAmount))
-          invoice.formattedInvoiceDate = util.getFormattedDate(invoice.invoiceDate)
-          invoice.formattedDueDate = util.getFormattedDate(invoice.dueDte)
-          return invoice;
-        });
-        setInvoiceList(updatedInvoiceList );
+        setInvoiceList(updateInvoicesForDisplay(responseData) );
       }
     }    
 
@@ -140,6 +148,8 @@ const InvoiceList = (props) => {
         <div>
               {requestMode == "VENDOR" ? (
                 <PageMainHeader heading="Vendor Invoices"/>
+              ) : requestMode == "PROJECT" ? (
+                <PageMainHeader heading="Project Invoices"/>
               ) : (
                 <PageMainHeader heading="Account Invoices"/>
               )}
@@ -150,6 +160,8 @@ const InvoiceList = (props) => {
                     <Button size="xs" bgColor="header_actions" onClick={navigatePage}>
                       {requestMode == "VENDOR" ? (
                         <>Add New Vendor Invoice</>
+                      ) : requestMode == "PROJECT" ? (
+                        <>Add New Project Invoice</>
                       ) : (
                         <>Add New Account Invoice</>
                       )}
