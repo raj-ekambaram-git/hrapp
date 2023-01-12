@@ -30,7 +30,7 @@ import {
 import {
   EditIcon
 } from '@chakra-ui/icons';
-import { userService } from '../../services';
+import { projectService, userService } from '../../services';
 import {UserConstants} from "../../constants";
 import {MODE_ADD, EMPTY_STRING} from "../../constants/accountConstants";
 import { DrawerMainHeader } from "../common/drawerMainHeader";
@@ -169,32 +169,7 @@ const AddProjectResource = (props) => {
   const createProjectResource = async (requestData, remainingBudgetToUpdate) => {
     try {
       console.log("PR Data::"+JSON.stringify(requestData))
-        const res = await fetch("/api/account/project/resource/create", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            projectResourceData: {
-              projectId: parseInt(projectId),
-              userId: parseInt(userId),
-              unitPrice: price,
-              quantity: parseInt(quantity),
-              budgetAllocated: budgetAllocated,
-              currency: currency,
-              billable: billable,
-              isTimesheetApprover: isTimesheetApprover,
-              uom: uom
-            },
-            projetUpdateData: {
-              projectId: parseInt(projectId),
-              remainingBudgetToAllocate: remainingBudgetToUpdate
-            }
-
-          }), 
-        });
-        const data = await res.json();
-
+      const data = await projectService.createProjectResource(requestData, remainingBudgetToUpdate)
         //Close the modal
         console.log("before forwarding..::"+JSON.stringify(data))
         if(data != undefined && !data.error) {
