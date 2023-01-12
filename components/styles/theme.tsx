@@ -6,8 +6,8 @@ import {cardTheme, accordionTheme, buttonTheme, drawerTheme, popoverTheme, boxTh
 
 
 const fonts = { mono: `'Menlo', monospace`,
-heading: `'Open Sans', sans-serif`,
-body: `'Raleway', sans-serif`,}
+heading: `'Roboto Condensed', sans-serif`,
+body: `'Roboto Condensed', sans-serif`,}
 
 const breakpoints = {
   sm: '40em',

@@ -22,29 +22,44 @@ const list = definePartsStyle({
 
 })
 
-const baseStyle = definePartsStyle({
-  // define the part you're going to style
+
+const sortTable = definePartsStyle({
   table: {
-    rounded: "40px",
-    d: 'inline-block',
-    border: "2px solid",
-    borderColor:"gray.200",
-    borderRadius: "20px",
-    variant:"simple",
-    borderSpacing: "0 1em"
   },
   thead: {
     bgColor: 'table_tile',
   },
   tr: {
-    
+    fontSize: "1x"
   },
   th: {
   },
   tbody: {
   }
+
+})
+const baseStyle = definePartsStyle({
+  // define the part you're going to style
+  table: {
+    border: "2px solid",
+    borderColor:"gray.200",
+  },
+  thead: {
+    bgColor: 'table_tile',
+  },
+  tr: {
+    border: "1px",
+    borderColor:"gray.200",
+    height: "10px"
+  },
+  th: {
+  },
+  tbody: {
+    textTransform: "uppercase",
+    fontSize: "11px"
+  }
 })
 
 
 
-export const tableTheme = defineMultiStyleConfig({ baseStyle,  variants: {list} })
+export const tableTheme = defineMultiStyleConfig({ baseStyle,  variants: {list, sortTable} })

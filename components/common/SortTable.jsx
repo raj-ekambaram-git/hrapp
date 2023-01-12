@@ -34,7 +34,7 @@ function SortTable({ columns, data }) {
   const firstPageRows = rows;
   return (
     <>
-      <Table {...getTableProps()}>
+      <Table {...getTableProps()} variant="sortTable">
         <Thead>
           {headerGroups.map((headerGroup) => (
             <Tr {...headerGroup.getHeaderGroupProps()}>

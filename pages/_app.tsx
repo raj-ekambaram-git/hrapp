@@ -7,7 +7,7 @@ import { useStore } from '../store';
 import {ChakraProvider} from '@chakra-ui/react';
 import theme from '../components/styles/theme';
 import 'styles/index.css';
-
+import { Fonts } from "../components/styles/fonts"
 
 
 
@@ -84,6 +84,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           <Alert />
           <Layout data={{authorized}}>
               <ChakraProvider theme={theme}>
+                <Fonts/>
                 {loading? (
                   <>
                   <Spinner/>
