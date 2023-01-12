@@ -265,7 +265,7 @@ const AddProjectResource = (props) => {
 
     <div>
 
-          <Button
+          <Button size="xs" bgColor="header_actions"
               onClick={() => handleAdd("lg")}
               key="lg"
               m={1}
