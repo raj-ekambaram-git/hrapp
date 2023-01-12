@@ -44,9 +44,8 @@ const ProjectResourceList = (props) => {
 
   function refreshProjectListforTableDisplay() {
      const tempprojectResourceList =  [...projectResourceList].map((projectResource, index)=> {
-      console.log("index:::"+index)
         projectResource.editAction = <AddProjectResource data={{projectResource: projectResource, mode: MODE_EDIT}}/>
-        projectResource.deleteAction = <DeleteIcon boxSize={4} onClick={() => deleteProjectResource(projectResource.id,projectResource.billable, index)}/>;
+        projectResource.deleteAction = <DeleteIcon boxSize={4} onClick={() => deleteProjectResource(projectResource.id,projectResource.budgetAllocated, projectResource.billable, index)}/>;
         if(projectResource.billable) {
           projectResource.type = <Badge color="paid_status">Billable</Badge>;
         }else {
@@ -61,9 +60,7 @@ const ProjectResourceList = (props) => {
   }
 
   async function deleteProjectResource(projectResourceId, projectResourceAllocatedBudget, billable, selectIndex) {
-    console.log("selectIndex:::"+selectIndex)
     const projectResourceDeleteResponse = await projectService.deleteProjectResource(projectResourceId,projectResourceAllocatedBudget, billable);
-    console.log("projectResourceDeleteResponse:::"+JSON.stringify(projectResourceDeleteResponse));
     if(projectResourceDeleteResponse != undefined && !projectResourceDeleteResponse.error) {
 
       dispatch(removeProjectResourceByIndex(selectIndex))
