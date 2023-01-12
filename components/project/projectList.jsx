@@ -5,20 +5,17 @@ import { PageNotAuthorized } from "../../components/common/pageNotAuthorized";
 import {
   HStack,
   Button,
-  Table,
-  Thead,
-  Tbody,
-  Th,
-  Tr,
   Box,
   Flex,
   TableContainer,
-  TableCaption,
   Badge
 } from '@chakra-ui/react'
 import {PageMainHeader} from '../../components/common/pageMainHeader'
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedProjectId } from "../../store/modules/Project/actions";
+import { EMPTY_STRING, ProjectConstants } from "../../constants";
+import SortTable from "../common/SortTable";
+import { util } from "../../helpers";
 
 
 const ProjectList = (props) => {
@@ -26,11 +23,11 @@ const ProjectList = (props) => {
   const dispatch = useDispatch();
   const { data } = props.projectList;
   const { isVendor } = props.projectList;
-  console.log("ProjectList::"+JSON.stringify(data))
-  console.log("ProjectList:   isVendor:"+JSON.stringify(isVendor))
   const [projectList, setProjectList] = useState([]);
   const [isPageAuthprized, setPageAuthorized] = useState(false);
   const accountId = useSelector(state => state.account.selectedAccountId);
+
+  const PROJECT_LIST_TABLE_COLUMNS = React.useMemo(() => ProjectConstants.PROJECT_LIST_TABLE_META)
 
   useEffect(() => {
 
@@ -45,13 +42,10 @@ const ProjectList = (props) => {
       
       
     }else {
-      console.log("444444")
       //Since this is just the account call only accountId
       if(userService.isSuperAdmin()) {
-        console.log("5555555")
         getProjectList("", data.accountId)
       }else {
-        console.log("66666666")
         getProjectList("NaN", userService.getAccountDetails().accountId)
       }
       
@@ -68,7 +62,18 @@ const ProjectList = (props) => {
       console.log("7777777::::vendorId::"+vendorId+"----AccountID:::"+accountId)
       // setPageAuthorized(true);
       const responseData = await accountService.getProjectList(vendorId, accountId);
-      setProjectList(responseData);
+
+      if(responseData != undefined && responseData != EMPTY_STRING) {
+        const updatedProjectList =  responseData.map((project, index)=> {
+          project.detailAction = <Button size="xs" bgColor="header_actions" onClick={() => handleProjectDetailSelection(project.id)}>Details</Button>
+          project.status = <Badge color={`${(project.status === "Created" || project.status === "Open" )? "paid_status": project.status === "Closed"? "pending_status": "pending_status"}`}>{project.status}</Badge>
+          project.vendorName = project.vendor?.name ? (<>{project.vendor?.name}</>) : "N/A"
+          project.createdDate = util.getFormattedDate(project.createdDate)
+          return project;
+        });
+        setProjectList(updatedProjectList);
+      }
+      
 
     }
 
@@ -108,7 +113,8 @@ const ProjectList = (props) => {
                 </HStack>
               </Flex>
               <TableContainer display="flex">
-              <Table>
+                <SortTable columns={PROJECT_LIST_TABLE_COLUMNS} data={projectList} />
+              {/* <Table>
               <TableCaption></TableCaption>
                 <Thead>
                     <Tr bgColor="table_tile">
@@ -183,7 +189,7 @@ const ProjectList = (props) => {
 
                     ))}
                 </Tbody>    
-              </Table>
+              </Table> */}
               </TableContainer>
           </div>
       ) : (
