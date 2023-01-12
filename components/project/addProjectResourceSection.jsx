@@ -241,6 +241,10 @@ const AddProjectResource = (props) => {
     console.log("handleUnitPrice ----UnitPrice::"+price+"---Quantity::"+quantity+"---remainingBudget::"+remainingBudget);
     setPrice(price);
     if(quantity != undefined && quantity != EMPTY_STRING && price!= EMPTY_STRING && price != undefined) {
+      if(!billable) {
+        setBudgetAllocated(parseFloat(quantity) * parseFloat(price));
+        return;
+      }
       if(remainingBudget != undefined && (parseFloat(remainingBudget) >= (parseFloat(quantity) * parseFloat(price)))) {
         setBudgetAllocated(parseFloat(quantity) * parseFloat(price));
         // setRemainingBudgetToUpdate(parseFloat(remainingBudget)-(parseFloat(quantity)*parseFloat(price)))
@@ -264,6 +268,10 @@ const AddProjectResource = (props) => {
     console.log("handleQuantity ----UnitPrice::"+price+"---Quantity::"+quantity+"---remainingBudget::"+remainingBudget);
     setQuantity(quantity);
     if(quantity != undefined && quantity != EMPTY_STRING && price!= EMPTY_STRING && price != undefined) {
+      if(!billable) {
+        setBudgetAllocated(parseFloat(quantity) * parseFloat(price));
+        return;
+      }
       if(remainingBudget != undefined && (parseFloat(remainingBudget) > (parseFloat(quantity) * parseFloat(price)))) {
         setBudgetAllocated(parseFloat(quantity) * parseFloat(price));
         // setRemainingBudgetToUpdate(parseFloat(remainingBudget)-(parseFloat(quantity)*parseFloat(price)))
