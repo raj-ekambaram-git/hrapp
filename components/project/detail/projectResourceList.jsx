@@ -13,7 +13,7 @@ import {
   Heading,
   AccordionIcon,
   AccordionPanel,
-  Text,
+  Badge,
   HStack,
   useToast
 } from '@chakra-ui/react';
@@ -132,7 +132,8 @@ const ProjectResourceList = (props) => {
                                 {projectResource.user.firstName} {projectResource.user.lastName}
                               </Th>
                               <Th>
-                                {projectResource.billable ? "Billable" : "Non Billable"}
+                                {projectResource.billable ? 
+                                (<Badge color="paid_status">Billable</Badge>) : (<Badge color="pending_status">Non Billable</Badge>)}
                               </Th>
                               <Th>
                                   <b>$</b>{projectResource.budgetAllocated}
