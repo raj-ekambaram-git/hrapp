@@ -34,8 +34,8 @@ import { userService } from '../../services';
 import {UserConstants} from "../../constants";
 import {MODE_ADD, EMPTY_STRING} from "../../constants/accountConstants";
 import { DrawerMainHeader } from "../common/drawerMainHeader";
-import { useDispatch } from "react-redux";
-import { setSelectedProjectResources } from "../../store/modules/Project/actions";
+import { useDispatch, useSelector } from "react-redux";
+import { setSelectedProjectRemainingBudget, setSelectedProjectResources } from "../../store/modules/Project/actions";
 
 
 
@@ -60,22 +60,18 @@ const AddProjectResource = (props) => {
   
  
   const {data} = props;
-  const projectId = props.data.projectId;
-  const vendorId = props.data.vendorId;
-  let remainingBudget = props.data.remainingBudget;
-  const handleAddProjectResource = props.data.handleAddProjectResource;
+
+  const projectId = useSelector(state => state.project.selectedProjectId);
+  const vendorId = useSelector(state => state.project.vendorId);
+  const remainingBudget = useSelector(state => state.project.remainingBudget);
   const toast = useToast();
   
-
-  console.log("ADD PROJECT RESOURCE INSIDE::"+JSON.stringify(data));
 
   useEffect(() => {
     console.log("USE EFFECT")
     if(props && props.data && props.data.mode != MODE_ADD) {
       setAddMode(false);
     }
-    console.log("Vendor ID:::"+vendorId);
-    //getUsersByVendor(vendorId);
   }, []);
 
   const handleAdd = (newSize) => {
@@ -155,15 +151,15 @@ const AddProjectResource = (props) => {
       };
 
       //LOGIC to calculage the remaining project budget
-      
+      let remainingBudgetToUpdate = parseFloat(remainingBudget);
       if(billable) {
-        remainingBudget = parseFloat(remainingBudget)-(parseFloat(quantity)*parseFloat(price));
-        console.log("Remaining Budget"+remainingBudget);
+        remainingBudgetToUpdate = parseFloat(remainingBudget)-(parseFloat(quantity)*parseFloat(price));
+        console.log("Remaining Budget Before Dispatch :::"+(parseFloat(remainingBudget)-(parseFloat(quantity)*parseFloat(price))));
+        dispatch(setSelectedProjectRemainingBudget(remainingBudgetToUpdate))
+        console.log("Remaining Budget"+remainingBudgetToUpdate);
       }
 
-      console.log("ADD MODE BEFORE Calling CREATE::"+props.data.mode);
-      
-      createProjectResource(addedResourceDetails, remainingBudget);
+      createProjectResource(addedResourceDetails, remainingBudgetToUpdate);
       setBudgetAllocated(EMPTY_STRING);
 
     }
@@ -205,7 +201,7 @@ const AddProjectResource = (props) => {
           console.log("Inside this condition of close UPDATED --- "+remainingBudgetToUpdate);
           // remainingBudget = remainingBudgetToUpdate;
           console.log("BEFORE CALLING handleAddProjectResource --- "+remainingBudgetToUpdate)
-          handleAddProjectResource(data, vendorId, remainingBudgetToUpdate);
+          // handleAddProjectResource(data, vendorId, remainingBudgetToUpdate);
           dispatch(setSelectedProjectResources(data))
           onClose();
           toast({
@@ -217,10 +213,9 @@ const AddProjectResource = (props) => {
             isClosable: true,
           })     
         }else {
-          console.log("INSIDE THE ELSEEE")
           toast({
             title: 'Add Project Resource Error.',
-            description: 'Error creating resource.',
+            description: 'Error creating resource.'+data.errorMessage,
             status: 'error',
             position: 'top',
             duration: 9000,

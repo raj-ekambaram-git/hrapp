@@ -100,7 +100,7 @@ model ProjectResource {
   fromDate            DateTime?
   toDate              DateTime?
 
-  @@unique([projectId, userId])
+  @@unique([projectId, userId, billable])
 }
 
 model Invoice {

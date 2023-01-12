@@ -24,7 +24,7 @@ import AddProjectResource from "../addProjectResourceSection";
 import EditProjectResource from "../editProjectResource";
 import { projectService } from "../../../services";
 import { useDispatch, useSelector } from "react-redux";
-import { setSelectedProjectResources } from "../../../store/modules/Project/actions";
+import { removeProjectResourceByIndex, setSelectedProjectRemainingBudget, setSelectedProjectResources } from "../../../store/modules/Project/actions";
 
 
 
@@ -33,24 +33,18 @@ const ProjectResourceList = (props) => {
   const dispatch = useDispatch();
   const toast = useToast();
 
-  console.log("props.dataprops.dataprops.data::"+JSON.stringify(props.data));
-  // const projectResourceList = props.data.projectResourceList;
   const projectResourceList = useSelector(state => state.project.projectResources);
 
-  const addProjectResourceRequest = props.data.addProjectResourceRequest;
-  const editProjectResourceRequest = props.data.addProjectResourceRequest;
-  console.log("editProjectResourceRequest:::: ALL BEFORE::: "+JSON.stringify(editProjectResourceRequest)); 
-  console.log("addProjectResourceRequest:::: BEFORE::: "+JSON.stringify(addProjectResourceRequest)); 
-  
-
-  async function deleteProjectResource(projectResourceId, projectResourceAllocatedBudget) {
-    const projectResourceDeleteResponse = await projectService.deleteProjectResource(projectResourceId,projectResourceAllocatedBudget);
+  async function deleteProjectResource(projectResourceId, projectResourceAllocatedBudget, billable, selectIndex) {
+    const projectResourceDeleteResponse = await projectService.deleteProjectResource(projectResourceId,projectResourceAllocatedBudget, billable);
     console.log("projectResourceDeleteResponse:::"+JSON.stringify(projectResourceDeleteResponse));
     if(projectResourceDeleteResponse != undefined && !projectResourceDeleteResponse.error) {
-      addProjectResourceRequest.handleAddProjectResource(projectResourceDeleteResponse, projectResourceDeleteResponse[0].project.id, 
-                                                          (parseFloat(projectResourceDeleteResponse[0].project.remainingBudgetToAllocate)+parseFloat(projectResourceAllocatedBudget)));
+
+      dispatch(removeProjectResourceByIndex(selectIndex))
+      if(billable) {
+        dispatch(setSelectedProjectRemainingBudget(projectResourceDeleteResponse.remaininBudgetToUpdate))
+      }
       
-      dispatch(setSelectedProjectResources(projectResourceDeleteResponse));
       toast({
         title: 'Project Resource.',
         description: 'Successfully deleted project resource.',
@@ -89,7 +83,7 @@ const ProjectResourceList = (props) => {
             </AccordionButton>
           </h2>
           <AccordionPanel>
-              <AddProjectResource data={addProjectResourceRequest}></AddProjectResource>
+              <AddProjectResource/>
               <TableContainer marginTop="1rem">
                 <Table>
                 <TableCaption></TableCaption>
@@ -124,13 +118,13 @@ const ProjectResourceList = (props) => {
                       </Tr>   
                     </Thead>                
                     <Tbody>
-                      {projectResourceList?.map((projectResource) => (
+                      {projectResourceList?.map((projectResource, index) => (
                         <Tr>
 
                               <Th>
                                 <HStack spacing={4}>
-                                  <DeleteIcon onClick={() => deleteProjectResource(projectResource.id,projectResource.budgetAllocated)}/>
-                                  <EditProjectResource data={{editProjectResourceRequest}}></EditProjectResource>
+                                  <DeleteIcon onClick={() => deleteProjectResource(projectResource.id,projectResource.budgetAllocated,projectResource.billable, index)}/>
+                                  {/* <EditProjectResource data={{editProjectResourceRequest}}></EditProjectResource> */}
                                 </HStack>
                               </Th>
                               <Th>

@@ -12,9 +12,18 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const projectResource = req.body;
     
-    // const user: Prisma.UserCreateInput = JSON.parse(req.body);
+    console.log("projectResource:::CREATE:::"+JSON.stringify(projectResource))
     const savedProjectResource = await prisma.projectResource.create({
-      data: projectResource.projectResourceData
+      data: projectResource.projectResourceData,
+      include: {
+        project: true,
+        user: {
+          select: {
+            firstName: true,
+            lastName: true
+          }
+        }
+      }
     });
 
     //Project Resource created now update the project
@@ -27,24 +36,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           remainingBudgetToAllocate: projectResource.projetUpdateData.remainingBudgetToAllocate
         }
       });
-      // res.status(200).json(savedProjectResource);
-
-      //Get the latest project resources
-      const updatedProjectResources = await prisma.projectResource.findMany({
-        where: {
-          projectId: projectResource.projetUpdateData.projectId,
-        },
-        include: {
-          project: true,
-          user: {
-            select: {
-              firstName: true,
-              lastName: true
-            }
-          }
-        }
-      });
-      res.status(200).json(updatedProjectResources);
+      res.status(200).json(savedProjectResource);
 
     }
 

@@ -61,16 +61,22 @@ function getAllTimesheetsByProject(inputParam) {
 }
 
 
-function deleteProjectResource(projectResourceId, projectResourceAllocatedBudget) {
+function deleteProjectResource(projectResourceId, projectResourceAllocatedBudget, billable) {
     return fetchWrapper.delete(`${baseUrl}/account/project/resource/`+projectResourceId+'/delete', {})
         .then(projectResource => {
             //Now call the project project to update the remaining budget
             if(projectResource != undefined && projectResource.project != undefined) {
                 //`/api/account/project/${projectId}
-                const remainingBudgetToAllocate = parseFloat(projectResource.project.remainingBudgetToAllocate)+parseFloat(projectResourceAllocatedBudget);
-                console.log("Inside the project ID ::"+projectResource.project.remainingBudgetToAllocate+ "----ID:::"+projectResource.project.id+"---remainingBudgetToAllocate::"+remainingBudgetToAllocate)
-                const udpateProject = fetchWrapper.put(`${baseUrl}/account/project/`+projectResource.project.id, {id:projectResource.project.id, remainingBudgetToAllocate: remainingBudgetToAllocate});
-                return fetchWrapper.get(`${baseUrl}/account/project/`+projectResource.project.id+'/resource', {});
+                if(billable) {
+                    const remainingBudgetToAllocate = parseFloat(projectResource.project.remainingBudgetToAllocate)+parseFloat(projectResourceAllocatedBudget);
+                    console.log("Inside the project ID ::"+projectResource.project.remainingBudgetToAllocate+ "----ID:::"+projectResource.project.id+"---remainingBudgetToAllocate::"+remainingBudgetToAllocate)
+                    const udpateProject = fetchWrapper.put(`${baseUrl}/account/project/`+projectResource.project.id, {id:projectResource.project.id, remainingBudgetToAllocate: remainingBudgetToAllocate});
+                    // return fetchWrapper.get(`${baseUrl}/account/project/`+projectResource.project.id+'/resource', {});
+                    
+                    return {remaininBudgetToUpdate: remainingBudgetToAllocate, error: false};
+                }else {
+                    return projectResource;
+                }
             }
         })
         .catch(err => {

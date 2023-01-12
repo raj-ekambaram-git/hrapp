@@ -15,10 +15,12 @@ import {
   AccordionIcon,
   AccordionPanel
 } from '@chakra-ui/react';
+import { useSelector } from "react-redux";
 
 
 const ProjectAccountSection = (props) => {
     const project = props.data.project;
+    const remainingBudget = useSelector(state => state.project.remainingBudget);
     
   return (
 
@@ -78,7 +80,7 @@ const ProjectAccountSection = (props) => {
                             </Th>
                             <Th>
                                 <Text pt='table_display_value' fontSize='table_display_value'>
-                                    ${project.remainingBudgetToAllocate}
+                                    ${remainingBudget}
                                 </Text>
                             </Th>
                         </Tr>

@@ -19,7 +19,7 @@ import {PageMainHeader} from '../../../components/common/pageMainHeader';
 import { NotesConstants } from "../../../constants";
 import { useDispatch, useSelector } from "react-redux";
 import ProjectDetailActions from "../../../components/project/detail/projectDetailActions";
-import { setSelectedProjectResources } from "../../../store/modules/Project/actions";
+import { setSelectedProjectRemainingBudget, setSelectedProjectResources, setSelectedProjectVendorId } from "../../../store/modules/Project/actions";
 
 
 const ProjectDetail = (props) => {
@@ -35,10 +35,6 @@ const ProjectDetail = (props) => {
   const [projectAccountName, setProjectAccountName] = useState('');
   const [projectVendorName, setProjectVendorName] = useState('');
   const [isPageAuthprized, setPageAuthorized] = useState(false);
-  const [projectResourceList, setProjectResourceList] = useState([]);
-  const [addProjectResourceRequest, setAddProjectResourceRequest] = useState({});
-  const [editProjectResourceRequest, setEditProjectResourceRequest] = useState({});
-  
 
 
   //To Enable Notes
@@ -50,27 +46,11 @@ const ProjectDetail = (props) => {
 
   // set default input data
   useEffect(() => {
+    dispatch(setSelectedProjectRemainingBudget(null))
     getProjetDetails(projectId, userService.getAccountDetails().accountId);
   }, []);
 
 
-  const handleAddProjectResource = (e, vendorId, remainingBudget) => {
-    console.log("handleAddProjectResource::::::"+JSON.stringify(e));
-    console.log("remainingBudget::::::"+remainingBudget);
-    setProjectResourceList(e);
-    setProject(e[0].project);
-    const addProjectResourceRequestData = {
-      mode: MODE_ADD,
-      projectId: projectId,
-      vendorId: vendorId,
-      remainingBudget: remainingBudget,
-      onClose: onClose,
-      handleAddProjectResource: handleAddProjectResource
-    }
-    setAddProjectResourceRequest(addProjectResourceRequestData)
-    console.log("handleAddProjectResource After Pushing::::::"+JSON.stringify(projectResourceList));
-  };
- 
   /**
    * Function to get the list of accounts for a drop down
    */
@@ -84,8 +64,6 @@ const ProjectDetail = (props) => {
       accoutIdToPas = accountId;
     }
 
-    console.log("332322322 ::"+projectId+":::accoutIdToPas"+accoutIdToPas)
-    
     const responseData = await accountService.getProjectDetail(projectId, accoutIdToPas);
 
     console.log("responseData: ProjectDetail:::"+JSON.stringify(responseData))
@@ -133,33 +111,15 @@ const ProjectDetail = (props) => {
     
     console.log("Consumed Budget:::"+alreadyConsumedBudget);
 
-    const addProjectResourceRequestData = {
-      mode: MODE_ADD,
-      projectId: projectId,
-      vendorId: responseData.vendorId,
-      remainingBudget: parseFloat(responseData.budget)-alreadyConsumedBudget,
-      onClose: onClose,
-      handleAddProjectResource: handleAddProjectResource
-    }
-    setAddProjectResourceRequest(addProjectResourceRequestData);
-
-    const editProjectResourceRequestData = {
-      mode: MODE_EDIT,
-      projectId: projectId,
-      vendorId: responseData.vendorId,
-      remainingBudget: parseFloat(responseData.budget)-alreadyConsumedBudget,
-      onClose: onClose,
-      handleAddProjectResource: handleAddProjectResource
-    }
-    setEditProjectResourceRequest(editProjectResourceRequestData);
+    dispatch(setSelectedProjectRemainingBudget(parseFloat(responseData.budget)-alreadyConsumedBudget))
+    
 
     setProjectLocation(projectLocation);
     setProjectAccountName(responseData.account.name)
     setProjectVendorName(responseData.vendor.name)
-    setProjectResourceList(responseData.projectResource);
+    // setProjectResourceList(responseData.projectResource);
     dispatch(setSelectedProjectResources(responseData.projectResource))
-
-    console.log("responseData.projectResourcet::"+JSON.stringify(responseData.projectResource))
+    dispatch(setSelectedProjectVendorId(responseData.vendorId))
     setProject(projectData)
 
     
@@ -175,15 +135,13 @@ const ProjectDetail = (props) => {
           <ProjectDetailActions/>
           <Flex>
               <Stack width="page.sub_heading_width">
-                {/* <Accordion marginBottom="1rem" border="1px" width="60%"> */}
-
                 <Accordion variant="mainPage">
                   <ProjectDetailSection data={{project}}/>
                   <ProjectAccountSection data={{projectAccountName: projectAccountName, projectVendorName: projectVendorName}}/>
                   <ProjectContactDetailSection data={{project}}/>
                   <ProjectLocationSection data={{projectLocation}}/>
                   <ProjectFinancialSection data={{project}}/>
-                  <ProjectResourceList data={{projectResourceList: projectResourceList, addProjectResourceRequest: addProjectResourceRequest, editProjectResourceRequest: editProjectResourceRequest}}/>
+                  <ProjectResourceList/>
                 </Accordion>                
                 <ProjectStatusSection data={{project}}/>
               </Stack>

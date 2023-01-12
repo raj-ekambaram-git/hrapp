@@ -33,3 +33,11 @@ export const setSelectedProjectVendorId = (vendorId) => {
         payload: vendorId
     }
 }
+
+export const removeProjectResourceByIndex = (projectResourceIndex) => {
+    console.log("removeProjectResourceByIndex::::ACTIONS:::"+JSON.stringify(projectResourceIndex));
+    return {
+        type: ActionTypes.REMOVE_PROJECT_RESOURCE_BY_INDEX,
+        payload: projectResourceIndex
+    }
+}
