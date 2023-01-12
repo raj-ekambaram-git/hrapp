@@ -2,7 +2,6 @@
 
 import { NextApiRequest, NextApiResponse } from "next"
 import prisma from "../../../../../../lib/prisma";
-const bcrypt = require('bcryptjs');
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method !== 'PUT') {
@@ -10,26 +9,41 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   try {
-    const user = req.body;
-    console.log("Inside the update user:::"+JSON.stringify(user));
-    //get Salt for passowrd
-    if(user.password != undefined) {
-      const passwordSalt = bcrypt.genSaltSync(10);
-      const passwordHash = bcrypt.hashSync(user.password, passwordSalt);
-      user.passwordSalt = passwordSalt;
-      user.password = passwordHash;
+    const {projectResourceData} = req.body;
+    const {projetUpdateData} = req.body;
+    
+    console.log("Inside the update project resource:::"+JSON.stringify(projectResourceData));
 
-      console.log("passwordHash:::"+passwordHash);
+    const savedProjectResource = await prisma.projectResource.update({
+      where: {
+        id: projectResourceData.id,
+      },
+      data: projectResourceData,
+      include: {
+        project: true,
+        user: {
+          select: {
+            firstName: true,
+            lastName: true
+          }
+        }
+      }
+    });
 
-      const savedUser = await prisma.user.update({
+    //Project Resource created now update the project
+    if(savedProjectResource != undefined) {
+      const savedProject = await prisma.project.update({
         where: {
-          id: user.id,
+          id: projetUpdateData.projectId,
         },
-        data: user
+        data: {
+          remainingBudgetToAllocate: projetUpdateData.remainingBudgetToAllocate
+        }
       });
-      res.status(200).json(savedUser);
-  
+      res.status(200).json(savedProject);
+
     }
+
   } catch (error) {
     console.log(error)
     res.status(400).json({ message: 'Something went wrong while updating' })

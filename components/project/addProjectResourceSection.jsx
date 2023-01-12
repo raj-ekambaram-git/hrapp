@@ -33,7 +33,6 @@ import {
 import { projectService, userService } from '../../services';
 import {UserConstants} from "../../constants";
 import {MODE_ADD, EMPTY_STRING} from "../../constants/accountConstants";
-import { DrawerMainHeader } from "../common/drawerMainHeader";
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedProjectRemainingBudget, setSelectedProjectResources } from "../../store/modules/Project/actions";
 
@@ -46,6 +45,9 @@ const AddProjectResource = (props) => {
   const [isAddMode, setAddMode] = useState(true);
   const [userList, setUserList] = useState([]);
   const [userId, setUserId] = useState("");
+  const [projectResourceId, setProjectResourceId] = useState("");
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
   const [price, setPrice] = useState("");
   const [quantity, setQuantity] = useState("");
   const [budgetAllocated, setBudgetAllocated] = useState("");
@@ -68,8 +70,9 @@ const AddProjectResource = (props) => {
   
 
   useEffect(() => {
-    console.log("USE EFFECT")
+    console.log("USE EFFECT ::data::::"+JSON.stringify(data))
     if(props && props.data && props.data.mode != MODE_ADD) {
+      console.log("this is edit mode")
       setAddMode(false);
     }
   }, []);
@@ -77,6 +80,28 @@ const AddProjectResource = (props) => {
   const handleAdd = (newSize) => {
     console.log("HANDLE CLICK :::"+vendorId);
     getUsersByVendor(vendorId);
+    setSize(newSize);
+    onOpen();
+  }
+
+  const handleEdit = (newSize) => {
+    console.log("HANDLE EDIT :::"+vendorId);
+    getUsersByVendor(vendorId);
+    if(data != undefined && data != EMPTY_STRING) {
+      //Edit Mode so get the data and set for each field
+      setUserId(data?.projectResource?.userId)
+      setProjectResourceId(data?.projectResource?.id)
+      setPrice(data?.projectResource?.unitPrice)
+      setCurrency(data?.projectResource?.currency)
+      setQuantity(data?.projectResource?.quantity)
+      setUOM(data?.projectResource?.uom)
+      setBillable(data?.projectResource?.billable)
+      setBudgetAllocated(data?.projectResource?.budgetAllocated)
+      setTimesheetApprover(data?.projectResource?.isTimesheetApprover)
+      setFromDate(data?.projectResource?.fromDate)
+      setToDate(data?.projectResource?.toDate)
+
+    }
     setSize(newSize);
     onOpen();
   }
@@ -159,12 +184,59 @@ const AddProjectResource = (props) => {
         console.log("Remaining Budget"+remainingBudgetToUpdate);
       }
 
-      createProjectResource(addedResourceDetails, remainingBudgetToUpdate);
+      if(isAddMode) {
+        createProjectResource(addedResourceDetails, remainingBudgetToUpdate);
+      }else {
+        addedResourceDetails.id = projectResourceId;
+        updateProjectResource(addedResourceDetails, remainingBudgetToUpdate);
+      }
+      
       setBudgetAllocated(EMPTY_STRING);
 
     }
   } 
  
+  const updateProjectResource = async (requestData, remainingBudgetToUpdate) => {
+    try {
+      console.log("PR Data::"+JSON.stringify(requestData))
+      const data = await projectService.updateProjectResource(requestData, remainingBudgetToUpdate)
+        //Close the modal
+        console.log("before forwarding..::"+JSON.stringify(data))
+        if(data != undefined && !data.error) {
+          // dispatch(setSelectedProjectResources(data))
+          onClose();
+          toast({
+            title: 'Update Project Resource.',
+            description: 'Successfully updated a resource.',
+            status: 'success',
+            position: 'top',
+            duration: 3000,
+            isClosable: true,
+          })     
+        }else {
+          toast({
+            title: 'Update Project Resource Error.',
+            description: 'Error updating resource.'+data.errorMessage,
+            status: 'error',
+            position: 'top',
+            duration: 9000,
+            isClosable: true,
+          })     
+        }
+      
+    } catch (error) {
+      console.log("ERRRORRR::"+error);
+      toast({
+        title: 'Update Project Resource Error.',
+        description: 'Error updating resource.',
+        status: 'error',
+        position: 'top',
+        duration: 9000,
+        isClosable: true,
+      })     
+    }
+  };
+
 
   const createProjectResource = async (requestData, remainingBudgetToUpdate) => {
     try {
@@ -265,12 +337,21 @@ const AddProjectResource = (props) => {
 
     <div>
 
-          <Button size="xs" bgColor="header_actions"
-              onClick={() => handleAdd("lg")}
-              key="lg"
-              m={1}
-              >{`Add Project Resource`}
-          </Button>
+          {isAddMode ? (<>
+            <Button size="xs" bgColor="header_actions"
+                onClick={() => handleAdd("lg")}
+                key="lg"
+                m={1}
+                >{`Add Project Resource`}
+            </Button>
+          </>) : (<>
+            <EditIcon boxSize={4}
+                onClick={() => handleEdit("lg")}
+                key="lg"
+                m={1}
+                >{`Add Project Resource`}
+            </EditIcon>
+          </>)}
 
           <Drawer onClose={onClose} isOpen={isOpen} size={size}>
                 <DrawerOverlay />
@@ -292,7 +373,7 @@ const AddProjectResource = (props) => {
                                           Resource
                                         </Th>
                                         <Th>
-                                          <Select width="50%%" onChange={(ev) => handleUser(ev)} border="table_border">
+                                          <Select width="50%%" value={userId} onChange={(ev) => handleUser(ev)} border="table_border">
                                             <option value="">Select User</option>
                                               {userList?.map((user) => (
                                                       <option value={user.user?.id} data-role={user.user?.role} data-fn={user.user?.firstName} data-ln={user.user?.lastName}>{user.user?.firstName} {user.user?.lastName}</option>
@@ -338,7 +419,7 @@ const AddProjectResource = (props) => {
                                               fontSize='dollar_left_element'
                                               children='$'
                                           />     
-                                          <Input type="text" width="50%" onChange={(ev) => handleUnitPrice(ev.target.value)}/>
+                                          <Input type="text" value={price} width="50%" onChange={(ev) => handleUnitPrice(ev.target.value)}/>
                                         </InputGroup>                                         
                                         </Th>
                                     </Tr>
@@ -347,7 +428,7 @@ const AddProjectResource = (props) => {
                                           Currency
                                         </Th>
                                         <Th>
-                                          <Select width="25%" onChange={(ev) => setCurrency(ev.target.value)}>
+                                          <Select width="25%" value={currency} onChange={(ev) => setCurrency(ev.target.value)}>
                                             <option value="USD">USD</option>
                                           </Select>
 
@@ -358,7 +439,7 @@ const AddProjectResource = (props) => {
                                           Quantity
                                         </Th>
                                         <Th>
-                                          <Input type="text" width="50%" onChange={(ev) => handleQuantity(ev.target.value)}/>
+                                          <Input type="text" value={quantity} width="50%" onChange={(ev) => handleQuantity(ev.target.value)}/>
                                         </Th>
                                     </Tr>     
                                     <Tr>
@@ -366,7 +447,7 @@ const AddProjectResource = (props) => {
                                           Quantity UOM
                                         </Th>
                                         <Th>
-                                          <Select width="35%" onChange={(ev) => setUOM(ev.target.value)}>
+                                          <Select width="35%" value={uom} onChange={(ev) => setUOM(ev.target.value)}>
                                             <option value="Hours">Hours</option>
                                             <option value="Item">General Item</option>
                                           </Select>
@@ -386,9 +467,14 @@ const AddProjectResource = (props) => {
                               </TableContainer>      
                             </Box>                            
 
-                            <Button className="btn" onClick={() => handleSelectedProjectResource()} width="button.primary.width" bgColor="button.primary.color">
-                              Add Project Resource
+                            <Button onClick={() => handleSelectedProjectResource()} width="button.primary.width" bgColor="button.primary.color">
+                              {isAddMode ? (<>
+                                  Add Resource                              
+                              </>) : (<>
+                                  Edit Resource
+                              </>)}
                             </Button>                            
+
                           </Stack>
                         </DrawerBody>
                     </DrawerContent>

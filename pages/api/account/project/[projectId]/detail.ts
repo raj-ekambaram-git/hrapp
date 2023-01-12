@@ -39,6 +39,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
               budgetAllocated: true,
               usedBudget: true,
               remainingBudget: true,
+              userId: true,
               user: {
                 select: {
                   firstName: true,

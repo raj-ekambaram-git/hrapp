@@ -12,10 +12,39 @@ export const projectService = {
     getAllTimesheetsByProject,
     getProjectTimesheetsByStatus,
     updateUsedBudget,
-
+    updateProjectResource,
     
     
 };
+
+function updateProjectResource(requestData, remainingBudgetToUpdate) {
+
+    return fetchWrapper.put(`${baseUrl}/account/project/resource/`+requestData.id, {
+        projectResourceData: {
+            id: parseInt(requestData.id),
+            projectId: parseInt(requestData.projectId),
+            userId: parseInt(requestData.userId),
+            unitPrice: requestData.unitPrice,
+            quantity: parseInt(requestData.quantity),
+            budgetAllocated: requestData.budgetAllocated,
+            currency: requestData.currency,
+            billable: requestData.billable,
+            isTimesheetApprover: requestData.isTimesheetApprover,
+            uom: requestData.uom
+          },
+          projetUpdateData: {
+            projectId: parseInt(requestData.projectId),
+            remainingBudgetToAllocate: remainingBudgetToUpdate
+          }
+    })
+        .then(updatedProject => {
+            return updatedProject;
+        })  
+        .catch(err => {
+          console.log("Error Updating Used Budget")
+          return {errorMessage: err, error: true};
+      });
+  }
 
 function createProjectResource(requestData, remainingBudgetToUpdate) {
 

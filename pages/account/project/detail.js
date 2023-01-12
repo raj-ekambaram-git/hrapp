@@ -47,6 +47,7 @@ const ProjectDetail = (props) => {
   // set default input data
   useEffect(() => {
     dispatch(setSelectedProjectRemainingBudget(null))
+    dispatch(setSelectedProjectResources([]))
     getProjetDetails(projectId, userService.getAccountDetails().accountId);
   }, []);
 

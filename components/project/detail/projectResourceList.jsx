@@ -21,7 +21,7 @@ import {
   DeleteIcon
 } from '@chakra-ui/icons';
 import AddProjectResource from "../addProjectResourceSection";
-import EditProjectResource from "../editProjectResource";
+import {MODE_EDIT} from "../../../constants/accountConstants";
 import { projectService } from "../../../services";
 import { useDispatch, useSelector } from "react-redux";
 import { removeProjectResourceByIndex, setSelectedProjectRemainingBudget, setSelectedProjectResources } from "../../../store/modules/Project/actions";
@@ -123,8 +123,9 @@ const ProjectResourceList = (props) => {
 
                               <Th>
                                 <HStack spacing={4}>
-                                  <DeleteIcon onClick={() => deleteProjectResource(projectResource.id,projectResource.budgetAllocated,projectResource.billable, index)}/>
+                                  <DeleteIcon boxSize={4} onClick={() => deleteProjectResource(projectResource.id,projectResource.budgetAllocated,projectResource.billable, index)}/>
                                   {/* <EditProjectResource data={{editProjectResourceRequest}}></EditProjectResource> */}
+                                  <AddProjectResource data={{projectResource: projectResource, mode: MODE_EDIT}}/>
                                 </HStack>
                               </Th>
                               <Th>
