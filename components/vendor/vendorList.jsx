@@ -20,13 +20,17 @@ import {
 import { PageMainHeader } from "../common/pageMainHeader";
 import { setSelectedVendorId } from "../../store/modules/Vendor/actions";
 import { useDispatch } from "react-redux";
+import { VendorConstants } from "../../constants/vendorConstants";
+import { EMPTY_STRING } from "../../constants";
+import SortTable from "../common/SortTable";
 
 
 const VendorList = (props) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const { data } = props.vendorList;
-  
+  const VENDOR_LIST_TABLE_COLUMNS = React.useMemo(() => VendorConstants.VENDOR_LIST)
+
   console.log("VendorList::"+JSON.stringify(data))
   const [vendorList, setVendorList] = useState([]);
   const [isPageAuthprized, setPageAuthorized] = useState(false);
@@ -46,7 +50,16 @@ const VendorList = (props) => {
     async function getVendorList(accountId) {
       // setPageAuthorized(true);
       const responseData = await accountService.getVendorList(accountId);
-      setVendorList(responseData);
+      if(responseData != undefined && responseData != EMPTY_STRING) {
+        const updatedVendorList =  responseData.map((vendor, index)=> {
+          vendor.detailAction = <Button size="xs" bgColor="header_actions" onClick={() => handleVendorDetailSelection(vendor.id)}>Vendor Details</Button>
+          vendor.status = <Badge color={`${
+            vendor.status === "Active" ? "paid_status": vendor.status === "Inactive"? "pending_status": "pending_status"}`}>{vendor.status}</Badge>
+          return vendor;
+        });
+        setVendorList(updatedVendorList );
+      }
+      
 
   }
   
@@ -76,7 +89,8 @@ const VendorList = (props) => {
                 </HStack>
               </Flex>
               <Flex>
-                    <Table>
+                <SortTable columns={VENDOR_LIST_TABLE_COLUMNS} data={vendorList} />
+                    {/* <Table>
                     <TableCaption></TableCaption>
                       <Thead>
                           <Tr>
@@ -151,7 +165,7 @@ const VendorList = (props) => {
 
                           ))}
                       </Tbody>    
-                    </Table>
+                    </Table> */}
                 </Flex>
           </div>
       ) : (

@@ -34,7 +34,6 @@ function SortTable({ columns, data }) {
   const firstPageRows = rows;
   return (
     <>
-    <TableContainer>
       <Table {...getTableProps()}>
         <Thead>
           {headerGroups.map((headerGroup) => (
@@ -79,7 +78,6 @@ function SortTable({ columns, data }) {
           })}
         </Tbody>
       </Table>
-      </TableContainer>      
     </>
   );
 }
