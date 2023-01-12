@@ -106,8 +106,9 @@ const ProjectDetail = (props) => {
 
     let alreadyConsumedBudget = 0;
     for (const projectRsrc of responseData.projectResource) {
-      alreadyConsumedBudget = parseFloat(alreadyConsumedBudget) + parseFloat(projectRsrc.budgetAllocated);
-      console.log("projectRsrc.allocted::"+projectRsrc.budgetAllocated);
+      if(projectRsrc.billable) {
+        alreadyConsumedBudget = parseFloat(alreadyConsumedBudget) + parseFloat(projectRsrc.budgetAllocated);
+      }
     }
     
     console.log("Consumed Budget:::"+alreadyConsumedBudget);

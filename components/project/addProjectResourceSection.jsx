@@ -134,6 +134,19 @@ const AddProjectResource = (props) => {
     setSelectedUserLastName(user.target.options.item(user.target.selectedIndex).getAttribute("data-ln"));
 
   }
+
+  function resetInput(){
+    setUserId(EMPTY_STRING)
+    setPrice(EMPTY_STRING)
+    setBillable(false)
+    setTimesheetApprover(false)
+    setQuantity(EMPTY_STRING)
+    setBudgetAllocated(EMPTY_STRING)
+    setOrigBudgetAllocated(EMPTY_STRING)
+    setFromDate(EMPTY_STRING)
+    setToDate(EMPTY_STRING)
+  }
+
   function handleSelectedProjectResource() {
     console.log("handleSelectedProjectResource::"+userId)
     /**
@@ -218,6 +231,7 @@ const AddProjectResource = (props) => {
           // dispatch(setSelectedProjectResources(data))
           dispatch(setSelectedProjectRemainingBudget(remainingBudgetToUpdate))
           onClose();
+          resetInput();
           toast({
             title: 'Update Project Resource.',
             description: 'Successfully updated a resource.',
@@ -261,6 +275,7 @@ const AddProjectResource = (props) => {
           dispatch(setSelectedProjectResources(data))
           dispatch(setSelectedProjectRemainingBudget(remainingBudgetToUpdate))
           onClose();
+          resetInput();
           toast({
             title: 'Add Project Resource.',
             description: 'Successfully add a resource.',
