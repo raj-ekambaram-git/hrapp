@@ -135,47 +135,6 @@ const UserList = (props) => {
                       ) : (
                         <SortTable  variant="sortTable" columns={USER_ACCOUNT_LIST_TABLE_COLUMNS} data={usersList} />
                       )}                
-              {/* <Table>
-              <TableCaption></TableCaption>
-                <Thead>
-                    <Tr bgColor="table_tile">
-                      <Th>
-                        User ID
-                      </Th>
-                      <Th>
-                        First Name
-                      </Th>
-                      <Th>
-                        Last Name
-                      </Th>
-                      <Th>
-                        User ID/Email
-                      </Th>
-                      <Th>
-                        Role
-                      </Th>
-                      <Th>
-                        Account Name
-                      </Th>
-                      <Th>
-                        Vendor Name
-                      </Th>
-                      <Th>
-                        Created Date
-                      </Th>
-                      <Th>
-                        User Status
-                      </Th>
-                    </Tr>   
-                  </Thead>                
-                  <Tbody>
-                    {isVendor ? (
-                        <UserListForVendor usersList={usersList}/>
-                      ) : (
-                        <UserListForAccount usersList={usersList}/>
-                      )}
-                </Tbody>    
-              </Table> */}
               </TableContainer>
           </div>
       ) : (
