@@ -164,7 +164,7 @@ const VendorDetail = (props) => {
               <Stack width="page.sub_heading_width">
                 {/* <Accordion marginBottom="1rem" border="1px" width="60%"> */}
 
-                <Accordion variant="mainPage">
+                <Accordion defaultIndex={[0]} variant="mainPage">
                   <VendorDetailSection data={{vendor}}/ >
                   <VendorBankDetailSection data={{vendor}}/>
                   <VendorContactDetailSection data={{vendor}}/>                 

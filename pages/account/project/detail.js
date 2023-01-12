@@ -135,7 +135,7 @@ const ProjectDetail = (props) => {
           <ProjectDetailActions/>
           <Flex>
               <Stack width="page.sub_heading_width">
-                <Accordion variant="mainPage">
+                <Accordion defaultIndex={[0]} variant="mainPage">
                   <ProjectDetailSection data={{project}}/>
                   <ProjectAccountSection data={{projectAccountName: projectAccountName, projectVendorName: projectVendorName}}/>
                   <ProjectContactDetailSection data={{project}}/>

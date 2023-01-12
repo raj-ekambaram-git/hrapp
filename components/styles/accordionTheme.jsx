@@ -6,7 +6,7 @@ const { definePartsStyle, defineMultiStyleConfig } =
 
 const mainPage = definePartsStyle({
     root: {
-      borderRadius: 'lg'
+      borderRadius: 'lg',
     },
     container: {
         marginBottom: "1rem",

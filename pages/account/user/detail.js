@@ -89,7 +89,7 @@ const UserDetail = (props) => {
 
             <CardBody>
               <Stack divider={<StackDivider />} spacing='1'>
-                <Accordion>
+                <Accordion defaultIndex={[0]} variant="mainPage">
                   <UserDetailSection data={{user}}/>
                   <UserCredentialsSection data={{user}}/>
                   <UserAccountDetailSection data={{user}}/>
