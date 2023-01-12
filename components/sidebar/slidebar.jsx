@@ -8,11 +8,11 @@ import Slideopen from "./slideopen"
 import {FaUserCheck} from "react-icons/fa"
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  Container, Flex, HStack, Text, Box
+  Container, Flex, HStack, Text, Box, Stack
 } from '@chakra-ui/react'
 import { userService } from '../../services';
 import {GrLogout} from 'react-icons/gr';
-import { Tooltip, WrapItem } from '@chakra-ui/react'
+import { Tooltip, WrapItem, Spacer } from '@chakra-ui/react'
 import { removeLoggedInUser } from '../../store/modules/User/actions';
 
 
@@ -50,11 +50,10 @@ const Slidebar = (props) => {
             </div>
             {/* right div */}
               <div className={styles.navbarrightmain}>
-                <HStack spacing={2}>
-                  <Flex marginRight="1rem">
-                      <Box> Hi, {userService.userValue.firstName} {userService.userValue.lastName}!</Box>
-                  </Flex>
-                  <Flex>
+                  <Spacer/>
+                  <HStack>
+                  <Box marginRight={4} textAlign="center">Hi, {userService.userValue.firstName} {userService.userValue.lastName}!</Box>
+                  <Flex marginRight={4}>
                     <Link href={`/account/user/detail`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
                       <div style={{weidth:"40px",marginRight:"20px",marginTop:"6px"}}>
                         <FaUserCheck fontSize="27px"/>
