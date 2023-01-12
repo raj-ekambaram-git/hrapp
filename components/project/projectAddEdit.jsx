@@ -220,18 +220,25 @@ const ProjectAddEdit = (props) => {
           })
         }
 
-      if(props.data.modalRequest) {
+      if(props.modalRequest) {
         console.log("isnide")
-        props.data.onClose();
+        props.modalRequest();
+        router.push("/account/vendor/projects");
       }else {
-        console.log("NOT INSIDE")
         router.push("/account/projects");
       }
 
       
       
     } catch (error) {
-      toast.error("Something went wrong!");
+      toast({
+        title: 'New Project.',
+        description: 'Error creating project',
+        status: 'error',
+        position: 'top',
+        duration: 6000,
+        isClosable: true,
+      })
     }
   };
 
@@ -270,8 +277,8 @@ const ProjectAddEdit = (props) => {
       const data = await res.json();
       if(data.error) {
         toast({
-          title: 'New Project.',
-          description: 'Error creating project',
+          title: 'Update Project.',
+          description: 'Error updating project',
           status: 'error',
           position: 'top',
           duration: 6000,
@@ -279,8 +286,8 @@ const ProjectAddEdit = (props) => {
         })
       }else {
         toast({
-          title: 'New Project.',
-          description: 'Successfully created new project.',
+          title: 'Update Project.',
+          description: 'Successfully update new project.',
           status: 'success',
           position: 'top',
           duration: 3000,
@@ -288,16 +295,18 @@ const ProjectAddEdit = (props) => {
         })
       }
 
+      router.push("/account/projects");
 
-      if(props.data.modalRequest) {
-        props.data.onClose();
-      }else {
-        router.push("/account/projects");
-      }
-      toast.success(data.message);
     } catch (error) {
       console.log(error)
-      toast.error("Something went wrong!");
+        toast({
+          title: 'Update Project.',
+          description: 'Error updating project',
+          status: 'error',
+          position: 'top',
+          duration: 6000,
+          isClosable: true,
+        })
     }
   };
 

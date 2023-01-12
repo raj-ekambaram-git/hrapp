@@ -46,7 +46,7 @@ const ProjectAddEditSection = (props) => {
                             </DrawerHeader>
                             <DrawerBody>
                               <Stack divider={<StackDivider />} spacing='1'>
-                                <ProjectAddEdit data={data}></ProjectAddEdit>                 
+                                <ProjectAddEdit data={data} modelRequest={onClose}></ProjectAddEdit>                 
                               </Stack>
                             </DrawerBody>
                     </DrawerContent>                    
