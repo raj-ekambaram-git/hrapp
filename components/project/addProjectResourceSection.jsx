@@ -111,7 +111,6 @@ const AddProjectResource = (props) => {
   function handleFromDate(e) {
     if(e != undefined && (e.updatedDate || (!e.updatedDate && fromDate === undefined))) {
       setFromDate(util.getFormattedDate(e.date))
-
     }
   }
 
@@ -155,6 +154,8 @@ const AddProjectResource = (props) => {
     setQuantity(EMPTY_STRING)
     setBudgetAllocated(EMPTY_STRING)
     setOrigBudgetAllocated(EMPTY_STRING)
+    setFromDate(EMPTY_STRING)
+    setToDate(EMPTY_STRING)
     setFromDate(EMPTY_STRING)
     setToDate(EMPTY_STRING)
   }

@@ -1,12 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
-  Table,
-  Thead,
-  Tbody,
-  Th,
-  Tr,
   TableContainer,
-  TableCaption,
   AccordionItem,
   AccordionButton,
   Box,
@@ -14,7 +8,6 @@ import {
   AccordionIcon,
   AccordionPanel,
   Badge,
-  HStack,
   useToast
 } from '@chakra-ui/react';
 import {
