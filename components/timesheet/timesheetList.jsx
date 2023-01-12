@@ -20,6 +20,10 @@ import { PageNotAuthorized } from "../common/pageNotAuthorized";
 import { PageMainHeader } from "../common/pageMainHeader";
 import { useDispatch } from "react-redux";
 import { setSelectedTimesheetId } from "../../store/modules/Timesheet/actions";
+import { TimesheetConstants } from "../../constants/timesheetConstants";
+import SortTable from "../common/SortTable";
+import { util } from "../../helpers";
+import { EMPTY_STRING } from "../../constants";
 
 
 
@@ -28,9 +32,9 @@ const TimesheetList = (props) => {
   const dispatch = useDispatch();
   const { data } = props.userData;
   const { isManager } = props.userData;
-  console.log("timesheetList::"+JSON.stringify(props))
   const [timesheetList, setTimesheetList] = useState([]);
   const [isPageAuthprized, setPageAuthorized] = useState(false);
+  const TIMESHEET_LIST_TABLE_COLUMNS = React.useMemo(() => TimesheetConstants.TIMESHEET_LIST_TABLE_META)
 
   useEffect(() => {
 
@@ -64,14 +68,22 @@ const TimesheetList = (props) => {
     async function getTimesheetList(userId, accountId) {
       // setPageAuthorized(true);
       const responseData = await userService.getTimesheetByUser(userId, accountId);
-      setTimesheetList(responseData);
 
+      if(responseData != undefined && responseData != EMPTY_STRING) {
+        const updatedTimesheetist =  responseData.map((timesheet, index)=> {
+          timesheet.detailAction = <Button size="xs" bgColor="header_actions" onClick={() => handleTimesheetSelection(timesheet.id)}>Details</Button>
+          timesheet.status = <Badge color={`${timesheet.status === "Approved"? "timesheet.approved_status": (timesheet.status === "Submitted" || timesheet.status === "Saved")? "timesheet.approved_status": "timesheet.pending_status"}`}>{timesheet.status}</Badge>
+          timesheet.lastUpdateDate = util.getFormattedDate(timesheet.lastUpdateDate)
+          timesheet.createdDate = util.getFormattedDate(timesheet.createdDate)
+          return timesheet;
+        });
+        setTimesheetList(updatedTimesheetist);
+      }
     }
 
     function handleTimesheetSelection(timesheetId){
       dispatch(setSelectedTimesheetId(timesheetId))
       router.push("/timesheet");
-  
     }
   
   const navigatePage = () => router.push({ pathname: '/timesheet/add', query: { manager: isManager }});
@@ -98,7 +110,8 @@ const TimesheetList = (props) => {
                 </HStack>
               </Flex>
               <TableContainer display="flex">
-              <Table>
+              <SortTable columns={TIMESHEET_LIST_TABLE_COLUMNS} data={timesheetList} />
+              {/* <Table>
               <TableCaption></TableCaption>
                 <Thead>
                     <Tr bgColor="table_tile">
@@ -155,7 +168,7 @@ const TimesheetList = (props) => {
 
                     ))}
                 </Tbody>    
-              </Table>
+              </Table> */}
               </TableContainer>
           </div>
       ) : (
