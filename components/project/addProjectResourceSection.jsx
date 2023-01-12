@@ -51,6 +51,7 @@ const AddProjectResource = (props) => {
   const [price, setPrice] = useState("");
   const [quantity, setQuantity] = useState("");
   const [budgetAllocated, setBudgetAllocated] = useState("");
+  const [origBudgetAllocated, setOrigBudgetAllocated] = useState("");
   const [currency, setCurrency] = useState("USD");
   const [uom, setUOM] = useState("Hours");
   const [billable, setBillable] = useState(false);
@@ -97,6 +98,7 @@ const AddProjectResource = (props) => {
       setUOM(data?.projectResource?.uom)
       setBillable(data?.projectResource?.billable)
       setBudgetAllocated(data?.projectResource?.budgetAllocated)
+      setOrigBudgetAllocated(data?.projectResource?.budgetAllocated)
       setTimesheetApprover(data?.projectResource?.isTimesheetApprover)
       setFromDate(data?.projectResource?.fromDate)
       setToDate(data?.projectResource?.toDate)
@@ -175,19 +177,29 @@ const AddProjectResource = (props) => {
         }
       };
 
-      //LOGIC to calculage the remaining project budget
-      let remainingBudgetToUpdate = parseFloat(remainingBudget);
-      if(billable) {
-        remainingBudgetToUpdate = parseFloat(remainingBudget)-(parseFloat(quantity)*parseFloat(price));
-        console.log("Remaining Budget Before Dispatch :::"+(parseFloat(remainingBudget)-(parseFloat(quantity)*parseFloat(price))));
-        dispatch(setSelectedProjectRemainingBudget(remainingBudgetToUpdate))
-        console.log("Remaining Budget"+remainingBudgetToUpdate);
-      }
 
       if(isAddMode) {
+        //LOGIC to calculage the remaining project budget
+        let remainingBudgetToUpdate = parseFloat(remainingBudget);
+        if(billable) {
+          remainingBudgetToUpdate = parseFloat(remainingBudget)-(parseFloat(quantity)*parseFloat(price));
+          console.log("Remaining Budget Before Dispatch :::"+(parseFloat(remainingBudget)-(parseFloat(quantity)*parseFloat(price))));
+          dispatch(setSelectedProjectRemainingBudget(remainingBudgetToUpdate))
+          console.log("Remaining Budget"+remainingBudgetToUpdate);
+        }
+
         createProjectResource(addedResourceDetails, remainingBudgetToUpdate);
       }else {
         addedResourceDetails.id = projectResourceId;
+              
+        let remainingBudgetToUpdate = parseFloat(remainingBudget);
+        if(billable) {
+          remainingBudgetToUpdate = parseFloat(remainingBudget)-((parseFloat(quantity)*parseFloat(price))-parseFloat(origBudgetAllocated));
+          console.log("Remaining Budget Before Dispatch :::"+remainingBudgetToUpdate);
+          dispatch(setSelectedProjectRemainingBudget(remainingBudgetToUpdate))
+          
+        }
+
         updateProjectResource(addedResourceDetails, remainingBudgetToUpdate);
       }
       
