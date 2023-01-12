@@ -321,5 +321,42 @@ export const TIMESHEET_STATUS = {
 
 export const TIMESHEET_VALIDATION_SCHEMA = Yup.object().shape({
   name: Yup.string().required('First Name is required'),
-
 });    
+
+export const AccountConstants = {
+
+  ACCOUNT_LIST_TABLE_META: [
+    {
+      Header: "ID",
+      accessor: "id"
+    },
+    {
+      Header: "Name",
+      accessor: "name"
+    },    
+    {
+      Header: "Email",
+      accessor: "email"
+    },
+    {
+      Header: "EIN",
+      accessor: "ein"
+    },
+    {
+      Header: "Created Date",
+      accessor: "createdDate"
+    },    
+    {
+      Header: "Update Date",
+      accessor: "lastUpdateDate"
+    },        
+    {
+      Header: "",
+      accessor: "detailAction",
+    },
+    {
+      Header: "Status",
+      accessor: "status"
+    }               
+  ]
+}

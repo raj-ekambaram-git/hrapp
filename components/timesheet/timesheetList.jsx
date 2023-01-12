@@ -111,64 +111,6 @@ const TimesheetList = (props) => {
               </Flex>
               <TableContainer display="flex">
               <SortTable columns={TIMESHEET_LIST_TABLE_COLUMNS} data={timesheetList} />
-              {/* <Table>
-              <TableCaption></TableCaption>
-                <Thead>
-                    <Tr bgColor="table_tile">
-                      <Th>
-                        TImesheet
-                      </Th>
-                      <Th>
-                        Type
-                      </Th>
-                      <Th>
-                        Created Date
-                      </Th>
-                      <Th>
-                        Last Updated
-                      </Th>
-                      <Th>
-                        Status
-                      </Th>
-                    </Tr>   
-                  </Thead>                
-                  <Tbody>
-                    {timesheetList?.map((timesheet) => (
-                      
-                      
-                      <Tr>
-                            <Th>
-                            {timesheet.name}
-                            </Th>
-                            <Th>
-                              {timesheet.type}
-                            </Th>
-                            <Th>
-                              {timesheet.createdDate}
-                            </Th>
-                            <Th>
-                              {timesheet.lastUpdateDate}
-                            </Th>
-                            <Th>
-                              <HStack>
-                                  <Button size="xs" bgColor="header_actions" onClick={() => handleTimesheetSelection(timesheet.id)}>
-                                    Details
-                                  </Button>
-                                <Badge color={`${
-                                      timesheet.status === "Approved"
-                                      ? "timesheet.approved_status"
-                                      : (timesheet.status === "Submitted" || timesheet.status === "Saved")
-                                      ? "timesheet.approved_status"
-                                      : "timesheet.pending_status"
-                                  }`}>{timesheet.status}</Badge>
-                              </HStack>
-                            </Th>
-                          
-                        </Tr>
-
-                    ))}
-                </Tbody>    
-              </Table> */}
               </TableContainer>
           </div>
       ) : (
