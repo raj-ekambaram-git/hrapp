@@ -216,6 +216,7 @@ const AddProjectResource = (props) => {
         console.log("before forwarding..::"+JSON.stringify(data))
         if(data != undefined && !data.error) {
           // dispatch(setSelectedProjectResources(data))
+          dispatch(setSelectedProjectRemainingBudget(remainingBudgetToUpdate))
           onClose();
           toast({
             title: 'Update Project Resource.',
@@ -258,6 +259,7 @@ const AddProjectResource = (props) => {
         console.log("before forwarding..::"+JSON.stringify(data))
         if(data != undefined && !data.error) {
           dispatch(setSelectedProjectResources(data))
+          dispatch(setSelectedProjectRemainingBudget(remainingBudgetToUpdate))
           onClose();
           toast({
             title: 'Add Project Resource.',
