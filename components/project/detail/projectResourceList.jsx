@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Table,
   Thead,
@@ -25,6 +25,8 @@ import {MODE_EDIT} from "../../../constants/accountConstants";
 import { projectService } from "../../../services";
 import { useDispatch, useSelector } from "react-redux";
 import { removeProjectResourceByIndex, setSelectedProjectRemainingBudget, setSelectedProjectResources } from "../../../store/modules/Project/actions";
+import SortTable from "../../common/SortTable";
+import { ProjectConstants } from "../../../constants";
 
 
 
@@ -32,8 +34,29 @@ import { removeProjectResourceByIndex, setSelectedProjectRemainingBudget, setSel
 const ProjectResourceList = (props) => {
   const dispatch = useDispatch();
   const toast = useToast();
-
+  const [projectResourceListTable, setProjectResourceListTable] = useState([]);
+  const PROJECT_RESOURCE_TABLE_COLUMNS = React.useMemo(() => ProjectConstants.PROJECT_RESOURCE_TABLE_FIELDS)
   const projectResourceList = useSelector(state => state.project.projectResources);
+
+  useEffect(() => {
+    refreshProjectListforTableDisplay();
+  })
+
+  function refreshProjectListforTableDisplay() {
+     const tempprojectResourceList =  [...projectResourceList].map((projectResource, index)=> {
+        projectResource.editAction = <AddProjectResource data={{projectResource: projectResource, mode: MODE_EDIT}}/>
+        projectResource.deleteAction = <DeleteIcon boxSize={4} onClick={() => deleteProjectResource(projectResource.id,projectResource.billable, index)}/>;
+        if(projectResource.billable) {
+          projectResource.type = <Badge color="paid_status">Billable</Badge>;
+        }else {
+          projectResource.type = <Badge color="pending_status">Non Billable</Badge>;
+        }
+        projectResource.userName = projectResource?.user?.firstName+" "+projectResource?.user?.lastName;
+        return projectResource;
+      });
+      setProjectResourceListTable(projectResourceList);
+      
+  }
 
   async function deleteProjectResource(projectResourceId, projectResourceAllocatedBudget, billable, selectIndex) {
     const projectResourceDeleteResponse = await projectService.deleteProjectResource(projectResourceId,projectResourceAllocatedBudget, billable);
@@ -67,7 +90,6 @@ const ProjectResourceList = (props) => {
   
   }
 
-  
   return (
 
     <div>
@@ -84,81 +106,7 @@ const ProjectResourceList = (props) => {
           </h2>
           <AccordionPanel>
               <AddProjectResource/>
-              <TableContainer marginTop="1rem">
-                <Table>
-                <TableCaption></TableCaption>
-                  <Thead>
-                      <Tr bgColor="table_tile">
-                        <Th>
-                        </Th>                        
-                        <Th>
-                          Resource
-                        </Th>
-                        <Th>
-                          Type
-                        </Th>    
-                        <Th>
-                          Max Budget Allocated
-                        </Th>
-                        <Th>
-                          Price
-                        </Th>
-                        <Th>
-                          Currency
-                        </Th>
-                        <Th>
-                          Quantity
-                        </Th>
-                        <Th>
-                          Quantity UOM
-                        </Th> 
-                        <Th>
-                          Timesheet Approver
-                        </Th>                                                                
-                      </Tr>   
-                    </Thead>                
-                    <Tbody>
-                      {projectResourceList?.map((projectResource, index) => (
-                        <Tr>
-
-                              <Th>
-                                <HStack spacing={4}>
-                                  <DeleteIcon boxSize={4} onClick={() => deleteProjectResource(projectResource.id,projectResource.budgetAllocated,projectResource.billable, index)}/>
-                                  {/* <EditProjectResource data={{editProjectResourceRequest}}></EditProjectResource> */}
-                                  <AddProjectResource data={{projectResource: projectResource, mode: MODE_EDIT}}/>
-                                </HStack>
-                              </Th>
-                              <Th>
-                                {projectResource.user.firstName} {projectResource.user.lastName}
-                              </Th>
-                              <Th>
-                                {projectResource.billable ? 
-                                (<Badge color="paid_status">Billable</Badge>) : (<Badge color="pending_status">Non Billable</Badge>)}
-                              </Th>
-                              <Th>
-                                  <b>$</b>{projectResource.budgetAllocated}
-                              </Th>
-                              <Th>
-                                {projectResource.unitPrice}
-                              </Th>
-                              <Th>
-                                {projectResource.currency}
-                              </Th>                              
-                              <Th>
-                                {projectResource.quantity}
-                              </Th>
-                              <Th>
-                                {projectResource.uom}
-                              </Th>      
-                              <Th>
-                                {projectResource.isTimesheetApprover ? "Approver" : "No"}
-                              </Th> 
-                        </Tr>
-                      ))}
-                  </Tbody>    
-                </Table>
-              </TableContainer>                 
-            
+              <SortTable columns={PROJECT_RESOURCE_TABLE_COLUMNS} data={projectResourceListTable} />
           </AccordionPanel>
         </AccordionItem>   
 

@@ -71,7 +71,6 @@ const AddProjectResource = (props) => {
   
 
   useEffect(() => {
-    console.log("USE EFFECT ::data::::"+JSON.stringify(data))
     if(props && props.data && props.data.mode != MODE_ADD) {
       console.log("this is edit mode")
       setAddMode(false);

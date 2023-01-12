@@ -45,7 +45,7 @@ const projectReducer = (state = initialState, {type, payload}) => {
         newState.projectResources = updateProjectResource;
     }
     
-    console.log("projectReducer:::New State:::Before Return:::"+JSON.stringify(newState));
+    // console.log("projectReducer:::New State:::Before Return:::"+JSON.stringify(newState));
     return newState;
 };
 
