@@ -80,6 +80,11 @@ const UserList = (props) => {
       if(responseData != undefined && responseData != EMPTY_STRING) {
         const updatedUserList =  responseData.map((user, index)=> {
           if(isVendor) {
+            user.user.role = user.user.role ? (<>{USER_ROLE_DESC[user.user.role]}</>) : "N/A"
+            user.user.vendorName = user.vendor?.name ? (<>{user.vendor?.name}</>) : "N/A"
+            user.user.createdDate = util.getFormattedDate(user.user.createdDate)
+            user.user.userAction = <Button size="xs" bgColor="header_actions" onClick={() => handleUserEditSelection(user.user.id)}>Edit</Button>
+            user.user.status = <Badge color={`${(user.user.status === "Active" || user.user.status === "Approved")? "paid_status" : "pending_status"}`}>{user.user.status}</Badge>
 
           }else {
             user.role = user.role ? (<>{USER_ROLE_DESC[user.role]}</>) : "N/A"

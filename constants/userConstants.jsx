@@ -56,39 +56,43 @@ export const UserConstants = {
     USER_VENDOR_LIST_TABLE_META: [
         {
           Header: "ID",
-          accessor: "user?.id"
+          accessor: "user.id"
         },
         {
           Header: "First Name",
-          accessor: "user?.firstName"
+          accessor: "user.firstName"
         },    
         {
           Header: "Last Name",
-          accessor: "user?.lastName"
+          accessor: "user.lastName"
         },
         {
           Header: "User Id/Email",
-          accessor: "user?.email"
+          accessor: "user.email"
         },
         {
           Header: "Role",
-          accessor: 'user?.role ? (<>{USER_ROLE_DESC[user?.role]}</>) : "N/A"',
+          accessor: 'user.role',
         },
         {
           Header: "Account",
-          accessor: "vendor?.account?.name"
+          accessor: "vendor.account.name"
         },
         {
           Header: "Vendor",
-          accessor: 'vendor ? (<>{vendor?.name}</>) : "N/A"'
+          accessor: 'user.vendorName'
         },
         {
           Header: "Created",
-          accessor: "user?.createdDate"
+          accessor: "user.createdDate"
         },   
         {
+            Header: "",
+            accessor: "user.userAction"
+        },  
+        {
             Header: "Status",
-            accessor: "user?.status"
+            accessor: "user.status"
           },     
       ]
 }

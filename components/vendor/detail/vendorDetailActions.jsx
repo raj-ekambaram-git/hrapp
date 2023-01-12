@@ -11,8 +11,8 @@ import { useRouter } from "next/router";
 const VendorDetailActions = (props) => {
     const router = useRouter();
     const navigateVendorEditPage = () => router.push("/account/vendor/edit");
-    const navigateManageVendorUsersPage = () => router.push("/account/vendor//users");
-    const navigateVendorInvoicesPage = () => router.push("/account/vendor//invoices");
+    const navigateManageVendorUsersPage = () => router.push("/account/vendor/users");
+    const navigateVendorInvoicesPage = () => router.push("/account/vendor/invoices");
     const navigateVendorProjectsPage = () => router.push("/account/vendor/projects");
     const manageVendorsForAccount = () => router.push("/account/vendors");
 
