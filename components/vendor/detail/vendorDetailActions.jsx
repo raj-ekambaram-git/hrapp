@@ -6,6 +6,7 @@ import {
   Button
 } from '@chakra-ui/react';
 import { useRouter } from "next/router";
+import VendorDocuments from "./vendorDocuments";
 
 
 const VendorDetailActions = (props) => {
@@ -47,7 +48,10 @@ const VendorDetailActions = (props) => {
                     <Button size="xs" bgColor="header_actions" onClick={navigateVendorInvoicesPage}>
                       Invoices
                     </Button>
-                  </Box>                                                      
+                  </Box>     
+                  <Box>
+                    <VendorDocuments/>
+                  </Box>                                                 
                 </HStack>
             </Flex>          
     </div>

@@ -192,6 +192,7 @@ model Project {
   projectResource           ProjectResource[]
 
   timesheetEntries TimesheetEntries[]
+  expense          Expense[]
 }
 
 model User {
@@ -223,6 +224,9 @@ model User {
   timesheetEntries   TimesheetEntries[]
   notes              Notes[]
   vendorUsers        VendorUsers[]
+  expenses           Expense[]          @relation("CreatedExpenses")
+  expensesApproved   Expense[]          @relation("ApprovedExpenses")
+  Document           Document[]
 }
 
 model UserAttributes {
@@ -250,17 +254,6 @@ model VendorUsers {
   @@unique([vendorId, userId])
 }
 
-// model UserRoles {
-//   id             Int      @id @default(autoincrement())
-//   user           User?    @relation(fields: [userId], references: [id])
-//   userId         Int?     @default(0)
-//   role           Role
-//   createdDate    DateTime @default(now())
-//   lastUpdateDate DateTime @updatedAt
-
-//   @@unique([userId, role])
-// }
-
 model Timesheet {
   id               Int                @id @default(autoincrement())
   name             String             @default("")
@@ -274,6 +267,47 @@ model Timesheet {
   startDate        DateTime?
 
   @@unique([userId, name])
+}
+
+model Expense {
+  id                 Int                  @id @default(autoincrement())
+  name               String
+  billable           Boolean
+  total              Decimal              @default(0)
+  paidAmount         Decimal              @default(0)
+  project            Project?             @relation(fields: [projectId], references: [id])
+  projectId          Int?                 @default(1)
+  status             ExpenseStatus
+  approvedBy         User?                @relation("ApprovedExpenses", fields: [approvedById], references: [id])
+  approvedById       Int?                 @default(1)
+  user               User?                @relation("CreatedExpenses", fields: [userId], references: [id])
+  userId             Int?                 @default(1)
+  createdDate        DateTime             @default(now())
+  lastUpdateDate     DateTime             @updatedAt
+  expenseTransaction ExpenseTransaction[]
+}
+
+model ExpenseTransaction {
+  id              Int                      @id @default(autoincrement())
+  amount          Decimal
+  transactionId   String
+  transactionData String
+  expense         Expense?                 @relation(fields: [expenseId], references: [id])
+  expenseId       Int?
+  status          ExpenseTransactionStatus
+  createdDate     DateTime                 @default(now())
+  lastUpdatedDate DateTime                 @updatedAt
+}
+
+model ExpenseEntry {
+  id             Int                @id @default(autoincrement())
+  type           ExpenseType
+  billable       Boolean
+  expenseDate    DateTime
+  amount         Decimal
+  status         ExpenseEntryStatus
+  createdDate    DateTime           @default(now())
+  lastUpdateDate DateTime           @updatedAt
 }
 
 model Calendar {
@@ -309,6 +343,24 @@ model Calendar {
   currentWeekDates     Json
 
   @@index([dateActual])
+}
+
+model Document {
+  id          Int            @id @default(autoincrement())
+  name        String
+  type        DocumentType
+  typeId      Int
+  urlPath     String
+  status      DocumentStatus
+  createdUser User?          @relation(fields: [createdBy], references: [id])
+  createdBy   Int?
+
+  @@index([createdBy])
+  @@index([createdBy, status])
+  @@index([type])
+  @@index([type, status])
+  @@index([type, typeId])
+  @@index([type, typeId, status])
 }
 
 model TimesheetEntries {
@@ -503,6 +555,18 @@ enum TimesheetStatus {
   Invoiced
 }
 
+enum DocumentType {
+  Account
+  Invoice
+  Vendor
+  Project
+  User
+  TimesheetEntry
+  TimesheetApproval
+  Expense
+  ExpenseEntry
+}
+
 enum NotesType {
   Timesheet
   Account
@@ -512,6 +576,8 @@ enum NotesType {
   User
   TimesheetEntry
   TimesheetApproval
+  Expense
+  ExpenseEntry
 }
 
 enum ConfigStatus {
@@ -541,4 +607,44 @@ enum VendorUserStatus {
 enum NotesMode {
   New
   Reply
+}
+
+enum ExpenseType {
+  Meals
+  Taxi
+}
+
+enum ExpenseEntryStatus {
+  Draft
+  Submitted
+  Approved
+  Rejected
+  Paid
+  PartiallyPaid
+  Pending
+  Cancelled
+}
+
+enum ExpenseStatus {
+  Draft
+  Submitted
+  Approved
+  Rejected
+  Paid
+  PartiallyPaid
+  Pending
+  Cancelled
+}
+
+enum ExpenseTransactionStatus {
+  Pending
+  Paid
+  Refund
+  Cancelled
+}
+
+enum DocumentStatus {
+  Active
+  Inactive
+  Delete
 }

@@ -1,3 +1,4 @@
+import axios from 'axios';
 import getConfig from 'next/config';
 
 import { userService } from 'services';
@@ -9,7 +10,8 @@ export const fetchWrapper = {
     post,
     put,
     delete: _delete,
-    authHeader
+    authHeader,
+    filePut
 };
 
 function get(url, params) {
@@ -41,6 +43,19 @@ function put(url, body) {
     return fetch(url, requestOptions).then(handleResponse);    
 }
 
+function filePut(url, body, type) {
+    try{
+        return fetch(url, {
+            method: 'PUT',
+            body: body,
+                  headers: {
+              "Content-Type": type,
+            }
+          })
+    }catch(error) {
+        console.log("ERRRORORORR::"+error)
+    }
+}
 // prefixed with underscored because delete is a reserved word in javascript
 function _delete(url) {
     const requestOptions = {
@@ -82,4 +97,10 @@ function handleResponse(response) {
 
         return data;
     });
+}
+
+function handleFileUploadResponse(response) {
+    console.log("handleFileUploadResponse::");
+    console.log("handleFileUploadResponse::RESPONSE:::"+response);
+    return response;
 }
