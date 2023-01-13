@@ -5,6 +5,7 @@ import jwtDecode from 'jwt-decode';
 
 import { fetchWrapper } from 'helpers';
 import { EMPTY_STRING } from '../constants/accountConstants';
+import { Role } from '@prisma/client';
 
 const { publicRuntimeConfig } = getConfig();
 const { serverRuntimeConfig } = getConfig();
@@ -47,7 +48,7 @@ export const userService = {
 
 };
 
-function updateUser(userId, formData, addressId) {
+function updateUser(userId, formData, addressId, userRole) {
 
     return fetchWrapper.put(`${baseUrl}/account/user/`+userId, {
         id: parseInt(userId),
@@ -76,17 +77,7 @@ function updateUser(userId, formData, addressId) {
             }
           }
         },
-        // userRoles: {
-        //   update: {
-        //     where: {
-        //       id: user.userRolesId,
-        //     },
-        //     data:
-        //     {
-        //       role: formData.userRole
-        //     }
-        //   }
-        // },          
+        userRole: userRole,  
         email: formData.userEmail.toLowerCase(),
         password: formData.userPassword,
         phone: formData.userPhone,
@@ -105,7 +96,6 @@ function updateUser(userId, formData, addressId) {
 }
 
 function createUser(formData, userRoles) {
-
     return fetchWrapper.post(`${baseUrl}/account/user/create`, {
         firstName: formData.firstName,
         lastName: formData.lastName,
@@ -128,7 +118,7 @@ function createUser(formData, userRoles) {
             }
           ]
         },
-        // userRoles: userRoles,
+        userRole: userRoles,
         email: formData.userEmail.toLowerCase(),
         password: formData.userPassword,
         phone: formData.userPhone,

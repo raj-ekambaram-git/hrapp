@@ -169,6 +169,7 @@ const UserAddEdit = (props) => {
             userType: userResonse.type,
             userEmail: userResonse.email,
             userPhone: userResonse.phone,
+            userRoles: userResonse.userRile,
             userAccountId: userResonse.accountId,
             userVendorId: userResonse.vendorId,
             timeSheetEnabled: userResonse.isTimeSheetEnabled,
@@ -187,7 +188,7 @@ const UserAddEdit = (props) => {
         dispatch(setUserProjects(userResonse.projectResource))
 
         // get user and set form fields
-            const fields = ['firstName', "lastName","userType", "userEmail","userPhone","userAccountId", "userVendorId","timeSheetEnabled","userStatus","addressName","address1", "address2", "address3","city","state","zipCode"];
+            const fields = ['firstName', "lastName","userType", "userEmail","userPhone","userAccountId", "userVendorId","timeSheetEnabled","userStatus","addressName","address1", "address2", "address3","city","state","zipCode", "userRole"];
             fields.forEach(field => setValue(field, userData[field]));
     }
 
@@ -203,7 +204,7 @@ const UserAddEdit = (props) => {
   // Create Account 
   const createUser = async (formData) => {
     try {
-      const responseData = await userService.createUser(formData)
+      const responseData = await userService.createUser(formData, userRoles)
         if(responseData.error) {
           toast({
             title: 'Create User Error.',
@@ -244,8 +245,8 @@ const UserAddEdit = (props) => {
   // update invoice in database
   const updateUser = async (userId, formData) => {
     try {
-      console.log("Update User:::")
-      const responseData = userService.updateUser(userId, formData, user.addressId)
+      console.log("Update User:::"+JSON.stringify(userRoles)+"******user.addressId::"+user.addressId)
+      const responseData = userService.updateUser(userId, formData,user.addressId, userRoles)
 
       if(responseData.error) {
         toast({

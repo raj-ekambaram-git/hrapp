@@ -199,6 +199,7 @@ model User {
   firstName          String
   lastName           String
   type               UserType           @default(Employee)
+  userRole           Role[]
   email              String             @unique
   phone              String             @default("111-111-1111")
   account            Account?           @relation(fields: [accountId], references: [id])
@@ -222,7 +223,6 @@ model User {
   timesheetEntries   TimesheetEntries[]
   notes              Notes[]
   vendorUsers        VendorUsers[]
-  userRoles          UserRoles[]
 }
 
 model UserAttributes {
@@ -250,16 +250,16 @@ model VendorUsers {
   @@unique([vendorId, userId])
 }
 
-model UserRoles {
-  id             Int      @id @default(autoincrement())
-  user           User?    @relation(fields: [userId], references: [id])
-  userId         Int?     @default(0)
-  role           Role
-  createdDate    DateTime @default(now())
-  lastUpdateDate DateTime @updatedAt
+// model UserRoles {
+//   id             Int      @id @default(autoincrement())
+//   user           User?    @relation(fields: [userId], references: [id])
+//   userId         Int?     @default(0)
+//   role           Role
+//   createdDate    DateTime @default(now())
+//   lastUpdateDate DateTime @updatedAt
 
-  @@unique([userId, role])
-}
+//   @@unique([userId, role])
+// }
 
 model Timesheet {
   id               Int                @id @default(autoincrement())
