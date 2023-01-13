@@ -4,24 +4,16 @@ import React, { useState, useEffect } from "react";
 import {
   HStack,
   Button,
-  Table,
-  Thead,
-  Tbody,
-  Th,
-  Tr,
   Box,
   Flex,
   Heading,
-  TableContainer,
-  TableCaption,
-  Badge,
   useDisclosure
 } from '@chakra-ui/react'
 import {PageMainHeader} from '../../components/common/pageMainHeader'
 import { useDispatch } from "react-redux";
 import { resetSelectedAccountId, setSelectedAccountId } from "../../store/modules/Account/actions";
 import { AccountConstants } from "../../constants";
-import SortTable from "../common/SortTable";
+import { CustomTable } from "../customTable/Table";
 import { util } from "../../helpers";
 
 
@@ -50,7 +42,7 @@ export default function Home(props) {
               lastUpdateDate: util.getFormattedDate(account.lastUpdateDate),
               email: account.email,
               ein: account.ein,
-              status: <Badge color={`${account.status === "Active"? "paid_status": account.status === "Inactive"? "pending_status": "pending_status"}`}>{account.status}</Badge>,
+              status: account.status,
               detailAction: <Button size="xs" bgColor="header_actions" onClick={() => handleAccoundDetailSelection(account.id)}>Details</Button>
             };
           });
@@ -88,9 +80,7 @@ export default function Home(props) {
                   </Box>
                 </HStack>
               </Flex>
-              <TableContainer>
-                  <SortTable variant="sortTable" columns={ACCOUNT_LIST_TABLE_COLUMNS} data={accounts} />
-              </TableContainer>
+                  <CustomTable variant="sortTable" columns={ACCOUNT_LIST_TABLE_COLUMNS} rows={accounts} />
           </div>
       ) : (
         <> 

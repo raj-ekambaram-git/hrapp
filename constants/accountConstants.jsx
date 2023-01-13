@@ -1,4 +1,8 @@
 import * as Yup from 'yup';
+import {
+  Badge,
+} from '@chakra-ui/react'
+
 const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
 
 export const POST_METHOD = 'POST';
@@ -330,36 +334,37 @@ export const AccountConstants = {
 
   ACCOUNT_LIST_TABLE_META: [
     {
-      Header: "ID",
+      label: "ID",
       accessor: "id"
     },
     {
-      Header: "Name",
+      label: "Name",
       accessor: "name"
     },    
     {
-      Header: "Email",
+      label: "Email",
       accessor: "email"
     },
     {
-      Header: "EIN",
+      label: "EIN",
       accessor: "ein"
     },
     {
-      Header: "Created Date",
+      label: "Created Date",
       accessor: "createdDate"
     },    
     {
-      Header: "Update Date",
+      label: "Update Date",
       accessor: "lastUpdateDate"
     },        
     {
-      Header: "",
+      label: "",
       accessor: "detailAction",
     },
     {
-      Header: "Status",
-      accessor: "status"
+      label: "Status",
+      accessor: "status",
+      format: (value) => (value ? <Badge color={`${value === "Active"? "paid_status": value === "Inactive"? "pending_status": "pending_status"}`}>{value}</Badge> : '✖️')
     }               
   ]
 }
