@@ -24,6 +24,8 @@ import { useDispatch } from "react-redux";
 import { setSelectedInvoiceId } from "../../store/modules/Invoice/actions";
 import { EMPTY_STRING, InvoiceConstants } from "../../constants";
 import SortTable from "../common/SortTable";
+import { CustomTable } from "../customTable/Table";
+
 
 
 const InvoiceList = (props) => {
@@ -169,9 +171,9 @@ const InvoiceList = (props) => {
                   </Box>
                 </HStack>
               </Flex>
-              <TableContainer display="flex">
-                <SortTable  variant="sortTable" columns={INVOICE_LIST_TABLE_COLUMNS} data={invoiceList} />
-              </TableContainer>
+
+                <CustomTable  columns={INVOICE_LIST_TABLE_COLUMNS} rows={invoiceList} />
+                
           </div>
       ) : (
           <PageNotAuthorized/>

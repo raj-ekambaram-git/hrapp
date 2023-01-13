@@ -122,43 +122,43 @@ export const InvoiceConstants = {
   },
   INVOICE_LIST_TABLE_META: [
     {
-      Header: "ID",
+      label: "ID",
       accessor: "id"
     },
     {
-      Header: "Type",
+      label: "Type",
       accessor: "type"
     },    
     {
-      Header: "Name",
+      label: "Name",
       accessor: "vendor.name"
     },
     {
-      Header: "Account",
+      label: "Account",
       accessor: "account.name"
     },
     {
-      Header: "Invoice Date",
+      label: "Invoice Date",
       accessor: "formattedInvoiceDate",
     },
     {
-      Header: "Due Date",
+      label: "Due Date",
       accessor: "formattedDueDate"
     },
     {
-      Header: "Amount",
+      label: "Amount",
       accessor: "amount"
     },
     {
-      Header: "Paid Amount",
+      label: "Paid Amount",
       accessor: "paidAmount"
     },    
     {
-      Header: "",
+      label: "",
       accessor: "detailAction"
     },
     {
-      Header: "Status",
+      label: "Status",
       accessor: "status"
     }
                          
