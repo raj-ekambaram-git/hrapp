@@ -46,8 +46,6 @@ const VendorList = (props) => {
       if(responseData != undefined && responseData != EMPTY_STRING) {
         const updatedVendorList =  responseData.map((vendor, index)=> {
           vendor.detailAction = <Button size="xs" bgColor="header_actions" onClick={() => handleVendorDetailSelection(vendor.id)}>Details</Button>
-          vendor.status = <Badge color={`${
-          vendor.status === "Active" ? "paid_status": vendor.status === "Inactive"? "pending_status": "pending_status"}`}>{vendor.status}</Badge>
           vendor.createdDate = util.getFormattedDate(vendor.createdDate)
           return vendor;
         });

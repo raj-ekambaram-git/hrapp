@@ -82,7 +82,8 @@ export const ProjectConstants = {
     },
     {
       label: "Status",
-      accessor: "status"
+      accessor: "status",
+      format: (value) => (value ? <Badge color={`${(value === "Created" ||value === "Open" )? "paid_status":value === "Closed"? "pending_status": "pending_status"}`}>{value}</Badge> : '✖️')
     }
                          
   ]

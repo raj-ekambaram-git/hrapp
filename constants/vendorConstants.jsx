@@ -1,4 +1,6 @@
-import React from "react";
+import {
+  Badge,
+} from '@chakra-ui/react'
 
 export const VendorConstants = {
 
@@ -37,7 +39,9 @@ export const VendorConstants = {
     },
     {
       label: "Status",
-      accessor: "status"
+      accessor: "status",
+      format: (value) => (value ? <Badge color={`${value === "Active" ? "paid_status": value === "Inactive"? "pending_status": "pending_status"}`}>{value}</Badge> : '✖️')
+      
     }
                          
   ]

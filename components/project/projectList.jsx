@@ -65,7 +65,6 @@ const ProjectList = (props) => {
       if(responseData != undefined && responseData != EMPTY_STRING) {
         const updatedProjectList =  responseData.map((project, index)=> {
           project.detailAction = <Button size="xs" bgColor="header_actions" onClick={() => handleProjectDetailSelection(project.id)}>Details</Button>
-          project.status = <Badge color={`${(project.status === "Created" || project.status === "Open" )? "paid_status": project.status === "Closed"? "pending_status": "pending_status"}`}>{project.status}</Badge>
           project.vendorName = project.vendor?.name ? (<>{project.vendor?.name}</>) : "N/A"
           project.accountName = project.account?.name ? (<>{project.account?.name}</>) : "N/A"
           project.createdDate = util.getFormattedDate(project.createdDate)
