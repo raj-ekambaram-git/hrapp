@@ -40,7 +40,8 @@ const sortTable = definePartsStyle({
   td: {
     // .css-hpoh76{text-align:start;-webkit-padding-start:var(--chakra-space-6);padding-inline-start:var(--chakra-space-6);-webkit-padding-end:var(--chakra-space-6);padding-inline-end:var(--chakra-space-6);padding-top:var(--chakra-space-4);padding-bottom:var(--chakra-space-4);line-height: 10px;
     paddingTop: '6px',
-    paddingBottom: '6px'
+    paddingBottom: '6px',
+    columnWidth: "60px"
   }
 
 })

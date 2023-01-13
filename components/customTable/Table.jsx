@@ -69,7 +69,7 @@ export const CustomTable = ({ columns, rows }) => {
               return (
                 <Th key={column.accessor}>
                     <Flex alignItems="center" onClick={() => handleSort(column.accessor)}>
-                  <span>{column.label}{sortIcon()}</span>
+                    {column.label}{sortIcon()}
                   </Flex>
                 </Th>
               )
