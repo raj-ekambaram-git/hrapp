@@ -135,11 +135,11 @@ export const InvoiceConstants = {
     },    
     {
       label: "Name",
-      accessor: "vendor.name"
+      accessor: "vendorName"
     },
     {
       label: "Account",
-      accessor: "account.name"
+      accessor: "accountName"
     },
     {
       label: "Invoice Date",

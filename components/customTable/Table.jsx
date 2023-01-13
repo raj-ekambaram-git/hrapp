@@ -99,6 +99,7 @@ export const CustomTable = ({ columns, rows }) => {
                   if (column.format) {
                     return <Td key={column.accessor}>{column.format(row[column.accessor])}</Td>
                   }
+                //   return <Td key={column.accessor}>{column.render("Cell")}</Td>
                   return <Td key={column.accessor}>{row[column.accessor]}</Td>
                 })}
               </Tr>

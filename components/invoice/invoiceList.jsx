@@ -103,6 +103,8 @@ const InvoiceList = (props) => {
         invoice.paidAmount = "$ "+(parseFloat(invoice.total)-util.getZeroPriceForNull(invoice.paidAmount))
         invoice.formattedInvoiceDate = util.getFormattedDate(invoice.invoiceDate)
         invoice.formattedDueDate = util.getFormattedDate(invoice.dueDte)
+        invoice.vendorName = invoice.vendor.name
+        invoice.accountName = invoice.account.name
         return invoice;
       });
       
