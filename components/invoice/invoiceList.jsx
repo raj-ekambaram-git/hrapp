@@ -5,17 +5,9 @@ import { accountService, userService } from "../../services";
 import {
   HStack,
   Button,
-  Table,
-  Thead,
-  Tbody,
-  Th,
-  Tr,
   Box,
   Flex,
-  TableContainer,
-  TableCaption,
   Badge,
-  Text
 } from '@chakra-ui/react'
 import { util } from "../../helpers";
 import {PageMainHeader} from '../../components/common/pageMainHeader'
