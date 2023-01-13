@@ -1,19 +1,12 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import Link from "next/link";
 import { accountService, userService } from "../../services";
 import {
   HStack,
   Button,
-  Table,
-  Thead,
-  Tbody,
-  Th,
-  Tr,
   Box,
   Flex,
   TableContainer,
-  TableCaption,
   Badge
 } from '@chakra-ui/react'
 import { PageNotAuthorized } from "../common/pageNotAuthorized";
@@ -21,7 +14,7 @@ import { PageMainHeader } from "../common/pageMainHeader";
 import { useDispatch } from "react-redux";
 import { setSelectedTimesheetId } from "../../store/modules/Timesheet/actions";
 import { TimesheetConstants } from "../../constants/timesheetConstants";
-import SortTable from "../common/SortTable";
+import { CustomTable } from "../../components/customTable/Table";
 import { util } from "../../helpers";
 import { EMPTY_STRING } from "../../constants";
 
@@ -109,9 +102,7 @@ const TimesheetList = (props) => {
                   </Box>
                 </HStack>
               </Flex>
-              <TableContainer display="flex">
-              <SortTable variant="sortTable" columns={TIMESHEET_LIST_TABLE_COLUMNS} data={timesheetList} />
-              </TableContainer>
+              <CustomTable variant="sortTable" columns={TIMESHEET_LIST_TABLE_COLUMNS} rows={timesheetList} />
           </div>
       ) : (
         <> 

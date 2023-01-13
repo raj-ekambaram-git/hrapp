@@ -4,27 +4,27 @@ export const TimesheetConstants = {
   
   TIMESHEET_LIST_TABLE_META: [
     {
-      Header: "ID",
+      label: "ID",
       accessor: "id"
     },
     {
-      Header: "Timesheet",
+      label: "Timesheet",
       accessor: "name"
     },    
     {
-      Header: "Created",
+      label: "Created",
       accessor: "createdDate"
     },
     {
-      Header: "Updated",
+      label: "Updated",
       accessor: "lastUpdateDate"
     },
     {
-      Header: "",
+      label: "",
       accessor: "detailAction",
     },
     {
-      Header: "Status",
+      label: "Status",
       accessor: "status"
     }               
   ]
