@@ -14,7 +14,8 @@ import { setSelectedVendorId } from "../../store/modules/Vendor/actions";
 import { useDispatch } from "react-redux";
 import { VendorConstants } from "../../constants/vendorConstants";
 import { EMPTY_STRING } from "../../constants";
-import SortTable from "../common/SortTable";
+import { CustomTable } from "../customTable/Table";
+import { util } from "../../helpers";
 
 
 const VendorList = (props) => {
@@ -44,9 +45,10 @@ const VendorList = (props) => {
       const responseData = await accountService.getVendorList(accountId);
       if(responseData != undefined && responseData != EMPTY_STRING) {
         const updatedVendorList =  responseData.map((vendor, index)=> {
-          vendor.detailAction = <Button size="xs" bgColor="header_actions" onClick={() => handleVendorDetailSelection(vendor.id)}>Vendor Details</Button>
+          vendor.detailAction = <Button size="xs" bgColor="header_actions" onClick={() => handleVendorDetailSelection(vendor.id)}>Details</Button>
           vendor.status = <Badge color={`${
-            vendor.status === "Active" ? "paid_status": vendor.status === "Inactive"? "pending_status": "pending_status"}`}>{vendor.status}</Badge>
+          vendor.status === "Active" ? "paid_status": vendor.status === "Inactive"? "pending_status": "pending_status"}`}>{vendor.status}</Badge>
+          vendor.createdDate = util.getFormattedDate(vendor.createdDate)
           return vendor;
         });
         setVendorList(updatedVendorList );
@@ -80,9 +82,7 @@ const VendorList = (props) => {
                   </Box>
                 </HStack>
               </Flex>
-              <Flex>
-                <SortTable variant="sortTable" columns={VENDOR_LIST_TABLE_COLUMNS} data={vendorList} />
-                </Flex>
+              <CustomTable columns={VENDOR_LIST_TABLE_COLUMNS} rows={vendorList} />
           </div>
       ) : (
         <> 

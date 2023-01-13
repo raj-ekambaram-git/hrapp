@@ -4,39 +4,39 @@ export const VendorConstants = {
 
   VENDOR_LIST_TABLE_META: [
     {
-      Header: "ID",
+      label: "ID",
       accessor: "id"
     },
     {
-      Header: "Name",
+      label: "Name",
       accessor: "name"
     },    
     {
-      Header: "Type",
+      label: "Type",
       accessor: "type"
     },
     {
-      Header: "Contact Email",
+      label: "Contact Email",
       accessor: "email"
     },
     {
-      Header: "Contact Phone",
+      label: "Contact Phone",
       accessor: "phone",
     },
     {
-      Header: "EIN",
+      label: "EIN",
       accessor: "ein"
     },
     {
-      Header: "Updated",
+      label: "Updated",
       accessor: "createdDate"
     },
     {
-      Header: "",
+      label: "",
       accessor: "detailAction"
     },
     {
-      Header: "Status",
+      label: "Status",
       accessor: "status"
     }
                          

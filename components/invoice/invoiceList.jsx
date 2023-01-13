@@ -15,7 +15,6 @@ import {PageNotAuthorized} from '../../components/common/pageNotAuthorized'
 import { useDispatch } from "react-redux";
 import { setSelectedInvoiceId } from "../../store/modules/Invoice/actions";
 import { EMPTY_STRING, InvoiceConstants } from "../../constants";
-import SortTable from "../common/SortTable";
 import { CustomTable } from "../customTable/Table";
 
 

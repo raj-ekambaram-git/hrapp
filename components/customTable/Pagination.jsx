@@ -8,7 +8,7 @@ export const Pagination = ({ activePage, count, rowsPerPage, totalPages, setActi
   
     return (
       <>
-        <HStack spacing={8} marginTop="3rem" marginLeft="25rem">
+        <HStack spacing={8} marginTop="3rem" marginLeft="25rem" marginBottom="5rem">
           <Button size="xs" bgColor="header_actions" disabled={activePage === 1} onClick={() => setActivePage(1)}>
             <HStack>
                 <ArrowLeftIcon/> <Text fontWeight="bolder" >First</Text>

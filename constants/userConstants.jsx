@@ -1,3 +1,7 @@
+import {
+  Tooltip,
+} from '@chakra-ui/react'
+
 export const UserConstants = {
     SUPER_ADMIN_ID: '1',
     USER_ROLES:  { 
@@ -12,87 +16,89 @@ export const UserConstants = {
     } ,
     USER_ACCOUNT_LIST_TABLE_META: [
         {
-          Header: "ID",
+          label: "ID",
           accessor: "id"
         },
         {
-          Header: "First Name",
+          label: "First Name",
           accessor: "firstName"
         },    
         {
-          Header: "Last Name",
+          label: "Last Name",
           accessor: "lastName"
         },
         {
-          Header: "User Id/Email",
+          label: "User Id/Email",
           accessor: "email"
         },
         {
-          Header: "Role",
+          label: "Role",
           accessor: 'role',
+          format: (value) => (value ? <Tooltip label={value}>Roles</Tooltip> : '✖️')
         },
         {
-          Header: "Account",
-          accessor: "account.name"
+          label: "Account",
+          accessor: "accountName"
         },
         {
-          Header: "Vendor",
+          label: "Vendor",
           accessor: 'vendorName'
         },
         {
-          Header: "Created",
+          label: "Created",
           accessor: "createdDate"
         },   
         {
-            Header: "",
+            label: "",
             accessor: "userAction"
         },  
         {
-            Header: "Status",
+            label: "Status",
             accessor: "status"
         }, 
   
       ],
     USER_VENDOR_LIST_TABLE_META: [
         {
-          Header: "ID",
-          accessor: "user.id"
+          label: "ID",
+          accessor: "id"
         },
         {
-          Header: "First Name",
-          accessor: "user.firstName"
+          label: "First Name",
+          accessor: "firstName"
         },    
         {
-          Header: "Last Name",
-          accessor: "user.lastName"
+          label: "Last Name",
+          accessor: "lastName"
         },
         {
-          Header: "User Id/Email",
-          accessor: "user.email"
+          label: "User Id/Email",
+          accessor: "email"
         },
         {
-          Header: "Role",
-          accessor: 'user.role',
+          label: "Role",
+          accessor: 'role',
+          format: (value) => (value ? <Tooltip label={value}>{value}</Tooltip> : '✖️')
         },
         {
-          Header: "Account",
-          accessor: "vendor.account.name"
+          label: "Account",
+          accessor: "accountName"
         },
         {
-          Header: "Vendor",
-          accessor: 'user.vendorName'
+          label: "Vendor",
+          accessor: 'vendorName'
         },
         {
-          Header: "Created",
-          accessor: "user.createdDate"
+          label: "Created",
+          accessor: "createdDate"
         },   
         {
-            Header: "",
-            accessor: "user.userAction"
+            label: "",
+            accessor: "userAction"
         },  
         {
-            Header: "Status",
-            accessor: "user.status"
+            label: "Status",
+            accessor: "status"
           },     
       ]
 }
