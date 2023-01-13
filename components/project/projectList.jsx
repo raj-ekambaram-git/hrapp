@@ -14,7 +14,7 @@ import {PageMainHeader} from '../../components/common/pageMainHeader'
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedProjectId } from "../../store/modules/Project/actions";
 import { EMPTY_STRING, ProjectConstants } from "../../constants";
-import SortTable from "../common/SortTable";
+import { CustomTable } from "../customTable/Table";
 import { util } from "../../helpers";
 
 
@@ -68,6 +68,7 @@ const ProjectList = (props) => {
           project.detailAction = <Button size="xs" bgColor="header_actions" onClick={() => handleProjectDetailSelection(project.id)}>Details</Button>
           project.status = <Badge color={`${(project.status === "Created" || project.status === "Open" )? "paid_status": project.status === "Closed"? "pending_status": "pending_status"}`}>{project.status}</Badge>
           project.vendorName = project.vendor?.name ? (<>{project.vendor?.name}</>) : "N/A"
+          project.accountName = project.account?.name ? (<>{project.account?.name}</>) : "N/A"
           project.createdDate = util.getFormattedDate(project.createdDate)
           return project;
         });
@@ -112,9 +113,7 @@ const ProjectList = (props) => {
                   </Box>
                 </HStack>
               </Flex>
-              <TableContainer display="flex">
-                <SortTable variant="sortTable" columns={PROJECT_LIST_TABLE_COLUMNS} data={projectList} />
-              </TableContainer>
+                <CustomTable variant="sortTable" columns={PROJECT_LIST_TABLE_COLUMNS} rows={projectList} />
           </div>
       ) : (
         <> 

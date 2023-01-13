@@ -38,7 +38,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                   email: true,
                   status: true,
                   phone: true,
-                  userRoles: true
+                  userRole: true
                 }
               }
             }

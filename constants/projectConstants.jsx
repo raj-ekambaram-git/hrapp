@@ -46,39 +46,39 @@ export const ProjectConstants = {
   ],
   PROJECT_LIST_TABLE_META: [
     {
-      Header: "ID",
+      label: "ID",
       accessor: "id"
     },
     {
-      Header: "Name",
+      label: "Name",
       accessor: "name"
     },    
     {
-      Header: "Type",
+      label: "Type",
       accessor: "type"
     },
     {
-      Header: "Budget",
+      label: "Budget",
       accessor: "budget"
     },
     {
-      Header: "Account",
-      accessor: "account.name",
+      label: "Account",
+      accessor: "accountName",
     },
     {
-      Header: "Vendor",
+      label: "Vendor",
       accessor: "vendorName"
     },
     {
-      Header: "Updated",
+      label: "Updated",
       accessor: "createdDate"
     },
     {
-      Header: "",
+      label: "",
       accessor: "detailAction"
     },
     {
-      Header: "Status",
+      label: "Status",
       accessor: "status"
     }
                          

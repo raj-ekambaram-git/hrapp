@@ -196,7 +196,7 @@ const VendorUserAddSection = (props) => {
                                               {vendorUser.user?.phone}
                                             </Th>   
                                             <Th>
-                                              {vendorUser.user?.userRoles.map((userRole) => <p>{userRole.role}</p>)}
+                                              {vendorUser.user?.userRole.map((userRole) => <p>{userRole.role}</p>)}
                                             </Th>                                   
                                             <Th>
                                               <Badge color={`${
