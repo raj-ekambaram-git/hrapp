@@ -1,3 +1,7 @@
+import {
+  Badge,
+} from '@chakra-ui/react'
+
 export const InvoiceConstants = {
   INVOICE_ITEM_TYPE_TIMESHEET: 'Timesheet',
   INVOICE_STATUS: {
@@ -159,7 +163,8 @@ export const InvoiceConstants = {
     },
     {
       label: "Status",
-      accessor: "status"
+      accessor: "status", 
+      format: (value) => (value ? <Badge color={`${(value === "Paid" || value === "PartiallyPaid") ? "paid_status": value === "Pending" ? "pending_status": "pending_status"}`}>{value}</Badge> : '✖️')
     }
                          
   ]
