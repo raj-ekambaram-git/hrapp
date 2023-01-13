@@ -132,10 +132,12 @@ const UserAddEdit = (props) => {
   }  
 
   function handleUserRoles(userRole) {
-    console.log("HANDLE USER ROLE...."+userRole.target.value)
+    console.log("HANDLE USER ROLE...."+userRole.target.value+"***userRole.target.checked::"+userRole.target.checked)
     const newUserRoles = [...userRoles]
     if(userRole.target.checked) {
-      newUserRoles.push(userRole.target.value);
+      if(!newUserRoles.includes(userRole.target.value)) {
+        newUserRoles.push(userRole.target.value);
+      }
     }else {
       const roleToRemoveIndex = newUserRoles.findIndex(x => x === userRole.target.value);
       newUserRoles.splice(roleToRemoveIndex, 1);
@@ -185,6 +187,8 @@ const UserAddEdit = (props) => {
             country: userResonse.address[0].country
         };
         setUser(userData);
+        console.log("userResonse.userRole::"+JSON.stringify(userResonse.userRole))
+        setUserRoles(userResonse.userRole)
         dispatch(setUserProjects(userResonse.projectResource))
 
         // get user and set form fields
@@ -396,28 +400,8 @@ const UserAddEdit = (props) => {
 
                 <CardBody>
                   <Stack divider={<StackDivider />} spacing='4'>
-                    <HStack spacing="16rem">
-                      {/* <Box>
-                          <FormControl isRequired>
-                            <FormLabel>User Role ::</FormLabel>
-                            <Select width="100%" id="userRole" {...register('userRole')} >
-                              {userService.isSuperAdmin() ? (
-                                <>
-                                  {USER_ROLES_SUPERADMIN?.map((userRole) => (
-                                        <option value={userRole.roleID}>{userRole.roleName}</option>
-                                  ))}                                
-                                </>
-                              ) : (
-                                <>
-                                  {USER_ROLES_LOOKUP?.map((userRole) => (
-                                        <option value={userRole.roleID}>{userRole.roleName}</option>
-                                  ))}                                
-                                </>
-                              )}
-                            </Select>
-                          </FormControl>     
-                      </Box>   */}
-                      <ManageUserRoles onChange={handleUserRoles}/>
+                    <HStack>
+                      <ManageUserRoles selectedUserRoles={userRoles} onChange={handleUserRoles}/>
                     </HStack>                                            
                   </Stack>
                 </CardBody>

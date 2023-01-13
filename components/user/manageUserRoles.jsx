@@ -23,13 +23,21 @@ import {
   } from '@chakra-ui/react';
 import { ShowInlineErrorMessage } from "../../components/common/showInlineErrorMessage";
 import { useDispatch } from "react-redux";
-import { UserConstants, USER_ROLES_LOOKUP } from "../../constants";
+import { UserConstants, USER_ROLES_LOOKUP, USER_ROLES_SUPERADMIN } from "../../constants";
+import { userService } from "../../services";
 
     
-const ManageUserRoles = ({onChange = (e) => {}}) => {
+const ManageUserRoles = ({selectedUserRoles, onChange = (e) => {}}) => {
     const toast = useToast();
     const dispatch = useDispatch();
     const { isOpen, onToggle, onClose } = useDisclosure()
+    const [userRoleLookup, setUserRoleLookup] = useState(USER_ROLES_LOOKUP);
+
+    useEffect(() => {
+        if(userService.isSuperAdmin()) {
+            setUserRoleLookup(USER_ROLES_SUPERADMIN);
+        }
+    });
 
     return (
         <div>
@@ -68,10 +76,11 @@ const ManageUserRoles = ({onChange = (e) => {}}) => {
                                 </Th>
                             </Thead>
                             <Tbody>
-                                {USER_ROLES_LOOKUP?.map((userRole) => (
+                                {userRoleLookup?.map((userRole) => (
                                     <Tr>
                                         <Th>
                                         <Checkbox
+                                            isChecked={selectedUserRoles.includes(userRole.roleID)?true: false}
                                             value={userRole.roleID}
                                                   onChange={(e) => onChange(e)}
                                                 />   

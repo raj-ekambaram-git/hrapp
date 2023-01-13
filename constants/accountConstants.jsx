@@ -124,7 +124,11 @@ export const ACCOUNT_VALIDATION_SCHEMA = Yup.object().shape({
     {
       roleID: "ACCOUNT_VENDOR_CONTRACTOR",
       roleName: "Vendor Contractor"
-    }            
+    },
+    {
+      roleID: "ACCOUNT_MANAGER",
+      roleName: "Account Manager"
+    }             
 
 ];  
 

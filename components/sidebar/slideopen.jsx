@@ -42,7 +42,15 @@ const Slideopen = () => {
                   <MdOutlineManageAccounts  className={styles.icons1}/>
                 </div>
               </Link> 
-            </Tooltip>     
+            </Tooltip>    
+            <Tooltip label="Users" placement='right' color={tooltip_style.color} hasArrow maxWidth={tooltip_style.maxWidth} backgroundColor={tooltip_style.bgColor}>
+              <Link href={`/account/users`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
+                <div>
+                  <FiUsers  className={styles.icons1}/>
+                  
+                </div>
+              </Link>
+            </Tooltip>             
             <Tooltip label="App Settings" placement='right' color={tooltip_style.color} hasArrow maxWidth={tooltip_style.maxWidth} backgroundColor={tooltip_style.bgColor}>
               <Link href={`/app/setting/`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
                 <div>
