@@ -62,7 +62,8 @@ const baseStyle = definePartsStyle({
   },
   tbody: {
     textTransform: "uppercase",
-    fontSize: "13px"
+    fontSize: "11px",
+
   }
 })
 

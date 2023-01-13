@@ -2,7 +2,7 @@
 import { useState, useMemo } from 'react'
 import { sortRows, filterRows, paginateRows } from './helpers'
 import { Pagination } from './Pagination'
-import { Input, Table, Tbody, Td, Th, Thead, Tr,Flex } from '@chakra-ui/react'
+import { Input, Table, Tbody, Td, Th, Thead, Tr,Flex, TableContainer } from '@chakra-ui/react'
 import { ChevronUpIcon, ChevronDownIcon } from "@chakra-ui/icons";
 
 export const CustomTable = ({ columns, rows }) => {
@@ -52,6 +52,7 @@ export const CustomTable = ({ columns, rows }) => {
 
   return (
     <>
+    <TableContainer>
       <Table variant="sortTable">
         <Thead>
           <Tr height="10px">
@@ -107,7 +108,7 @@ export const CustomTable = ({ columns, rows }) => {
           })}
         </Tbody>
       </Table>
-
+      </TableContainer>
       {count > 0 ? (
         <Pagination
           activePage={activePage}
