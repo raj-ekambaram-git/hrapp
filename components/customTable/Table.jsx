@@ -2,7 +2,7 @@
 import { useState, useMemo } from 'react'
 import { sortRows, filterRows, paginateRows } from './helpers'
 import { Pagination } from './Pagination'
-import { Button, Input, Table, Tbody, Td, Th, Thead, Tr,Flex } from '@chakra-ui/react'
+import { Input, Table, Tbody, Td, Th, Thead, Tr,Flex } from '@chakra-ui/react'
 import { ChevronUpIcon, ChevronDownIcon } from "@chakra-ui/icons";
 
 export const CustomTable = ({ columns, rows }) => {
@@ -120,11 +120,11 @@ export const CustomTable = ({ columns, rows }) => {
         <p>No data found</p>
       )}
 
-      <div>
+      {/* <div>
         <p>
           <Button onClick={clearAll}>Clear all</Button>
         </p>
-      </div>
+      </div> */}
     </>
   )
 }

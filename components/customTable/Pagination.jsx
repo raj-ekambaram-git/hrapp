@@ -1,33 +1,42 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
-import { Box, Button, Flex, HStack } from '@chakra-ui/react'
+import { Box, Button, Flex, HStack,Text } from '@chakra-ui/react'
+import { ArrowRightIcon, ArrowLeftIcon, ArrowBackIcon, ArrowForwardIcon } from "@chakra-ui/icons";
+
 export const Pagination = ({ activePage, count, rowsPerPage, totalPages, setActivePage }) => {
     const beginning = activePage === 1 ? 1 : rowsPerPage * (activePage - 1) + 1
     const end = activePage === totalPages ? count : beginning + rowsPerPage - 1
   
     return (
       <>
-      <Flex marginTop="3rem" alignItems="center" alignContent="center">
-        <HStack>
-          <Button disabled={activePage === 1} onClick={() => setActivePage(1)}>
-            ⏮️ First
+        <HStack spacing={8} marginTop="3rem" marginLeft="25rem">
+          <Button size="xs" bgColor="header_actions" disabled={activePage === 1} onClick={() => setActivePage(1)}>
+            <HStack>
+                <ArrowLeftIcon/> <Text fontWeight="bolder" >First</Text>
+            </HStack>            
           </Button>
-          <Button disabled={activePage === 1} onClick={() => setActivePage(activePage - 1)}>
-            ⬅️ Previous
+          <Button size="xs" bgColor="header_actions" disabled={activePage === 1} onClick={() => setActivePage(activePage - 1)}>
+            <HStack>
+                <ArrowBackIcon/> <Text fontWeight="bolder" >Previous</Text>
+            </HStack>
           </Button>
-          <Button disabled={activePage === totalPages} onClick={() => setActivePage(activePage + 1)}>
-            Next ➡️
+          <Button size="xs" bgColor="header_actions" disabled={activePage === totalPages} onClick={() => setActivePage(activePage + 1)}>
+            <HStack>
+                <ArrowForwardIcon/> <Text fontWeight="bolder" >Next</Text>
+            </HStack>
           </Button>
-          <Button disabled={activePage === totalPages} onClick={() => setActivePage(totalPages)}>
-            Last ⏭️
+          <Button size="xs" bgColor="header_actions" disabled={activePage === totalPages} onClick={() => setActivePage(totalPages)}>
+            <HStack>
+                <ArrowRightIcon/> <Text fontWeight="bolder" >Last</Text>
+            </HStack>
           </Button>
+          <Box>
+             Page {activePage} of {totalPages}
+          </Box>
+          <Box>
+            Rows: {beginning === end ? end : `${beginning} - ${end}`} of {count}
+          </Box>
           </HStack>
-        <Box>
-          Page {activePage} of {totalPages}
-          </Box>
-        <Box>
-          Rows: {beginning === end ? end : `${beginning} - ${end}`} of {count}
-          </Box>
-        </Flex>        
+        
       </>
     )
   }

@@ -165,9 +165,7 @@ const InvoiceList = (props) => {
                   </Box>
                 </HStack>
               </Flex>
-
-                <CustomTable  columns={INVOICE_LIST_TABLE_COLUMNS} rows={invoiceList} />
-                
+              <CustomTable  columns={INVOICE_LIST_TABLE_COLUMNS} rows={invoiceList} />
           </div>
       ) : (
           <PageNotAuthorized/>
