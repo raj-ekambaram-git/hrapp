@@ -65,8 +65,8 @@ const ProjectList = (props) => {
       if(responseData != undefined && responseData != EMPTY_STRING) {
         const updatedProjectList =  responseData.map((project, index)=> {
           project.detailAction = <Button size="xs" bgColor="header_actions" onClick={() => handleProjectDetailSelection(project.id)}>Details</Button>
-          project.vendorName = project.vendor?.name ? (<>{project.vendor?.name}</>) : "N/A"
-          project.accountName = project.account?.name ? (<>{project.account?.name}</>) : "N/A"
+          project.vendorName = project.vendor?.name?project.vendor?.name:"N/A"
+          project.accountName = project.account?.name?project.account?.name:"N/A"
           project.createdDate = util.getFormattedDate(project.createdDate)
           return project;
         });

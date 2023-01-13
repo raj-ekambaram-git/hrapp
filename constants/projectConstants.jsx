@@ -62,7 +62,8 @@ export const ProjectConstants = {
     },
     {
       label: "Budget",
-      accessor: "budget"
+      accessor: "budget",
+      format: (value) => (value ? "$ "+value: '✖️')
     },
     {
       label: "Account",

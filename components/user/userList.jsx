@@ -7,7 +7,6 @@ import {
   Button,
   Box,
   Flex,
-  Badge
 } from '@chakra-ui/react'
 import { PageMainHeader } from "../common/pageMainHeader";
 import { PageNotAuthorized } from "../common/pageNotAuthorized";
@@ -72,21 +71,18 @@ const UserList = (props) => {
       if(responseData != undefined && responseData != EMPTY_STRING) {
         const updatedUserList =  responseData.map((user, index)=> {
           if(isVendor) {
-            // user.user.role = <Tooltip label={user.user.userRole.map((role) => <p>{role}</p>)}>Role</Tooltip>
-            user.user.role = user.user.userRole.map((role) => <p>{role}</p>)
-            user.user.vendorName = user.vendor?.name ? (<>{user.vendor?.name}</>) : "N/A"
-            user.user.accountName = user.vendor.account?.name ? (<>{user.vendor.account?.name}</>) : "N/A"
+            user.user.role = user.user.userRole.map((role) => <p>{USER_ROLE_DESC[role]}</p>)
+            user.user.vendorName = user.vendor?.name?user.vendor?.name : "N/A"
+            user.user.accountName = user.vendor.account?.name? user.vendor.account?.name : "N/A"
             user.user.createdDate = util.getFormattedDate(user.user.createdDate)
             user.user.userAction = <Button size="xs" bgColor="header_actions" onClick={() => handleUserEditSelection(user.user.id)}>Edit</Button>
-            user.user.status = <Badge color={`${(user.user.status === "Active" || user.user.status === "Approved")? "paid_status" : "pending_status"}`}>{user.user.status}</Badge>
             return user.user;
           }else {
             user.role = user.userRole.map((role) => <p>{USER_ROLE_DESC[role]}</p>)
-            user.vendorName = user.vendor?.name ? (<>{user.vendor?.name}</>) : "N/A"
-            user.accountName = user.account?.name ? (<>{user.account?.name}</>) : "N/A"
+            user.vendorName = user.vendor?.name ? user.vendor?.name : "N/A"
+            user.accountName = user.account?.name ?user.account?.name : "N/A"
             user.createdDate = util.getFormattedDate(user.createdDate)
             user.userAction = <Button size="xs" bgColor="header_actions" onClick={() => handleUserEditSelection(user.id)}>Edit</Button>
-            user.status = <Badge color={`${(user.status === "Active" || user.status === "Approved")? "paid_status" : "pending_status"}`}>{user.status}</Badge>
           }
           return user;
         });

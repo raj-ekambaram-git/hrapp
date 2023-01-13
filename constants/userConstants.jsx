@@ -54,7 +54,9 @@ export const UserConstants = {
         },  
         {
             label: "Status",
-            accessor: "status"
+            accessor: "status",
+            format: (value) => (value ? <Badge color={`${(value === "Active" || value === "Approved")? "paid_status" : "pending_status"}`}>{value}</Badge> : '✖️')
+            
         }, 
   
       ],
@@ -78,7 +80,7 @@ export const UserConstants = {
         {
           label: "Role",
           accessor: 'role',
-          format: (value) => (value ? <Tooltip label={value}>{value}</Tooltip> : '✖️')
+          format: (value) => (value ? <Tooltip label={value}>Roles</Tooltip> : '✖️')
         },
         {
           label: "Account",
@@ -98,7 +100,8 @@ export const UserConstants = {
         },  
         {
             label: "Status",
-            accessor: "status"
+            accessor: "status",
+            format: (value) => (value ? <Badge color={`${(value === "Active" || value === "Approved")? "paid_status" : "pending_status"}`}>{value}</Badge> : '✖️')
           },     
       ]
 }
