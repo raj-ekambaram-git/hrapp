@@ -1,3 +1,6 @@
+import {
+  Badge,
+} from '@chakra-ui/react'
 
 export const ProjectConstants = {
 

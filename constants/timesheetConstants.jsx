@@ -1,3 +1,6 @@
+import {
+  Badge,
+} from '@chakra-ui/react'
 
 export const TimesheetConstants = {
 
@@ -25,7 +28,8 @@ export const TimesheetConstants = {
     },
     {
       label: "Status",
-      accessor: "status"
+      accessor: "status",
+      format: (value) => (value ? <Badge color={`${value === "Approved"? "timesheet.approved_status": (value === "Submitted" || value === "Saved")? "timesheet.approved_status": "timesheet.pending_status"}`}>{value}</Badge>  : '✖️')
     }               
   ]
 

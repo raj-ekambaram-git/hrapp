@@ -65,7 +65,7 @@ const TimesheetList = (props) => {
       if(responseData != undefined && responseData != EMPTY_STRING) {
         const updatedTimesheetist =  responseData.map((timesheet, index)=> {
           timesheet.detailAction = <Button size="xs" bgColor="header_actions" onClick={() => handleTimesheetSelection(timesheet.id)}>Details</Button>
-          timesheet.status = <Badge color={`${timesheet.status === "Approved"? "timesheet.approved_status": (timesheet.status === "Submitted" || timesheet.status === "Saved")? "timesheet.approved_status": "timesheet.pending_status"}`}>{timesheet.status}</Badge>
+          // timesheet.status = 
           timesheet.lastUpdateDate = util.getFormattedDate(timesheet.lastUpdateDate)
           timesheet.createdDate = util.getFormattedDate(timesheet.createdDate)
           return timesheet;

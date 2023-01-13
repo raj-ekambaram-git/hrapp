@@ -1,5 +1,5 @@
 import {
-  Tooltip,
+  Tooltip,Badge
 } from '@chakra-ui/react'
 
 export const UserConstants = {
