@@ -266,7 +266,7 @@ function getAccountDetails() {
 
 function isSuperAdmin() {
     if( userSubject.value 
-        && userSubject.value?.role == UserConstants.USER_ROLES.SUPER_ADMIN
+        && userSubject.value?.userRole?.includes(UserConstants.USER_ROLES.SUPER_ADMIN)
         && userSubject.value?.accountId == UserConstants.SUPER_ADMIN_ID) {
         return true;
     }
@@ -275,19 +275,20 @@ function isSuperAdmin() {
 }
 
 function isAccountAdmin() {
+    console.log("userSubject.value?.userRole::"+userSubject.value?.userRole)
     if( userSubject.value 
-        && userSubject.value?.role == UserConstants.USER_ROLES.ACCOUNT_ADMIN
-        && userSubject.value?.role != UserConstants.SUPER_ADMIN_ID) {
+        && userSubject.value?.userRole?.includes(UserConstants.USER_ROLES.ACCOUNT_ADMIN)
+        && userSubject.value?.accountId != UserConstants.SUPER_ADMIN_ID) {
         return true;
     }
     
-    return true;
+    return false;
 }
 
 function isAccountUser() {
     if( userSubject.value 
-        && userSubject.value?.role == UserConstants.USER_ROLES.ACCOUNT_USER
-        && userSubject.value?.role != UserConstants.SUPER_ADMIN_ID) {
+        && userSubject.value?.userRole?.includes(UserConstants.USER_ROLES.ACCOUNT_USER)
+        && userSubject.value?.accountId != UserConstants.SUPER_ADMIN_ID) {
         return true;
     }
     
@@ -296,8 +297,8 @@ function isAccountUser() {
 
 function isEmployee() {
     if( userSubject.value 
-        && userSubject.value?.role == UserConstants.USER_ROLES.ACCOUNT_VENDOR_EMPLOYEE 
-        && userSubject.value?.role != UserConstants.SUPER_ADMIN_ID) {
+        && userSubject.value?.userRole?.includes(UserConstants.USER_ROLES.ACCOUNT_VENDOR_EMPLOYEE)
+        && userSubject.value?.accountId != UserConstants.SUPER_ADMIN_ID) {
         return true;
     }
     
@@ -306,8 +307,8 @@ function isEmployee() {
 
 function isContractor() {
     if( userSubject.value 
-        && userSubject.value?.role == UserConstants.USER_ROLES.ACCOUNT_VENDOR_CONTRACTOR 
-        && userSubject.value?.role != UserConstants.SUPER_ADMIN_ID) {
+        && userSubject.value?.userRole?.includes(UserConstants.USER_ROLES.ACCOUNT_VENDOR_CONTRACTOR)
+        && userSubject.value?.accountId != UserConstants.SUPER_ADMIN_ID) {
         return true;
     }
     
@@ -316,8 +317,8 @@ function isContractor() {
 
 function isManager() {
     if( userSubject.value 
-        && userSubject.value?.role == UserConstants.USER_ROLES.ACCOUNT_MANAGER 
-        && userSubject.value?.role != UserConstants.SUPER_ADMIN_ID) {
+        && userSubject.value?.userRole?.includes(UserConstants.USER_ROLES.ACCOUNT_MANAGER)
+        && userSubject.value?.accountId != UserConstants.SUPER_ADMIN_ID) {
         return true;
     }
     
@@ -328,8 +329,8 @@ function isManager() {
 
 function isAccountVendorRep() {
     if( userSubject.value 
-        && userSubject.value?.role == UserConstants.USER_ROLES.ACCOUNT_VENDOR_REP
-        && userSubject.value?.role != UserConstants.SUPER_ADMIN_ID) {
+        && userSubject.value?.userRole?.includes(UserConstants.USER_ROLES.ACCOUNT_VENDOR_REP)
+        && userSubject.value?.accountId != UserConstants.SUPER_ADMIN_ID) {
         return true;
     }
     
@@ -338,8 +339,8 @@ function isAccountVendorRep() {
 
 function isRegularUser() {
     if( userSubject.value 
-        && ( userSubject.value?.role == UserConstants.USER_ROLES.ACCOUNT_VENDOR_EMPLOYEE  || userSubject.value?.role == UserConstants.USER_ROLES.ACCOUNT_VENDOR_CONTRACTOR )
-        && userSubject.value?.role != UserConstants.SUPER_ADMIN_ID) {
+        && ( userSubject.value?.userRole?.includes(UserConstants.USER_ROLES.ACCOUNT_VENDOR_EMPLOYEE)  || userSubject.value?.userRole?.includes(UserConstants.USER_ROLES.ACCOUNT_VENDOR_CONTRACTOR) )
+        && userSubject.value?.accountId != UserConstants.SUPER_ADMIN_ID) {
         return true;
     }
     
@@ -348,8 +349,8 @@ function isRegularUser() {
 
 function isTimesheetEntryUser() {
     if( userSubject.value 
-        && ( userSubject.value?.role == UserConstants.USER_ROLES.ACCOUNT_VENDOR_EMPLOYEE  || userSubject.value?.role == UserConstants.USER_ROLES.ACCOUNT_VENDOR_CONTRACTOR )
-        && userSubject.value?.role != UserConstants.SUPER_ADMIN_ID) {
+        && ( userSubject.value?.userRole?.includes(UserConstants.USER_ROLES.ACCOUNT_VENDOR_EMPLOYEE)  ||  userSubject.value?.userRole?.includes(UserConstants.USER_ROLES.ACCOUNT_VENDOR_CONTRACTOR) )
+        && userSubject.value?.accountId != UserConstants.SUPER_ADMIN_ID) {
         return true;
     }
     

@@ -79,7 +79,7 @@ async function hasAccess(result, res, user) {
         username: user.email,
         firstName: user.firstName,
         lastName: user.lastName,
-        role: user.role,
+        userRole: user.userRole,
         accountId: user.accountId,
         passwordExpired: user.passwordExpired,
         authToken,
