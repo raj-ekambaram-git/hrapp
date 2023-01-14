@@ -1,5 +1,7 @@
     export const CommonConstants ={
-        fromEmail: "admin@dsquaredtech.us"
+        fromEmail: "admin@dsquaredtech.us",
+        backSlash: "/",
+        underScore: "_"
     }
   export const US_STATES = [
     {

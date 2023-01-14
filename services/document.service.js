@@ -9,10 +9,29 @@ const baseUrl = `${publicRuntimeConfig.apiUrl}`;
 export const documentService = {
 
     getUploadURL,
-    uploadFile
+    uploadFile,
+    createDocument,
+    getDocumentsByType
     
 };
 
+function getDocumentsByType(type, typeId) {
+    return fetchWrapper.get(`${baseUrl}/document/${type}?typeId=`+typeId, {})
+        .then(documents => {
+            return documents;
+        });
+}
+
+function createDocument(documentRequest) {
+    return fetchWrapper.post(`${baseUrl}/document/create`, {documentRequest})
+        .then(document => {
+            return document;
+        })        
+        .catch(err => {
+            console.log("Inside createDocument Error")
+            return {errorMessage: err, error: true};
+        });
+}
 
 function getUploadURL(name, type) {
     return fetchWrapper.post(`${baseUrl}/document/upload`, {

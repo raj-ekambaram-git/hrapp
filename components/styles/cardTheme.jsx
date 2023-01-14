@@ -22,6 +22,27 @@ const comment = definePartsStyle({
 
 })
 
+const document = definePartsStyle({
+  container: {
+    borderWidth: '1px',
+    borderRadius: 'lg',
+    overflow: 'hidden', 
+    border: "1px",
+    width: "50%"
+    
+  },
+  footer: {
+    maxH: "5px",
+    alignItems: "center",
+    fontSize: '12px',
+    bgColor: '#EDF2F7'
+  },
+  body: {
+    
+  }
+
+})
+
 const replies = definePartsStyle({
   header: {
     bgColor: '#E6FFFA',
@@ -104,4 +125,4 @@ const sizes = definePartsStyle({
   },
 })
 
-export const cardTheme = defineMultiStyleConfig({ baseStyle, sizes, variants: {comment, replies, replyDetails} })
+export const cardTheme = defineMultiStyleConfig({ baseStyle, sizes, variants: {comment, replies, replyDetails, document} })

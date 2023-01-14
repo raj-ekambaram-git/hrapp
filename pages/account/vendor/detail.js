@@ -24,11 +24,12 @@ import VendorProjectsSection from "../../../components/vendor/detail/vendorProje
 import VendorUserAddSection from "../../../components/vendor/vendorUserAddSection";
 import { useDispatch, useSelector } from "react-redux";
 import { resetVendorUsers, setVendorUsers } from "../../../store/modules/Vendor/actions";
-import { NotesConstants } from "../../../constants";
+import { DocumentConstants, NotesConstants } from "../../../constants";
 import NotesHistory from "../../../components/notes/notesHistory";
 import { resetUsersByAccount } from "../../../store/modules/Account/actions";
 import { resetNotesType, setNotesType } from "../../../store/modules/Notes/actions";
 import VendorDetailActions from "../../../components/vendor/detail/vendorDetailActions";
+import { setDocumentType } from "../../../store/modules/Document/actions";
 
 
 
@@ -58,7 +59,12 @@ const VendorDetail = (props) => {
       typeId: parseInt(vendorId),
       typeName: vendor.name
     }
-
+    //To Enable Documents
+    const documentData = {
+      type: DocumentConstants.DOCUMENMT_TYPE.Vendor,
+      typeId: parseInt(vendorId),
+      typeName: vendor.name
+    }
 
   // set default input data
   useEffect(() => {
@@ -67,6 +73,7 @@ const VendorDetail = (props) => {
     dispatch(resetNotesType())
     getVendorDetails(vendorId, userService.getAccountDetails().accountId);
     dispatch(setNotesType(notesData));
+    dispatch(setDocumentType(documentData))
   }, []);
 
 

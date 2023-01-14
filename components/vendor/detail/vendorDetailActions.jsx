@@ -6,7 +6,8 @@ import {
   Button
 } from '@chakra-ui/react';
 import { useRouter } from "next/router";
-import VendorDocuments from "./vendorDocuments";
+import ManageDocuments from "../../document/manageDocuments";
+
 
 
 const VendorDetailActions = (props) => {
@@ -50,7 +51,7 @@ const VendorDetailActions = (props) => {
                     </Button>
                   </Box>     
                   <Box>
-                    <VendorDocuments/>
+                    <ManageDocuments/>
                   </Box>                                                 
                 </HStack>
             </Flex>          

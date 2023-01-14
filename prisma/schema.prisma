@@ -346,14 +346,16 @@ model Calendar {
 }
 
 model Document {
-  id          Int            @id @default(autoincrement())
-  name        String
-  type        DocumentType
-  typeId      Int
-  urlPath     String
-  status      DocumentStatus
-  createdUser User?          @relation(fields: [createdBy], references: [id])
-  createdBy   Int?
+  id             Int            @id @default(autoincrement())
+  name           String
+  type           DocumentType
+  typeId         Int
+  urlPath        String
+  status         DocumentStatus
+  createdUser    User?          @relation(fields: [createdBy], references: [id])
+  createdBy      Int?
+  createdDate    DateTime       @default(now())
+  lastUpdateDate DateTime       @default(now()) @updatedAt
 
   @@index([createdBy])
   @@index([createdBy, status])
