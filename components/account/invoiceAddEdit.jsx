@@ -36,8 +36,10 @@ import InvoiceTransactions from "../invoice/transaction/invoiceTransactions";
 import {PageNotAuthorized} from '../../components/common/pageNotAuthorized';
 import {PageMainHeader} from '../../components/common/pageMainHeader';
 import InvoiceEmailTo from "../invoice/invoiceEmailTo";
-import { NotesConstants } from "../../constants";
+import { DocumentConstants, NotesConstants } from "../../constants";
 import { util } from "../../helpers/util";
+import { setDocumentType } from "../../store/modules/Document/actions";
+import ManageDocuments from "../document/manageDocuments";
 
 
 
@@ -90,6 +92,11 @@ const InvoiceAddEdit = (props) => {
     typeName: EMPTY_STRING
   }
   
+  const documentData = {
+    type: DocumentConstants.DOCUMENMT_TYPE.Invoice,
+    typeId: parseInt(invoiceId),
+    typeName: EMPTY_STRING
+  }
 
   
   //Get Account Details only if its EditMode
@@ -97,6 +104,7 @@ const InvoiceAddEdit = (props) => {
     //Reset the invoiceItem List
     dispatch(resetInvoiceItemList());
     dispatch(resetInvoiceEmailTo());
+    dispatch(setDocumentType(documentData));
     if(props && props.data && props.data.mode != MODE_ADD) {
       setAddMode(false);
     }else {
@@ -412,6 +420,7 @@ const InvoiceAddEdit = (props) => {
             <Flex marginBottom="1rem" borderRadius="lg" alignSelf="center">
                 <HStack>
                   <InvoiceTransactions invoiceId={invoiceId}/>
+                  <ManageDocuments/>
                   {(!isAddMode && (status !== EMPTY_STRING && (status !== InvoiceConstants.INVOICE_STATUS.Submitted || status !== InvoiceConstants.INVOICE_STATUS.Paid || status !== InvoiceConstants.INVOICE_STATUS.PartiallyPaid))) ? (
                     <Box>
                       <Button size="xs" bgColor="header_actions"

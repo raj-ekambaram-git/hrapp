@@ -55,7 +55,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const documents = await prisma.document.findMany({
       where: {
         typeId: parseInt(typeId.toString()),
-        type: "Vendor",
+        type: "Invoice",
         status: {
           in: ["Active", "Inactive"]
         }
