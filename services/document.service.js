@@ -12,9 +12,22 @@ export const documentService = {
     uploadFile,
     createDocument,
     updateDocument,
-    getDocumentsByType
+    getDocumentsByType,
+    viewDocument
     
 };
+
+
+function viewDocument(filePath) {
+    return fetchWrapper.post(`${baseUrl}/document/view`, {filePath})
+        .then(document => {
+            return document;
+        })      
+        .catch(err => {
+            console.log("Error Updating Document::"+err)
+            return {errorMessage: err, error: true};
+        });  
+}
 
 function updateDocument(document) {
 
@@ -26,7 +39,7 @@ function updateDocument(document) {
     .catch(err => {
       console.log("Error Updating Document::"+err)
       return {errorMessage: err, error: true};
-  });
+    });
   }
 
   
@@ -62,6 +75,7 @@ function getUploadURL(name, type) {
 function uploadFile(url, file, type) {
     return fetchWrapper.filePut(url, file, type)
     .then(response => {
+        console.log("response:::UPLOAD FILE::"+JSON.stringify(response))
         return response;
     });
 }

@@ -46,7 +46,7 @@ const AddEditDocument = (props) => {
                 name: name,
                 type: documentType.type,
                 typeId: documentType.typeId,
-                urlPath: fileURL,
+                urlPath: directoryStructure+file.name,
                 status: "Active",
                 createdBy: userService.userValue.id
               }

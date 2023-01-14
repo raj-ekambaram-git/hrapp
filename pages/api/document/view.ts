@@ -13,16 +13,16 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   try {
-    let { name, type } = req.body;
+    let { filePath } = req.body;
     const fileParams = {
         Bucket: process.env.BUCKET_NAME,
-        Key: name,
-        ContentType: type,
+        Key: filePath,
         Expires: parseInt(process.env.DOCUMENT_VIEW_EXPIRATION), // seconds
       }
 
-    const uploadedFile = await s3.getSignedUrlPromise("putObject",fileParams)
-    res.status(200).json(uploadedFile)
+    const viewFile = await s3.getSignedUrlPromise("getObject",fileParams)
+    console.log("viewFile:::"+JSON.stringify(viewFile))
+    res.status(200).json(viewFile)
   } catch (err) {
     console.log(err);
     res.status(400).json({ message: err });

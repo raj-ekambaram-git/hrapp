@@ -44,6 +44,13 @@ const ManageDocuments = (props) => {
     onOpen()
   }
 
+  async function handleViewDocument(viewURLPath) {
+    const responseData = await documentService.viewDocument(viewURLPath);
+    console.log("responseData::"+responseData)
+    window.open(responseData);
+
+  }
+
   async function handleDeleteDocument(documentId, index) {
     const updateDocumentRequest = {
       id: documentId,
@@ -144,7 +151,7 @@ const ManageDocuments = (props) => {
                                             {document.createdUser?.firstName} {document.createdUser?.lastName}
                                         </Th>
                                         <Th>
-                                          <Button>View/Download</Button>
+                                          <Button size="xs" bgColor="header_actions" onClick={() => handleViewDocument(document.urlPath)}>View/Download</Button>
                                         </Th>
                                       </Tr>
                                     ))}
