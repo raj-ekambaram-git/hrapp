@@ -18,7 +18,10 @@ import UserDetailSection from "../../../components/user/detail/userDetailSection
 import UserAccountDetailSection from "../../../components/user/detail/userAccountDetailSection";
 import UserCredentialsSection from "../../../components/user/detail/userCredentialsSection";
 import UserContactSection from "../../../components/user/detail/userContactSection";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { DocumentConstants } from "../../../constants";
+import { setDocumentType } from "../../../store/modules/Document/actions";
+import UserDetailActions from "../../../components/user/detail/userDetailActions";
 
 
 
@@ -29,11 +32,14 @@ const UserDetail = (props) => {
 
   
   const router = useRouter();
+  const dispatch = useDispatch();
   const { isOpen, onOpen, onClose } = useDisclosure()
   
   const [user, setUser] = useState({});
   const [userAddress, setUserAddress] = useState({});
   const [isPageAuthprized, setPageAuthorized] = useState(false);
+
+
 
   // set default input data
   useEffect(() => {
@@ -68,8 +74,15 @@ const UserDetail = (props) => {
         zipCode: userResonse.address[0]?.zipCode,
         country: userResonse.address[0]?.country
     };
-
     setUser(userData);
+
+
+    const documentData = {
+      type: DocumentConstants.DOCUMENMT_TYPE.User,
+      typeId: parseInt(user.id),
+      typeName: user.firstName
+    }
+    dispatch(setDocumentType(documentData))
 
   }
 
@@ -86,7 +99,7 @@ const UserDetail = (props) => {
                 </Box>
               </HStack>
             </CardHeader>
-
+            <UserDetailActions/>
             <CardBody>
               <Stack divider={<StackDivider />} spacing='1'>
                 <Accordion defaultIndex={[0]} variant="mainPage">

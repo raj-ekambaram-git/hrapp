@@ -29,8 +29,10 @@ import ManageVendors from "../user/vendor/manageVendors";
 import { useDispatch, useSelector } from "react-redux";
 import {fetchVendorsByAccount, resetVendorsByAccount} from '../../store/modules/Vendor/actions'
 import { resetUserProjects, resetUserVendors, setUserProjects } from "../../store/modules/User/actions";
-import { NotesConstants } from "../../constants";
+import { DocumentConstants, NotesConstants } from "../../constants";
 import ManageUserRoles from "../user/manageUserRoles";
+import { setDocumentType } from "../../store/modules/Document/actions";
+import UserDetailActions from "../user/detail/userDetailActions";
 
 
 
@@ -97,12 +99,20 @@ const UserAddEdit = (props) => {
     typeName: user.firstName
   }
   
+  const documentData = {
+    type: DocumentConstants.DOCUMENMT_TYPE.User,
+    typeId: parseInt(userId),
+    typeName: user.firstName
+  }
+  
+
   //Get Account Details only if its EditMode
   useEffect(() => {
     //Reset Everything here
     dispatch(resetUserVendors());
     dispatch(resetVendorsByAccount);
     dispatch(resetUserProjects);
+    dispatch(setDocumentType(documentData))
 
     if(props && props.data && props.data.mode != MODE_ADD) {
       setAddMode(false);
@@ -304,8 +314,11 @@ const UserAddEdit = (props) => {
             <>
               {!isAddMode? (
                 <>
+                <HStack>
                   <ManageVendors data={{userId: userId, userFirstName: user.firstName, userLastName: user.lastName}}/>
+                  <UserDetailActions/>
                   {/* <AllocateProject data={{userId: userId, userFirstName: user.firstName, userLastName: user.lastName}}/> */}
+                </HStack>
                 </>
               ): (<></>)}
             </>
