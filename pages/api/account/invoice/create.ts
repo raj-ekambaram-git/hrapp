@@ -1,10 +1,9 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
 import { NextApiRequest, NextApiResponse } from "next"
-import { EMPTY_STRING, InvoiceConstants } from "../../../../constants";
+import {  InvoiceConstants } from "../../../../constants";
 import prisma from "../../../../lib/prisma";
-import { emailService, invoiceService } from "../../../../services";
-import { CommonConstants, EmailConstants} from "../../../../constants";
+import { invoiceService } from "../../../../services";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method !== 'POST') {
