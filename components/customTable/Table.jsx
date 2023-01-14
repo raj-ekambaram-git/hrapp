@@ -80,13 +80,16 @@ export const CustomTable = ({ columns, rows }) => {
             {columns.map((column) => {
               return (
                 <Th>
-                  <Input size="xs"
-                    key={`${column.accessor}-search`}
-                    type="search"
-                    placeholder={`Search ${column.label}`}
-                    value={filters[column.accessor]}
-                    onChange={(event) => handleSearch(event.target.value, column.accessor)}
-                  />
+                  {column.disableSearch ? (<></>) : (<>
+                    <Input size="xs"
+                      key={`${column.accessor}-search`}
+                      type="search"
+                      placeholder={`Search ${column.label}`}
+                      value={filters[column.accessor]}
+                      onChange={(event) => handleSearch(event.target.value, column.accessor)}
+                    />
+
+                  </>)}
                 </Th>
               )
             })}

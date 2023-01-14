@@ -25,6 +25,7 @@ export const TimesheetConstants = {
     {
       label: "",
       accessor: "detailAction",
+      disableSearch: true
     },
     {
       label: "Status",

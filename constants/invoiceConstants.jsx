@@ -159,7 +159,8 @@ export const InvoiceConstants = {
     },    
     {
       label: "",
-      accessor: "detailAction"
+      accessor: "detailAction",
+      disableSearch: true
     },
     {
       label: "Status",

@@ -79,7 +79,8 @@ export const ProjectConstants = {
     },
     {
       label: "",
-      accessor: "detailAction"
+      accessor: "detailAction",
+      disableSearch: true
     },
     {
       label: "Status",

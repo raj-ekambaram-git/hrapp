@@ -50,7 +50,8 @@ export const UserConstants = {
         },   
         {
             label: "",
-            accessor: "userAction"
+            accessor: "userAction",
+            disableSearch: true
         },  
         {
             label: "Status",
@@ -96,7 +97,8 @@ export const UserConstants = {
         },   
         {
             label: "",
-            accessor: "userAction"
+            accessor: "userAction",
+            disableSearch: true
         },  
         {
             label: "Status",

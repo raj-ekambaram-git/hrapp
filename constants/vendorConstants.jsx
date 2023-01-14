@@ -35,7 +35,8 @@ export const VendorConstants = {
     },
     {
       label: "",
-      accessor: "detailAction"
+      accessor: "detailAction",
+      disableSearch: true
     },
     {
       label: "Status",

@@ -360,6 +360,7 @@ export const AccountConstants = {
     {
       label: "",
       accessor: "detailAction",
+      disableSearch: true
     },
     {
       label: "Status",
