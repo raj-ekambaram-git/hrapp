@@ -16,6 +16,8 @@ import {PageMainHeader} from '../../components/common/pageMainHeader';
 import {PageNotAuthorized} from '../../components/common/pageNotAuthorized';
 import { NotesConstants } from "../../constants";
 import { useDispatch, useSelector } from "react-redux";
+import { setDocumentType } from "../../store/modules/Document/actions";
+import ManageDocuments from "../../components/document/manageDocuments";
 
 
 
@@ -35,6 +37,11 @@ const AccountDetail = (props) => {
       typeName: account.name
     }
 
+    const documentData = {
+      type: NotesConstants.NOTES_TYPE.Account,
+      typeId: parseInt(accountId),
+      typeName: account.name
+    }
   // set default input data
   useEffect(() => {
     // dispatch(resetSelectedAccountId());
@@ -67,6 +74,7 @@ const AccountDetail = (props) => {
   
       }
       getAccountDetailsAPICall();
+      dispatch(setDocumentType(documentData))
     
   }, []);
 
@@ -75,6 +83,10 @@ const AccountDetail = (props) => {
       {isPageAuthprized ? (
         <>
         <PageMainHeader heading="Account Details for" param1={account.name} notesData={notesData}/>
+        <Flex marginBottom="1rem">
+          <ManageDocuments/>
+        </Flex>
+
         <Flex>
             <Stack width="page.sub_heading_width">
               <Accordion defaultIndex={[0]} variant="mainPage">

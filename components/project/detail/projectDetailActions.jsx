@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import ProjectTimesheets from '../../../components/project/detail/projectTimesheets';
 import { PROJECT_CALL_TYPE } from "../../../constants";
+import ManageDocuments from "../../document/manageDocuments";
 
 
 const ProjectDetailActions = (props) => {
@@ -33,7 +34,8 @@ const ProjectDetailActions = (props) => {
                 </Box>   
                 <Box>
                 <ProjectTimesheets data={{projectId: projectId, callType: PROJECT_CALL_TYPE}}/>
-                </Box>                    
+                </Box>   
+                <ManageDocuments/>                 
               </HStack>
         </Flex>           
     </div>

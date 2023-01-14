@@ -20,6 +20,7 @@ import { NotesConstants } from "../../../constants";
 import { useDispatch, useSelector } from "react-redux";
 import ProjectDetailActions from "../../../components/project/detail/projectDetailActions";
 import { setSelectedProjectRemainingBudget, setSelectedProjectResources, setSelectedProjectVendorId } from "../../../store/modules/Project/actions";
+import { setDocumentType } from "../../../store/modules/Document/actions";
 
 
 const ProjectDetail = (props) => {
@@ -44,11 +45,17 @@ const ProjectDetail = (props) => {
     typeName: project.name
   }
 
+  const documentData = {
+    type: NotesConstants.NOTES_TYPE.Project,
+    typeId: parseInt(projectId),
+    typeName: project.name
+  }
   // set default input data
   useEffect(() => {
     dispatch(setSelectedProjectRemainingBudget(null))
     dispatch(setSelectedProjectResources([]))
     getProjetDetails(projectId, userService.getAccountDetails().accountId);
+    dispatch(setDocumentType(documentData))
   }, []);
 
 
