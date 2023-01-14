@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import S3 from "aws-sdk/clients/s3";
 
 const s3 = new S3({
-  region: "us-east-1",
+  region: process.env.ACCESS_REGION,
   accessKeyId: process.env.ACCESS_KEY,
   secretAccessKey: process.env.SECRET_KEY,
 });

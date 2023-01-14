@@ -16,7 +16,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { ShowInlineErrorMessage } from "../common/showInlineErrorMessage";
 import { documentService, userService } from "../../services";
-import { CommonConstants, EMPTY_STRING } from "../../constants";
+import { CommonConstants, DocumentConstants, EMPTY_STRING } from "../../constants";
 import { setDocumentsByType } from "../../store/modules/Document/actions";
 
 const AddEditDocument = (props) => {
@@ -28,56 +28,61 @@ const AddEditDocument = (props) => {
     const [uploadingStatus, setUploadingStatus] = useState();
     const [uploadedFile, setUploadedFile] = useState();
     const documentType = useSelector(state => state.document.documentType);
+    const acceptedFileTypes = process.env.ALLOWED_DOCUMENT_TYPES
   
     const uploadFile = async () => {
         setUploadingStatus("Uploading the file.");
         const directoryStructure = "account_"+userService.getAccountDetails().accountId+CommonConstants.backSlash
                                         +documentType.type+CommonConstants.underScore+documentType.typeId+CommonConstants.backSlash;
 
-        const fileURL = await documentService.getUploadURL(directoryStructure+file.name, file.type);
-    
-        const upload = await documentService.uploadFile(fileURL, file, file.type);
-    
-        if (upload.ok) {
-          setUploadingStatus(" Uploaded.");
-          setUploadedFile(name);
-          if(name != undefined && name != EMPTY_STRING && fileURL != undefined && fileURL != EMPTY_STRING) {
-            const documentRequest = {
-                name: name,
-                type: documentType.type,
-                typeId: documentType.typeId,
-                urlPath: directoryStructure+file.name,
-                status: "Active",
-                createdBy: userService.userValue.id
-              }
-              const responseData = await documentService.createDocument(documentRequest);
-              if(responseData.error) {
-                toast({
-                    title: 'New Document.',
-                    description: 'Error adding document, please try again. Details:'+responseData.errorMessage,
-                    status: 'error',
-                    position: 'top',
-                    duration: 6000,
-                    isClosable: true,
-                  })
-              }else {
-                toast({
-                    title: 'New Document.',
-                    description: 'Successfully added new document.',
-                    status: 'success',
-                    position: 'top',
-                    duration: 3000,
-                    isClosable: true,
-                  })
-                  setName(EMPTY_STRING)
-                  setFile(null)
-                  dispatch(setDocumentsByType(responseData))
-              }
-          }else {
+        if(name != undefined && name != EMPTY_STRING) {
+            const fileURL = await documentService.getUploadURL(directoryStructure+file.name, file.type);
+            if(fileURL != undefined && fileURL != EMPTY_STRING) {
+                const upload = await documentService.uploadFile(fileURL, file, file.type);
+        
+                if (upload.ok) {
+                    setUploadingStatus(" Uploaded.");
+                    setUploadedFile(name);
+                    const documentRequest = {
+                        name: name,
+                        type: documentType.type,
+                        typeId: documentType.typeId,
+                        urlPath: directoryStructure+file.name,
+                        status: DocumentConstants.DOCUMENT_STATUS.Active,
+                        createdBy: userService.userValue.id
+                    }
+                    const responseData = await documentService.createDocument(documentRequest);
+                    if(responseData.error) {
+                        toast({
+                            title: 'New Document.',
+                            description: 'Error adding document, please try again. Details:'+responseData.errorMessage,
+                            status: 'error',
+                            position: 'top',
+                            duration: 6000,
+                            isClosable: true,
+                        })
+                    }else {
+                        toast({
+                            title: 'New Document.',
+                            description: 'Successfully added new document.',
+                            status: 'success',
+                            position: 'top',
+                            duration: 3000,
+                            isClosable: true,
+                        })
+                        setName(EMPTY_STRING)
+                        setFile(null)
+                        setShowErrorMessage(EMPTY_STRING)
+                        dispatch(setDocumentsByType(responseData))
+                    }
+                
+                } else {
+                    setShowErrorMessage(EMPTY_STRING)
+                    console.error('Upload failed.')
+                }
+            }
+        }else {
             setShowErrorMessage("Error happened please try wuth all the fields selected.")
-          }
-        } else {
-          console.error('Upload failed.')
         }
     
     };
@@ -99,8 +104,8 @@ const AddEditDocument = (props) => {
                             <Input type="text" value={name} onChange={(e) => setName(e.target.value)} />
                         </HStack>
                         <HStack>
-                            <Box>Upload </Box>
-                            <Input size="xs" type="file" onChange={(e) => selectFile(e)} />
+                            <Text>Upload </Text>
+                            <Input size="xs" accept={acceptedFileTypes} type="file" onChange={(e) => selectFile(e)} width="50%"/>
                         </HStack>
                     </CardBody>
                     <Divider/>
@@ -108,9 +113,7 @@ const AddEditDocument = (props) => {
                     {file && (
                         <HStack>
                             <Box>Selected file: {file.name}</Box>
-                            <Button size="xs" colorScheme='red'
-                                onClick={uploadFile}
-                            >
+                            <Button size="xs" colorScheme='red' onClick={uploadFile}>
                                 Upload!
                             </Button>
                         </HStack>
