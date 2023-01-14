@@ -34,7 +34,8 @@ const document = definePartsStyle({
   footer: {
     maxH: "5px",
     alignItems: "center",
-    fontSize: '12px',
+    fontSize: '15px',
+    fontWeight: "400",
     bgColor: '#EDF2F7'
   },
   body: {

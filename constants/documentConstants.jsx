@@ -8,6 +8,12 @@ export const DocumentConstants = {
         'User': 'User',
         "TimesheetEntry": "TimesheetEntry",
         "TimesheetApproval": "TimesheetApproval"
+    },
+    DOCUMENT_STATUS: {
+        "Active": "Active",
+        "Inactive": "Inactive",
+        "Delete": "Delete",
+
     }
 
 }

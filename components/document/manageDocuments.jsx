@@ -14,26 +14,62 @@ import {
   Thead,
   Th,
   Tr,
-  Tbody
+  Tbody,
+  Badge,
+  useToast
 } from '@chakra-ui/react'
+import {
+  DeleteIcon
+} from '@chakra-ui/icons';
 import { useDispatch, useSelector } from "react-redux";
-import {fetchDocumentsByType} from '../../store/modules/Document/actions'
+import {fetchDocumentsByType, removeDocumentByIndex} from '../../store/modules/Document/actions'
 import AddEditDocument from "./addEditDocument";
+import { documentService } from "../../services";
+import { DocumentConstants } from "../../constants";
 
 
 
 const ManageDocuments = (props) => {
   const dispatch = useDispatch();
+  const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [size, setSize] = useState('');
 
   const documentType = useSelector(state => state.document.documentType);
-  const documents = useSelector(state => state.document.documentsByTpe);
+  const documents = useSelector(state => state.document.documentsByType);
   
   const handleClick = (newSize) => {
     setSize(newSize)
     dispatch(fetchDocumentsByType(documentType.typeId, documentType.type))
     onOpen()
+  }
+
+  async function handleDeleteDocument(documentId, index) {
+    const updateDocumentRequest = {
+      id: documentId,
+      status: DocumentConstants.DOCUMENT_STATUS.Delete
+    }
+    const responseData = await documentService.updateDocument(updateDocumentRequest)
+    if(responseData.error) {
+      toast({
+          title: 'Update Document.',
+          description: 'Error updating document, please try again. Details:'+responseData.errorMessage,
+          status: 'error',
+          position: 'top',
+          duration: 6000,
+          isClosable: true,
+        })
+    }else {
+      toast({
+          title: 'Update Document.',
+          description: 'Successfully udpated document.',
+          status: 'success',
+          position: 'top',
+          duration: 3000,
+          isClosable: true,
+        })
+        dispatch(removeDocumentByIndex(index))
+    }
   }
   
   return (
@@ -81,9 +117,10 @@ const ManageDocuments = (props) => {
                                       </Tr>
                                     </Thead>
                                     <Tbody>
-                                    {documents?.map((document) => (
+                                    {documents?.map((document, index) => (
                                       <Tr>
                                         <Th>
+                                        <DeleteIcon boxSize={4} onClick={() => handleDeleteDocument(document.id, index)}/> 
                                         </Th>
                                         <Th>
                                           {document.id}
@@ -92,7 +129,13 @@ const ManageDocuments = (props) => {
                                           {document.name}
                                         </Th>
                                         <Th>
-                                          {document.status}
+                                        <Badge color={`${
+                                          document.status === "Active"
+                                              ? "paid_status"
+                                              : document.status === "Inactive"
+                                              ? "pending_status"
+                                              : "pending_status"
+                                          }`}>{document.status}</Badge>                                          
                                         </Th>
                                         <Th>
                                           {document.createdDate}

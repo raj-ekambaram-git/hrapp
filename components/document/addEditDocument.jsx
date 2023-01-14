@@ -39,7 +39,7 @@ const AddEditDocument = (props) => {
         const upload = await documentService.uploadFile(fileURL, file, file.type);
     
         if (upload.ok) {
-          setUploadingStatus("Document Uploaded.");
+          setUploadingStatus(" Uploaded.");
           setUploadedFile(name);
           if(name != undefined && name != EMPTY_STRING && fileURL != undefined && fileURL != EMPTY_STRING) {
             const documentRequest = {

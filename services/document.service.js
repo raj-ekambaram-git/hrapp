@@ -11,12 +11,27 @@ export const documentService = {
     getUploadURL,
     uploadFile,
     createDocument,
+    updateDocument,
     getDocumentsByType
     
 };
 
+function updateDocument(document) {
+
+    return fetchWrapper.put(`${baseUrl}/document/`+document.id, {document}
+    )
+    .then(document => {
+      return document;
+    })
+    .catch(err => {
+      console.log("Error Updating Document::"+err)
+      return {errorMessage: err, error: true};
+  });
+  }
+
+  
 function getDocumentsByType(type, typeId) {
-    return fetchWrapper.get(`${baseUrl}/document/${type}?typeId=`+typeId, {})
+    return fetchWrapper.get(`${baseUrl}/document/type/${type}?typeId=`+typeId, {})
         .then(documents => {
             return documents;
         });

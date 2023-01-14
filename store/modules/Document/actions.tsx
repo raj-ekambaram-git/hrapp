@@ -25,6 +25,12 @@ export const fetchDocumentsByType = (typeId, type) => {
       };
 }
 
+export const removeDocumentByIndex = (documentIndex) => {
+    return {
+        type: ActionTypes.REMOVE_DOCUMENT_BY_INDEX,
+        payload: documentIndex
+    }
+}
 
 
 export const setDocumentType = (documentType) => {

@@ -1,8 +1,8 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
 import { NextApiRequest, NextApiResponse } from "next"
-import { EMPTY_STRING } from "../../../../constants/accountConstants";
-import prisma from "../../../../lib/prisma";
+import { EMPTY_STRING } from "../../../../../constants/accountConstants";
+import prisma from "../../../../../lib/prisma";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method !== 'GET') {
@@ -54,7 +54,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const documents = await prisma.document.findMany({
       where: {
         typeId: parseInt(typeId.toString()),
-        type: DocumentType.Vendor
+        type: DocumentType.Vendor,
+        status: {
+          in: ["Active", "Inactive"]
+        }
       },
       orderBy: {
         id: "desc"

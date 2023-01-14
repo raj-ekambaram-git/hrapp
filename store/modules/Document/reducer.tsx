@@ -4,7 +4,7 @@ import { ActionTypes } from "./constants";
 
 
 const initialState = {
-    documentsByTpe: [],
+    documentsByType: [],
     documentType: {},
 };
 
@@ -13,23 +13,28 @@ const documentReducer = (state = initialState, {type, payload}) => {
     const newState = {...state};
 
     if(type === ActionTypes.SET_DOCUMENTS_BY_TYPE) {
-        const newDocumentsByType = [...newState.documentsByTpe]
+        const newDocumentsByType = [...newState.documentsByType]
         if(Array.isArray(payload)) {
             //Edit Condition
-            newState.documentsByTpe = payload;
+            newState.documentsByType = payload;
         }else {
             //Add New Condtion or udpate
             newDocumentsByType.unshift(payload);
-            newState.documentsByTpe = newDocumentsByType;
+            newState.documentsByType = newDocumentsByType;
         }
         
     } else if(type === ActionTypes.GET_DOCUMENTS_BY_TYPE) {
-        newState.documentsByTpe = payload;
+        newState.documentsByType = payload;
     } else if(type === ActionTypes.SET_DOCUMENT_TYPE) {
         newState.documentType = payload;
-    }
+    } else if(type === ActionTypes.REMOVE_DOCUMENT_BY_INDEX) {
+        const newDocumentsByTypeList = [...newState.documentsByType];
+        newDocumentsByTypeList.splice(payload, 1);
+        newState.documentsByType = newDocumentsByTypeList;
 
-    console.log("notesReducer:::New State:::Before Return:::"+JSON.stringify(newState));
+    } 
+
+    console.log("documentReducer:::New State:::Before Return:::"+JSON.stringify(newState));
     return newState;
 };
 
