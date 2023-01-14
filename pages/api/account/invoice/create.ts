@@ -24,7 +24,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
         //Call the email function to send the eamil with attachnebt
         if(savedInvoice != undefined && savedInvoice != null) {
-          sendInvoiceEmail(savedInvoice)
+          // sendInvoiceEmail(savedInvoice)
+          invoiceService.sendInvoiceEmail(savedInvoice)
         }
         
         res.status(200).json(savedInvoice);
@@ -39,44 +40,4 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     console.log(error)
     res.status(400).json({ message: 'Something went wrong' })
   }
-}
-
-
-async function sendInvoiceEmail(savedInvoice) {
-
-  console.log("savedInvoice:::"+JSON.stringify(savedInvoice))
-  
-  if(savedInvoice.invoiceEmailTo != undefined && savedInvoice.invoiceEmailTo != null && savedInvoice.invoiceEmailTo != EMPTY_STRING) {
-    const sendEmailTo = savedInvoice.invoiceEmailTo;
-    const emailTos = sendEmailTo.map((emailTo) => {
-      return {
-        "email": emailTo
-      }
-    });
-
-    const invoiceBuffer = await invoiceService.generateInvoice(savedInvoice.id, savedInvoice.accountId)
-    const buffer = Buffer.from(invoiceBuffer)
-    const utf8str = buffer.toString('base64')
-
-    emailService.sendEmail({
-      withAttachment: true,
-      from: CommonConstants.fromEmail,
-      to: emailTos,
-      templateData: savedInvoice,
-      template_id: EmailConstants.emailTemplate.invoiceTemplateId,
-      subject: "Invoice: "+savedInvoice.id+" created",
-      attachments: [
-        {
-          content: utf8str,
-          filename: "Invoice_File_"+savedInvoice.id+".pdf",
-          type: "application/pdf",
-          disposition: "attachment"
-        }
-      ]
-    });
-  
-  }else {
-    console.log("NO emials to send")
-  }
-  
 }
