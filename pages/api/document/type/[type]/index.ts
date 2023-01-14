@@ -20,44 +20,42 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     Vendor = "Vendor"
   }
 
+  enum DocumentStatus {
+    Active = "Active",
+    Inactive = "Inactive",
+  }
 
   try {
     const type = req.query?.type;
-    var typeValue = DocumentType.Timesheet;
+    let documentTypeValue = DocumentType.Account;
 
     switch(type) {
-      case DocumentType.Timesheet: 
-        typeValue = DocumentType.Timesheet;
-      break;
-      case DocumentType.TimesheetEntry: 
-      typeValue = DocumentType.TimesheetEntry;
-      break;
-      case DocumentType.Account: 
-        typeValue = DocumentType.Account;
-      break;
-      case DocumentType.Vendor: 
-        typeValue = DocumentType.Vendor;
-      break;
-      case DocumentType.Invoice: 
-        typeValue = DocumentType.Invoice;
-      break;
-      case DocumentType.Project: 
-        typeValue = DocumentType.Project;
-      break;
-      case DocumentType.User: 
-        typeValue = DocumentType.User;
-      break;
+      case DocumentType.Account:
+        documentTypeValue = DocumentType.Account
+        break;
+      case DocumentType.Vendor:
+        documentTypeValue = DocumentType.Vendor
+        break
+      case DocumentType.User:
+        documentTypeValue = DocumentType.User
+        break
+      case DocumentType.Invoice:
+        documentTypeValue = DocumentType.Invoice
+        break
+      case DocumentType.Project:
+        documentTypeValue = DocumentType.Project
+        break
     }
 
     const typeId = req.query?.typeId;
 
-    console.log("TYPE:::"+typeValue+"-----TYPE ID::"+typeId);
+    console.log("TYPE:::"+documentTypeValue+"-----TYPE ID::"+typeId);
     const documents = await prisma.document.findMany({
       where: {
         typeId: parseInt(typeId.toString()),
-        type: "Invoice",
+        type: documentTypeValue,
         status: {
-          in: ["Active", "Inactive"]
+          in: [DocumentStatus.Active, DocumentStatus.Inactive]
         }
       },
       orderBy: {

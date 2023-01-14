@@ -1,7 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
 import { NextApiRequest, NextApiResponse } from "next"
-import { EMPTY_STRING } from "../../../../constants/accountConstants";
 import prisma from "../../../../lib/prisma";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {

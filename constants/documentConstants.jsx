@@ -1,6 +1,6 @@
 export const DocumentConstants = {
     DOCUMENMT_TYPE: {
-        'Timesheet': 'Timesheet',
+        "Timesheet": 'Timesheet',
         'Account': 'Account',
         'Vendor': 'Vendor',
         'Invoice': 'Invoice',
