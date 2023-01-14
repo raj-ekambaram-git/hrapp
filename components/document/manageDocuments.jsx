@@ -46,7 +46,6 @@ const ManageDocuments = (props) => {
 
   async function handleViewDocument(viewURLPath) {
     const responseData = await documentService.viewDocument(viewURLPath);
-    console.log("responseData::"+responseData)
     window.open(responseData);
 
   }

@@ -67,7 +67,6 @@ function getUploadURL(name, type) {
         type: type,
     })
     .then(data => {
-        console.log("DATAA:::"+JSON.stringify(data))
         return data;
     });
 }
@@ -75,7 +74,6 @@ function getUploadURL(name, type) {
 function uploadFile(url, file, type) {
     return fetchWrapper.filePut(url, file, type)
     .then(response => {
-        console.log("response:::UPLOAD FILE::"+JSON.stringify(response))
         return response;
     });
 }

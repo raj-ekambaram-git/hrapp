@@ -21,7 +21,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       }
 
     const viewFile = await s3.getSignedUrlPromise("getObject",fileParams)
-    console.log("viewFile:::"+JSON.stringify(viewFile))
     res.status(200).json(viewFile)
   } catch (err) {
     console.log(err);

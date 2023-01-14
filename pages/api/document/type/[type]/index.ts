@@ -1,6 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
 import { NextApiRequest, NextApiResponse } from "next"
+import { DocumentConstants } from "../../../../../constants";
 import { EMPTY_STRING } from "../../../../../constants/accountConstants";
 import prisma from "../../../../../lib/prisma";
 
@@ -56,7 +57,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         typeId: parseInt(typeId.toString()),
         type: DocumentType.Vendor,
         status: {
-          in: ["Active", "Inactive"]
+          in: [DocumentConstants.DOCUMENT_STATUS.Active, DocumentConstants.DOCUMENT_STATUS.Inactive]
         }
       },
       orderBy: {
