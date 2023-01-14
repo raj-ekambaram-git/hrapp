@@ -7,6 +7,7 @@ import { InvoiceConstants} from '../constants/invoiceConstants';
 import { ErrorMessage} from '../constants/errorMessage';
 import { timesheetService } from './timesheet.service';
 import { util } from '../helpers/util';
+import { emailService } from './email.service';
 
 
 
@@ -21,9 +22,48 @@ export const invoiceService = {
     createInvoiceTransaction,
     generateInvoice,
     updateInvoiceEmailTo,
-    generateInvoiceWithoutDetail
+    generateInvoiceWithoutDetail,
+    sendInvoiceEmail
 
 };
+
+async function sendInvoiceEmail(savedInvoice){
+
+  console.log("savedInvoice:::"+JSON.stringify(savedInvoice))
+  
+  if(savedInvoice.invoiceEmailTo != undefined && savedInvoice.invoiceEmailTo != null && savedInvoice.invoiceEmailTo != EMPTY_STRING) {
+    const sendEmailTo = savedInvoice.invoiceEmailTo;
+    const emailTos = sendEmailTo.map((emailTo) => {
+      return {
+        "email": emailTo
+      }
+    });
+
+    const invoiceBuffer = await generateInvoice(savedInvoice.id, savedInvoice.accountId)
+    const buffer = Buffer.from(invoiceBuffer)
+    const utf8str = buffer.toString('base64')
+
+    emailService.sendEmail({
+      withAttachment: true,
+      from: CommonConstants.fromEmail,
+      to: emailTos,
+      templateData: savedInvoice,
+      template_id: EmailConstants.emailTemplate.invoiceTemplateId,
+      subject: "Invoice: "+savedInvoice.id+" created",
+      attachments: [
+        {
+          content: utf8str,
+          filename: "Invoice_File_"+savedInvoice.id+".pdf",
+          type: "application/pdf",
+          disposition: "attachment"
+        }
+      ]
+    });
+  
+  }else {
+    console.log("NO emials to send")
+  }
+}
 
 
 function generateInvoiceWithoutDetail(invoiceId) {

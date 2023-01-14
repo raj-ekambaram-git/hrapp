@@ -40,6 +40,7 @@ import { DocumentConstants, NotesConstants } from "../../constants";
 import { util } from "../../helpers/util";
 import { setDocumentType } from "../../store/modules/Document/actions";
 import ManageDocuments from "../document/manageDocuments";
+import InvoiceDetailActions from "../invoice/invoiceDetailActions";
 
 
 
@@ -135,19 +136,6 @@ const InvoiceAddEdit = (props) => {
     setValue("accountId",userService.getAccountDetails().accountId);
 
 }  
-
-  async function handleDownloadInvoice() {
-    const invoiceBuffer = await invoiceService.generateInvoice(invoiceId, userService.getAccountDetails().accountId)
-    if(!invoiceBuffer.error) {
-      const blob = new Blob([invoiceBuffer]);
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = 'invoice_'+invoiceId+'.pdf';
-      link.click();
-  
-    }
-    
-  }
   /**
    * Function to get the list of accounts for a drop down
    */
@@ -415,28 +403,7 @@ const InvoiceAddEdit = (props) => {
           ) : (
             <div>{isVendor? (<PageMainHeader heading="Update Vendor Invoice" notesData={notesData}/>): (<PageMainHeader heading="Update Account Invoice" notesData={notesData}/>)}</div>
           )}    
-          {(!isAddMode && (status !== InvoiceConstants.INVOICE_STATUS.Draft && status !== EMPTY_STRING)) ? (
-            <>
-            <Flex marginBottom="1rem" borderRadius="lg" alignSelf="center">
-                <HStack>
-                  <InvoiceTransactions invoiceId={invoiceId}/>
-                  <ManageDocuments/>
-                  {(!isAddMode && (status !== EMPTY_STRING && (status !== InvoiceConstants.INVOICE_STATUS.Submitted || status !== InvoiceConstants.INVOICE_STATUS.Paid || status !== InvoiceConstants.INVOICE_STATUS.PartiallyPaid))) ? (
-                    <Box>
-                      <Button size="xs" bgColor="header_actions"
-                          onClick={() => handleDownloadInvoice()}
-                          >{`Download Invoice`}
-                        </Button>          
-                      </Box>
-                    ) : (
-                      <></>
-                    )}
-                </HStack>
-            </Flex>   
-            </>
-          ) : (
-            <></>
-          )}          
+          <InvoiceDetailActions data={{isAddMode: isAddMode, status: status, invoiceId: invoiceId}}/>
           <Flex>
           <Box width="page.sub_heading_width">
           <form onSubmit={handleSubmit(onSubmit)}>
