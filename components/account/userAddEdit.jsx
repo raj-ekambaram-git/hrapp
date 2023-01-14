@@ -310,7 +310,7 @@ const UserAddEdit = (props) => {
             <div>{isVendor? (<PageMainHeader heading="Update Vendor User" notesData={notesData}/>): (<PageMainHeader heading="Update Account User" notesData={notesData}/>)}</div>
           )}              
 
-          {userService.isAccountAdmin() ? (
+          {(userService.isAccountAdmin() || userService.isSuperAdmin) ? (
             <>
               {!isAddMode? (
                 <>
