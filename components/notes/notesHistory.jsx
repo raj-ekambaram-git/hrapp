@@ -46,9 +46,7 @@ import NoteFooter from './noteFooter';
       }, []);
 
     async function getNotesHistory() {
-        console.log("Dsddss")
         const notesHistoryResponse = await notesService.getNotesHistory(notesType?.type, notesType?.typeId);
-        console.log("notesHistoryResponse:::"+JSON.stringify(notesHistoryResponse));
         dispatch(setNotesByType(notesHistoryResponse))
     }
     const handleClick = (newSize) => {

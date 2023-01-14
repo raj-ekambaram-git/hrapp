@@ -23,7 +23,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   try {
     const type = req.query?.type;
-    let typeValue = DocumentType.Timesheet;
+    var typeValue = DocumentType.Timesheet;
 
     switch(type) {
       case DocumentType.Timesheet: 
@@ -55,9 +55,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const documents = await prisma.document.findMany({
       where: {
         typeId: parseInt(typeId.toString()),
-        type: DocumentType.Vendor,
+        type: "Vendor",
         status: {
-          in: [DocumentConstants.DOCUMENT_STATUS.Active, DocumentConstants.DOCUMENT_STATUS.Inactive]
+          in: ["Active", "Inactive"]
         }
       },
       orderBy: {
