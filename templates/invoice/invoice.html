@@ -235,8 +235,11 @@
           <td>
             {{user.firstName}} {{user.lastName}} -- {{type}}
           </td>
-          <td>
-            {{type}}: {{{dateFormat fromDate}}} - {{{dateFormat toDate}}}
+          <td align="left">
+            {{type}} 
+            {{#if fromDate}}
+              {{{dateFormat fromDate}}} - {{{dateFormat toDate}}}
+            {{/if}}
           </td>
           <td>
             {{quantity}}

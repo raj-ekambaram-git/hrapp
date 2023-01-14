@@ -1,6 +1,6 @@
 export const EmailConstants = {
     emailTemplate: {
-        invoiceTemplateId: "d-36f8cd62eff5426ea258e68aa8dd842e",
+        invoiceTemplateId: "d-cc04ccbd2fc64f5db597a7c973a191f1",
         resetPasswordTemplateId: "d-fe0e6d3b03a846fd957bb052a2d343e3",
     }
 }
