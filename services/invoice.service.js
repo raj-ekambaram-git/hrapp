@@ -62,7 +62,7 @@ async function sendInvoiceEmail(invoiceId, accountId){
               }
             ]
           });
-          return {message: "Successfully sent email to: "+emailTos, error: false};
+          return {message: "Successfully sent email to: "+JSON.stringify(sendEmailTo), error: false};
         } else {
           console.log("NO emials to send")
           return {errorMessage: "Error Sending invoice email.", error: true};
