@@ -67,7 +67,6 @@ const InvoiceDetailActions = (props) => {
             <Flex marginBottom="1rem" borderRadius="lg" alignSelf="center">
                 <HStack>
                   <InvoiceTransactions invoiceId={invoiceId}/>
-                  <ManageDocuments/>
                   {(!isAddMode && (status !== EMPTY_STRING && (status !== InvoiceConstants.INVOICE_STATUS.Submitted || status !== InvoiceConstants.INVOICE_STATUS.Paid || status !== InvoiceConstants.INVOICE_STATUS.PartiallyPaid))) ? (
                     <>
                       <Box>
@@ -86,6 +85,7 @@ const InvoiceDetailActions = (props) => {
                     ) : (
                       <></>
                     )}
+                    <ManageDocuments/>
                 </HStack>
             </Flex>   
             </>
