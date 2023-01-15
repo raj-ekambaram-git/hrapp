@@ -3,7 +3,8 @@ import {
   Box,
   Flex,
   HStack,
-  Button
+  Button,
+  useToast
 } from '@chakra-ui/react';
 import { invoiceService, userService } from "../../services";
 import { EMPTY_STRING, InvoiceConstants } from "../../constants";
@@ -14,6 +15,7 @@ import ManageDocuments from "../document/manageDocuments";
 
 
 const InvoiceDetailActions = (props) => {
+    const toast = useToast();
     const isAddMode = props.data.isAddMode;
     const status = props.data.status;
     const invoiceId = props.data.invoiceId;
@@ -33,7 +35,28 @@ const InvoiceDetailActions = (props) => {
 
   async function handleSendInvoiceEmail() {
     
+    const responseData = await invoiceService.sendInvoiceEmail(invoiceId, userService.getAccountDetails().accountId);
+    if(responseData.error) {
+      toast({
+        title: 'Invoice Email.',
+        description: 'Error sending invoice email.',
+        status: 'error',
+        position: 'top',
+        duration: 6000,
+        isClosable: true,
+      })
+    }else {
+      toast({
+        title: 'Invoice Email.',
+        description: responseData.message,
+        status: 'success',
+        position: 'top',
+        duration: 6000,
+        isClosable: true,
+      })
+    }
   }
+  
   
 
   return (

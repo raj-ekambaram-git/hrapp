@@ -24,7 +24,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         //Call the email function to send the eamil with attachnebt
         if(savedInvoice != undefined && savedInvoice != null) {
           // sendInvoiceEmail(savedInvoice)
-          invoiceService.sendInvoiceEmail(savedInvoice)
+          const responseData = invoiceService.sendInvoiceEmail(savedInvoice.id, savedInvoice.accountId)
+          // if(responseData.error) {
+
+          // }
         }
         
         res.status(200).json(savedInvoice);

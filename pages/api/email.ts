@@ -12,7 +12,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Method not allowed' });
   }
-
+console.log("EMAIL SERVER  SIDE API CALL")
   try {
     const {emailRequest} = req.body;
       if(emailRequest && !emailRequest.withAttachment) {

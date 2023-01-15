@@ -29,42 +29,54 @@ export const invoiceService = {
 
 };
 
-async function sendInvoiceEmail(savedInvoice){
+async function sendInvoiceEmail(invoiceId, accountId){
 
-  console.log("savedInvoice:::"+JSON.stringify(savedInvoice))
-  
-  if(savedInvoice.invoiceEmailTo != undefined && savedInvoice.invoiceEmailTo != null && savedInvoice.invoiceEmailTo != EMPTY_STRING) {
-    const sendEmailTo = savedInvoice.invoiceEmailTo;
-    const emailTos = sendEmailTo.map((emailTo) => {
-      return {
-        "email": emailTo
-      }
-    });
-
-    const invoiceBuffer = await generateInvoice(savedInvoice.id, savedInvoice.accountId)
-    const buffer = Buffer.from(invoiceBuffer)
-    const utf8str = buffer.toString('base64')
-
-    emailService.sendEmail({
-      withAttachment: true,
-      from: CommonConstants.fromEmail,
-      to: emailTos,
-      templateData: savedInvoice,
-      template_id: EmailConstants.emailTemplate.invoiceTemplateId,
-      subject: "Invoice: "+savedInvoice.id+" created",
-      attachments: [
-        {
-          content: utf8str,
-          filename: "Invoice_File_"+savedInvoice.id+".pdf",
-          type: "application/pdf",
-          disposition: "attachment"
+    return fetchWrapper.get(`${baseUrl}/account/invoice/`+invoiceId+'/generate/detail?accountId='+accountId, {}
+    )
+    .then(async generateInvoiceDetail => {
+      if(generateInvoiceDetail.invoiceEmailTo != undefined && generateInvoiceDetail.invoiceEmailTo != null && generateInvoiceDetail.invoiceEmailTo != EMPTY_STRING) {
+          const sendEmailTo = generateInvoiceDetail.invoiceEmailTo;
+          const emailTos = sendEmailTo.map((emailTo) => {
+            return {
+              "email": emailTo
+            }
+          });
+      
+          const invoiceBuffer = await generateInvoice(generateInvoiceDetail.id, generateInvoiceDetail.accountId)
+          const buffer = Buffer.from(invoiceBuffer)
+          const utf8str = buffer.toString('base64')
+      
+          emailService.sendEmail({
+            withAttachment: true,
+            from: CommonConstants.fromEmail,
+            to: emailTos,
+            templateData: generateInvoiceDetail,
+            template_id: EmailConstants.emailTemplate.invoiceTemplateId,
+            subject: "Invoice: "+generateInvoiceDetail.id+" created",
+            attachments: [
+              {
+                content: utf8str,
+                filename: "Invoice_File_"+generateInvoiceDetail.id+".pdf",
+                type: "application/pdf",
+                disposition: "attachment"
+              }
+            ]
+          });
+          return {message: "Successfully sent email to: "+emailTos, error: false};
+        } else {
+          console.log("NO emials to send")
+          return {errorMessage: "Error Sending invoice email.", error: true};
         }
-      ]
+
+    })
+    .catch(err => {
+      console.log("Error generateInvoice::"+err)
+      return {errorMessage: err, error: true};
     });
   
-  }else {
-    console.log("NO emials to send")
-  }
+
+  
+
 }
 
 
@@ -99,19 +111,7 @@ function generateInvoice(invoiceId, accountId) {
   return fetchWrapper.get(`${baseUrl}/account/invoice/`+invoiceId+'/generate/detail?accountId='+accountId, {}
   )
   .then(async generateInvoiceDetail => {
-    console.log("generateInvoiceDetail::"+JSON.stringify(generateInvoiceDetail))
-    const authHeader = JSON.stringify(fetchWrapper.authHeader(`${baseUrl}/account/invoice/${invoiceId}/generate`));
-    const data = await fetch(`${baseUrl}/account/invoice/${invoiceId}/generate`, {
-      method: 'POST',
-      body: JSON.stringify(generateInvoiceDetail),
-      headers: { 'Content-Type': 'application/json', 'Authorization': authHeader},
-    });
-    // convert the response into an array Buffer
-    if(data.arrayBuffer) {
-      return data.arrayBuffer();
-    }else {
-      return {errorMessage: "Error generateInvoice", error: true};
-    }
+    return callGenerateInvoiceAPI(generateInvoiceDetail, invoiceId)
   })
   .catch(err => {
     console.log("Error generateInvoice::"+err)
@@ -121,23 +121,20 @@ function generateInvoice(invoiceId, accountId) {
 }
 
 function createInvoiceTransaction(formData, accountId) {
-  console.log("Before calling the ccreateInvoiceTransaction....."+JSON.stringify(formData))
+  
   //Before Creating, make sure that invoiceTotal is greater than the paid amount and there is room to pay
   return fetchWrapper.get(`${baseUrl}/account/invoice/${formData.invoiceId}/detail?accountId=`+accountId, {})
   .then(async invoice => {
     console.log((formData.status == InvoiceConstants.INVOICE_TRANSSACTION__STATUS.Refund 
       || formData.status == InvoiceConstants.INVOICE_TRANSSACTION__STATUS.Cancelled))
-    console.log("Inside the createInvoice Transaction fetchin invoice::"+(
-      (formData.status == InvoiceConstants.INVOICE_TRANSSACTION__STATUS.Refund 
-      || formData.status == InvoiceConstants.INVOICE_TRANSSACTION__STATUS.Cancelled)
-    && (util.getZeroPriceForNull(formData.amount)<util.getZeroPriceForNull(invoice.paidAmount))))
-    //Check if invoie is valid
+
+      //Check if invoie is valid
     if(((formData.status == InvoiceConstants.INVOICE_TRANSSACTION__STATUS.Paid || formData.status == InvoiceConstants.INVOICE_TRANSSACTION__STATUS.PartiallyPaid || formData.status == InvoiceConstants.INVOICE_TRANSSACTION__STATUS.Pending) && 
       util.getZeroPriceForNull(invoice.total) >= (util.getZeroPriceForNull(invoice.paidAmount)+util.getZeroPriceForNull(formData.amount)))
       || ((formData.status == InvoiceConstants.INVOICE_TRANSSACTION__STATUS.Refund 
             || formData.status == InvoiceConstants.INVOICE_TRANSSACTION__STATUS.Cancelled)
           && (util.getZeroPriceForNull(formData.amount)<= (util.getZeroPriceForNull(invoice.paidAmount)- util.getZeroPriceForNull(formData.amount))))) {
-      console.log("Inside more payment needed condition, so creating the transaction")
+
       return fetchWrapper.post(`${baseUrl}/account/invoice/`+formData.invoiceId+`/transaction/create`, {
         amount: formData.amount,
         transactionData: formData.transactionData,
@@ -346,4 +343,20 @@ async function updateTotalPaidAmount(invoiceTransaction, invoice) {
     console.log("Error Updating Invoice::"+err)
     return {errorMessage: err, error: true};
   });
+}
+
+async function callGenerateInvoiceAPI(generateInvoiceDetail, invoiceId) {
+  console.log("generateInvoiceDetail::"+JSON.stringify(generateInvoiceDetail))
+  const authHeader = JSON.stringify(fetchWrapper.authHeader(`${baseUrl}/account/invoice/${invoiceId}/generate`));
+  const data = await fetch(`${baseUrl}/account/invoice/${invoiceId}/generate`, {
+    method: 'POST',
+    body: JSON.stringify(generateInvoiceDetail),
+    headers: { 'Content-Type': 'application/json', 'Authorization': authHeader},
+  });
+  // convert the response into an array Buffer
+  if(data.arrayBuffer) {
+    return data.arrayBuffer();
+  }else {
+    return {errorMessage: "Error generateInvoice", error: true};
+  }
 }
