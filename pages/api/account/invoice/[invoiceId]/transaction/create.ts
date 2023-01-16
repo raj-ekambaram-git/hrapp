@@ -1,5 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
+import { InvoiceStatus } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next"
 import { InvoiceConstants } from "../../../../../../constants";
 import { util } from "../../../../../../helpers/util";
@@ -38,13 +39,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       }else if (invoiceTransaction.status === InvoiceConstants.INVOICE_TRANSSACTION__STATUS.Paid) {
         finalPaidAmount = util.getZeroPriceForNull(invoiceTransaction.amount)+util.getZeroPriceForNull(savedInvoiceTransaction?.invoice?.paidAmount)
       }
+
+
     
-      let updatedStatus = savedInvoiceTransaction?.invoice?.status?.toString();
+      let updatedStatus = savedInvoiceTransaction?.invoice?.status;
       let invoiceTotal = savedInvoiceTransaction?.invoice?.total;
       if( util.getZeroPriceForNull(invoiceTotal) == finalPaidAmount) {
-        updatedStatus = InvoiceConstants.INVOICE_STATUS.Paid;
+        updatedStatus = InvoiceStatus.Paid;
       } else if(finalPaidAmount > 0) {
-        updatedStatus = InvoiceConstants.INVOICE_STATUS.PartiallyPaid;
+        updatedStatus = InvoiceStatus.PartiallyPaid;
       }
   
       const savedInvoice = await prisma.invoice.update({
@@ -53,7 +56,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         },
         data: {
           paidAmount: finalPaidAmount,
-          status: "PartiallyPaid",
+          status: updatedStatus,
         }
       });
     }
