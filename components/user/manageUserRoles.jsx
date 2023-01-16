@@ -94,7 +94,7 @@ const ManageUserRoles = ({selectedUserRoles, onChange = (e) => {}}) => {
                     </PopoverBody>
                     <PopoverFooter display='flex' justifyContent='flex-end'>
                         <ButtonGroup size='sm'>
-                            <Button variant='outline'  onClick={onClose} >Cancel</Button>
+                            <Button colorScheme='red' onClick={onClose} >Cancel</Button>
                         </ButtonGroup>
                     </PopoverFooter>
                     </PopoverContent>

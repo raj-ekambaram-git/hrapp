@@ -6,6 +6,8 @@ const { definePartsStyle, defineMultiStyleConfig } =
 
 const baseStyle = definePartsStyle({
   popper: {
+    border: ".25px",
+    borderRadius: "10px"
   },
   content:{
     width: "500px",
@@ -23,8 +25,6 @@ const baseStyle = definePartsStyle({
   },
   footer: {
     bgColor: '#EDF2F7',
-    button: {
-    }
   },
 })
 
