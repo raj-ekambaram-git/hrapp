@@ -2,14 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 
 import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { timesheetService, userService } from "../../services";
-import {MODE_ADD, TIMESHEET_VALIDATION_SCHEMA} from "../../constants/accountConstants";
+import {MODE_ADD} from "../../constants/accountConstants";
 import { PageNotAuthorized } from "../../components/common/pageNotAuthorized";
 import {
   Box,
-  Flex,
-  Heading,
   useToast
 } from '@chakra-ui/react'
 import WeeklyTimesheetEntry from "./weeklyTimesheetEntry";

@@ -19,15 +19,12 @@ import {
     Badge
   } from '@chakra-ui/react';
 import TimesheetDateHeader from "./timesheetDateHeader";
-import NotesHistory from "../../components/notes/notesHistory";
 import {
      DeleteIcon,ArrowBackIcon,ArrowForwardIcon
   } from '@chakra-ui/icons';  
 import { useDispatch } from "react-redux";
-import {setTSEntries} from '../../store/modules/Timesheet/actions';
+import {setSelectedTimesheetId, setTSEntries} from '../../store/modules/Timesheet/actions';
 import { util } from "../../helpers/util";
-import { GiConsoleController } from "react-icons/gi";
-import { NotesConstants } from "../../constants";
 
 
   
@@ -233,7 +230,8 @@ const WeeklyTimesheetEntry = (props) => {
         const timesheets = await timesheetService.getTimesheetByName(timesheetMetaData.weekOfYearISO, userService.userValue.id);
         if(timesheets != undefined && timesheets.length > 0) {
             console.log("Timesheets already exists, so go  to that time sheet id ");
-            router.push({ pathname: '/timesheet/'+timesheets[0].id, query: { }});
+            dispatch(setSelectedTimesheetId(timesheets[0]?.id))
+            router.push({ pathname: '/timesheet/', query: { }});
         }else {
             console.log("Timesheet not present, so go to add new time sheet with the start date passed");
             // router.push({ pathname: '/timesheet/add', query: { manager: false, tsStartDate: timesheetMetaData.dateDimId }});
