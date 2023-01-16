@@ -55,7 +55,6 @@ const WeeklyTimesheetEntry = (props) => {
           // getProjectForUser(userService.getAccountDetails().accountId);
           getProjectForUser(userId);
         }
-        console.log("props.data.isAddMode:::"+JSON.stringify(props.data.isAddMode))
         setAddMode(props.data.isAddMode);
         getTimesheetDetailsAPICall();
     
@@ -99,7 +98,6 @@ const WeeklyTimesheetEntry = (props) => {
       }      
 
     async function getProjectForUser(userId) {
-        console.log("TimeSheet ADD EDIT ::"+JSON.stringify(userId));
         const projectsForUserResponse = await userService.getProjectsByUser(userId, userService.getAccountDetails().accountId);    
         setUserProjectList(projectsForUserResponse);
     }
@@ -107,10 +105,7 @@ const WeeklyTimesheetEntry = (props) => {
 
 
     function addTimesheeEntry(timesheetEntryCountLength) {
-        console.log("addTimesheeEntry::::"+timesheetEntryCountLength);
-
         const inputData = [...timesheetEntries];
-        console.log("ISADDMODE:::"+isAddMode);
         inputData.push({projectId: "", status: "", entries: {day1: {hours: "", error: false, date: "", note: ""}, day2: {hours: "", error: false, date: "", note: ""},day3: {hours: "", error: false, date: "", note: ""},day4: {hours: "", error: false, date: "", note: ""},day5: {hours: "", error: false, date: "", note: ""},day6: {hours: "", error: false, date: "", note: ""},day7: {hours: "", error: false, date: "", note: ""}}});
         setTimesheetEntries(inputData);
 
@@ -141,18 +136,14 @@ const WeeklyTimesheetEntry = (props) => {
 
     function setTimesheetEntry(index, ev, dayNumber) {
         const inputValue = ev.target.value;
-        console.log("setDayHours:::"+index+"----"+ev.target.value+"--dayNumber:::"+dayNumber)
-        
         const inputData = [...timesheetEntries];
         let timeEntryRecord;
-        console.log("inputData.length::"+inputData.length)
         //Condition when new record is updated for first time
         if(inputData.length === 0 || inputData.length <= index) {
             timeEntryRecord = TIMESHEET_ENTRY_DEFAULT;
             inputData.push(timeEntryRecord);
         } else { //Trying to update thhe record already created
             timeEntryRecord = inputData[index];
-            console.log("existingTimesheetRecord::"+JSON.stringify(timeEntryRecord));
         }
 
         if(dayNumber != "projectId" && timeEntryRecord.projectId === EMPTY_STRING) {
@@ -168,7 +159,6 @@ const WeeklyTimesheetEntry = (props) => {
         const dayN = "day"+dayNumber;
         // if(dayNumber != "projectId" && (inputValue > 24 || enteredTotalHoursPerDay(dayNumber)+parseInt(inputValue) > 24)) {
         if(dayNumber != "projectId" && (inputValue > 24)) {            
-            console.log("Hour Error happened...")
             timeEntryRecord.entries[dayN].error = true;
         }else if (dayNumber != "projectId"){
             timeEntryRecord.entries[dayN].error = false;
@@ -205,12 +195,8 @@ const WeeklyTimesheetEntry = (props) => {
                 break;
         }
 
-        console.log("timesheetEntries UPDATED:::inputData::"+JSON.stringify(inputData));
-
         setTimesheetEntries(inputData);
-        console.log("timesheetEntries BEFOREE:::inputData::"+JSON.stringify(inputData));
         dispatch(setTSEntries(inputData));
-        //props.data.handleTimeSheetEntries(inputData);
     }
 
     function enteredTotalHoursPerDay(dayNumber) {
@@ -223,37 +209,28 @@ const WeeklyTimesheetEntry = (props) => {
                 timesheetTotalEntryHour = timesheetTotalEntryHour+parseInt(timesheetEntries[i].entries[dayN].hours);
             }
         }
-        console.log("timesheetTotalEntryHour:::"+timesheetTotalEntryHour);
-        return timesheetTotalEntryHour;
+      return timesheetTotalEntryHour;
     }
 
     async function changeTimesheet(moveBefore, weekStartDate ) {
-        console.log("moveBefore:::"+moveBefore+"-----weekStartDate:::"+weekStartDate);
         //Call calendar by bassing the timesheet name
         const timesheetMetaData = await timesheetService.getTimesheetMetaForDate(weekStartDate);
-        console.log("changeTimesheet::::Week Meta Dat::"+JSON.stringify(timesheetMetaData));
 
         //Call timesheet and see if that week timesheet name is present
         const timesheets = await timesheetService.getTimesheetByName(timesheetMetaData.weekOfYearISO, userService.userValue.id);
         if(timesheets != undefined && timesheets.length > 0) {
-            console.log("Timesheets already exists, so go  to that time sheet id ");
             dispatch(setSelectedTimesheetId(timesheets[0]?.id))
             router.push({ pathname: '/timesheet/', query: { }});
         }else {
             dispatch(setnewTSWeekStartDimId(timesheetMetaData.dateDimId ))
-            console.log("Timesheet not present, so go to add new time sheet with the start date passed");
             router.push({ pathname: '/timesheet/add', query: {}});
         }
     }
 
 
     function deleteTimesheetEntry(removeIndex) {
-        console.log("deleteTimesheetEntry:::"+removeIndex+"========")
         const inputEntriesData = [...timesheetEntries];
-        console.log("inputEntriesData:::BEFORE:::"+JSON.stringify(inputEntriesData))
         inputEntriesData.splice(removeIndex, 1);
-
-        console.log("inputEntriesData:::"+JSON.stringify(inputEntriesData));
         setTimesheetEntries(inputEntriesData);
     }
     
