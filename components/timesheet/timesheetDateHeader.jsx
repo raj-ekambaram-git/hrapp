@@ -74,7 +74,6 @@ const TimesheetDateHeader = (props) => {
                                 </>
                             ) : (
                                 <>
-                                fsgsg
                                 </>
                             )}
                                    
