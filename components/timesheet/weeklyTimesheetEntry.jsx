@@ -17,7 +17,7 @@ import {
     Grid,
     GridItem,
     Badge,
-    Spacer
+    useToast
   } from '@chakra-ui/react';
 import TimesheetDateHeader from "./timesheetDateHeader";
 import {
@@ -26,12 +26,14 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import {setnewTSWeekStartDimId, setSelectedTimesheetId, setTSEntries} from '../../store/modules/Timesheet/actions';
 import { util } from "../../helpers/util";
+import { ErrorMessage } from "../../constants/errorMessage";
 
 
   
 const WeeklyTimesheetEntry = (props) => {
     const router = useRouter();
     const dispatch = useDispatch();
+    const toast = useToast();
 
     const [isAddMode, setAddMode] = useState(true);
     const [timesheetEntries, setTimesheetEntries] = useState([{projectId: "", status: "", entries: {day1: {hours: "", error: false, date: "", note: ""}, day2: {hours: "", error: false, date: "", note: ""},day3: {hours: "", error: false, date: "", note: ""},day4: {hours: "", error: false, date: "", note: ""},day5: {hours: "", error: false, date: "", note: ""},day6: {hours: "", error: false, date: "", note: ""},day7: {hours: "", error: false,date: "", note: ""}}}]);
@@ -60,7 +62,6 @@ const WeeklyTimesheetEntry = (props) => {
       }, []);
 
       async function getTimesheetDetailsAPICall() {
-        console.log("getTimesheetDetailsAPICall::"+props.data.isAddMode);
         // Call only if the user is SUPER_ADMIN and accountId as zero
         if((userService.isAccountAdmin() || userService.isSuperAdmin() || userService.isTimesheetEntryUser() || userService.isManager()) 
               && (props && props.data && !props.data.isAddMode)) { // This is for EDIT 
@@ -137,6 +138,7 @@ const WeeklyTimesheetEntry = (props) => {
         const inputValue = ev.target.value;
         const inputData = [...timesheetEntries];
         let timeEntryRecord;
+
         //Condition when new record is updated for first time
         if(inputData.length === 0 || inputData.length <= index) {
             timeEntryRecord = TIMESHEET_ENTRY_DEFAULT;
@@ -156,9 +158,16 @@ const WeeklyTimesheetEntry = (props) => {
         }
         //Validate the value entered to be 24hrs max and sum of all the rows for that day is 24hrs too
         const dayN = "day"+dayNumber;
-        // if(dayNumber != "projectId" && (inputValue > 24 || enteredTotalHoursPerDay(dayNumber)+parseInt(inputValue) > 24)) {
-        if(dayNumber != "projectId" && (inputValue > 24)) {            
+        if(dayNumber != "projectId" && (inputValue > 24 || enteredTotalHoursPerDay(dayNumber, index)+parseInt(inputValue) > 24)) {            
             timeEntryRecord.entries[dayN].error = true;
+            toast({
+                title: 'Timesheet Entry Error.',
+                description: ErrorMessage.TIMESHEET_HOURS_ENTRY_ERROR,
+                status: 'error',
+                position: 'top',
+                duration: 6000,
+                isClosable: true,
+              })
         }else if (dayNumber != "projectId"){
             timeEntryRecord.entries[dayN].error = false;
         }
@@ -194,17 +203,18 @@ const WeeklyTimesheetEntry = (props) => {
                 break;
         }
 
+
         setTimesheetEntries(inputData);
         dispatch(setTSEntries(inputData));
     }
 
-    function enteredTotalHoursPerDay(dayNumber) {
+    function enteredTotalHoursPerDay(dayNumber, index) {
         let timesheetTotalEntryHour = 0;
         console.log("timesheetTotalEntryHour IIIII:::"+JSON.stringify(timesheetEntries));
         const dayN = "day"+dayNumber;
         for (let i = 0; i < timesheetEntries.length; i++) {
             console.log("enteredTotalHoursPerDay[i]:::"+dayNumber+"-----"+JSON.stringify(timesheetEntries[i].entries[dayN].hours));
-            if(timesheetEntries[i].entries[dayN].hours !== EMPTY_STRING) {
+            if(timesheetEntries[i].entries[dayN].hours !== EMPTY_STRING && index != i) {
                 timesheetTotalEntryHour = timesheetTotalEntryHour+parseInt(timesheetEntries[i].entries[dayN].hours);
             }
         }
