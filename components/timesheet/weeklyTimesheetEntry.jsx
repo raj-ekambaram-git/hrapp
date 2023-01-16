@@ -78,12 +78,11 @@ const WeeklyTimesheetEntry = (props) => {
         && (props && props.data && props.data.isAddMode)) { // This is for ADD
 
             //Only if its today is the new timesheet, if the date is passed then out this under condition
-            const timesheetDate = new Date();
-            const timesheetDateStr = timesheetDate.getFullYear()+(String(timesheetDate.getMonth()+1).padStart(2, "0"))+String(timesheetDate.getDate()).padStart(2, "0");
+            let timesheetDate = new Date();
             if(newTSWeekStartDimId != undefined) {
-
+                timesheetDate = new Date(newTSWeekStartDimId.toString().substring(4,6)+"/"+newTSWeekStartDimId.toString().substring(6,8)+"/"+newTSWeekStartDimId.toString().substring(0,4));
             }
-            
+            const timesheetDateStr = timesheetDate.getFullYear()+(String(timesheetDate.getMonth()+1).padStart(2, "0"))+String(timesheetDate.getDate()).padStart(2, "0");
             setNextWeekStart(util.getNextWeekStartDateString(timesheetDate.getTime()));
             setPreviousWeekStart(util.getPrevioustWeekStartDateString(timesheetDate.getTime()));
 
@@ -240,8 +239,6 @@ const WeeklyTimesheetEntry = (props) => {
             console.log("Timesheet not present, so go to add new time sheet with the start date passed");
             router.push({ pathname: '/timesheet/add', query: {}});
         }
-        // If it is not present, then pass that week name to the add URL
-        // router.push({ pathname: '/timesheet/add', query: { manager: false, tsStartDate: "" }});
     }
 
 
