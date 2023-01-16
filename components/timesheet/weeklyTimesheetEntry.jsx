@@ -231,6 +231,7 @@ const WeeklyTimesheetEntry = (props) => {
         const inputEntriesData = [...timesheetEntries];
         inputEntriesData.splice(removeIndex, 1);
         setTimesheetEntries(inputEntriesData);
+        dispatch(setTSEntries(inputEntriesData))
     }
     
 

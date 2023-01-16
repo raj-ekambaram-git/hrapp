@@ -20,7 +20,17 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           },
       },
         include: {
-          timesheetEntries: true
+          timesheetEntries: {
+            select: {
+              id: true,
+              projectId: true,
+              status: true,
+              approvedBy: true,
+              approvedDate: true,
+              entries: true,
+              unitPrice: true
+            }
+          }
         }
       })
       
