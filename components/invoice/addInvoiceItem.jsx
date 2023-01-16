@@ -101,7 +101,7 @@ const AddInvoiceItem = (props) => {
       const addedInvoiceItem = {
         userId: parseInt(userId),
         generalNote: generalNote,
-        type: "Staffing",
+        type: projectType,
         status: "Draft",
         unitPrice: unitPrice,
         quantity: parseInt(quantity),

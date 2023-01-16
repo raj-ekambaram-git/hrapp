@@ -59,7 +59,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           project: {
             select: {
               id: true,
-              name: true
+              name: true,
+              type: true
             }
           }
         }
@@ -84,7 +85,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           project: {
             select: {
               id: true,
-              name: true
+              name: true,
+              type: true
             }
           }      
         }
