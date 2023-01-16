@@ -47,7 +47,6 @@ const ManageUserRoles = ({selectedUserRoles, onChange = (e) => {}}) => {
                     onClose={onClose}
                     placement='bottom-start'
                     closeOnBlur={false}
-                    borde
                 >
                     <PopoverTrigger>
                         <Button
