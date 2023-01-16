@@ -26,6 +26,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         include: {
           invoiceItems: {
             select: {
+              id: true,
               description: true,
               type: true,
               unitPrice: true,

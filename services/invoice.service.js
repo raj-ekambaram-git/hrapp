@@ -146,9 +146,6 @@ function createInvoiceTransaction(formData, accountId) {
       .then(async invoiceTransaction => {
         //If the invoiceTransaction is successfuly created, then do the math and update the paid amount
         console.log("Succesfully Created the transacton:::"+JSON.stringify(invoiceTransaction));
-        //Call to updat only if the status is NOT pending
-        if(invoiceTransaction.status !== InvoiceConstants.INVOICE_TRANSSACTION__STATUS.Pending)
-          updateTotalPaidAmount(invoiceTransaction, invoice);
         return invoiceTransaction;
       })        
       .catch(err => {
@@ -224,19 +221,19 @@ function updateInvoice(formData, invoiceId, invoiceDate, dueDte, invoiceItemList
   }
 
   return fetchWrapper.put(`${baseUrl}/account/invoice/`+invoiceId, {
-        id: parseInt(invoiceId),
-        description: formData.description,
-        type: formData.type,
-        accountId: parseInt(formData.accountId),
-        invoiceDate: new Date(invoiceDate),
-        dueDte: new Date(dueDte),
-        total: invoiceTotal,
-        status: formData.status,
-        paymentTerms: formData.paymentTerms,  
-        invoiceItems: {
-          create: invoiceItemList
+        invoiceData: {
+          id: parseInt(invoiceId),
+          description: formData.description,
+          type: formData.type,
+          accountId: parseInt(formData.accountId),
+          invoiceDate: new Date(invoiceDate),
+          dueDte: new Date(dueDte),
+          total: invoiceTotal,
+          status: formData.status,
+          paymentTerms: formData.paymentTerms,  
+          invoiceEmailTo: invoiceEmailTos
         },
-        invoiceEmailTo: invoiceEmailTos
+        invoiceItems: invoiceItemList
       }
   )
   .then(invoice => {
@@ -310,41 +307,6 @@ async function updateTSEntriesAsInvoiced(invoice, invoiceItemList) {
     }
 }
   
-
-async function updateTotalPaidAmount(invoiceTransaction, invoice) {
-  console.log("updateTotalPaidAmount::invoiceTransaction::"+JSON.stringify(invoiceTransaction)+"*****INVOICE:::"+JSON.stringify(invoice));
-
-  let finalPaidAmount = 0;
-  if(invoiceTransaction.status === InvoiceConstants.INVOICE_TRANSSACTION__STATUS.Refund
-    || invoiceTransaction.status === InvoiceConstants.INVOICE_TRANSSACTION__STATUS.Cancelled) {
-      finalPaidAmount = util.getZeroPriceForNull(invoice.paidAmount)-util.getZeroPriceForNull(invoiceTransaction.amount);
-  }else if (invoiceTransaction.status === InvoiceConstants.INVOICE_TRANSSACTION__STATUS.Paid) {
-    finalPaidAmount = util.getZeroPriceForNull(invoiceTransaction.amount)+util.getZeroPriceForNull(invoice.paidAmount)
-  }
-
-  let udpateStatus = invoice.status;
-  if(invoice.total == finalPaidAmount) {
-    udpateStatus = InvoiceConstants.INVOICE_STATUS.Paid;
-  } else if(finalPaidAmount > 0) {
-    udpateStatus = InvoiceConstants.INVOICE_STATUS.PartiallyPaid;
-  }
-
-  return fetchWrapper.put(`${baseUrl}/account/invoice/`+invoice.id, {
-      id: invoice.id,
-      paidAmount: finalPaidAmount,
-      status: udpateStatus
-    }
-  )
-  .then(invoice => {
-    //TODO: Update the Project with the revenue status
-    return invoice;
-  })
-  .catch(err => {
-    console.log("Error Updating Invoice::"+err)
-    return {errorMessage: err, error: true};
-  });
-}
-
 async function callGenerateInvoiceAPI(generateInvoiceDetail, invoiceId) {
   console.log("generateInvoiceDetail::"+JSON.stringify(generateInvoiceDetail))
   const authHeader = JSON.stringify(fetchWrapper.authHeader(`${baseUrl}/account/invoice/${invoiceId}/generate`));

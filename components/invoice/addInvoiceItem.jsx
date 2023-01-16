@@ -101,7 +101,7 @@ const AddInvoiceItem = (props) => {
       const addedInvoiceItem = {
         userId: parseInt(userId),
         generalNote: generalNote,
-        type: projectType,
+        type: "Staffing",
         status: "Draft",
         unitPrice: unitPrice,
         quantity: parseInt(quantity),
@@ -109,6 +109,7 @@ const AddInvoiceItem = (props) => {
         uom: uom,
         total: total
       };
+        console.log("addedInvoiceItem:::::"+JSON.stringify(addedInvoiceItem))
         dispatch(setInvoiceItemList(addedInvoiceItem));
         if(invoiceTotal != undefined) {
           dispatch(setInvoiceTotal(parseFloat(invoiceTotal)+parseFloat(total)));
