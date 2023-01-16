@@ -20,7 +20,6 @@ const TimesheetAddEdit = (props) => {
   const timesheetId = props.data.timesheetId;
   const router = useRouter();
   const toast = useToast();
-  const [timesheetActivityList, setTimesheetActivityList] = useState([]);
   const [isPageAuthprized, setPageAuthorized] = useState(false);
   const [isPageSectionAuthorized, setPageSectionAuthorized] = useState(false);
   const [isAddMode, setAddMode] = useState(true);
@@ -49,10 +48,6 @@ const TimesheetAddEdit = (props) => {
     }
   }, []);
 
-  function handleTimeSheetEntries(timesheetEntriesList) {
-    console.log("handleTimeSheet Entries :::"+JSON.stringify(timesheetEntriesList));
-    setTimesheetActivityList(timesheetEntriesList);
-  }
 
   const tsEntries = useSelector(state => state.timesheet.timesheetEntries);
   console.log("TS Entries ::"+JSON.stringify(tsEntries));
@@ -66,8 +61,8 @@ const TimesheetAddEdit = (props) => {
   // Create Account 
   const createTimesheet = async (formData) => {
     try {
-      console.log("Create Timesheet::"+JSON.stringify(formData)+"-----timesheetActivityList:::"+JSON.stringify(timesheetActivityList)+"--TimesheetName::"+formData.timesheetName)
-        const responseData = await timesheetService.createTimesheet(formData, userService.userValue.id, timesheetActivityList);
+      console.log("Create Timesheet::"+JSON.stringify(formData)+"-----timesheetActivityList:::"+JSON.stringify(tsEntries)+"--TimesheetName::"+formData.timesheetName)
+        const responseData = await timesheetService.createTimesheet(formData, userService.userValue.id, tsEntries);
         if(responseData.error) {
           toast({
             title: 'New Timesheet.',
@@ -106,9 +101,9 @@ const TimesheetAddEdit = (props) => {
 
   // update invoice in database
   const updateTimesheet = async (timesheetId, formData) => {
-    console.log("JSON Data::"+JSON.stringify(formData))
+    console.log("JSON Data::"+JSON.stringify(formData)+"tsEntries::"+JSON.stringify(tsEntries))
     try {
-      const responseData = await timesheetService.updateTimesheet(formData, timesheetId, timesheetActivityList);
+      const responseData = await timesheetService.updateTimesheet(formData, timesheetId, tsEntries);
       if(responseData.error) {
         toast({
           title: 'Timesheet Error.',
@@ -157,7 +152,7 @@ const TimesheetAddEdit = (props) => {
           )}              
           <Box width="100%">
             <form onSubmit={handleSubmit(onSubmit)}>
-                  <WeeklyTimesheetEntry data={{userId: userService.userValue.id, timesheetId: timesheetId, isAddMode: isAddMode, onSubmit: onSubmit, handleTimeSheetEntries: handleTimeSheetEntries}}></WeeklyTimesheetEntry>
+                  <WeeklyTimesheetEntry data={{userId: userService.userValue.id, timesheetId: timesheetId, isAddMode: isAddMode, onSubmit: onSubmit}}></WeeklyTimesheetEntry>
             </form>          
           </Box>
 

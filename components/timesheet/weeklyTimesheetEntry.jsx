@@ -120,7 +120,8 @@ const WeeklyTimesheetEntry = (props) => {
     function submitTimesheet(status) {
         const inputData = [...timesheetEntries];
         for (let i = 0; i < inputData.length; i++) {
-            inputData[i].status = status;
+            if(inputData[i].status != TIMESHEET_STATUS.Approved && inputData[i].status != TIMESHEET_STATUS.Invoiced)
+                inputData[i].status = status;
             inputData[i].entries.day1.date = weekCalendar.day1.date;
             inputData[i].entries.day2.date = weekCalendar.day2.date;
             inputData[i].entries.day3.date = weekCalendar.day3.date;
@@ -130,9 +131,10 @@ const WeeklyTimesheetEntry = (props) => {
             inputData[i].entries.day7.date = weekCalendar.day7.date;
         }
         setTimesheetEntries(inputData);
-        props.data.handleTimeSheetEntries(timesheetEntries);
-        props.data.onSubmit({status: status, timesheetName:timesheetName, timesheetStartDate: timesheetStartDate});
         dispatch(setTSEntries(timesheetEntries));
+        // props.data.handleTimeSheetEntries(timesheetEntries);
+        props.data.onSubmit({status: status, timesheetName:timesheetName, timesheetStartDate: timesheetStartDate});
+        
     }
 
 
@@ -207,7 +209,8 @@ const WeeklyTimesheetEntry = (props) => {
 
         setTimesheetEntries(inputData);
         console.log("timesheetEntries BEFOREE:::inputData::"+JSON.stringify(inputData));
-        props.data.handleTimeSheetEntries(inputData);
+        dispatch(setTSEntries(inputData));
+        //props.data.handleTimeSheetEntries(inputData);
     }
 
     function enteredTotalHoursPerDay(dayNumber) {
