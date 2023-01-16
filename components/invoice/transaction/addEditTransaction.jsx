@@ -33,7 +33,7 @@ import { invoiceService, userService } from "../../../services";
 import { util } from "../../../helpers/util";
 import { ShowInlineErrorMessage } from "../../common/showInlineErrorMessage";
 import { useDispatch } from "react-redux";
-import { updateInvoiceTransactions } from "../../../store/modules/Invoice/actions";
+import { setInvoicePaidAmount, updateInvoiceTransactions } from "../../../store/modules/Invoice/actions";
 
   
 const AddEditTransaction = (props) => {
@@ -75,7 +75,8 @@ const AddEditTransaction = (props) => {
                         isClosable: true,
                       })
                 }else {
-                    dispatch(updateInvoiceTransactions(responseData));
+                    dispatch(updateInvoiceTransactions(responseData.invoiceTransaction));
+                    dispatch(setInvoicePaidAmount(responseData.finalPaidAmount));
                     onClose();
                     toast({
                         title: 'New Invoice Transaction.',

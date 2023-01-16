@@ -595,9 +595,7 @@ const InvoiceAddEdit = (props) => {
                                     fontSize='dollar_left_element'
                                     children='$'
                                 />      
-                                <HStack>
                                   <Input type="number" value={invoicePaidAmount} isReadOnly/>
-                                </HStack>
                               </InputGroup>                             
                           </FormControl>    
                         </Box>   

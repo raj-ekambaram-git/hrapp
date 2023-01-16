@@ -30,9 +30,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       }
     });
 
+    let finalPaidAmount = 0;
+
     //Transaction added and now update the invoice with the correct paid amount
     if(invoiceTransaction.status !== InvoiceConstants.INVOICE_TRANSSACTION__STATUS.Pending) {
-      let finalPaidAmount = 0;
       if(invoiceTransaction.status === InvoiceConstants.INVOICE_TRANSSACTION__STATUS.Refund
         || invoiceTransaction.status === InvoiceConstants.INVOICE_TRANSSACTION__STATUS.Cancelled) {
           finalPaidAmount = util.getZeroPriceForNull(savedInvoiceTransaction?.invoice?.paidAmount)-util.getZeroPriceForNull(invoiceTransaction.amount);
@@ -61,8 +62,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       });
     }
 
-    
-    res.status(200).json(savedInvoiceTransaction);
+    res.status(200).json({invoiceTransaction: savedInvoiceTransaction, finalPaidAmount: finalPaidAmount});
   } catch (error) {
     console.log(error)
     res.status(400).json({ message: 'Something went wrong' })
