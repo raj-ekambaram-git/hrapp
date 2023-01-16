@@ -61,3 +61,9 @@ export const setSelectedTimesheetEntryId = (selectedTimeSheetEntryId) => {
         payload: selectedTimeSheetEntryId
     }
 }
+export const setnewTSWeekStartDimId = (newTSWeekStartDimId) => {
+    return {
+        type: ActionTypes.SET_NEW_TS_WK_START_DIM_ID,
+        payload: newTSWeekStartDimId
+    }
+}

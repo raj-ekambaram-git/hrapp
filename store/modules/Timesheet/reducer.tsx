@@ -11,6 +11,7 @@ const initialState = {
     approvalTimesheets: [],
     selectedTimesheetId: null,
     selectedTimesheetEntryId: null,
+    newTSWeekStartDimId: null,
 };
 
 const timesheetReducer = (state = initialState, {type, payload}) => {
@@ -32,6 +33,8 @@ const timesheetReducer = (state = initialState, {type, payload}) => {
         newState.selectedTimesheetEntryId = payload
     } else if(type === ActionTypes.SET_SELECTED_TIMESHEET_ID) {
         newState.selectedTimesheetId = payload
+    } else if(type === ActionTypes.SET_NEW_TS_WK_START_DIM_ID) {
+        newState.newTSWeekStartDimId = payload
     }
 
     return newState;

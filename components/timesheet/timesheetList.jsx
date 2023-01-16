@@ -12,7 +12,7 @@ import {
 import { PageNotAuthorized } from "../common/pageNotAuthorized";
 import { PageMainHeader } from "../common/pageMainHeader";
 import { useDispatch } from "react-redux";
-import { setSelectedTimesheetId } from "../../store/modules/Timesheet/actions";
+import { setnewTSWeekStartDimId, setSelectedTimesheetId } from "../../store/modules/Timesheet/actions";
 import { TimesheetConstants } from "../../constants/timesheetConstants";
 import { CustomTable } from "../../components/customTable/Table";
 import { util } from "../../helpers";
@@ -79,7 +79,11 @@ const TimesheetList = (props) => {
       router.push("/timesheet");
     }
   
-  const navigatePage = () => router.push({ pathname: '/timesheet/add', query: { manager: isManager }});
+    function handleAddNewTS() {
+      dispatch(setnewTSWeekStartDimId(null))
+      router.push({ pathname: '/timesheet/add', query: { manager: isManager }});
+    }
+  
   
 
   return (
@@ -96,7 +100,7 @@ const TimesheetList = (props) => {
               <Flex marginBottom="1rem">
                 <HStack>
                   <Box>
-                    <Button size="xs" bgColor="header_actions"  onClick={navigatePage}>
+                    <Button size="xs" bgColor="header_actions"   onClick={handleAddNewTS}>
                         Add New Timesheet
                     </Button>
                   </Box>

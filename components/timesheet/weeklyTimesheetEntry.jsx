@@ -22,8 +22,8 @@ import TimesheetDateHeader from "./timesheetDateHeader";
 import {
      DeleteIcon,ArrowBackIcon,ArrowForwardIcon
   } from '@chakra-ui/icons';  
-import { useDispatch } from "react-redux";
-import {setSelectedTimesheetId, setTSEntries} from '../../store/modules/Timesheet/actions';
+import { useDispatch, useSelector } from "react-redux";
+import {setnewTSWeekStartDimId, setSelectedTimesheetId, setTSEntries} from '../../store/modules/Timesheet/actions';
 import { util } from "../../helpers/util";
 
 
@@ -43,6 +43,7 @@ const WeeklyTimesheetEntry = (props) => {
     const [previousWeekStart, setPreviousWeekStart] = useState(EMPTY_STRING);
     const [nextWeekStart, setNextWeekStart] = useState(EMPTY_STRING);
     const userId = props.data.userId;
+    const newTSWeekStartDimId = useSelector(state => state.timesheet.newTSWeekStartDimId);
 
     useEffect(() => {
 
@@ -77,13 +78,17 @@ const WeeklyTimesheetEntry = (props) => {
         && (props && props.data && props.data.isAddMode)) { // This is for ADD
 
             //Only if its today is the new timesheet, if the date is passed then out this under condition
-            const today = new Date();
-            const todayStr = today.getFullYear()+(String(today.getMonth()+1).padStart(2, "0"))+String(today.getDate()).padStart(2, "0");
-            setNextWeekStart(util.getNextWeekStartDateString(today.getTime()));
-            setPreviousWeekStart(util.getPrevioustWeekStartDateString(today.getTime()));
+            const timesheetDate = new Date();
+            const timesheetDateStr = timesheetDate.getFullYear()+(String(timesheetDate.getMonth()+1).padStart(2, "0"))+String(timesheetDate.getDate()).padStart(2, "0");
+            if(newTSWeekStartDimId != undefined) {
+
+            }
+            
+            setNextWeekStart(util.getNextWeekStartDateString(timesheetDate.getTime()));
+            setPreviousWeekStart(util.getPrevioustWeekStartDateString(timesheetDate.getTime()));
 
             //Get Calendar Data and Timesheet Name
-            const timesheetMetaData = await timesheetService.getTimesheetMetaForDate(todayStr);
+            const timesheetMetaData = await timesheetService.getTimesheetMetaForDate(timesheetDateStr);
             setTimesheetName(timesheetMetaData.weekOfYearISO);
             setWeekCalendar(timesheetMetaData.currentWeekDates);
             setTimesheetStartDate(timesheetMetaData.firstDayOfWeek)
@@ -140,9 +145,7 @@ const WeeklyTimesheetEntry = (props) => {
         console.log("inputData.length::"+inputData.length)
         //Condition when new record is updated for first time
         if(inputData.length === 0 || inputData.length <= index) {
-            console.log("inside new timesheet entry record")
             timeEntryRecord = TIMESHEET_ENTRY_DEFAULT;
-            console.log("inside new timesheet entry record ::newTimeEntryRecord::"+JSON.stringify(timeEntryRecord));
             inputData.push(timeEntryRecord);
         } else { //Trying to update thhe record already created
             timeEntryRecord = inputData[index];
@@ -233,8 +236,9 @@ const WeeklyTimesheetEntry = (props) => {
             dispatch(setSelectedTimesheetId(timesheets[0]?.id))
             router.push({ pathname: '/timesheet/', query: { }});
         }else {
+            dispatch(setnewTSWeekStartDimId(timesheetMetaData.dateDimId ))
             console.log("Timesheet not present, so go to add new time sheet with the start date passed");
-            // router.push({ pathname: '/timesheet/add', query: { manager: false, tsStartDate: timesheetMetaData.dateDimId }});
+            router.push({ pathname: '/timesheet/add', query: {}});
         }
         // If it is not present, then pass that week name to the add URL
         // router.push({ pathname: '/timesheet/add', query: { manager: false, tsStartDate: "" }});
