@@ -26,7 +26,6 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import {setnewTSWeekStartDimId, setSelectedTimesheetId, setTSEntries} from '../../store/modules/Timesheet/actions';
 import { util } from "../../helpers/util";
-import { InvoiceConstants } from "../../constants";
 
 
   
