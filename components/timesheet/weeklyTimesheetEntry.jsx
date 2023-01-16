@@ -16,15 +16,17 @@ import {
     StackDivider,
     Grid,
     GridItem,
-    Badge
+    Badge,
+    Spacer
   } from '@chakra-ui/react';
 import TimesheetDateHeader from "./timesheetDateHeader";
 import {
-     DeleteIcon,ArrowBackIcon,ArrowForwardIcon
+     DeleteIcon,ArrowBackIcon,ArrowForwardIcon, CheckCircleIcon
   } from '@chakra-ui/icons';  
 import { useDispatch, useSelector } from "react-redux";
 import {setnewTSWeekStartDimId, setSelectedTimesheetId, setTSEntries} from '../../store/modules/Timesheet/actions';
 import { util } from "../../helpers/util";
+import { InvoiceConstants } from "../../constants";
 
 
   
@@ -341,7 +343,7 @@ const WeeklyTimesheetEntry = (props) => {
                                 {isAddMode || (!isAddMode && timesheetData.status != TIMESHEET_STATUS.Approved) ? (
                                     <>
                                         <Box>
-                                            <DeleteIcon onClick={() => deleteTimesheetEntry(index)}/>
+                                            {(timesheetEntry.status != TIMESHEET_STATUS.Approved && timesheetEntry.status != TIMESHEET_STATUS.Invoiced) ? <DeleteIcon onClick={() => deleteTimesheetEntry(index)}/> : <CheckCircleIcon color="header_actions"/>}
                                         </Box>                                      
                                     </>
                                 ): (
@@ -362,30 +364,30 @@ const WeeklyTimesheetEntry = (props) => {
                                 <HStack spacing="1rem">
                                     <HStack spacing="2em">
                                         <Box borderWidth="timesheet.entry" borderColor={timesheetEntry.entries.day1.error ? 'timesheet.entryError' : ""}>
-                                            <Input type="number" id="day1"  value= {timesheetEntry.entries.day1.error ? "" : timesheetEntry.entries.day1.hours}  size="md" onChange={(ev) => setTimesheetEntry(index, ev,"1")} boxSize="timesheet.entry.input"/>
+                                            <Input type="number" id="day1" isReadOnly={(timesheetEntry.status == TIMESHEET_STATUS.Approved || timesheetEntry.status == TIMESHEET_STATUS.Invoiced) ? true : false}  value= {timesheetEntry.entries.day1.error ? "" : timesheetEntry.entries.day1.hours}  size="md" onChange={(ev) => setTimesheetEntry(index, ev,"1")} boxSize="timesheet.entry.input"/>
                                         </Box>    
                                         <Box borderWidth="timesheet.entry" borderColor={timesheetEntry.entries.day2.error ? 'timesheet.entryError' : ""}>
-                                            <Input type="number" id="day2"  size="md" value= {timesheetEntry.entries.day2.error ? "" : timesheetEntry.entries.day2.hours}   onChange={(ev) => setTimesheetEntry(index, ev,"2")} boxSize="timesheet.entry.input"/>
+                                            <Input type="number" id="day2"  isReadOnly={(timesheetEntry.status == TIMESHEET_STATUS.Approved || timesheetEntry.status == TIMESHEET_STATUS.Invoiced) ? true : false} size="md" value= {timesheetEntry.entries.day2.error ? "" : timesheetEntry.entries.day2.hours}   onChange={(ev) => setTimesheetEntry(index, ev,"2")} boxSize="timesheet.entry.input"/>
                                         </Box>    
                                         <Box borderWidth="timesheet.entry" borderColor={timesheetEntry.entries.day3.error ? 'timesheet.entryError' : ""}>
-                                            <Input type="number" id="day3"  size="md" value= {timesheetEntry.entries.day3.error ? "" : timesheetEntry.entries.day3.hours}  onChange={(ev) => setTimesheetEntry(index, ev,"3")} boxSize="timesheet.entry.input"/>
+                                            <Input type="number" id="day3"  isReadOnly={(timesheetEntry.status == TIMESHEET_STATUS.Approved || timesheetEntry.status == TIMESHEET_STATUS.Invoiced) ? true : false} size="md" value= {timesheetEntry.entries.day3.error ? "" : timesheetEntry.entries.day3.hours}  onChange={(ev) => setTimesheetEntry(index, ev,"3")} boxSize="timesheet.entry.input"/>
                                         </Box>    
                                         <Box borderWidth="timesheet.entry" borderColor={timesheetEntry.entries.day4.error ? 'timesheet.entryError' : ""}>
-                                            <Input type="number" id="day4"  size="md" value= {timesheetEntry.entries.day4.error ? "" : timesheetEntry.entries.day4.hours}  onChange={(ev) => setTimesheetEntry(index, ev,"4")}  boxSize="timesheet.entry.input"/>
+                                            <Input type="number" id="day4"  isReadOnly={(timesheetEntry.status == TIMESHEET_STATUS.Approved || timesheetEntry.status == TIMESHEET_STATUS.Invoiced) ? true : false} size="md" value= {timesheetEntry.entries.day4.error ? "" : timesheetEntry.entries.day4.hours}  onChange={(ev) => setTimesheetEntry(index, ev,"4")}  boxSize="timesheet.entry.input"/>
                                         </Box>    
                                         <Box borderWidth="timesheet.entry" borderColor={timesheetEntry.entries.day5.error ? 'timesheet.entryError' : ""}>
-                                            <Input type="number" id="day5"  size="md" value= {timesheetEntry.entries.day5.error ? "" : timesheetEntry.entries.day5.hours}  onChange={(ev) => setTimesheetEntry(index, ev,"5")} boxSize="timesheet.entry.input"/>
+                                            <Input type="number" id="day5"  isReadOnly={(timesheetEntry.status == TIMESHEET_STATUS.Approved || timesheetEntry.status == TIMESHEET_STATUS.Invoiced) ? true : false} size="md" value= {timesheetEntry.entries.day5.error ? "" : timesheetEntry.entries.day5.hours}  onChange={(ev) => setTimesheetEntry(index, ev,"5")} boxSize="timesheet.entry.input"/>
                                         </Box>    
                                         <Box borderWidth="timesheet.entry" borderColor={timesheetEntry.entries.day6.error ? 'timesheet.entryError' : ""}>
-                                            <Input type="number" id="day6"  size="md" value= {timesheetEntry.entries.day6.error ? "" : timesheetEntry.entries.day6.hours}  onChange={(ev) => setTimesheetEntry(index, ev,"6")} boxSize="timesheet.entry.input"/>
+                                            <Input type="number" id="day6"  isReadOnly={(timesheetEntry.status == TIMESHEET_STATUS.Approved || timesheetEntry.status == TIMESHEET_STATUS.Invoiced) ? true : false} size="md" value= {timesheetEntry.entries.day6.error ? "" : timesheetEntry.entries.day6.hours}  onChange={(ev) => setTimesheetEntry(index, ev,"6")} boxSize="timesheet.entry.input"/>
                                         </Box>    
                                         <Box borderWidth="timesheet.entry" borderColor={timesheetEntry.entries.day7.error ? 'timesheet.entryError' : ""}>
-                                            <Input type="number" id="day7"  size="md" value= {timesheetEntry.entries.day7.error ? "" : timesheetEntry.entries.day7.hours}  onChange={(ev) => setTimesheetEntry(index, ev,"7")}  boxSize="timesheet.entry.input"/>
+                                            <Input type="number" id="day7"  isReadOnly={(timesheetEntry.status == TIMESHEET_STATUS.Approved || timesheetEntry.status == TIMESHEET_STATUS.Invoiced) ? true : false} size="md" value= {timesheetEntry.entries.day7.error ? "" : timesheetEntry.entries.day7.hours}  onChange={(ev) => setTimesheetEntry(index, ev,"7")}  boxSize="timesheet.entry.input"/>
                                         </Box>   
                                     </HStack>                                             
                                     <Box>
                                         <Badge color={`${
-                                                timesheetEntry.status === "Approved"
+                                                (timesheetEntry.status === TIMESHEET_STATUS.Approved || timesheetEntry.status === TIMESHEET_STATUS.Invoiced)
                                                 ? "timesheet.approved_status"
                                                 : (timesheetEntry.status === "Submitted" || timesheetEntry.status === "Saved")
                                                 ? "timesheet.pending_status"
