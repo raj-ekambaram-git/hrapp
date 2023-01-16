@@ -382,7 +382,7 @@ const WeeklyTimesheetEntry = (props) => {
                                                 : (timesheetEntry.status === "Submitted" || timesheetEntry.status === "Saved")
                                                 ? "timesheet.pending_status"
                                                 : "timesheet.pending_status"
-                                            }`}>{timesheetEntry.status}
+                                            }`}>{timesheetEntry.status?timesheetEntry.status:"Draft"}
                                         </Badge>
                                     </Box>    
                                 </HStack>                                                                         
