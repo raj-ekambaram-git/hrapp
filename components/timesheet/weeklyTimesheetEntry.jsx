@@ -274,20 +274,11 @@ const WeeklyTimesheetEntry = (props) => {
                             </HStack>
                         </Box>
                         <Box></Box>
+                        <Box></Box>
                         <Box>
-                            {isAddMode || (!isAddMode && timesheetData.status != TIMESHEET_STATUS.Approved) ? (
+                            {isAddMode || (!isAddMode && (timesheetData.status != TIMESHEET_STATUS.Approved || timesheetData.status != TIMESHEET_STATUS.Invoiced)) ? (
                                 <>
                                     <HStack>
-                                        {!isAddMode ? (
-                                            <>
-                                                <Box>
-                                                    {/* <NotesHistory data={{notesType: NotesConstants.NOTES_TYPE.Timesheet, notesTypeId: props.data.timesheetId, notesTypeTitle: timesheetData.name}}></NotesHistory> */}
-                                                </Box>                                        
-                                            </>
-                                        ) : (
-                                            <>
-                                            </>
-                                        )}
                                         <Box>
                                             <Button size="xs" bgColor="header_actions" onClick={() => submitTimesheet(TIMESHEET_STATUS.Saved)}>
                                                 Save
