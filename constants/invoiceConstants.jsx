@@ -154,8 +154,13 @@ export const InvoiceConstants = {
       accessor: "amount"
     },
     {
-      label: "Paid Amount",
+      label: "Paid",
       accessor: "paidAmount"
+    },    
+    {
+      label: "Balance",
+      accessor: "balance",
+      format: (value) => (value ? <Badge color={`${(value == 0 ) ? "paid_status": "pending_status"}`}>$ {value}</Badge> : "$ "+value)
     },    
     {
       label: "",

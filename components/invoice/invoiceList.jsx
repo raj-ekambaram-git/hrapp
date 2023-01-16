@@ -97,8 +97,9 @@ const InvoiceList = (props) => {
       return responseData.map((invoice)=> {
         invoice.detailAction = <Button size="xs" bgColor="header_actions" onClick={() => handleInvoiceDetailSelection(invoice.id)}>Details</Button>
         // invoice.status = <Badge color={`${(invoice.status === "Paid" || invoice.status === "PartiallyPaid") ? "paid_status": invoice.status === "Pending" ? "pending_status": "pending_status"}`}>{invoice.status}</Badge>
-        invoice.amount = "$ "+(parseFloat(invoice.total)-util.getZeroPriceForNull(invoice.paidAmount))
-        invoice.paidAmount = "$ "+(parseFloat(invoice.total)-util.getZeroPriceForNull(invoice.paidAmount))
+        invoice.amount = "$ "+(parseFloat(invoice.total))
+        invoice.balance = (parseFloat(invoice.total)-util.getZeroPriceForNull(invoice.paidAmount))
+        invoice.paidAmount = "$ "+(util.getZeroPriceForNull(invoice.paidAmount))
         invoice.formattedInvoiceDate = util.getFormattedDate(invoice.invoiceDate)
         invoice.formattedDueDate = util.getFormattedDate(invoice.dueDte)
         invoice.vendorName = invoice.vendor.name
