@@ -54,7 +54,7 @@ const ManageUserRoles = ({selectedUserRoles, onChange = (e) => {}}) => {
                             onClick={onToggle}
                             key="xl"
                             m={1}
-                            >{`Roles`}
+                            >{`Add/Remove Roles`}
                         </Button>  
                     </PopoverTrigger>
                     <PopoverContent>
