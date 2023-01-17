@@ -11,18 +11,17 @@ import { ShowInlineErrorMessage } from "../common/showInlineErrorMessage";
 const ExpenseEntryAttachment = (props) => {
   const { isOpen, onToggle, onClose } = useDisclosure()
   const toast = useToast();
-  const [file, setFile] = useState();
+  // const [file, setFile] = useState();
   const [name, setName] = useState(EMPTY_STRING);
   const [showErrorMessage, setShowErrorMessage] = useState(EMPTY_STRING);
   const [uploadingStatus, setUploadingStatus] = useState();
   const [uploadedFile, setUploadedFile] = useState();
   const acceptedFileTypes = process.env.ALLOWED_DOCUMENT_TYPES
 
-  console.log("PROPPPS::"+JSON.stringify(props))
-
-  const uploadFile = async (e) => {
+  async function uploadFile(e) {
     if(e) {
-      setFile(e.target.files[0])
+      // setFile(e.target.files[0])
+      const file = e.target.files[0];
 
       setUploadingStatus("Uploading the file.");
       const directoryStructure = "account_"+userService.getAccountDetails().accountId+CommonConstants.backSlash
@@ -30,7 +29,6 @@ const ExpenseEntryAttachment = (props) => {
                                       +"ExpenseEntry"+CommonConstants.underScore+props.expenseEntryId+CommonConstants.backSlash;
   
           const fileURL = await documentService.getUploadURL(directoryStructure+file?.name, file?.type);
-          console.log("fileURL::"+fileURL+"****FileType::"+file?.type+"***Name::"+file?.name)
           if(fileURL != undefined && fileURL != EMPTY_STRING) {
               const upload = await documentService.uploadFile(fileURL, file, file?.type);
       
@@ -59,8 +57,8 @@ const ExpenseEntryAttachment = (props) => {
                         isClosable: true,
                     })
                     setUploadingStatus(" Uploaded.");
-                    setUploadedFile(name);
-                    setFile(null)
+                    setUploadedFile(file?.name);
+                    // setFile(null)
                     setShowErrorMessage(EMPTY_STRING)
                     props.handleExpenseEntry(props.index, "attachments", newAttachments)
                     onClose()
@@ -97,7 +95,7 @@ const ExpenseEntryAttachment = (props) => {
               <PopoverBody>
                 <ShowInlineErrorMessage showErrorMessage={showErrorMessage}/>
                 <Input size="xs" accept={acceptedFileTypes} type="file" onChange={(e) => uploadFile(e)} width="50%"  marginBottom="2rem"/>
-                {uploadingStatus && <Text>{uploadedFile} {uploadingStatus}</Text>}
+                {uploadingStatus && <Box fontWeight="bold" marginBottom={2}>{uploadedFile} {uploadingStatus}</Box>}
                 {props.attachments?.map((attachment, index) => (
                   <Box>
                     <Link href={attachment}>
