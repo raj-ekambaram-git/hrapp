@@ -43,7 +43,7 @@ function PageMainHeader(props) {
             <Heading size='md'>{heading} {param1}</Heading>
             <HStack spacing={2}>
               <Box>
-                <Button size="xs" colorScheme="red" onClick={() => router.back()}>
+                <Button size="xs" colorScheme="yellow" onClick={() => router.back()}>
                   Go Back
                 </Button>
               </Box>

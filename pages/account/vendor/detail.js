@@ -159,7 +159,7 @@ const VendorDetail = (props) => {
             <Box alignItems='right'>
               <HStack>
                   <Box>
-                    <Button size="xs" colorScheme="red" onClick={() => router.back()}>
+                    <Button size="xs" colorScheme="yellow" onClick={() => router.back()}>
                       Go Back
                     </Button>
                   </Box>
