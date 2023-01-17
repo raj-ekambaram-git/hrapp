@@ -52,7 +52,7 @@ import { setNotesType } from "../../store/modules/Notes/actions";
       }
 
     useEffect(() => {
-        console.log("props.tsEntryDetail:::"+JSON.stringify(tsEntryDetail));
+
         if(tsEntryDetail) {
             console.log("Inside the tsEntryDetail")
             setTimesheetEntryDetail(tsEntryDetail);
@@ -64,7 +64,7 @@ import { setNotesType } from "../../store/modules/Notes/actions";
         console.log("updateTimesheetEntry::::"+status);
         if(timesheetEntryNote != undefined && timesheetEntryNote != EMPTY_STRING && timesheetEntryNote != DEFAULT_NOTES) {
             setShowErrorMessage(EMPTY_STRING);
-            const timesheetEntryUpdateResponse = await timesheetService.updateTimesheetEntry(timesheetEntryId, status, timesheetEntryNote);    
+            const timesheetEntryUpdateResponse = await timesheetService.updateTimesheetEntry(timesheetEntryId, status, timesheetEntryNote, userService.userValue.id);    
             console.log("timesheetEntryUpdateResponse::"+JSON.stringify(timesheetEntryUpdateResponse));
             if(timesheetEntryUpdateResponse.error) {
                 setShowErrorMessage("Error Updating timesheet entry");

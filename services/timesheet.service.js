@@ -118,43 +118,36 @@ function getTimesheetByName(timesheetName, userId) {
     });
 }
 
-async function updateTimesheetEntry(timesheetEntryId, status, timesheetNote) {
-    try {
- 
-        const res = await fetch(`/api/timesheet/entry/${timesheetEntryId}`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            id: parseInt(timesheetEntryId),
-            status: status,
-            approvedDate: new Date()
-          }),
-        });
-        const data = await res.json();
-  
-        //Timesheet entry happened, now add the notes
-        if(data.message === undefined && timesheetNote != undefined && timesheetNote != EMPTY_STRING) {
-          //Create Notes
-          const createdNotes = notesService.createNotes(NotesConstants.NOTES_TYPE.TimesheetEntry, timesheetEntryId, timesheetNote, userService.userValue?.id);
-          if(createdNotes.error) {
-            return {error: createdNotes.errorMessage};
-          }
+async function updateTimesheetEntry(timesheetEntryId, status, approvalNote, approvedBy) {
 
-          //Now update the project with the remaiing budget
-          const totalTSEHours = util.getTotalHours(data.entries);
-          console.log("totalTSEHours:::"+totalTSEHours)
-          if(totalTSEHours != undefined && totalTSEHours != EMPTY_STRING && data.unitPrice != undefined && data.unitPrice != EMPTY_STRING) {
-            projectService.updateUsedBudget(data.projectId, parseFloat(totalTSEHours)*parseFloat(data.unitPrice));
-          }
-
-          
-        }
-  
-        return data;
-      } catch (error) {
-        console.log(error)
-        return {error: error};
+  return fetchWrapper.put(`${baseUrl}/timesheet/entry/`+timesheetEntryId, {
+          id: parseInt(timesheetEntryId),
+          status: status,
+          approvedDate: new Date(),
+          approvedBy: parseInt(approvedBy)
       }
+    )
+    .then(timesheet => {
+          //Timesheet entry happened, now add the notes
+          if(timesheet.message === undefined && approvalNote != undefined && approvalNote != EMPTY_STRING) {
+            //Create Notes
+            const createdNotes = notesService.createNotes(NotesConstants.NOTES_TYPE.TimesheetEntry, timesheetEntryId, approvalNote, userService.userValue?.id);
+            if(createdNotes.error) {
+              return {error: createdNotes.errorMessage};
+            }
+  
+            //Now update the project with the remaiing budget
+            const totalTSEHours = util.getTotalHours(timesheet.entries);
+            console.log("totalTSEHours:::"+totalTSEHours)
+            if(totalTSEHours != undefined && totalTSEHours != EMPTY_STRING && timesheet.unitPrice != undefined && timesheet.unitPrice != EMPTY_STRING) {
+              projectService.updateUsedBudget(timesheet.projectId, parseFloat(totalTSEHours)*parseFloat(timesheet.unitPrice));
+            }
+          }
+      
+      return timesheet;
+    })
+    .catch(err => {
+    console.log("Error Updating timesheet::"+err)
+    return {errorMessage: err, error: true};
+    });
 }
