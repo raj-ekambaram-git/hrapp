@@ -44,7 +44,8 @@ const ExpenseHeader = (props) => {
                       )}
                   </Button>
                   {props.isAddMode ?(<></>):(
-                      <ExpenseAttachment/>
+                      // <ExpenseAttachment/>
+                      <></>
                   )}      
                 </>
                   
