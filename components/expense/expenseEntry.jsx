@@ -156,7 +156,6 @@ const ExpenseEntry = (props) => {
             const expenseResponse = await expenseService.getExpenseDetails(props.data.expenseId, userService.getAccountDetails().accountId);
             dispatch(setExpenseEntries(expenseResponse.expenseEntries))
             delete expenseResponse["expenseEntries"]
-            console.log("expenseResponse::"+JSON.stringify(expenseResponse))
             setExpenseTotal(expenseResponse.total)
             dispatch(setExpenseHeader(expenseResponse))
 
@@ -178,7 +177,6 @@ const ExpenseEntry = (props) => {
   }
 
   function handleExpenseAmount(index, origVal, newValue) {
-    console.log("index:::"+index+"---origVal::"+origVal+"---newValue::"+newValue+"----expenseTotal::"+expenseTotal)
 
     if(origVal != undefined && origVal != EMPTY_STRING) {
       setExpenseTotal((util.getZeroPriceForNull(expenseTotal)-util.getZeroPriceForNull(origVal))+util.getZeroPriceForNull(newValue))
@@ -189,10 +187,9 @@ const ExpenseEntry = (props) => {
   }
 
   function handleExpenseEntry(index, name, value) {
-    console.log("value::"+value)
     const newExpenseEntries = [...expenseEntries]
     switch(name) {
-      case("expenseDate"): 
+      case("date"): 
         value= new Date(value)
         break;
     }
@@ -203,14 +200,14 @@ const ExpenseEntry = (props) => {
 
 
   function handleDate(e) {
-    console.log("handleDate::"+JSON.stringify(e))
-    console.log("Selevted Index :::"+e.rowIndex)
     if(e != undefined && (e.updatedDate)) {
       const expenseEntry = [...expenseEntries]
-      // handleExpenseEntry(e.rowIndex,"date",util.getFormattedDate(e.date));
-      console.log("expenseEntry[e.rowIndex]:::"+expenseEntry[e.rowIndex])
-      expenseEntry[e.rowIndex].date = util.getFormattedDate(e.date);
-      console.log("expenseEntry:::"+JSON.stringify(expenseEntry[e.rowIndex]))
+      if(util.getFormattedDate(expenseEntry[e.rowIndex].date) != util.getFormattedDate(e.date)) {
+        expenseEntry[e.rowIndex].expenseDate = e.date;
+        handleExpenseEntry(e.rowIndex,"date",util.getFormattedDate(e.date))
+        dispatch(setExpenseEntries(expenseEntry))
+      }
+      
     }
     
   }

@@ -309,6 +309,7 @@ model ExpenseEntry {
   type           ExpenseType
   billable       Boolean
   expenseDate    DateTime
+  date           DateTime?
   amount         Decimal
   status         ExpenseEntryStatus
   notes          String?

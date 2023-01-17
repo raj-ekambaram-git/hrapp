@@ -315,7 +315,7 @@ const DatePicker = ({
               onChange={handleInputChange}
               hidden
             />
-            <CalendarIcon/>
+            <CalendarIcon boxSize={4}/>
           </HStack>
         </Box>
       </PopoverTrigger>
