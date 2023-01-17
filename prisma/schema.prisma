@@ -176,6 +176,8 @@ model Project {
   accountId                 Int               @default(0)
   account                   Account?          @relation(fields: [accountId], references: [id])
   budget                    Decimal           @default(0)
+  expenseBudget             Decimal?          @default(0)
+  usedExpenseBudget         Decimal?          @default(0)
   remainingBudgetToAllocate Decimal           @default(0)
   usedBudget                Decimal           @default(0)
   totalHours                Int?              @default(0)
@@ -272,6 +274,7 @@ model Timesheet {
 model Expense {
   id                 Int                  @id @default(autoincrement())
   name               String
+  description        String?
   billable           Boolean
   total              Decimal              @default(0)
   paidAmount         Decimal              @default(0)
@@ -280,11 +283,13 @@ model Expense {
   status             ExpenseStatus
   approvedBy         User?                @relation("ApprovedExpenses", fields: [approvedById], references: [id])
   approvedById       Int?                 @default(1)
+  approvedDate       DateTime?
   user               User?                @relation("CreatedExpenses", fields: [userId], references: [id])
   userId             Int?                 @default(1)
   createdDate        DateTime             @default(now())
   lastUpdateDate     DateTime             @updatedAt
   expenseTransaction ExpenseTransaction[]
+  expenseEntries     ExpenseEntry[]
 }
 
 model ExpenseTransaction {
@@ -306,8 +311,11 @@ model ExpenseEntry {
   expenseDate    DateTime
   amount         Decimal
   status         ExpenseEntryStatus
+  notes          String?
   createdDate    DateTime           @default(now())
   lastUpdateDate DateTime           @updatedAt
+  expense        Expense?           @relation(fields: [expenseId], references: [id])
+  expenseId      Int?
 }
 
 model Calendar {
@@ -614,6 +622,7 @@ enum NotesMode {
 enum ExpenseType {
   Meals
   Taxi
+  Cost
 }
 
 enum ExpenseEntryStatus {
@@ -629,6 +638,7 @@ enum ExpenseEntryStatus {
 
 enum ExpenseStatus {
   Draft
+  Saved
   Submitted
   Approved
   Rejected

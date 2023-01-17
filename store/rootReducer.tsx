@@ -8,6 +8,7 @@ import accountReducer from "./modules/Account/reducer";
 import notesReducer from "./modules/Notes/reducer";
 import projectReducer from "./modules/Project/reducer";
 import documentReducer from "./modules/Document/reducer";
+import expenseReducer from "./modules/Expense/reducer";
 
 const rootReducer = combineReducers({
     timesheet: timesheetReducer,
@@ -17,7 +18,8 @@ const rootReducer = combineReducers({
     account: accountReducer,
     notes: notesReducer,
     project: projectReducer,
-    document: documentReducer
+    document: documentReducer,
+    expense: expenseReducer
     
 });
 

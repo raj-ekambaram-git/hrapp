@@ -162,6 +162,7 @@ const DatePicker = ({
   colorScheme = "blue",
   minYear = 1500,
   maxYear = new Date().getFullYear(),
+  rowIndex,
   id,
   onChange = (e) => {}
 }) => {
@@ -287,7 +288,7 @@ const DatePicker = ({
   }, [selectedDate, setCurrentMonthYear]);
 
   useEffect(() => {
-    onChange({ date: selectedDate.rawDate, updatedDate: updatedDate });
+    onChange({ date: selectedDate.rawDate, updatedDate: updatedDate , rowIndex: rowIndex});
   }, [onChange, selectedDate]);
 
 

@@ -1,15 +1,12 @@
 import React from 'react'
 import styles from "./styles/slideopen.module.css"
 import { FiUsers} from 'react-icons/fi';
-import {VscCalendar} from "react-icons/vsc"
+import {VscCalendar, VscProject} from "react-icons/vsc"
 import {BiGridAlt} from "react-icons/bi"
-import {IoStatsChart,IoSettingsOutline} from "react-icons/io5"
-import {BsTagFill} from "react-icons/bs"
-import {FaFileAlt,FaUsers,FaRegUserCircle} from "react-icons/fa"
-import {GiThreeFriends} from 'react-icons/gi';
-import {MdOutlineManageAccounts,MdOutlineApproval} from 'react-icons/md';
+import {IoSettingsOutline} from "react-icons/io5"
+import {MdOutlineManageAccounts,MdApproval} from 'react-icons/md';
 import {FaFileInvoiceDollar} from 'react-icons/fa';
-import {GrProjects} from 'react-icons/gr';
+import {TbFileDollar} from 'react-icons/tb';
 
 import { userService } from '../../services';
 import { Tooltip } from '@chakra-ui/react'
@@ -86,7 +83,7 @@ const Slideopen = () => {
             <Tooltip label="Projects" placement='right' color={tooltip_style.color} hasArrow maxWidth={tooltip_style.maxWidth} backgroundColor={tooltip_style.bgColor}>
               <Link href={`/account/projects`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
                 <div>
-                  <GrProjects  className={styles.icons1}/>
+                  <VscProject  className={styles.icons1}/>
                 </div>
               </Link>     
             </Tooltip>       
@@ -100,6 +97,14 @@ const Slideopen = () => {
                       </div>
                     </Link>   
                   </Tooltip>    
+                  <Tooltip label="Expense" placement='right' color={tooltip_style.color} hasArrow maxWidth={tooltip_style.maxWidth} backgroundColor={tooltip_style.bgColor}>
+                    <Link href={`/account/user/expenses`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
+                      <div>
+                        <TbFileDollar className={styles.icons1}/>
+                      </div>
+                    </Link>   
+                  </Tooltip>    
+
                 </>
               ) : (
                 <>
@@ -114,7 +119,7 @@ const Slideopen = () => {
             <Tooltip label="Timesheet Approvals" placement='right' color={tooltip_style.color} hasArrow maxWidth={tooltip_style.maxWidth} backgroundColor={tooltip_style.bgColor}>
               <Link href={`/account/user/timesheets/approval`} styles={({isManagerActive}) => (isManagerActive ? navbaractive: navbarnotactive)}>  
                   <div>
-                    <MdOutlineApproval  className={styles.icons1}/>
+                    <MdApproval  className={styles.icons1}/>
                   </div>
               </Link>   
             </Tooltip>         

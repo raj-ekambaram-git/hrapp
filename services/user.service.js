@@ -43,10 +43,23 @@ export const userService = {
     removeUserVendor,
     getAvailableProjectsForUser,
     createUser,
-    updateUser
+    updateUser,
+    getExpensesByUser
 
 
 };
+
+
+function getExpensesByUser(userId, accountId) {
+    return fetchWrapper.get(`${baseUrl}/account/user/`+userId+'/expenses?accountId='+accountId, {})
+    .then(expenses => {
+        return expenses;
+    })
+    .catch(err => {
+        console.log("Error getting expenses::"+err)
+        return {errorMessage: err, error: true};
+    });
+ }
 
 function updateUser(userId, formData, addressId, userRole) {
 
@@ -93,7 +106,7 @@ function updateUser(userId, formData, addressId, userRole) {
   .catch(err => {
     console.log("Error Updating User::"+err)
     return {errorMessage: err, error: true};
-});
+   });
 }
 
 function createUser(formData, userRoles) {

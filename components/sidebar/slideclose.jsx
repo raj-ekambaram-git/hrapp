@@ -58,6 +58,11 @@ const Slideclose = () => {
               <p>My Timesheet</p>
               </div>
             </Link>    
+            <Link href={`/account/user/expenses`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
+              <div>
+              <p>My Expenses</p>
+              </div>
+            </Link>              
           </>
         )}
 
