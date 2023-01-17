@@ -19,12 +19,10 @@ import {
     CardBody,
     Stack,
     StackDivider,
-    Badge
+    Badge,
+    AccordionIcon
 
   } from '@chakra-ui/react';
-  import {
-    AddIcon
-  } from '@chakra-ui/icons';  
 import { useSelector } from 'react-redux';
 import { ExpenseConstants } from '../../../constants';
 import { util } from '../../../helpers/util';
@@ -58,7 +56,7 @@ const ProjectExpenses = (props) => {
                                                 {expense.project.name} -- {expense.project.referenceCode}
                                             </Heading>
                                         </Box>
-                                        <AddIcon />
+                                        <AccordionIcon />
                                     </AccordionButton>
                                 </h2>
                                 <AccordionPanel pb={4}>

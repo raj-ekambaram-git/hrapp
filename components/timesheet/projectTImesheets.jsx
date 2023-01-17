@@ -19,12 +19,11 @@ import {
     CardBody,
     Stack,
     StackDivider,
-    Badge
+    Badge,
+    AccordionIcon
 
   } from '@chakra-ui/react';
-  import {
-    AddIcon
-  } from '@chakra-ui/icons';  
+
   import {TIMESHEET_STATUS} from "../../constants/accountConstants";
   import TimesheetEntryDetail from './timesheetEntryDetail';
 import { useSelector } from 'react-redux';
@@ -56,7 +55,7 @@ const ProjectTimesheets = (props) => {
                                                 {timesheet.project.name} -- {timesheet.project.referenceCode}
                                             </Heading>
                                         </Box>
-                                        <AddIcon />
+                                        <AccordionIcon />
                                     </AccordionButton>
                                 </h2>
                                 <AccordionPanel pb={4}>
