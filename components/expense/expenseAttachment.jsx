@@ -1,40 +1,45 @@
-import React from "react";
-import {Textarea, Box, Popover,PopoverTrigger, PopoverContent, PopoverHeader, PopoverArrow,PopoverCloseButton, PopoverBody,PopoverFooter,ButtonGroup ,Button, useDisclosure } from "@chakra-ui/react";
-import {TbNote} from 'react-icons/tb';
-import { AttachmentIcon } from "@chakra-ui/icons";
+import React, { useState } from "react";
+import {
+  Drawer,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  DrawerHeader,
+  useDisclosure,
+  Button,
+  DrawerBody,
+} from '@chakra-ui/react';
+import { EMPTY_STRING } from "../../constants";
 
 const ExpenseAttachment = (props) => {
-  const { isOpen, onToggle, onClose } = useDisclosure()
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const [size, setSize] = useState(EMPTY_STRING)
 
-
+  const handleClick = (newSize) => {
+    setSize(newSize)
+    onOpen()
+  }
   return (
-        <Popover
-            returnFocusOnClose={true}
-            isOpen={isOpen}
-            onClose={onClose}
-            closeOnBlur={false}
-        >
-            <PopoverTrigger>
-              <Box>
-                 <AttachmentIcon onClick={onToggle} boxSize={5}/>
-              </Box>
-              
-            </PopoverTrigger>
-            <PopoverContent>
-              <PopoverHeader>NOtes</PopoverHeader>
-              <PopoverArrow />
-              <PopoverCloseButton />
-              <PopoverBody>
-                <Textarea type="text" id="tranNotes"  value={props.notes} onChange={(ev) => props.handleExpenseEntry(props.rowIndex, "notes", ev.target.value)} />
-              </PopoverBody>
-              <PopoverFooter display='flex' justifyContent='flex-end'>
-                  <ButtonGroup size='sm'>
-                  <Button variant='outline'  onClick={onClose} >Cancel</Button>
-                  <Button colorScheme='red' onClick={onClose}>Apply</Button>
-                  </ButtonGroup>
-              </PopoverFooter>
-            </PopoverContent>
-        </Popover>     
+    <>
+    <Button size="xs" bgColor="header_actions"
+        onClick={() => handleClick("lg")}
+        key="xl"
+        m={1}
+        >{`Attach Receipts`}
+    </Button>
+    <Drawer onClose={onClose} isOpen={isOpen} size={size}>
+        <DrawerOverlay />
+        <DrawerContent>
+        <DrawerCloseButton />
+        <DrawerHeader>
+            
+        </DrawerHeader>                    
+        <DrawerBody>
+            
+        </DrawerBody>
+        </DrawerContent>
+    </Drawer>   
+    </>
   );
 };
 

@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { setExpenseHeader } from "../../store/modules/Expense/actions";
 import { ExpenseStatus, ExpenseType } from "@prisma/client";
 import { util } from "../../helpers/util";
+import ExpenseAttachment from "./expenseAttachment";
 
 
 const ExpenseHeader = (props) => {
@@ -43,9 +44,7 @@ const ExpenseHeader = (props) => {
                       )}
                   </Button>
                   {props.isAddMode ?(<></>):(
-                      <Button size="xs" bgColor="header_actions" onClick={() => props.submitExpense(ExpenseConstants.EXPENSE_STATUS.Saved)}>
-                          Attach Receipts
-                      </Button>
+                      <ExpenseAttachment/>
                   )}      
                 </>
                   
