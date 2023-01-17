@@ -1,17 +1,26 @@
 import React from "react";
 import { Input, Button, Card, CardHeader, CardBody, Box, Text, Stack, Select, HStack, Checkbox, Textarea, FormControl, FormLabel, useToast } from "@chakra-ui/react";
 import { ExpenseConstants } from "../../constants";
+import { useSelector, useDispatch } from "react-redux";
+import { setExpenseHeader } from "../../store/modules/Expense/actions";
 
 
 const ExpenseHeader = (props) => {
- 
+  const dispatch = useDispatch();
+  const expenseHeader = useSelector(state => state.expense.expenseHeader);
+
+  function handleExpenseHeaderEntry(name, value) {
+    const newExpenseHeader = {...expenseHeader};
+    newExpenseHeader[name] = value;
+    dispatch(setExpenseHeader(newExpenseHeader))
+  }
   return (
     <Card variant="expenseProjectDetails">
       <CardHeader>
         <HStack spacing="55rem">
           <Box>
             <Text>
-              Project Details
+              Expense Details
             </Text>
           </Box>
           <Box>
@@ -45,13 +54,13 @@ const ExpenseHeader = (props) => {
       <CardBody>
         <Stack marginBottom="2rem">
           <HStack>
-            <Input type="text" id="name"  value={props.name} onChange={(ev) => props.setName(ev.target.value)}/>
+            <Input type="text" id="name"  value={expenseHeader.name} onChange={(ev) => handleExpenseHeaderEntry("name",ev.target.value)}/>
           </HStack>
           <HStack spacing="20rem" marginBottom={5}>
             <HStack>
               <FormControl isRequired>
                     <FormLabel>Project Details</FormLabel>
-                    <Select id="projectId" value={props.expenseProjectId} onChange={(ev) => props.setProjectId(ev.target.value)}>
+                    <Select id="projectId" value={expenseHeader.projectId} onChange={(ev) => handleExpenseHeaderEntry("projectId",ev.target.value)}>
                         <option value="">Select Project</option>
                         {props.userProjectList?.map((project) => (
                             <option value={project.projectId} data-unitprice={project.unitPrice} >{project.project.name} - {project.project.referenceCode}</option>
@@ -66,14 +75,15 @@ const ExpenseHeader = (props) => {
                 </Text>
               </Box>
               <Checkbox
-                onChange={(e) => props.setBillable(e.target.checked)}
+                  isChecked={expenseHeader.billable}
+                onChange={(e) => handleExpenseHeaderEntry("billable",e.target.checked)}
               />    
             </HStack>
           </HStack>    
           <HStack>
               <FormControl isRequired>
-                  <FormLabel>Project Details</FormLabel>
-                  <Textarea type="text" id="description" size="md" maxWidth="30%" onChange={(ev) => props.setDescription(ev.target.value)}/>
+                  <FormLabel>Expense Description</FormLabel>
+                  <Textarea type="text" id="description" value={expenseHeader.description} size="md" maxWidth="30%" onChange={(ev) => handleExpenseHeaderEntry("description",ev.target.value)}/>
               </FormControl>    
           </HStack>  
         </Stack>        

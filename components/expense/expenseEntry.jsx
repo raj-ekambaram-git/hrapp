@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { EMPTY_STRING, ExpenseConstants } from "../../constants";
 import { util } from "../../helpers/util";
 import { expenseService, userService } from "../../services";
-import {setExpenseEntries} from '../../store/modules/Expense/actions';
+import {setExpenseEntries, setExpenseHeader} from '../../store/modules/Expense/actions';
 import DatePicker from "../common/datePicker";
 import ExpenseHeader from "./expenseHeader";
 import ExpenseNotes from "./expenseNotes";
@@ -21,13 +21,10 @@ const ExpenseEntry = (props) => {
   const [isAddMode, setAddMode] = useState(true);
   const [showProjectError, setShowProjectError] = useState(false);
   const [userProjectList, setUserProjectList] = useState([]);
-  const [projectId, setProjectId] = useState(EMPTY_STRING);
-  const [billable, setBillable] = useState(false);
-  const [name, setName] = useState(EMPTY_STRING);
-  const [description, setDescription] = useState(EMPTY_STRING);
+
   const userId = props.data.userId;
-  const expenseProjectId = useSelector(state => state.expense.projectId);
   const expenseEntries = useSelector(state => state.expense.expenseEntries);
+  const expenseHeader = useSelector(state => state.expense.expenseHeader);
 
   useEffect(() => {
 
@@ -52,10 +49,10 @@ const ExpenseEntry = (props) => {
     try {
 
         const expenseRequest = {
-          projectId: parseInt(projectId.toString()),
-          name: name,
-          description: description,
-          billable: billable,
+          projectId: parseInt(expenseHeader.projectId.toString()),
+          name: expenseHeader.name,
+          description: expenseHeader.description,
+          billable: expenseHeader.billable,
           total: "100",
           status: "Draft",
           userId: parseInt(userService.userValue.id),
@@ -113,6 +110,10 @@ const ExpenseEntry = (props) => {
           && (props && props.data && !props.data.isAddMode)) { // This is for EDIT 
             const expenseResponse = await expenseService.getExpenseDetails(props.data.expenseId, userService.getAccountDetails().accountId);
             dispatch(setExpenseEntries(expenseResponse.expenseEntries))
+            delete expenseResponse["expenseEntries"]
+            console.log("expenseResponse::"+JSON.stringify(expenseResponse))
+            dispatch(setExpenseHeader(expenseResponse))
+
     }
   }
 
@@ -145,7 +146,7 @@ const ExpenseEntry = (props) => {
   return (
     <div>
       <Stack>
-        <ExpenseHeader setProjectId={setProjectId} setName={setName} submitExpense={submitExpense} isAddMode={isAddMode} userProjectList={userProjectList} expenseProjectId={expenseProjectId} setBillable={setBillable} setDescription={setDescription}/>
+        <ExpenseHeader submitExpense={submitExpense} isAddMode={isAddMode} userProjectList={userProjectList}/>
         <Card variant="expenseDetails">
           <CardHeader>
             <Box>

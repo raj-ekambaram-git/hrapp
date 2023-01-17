@@ -12,7 +12,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { PageMainHeader } from "../common/pageMainHeader";
 import { ExpenseConstants, NotesConstants } from "../../constants";
 import ExpenseEntry from "./expenseEntry";
-import { setExpenseEntries } from "../../store/modules/Expense/actions";
+import { setExpenseEntries, setExpenseHeader } from "../../store/modules/Expense/actions";
 
 
 const ExpenseAddEdit = (props) => {
@@ -35,13 +35,14 @@ const ExpenseAddEdit = (props) => {
   //Get Account Details only if its EditMode
   useEffect(() => {
     if(props && props.data && props.data.mode != MODE_ADD) {
-      setAddMode(false);
+      setAddMode(false);  
     }
 
     if(userService.isAccountAdmin() || userService.isSuperAdmin() || userService.isTimesheetEntryUser() || userService.isManager()) {
       setPageAuthorized(true);
     }
     dispatch(setExpenseEntries([{...ExpenseConstants.EXPENSE_ENYTY_DEFAULT_RECORD}]))
+    dispatch(setExpenseHeader({}))
   }, []);
 
 

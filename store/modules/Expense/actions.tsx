@@ -61,3 +61,10 @@ export const setSelectedExpenseEntryId = (selectedTimeSheetEntryId) => {
         payload: selectedTimeSheetEntryId
     }
 }
+
+export const setExpenseHeader = (expenseHeader) => {
+    return {
+        type: ActionTypes.SET_EXPENSE_HEADER,
+        payload: expenseHeader
+    }
+}

@@ -10,6 +10,7 @@ const initialState = {
     approvalExpenses: [],
     selectedExpenseId: null,
     selectedExpenseEntryId: null,
+    expenseHeader: {},
 };
 
 const expenseReducer = (state = initialState, {type, payload}) => {
@@ -29,7 +30,10 @@ const expenseReducer = (state = initialState, {type, payload}) => {
         newState.selectedExpenseEntryId = payload
     } else if(type === ActionTypes.SET_SELECTED_EXPENSE_ID) {
         newState.selectedExpenseId = payload
+    } else if(type === ActionTypes.SET_EXPENSE_HEADER) {
+        newState.expenseHeader = payload
     }
+
 
     return newState;
 };
