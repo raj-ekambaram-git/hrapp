@@ -6,6 +6,7 @@ import { CommonConstants, EMPTY_STRING } from "../../constants";
 import { documentService, expenseService, userService } from "../../services";
 import { ShowInlineErrorMessage } from "../common/showInlineErrorMessage";
 import { DeleteIcon } from "@chakra-ui/icons";
+import { ErrorMessage } from "../../constants/errorMessage";
 
 
 
@@ -107,8 +108,9 @@ const ExpenseEntryAttachment = (props) => {
                   setShowErrorMessage(EMPTY_STRING)
                   console.error('Upload failed.')
               }
-    }
-
+      }else {
+        setShowErrorMessage(ErrorMessage.ERROR_UPLOADING)
+      }
   }
 
 };

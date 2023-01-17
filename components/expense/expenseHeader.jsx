@@ -107,10 +107,10 @@ const ExpenseHeader = (props) => {
                   <Box>
                     <FormControl>
                       <HStack>
-                        <FormLabel>By</FormLabel>
-                        <Box>{expenseHeader.approvedBy?.firstName} {expenseHeader.approvedBy?.lastName}</Box>
-                        <FormLabel>on </FormLabel>
-                        <Box>{util.getFormattedDate(expenseHeader.approvedDate)}</Box>
+                        <Box>by</Box>
+                        <Box fontWeight="bold">{expenseHeader.approvedBy?.firstName} {expenseHeader.approvedBy?.lastName}</Box>
+                        <Box>on </Box>
+                        <Box fontWeight="bold">{util.getFormattedDate(expenseHeader.approvedDate)}</Box>
                       </HStack>
                     </FormControl>                   
                   </Box>                

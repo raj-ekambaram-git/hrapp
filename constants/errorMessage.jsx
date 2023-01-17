@@ -8,5 +8,6 @@ export const ErrorMessage = {
   SELECT_USER_REQUIRED: "Please select an user.",
   COMMENTS_REQUIRED: "Commers are required.",
   REPLY_REQUIRED: "Reply required.",
+  ERROR_UPLOADING: "Error uploading, please try again.",
   TIMESHEET_HOURS_ENTRY_ERROR: "Total hours for a day across multiple projects cannot be greater than 24. Please adjust accordingly.",
 }
