@@ -53,10 +53,11 @@
 
 .mainContainer{
     
-    margin-left: 4rem;
-    margin-top: 4rem;
+    margin-left: 5rem;
+    margin-top: 1rem;
     max-width: 1500px;
     width: 1500px;
+    margin-bottom: 3rem;
 }
 .navbarleftmain{
     display: flex;
