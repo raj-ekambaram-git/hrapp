@@ -6,3 +6,4 @@ export * from './popoverTheme';
 export * from './boxTheme';
 export * from './tableTheme';
 export * from './flexTheme';
+export * from './toolTipTheme';

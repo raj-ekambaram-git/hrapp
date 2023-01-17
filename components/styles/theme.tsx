@@ -1,7 +1,7 @@
 
 
-import { extendTheme } from '@chakra-ui/react';
-import {cardTheme, accordionTheme, buttonTheme, drawerTheme, popoverTheme, boxTheme, tableTheme, flexTheme} from '.';
+import { extendTheme, Tooltip } from '@chakra-ui/react';
+import {cardTheme, accordionTheme, buttonTheme, drawerTheme, popoverTheme, boxTheme, tableTheme, flexTheme, toolTipTheme} from '.';
 
 
 
@@ -25,7 +25,8 @@ const theme = extendTheme({
     Popover: popoverTheme,
     Box: boxTheme,
     Table: tableTheme,
-    Flext: flexTheme
+    Flext: flexTheme,
+    Tooltip: toolTipTheme
 
   },
   semanticTokens: {
