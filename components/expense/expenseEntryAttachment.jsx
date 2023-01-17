@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import {Text, useToast, Input, Box, Popover,PopoverTrigger, PopoverContent, PopoverHeader, PopoverArrow,PopoverCloseButton, PopoverBody,PopoverFooter,ButtonGroup , useDisclosure, HStack } from "@chakra-ui/react";
+import { useToast, Input, Box, Popover,PopoverTrigger, PopoverContent, PopoverHeader, PopoverArrow,PopoverCloseButton, PopoverBody,PopoverFooter,ButtonGroup , useDisclosure, HStack } from "@chakra-ui/react";
 import {CgAttachment} from 'react-icons/cg';
 import Link from "next/link";
 import { CommonConstants, EMPTY_STRING } from "../../constants";
 import { documentService, expenseService, userService } from "../../services";
 import { ShowInlineErrorMessage } from "../common/showInlineErrorMessage";
-import { SmallCloseIcon } from "@chakra-ui/icons";
+import { DeleteIcon } from "@chakra-ui/icons";
+
 
 
 
@@ -25,6 +26,36 @@ const ExpenseEntryAttachment = (props) => {
     window.open(responseData);
   }
   
+
+  async function handleDeleteDocument(index) {
+    const newAttachments = [...props.attachments]
+    newAttachments.splice(index, 1);
+    const responseData = await expenseService.addAttachmentToExpenseEntry(props.expenseEntryId,newAttachments)
+    if(responseData.error) {
+      toast({
+          title: 'Delete Attachment.',
+          description: 'Error deleting attachment, please try again. Details:'+responseData.errorMessage,
+          status: 'error',
+          position: 'top',
+          duration: 6000,
+          isClosable: true,
+      })
+    }else {
+        toast({
+            title: 'Delete Attachment.',
+            description: 'Successfully deleted new attachment.',
+            status: 'success',
+            position: 'top',
+            duration: 3000,
+            isClosable: true,
+        })
+        props.handleExpenseEntry(props.index, "attachments", newAttachments)
+        // onClose()
+    }    
+
+  }  
+
+
   async function uploadFile(e) {
     if(e) {
       // setFile(e.target.files[0])
@@ -54,22 +85,22 @@ const ExpenseEntryAttachment = (props) => {
                         duration: 6000,
                         isClosable: true,
                     })
-                }else {
-                    toast({
-                        title: 'New Attachment.',
-                        description: 'Successfully added new attachment.',
-                        status: 'success',
-                        position: 'top',
-                        duration: 3000,
-                        isClosable: true,
-                    })
-                    setUploadingStatus(" Uploaded.");
-                    setUploadedFile(file?.name);
-                    // setFile(null)
-                    setShowErrorMessage(EMPTY_STRING)
-                    props.handleExpenseEntry(props.index, "attachments", newAttachments)
-                    // onClose()
-                }
+                  }else {
+                      toast({
+                          title: 'New Attachment.',
+                          description: 'Successfully added new attachment.',
+                          status: 'success',
+                          position: 'top',
+                          duration: 3000,
+                          isClosable: true,
+                      })
+                      setUploadingStatus(" Uploaded.");
+                      setUploadedFile(file?.name);
+                      // setFile(null)
+                      setShowErrorMessage(EMPTY_STRING)
+                      props.handleExpenseEntry(props.index, "attachments", newAttachments)
+                      // onClose()
+                  }
 
 
               } else {
@@ -104,9 +135,9 @@ const ExpenseEntryAttachment = (props) => {
                 <Input size="xs" accept={acceptedFileTypes} type="file" onChange={(e) => uploadFile(e)} width="50%"  marginBottom="2rem"/>
                 {uploadingStatus && <Box fontWeight="bold" marginBottom={2}>{uploadedFile} {uploadingStatus}</Box>}
                 {props.attachments?.map((attachment, index) => (
-                  <HStack>
+                  <HStack marginBottom={1}>
                     <Box>
-                      <SmallCloseIcon/>
+                      <DeleteIcon boxSize={3} onClick={() => handleDeleteDocument(index)}/>
                     </Box>
                     <Box>
                       <Link href="" onClick={() => handleViewDocument(attachment)}>  
