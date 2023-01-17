@@ -65,11 +65,13 @@ export const ExpenseConstants = {
     },
     {
       label: "Amount",
-      accessor: "total"
+      accessor: "total",
+      format: (value) => (value ? "$ "+value  : '$ 0')
     },
     {
       label: "Paid",
-      accessor: "paidAmount"
+      accessor: "paidAmount",
+      format: (value) => (value ? "$ "+value  : '$ 0')
     },
     {
       label: "Approved On",
