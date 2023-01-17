@@ -176,10 +176,12 @@ const ExpenseEntry = (props) => {
   }
 
   function handleExpenseAmount(index, origVal, newValue) {
+    console.log("index:::"+index+"---origVal::"+origVal+"---newValue::"+newValue+"----expenseTotal::"+expenseTotal)
+
     if(origVal != undefined && origVal != EMPTY_STRING) {
-      setExpenseTotal((parseFloat(expenseTotal)-parseFloat(origVal))+parseFloat(newValue))
+      setExpenseTotal((util.getZeroPriceForNull(expenseTotal)-util.getZeroPriceForNull(origVal))+util.getZeroPriceForNull(newValue))
     }else{
-      setExpenseTotal((parseFloat(expenseTotal))+parseFloat(newValue))
+      setExpenseTotal((util.getZeroPriceForNull(expenseTotal))+util.getZeroPriceForNull(newValue))
     }
     handleExpenseEntry(index,"amount", newValue)
   }
