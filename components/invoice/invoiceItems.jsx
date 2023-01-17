@@ -118,14 +118,14 @@ const InvoiceItems = (props) => {
                                                 {invoiceItem.generalNote}</>
                                             ) : (
                                                 <>
-                                                {invoiceItem.userId}
+                                                {invoiceItem.user?.firstName} {invoiceItem.user?.lastName}
                                                 </>
                                             )}                                
                                         </Text>
                                     </Th>
                                     <Th>
                                         <Text pt='table_display_value' fontSize='table_display_value'>
-                                            {invoiceItem.unitPrice}
+                                            $ {invoiceItem.unitPrice}
                                         </Text>
                                     </Th>
                                     <Th>
@@ -145,7 +145,7 @@ const InvoiceItems = (props) => {
                                     </Th>                               
                                     <Th>
                                         <Text pt='table_display_value' fontSize='table_display_value'>  
-                                            {invoiceItem.total} 
+                                           $ {invoiceItem.total} 
                                         </Text>
                                     </Th>
                                 </Tr>
