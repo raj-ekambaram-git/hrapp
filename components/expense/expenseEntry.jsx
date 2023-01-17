@@ -1,4 +1,4 @@
-import { DeleteIcon } from "@chakra-ui/icons";
+import { CheckCircleIcon, DeleteIcon } from "@chakra-ui/icons";
 import { Input, Box, Card, CardBody, CardHeader, Stack, useToast, Text, Select, HStack, Checkbox, Table, Thead, Tr, Th, Tbody, Button, Tooltip } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
@@ -14,12 +14,14 @@ import ExpenseNotes from "./expenseNotes";
 
 
 
+
 const ExpenseEntry = (props) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const toast = useToast();
 
   const [isAddMode, setAddMode] = useState(true);
+  const [expenseStatus, setExpenseStatus] = useState(EMPTY_STRING);
   const [showProjectError, setShowProjectError] = useState(false);
   const [userProjectList, setUserProjectList] = useState([]);
   const [expenseTotal, setExpenseTotal] = useState(0);
@@ -29,7 +31,7 @@ const ExpenseEntry = (props) => {
   const expenseHeader = useSelector(state => state.expense.expenseHeader);
 
   useEffect(() => {
-
+    console.log("props.data.isAddMode:::"+JSON.stringify(props))
     if(userService.isAccountAdmin() || userService.isSuperAdmin() || userService.isManager()) {
       getProjectForUser(userId);
     }else if(userService.isTimesheetEntryUser()) {
@@ -158,6 +160,7 @@ const ExpenseEntry = (props) => {
             dispatch(setExpenseEntries(expenseResponse.expenseEntries))
             delete expenseResponse["expenseEntries"]
             setExpenseTotal(expenseResponse.total)
+            setExpenseStatus(expenseResponse.status)
             dispatch(setExpenseHeader(expenseResponse))
 
     }
@@ -217,7 +220,7 @@ const ExpenseEntry = (props) => {
   return (
     <div>
       <Stack>
-        <ExpenseHeader submitExpense={submitExpense} isAddMode={isAddMode} userProjectList={userProjectList}/>
+        <ExpenseHeader submitExpense={submitExpense} isAddMode={isAddMode} userProjectList={userProjectList} status={expenseStatus}/>
         <Card variant="expenseDetails">
           <CardHeader>
             <Box>

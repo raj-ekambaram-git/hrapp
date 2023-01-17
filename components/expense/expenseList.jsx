@@ -90,9 +90,9 @@ const ExpenseList = (props) => {
       {isPageAuthprized ? (
         <div>
               {isManager ? (
-                <PageMainHeader heading="Timesheets to Approve"/>
+                <PageMainHeader heading="Expenses to Approve"/>
               ) : (
-                <PageMainHeader heading="Timesheets"/>
+                <PageMainHeader heading="Expenses"/>
               )}
     
               <Flex marginBottom="1rem">

@@ -20,6 +20,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           },
       },
         include: {
+          approvedBy: {
+            select: {
+              firstName: true,
+              lastName: true
+            }
+          },
           expenseEntries: {
             select: {
               id: true,

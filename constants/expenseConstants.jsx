@@ -113,7 +113,7 @@ export const ExpenseConstants = {
       format: (value) => (value ? "$ "+value  : '$ 0')
     },
     {
-      label: "Approved On",
+      label: "Approved/Rejected On",
       accessor: "approvedDate"
     },    
     {

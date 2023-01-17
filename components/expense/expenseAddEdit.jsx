@@ -61,7 +61,7 @@ const ExpenseAddEdit = (props) => {
               <PageMainHeader heading="Update Expense" notesData={notesData}/>
           )}              
           <Box width="100%">
-            <ExpenseEntry data={{userId: userService.userValue.id, expenseId: expenseId, isAddMode: isAddMode}}></ExpenseEntry>
+            <ExpenseEntry data={{userId: userService.userValue.id, expenseId: expenseId, isAddMode: isAddMode }}></ExpenseEntry>
           </Box>
 
         </div>

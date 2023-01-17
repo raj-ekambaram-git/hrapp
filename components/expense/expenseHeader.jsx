@@ -3,6 +3,8 @@ import { Badge, Input, Button, Card, CardHeader, CardBody, Box, Text, Stack, Sel
 import { ExpenseConstants } from "../../constants";
 import { useSelector, useDispatch } from "react-redux";
 import { setExpenseHeader } from "../../store/modules/Expense/actions";
+import { ExpenseStatus, ExpenseType } from "@prisma/client";
+import { util } from "../../helpers/util";
 
 
 const ExpenseHeader = (props) => {
@@ -86,12 +88,26 @@ const ExpenseHeader = (props) => {
                     <Textarea type="text" id="description" value={expenseHeader.description} onChange={(ev) => handleExpenseHeaderEntry("description",ev.target.value)}/>
                 </FormControl>    
               </Box>              
-              <Box>
-                <FormControl>
-                    <FormLabel>Status</FormLabel>
-                    <Badge color={`${expenseHeader.status === "Approved"? "timesheet.approved_status": (expenseHeader.status === "Submitted" || expenseHeader.status === "Saved")? "timesheet.approved_status": "timesheet.pending_status"}`}>{expenseHeader.status}</Badge>
-                </FormControl>                   
-              </Box>
+              <Stack>
+                <Box>
+                  <FormControl>
+                      <FormLabel>Status</FormLabel>
+                      <Badge color={`${expenseHeader.status === "Approved"? "timesheet.approved_status": (expenseHeader.status === "Submitted" || expenseHeader.status === "Saved")? "timesheet.approved_status": "timesheet.pending_status"}`}>{expenseHeader.status}</Badge>
+                  </FormControl>                   
+                </Box>
+                {(expenseHeader.status === ExpenseStatus.Approved || expenseHeader.status === ExpenseStatus.Rejected) ? (<>
+                  <Box>
+                    <FormControl>
+                      <HStack>
+                        <FormLabel>By</FormLabel>
+                        <Box>{expenseHeader.approvedBy?.firstName} {expenseHeader.approvedBy?.lastName}</Box>
+                        <FormLabel>on </FormLabel>
+                        <Box>{util.getFormattedDate(expenseHeader.approvedDate)}</Box>
+                      </HStack>
+                    </FormControl>                   
+                  </Box>                
+                </>) : (<></>)}
+              </Stack>                
           </HStack>  
         </Stack>        
       </CardBody>
