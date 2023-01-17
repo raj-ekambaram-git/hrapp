@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Badge, Input, Button, Card, CardHeader, CardBody, Box, Text, Stack, Select, HStack, Checkbox, Textarea, FormControl, FormLabel, useToast } from "@chakra-ui/react";
 import { ExpenseConstants } from "../../constants";
 import { useSelector, useDispatch } from "react-redux";
@@ -10,6 +10,8 @@ import { util } from "../../helpers/util";
 const ExpenseHeader = (props) => {
   const dispatch = useDispatch();
   const expenseHeader = useSelector(state => state.expense.expenseHeader);
+  console.log("props.isAddMode::"+props.isAddMode)
+  const [isAddMode, setAddMode] = useState(props.isAddMode);
 
   function handleExpenseHeaderEntry(name, value) {
     const newExpenseHeader = {...expenseHeader};
@@ -26,31 +28,38 @@ const ExpenseHeader = (props) => {
             </Text>
           </Box>
           <Box>
-              {props.isAddMode || (!props.isAddMode && (props.status != ExpenseConstants.EXPENSE_STATUS.Approved || props.status != ExpenseConstants.EXPENSE_STATUS.Paid  || props.status != ExpenseConstants.EXPENSE_STATUS.PartiallyPaid)) ? (
-                  <>
-                      <HStack>
-                              <Button size="xs" bgColor="header_actions" onClick={() => props.submitExpense(ExpenseConstants.EXPENSE_STATUS.Saved)}>
-                                  Save
-                              </Button>
-                              <Button size="xs" bgColor="header_actions" onClick={() => props.submitExpense(ExpenseConstants.EXPENSE_STATUS.Submitted)}>
-                                  {props.isAddMode ? (
-                                      <>Submit</>
-                                  ) : (
-                                      <>Submit</>
-                                  )}
-                              </Button>
-                              {props.isAddMode?(<></>):(
-                                  <Button size="xs" bgColor="header_actions" onClick={() => props.submitExpense(ExpenseConstants.EXPENSE_STATUS.Saved)}>
-                                      Attach Receipts
-                                  </Button>
-                              )}
-                      </HStack>                                
-                  </>
+            <>
+              <HStack>
+              {props.isAddMode || ((!props.isAddMode && props.status != ExpenseConstants.EXPENSE_STATUS.Approved && props.status != ExpenseConstants.EXPENSE_STATUS.Paid  && props.status != ExpenseConstants.EXPENSE_STATUS.PartiallyPaid)) ? (
+                <>
+                  <Button size="xs" bgColor="header_actions" onClick={() => props.submitExpense(ExpenseConstants.EXPENSE_STATUS.Saved)}>
+                      Save
+                  </Button>
+                  <Button size="xs" bgColor="header_actions" onClick={() => props.submitExpense(ExpenseConstants.EXPENSE_STATUS.Submitted)}>
+                      {isAddMode == "true" ? (
+                          <>Submit</>
+                      ) : (
+                          <>Submit</>
+                      )}
+                  </Button>
+                  {props.isAddMode ?(<></>):(
+                      <Button size="xs" bgColor="header_actions" onClick={() => props.submitExpense(ExpenseConstants.EXPENSE_STATUS.Saved)}>
+                          Attach Receipts
+                      </Button>
+                  )}      
+                </>
+                  
               ) : (
                   <>
+                  {props.isAddMode ?(<></>):(
+                      <Button size="xs" bgColor="header_actions" onClick={() => props.submitExpense(ExpenseConstants.EXPENSE_STATUS.Saved)}>
+                          Attach Receipts
+                      </Button>
+                  )}                  
                   </>
               )}
-
+              </HStack>    
+            </>
           </Box>      
         </HStack>  
       </CardHeader>
