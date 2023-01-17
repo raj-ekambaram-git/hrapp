@@ -19,6 +19,12 @@ const ExpenseEntryAttachment = (props) => {
   const [uploadedFile, setUploadedFile] = useState();
   const acceptedFileTypes = process.env.ALLOWED_DOCUMENT_TYPES
 
+
+  async function handleViewDocument(viewURLPath) {
+    const responseData = await documentService.viewDocument(viewURLPath);
+    window.open(responseData);
+  }
+  
   async function uploadFile(e) {
     if(e) {
       // setFile(e.target.files[0])
@@ -103,7 +109,7 @@ const ExpenseEntryAttachment = (props) => {
                       <SmallCloseIcon/>
                     </Box>
                     <Box>
-                      <Link href={attachment}>
+                      <Link href="" onClick={() => handleViewDocument(attachment)}>  
                         {attachment.split("/")[[attachment.split("/").length-1]]}
                       </Link>
                     </Box>
