@@ -122,7 +122,14 @@ const Slideopen = () => {
                     <MdApproval  className={styles.icons1}/>
                   </div>
               </Link>   
-            </Tooltip>         
+            </Tooltip>        
+            <Tooltip label="Expense Approvals" placement='right' color={tooltip_style.color} hasArrow maxWidth={tooltip_style.maxWidth} backgroundColor={tooltip_style.bgColor}>
+              <Link href={`/account/user/expenses/approval`} styles={({isManagerActive}) => (isManagerActive ? navbaractive: navbarnotactive)}>  
+                  <div>
+                    <MdApproval  className={styles.icons1}/>
+                  </div>
+              </Link>   
+            </Tooltip>                
             </>
           ) : (
             <>
