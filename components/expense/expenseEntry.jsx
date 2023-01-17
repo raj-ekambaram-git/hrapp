@@ -286,7 +286,7 @@ const ExpenseEntry = (props) => {
                             <Tooltip label={expenseEntry.notes}>
                               <ExpenseNotes handleExpenseEntry={handleExpenseEntry} notes={expenseEntry.notes} rowIndex={index}/>
                             </Tooltip>      
-                              {isAddMode ? (<></>) : (<ExpenseEntryAttachment/>)}                                                 
+                              {!isAddMode && (expenseEntry.id)? (<ExpenseEntryAttachment index={index} handleExpenseEntry={handleExpenseEntry} attachments={expenseEntry.attachments} expenseId={props.data.expenseId} expenseEntryId={expenseEntry.id}/>) : (<></>)}                                                 
                           </HStack>
                         </Th>           
                       </Tr>     

@@ -74,6 +74,7 @@ function getUploadURL(name, type) {
 function uploadFile(url, file, type) {
     return fetchWrapper.filePut(url, file, type)
     .then(response => {
+        console.log("REPONSEESS")
         return response;
     });
 }

@@ -11,9 +11,25 @@ export const expenseService = {
     getExpenseDetails,
     createExpense,
     updateExpense,
-    handleExpenseApproval
+    handleExpenseApproval,
+    addAttachmentToExpenseEntry
 };
 
+async function addAttachmentToExpenseEntry(expenseEntryId, attachments) {
+
+  return fetchWrapper.put(`${baseUrl}/expense/entry/`+expenseEntryId, {
+          id: parseInt(expenseEntryId),
+          attachments: attachments
+      }
+    )
+    .then(expenseEntry => {
+      return expenseEntry;
+    })
+    .catch(err => {
+    console.log("Error Updating Expense::"+err)
+    return {errorMessage: err, error: true};
+    });
+}
 
 async function handleExpenseApproval(expenseId, status, expenseNote, approvedBy) {
 

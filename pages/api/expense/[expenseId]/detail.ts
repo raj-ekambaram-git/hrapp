@@ -36,6 +36,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
               status: true,
               notes: true,
               lastUpdateDate: true,
+              attachments: true
             }
           }
         }
