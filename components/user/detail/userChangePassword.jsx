@@ -92,6 +92,8 @@ const UserChangePassword = (props) => {
 
     <div>
           <Button
+              size="xs"
+              bgColor="header_actions" 
               onClick={() => handleClick("md")}
               key="md"
               m={1}
