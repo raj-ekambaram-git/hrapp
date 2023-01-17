@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import {Text, useToast, Input, Box, Popover,PopoverTrigger, PopoverContent, PopoverHeader, PopoverArrow,PopoverCloseButton, PopoverBody,PopoverFooter,ButtonGroup , useDisclosure } from "@chakra-ui/react";
+import {Text, useToast, Input, Box, Popover,PopoverTrigger, PopoverContent, PopoverHeader, PopoverArrow,PopoverCloseButton, PopoverBody,PopoverFooter,ButtonGroup , useDisclosure, HStack } from "@chakra-ui/react";
 import {CgAttachment} from 'react-icons/cg';
 import Link from "next/link";
 import { CommonConstants, EMPTY_STRING } from "../../constants";
 import { documentService, expenseService, userService } from "../../services";
 import { ShowInlineErrorMessage } from "../common/showInlineErrorMessage";
+import { SmallCloseIcon } from "@chakra-ui/icons";
 
 
 
@@ -61,7 +62,7 @@ const ExpenseEntryAttachment = (props) => {
                     // setFile(null)
                     setShowErrorMessage(EMPTY_STRING)
                     props.handleExpenseEntry(props.index, "attachments", newAttachments)
-                    onClose()
+                    // onClose()
                 }
 
 
@@ -97,11 +98,16 @@ const ExpenseEntryAttachment = (props) => {
                 <Input size="xs" accept={acceptedFileTypes} type="file" onChange={(e) => uploadFile(e)} width="50%"  marginBottom="2rem"/>
                 {uploadingStatus && <Box fontWeight="bold" marginBottom={2}>{uploadedFile} {uploadingStatus}</Box>}
                 {props.attachments?.map((attachment, index) => (
-                  <Box>
-                    <Link href={attachment}>
-                      Attachment {index}
-                    </Link>
-                  </Box>
+                  <HStack>
+                    <Box>
+                      <SmallCloseIcon/>
+                    </Box>
+                    <Box>
+                      <Link href={attachment}>
+                        {attachment.split("/")[[attachment.split("/").length-1]]}
+                      </Link>
+                    </Box>
+                  </HStack>
                 ))}
               </PopoverBody>
               <PopoverFooter display='flex' justifyContent='flex-end'>
