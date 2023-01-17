@@ -629,6 +629,7 @@ enum ExpenseType {
 
 enum ExpenseEntryStatus {
   Draft
+  Saved
   Submitted
   Approved
   Rejected

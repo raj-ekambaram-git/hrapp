@@ -28,8 +28,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           },
           upsert: expenseEntries?.map((expenseEntry) => ({ 
             where: { id: expenseEntry.id?expenseEntry.id:0 },
-            create: {...expenseEntry},
-            update: {...expenseEntry},
+            create: {...expenseEntry, status: expense.status},
+            update: {...expenseEntry, status: expense.status},
           }))          
         }
       }

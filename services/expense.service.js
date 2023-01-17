@@ -15,16 +15,20 @@ export const expenseService = {
 };
 
 
-async function handleExpenseApproval(expenseId, status, expenseNote) {
+async function handleExpenseApproval(expenseId, status, expenseNote, approvedBy) {
 
-  return fetchWrapper.put(`${baseUrl}/expense/`+expenseId, {
-        id: parseInt(expenseId),
-        status: status,
-        approvedDate: new Date()
+  return fetchWrapper.put(`${baseUrl}/expense/`+expenseId+'/status', {
+        expense: {
+          id: parseInt(expenseId),
+          status: status,
+          approvedDate: new Date(),  
+          approvedById: approvedBy
+        },
+        expenseNote: expenseNote,
+        notesCreatedBy: approvedBy
       }
     )
     .then(expense => {
-
       return expense;
     })
     .catch(err => {
@@ -41,7 +45,6 @@ function updateExpense(expense, expenseEntries) {
         }
     )
     .then(expense => {
-      
       return expense;
     })
     .catch(err => {

@@ -11,16 +11,7 @@ import {
     Heading,
     HStack,
     Box,
-    Tr,
-    Th,
-    TableContainer,
-    Table,
-    TableCaption,
-    Thead,
-    Tbody,
     Textarea,
-    Text,
-    Tooltip
   } from '@chakra-ui/react';
 import { DEFAULT_NOTES, EMPTY_STRING,} from "../../../constants/accountConstants";
 import { useDispatch } from "react-redux";
@@ -28,7 +19,9 @@ import { ShowInlineErrorMessage } from "../../common/showInlineErrorMessage";
 import { ExpenseConstants, NotesConstants } from "../../../constants";
 import NotesHistory from "../../notes/notesHistory";
 import { setNotesType } from "../../../store/modules/Notes/actions";
+import { fetchExpensesForApproval } from "../../../store/modules/Expense/actions";
 import { CustomTable } from "../../customTable/Table";
+import { expenseService, userService } from "../../../services";
 
 
 
@@ -56,16 +49,15 @@ import { CustomTable } from "../../customTable/Table";
         console.log("updateExpense::::"+status);
         if(expenseNote != undefined && expenseNote != EMPTY_STRING && expenseNote != DEFAULT_NOTES) {
             setShowErrorMessage(EMPTY_STRING);
-            // const timesheetEntryUpdateResponse = await timesheetService.updateTimesheetEntry(timesheetEntryId, status, timesheetEntryNote);    
-            // console.log("timesheetEntryUpdateResponse::"+JSON.stringify(timesheetEntryUpdateResponse));
-            // if(timesheetEntryUpdateResponse.error) {
-            //     setShowErrorMessage("Error Updating timesheet entry");
-            // }else {
-            //     dispatch(fetchTimesheetsForApproval(userService.userValue?.id, userService.getAccountDetails().accountId));
-            //     setTimesheetEntryNote(EMPTY_STRING);
-            //     onClose();
-            //     //Remove the item from the list
-            // }
+            const expenseUpdateResponse = await expenseService.handleExpenseApproval(expenseId, status, expenseNote,userService.userValue?.id);
+            if(expenseUpdateResponse.error) {
+                setShowErrorMessage("Error Updating expense entry");
+            }else {
+                dispatch(fetchExpensesForApproval(userService.userValue?.id, userService.getAccountDetails().accountId));
+                setExpenseNote(EMPTY_STRING);
+                onClose();
+                //Remove the item from the list
+            }
     
         }else {
             setShowErrorMessage("Notes are required.");
