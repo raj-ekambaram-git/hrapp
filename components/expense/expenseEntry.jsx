@@ -8,6 +8,7 @@ import { util } from "../../helpers/util";
 import { expenseService, userService } from "../../services";
 import {setExpenseEntries, setExpenseHeader} from '../../store/modules/Expense/actions';
 import DatePicker from "../common/datePicker";
+import ExpenseAttachment from "./expenseAttachment";
 import ExpenseHeader from "./expenseHeader";
 import ExpenseNotes from "./expenseNotes";
 
@@ -243,7 +244,7 @@ const ExpenseEntry = (props) => {
                          Amount
                       </Th>             
                       <Th>
-                         Notes
+                         Notes / Files
                       </Th>             
                     </Tr>
                   </Thead>
@@ -277,9 +278,12 @@ const ExpenseEntry = (props) => {
                           <Input type="number" id="amount"  value={expenseEntry.amount} onChange={(ev) => handleExpenseAmount(index, expenseEntry.amount,ev.target.value)}/>
                         </Th>  
                         <Th>
-                           <Tooltip label={expenseEntry.notes}>
-                           <ExpenseNotes handleExpenseEntry={handleExpenseEntry} notes={expenseEntry.notes} rowIndex={index}/>
-                           </Tooltip>                           
+                          <HStack spacing={5}>
+                            <Tooltip label={expenseEntry.notes}>
+                              <ExpenseNotes handleExpenseEntry={handleExpenseEntry} notes={expenseEntry.notes} rowIndex={index}/>
+                            </Tooltip>                           
+                            <ExpenseAttachment/>
+                          </HStack>
                         </Th>           
                       </Tr>     
                     ))}     

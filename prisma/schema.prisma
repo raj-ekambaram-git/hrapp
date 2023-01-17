@@ -311,6 +311,7 @@ model ExpenseEntry {
   expenseDate    DateTime
   date           DateTime?
   amount         Decimal
+  attachments    String[]
   status         ExpenseEntryStatus
   notes          String?
   createdDate    DateTime           @default(now())
