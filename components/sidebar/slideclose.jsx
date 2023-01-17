@@ -4,7 +4,7 @@ import Link from "next/link";
 import styles from "./styles/slideclose.module.css"
 import { userService } from '../../services';
 import {
-  Text,
+  Box,
 } from '@chakra-ui/react';
 const navbaractive={
   backgroundColor: "",
@@ -24,44 +24,44 @@ const Slideclose = () => {
         {userService.isSuperAdmin() ? (     
           <>
             <Link href={`/accounts`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
-              <div>
-              <p>Accounts</p>
-              </div>
+              <Box padding={2}>
+                Accounts
+              </Box>
             </Link>
           </>       
         ): (
           <>
             
             <Link href={`/account/vendors`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
-              <div>
-                <p>Vendors</p>
-              </div>
+              <Box padding="8px">
+                Vendors
+              </Box>
             </Link>
             
             <Link href={`/account/users`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
-              <div>
-              <p>Users</p>
-              </div>
+              <Box padding="8px">
+                Users
+              </Box>
             </Link>
             <Link href={`/account/invoices`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
-              <div>
-              <p>Invoices</p>
-              </div>
+              <Box padding="8px">
+                Invoices
+              </Box>
             </Link>
             <Link href={`/account/projects`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
-              <div>
-              <p>Projects</p>
-              </div>
+              <Box padding="8px">
+                Projects
+              </Box>
             </Link>         
             <Link href={`/account/user/timesheets`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
-              <div>
-              <p>My Timesheet</p>
-              </div>
+              <Box padding="8px">
+                My Timesheets
+              </Box>
             </Link>    
             <Link href={`/account/user/expenses`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
-              <div>
-              <p>My Expenses</p>
-              </div>
+              <Box padding="8px">
+                My Expenses
+              </Box>
             </Link>              
           </>
         )}
@@ -69,10 +69,15 @@ const Slideclose = () => {
           {(userService.isManager() || userService.isAccountAdmin()) ? (
             <>
             <Link href={`/account/user/timesheets/approval`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
-              <div>
-              <p>Timesheets to Approve</p>
-              </div>
+              <Box padding="8px">
+                Timesheet Approvals
+              </Box>
             </Link>    
+            <Link href={`/account/user/expenses/approval`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
+              <Box padding="8px">
+                Expense Approvals
+              </Box>
+            </Link>              
             </>
           ) : (
             <>
