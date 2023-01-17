@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 
-import { userService } from "../../services";
+import { userService } from "../../../services";
 
-import { PageNotAuthorized } from "../common/pageNotAuthorized";
+import { PageNotAuthorized } from "../../common/pageNotAuthorized";
 import { useDispatch } from "react-redux";
-import { fetchExpensesForApproval } from "../../store/modules/Expense/actions";
-import {PageMainHeader} from '../common/pageMainHeader';
+import { fetchExpensesForApproval } from "../../../store/modules/Expense/actions";
+import {PageMainHeader} from '../../common/pageMainHeader';
 import ProjectExpenses from "./projectExpenses";
 
 const ExpenseApprovalList = (props) => {
@@ -38,9 +38,9 @@ const ExpenseApprovalList = (props) => {
       {isPageAuthprized ? (
         <div>
               {isManager ? (
-                <PageMainHeader heading="Timesheets to Approve"/>
+                <PageMainHeader heading="Expenses to Approve"/>
               ) : (
-                <PageMainHeader heading="Timesheets"/>
+                <PageMainHeader heading="Expenses"/>
               )}
               <ProjectExpenses/>
           </div>

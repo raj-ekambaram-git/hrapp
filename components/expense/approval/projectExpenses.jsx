@@ -26,8 +26,10 @@ import {
     AddIcon
   } from '@chakra-ui/icons';  
 import { useSelector } from 'react-redux';
-import { ExpenseConstants } from '../../constants';
-import { util } from '../../helpers/util';
+import { ExpenseConstants } from '../../../constants';
+import { util } from '../../../helpers/util';
+import ExpenseEntryDetail from './expenseEntryDetail';
+
   
 const ProjectExpenses = (props) => {
     
@@ -101,7 +103,7 @@ const ProjectExpenses = (props) => {
                                                                 </Th>
 
                                                                 <Th>
-                                                                    {/* <TimesheetEntryDetail tsEntryDetail={timesheetEntry}/> */}
+                                                                    <ExpenseEntryDetail expense={expenseEntry}/>
                                                                 </Th> 
                                                                 <Th>
                                                                     <Badge color={`${

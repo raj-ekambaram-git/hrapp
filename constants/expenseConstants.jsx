@@ -1,9 +1,49 @@
 import {
   Badge,
 } from '@chakra-ui/react'
+import { util } from '../helpers/util'
 import { EMPTY_STRING } from './accountConstants'
+import ExpenseViewNotes from '../components/expense/approval/expenseViewNotes'
+import ExpenseViewAttachment from '../components/expense/expenseViewAttachment'
+
 
 export const ExpenseConstants = {
+  EXPENSE_ENTRY_LIST_TABLE_META:[
+    {
+      label: "Type",
+      accessor: "type"
+    },
+    {
+      label: "Billable",
+      accessor: "billable",
+      format: (value) => (value ? "Yes" : 'No')
+    },    
+    {
+      label: "Date",
+      accessor: "expenseDate",
+      format: (value) => (value ? util.getFormattedDate(value) : 'N/A')
+    },
+    {
+      label: "Amount",
+      accessor: "amount"
+    },
+    {
+      label: "Last Updated",
+      accessor: 'lastUpdateDate',
+      format: (value) => (value ? util.getFormattedDate(value) : 'N/A')
+    },
+    {
+      label: "Notes",
+      accessor: "notes",
+      format: (value) => (value ? <ExpenseViewNotes notes={value}/> : 'N/A')
+      
+    },
+    {
+      label: "Attachments",
+      accessor: 'attachments',
+      format: (value) => (value ? <ExpenseViewAttachment attachments={value}/> : 'N/A')
+    },
+  ],
   EXPENSE_STATUS: {
     'Draft': 'Draft',
     'Saved': 'Saved',

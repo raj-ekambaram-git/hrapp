@@ -2,7 +2,7 @@ import React from "react";
 import {Textarea, Box, Popover,PopoverTrigger, PopoverContent, PopoverHeader, PopoverArrow,PopoverCloseButton, PopoverBody,PopoverFooter,ButtonGroup ,Button, useDisclosure } from "@chakra-ui/react";
 import {TbNote} from 'react-icons/tb';
 
-const ExpenseNotes = (props) => {
+const ExpenseViewNotes = (props) => {
   const { isOpen, onToggle, onClose } = useDisclosure()
 
 
@@ -24,12 +24,13 @@ const ExpenseNotes = (props) => {
               <PopoverArrow />
               <PopoverCloseButton />
               <PopoverBody>
-                <Textarea type="text" id="tranNotes"  value={props.notes} onChange={(ev) => props.handleExpenseEntry(props.rowIndex, "notes", ev.target.value)} />
+                <Box>
+                  {props.notes}
+                </Box>
               </PopoverBody>
               <PopoverFooter display='flex' justifyContent='flex-end'>
                   <ButtonGroup size='sm'>
-                  <Button variant='outline'  onClick={onClose} >Cancel</Button>
-                  <Button colorScheme='red' onClick={onClose}>Apply</Button>
+                    <Button variant='outline'  onClick={onClose} >Cancel</Button>
                   </ButtonGroup>
               </PopoverFooter>
             </PopoverContent>
@@ -37,6 +38,6 @@ const ExpenseNotes = (props) => {
   );
 };
 
-export default ExpenseNotes;
+export default ExpenseViewNotes;
 
 

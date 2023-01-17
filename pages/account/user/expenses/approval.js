@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import ExpenseApprovalList from "../../../../components/expense/expenseApprovalList";
+import ExpenseApprovalList from "../../../../components/expense/approval/expenseApprovalList";
 
 
 
