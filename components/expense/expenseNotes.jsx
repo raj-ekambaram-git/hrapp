@@ -15,7 +15,7 @@ const ExpenseNotes = (props) => {
         >
             <PopoverTrigger>
               <Box>
-               <TbNote onClick={onToggle} size={20}/>
+                 <TbNote onClick={onToggle} size={20}/>
               </Box>
               
             </PopoverTrigger>

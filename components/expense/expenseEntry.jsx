@@ -1,5 +1,5 @@
 import { DeleteIcon } from "@chakra-ui/icons";
-import { Input, Box, Card, CardBody, CardHeader, Stack, useToast, Text, Select, HStack, Checkbox, Table, Thead, Tr, Th, Tbody, Button } from "@chakra-ui/react";
+import { Input, Box, Card, CardBody, CardHeader, Stack, useToast, Text, Select, HStack, Checkbox, Table, Thead, Tr, Th, Tbody, Button, Tooltip } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -180,12 +180,17 @@ const ExpenseEntry = (props) => {
 
   function handleDate(e) {
     console.log("handleDate::"+JSON.stringify(e))
+    console.log("Selevted Index :::"+e.rowIndex)
     if(e != undefined && (e.updatedDate)) {
+      const expenseEntry = [...expenseEntries]
       // handleExpenseEntry(e.rowIndex,"date",util.getFormattedDate(e.date));
-      
+      console.log("expenseEntry[e.rowIndex]:::"+expenseEntry[e.rowIndex])
+      expenseEntry[e.rowIndex].date = util.getFormattedDate(e.date);
+      console.log("expenseEntry:::"+JSON.stringify(expenseEntry[e.rowIndex]))
     }
+    
   }
-
+  
 
   return (
     <div>
@@ -243,18 +248,27 @@ const ExpenseEntry = (props) => {
                         </Th>             
                         <Th>
                           <HStack>
-                            <Input type="text" id="expenseDate" value={expenseEntry.expenseDate} onChange={(ev) => handleExpenseEntry(index,"expenseDate",ev.target.value)}/>
-                            {/* <DatePicker onChange={handleDate} rowIndex={index}/>  */}
+                            <Input type="text" id="expenseDate" value={util.getFormattedDate(expenseEntry.expenseDate)} />
+                            <DatePicker onChange={handleDate} rowIndex={index}/> 
                           </HStack>                          
                         </Th>             
                         <Th>
                           <Input type="number" id="amount"  value={expenseEntry.amount} onChange={(ev) => handleExpenseEntry(index,"amount",ev.target.value)}/>
                         </Th>  
                         <Th>
+                           <Tooltip label={expenseEntry.notes}>
                            <ExpenseNotes handleExpenseEntry={handleExpenseEntry} notes={expenseEntry.notes} rowIndex={index}/>
+                           </Tooltip>                           
                         </Th>           
                       </Tr>     
-                    ))}               
+                    ))}     
+                    <Tr bgColor="table_tile" >
+                      <Th colSpan={3}></Th>                      
+                      <Th textAlign="right" fontWeight="bold">Total: </Th>
+                      <Th colSpan={2}>
+                         $
+                      </Th>             
+                    </Tr>                              
                   </Tbody>
                 </Table>
                 <HStack marginTop="3rem">

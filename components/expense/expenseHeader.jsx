@@ -72,7 +72,7 @@ const ExpenseHeader = (props) => {
                 </FormControl>    
             </Box>
             <Box>
-              <FormControl isRequired>
+              <FormControl>
                   <FormLabel>Billable</FormLabel>
                   <Checkbox isChecked={expenseHeader.billable} onChange={(e) => handleExpenseHeaderEntry("billable",e.target.checked)}/>    
               </FormControl>                 
@@ -86,7 +86,7 @@ const ExpenseHeader = (props) => {
                 </FormControl>    
               </Box>              
               <Box>
-                <FormControl isRequired>
+                <FormControl>
                     <FormLabel>Status</FormLabel>
                     <Badge color={`${expenseHeader.status === "Approved"? "timesheet.approved_status": (expenseHeader.status === "Submitted" || expenseHeader.status === "Saved")? "timesheet.approved_status": "timesheet.pending_status"}`}>{expenseHeader.status}</Badge>
                 </FormControl>                   
