@@ -51,9 +51,7 @@ const ExpenseHeader = (props) => {
               ) : (
                   <>
                   {props.isAddMode ?(<></>):(
-                      <Button size="xs" bgColor="header_actions" onClick={() => props.submitExpense(ExpenseConstants.EXPENSE_STATUS.Saved)}>
-                          Attach Receipts
-                      </Button>
+                      <ExpenseAttachment/>
                   )}                  
                   </>
               )}

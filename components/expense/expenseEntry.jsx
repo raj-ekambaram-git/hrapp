@@ -9,6 +9,7 @@ import { expenseService, userService } from "../../services";
 import {setExpenseEntries, setExpenseHeader} from '../../store/modules/Expense/actions';
 import DatePicker from "../common/datePicker";
 import ExpenseAttachment from "./expenseAttachment";
+import ExpenseEntryAttachment from "./expenseEntryAttachment";
 import ExpenseHeader from "./expenseHeader";
 import ExpenseNotes from "./expenseNotes";
 
@@ -285,7 +286,7 @@ const ExpenseEntry = (props) => {
                             <Tooltip label={expenseEntry.notes}>
                               <ExpenseNotes handleExpenseEntry={handleExpenseEntry} notes={expenseEntry.notes} rowIndex={index}/>
                             </Tooltip>      
-                              {isAddMode ? (<></>) : (<ExpenseAttachment/>)}                                                 
+                              {isAddMode ? (<></>) : (<ExpenseEntryAttachment/>)}                                                 
                           </HStack>
                         </Th>           
                       </Tr>     
