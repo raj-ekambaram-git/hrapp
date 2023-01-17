@@ -5,8 +5,9 @@ import {VscCalendar, VscProject} from "react-icons/vsc"
 import {BiGridAlt} from "react-icons/bi"
 import {IoSettingsOutline} from "react-icons/io5"
 import {MdOutlineManageAccounts,MdApproval} from 'react-icons/md';
-import {FaFileInvoiceDollar} from 'react-icons/fa';
+import {FaFileInvoiceDollar, FaHandHoldingUsd} from 'react-icons/fa';
 import {TbFileDollar} from 'react-icons/tb';
+
 
 import { userService } from '../../services';
 import { Tooltip } from '@chakra-ui/react'
@@ -126,7 +127,7 @@ const Slideopen = () => {
             <Tooltip label="Expense Approvals" placement='right' borderRadius="6px"  padding="20px" color={tooltip_style.color} hasArrow  backgroundColor={tooltip_style.bgColor}>
               <Link href={`/account/user/expenses/approval`} styles={({isManagerActive}) => (isManagerActive ? navbaractive: navbarnotactive)}>  
                   <div>
-                    <MdApproval  className={styles.icons1}/>
+                    <FaHandHoldingUsd  className={styles.icons1}/>
                   </div>
               </Link>   
             </Tooltip>                
