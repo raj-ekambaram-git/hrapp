@@ -75,7 +75,7 @@ const ExpenseEntry = (props) => {
         }else {
           toast({
             title: 'Expense Error.',
-            description: 'Not able to create expense, plrease try again or contact administrator.',
+            description: 'Not able to create expense, plrease try again or contact administrator. Please make sure all the fields are entered, Details:'+responseData.errorMessage,
             status: 'error',
             position: 'top',
             duration: 6000,
@@ -123,7 +123,7 @@ const ExpenseEntry = (props) => {
         }else {
           toast({
             title: 'Expense Error.',
-            description: 'Not able to create expense, plrease try again or contact administrator.',
+            description: 'Not able to create expense, plrease try again or contact administrator. Please make sure all the fields are entered, Details:'+responseData.errorMessage,
             status: 'error',
             position: 'top',
             duration: 6000,
@@ -165,6 +165,12 @@ const ExpenseEntry = (props) => {
     const inputData = [...expenseEntries];
     inputData.push({...ExpenseConstants.EXPENSE_ENYTY_DEFAULT_RECORD});
     dispatch(setExpenseEntries(inputData))
+  }
+
+  function deleteExpenseEntry(removeIndex) {
+    const newEntriesData = [...expenseEntries];
+    newEntriesData.splice(removeIndex, 1);
+    dispatch(setExpenseEntries(newEntriesData))
   }
 
   function handleExpenseEntry(index, name, value) {
@@ -230,7 +236,7 @@ const ExpenseEntry = (props) => {
                   {expenseEntries?.map((expenseEntry, index) => (
                     <Tr>
                         <Th>
-                          <DeleteIcon/>
+                          {(expenseEntry.status != ExpenseConstants.EXPENSE_STATUS.Approved && expenseEntry.status != ExpenseConstants.EXPENSE_STATUS.Invoiced) ? <DeleteIcon boxSize={4} onClick={() => deleteExpenseEntry(index)}/> : <CheckCircleIcon color="header_actions"/>}
                         </Th>
                         <Th>
                         <Select id="type" value={expenseEntry.type} onChange={(ev) => handleExpenseEntry(index,"type",ev.target.value)}>

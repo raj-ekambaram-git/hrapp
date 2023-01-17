@@ -18,7 +18,7 @@ export const ExpenseConstants = {
   EXPENSE_ENYTY_DEFAULT_RECORD: {
     type: EMPTY_STRING, 
     billable: false,
-    expenseDate: EMPTY_STRING,
+    expenseDate: new Date(),
     amount: EMPTY_STRING,
     notes: EMPTY_STRING,
     status: "Draft"
