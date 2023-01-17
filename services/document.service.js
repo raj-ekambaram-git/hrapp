@@ -13,10 +13,22 @@ export const documentService = {
     createDocument,
     updateDocument,
     getDocumentsByType,
-    viewDocument
+    viewDocument,
+    deleteDocument
     
 };
 
+
+function deleteDocument(filePath) {
+    return fetchWrapper.post(`${baseUrl}/document/delete`, {filePath})
+        .then(document => {
+            return document;
+        })      
+        .catch(err => {
+            console.log("Error Updating Document::"+err)
+            return {errorMessage: err, error: true};
+        });  
+}
 
 function viewDocument(filePath) {
     return fetchWrapper.post(`${baseUrl}/document/view`, {filePath})

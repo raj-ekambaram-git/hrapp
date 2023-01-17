@@ -28,9 +28,11 @@ const ExpenseEntryAttachment = (props) => {
   }
   
 
-  async function handleDeleteDocument(index) {
+  async function handleDeleteDocument(index, filePath) {
     const newAttachments = [...props.attachments]
     newAttachments.splice(index, 1);
+    const responseDeleteDocument = await documentService.deleteDocument(filePath)
+    console.log("responseDeleteDocument:::"+JSON.stringify(responseDeleteDocument))
     const responseData = await expenseService.addAttachmentToExpenseEntry(props.expenseEntryId,newAttachments)
     if(responseData.error) {
       toast({
@@ -139,7 +141,7 @@ const ExpenseEntryAttachment = (props) => {
                 {props.attachments?.map((attachment, index) => (
                   <HStack marginBottom={1}>
                     <Box>
-                      <DeleteIcon boxSize={3} onClick={() => handleDeleteDocument(index)}/>
+                      <DeleteIcon boxSize={3} onClick={() => handleDeleteDocument(index, attachment)}/>
                     </Box>
                     <Box>
                       <Link href="" onClick={() => handleViewDocument(attachment)}>  
