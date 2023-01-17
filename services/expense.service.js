@@ -13,13 +13,11 @@ export const expenseService = {
     updateExpense
 };
 
-function updateExpense(expenseId, expenseRequest, expenseEntries) {
+function updateExpense(expense, expenseEntries) {
 
-    return fetchWrapper.put(`${baseUrl}/expense/`+expenseId, {
-          expenseData: {
-            expenseRequest
-          },
-          expenseEntries: expenseEntries
+    return fetchWrapper.put(`${baseUrl}/expense/`+expense.id, {
+          expense,
+          expenseEntries
         }
     )
     .then(expense => {

@@ -1,5 +1,5 @@
 import React from "react";
-import { Input, Button, Card, CardHeader, CardBody, Box, Text, Stack, Select, HStack, Checkbox, Textarea, FormControl, FormLabel, useToast } from "@chakra-ui/react";
+import { Badge, Input, Button, Card, CardHeader, CardBody, Box, Text, Stack, Select, HStack, Checkbox, Textarea, FormControl, FormLabel, useToast } from "@chakra-ui/react";
 import { ExpenseConstants } from "../../constants";
 import { useSelector, useDispatch } from "react-redux";
 import { setExpenseHeader } from "../../store/modules/Expense/actions";
@@ -52,12 +52,15 @@ const ExpenseHeader = (props) => {
         </HStack>  
       </CardHeader>
       <CardBody>
-        <Stack marginBottom="2rem">
-          <HStack>
-            <Input type="text" id="name"  value={expenseHeader.name} onChange={(ev) => handleExpenseHeaderEntry("name",ev.target.value)}/>
-          </HStack>
+        <Stack marginBottom="2rem" spacing={8}>
+          <Box maxWidth="25%">
+            <FormControl isRequired>
+                <FormLabel>Expense Name</FormLabel>
+                <Input type="text" id="name"  value={expenseHeader.name} onChange={(ev) => handleExpenseHeaderEntry("name",ev.target.value)}/>
+            </FormControl>                
+          </Box>
           <HStack spacing="20rem" marginBottom={5}>
-            <HStack>
+            <Box>
               <FormControl isRequired>
                     <FormLabel>Project Details</FormLabel>
                     <Select id="projectId" value={expenseHeader.projectId} onChange={(ev) => handleExpenseHeaderEntry("projectId",ev.target.value)}>
@@ -67,24 +70,27 @@ const ExpenseHeader = (props) => {
                         ))}
                     </Select>  
                 </FormControl>    
-            </HStack>
-            <HStack>
-              <Box>
-                <Text>
-                  Billable:
-                </Text>
-              </Box>
-              <Checkbox
-                  isChecked={expenseHeader.billable}
-                onChange={(e) => handleExpenseHeaderEntry("billable",e.target.checked)}
-              />    
-            </HStack>
-          </HStack>    
-          <HStack>
+            </Box>
+            <Box>
               <FormControl isRequired>
-                  <FormLabel>Expense Description</FormLabel>
-                  <Textarea type="text" id="description" value={expenseHeader.description} size="md" maxWidth="30%" onChange={(ev) => handleExpenseHeaderEntry("description",ev.target.value)}/>
-              </FormControl>    
+                  <FormLabel>Billable</FormLabel>
+                  <Checkbox isChecked={expenseHeader.billable} onChange={(e) => handleExpenseHeaderEntry("billable",e.target.checked)}/>    
+              </FormControl>                 
+            </Box>
+          </HStack>    
+          <HStack spacing="27rem">
+              <Box>
+                <FormControl isRequired>
+                    <FormLabel>Expense Description</FormLabel>
+                    <Textarea type="text" id="description" value={expenseHeader.description} onChange={(ev) => handleExpenseHeaderEntry("description",ev.target.value)}/>
+                </FormControl>    
+              </Box>              
+              <Box>
+                <FormControl isRequired>
+                    <FormLabel>Status</FormLabel>
+                    <Badge color={`${expenseHeader.status === "Approved"? "timesheet.approved_status": (expenseHeader.status === "Submitted" || expenseHeader.status === "Saved")? "timesheet.approved_status": "timesheet.pending_status"}`}>{expenseHeader.status}</Badge>
+                </FormControl>                   
+              </Box>
           </HStack>  
         </Stack>        
       </CardBody>

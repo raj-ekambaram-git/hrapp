@@ -24,7 +24,7 @@ const ExpenseNotes = (props) => {
               <PopoverArrow />
               <PopoverCloseButton />
               <PopoverBody>
-                <Textarea type="text" id="tranNotes"  onChange={(ev) => props.handleExpenseEntry(props.rowIndex, "notes", ev.target.value)} />
+                <Textarea type="text" id="tranNotes"  value={props.notes} onChange={(ev) => props.handleExpenseEntry(props.rowIndex, "notes", ev.target.value)} />
               </PopoverBody>
               <PopoverFooter display='flex' justifyContent='flex-end'>
                   <ButtonGroup size='sm'>

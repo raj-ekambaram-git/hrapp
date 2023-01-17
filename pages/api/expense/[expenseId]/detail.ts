@@ -20,7 +20,18 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           },
       },
         include: {
-          expenseEntries: true
+          expenseEntries: {
+            select: {
+              id: true,
+              type: true,
+              billable: true,
+              expenseDate: true,
+              amount: true,
+              status: true,
+              notes: true,
+              lastUpdateDate: true,
+            }
+          }
         }
       })
       

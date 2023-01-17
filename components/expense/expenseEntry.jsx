@@ -41,11 +41,11 @@ const ExpenseEntry = (props) => {
 
   function submitExpense(status) {
     return isAddMode
-    ? createExpense()
-    : updateExpense();
+    ? createExpense(status)
+    : updateExpense(status);
   }
 
-  const createExpense = async () => {
+  const createExpense = async (status) => {
     try {
 
         const expenseRequest = {
@@ -54,7 +54,7 @@ const ExpenseEntry = (props) => {
           description: expenseHeader.description,
           billable: expenseHeader.billable,
           total: "100",
-          status: "Draft",
+          status: status,
           userId: parseInt(userService.userValue.id),
           expenseEntries: {
             create: expenseEntries
@@ -95,9 +95,53 @@ const ExpenseEntry = (props) => {
     }
   };
 
-  async function updateExpense() {
-    // props.data.expenseId
-  }
+  const updateExpense = async (status) => {
+    try {
+
+        const expenseRequest = {
+          id: props.data.expenseId,
+          projectId: parseInt(expenseHeader.projectId.toString()),
+          name: expenseHeader.name,
+          description: expenseHeader.description,
+          billable: expenseHeader.billable,
+          total: "200",
+          status: status,
+          userId: parseInt(userService.userValue.id),
+        }
+        const responseData = await expenseService.updateExpense(expenseRequest, expenseEntries);
+        if(!responseData.error) {
+          toast({
+            title: 'New Expense.',
+            description: 'Successfully added new expense.',
+            status: 'success',
+            position: 'top',
+            duration: 3000,
+            isClosable: true,
+          })
+          router.push("/account/user/expenses");
+          
+        }else {
+          toast({
+            title: 'Expense Error.',
+            description: 'Not able to create expense, plrease try again or contact administrator.',
+            status: 'error',
+            position: 'top',
+            duration: 6000,
+            isClosable: true,
+          })
+        }
+    } catch (error) {
+      console.log("ERRRROORRRR:"+error)
+      toast({
+        title: 'Expense Error.',
+        description: 'Not able to create expense, plrease try again or contact administrator. Details:'+error,
+        status: 'error',
+        position: 'top',
+        duration: 6000,
+        isClosable: true,
+      })
+    }
+  };
   
   async function getProjectForUser(userId) {
     const projectsForUserResponse = await userService.getProjectsByUser(userId, userService.getAccountDetails().accountId);    
@@ -193,12 +237,13 @@ const ExpenseEntry = (props) => {
                         </Th>             
                         <Th>
                           <Checkbox
+                              isChecked={expenseEntry.billable}
                               onChange={(e) => handleExpenseEntry(index,"billable",e.target.checked)}
                             />    
                         </Th>             
                         <Th>
                           <HStack>
-                            <Input type="text" id="expenseDate"  onChange={(ev) => handleExpenseEntry(index,"expenseDate",ev.target.value)}/>
+                            <Input type="text" id="expenseDate" value={expenseEntry.expenseDate} onChange={(ev) => handleExpenseEntry(index,"expenseDate",ev.target.value)}/>
                             {/* <DatePicker onChange={handleDate} rowIndex={index}/>  */}
                           </HStack>                          
                         </Th>             
@@ -206,7 +251,7 @@ const ExpenseEntry = (props) => {
                           <Input type="number" id="amount"  value={expenseEntry.amount} onChange={(ev) => handleExpenseEntry(index,"amount",ev.target.value)}/>
                         </Th>  
                         <Th>
-                           <ExpenseNotes handleExpenseEntry={handleExpenseEntry} rowIndex={index}/>
+                           <ExpenseNotes handleExpenseEntry={handleExpenseEntry} notes={expenseEntry.notes} rowIndex={index}/>
                         </Th>           
                       </Tr>     
                     ))}               
