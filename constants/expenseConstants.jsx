@@ -41,7 +41,7 @@ export const ExpenseConstants = {
     {
       label: "Attachments",
       accessor: 'attachments',
-      format: (value) => (value ? <ExpenseViewAttachment attachments={value}/> : 'N/A')
+      format: (value) => (value && value.length>0 ? <ExpenseViewAttachment attachments={value}/> : 'N/A')
     },
   ],
   EXPENSE_STATUS: {
