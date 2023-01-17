@@ -10,8 +10,28 @@ export const expenseService = {
 
     getExpenseDetails,
     createExpense,
-    updateExpense
+    updateExpense,
+    handleExpenseApproval
 };
+
+
+async function handleExpenseApproval(expenseId, status, expenseNote) {
+
+  return fetchWrapper.put(`${baseUrl}/expense/`+expenseId, {
+        id: parseInt(expenseId),
+        status: status,
+        approvedDate: new Date()
+      }
+    )
+    .then(expense => {
+
+      return expense;
+    })
+    .catch(err => {
+    console.log("Error Updating Expense::"+err)
+    return {errorMessage: err, error: true};
+    });
+}
 
 function updateExpense(expense, expenseEntries) {
 

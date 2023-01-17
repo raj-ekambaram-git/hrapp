@@ -22,7 +22,7 @@ import {
     Text,
     Tooltip
   } from '@chakra-ui/react';
-import { EMPTY_STRING,} from "../../../constants/accountConstants";
+import { DEFAULT_NOTES, EMPTY_STRING,} from "../../../constants/accountConstants";
 import { useDispatch } from "react-redux";
 import { ShowInlineErrorMessage } from "../../common/showInlineErrorMessage";
 import { ExpenseConstants, NotesConstants } from "../../../constants";
@@ -36,7 +36,8 @@ import { CustomTable } from "../../customTable/Table";
   const ExpenseEntryDetail = (props) => {
     const expense = props.expense;
     const dispatch = useDispatch();
-    const [size, setSize] = useState('')
+    const [size, setSize] = useState(EMPTY_STRING)
+    const [expenseNote, setExpenseNote] = useState(EMPTY_STRING)
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [showErrorMessage, setShowErrorMessage] = useState(EMPTY_STRING);
     const EXPENSE_ENTRY_LIST_TABLE_COLUMNS = React.useMemo(() => ExpenseConstants.EXPENSE_ENTRY_LIST_TABLE_META)
@@ -53,23 +54,23 @@ import { CustomTable } from "../../customTable/Table";
 
     async function updateExpense(expenseId,status) {
         console.log("updateExpense::::"+status);
-        // if(timesheetEntryNote != undefined && timesheetEntryNote != EMPTY_STRING && timesheetEntryNote != DEFAULT_NOTES) {
-        //     setShowErrorMessage(EMPTY_STRING);
-        //     const timesheetEntryUpdateResponse = await timesheetService.updateTimesheetEntry(timesheetEntryId, status, timesheetEntryNote);    
-        //     console.log("timesheetEntryUpdateResponse::"+JSON.stringify(timesheetEntryUpdateResponse));
-        //     if(timesheetEntryUpdateResponse.error) {
-        //         setShowErrorMessage("Error Updating timesheet entry");
-        //     }else {
-        //         dispatch(fetchTimesheetsForApproval(userService.userValue?.id, userService.getAccountDetails().accountId));
-        //         setTimesheetEntryNote(EMPTY_STRING);
-        //         onClose();
-        //         //Remove the item from the list
-        //     }
+        if(expenseNote != undefined && expenseNote != EMPTY_STRING && expenseNote != DEFAULT_NOTES) {
+            setShowErrorMessage(EMPTY_STRING);
+            // const timesheetEntryUpdateResponse = await timesheetService.updateTimesheetEntry(timesheetEntryId, status, timesheetEntryNote);    
+            // console.log("timesheetEntryUpdateResponse::"+JSON.stringify(timesheetEntryUpdateResponse));
+            // if(timesheetEntryUpdateResponse.error) {
+            //     setShowErrorMessage("Error Updating timesheet entry");
+            // }else {
+            //     dispatch(fetchTimesheetsForApproval(userService.userValue?.id, userService.getAccountDetails().accountId));
+            //     setTimesheetEntryNote(EMPTY_STRING);
+            //     onClose();
+            //     //Remove the item from the list
+            // }
     
-        // }else {
-        //     setShowErrorMessage("Notes are required.");
-        //     onOpen();
-        // }
+        }else {
+            setShowErrorMessage("Notes are required.");
+            onOpen();
+        }
         
     }
 
@@ -98,24 +99,23 @@ import { CustomTable } from "../../customTable/Table";
                 </DrawerHeader>                    
                 <DrawerBody>
                     <ShowInlineErrorMessage showErrorMessage={showErrorMessage}/>
-                    <CustomTable  variant="sortTable" columns={EXPENSE_ENTRY_LIST_TABLE_COLUMNS} rows={expense?.expenseEntries} />
-                    <Box>
+                    <CustomTable  variant="sortTable" columns={EXPENSE_ENTRY_LIST_TABLE_COLUMNS} rows={expense?.expenseEntries} disablePagination={true}/>
+                    <Box marginTop="5rem">
                         <Heading as="h3" size="sm" marginBottom="1rem"> 
                             Add Comment
                         </Heading>
-
-                        <Textarea placeholder='Please add comment' onChange={(ev) => setTimesheetEntryNote(ev.target.value)} />
+                        <Textarea placeholder='Please add comment' onChange={(ev) => setExpenseNote(ev.target.value)} />
                     </Box>
                     
 
                     <HStack marginTop="3rem">
                         <Box marginRight="1rem">
-                            <Button size="xs" onClick={() => updateTimesheetEntry(expense.id,ExpenseConstants.EXPENSE_STATUS.Approved)} bgColor="timesheet.approved_status">
+                            <Button size="xs" onClick={() => updateExpense(expense.id,ExpenseConstants.EXPENSE_STATUS.Approved)} bgColor="timesheet.approved_status">
                                 Approve
                             </Button>
                         </Box>
                         <Box>
-                            <Button size="xs"  onClick={() => updateTimesheetEntry(expense.id,ExpenseConstants.EXPENSE_STATUS.Rejected)} bgColor="timesheet.rejected_status">
+                            <Button size="xs"  onClick={() => updateExpense(expense.id,ExpenseConstants.EXPENSE_STATUS.Rejected)} bgColor="timesheet.rejected_status">
                                 Reject
                             </Button>
                         </Box>

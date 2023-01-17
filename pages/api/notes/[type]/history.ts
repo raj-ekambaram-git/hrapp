@@ -9,6 +9,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   enum NotesType {
+    Expense = "Expense",
+    ExpenseEntry = "ExpenseEntry",
     Timesheet = "Timesheet",
     TimesheetEntry = "TimesheetEntry",
     Account = "Account",
@@ -28,6 +30,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     let typeValue = NotesType.Timesheet;
 
     switch(type) {
+      case NotesType.Expense: 
+        typeValue = NotesType.Expense;
+      break;
+      case NotesType.ExpenseEntry: 
+        typeValue = NotesType.ExpenseEntry;
+      break;
       case NotesType.Timesheet: 
         typeValue = NotesType.Timesheet;
       break;

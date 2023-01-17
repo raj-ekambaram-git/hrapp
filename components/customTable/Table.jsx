@@ -5,7 +5,7 @@ import { Pagination } from './Pagination'
 import { Input, Table, Tbody, Td, Th, Thead, Tr,Flex, TableContainer } from '@chakra-ui/react'
 import { ChevronUpIcon, ChevronDownIcon } from "@chakra-ui/icons";
 
-export const CustomTable = ({ columns, rows }) => {
+export const CustomTable = ({ columns, rows, disablePagination }) => {
   const [activePage, setActivePage] = useState(1)
   const [filters, setFilters] = useState({})
   const [sort, setSort] = useState({ order: 'desc', orderBy: 'id' })
@@ -112,7 +112,8 @@ export const CustomTable = ({ columns, rows }) => {
         </Tbody>
       </Table>
       </TableContainer>
-      {count > 0 ? (
+
+      {(!disablePagination && count > 0) ? (
         <Pagination
           activePage={activePage}
           count={count}
@@ -120,9 +121,9 @@ export const CustomTable = ({ columns, rows }) => {
           totalPages={totalPages}
           setActivePage={setActivePage}
         />
-      ) : (
+      ) : (!disablePagination && count == 0) ? (
         <p>No data found</p>
-      )}
+      ): (<></>)}
 
       {/* <div>
         <p>
