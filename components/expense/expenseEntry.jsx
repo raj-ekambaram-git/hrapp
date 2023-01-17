@@ -73,7 +73,7 @@ const ExpenseEntry = (props) => {
             duration: 3000,
             isClosable: true,
           })
-          router.push("/expenses");
+          router.push("/account/user/expenses");
           
         }else {
           toast({
@@ -112,7 +112,7 @@ const ExpenseEntry = (props) => {
     if((userService.isAccountAdmin() || userService.isSuperAdmin() || userService.isTimesheetEntryUser() || userService.isManager()) 
           && (props && props.data && !props.data.isAddMode)) { // This is for EDIT 
             const expenseResponse = await expenseService.getExpenseDetails(props.data.expenseId, userService.getAccountDetails().accountId);
-            dispatch(setExpenseEntries(expenseResponse))
+            dispatch(setExpenseEntries(expenseResponse.expenseEntries))
     }
   }
 
@@ -125,7 +125,7 @@ const ExpenseEntry = (props) => {
   function handleExpenseEntry(index, name, value) {
     console.log("MMMMMM")
     const newExpenseEntries = [...expenseEntries]
-    if(name == "date") {
+    if(name == "expenseDate") {
       value= new Date(value)
     }
     newExpenseEntries[index][name] = value;
@@ -197,7 +197,7 @@ const ExpenseEntry = (props) => {
                         </Th>             
                         <Th>
                           <HStack>
-                            <Input type="text" id="date"  onChange={(ev) => handleExpenseEntry(index,"date",ev.target.value)}/>
+                            <Input type="text" id="expenseDate"  onChange={(ev) => handleExpenseEntry(index,"expenseDate",ev.target.value)}/>
                             {/* <DatePicker onChange={handleDate} rowIndex={index}/>  */}
                           </HStack>                          
                         </Th>             

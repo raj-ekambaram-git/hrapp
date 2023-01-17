@@ -18,15 +18,15 @@ export const ExpenseConstants = {
   EXPENSE_ENYTY_DEFAULT_RECORD: {
     type: EMPTY_STRING, 
     billable: false,
-    date: EMPTY_STRING,
+    expenseDate: EMPTY_STRING,
     amount: EMPTY_STRING,
     notes: EMPTY_STRING,
     status: "Draft"
   },
   EXPENSE_TYPE: [
     {
-      typeId: "Meal",
-      typeName: "Meal",
+      typeId: "Meals",
+      typeName: "Meals",
     },
     {
       typeId: "Taxi",
