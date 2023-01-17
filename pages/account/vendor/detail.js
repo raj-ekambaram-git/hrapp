@@ -158,6 +158,11 @@ const VendorDetail = (props) => {
             <Heading size='md'>Vendor Details for {vendor.name}</Heading>
             <Box alignItems='right'>
               <HStack>
+                  <Box>
+                    <Button size="xs" colorScheme="red" onClick={() => router.back()}>
+                      Go Back
+                    </Button>
+                  </Box>
                   <Box color="black">
                     <NotesHistory/>
                   </Box>

@@ -3,14 +3,18 @@ export { PageMainHeader };
 import {
     Flex,
     Heading,
-    Box
+    Box,
+    Button,
+    HStack
   } from '@chakra-ui/react'
 import { useDispatch } from 'react-redux';
 import NotesHistory from '../notes/notesHistory';
 import { setNotesType, resetNotesType } from "../../store/modules/Notes/actions";
+import { useRouter } from "next/router";
 
 
 function PageMainHeader(props) {
+    const router = useRouter();
     const heading = props.heading;
     const param1 = props.param1;
     const dispatch = useDispatch();
@@ -37,9 +41,16 @@ function PageMainHeader(props) {
             borderRadius='9px'
             >
             <Heading size='md'>{heading} {param1}</Heading>
-            <Box color="black">
-                <NotesHistory/>
-            </Box>                                        
+            <HStack spacing={2}>
+              <Box>
+                <Button size="xs" colorScheme="red" onClick={() => router.back()}>
+                  Go Back
+                </Button>
+              </Box>
+              <Box color="black">
+                  <NotesHistory/>
+              </Box>     
+            </HStack>                                   
             </Flex>       
 
         
