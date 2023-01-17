@@ -26,9 +26,17 @@ console.log("userId ID::"+userId+"---AccountioD::"+accountId)
               expense: {
                 select: {
                   id: true,
+                  name: true,
                   status: true,
+                  total: true,
                   expenseEntries: true,
                   lastUpdateDate: true,
+                  user: {
+                    select: {
+                      firstName: true,
+                      lastName: true
+                    }
+                  }
                 }
               }
             }

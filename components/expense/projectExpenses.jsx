@@ -26,6 +26,8 @@ import {
     AddIcon
   } from '@chakra-ui/icons';  
 import { useSelector } from 'react-redux';
+import { ExpenseConstants } from '../../constants';
+import { util } from '../../helpers/util';
   
 const ProjectExpenses = (props) => {
     
@@ -70,37 +72,50 @@ const ProjectExpenses = (props) => {
                                                         Expense
                                                     </Th>      
                                                     <Th>
-                                                        Entries
+                                                        Total
+                                                    </Th>                                                                
+                                                    <Th>
+                                                        
                                                     </Th>                                                                
                                                     <Th>
                                                         Status
                                                     </Th>
+                                                    <Th>
+                                                        Submitted On
+                                                    </Th>
                                                 </Tr>   
                                             </Thead>                
                                             <Tbody>
-                                                {/* {timesheet.project.timesheetEntries?.map((timesheetEntry) => (
+                                                {expense.project.expense?.map((expenseEntry) => (
                                                     <Tr>
-                                                        {timesheetEntry.status == TIMESHEET_STATUS.Submitted ? (
+                                                        {expenseEntry.status == ExpenseConstants.EXPENSE_STATUS.Submitted ? (
                                                             <>
                                                                 <Th>
-                                                                    {timesheetEntry.timesheet.user.firstName} {timesheetEntry.timesheet.user.lastName}
+                                                                    {expenseEntry.user.firstName} {expenseEntry.user.lastName}
                                                                 </Th>
                                                                 <Th>
-                                                                    {timesheetEntry.timesheet.name}
+                                                                    {expenseEntry.name}
                                                                 </Th>
                                                                 <Th>
-                                                                    <TimesheetEntryDetail tsEntryDetail={timesheetEntry}/>
+                                                                    $ {expenseEntry.total}
+                                                                </Th>
+
+                                                                <Th>
+                                                                    {/* <TimesheetEntryDetail tsEntryDetail={timesheetEntry}/> */}
                                                                 </Th> 
                                                                 <Th>
                                                                     <Badge color={`${
-                                                                            timesheetEntry.status === "Approved"
+                                                                            expenseEntry.status === "Approved"
                                                                             ? "timesheet.approved_status"
-                                                                            : (timesheetEntry.status === "Submitted" || timesheetEntry.status === "Saved")
-                                                                            ? "timesheet.pending_status"
+                                                                            : (expenseEntry.status === "Submitted" || expenseEntry.status === "Saved")
+                                                                            ? "timesheet.approved_status"
                                                                             : "timesheet.pending_status"
-                                                                        }`}>{timesheetEntry.status}
+                                                                        }`}>{expenseEntry.status}
                                                                     </Badge>                                                                    
-                                                                </Th>                                                            
+                                                                </Th>     
+                                                                <Th>
+                                                                    {util.getFormattedDate(expenseEntry.lastUpdateDate)}
+                                                                </Th>                                                       
                                                             </>
                                                         ) : (
                                                             <>
@@ -108,7 +123,7 @@ const ProjectExpenses = (props) => {
                                                         )}
 
                                                     </Tr>
-                                                ))} */}
+                                                ))}
                                             </Tbody>    
                                         </Table>
                                     </TableContainer>                                        

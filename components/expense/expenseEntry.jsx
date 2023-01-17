@@ -281,8 +281,8 @@ const ExpenseEntry = (props) => {
                           <HStack spacing={5}>
                             <Tooltip label={expenseEntry.notes}>
                               <ExpenseNotes handleExpenseEntry={handleExpenseEntry} notes={expenseEntry.notes} rowIndex={index}/>
-                            </Tooltip>                           
-                            <ExpenseAttachment/>
+                            </Tooltip>      
+                              {isAddMode ? (<></>) : (<ExpenseAttachment/>)}                                                 
                           </HStack>
                         </Th>           
                       </Tr>     

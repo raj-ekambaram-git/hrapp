@@ -17,7 +17,7 @@ const ExpenseHeader = (props) => {
   return (
     <Card variant="expenseProjectDetails">
       <CardHeader>
-        <HStack spacing="55rem">
+        <HStack spacing="70rem">
           <Box>
             <Text>
               Expense Details
@@ -27,12 +27,9 @@ const ExpenseHeader = (props) => {
               {props.isAddMode || (!props.isAddMode && (props.status != ExpenseConstants.EXPENSE_STATUS.Approved || props.status != ExpenseConstants.EXPENSE_STATUS.Paid  || props.status != ExpenseConstants.EXPENSE_STATUS.PartiallyPaid)) ? (
                   <>
                       <HStack>
-                          <Box>
                               <Button size="xs" bgColor="header_actions" onClick={() => props.submitExpense(ExpenseConstants.EXPENSE_STATUS.Saved)}>
                                   Save
                               </Button>
-                          </Box>
-                          <Box>
                               <Button size="xs" bgColor="header_actions" onClick={() => props.submitExpense(ExpenseConstants.EXPENSE_STATUS.Submitted)}>
                                   {props.isAddMode ? (
                                       <>Submit</>
@@ -40,7 +37,11 @@ const ExpenseHeader = (props) => {
                                       <>Submit</>
                                   )}
                               </Button>
-                          </Box>
+                              {props.isAddMode?(<></>):(
+                                  <Button size="xs" bgColor="header_actions" onClick={() => props.submitExpense(ExpenseConstants.EXPENSE_STATUS.Saved)}>
+                                      Attach Receipts
+                                  </Button>
+                              )}
                       </HStack>                                
                   </>
               ) : (
