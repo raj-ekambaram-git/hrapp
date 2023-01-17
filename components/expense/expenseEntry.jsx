@@ -21,6 +21,7 @@ const ExpenseEntry = (props) => {
   const [isAddMode, setAddMode] = useState(true);
   const [showProjectError, setShowProjectError] = useState(false);
   const [userProjectList, setUserProjectList] = useState([]);
+  const [expenseTotal, setExpenseTotal] = useState(0);
 
   const userId = props.data.userId;
   const expenseEntries = useSelector(state => state.expense.expenseEntries);
@@ -53,7 +54,7 @@ const ExpenseEntry = (props) => {
           name: expenseHeader.name,
           description: expenseHeader.description,
           billable: expenseHeader.billable,
-          total: "100",
+          total: expenseTotal,
           status: status,
           userId: parseInt(userService.userValue.id),
           expenseEntries: {
@@ -104,7 +105,7 @@ const ExpenseEntry = (props) => {
           name: expenseHeader.name,
           description: expenseHeader.description,
           billable: expenseHeader.billable,
-          total: "200",
+          total: expenseTotal,
           status: status,
           userId: parseInt(userService.userValue.id),
         }
@@ -156,6 +157,7 @@ const ExpenseEntry = (props) => {
             dispatch(setExpenseEntries(expenseResponse.expenseEntries))
             delete expenseResponse["expenseEntries"]
             console.log("expenseResponse::"+JSON.stringify(expenseResponse))
+            setExpenseTotal(expenseResponse.total)
             dispatch(setExpenseHeader(expenseResponse))
 
     }
@@ -173,12 +175,24 @@ const ExpenseEntry = (props) => {
     dispatch(setExpenseEntries(newEntriesData))
   }
 
-  function handleExpenseEntry(index, name, value) {
-    console.log("MMMMMM")
-    const newExpenseEntries = [...expenseEntries]
-    if(name == "expenseDate") {
-      value= new Date(value)
+  function handleExpenseAmount(index, origVal, newValue) {
+    if(origVal != undefined && origVal != EMPTY_STRING) {
+      setExpenseTotal((parseFloat(expenseTotal)-parseFloat(origVal))+parseFloat(newValue))
+    }else{
+      setExpenseTotal((parseFloat(expenseTotal))+parseFloat(newValue))
     }
+    handleExpenseEntry(index,"amount", newValue)
+  }
+
+  function handleExpenseEntry(index, name, value) {
+    console.log("value::"+value)
+    const newExpenseEntries = [...expenseEntries]
+    switch(name) {
+      case("expenseDate"): 
+        value= new Date(value)
+        break;
+    }
+
     newExpenseEntries[index][name] = value;
     dispatch(setExpenseEntries(newExpenseEntries))
   }
@@ -259,7 +273,7 @@ const ExpenseEntry = (props) => {
                           </HStack>                          
                         </Th>             
                         <Th>
-                          <Input type="number" id="amount"  value={expenseEntry.amount} onChange={(ev) => handleExpenseEntry(index,"amount",ev.target.value)}/>
+                          <Input type="number" id="amount"  value={expenseEntry.amount} onChange={(ev) => handleExpenseAmount(index, expenseEntry.amount,ev.target.value)}/>
                         </Th>  
                         <Th>
                            <Tooltip label={expenseEntry.notes}>
@@ -272,7 +286,7 @@ const ExpenseEntry = (props) => {
                       <Th colSpan={3}></Th>                      
                       <Th textAlign="right" fontWeight="bold">Total: </Th>
                       <Th colSpan={2}>
-                         $
+                         $ {expenseTotal?expenseTotal:0}
                       </Th>             
                     </Tr>                              
                   </Tbody>
