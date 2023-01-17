@@ -170,6 +170,8 @@ const ExpenseEntry = (props) => {
   }
 
   function deleteExpenseEntry(removeIndex) {
+    const deletingAmount = expenseEntries[removeIndex].amount;
+    setExpenseTotal(util.getZeroPriceForNull(expenseTotal)-util.getZeroPriceForNull(deletingAmount))
     const newEntriesData = [...expenseEntries];
     newEntriesData.splice(removeIndex, 1);
     dispatch(setExpenseEntries(newEntriesData))
