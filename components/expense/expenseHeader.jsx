@@ -80,7 +80,7 @@ const ExpenseHeader = (props) => {
           </HStack>    
           <HStack spacing="27rem">
               <Box>
-                <FormControl isRequired>
+                <FormControl>
                     <FormLabel>Expense Description</FormLabel>
                     <Textarea type="text" id="description" value={expenseHeader.description} onChange={(ev) => handleExpenseHeaderEntry("description",ev.target.value)}/>
                 </FormControl>    
