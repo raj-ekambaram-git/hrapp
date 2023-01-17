@@ -2,10 +2,15 @@ import React from "react";
 import {Box, Popover,PopoverTrigger, PopoverContent, PopoverHeader, PopoverArrow,PopoverCloseButton, PopoverBody,PopoverFooter,ButtonGroup ,Button, useDisclosure } from "@chakra-ui/react";
 import { AttachmentIcon } from "@chakra-ui/icons";
 import Link from "next/link";
+import { documentService } from "../../services";
 
 const ExpenseViewAttachment = (props) => {
   const { isOpen, onToggle, onClose } = useDisclosure()
 
+  async function handleViewDocument(viewURLPath) {
+    const responseData = await documentService.viewDocument(viewURLPath);
+    window.open(responseData);
+  }
 
   return (
         <Popover
@@ -27,8 +32,8 @@ const ExpenseViewAttachment = (props) => {
               <PopoverBody>
               {props.attachments?.map((attachment, index) => (
                 <Box>
-                  <Link href={attachment}>
-                    Attachment {index}
+                  <Link href="" onClick={() => handleViewDocument(attachment)}>  
+                    {attachment.split("/")[[attachment.split("/").length-1]]}
                   </Link>
                 </Box>
               ))}            
