@@ -27,6 +27,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {setnewTSWeekStartDimId, setSelectedTimesheetId, setTSEntries} from '../../store/modules/Timesheet/actions';
 import { util } from "../../helpers/util";
 import { ErrorMessage } from "../../constants/errorMessage";
+import TimesheetEntryNotes from "../notes/timesheetEntryNotes";
 
 
   
@@ -375,7 +376,10 @@ const WeeklyTimesheetEntry = (props) => {
                                                 : "timesheet.pending_status"
                                             }`}>{timesheetEntry.status?timesheetEntry.status:"Draft"}
                                         </Badge>
-                                    </Box>    
+                                    </Box> 
+                                    <Box>
+                                        <TimesheetEntryNotes TimesheetEntryId={timesheetEntry.id}/>
+                                    </Box>   
                                 </HStack>                                                                         
                             </GridItem>
                         </Grid>
