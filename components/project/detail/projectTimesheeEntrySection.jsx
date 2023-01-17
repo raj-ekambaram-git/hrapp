@@ -35,10 +35,10 @@ const ProjectTimesheeEntrySection = (props) => {
         closeOnBlur={false}
         >
             <PopoverTrigger>
-                    <AddIcon/>
+                <AddIcon/>
            </PopoverTrigger>
             <PopoverContent>
-                <PopoverHeader pt={4} fontWeight='bold' border='0' background="table_tile">
+                <PopoverHeader>
                     Entry Details
                 </PopoverHeader>
                 <PopoverArrow />
