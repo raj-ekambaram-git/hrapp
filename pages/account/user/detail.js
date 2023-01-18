@@ -28,7 +28,8 @@ import UserDetailActions from "../../../components/user/detail/userDetailActions
 
 
 const UserDetail = (props) => {
-  const userId = useSelector(state => state.user.loggedInUser?.id);
+  // const userId = useSelector(state => state.user.loggedInUser?.id);
+  const userId = userService.userValue.id;
 
   
   const router = useRouter();
