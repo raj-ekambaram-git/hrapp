@@ -1,3 +1,4 @@
+import { Box,} from "@chakra-ui/react";
 import React, { Fragment } from "react";
 import Slidebar from "../sidebar/slidebar";
 
@@ -5,22 +6,21 @@ import Slidebar from "../sidebar/slidebar";
 const Layout = (props) => {
 
   return (
+    <Fragment>
+      <Slidebar>
+      {props.data.authorized ? (
+        <>
+          <div>{props.children}</div>
+        </>
+      ) : (<>
+      </>)}
+      </Slidebar>
+    </Fragment>
     // <Fragment>
-    //   {props.data.authorized ? (
-    //     <>
     //     <Slidebar>
     //       <div>{props.children}</div>
     //     </Slidebar>
-    //     </>
-    //   ) : (<>
-    //      <div>{props.children}</div>
-    //   </>)}
-    // </Fragment>
-    <Fragment>
-        <Slidebar>
-          <div>{props.children}</div>
-        </Slidebar>
-    </Fragment>    
+    // </Fragment>    
   );
 }
 export default Layout;

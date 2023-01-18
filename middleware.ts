@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import jwtDecode from 'jwt-decode';
-import cookie from 'js-cookie'
 
 // This function can be marked `async` if using `await` inside
 export function middleware(request: NextRequest) {
@@ -34,5 +33,5 @@ export function middleware(request: NextRequest) {
 
 // See "Matching Paths" below to learn more
 export const config = {
-  matcher: ['/account/:path*', '/api/account/:path*', '/api/expense/:path*', '/api/calendar/:path*', '/api/notes/:path*', '/api/timesheet/:path*', '/accounts']
+  matcher: ['/account/:path*', '/api/account/:path*', '/api/expense/:path*', '/api/calendar/:path*', '/api/notes/:path*', '/api/timesheet/:path*', '/accounts', '/api/access/roles']
 }

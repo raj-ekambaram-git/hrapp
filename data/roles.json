@@ -1,79 +1,37 @@
 {
   "SUPER_ADMIN": {
-    "allowedPages": [
-      "page1",
-      "page2"
-    ],
-    "allowedAPIs": [
-      "page1",
-      "page2"
-    ],
-    "allowedModules": ["user", "account", "invoice"]
+    "allowedPages": ["/account/vendors","page1"],
+    "allowedAPIs": ["page1","page2"],
+    "allowedModules": ["user", "account"]
   },
   "ACCOUNT_ADMIN": {
-    "allowedPages": [
-      "page1",
-      "page2"
-    ],
-    "allowedAPIs": [
-      "page1",
-      "page2"
-    ],
-    "allowedModules": ["user", "account", "invoice"]
+    "allowedPages": ["/account/vendors","page1"],
+    "allowedAPIs": ["page1","page2"],
+    "allowedModules": ["user", "account"]
   },
   "ACCOUNT_VENDOR_REP": {
-    "allowedPages": [
-      "page1",
-      "page2"
-    ],
-    "allowedAPIs": [
-      "page1",
-      "page2"
-    ],
-    "allowedModules": ["user", "account", "invoice"]
+    "allowedPages": ["page1","page1"],
+    "allowedAPIs": ["page1","page2"],
+    "allowedModules": ["user", "account"]
   },
   "ACCOUNT_USER": {
-    "allowedPages": [
-      "page1",
-      "page2"
-    ],
-    "allowedAPIs": [
-      "page1",
-      "page2"
-    ],
-    "allowedModules": ["user", "account", "invoice"]
+    "allowedPages": ["page1","page1"],
+    "allowedAPIs": ["page1","page2"],
+    "allowedModules": ["user", "account"]
   },
   "ACCOUNT_VENDOR_EMPLOYEE": {
-    "allowedPages": [
-      "page1",
-      "page2"
-    ],
-    "allowedAPIs": [
-      "page1",
-      "page2"
-    ],
-    "allowedModules": ["user", "account", "invoice"]
+    "allowedPages": ["page1","page1"],
+    "allowedAPIs": ["page1","page2"],
+    "allowedModules": ["user", "account"]
   },
   "ACCOUNT_VENDOR_CONTRACTOR": {
-    "allowedPages": [
-      "page1",
-      "page2"
-    ],
-    "allowedAPIs": [
-      "page1",
-      "page2"
-    ],
-    "allowedModules": ["user", "account", "invoice"]
+    "allowedPages": ["page1","page1"],
+    "allowedAPIs": ["page1","page2"],
+    "allowedModules": ["user", "account"]
   },
   "ACCOUNT_MANAGER": {
-    "allowedPages": [
-      "page1",
-      "page2"
-    ],
-    "allowedAPIs": [
-      "page1",
-      "page2"
-    ],
-    "allowedModules": ["user", "account", "invoice"]
-  },
+    "allowedPages": ["page1","page1"],
+    "allowedAPIs": ["page1","page2"],
+    "allowedModules": ["user", "account"]
+  }
 }

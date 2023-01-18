@@ -1,19 +1,38 @@
+import getConfig from 'next/config';
 import jwtDecode from 'jwt-decode';
+import { fetchWrapper } from 'helpers';
+
+const { publicRuntimeConfig } = getConfig();
+const baseUrl = `${publicRuntimeConfig.apiUrl}`;
 
 export const access = {
-
-
     hasAccess,
-    
 };
 
-function hasAccess(url, token, rolesConfig) {
+function hasAccess(url, token) {
   
-    console.log("rolesData::"+rolesConfig)
-    const decryptedValue = jwtDecode(token);
-    const clientIdSecret = decryptedValue['sub']?.split(":")[2];
-    console.log("User Roles::"+decryptedValue['sub']?.split(":")[3])
-    if(clientIdSecret != undefined && process.env.NEXTAUTH_SECRET === clientIdSecret) {
+    return fetchWrapper.get(`${baseUrl}/access/roles/`, {})
+    .then(async rolesData => {
+        const decryptedValue = jwtDecode(token);
+        const userRoles = decryptedValue['sub']?.split(":")[3];
+        const userRolesArray = userRoles.split(",");
+        const urlAllowed = userRolesArray?.map((role, index) => {
+            console.log("url::"+url)
+            console.log("rolesData[role].allowedPages?.includes(url)::"+rolesData[role].allowedPages?.includes(url))
+            if(rolesData[role].allowedPages?.includes(url)){
+                return true;
+            }else{
+                return false;
+            }
+        });
 
-    }
+        console.log("urlAllowed:::"+urlAllowed.includes(true))
+        return urlAllowed.includes(true);
+
+    })
+    .catch(err => {
+      console.log("Error hasAccess::"+err)
+      return {errorMessage: err, error: true};
+    });
+    
 }

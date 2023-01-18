@@ -13,7 +13,6 @@ import { userService } from '../services';
 import {Alert, Spinner } from '../components';
 import { Provider } from 'react-redux';
 import { access } from '../helpers/access';
-import useSWR from 'swr';
 
 function MyApp({ Component, pageProps }: AppProps) {
 
@@ -22,8 +21,6 @@ function MyApp({ Component, pageProps }: AppProps) {
   const [authorized, setAuthorized] = useState(false);
   const [loading, setLoading] = useState(false);
   const store = useStore(pageProps.initialReduxState);
-  const fetcher = (url) => fetch(url).then((res) => res.json());
-  const { data, error, isLoading } = useSWR('/api/access/roles', fetcher);
 
   useEffect(() => {
       // on initial load - run auth check 
@@ -48,7 +45,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  function authCheck(url) {
+  async function authCheck(url) {
 
     // redirect to login page if accessing a private page and not logged in 
     setUser(userService.userValue);
@@ -64,10 +61,9 @@ function MyApp({ Component, pageProps }: AppProps) {
         setAuthorized(false);
     } else if(userService.userValue && !publicPaths.includes(path)) { //User logged in and path is NOT pubmic now check the ROLES
         const userCookie = cookie.get("user");
-        if(userCookie){
-          access.hasAccess(url, JSON.parse(userCookie).authToken, data)
+        if(userCookie && await access.hasAccess(url, JSON.parse(userCookie).authToken)){
+          setAuthorized(true);
         }
-        setAuthorized(false);
     } else {
         setAuthorized(true);
     }
