@@ -37,6 +37,14 @@ export const InvoiceConstants = {
     {
       invoiceTypeId: "Timesheet",
       invoiceTypeName: "Timesheet"
+    },
+    {
+      invoiceTypeId: "Misc",
+      invoiceTypeName: "Misc"
+    },
+    {
+      invoiceTypeId: "Expense",
+      invoiceTypeName: "Expense"
     }
   ],
   INVOICE_TRAN_STATUS_LOOKUP: [
