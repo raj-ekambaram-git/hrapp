@@ -212,6 +212,7 @@ function updateInvoice(formData, invoiceId, invoiceDate, dueDte, invoiceItemList
         }
 
   const result = invoiceItemList.map((invoiceItem) => delete invoiceItem["timesheetEntry"]);
+  invoiceItemList.map((invoiceItem) => delete invoiceItem["user"]);
   console.log("updateInvoice::::result:::"+JSON.stringify(result));
   console.log("updateInvoice::::invoiceItemList:::"+JSON.stringify(invoiceItemList));
   
@@ -239,7 +240,14 @@ function updateInvoice(formData, invoiceId, invoiceDate, dueDte, invoiceItemList
   .then(invoice => {
     
     console.log("Inside the update service ::"+JSON.stringify(invoice)+"*******invoiceItemList:::"+JSON.stringify(invoiceItemList));
-    updateTSEntriesAsInvoiced(invoice, invoiceItemList);
+
+    if(!invoice.error) {
+      updateTSEntriesAsInvoiced(invoice, invoiceItemList);
+      if((invoice.status != undefined && (invoice.status === InvoiceConstants.INVOICE_STATUS.Submitted
+        || invoice.status === InvoiceConstants.INVOICE_STATUS.Cancelled))) {
+          const responseData = sendInvoiceEmail(invoice.id, invoice.accountId);
+      }
+    }
     return invoice;
   })
   .catch(err => {
@@ -277,7 +285,14 @@ function createNewInvoice(formData, invoiceItemList, invoiceDate, dueDte, invoic
   .then(async invoice => {
 
     console.log("Inside the create service ::"+JSON.stringify(invoice)+"*******invoiceItemList:::"+JSON.stringify(invoiceItemList));
-    updateTSEntriesAsInvoiced(invoice, invoiceItemList);
+    if(!invoice.error) {
+      updateTSEntriesAsInvoiced(invoice, invoiceItemList);
+      if((invoice.status != undefined && (invoice.status === InvoiceConstants.INVOICE_STATUS.Submitted
+        || invoice.status === InvoiceConstants.INVOICE_STATUS.Cancelled))) {
+          const responseData = sendInvoiceEmail(invoice.id, invoice.accountId);
+      }
+    }
+    
 
       return invoice;
   })        
