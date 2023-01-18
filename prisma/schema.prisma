@@ -176,8 +176,8 @@ model Project {
   accountId                 Int               @default(0)
   account                   Account?          @relation(fields: [accountId], references: [id])
   budget                    Decimal           @default(0)
-  expenseBudget             Decimal?          @default(0)
-  usedExpenseBudget         Decimal?          @default(0)
+  miscBudget                Decimal?          @default(0)
+  usedMiscBudget            Decimal?          @default(0)
   remainingBudgetToAllocate Decimal           @default(0)
   usedBudget                Decimal           @default(0)
   totalHours                Int?              @default(0)
@@ -498,6 +498,8 @@ enum InvoiceType {
   Product
   Project
   Timesheet
+  Expense
+  Misc
 }
 
 enum InvoiceCycle {
@@ -535,6 +537,8 @@ enum InvoiceItemType {
   Product
   Project
   Timesheet
+  Expense
+  Misc
 }
 
 enum UnitOfMeasure {

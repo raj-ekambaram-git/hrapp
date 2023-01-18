@@ -42,7 +42,7 @@ const ProjectAddEdit = (props) => {
   const status = useRef("");
   const accountId = useRef("");
   const budget = useRef("");
-  const expenseBudget = useRef("");
+  const miscBudget = useRef("");
   const totalHours = useRef("");
   const averageRate = useRef(0);
   
@@ -137,7 +137,7 @@ const ProjectAddEdit = (props) => {
             contactPhone: projectResponse.contactPhone,            
             paymentTerms: projectResponse.paymentTerms,
             budget: projectResponse.budget,
-            expenseBudget: projectResponse.expenseBudget,
+            miscBudget: projectResponse.miscBudget,
             totalHours: projectResponse.totalHours,
             averageRate: projectResponse.averageRate,
             status: projectResponse.status
@@ -145,7 +145,7 @@ const ProjectAddEdit = (props) => {
         refreshAddressForVendor(projectResponse.vendorId);
         setProject(projetData);
 
-        const fields = ['name','referenceCode', "description", "type", "invoiceCycle","contactName","contactEmail","contactPhone","addressId","vendorId", "accountId","expenseBudget","budget","totalHours","status", "averageRate", 'paymentTerms'];
+        const fields = ['name','referenceCode', "description", "type", "invoiceCycle","contactName","contactEmail","contactPhone","addressId","vendorId", "accountId","miscBudget","budget","totalHours","status", "averageRate", 'paymentTerms'];
         fields.forEach(field => setValue(field, projetData[field]));
         
     }
@@ -457,7 +457,7 @@ const ProjectAddEdit = (props) => {
                       </Box>
                       <Box>
                         <FormControl>
-                          <FormLabel>Project Expense Budget</FormLabel>
+                          <FormLabel>Project Misc Budget</FormLabel>
                           <InputGroup>
                             <InputLeftElement
                                       pointerEvents='none'
@@ -465,7 +465,7 @@ const ProjectAddEdit = (props) => {
                                       fontSize='dollar_left_element'
                                       children='$'
                                   />   
-                            <Input type="text" {...register('expenseBudget')}  id="expenseBudget"  size="md" />                    
+                            <Input type="text" {...register('miscBudget')}  id="miscBudget"  size="md" />                    
                           </InputGroup>
                         </FormControl>     
                       </Box>                      

@@ -87,11 +87,11 @@ const ProjectAccountSection = (props) => {
                             </Tr>
                             <Tr>
                                 <Th bgColor="table_tile" width="project.details.column1">
-                                        Expense Budget
+                                        Miscellaneous Budget
                                 </Th>
                                 <Th>
                                     <Text pt='table_display_value' fontSize='table_display_value'>
-                                        ${project.expenseBudget?project.expenseBudget:0}
+                                        ${project.miscBudget?project.miscBudget:0}
                                     </Text>
                                 </Th>
                             </Tr>                                                                                                
