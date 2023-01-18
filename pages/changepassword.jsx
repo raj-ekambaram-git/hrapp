@@ -26,8 +26,8 @@ export default ChangePassword;
 function ChangePassword(props) {
     const router = useRouter();
     const toast = useToast()
-    // const userId = useSelector(state => state?.user?.loggedInUser?.id);
-    const userId = userService.userValue.id;
+    const userId = useSelector(state => state?.user?.loggedInUser?.id);
+    // const userId = userService.userValue.id;
 
     // if(userId === undefined || userId=== EMPTY_STRING) {
     //     router.push({

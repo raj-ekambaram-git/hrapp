@@ -19,6 +19,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
   const [user, setUser] = useState(null);
   const [authorized, setAuthorized] = useState(false);
+  const [hasAccess, setHasAccess] = useState(true);
   const [loading, setLoading] = useState(false);
   const store = useStore(pageProps.initialReduxState);
 
@@ -52,7 +53,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     const publicPaths = ['/login', '/register', '/changepassword'];
     const path = url.split('?')[0];
     if (!userService.userValue && !publicPaths.includes(path)) { // When user is not logged in and URL is NOT Public
-        setAuthorized(false);
+        setAuthorized(true);
         router.push({
             pathname: '/login',
             query: { returnUrl: router.asPath }
@@ -60,11 +61,12 @@ function MyApp({ Component, pageProps }: AppProps) {
     } else if (!userService.userValue && publicPaths.includes(path)) { //User NOT logged in and path is pub,ic
         setAuthorized(false);
     } else if(userService.userValue && !publicPaths.includes(path)) { //User logged in and path is NOT pubmic now check the ROLES
+        setAuthorized(true);
         const userCookie = cookie.get("user");
         if(userCookie && await access.hasAccess(url, JSON.parse(userCookie).authToken)){
-          setAuthorized(true);
+          setHasAccess(true)
         }else {
-          setAuthorized(false);
+          setHasAccess(false)
         }
     } else {
         setAuthorized(true);
@@ -86,7 +88,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <div>
         <Provider store={store}>
           <Alert />
-          <Layout data={{authorized}}>
+          <Layout data={{authorized, hasAccess}}>
               <ChakraProvider theme={theme}>
                 <Fonts/>
                 {loading? (

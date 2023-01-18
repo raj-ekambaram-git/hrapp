@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
+import cookie from 'js-cookie'
 import { Layout } from 'components/account';
 import { userService, alertService } from 'services';
 import {
@@ -45,6 +46,7 @@ function Login() {
                 console.log("USER AFTER LOGIN ::"+JSON.stringify(user))
                 if(user.passwordExpired) {
                     dispatch(setLoggedInUser(user))
+                    // cookie.set('user', JSON.stringify(user), { expires: 1 })
                     console.log("Inside the password expired")
                     // Forward to Change Password Page now as passsword is expired
                     router.push("/changepassword/");

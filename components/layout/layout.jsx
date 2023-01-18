@@ -10,14 +10,18 @@ const Layout = (props) => {
       <Slidebar>
       {props.data.authorized ? (
         <>
+        {props.data.hasAccess?(<>
           <div>{props.children}</div>
-        </>
-      ) : (<>
+        </>):(<>
         <Box>
-          <Heading as="h4" color="red">
-              Not authorized to view this page. Please contact administrator.
+          <Heading as="h5" size="sm" color="red">
+            Not authorized to view this page. Please contact administrator.
           </Heading>
         </Box>
+        </>)}
+        </>
+      ) : (<>
+           <div>{props.children}</div> 
       </>)}
       </Slidebar>
     </Fragment>
