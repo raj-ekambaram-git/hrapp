@@ -7,9 +7,11 @@ const baseUrl = `${publicRuntimeConfig.apiUrl}`;
 
 export const access = {
     hasAccess,
+    getAllowedModules
 };
 
-function hasAccess(url, token) {
+
+function getAllowedModules(url, token) {
   
     return fetchWrapper.cachedGet(`${baseUrl}/access/roles/`, {}, 24)
     .then(async rolesData => {
@@ -19,7 +21,7 @@ function hasAccess(url, token) {
         const urlAllowed = userRolesArray?.map((role, index) => {
             console.log("url::"+url)
             console.log("rolesData[role].allowedPages?.includes(url)::"+rolesData[role].allowedPages?.includes(url))
-            if(rolesData[role].allowedPages?.includes(url)){
+            if(rolesData[role].allowedModules?.includes(url)){
                 return true;
             }else{
                 return false;
@@ -32,6 +34,29 @@ function hasAccess(url, token) {
     })
     .catch(err => {
       console.log("Error hasAccess::"+err)
+      return {errorMessage: err, error: true};
+    });
+    
+}
+
+function hasAccess(url, token) {
+  
+    return fetchWrapper.cachedGet(`${baseUrl}/access/roles/`, {}, 24)
+    .then(async rolesData => {
+        const decryptedValue = jwtDecode(token);
+        const userRoles = decryptedValue['sub']?.split(":")[3];
+        const userRolesArray = userRoles.split(",");
+        const urlAllowed = userRolesArray?.map((role, index) => {
+            if(rolesData[role].allowedPages?.includes(url)){
+                return true;
+            }else{
+                return false;
+            }
+        });
+        return urlAllowed.includes(true);
+
+    })
+    .catch(err => {
       return {errorMessage: err, error: true};
     });
     

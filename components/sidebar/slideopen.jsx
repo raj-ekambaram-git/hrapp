@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from "./styles/slideopen.module.css"
 import { FiUsers} from 'react-icons/fi';
 import {VscCalendar, VscProject} from "react-icons/vsc"
@@ -29,6 +29,12 @@ const tooltip_style= {
   color: "black"
 }
 const Slideopen = () => {
+  const [allowedModule, setAllowedModule] = useState([]);
+  
+  useEffect(() => {
+    
+  }, []);
+
   return (
     <div className={styles.main}>
         <div className={styles.iconsbox}>
