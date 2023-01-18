@@ -1,18 +1,20 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import jwtDecode from 'jwt-decode';
-
+import cookie from 'js-cookie'
 
 // This function can be marked `async` if using `await` inside
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
     const token = request.headers.get('Authorization');
     console.log("pathname:::"+pathname+"------token:::"+token)
+    
     if(pathname.startsWith('/api')) { // This is the API Authorization
       if( token != undefined) {
         const updatedToken = token.replace("Bearer ", "").trim()
         const decryptedValue = jwtDecode(updatedToken);
-        const clientIdSecret = decryptedValue['sub']?.split("_")[2];
+        const clientIdSecret = decryptedValue['sub']?.split(":")[2];
+        console.log("User Roles::"+decryptedValue['sub']?.split(":")[3])
         if(clientIdSecret != undefined && process.env.NEXTAUTH_SECRET === clientIdSecret) {
           return NextResponse.next();
         }else {
