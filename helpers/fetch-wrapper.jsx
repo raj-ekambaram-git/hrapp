@@ -71,11 +71,9 @@ function authHeader(url) {
     // return auth header with jwt if user is logged in and request is to the api url
     const user = userService.userValue;
     const isLoggedIn = user && user.authToken;
-    console.log("isLoggedIn:::"+isLoggedIn)
     const isApiUrl = url.startsWith(publicRuntimeConfig.apiUrl);
     if (isLoggedIn && isApiUrl) {
-        console.log("setting the bearer token....")
-        return { Authorization: `Bearer ${user.authToken}` };
+       return { Authorization: `Bearer ${user.authToken}` };
     } else {
         return {};
     }

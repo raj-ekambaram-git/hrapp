@@ -6,6 +6,7 @@ import jwtDecode from 'jwt-decode';
 import { fetchWrapper } from 'helpers';
 import { EMPTY_STRING } from '../constants/accountConstants';
 import { Role } from '@prisma/client';
+import cookie from 'js-cookie'
 
 const { publicRuntimeConfig } = getConfig();
 const { serverRuntimeConfig } = getConfig();
@@ -15,7 +16,7 @@ const userSubject = new BehaviorSubject(process.browser && JSON.parse(localStora
 
 export const userService = {
     user: userSubject.asObservable(),
-    get userValue () { return userSubject.value },
+    get userValue () { return cookie.get("user")?JSON.parse(cookie.get("user")):cookie.get("user") },
     login,
     logout,
     isSuperAdmin,
@@ -385,6 +386,7 @@ function login(username, password) {
             if(!user.passwordExpired) {
                 userSubject.next(user);
                 localStorage.setItem('user', JSON.stringify(user));
+                cookie.set('user', JSON.stringify(user), { expires: 1 })
             }
 
             return user;
@@ -415,6 +417,7 @@ function resetPassword(email) {
 function logout() {
     // remove user from local storage, publish null to user subscribers and redirect to login page
     localStorage.removeItem('user');
+    cookie.remove("user")
     userSubject.next(null);
 }
 

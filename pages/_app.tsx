@@ -8,8 +8,8 @@ import {ChakraProvider} from '@chakra-ui/react';
 import theme from '../components/styles/theme';
 import 'styles/index.css';
 import { Fonts } from "../components/styles/fonts"
-
-
+import nextCookie from 'next-cookies'
+import cookie from 'js-cookie'
 
 import { userService } from '../services';
 import {Alert, Spinner } from '../components';
@@ -22,7 +22,6 @@ function MyApp({ Component, pageProps }: AppProps) {
   const [authorized, setAuthorized] = useState(false);
   const [loading, setLoading] = useState(false);
   const store = useStore(pageProps.initialReduxState);
-
 
   useEffect(() => {
       // on initial load - run auth check 
@@ -55,15 +54,21 @@ function MyApp({ Component, pageProps }: AppProps) {
     const path = url.split('?')[0];
 
     console.log("AUTH CHECK PATH::"+path)
+    console.log("userService.userValue::"+JSON.stringify(userService.userValue))
+    // const { token } = nextCookie(ctx)
+    // console.log("COOKIE VALUE::"+cookie.get("user"))
     if (!userService.userValue && !publicPaths.includes(path)) {
+      console.log("11111")
         setAuthorized(false);
         router.push({
             pathname: '/login',
             query: { returnUrl: router.asPath }
         });
     } else if (!userService.userValue && publicPaths.includes(path)) {
+      console.log("222")
         setAuthorized(false);
     } else {
+      console.log("3333")
         setAuthorized(true);
     }
 
@@ -105,8 +110,6 @@ function MyApp({ Component, pageProps }: AppProps) {
     </>
   );
 }
-
-
 
 
 export default MyApp;
