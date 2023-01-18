@@ -1,4 +1,4 @@
-import axios from 'axios';
+import cache from "memory-cache";
 import getConfig from 'next/config';
 
 import { userService } from 'services';
@@ -11,8 +11,29 @@ export const fetchWrapper = {
     put,
     delete: _delete,
     authHeader,
-    filePut
+    filePut,
+    cachedGet
 };
+
+function cachedGet(url, params, hours) {
+
+    const cachedResponse = cache.get(url);
+    if (cachedResponse) {
+      return cachedResponse;
+    } else {
+        if(!hours) {
+            hours = 24;
+        }
+            
+        const requestOptions = {
+            method: 'GET',
+            headers: authHeader(url)
+        }
+        const data = fetch(url, requestOptions).then(handleResponse);
+        cache.put(url, data, hours * 1000 * 60 * 60);
+        return data;
+    }
+}
 
 function get(url, params) {
     const requestOptions = {

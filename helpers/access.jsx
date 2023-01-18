@@ -11,7 +11,7 @@ export const access = {
 
 function hasAccess(url, token) {
   
-    return fetchWrapper.get(`${baseUrl}/access/roles/`, {})
+    return fetchWrapper.cachedGet(`${baseUrl}/access/roles/`, {}, 24)
     .then(async rolesData => {
         const decryptedValue = jwtDecode(token);
         const userRoles = decryptedValue['sub']?.split(":")[3];
