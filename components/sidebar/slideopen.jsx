@@ -25,8 +25,8 @@ const navbarnotactive={
 
 const tooltip_style= {
   maxWidth: "100px",
-  bgColor: "black",
-  color: "#F7FAFC"
+  bgColor: "#4FD1C5",
+  color: "black"
 }
 const Slideopen = () => {
   return (
@@ -34,14 +34,14 @@ const Slideopen = () => {
         <div className={styles.iconsbox}>
           {userService.isSuperAdmin() ? (
             <>
-            <Tooltip label="Manage Accounts" placement='right' borderRadius="6px" padding="20px"  color={tooltip_style.color} hasArrow maxWidth={tooltip_style.maxWidth} backgroundColor={tooltip_style.bgColor}>
+            <Tooltip label="Manage Accounts" placement='right' borderRadius="6px" padding="10px"  fontWeight={600} color={tooltip_style.color} hasArrow  backgroundColor={tooltip_style.bgColor}>
               <Link href={`/accounts`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
                 <div>
                   <MdOutlineManageAccounts  className={styles.icons1}/>
                 </div>
               </Link> 
             </Tooltip>    
-            <Tooltip label="Users" placement='right' borderRadius="6px" padding="20px"  color={tooltip_style.color} hasArrow maxWidth={tooltip_style.maxWidth} backgroundColor={tooltip_style.bgColor}>
+            <Tooltip label="Users" placement='right' borderRadius="6px" padding="10px"  fontWeight={600} color={tooltip_style.color} hasArrow  backgroundColor={tooltip_style.bgColor}>
               <Link href={`/account/users`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
                 <div>
                   <FiUsers  className={styles.icons1}/>
@@ -49,7 +49,7 @@ const Slideopen = () => {
                 </div>
               </Link>
             </Tooltip>             
-            <Tooltip label="App Settings" placement='right' borderRadius="6px" padding="20px"  color={tooltip_style.color} hasArrow maxWidth={tooltip_style.maxWidth} backgroundColor={tooltip_style.bgColor}>
+            <Tooltip label="App Settings" placement='right' borderRadius="6px" padding="10px"  fontWeight={600} color={tooltip_style.color} hasArrow  backgroundColor={tooltip_style.bgColor}>
               <Link href={`/app/setting/`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
                 <div>
                   <IoSettingsOutline  className={styles.icons1}/>
@@ -59,14 +59,14 @@ const Slideopen = () => {
             </>
           ) : (
             <>
-            <Tooltip label="Vendors " placement='right' borderRadius="6px" padding="20px"  color='white' hasArrow bg="red" maxWidth={tooltip_style.maxWidth} backgroundColor={tooltip_style.bgColor}> 
+            <Tooltip label="Vendors " placement='right' borderRadius="6px" padding="10px"  fontWeight={600} color={tooltip_style.color}  hasArrow backgroundColor={tooltip_style.bgColor}> 
               <Link href={`/account/vendors`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
                 <div>
                   <BiGridAlt  className={styles.icons1}/>
                 </div>
               </Link>
             </Tooltip>            
-            <Tooltip label="Users" placement='right' borderRadius="6px" padding="20px"  color={tooltip_style.color} hasArrow maxWidth={tooltip_style.maxWidth} backgroundColor={tooltip_style.bgColor}>
+            <Tooltip label="Users" placement='right' borderRadius="6px" padding="10px"  fontWeight={600} color={tooltip_style.color} hasArrow  backgroundColor={tooltip_style.bgColor}>
               <Link href={`/account/users`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
                 <div>
                   <FiUsers  className={styles.icons1}/>
@@ -74,14 +74,14 @@ const Slideopen = () => {
                 </div>
               </Link>
             </Tooltip>
-            <Tooltip label="Invoices" placement='right' borderRadius="6px" padding="20px"  color={tooltip_style.color} hasArrow maxWidth={tooltip_style.maxWidth} backgroundColor={tooltip_style.bgColor}>            
+            <Tooltip label="Invoices" placement='right' borderRadius="6px" padding="10px" fontWeight={600}  color={tooltip_style.color} hasArrow  backgroundColor={tooltip_style.bgColor}>            
               <Link href={`/account/invoices`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
                 <div>
                   <FaFileInvoiceDollar  className={styles.icons1}/>
                 </div>
               </Link>   
             </Tooltip>
-            <Tooltip label="Projects" placement='right' borderRadius="6px" padding="20px"  color={tooltip_style.color} hasArrow maxWidth={tooltip_style.maxWidth} backgroundColor={tooltip_style.bgColor}>
+            <Tooltip label="Projects" placement='right' borderRadius="6px" padding="10px" fontWeight={600} color={tooltip_style.color} hasArrow  backgroundColor={tooltip_style.bgColor}>
               <Link href={`/account/projects`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
                 <div>
                   <VscProject  className={styles.icons1}/>
@@ -91,14 +91,14 @@ const Slideopen = () => {
             
               {userService.userValue ? (
                 <>
-                  <Tooltip label="Timesheets" placement='right' borderRadius="6px" padding="20px"  color={tooltip_style.color} hasArrow backgroundColor={tooltip_style.bgColor}>
+                  <Tooltip label="Timesheets" placement='right' borderRadius="6px" padding="10px"  fontWeight={600} color={tooltip_style.color} hasArrow backgroundColor={tooltip_style.bgColor}>
                     <Link href={`/account/user/timesheets`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
                       <div>
                         <VscCalendar  className={styles.icons1}/>
                       </div>
                     </Link>   
                   </Tooltip>    
-                  <Tooltip label="Expense" placement='right' borderRadius="6px" padding="20px"  color={tooltip_style.color} hasArrow  backgroundColor={tooltip_style.bgColor}>
+                  <Tooltip label="Expense" placement='right' borderRadius="6px" padding="10px"  fontWeight={600} color={tooltip_style.color} hasArrow  backgroundColor={tooltip_style.bgColor}>
                     <Link href={`/account/user/expenses`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
                       <div>
                         <TbFileDollar className={styles.icons1}/>
@@ -117,14 +117,14 @@ const Slideopen = () => {
 
           {(userService.isManager() || userService.isAccountAdmin()) ? (
             <>
-            <Tooltip label="Timesheet Approvals" placement='right' borderRadius="6px" padding="20px"  color={tooltip_style.color} hasArrow backgroundColor={tooltip_style.bgColor}>
+            <Tooltip label="Timesheet Approvals" placement='right' borderRadius="6px" padding="10px"  fontWeight={600} color={tooltip_style.color} hasArrow backgroundColor={tooltip_style.bgColor}>
               <Link href={`/account/user/timesheets/approval`} styles={({isManagerActive}) => (isManagerActive ? navbaractive: navbarnotactive)}>  
                   <div>
                     <MdApproval  className={styles.icons1}/>
                   </div>
               </Link>   
             </Tooltip>        
-            <Tooltip label="Expense Approvals" placement='right' borderRadius="6px"  padding="20px" color={tooltip_style.color} hasArrow  backgroundColor={tooltip_style.bgColor}>
+            <Tooltip label="Expense Approvals" placement='right' borderRadius="6px"  padding="10px" fontWeight={600} color={tooltip_style.color} hasArrow  backgroundColor={tooltip_style.bgColor}>
               <Link href={`/account/user/expenses/approval`} styles={({isManagerActive}) => (isManagerActive ? navbaractive: navbarnotactive)}>  
                   <div>
                     <FaHandHoldingUsd  className={styles.icons1}/>
