@@ -34,13 +34,13 @@ const InvoiceItems = (props) => {
     const projectType = props.data.projectType;
     const invoiceType = props.data.invoiceType;
 
-    console.log("invoiceType:::"+JSON.stringify(invoiceType))
+    console.log("invoiceType:::"+JSON.stringify(invoiceType)+"******projectType::"+projectType)
 
     useEffect(() => {
       }, []);
     
       const addInvoiceData = {
-        projectType: projectType,
+        projectType: invoiceType,
         projectResources: projectResources
       }
 
@@ -79,7 +79,7 @@ const InvoiceItems = (props) => {
                                 <Th>
                                 </Th>   
                                 <Th>
-                                    {props.data.projectType === PROJECT_TYPE_GENERAL ? (
+                                    {props.data.invoiceType === PROJECT_TYPE_GENERAL ? (
                                         <>
                                         Genaral</>
                                     ) : (
@@ -113,7 +113,7 @@ const InvoiceItems = (props) => {
                                     </Th>                                      
                                     <Th>
                                         <Text pt='table_display_value' fontSize='table_display_value'>
-                                            {props.data.projectType === PROJECT_TYPE_GENERAL ? (
+                                            {props.data.invoiceType === PROJECT_TYPE_GENERAL ? (
                                                 <>
                                                 {invoiceItem.generalNote}</>
                                             ) : (

@@ -32,14 +32,12 @@ import { resetInvoiceItemList, setInvoiceItemList, setProjectResources, resetPro
   resetInvoiceEmailTo, removeEmailFromInvoiceEmailListByIndex } from "../../store/modules/Invoice/actions";
 import DatePicker from "../common/datePicker";
 import { InvoiceConstants } from "../../constants/invoiceConstants";
-import InvoiceTransactions from "../invoice/transaction/invoiceTransactions";
 import {PageNotAuthorized} from '../../components/common/pageNotAuthorized';
 import {PageMainHeader} from '../../components/common/pageMainHeader';
 import InvoiceEmailTo from "../invoice/invoiceEmailTo";
 import { DocumentConstants, NotesConstants } from "../../constants";
 import { util } from "../../helpers/util";
 import { setDocumentType } from "../../store/modules/Document/actions";
-import ManageDocuments from "../document/manageDocuments";
 import InvoiceDetailActions from "../invoice/invoiceDetailActions";
 
 

@@ -493,6 +493,7 @@ enum AddressStatus {
 }
 
 enum InvoiceType {
+  General
   Staffing
   Product
   Project
@@ -530,8 +531,9 @@ enum PaymentTerms {
 
 enum InvoiceItemType {
   General
-  Project
   Staffing
+  Product
+  Project
   Timesheet
 }
 

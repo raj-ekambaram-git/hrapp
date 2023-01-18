@@ -132,7 +132,9 @@ const AddInvoiceItem = (props) => {
 
     <div>
             <Button
+                size="xs"
                 onClick={() => handleClick("md")}
+                bgColor="header_actions" 
                 key="md"
                 m={1}
                 >{`Add Invoice Item`}
