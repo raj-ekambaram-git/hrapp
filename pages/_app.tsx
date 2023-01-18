@@ -29,7 +29,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       // on route change start - hide page content by setting authorized to false  
       const hideContent = () => {
         setLoading(true);
-        setAuthorized(false);
+        // setAuthorized(false);
       };
       router.events.on('routeChangeStart', hideContent);
 
@@ -63,6 +63,8 @@ function MyApp({ Component, pageProps }: AppProps) {
         const userCookie = cookie.get("user");
         if(userCookie && await access.hasAccess(url, JSON.parse(userCookie).authToken)){
           setAuthorized(true);
+        }else {
+          setAuthorized(false);
         }
     } else {
         setAuthorized(true);
