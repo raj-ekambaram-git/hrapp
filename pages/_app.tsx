@@ -54,6 +54,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     const publicPaths = ['/login', '/register', '/changepassword'];
     const path = url.split('?')[0];
 
+    console.log("AUTH CHECK PATH::"+path)
     if (!userService.userValue && !publicPaths.includes(path)) {
         setAuthorized(false);
         router.push({

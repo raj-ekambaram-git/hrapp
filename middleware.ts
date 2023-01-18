@@ -16,14 +16,10 @@ export function middleware(request: NextRequest) {
         if(clientIdSecret != undefined && process.env.NEXTAUTH_SECRET === clientIdSecret) {
           return NextResponse.next();
         }else {
-          return new Response('No access', {
-            status: 401,
-          })
+          return NextResponse.json({ message: 'Auth required' }, { status: 401 })
         }
       }else {
-        return new Response('No access', {
-          status: 401,
-        })
+        return NextResponse.json({ message: 'Auth required' }, { status: 401 })
       }
     }else {
       //Page level auth
