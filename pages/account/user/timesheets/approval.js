@@ -7,7 +7,7 @@ import { userService } from "../../../../services";
 export default function TimesheetApproval(props) {
 
   // const userId = useSelector(state => state.user.loggedInUser?.id);
-  const userId = userService.userValue.id;
+  const userId = userService?.userValue?.id;
 
   const data = {
     action: "userTimesheetApprovalList",

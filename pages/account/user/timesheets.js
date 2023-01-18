@@ -6,7 +6,7 @@ import { userService } from "../../../services";
 
 export default function UserTimesheets(props) {
   // const userId = useSelector(state => state.user.loggedInUser?.id);
-  const userId = userService.userValue.id;
+  const userId = userService?.userValue?.id;
 
   console.log("UserTimesheets::::"+userId)
   const data = {
