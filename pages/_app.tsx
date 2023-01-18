@@ -53,22 +53,15 @@ function MyApp({ Component, pageProps }: AppProps) {
     const publicPaths = ['/login', '/register', '/changepassword'];
     const path = url.split('?')[0];
 
-    console.log("AUTH CHECK PATH::"+path)
-    console.log("userService.userValue::"+JSON.stringify(userService.userValue))
-    // const { token } = nextCookie(ctx)
-    // console.log("COOKIE VALUE::"+cookie.get("user"))
     if (!userService.userValue && !publicPaths.includes(path)) {
-      console.log("11111")
         setAuthorized(false);
         router.push({
             pathname: '/login',
             query: { returnUrl: router.asPath }
         });
     } else if (!userService.userValue && publicPaths.includes(path)) {
-      console.log("222")
         setAuthorized(false);
     } else {
-      console.log("3333")
         setAuthorized(true);
     }
 
