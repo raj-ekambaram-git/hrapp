@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { util } from '../../helpers';
-import { accountService, userService } from "../../services";
+import { accountService, projectService, userService } from "../../services";
 import {MODE_ADD, PROJECT_VALIDATION_SCHEMA, PROJECT_STATUS, PROJECT_TYPES, INVOICE_CYCLE, INVOICE_PAY_TERMS} from "../../constants/accountConstants";
 import { PageNotAuthorized } from "../../components/common/pageNotAuthorized";
 import {
@@ -42,6 +42,7 @@ const ProjectAddEdit = (props) => {
   const status = useRef("");
   const accountId = useRef("");
   const budget = useRef("");
+  const expenseBudget = useRef("");
   const totalHours = useRef("");
   const averageRate = useRef(0);
   
@@ -136,6 +137,7 @@ const ProjectAddEdit = (props) => {
             contactPhone: projectResponse.contactPhone,            
             paymentTerms: projectResponse.paymentTerms,
             budget: projectResponse.budget,
+            expenseBudget: projectResponse.expenseBudget,
             totalHours: projectResponse.totalHours,
             averageRate: projectResponse.averageRate,
             status: projectResponse.status
@@ -143,7 +145,7 @@ const ProjectAddEdit = (props) => {
         refreshAddressForVendor(projectResponse.vendorId);
         setProject(projetData);
 
-        const fields = ['name','referenceCode', "description", "type", "invoiceCycle","contactName","contactEmail","contactPhone","addressId","vendorId", "accountId","budget","totalHours","status", "averageRate", 'paymentTerms'];
+        const fields = ['name','referenceCode', "description", "type", "invoiceCycle","contactName","contactEmail","contactPhone","addressId","vendorId", "accountId","expenseBudget","budget","totalHours","status", "averageRate", 'paymentTerms'];
         fields.forEach(field => setValue(field, projetData[field]));
         
     }
@@ -172,33 +174,8 @@ const ProjectAddEdit = (props) => {
   // Create Account 
   const createProject = async (formData) => {
     try {
-        const res = await fetch("/api/account/project/create", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            name: formData.name,
-            referenceCode: formData.referenceCode,
-            description: formData.description,
-            type: formData.type,
-            invoiceCycle: formData.invoiceCycle,
-            addressId: parseInt(formData.addressId),
-            vendorId: parseInt(formData.vendorId),
-            accountId: parseInt(formData.accountId),
-            budget: formData.budget,
-            remainingBudgetToAllocate: formData.budget,
-            paymentTerms: formData.paymentTerms,
-            contactName: formData.contactName,
-            contactEmail: formData.contactEmail,
-            contactPhone: formData.contactPhone,
-            totalHours: parseInt(formData.totalHours),
-            averageRate: util.getDecimalValue(formData.averageRate),            
-            status: formData.status
-
-          }), 
-        });
-        const data = await res.json();
+        console.log("CreateProject ::"+JSON.stringify(formData))
+      const data = await projectService.createProject(formData);
 
         if(data.error) {
           toast({
@@ -247,34 +224,9 @@ const ProjectAddEdit = (props) => {
   // update invoice in database
   const updateProject = async (projectId, formData) => {
     try {
-      const res = await fetch(`/api/account/project/${projectId}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          id: parseInt(projectId),
-          name: formData.name,
-          referenceCode: formData.referenceCode,
-          description: formData.description,
-          type: formData.type,
-          invoiceCycle: formData.invoiceCycle,
-          addressId: parseInt(formData.addressId),
-          vendorId: parseInt(formData.vendorId),
-          accountId: parseInt(formData.accountId),
-          budget: formData.budget,
-          paymentTerms: formData.paymentTerms,
-          contactName: formData.contactName,
-          contactEmail: formData.contactEmail,
-          contactPhone: formData.contactPhone,
-          totalHours: parseInt(formData.totalHours),
-          averageRate: formData.averageRate,            
-          status: formData.status
 
-        }),
-      });
-
-      const data = await res.json();
+      const data = await projectService.updateProject(projectId, formData)
+      
       if(data.error) {
         toast({
           title: 'Update Project.',
@@ -503,6 +455,20 @@ const ProjectAddEdit = (props) => {
                           </InputGroup>
                         </FormControl>     
                       </Box>
+                      <Box>
+                        <FormControl>
+                          <FormLabel>Project Expense Budget</FormLabel>
+                          <InputGroup>
+                            <InputLeftElement
+                                      pointerEvents='none'
+                                      color='dollor_input'
+                                      fontSize='dollar_left_element'
+                                      children='$'
+                                  />   
+                            <Input type="text" {...register('expenseBudget')}  id="expenseBudget"  size="md" />                    
+                          </InputGroup>
+                        </FormControl>     
+                      </Box>                      
                       <Box>
                         <FormControl>
                           <FormLabel>Project Total Hours</FormLabel>

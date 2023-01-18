@@ -22,6 +22,7 @@ const ProjectAccountSection = (props) => {
     const project = props.data.project;
     const remainingBudget = useSelector(state => state.project.remainingBudget);
     
+    
   return (
 
     <div>
@@ -43,48 +44,57 @@ const ProjectAccountSection = (props) => {
                         <TableCaption></TableCaption>
                         <Thead></Thead>
                         <Tbody>
-                        <Tr >
-                            <Th bgColor="table_tile" width="project.details.column1">
-                                Payment Terms
-                            </Th>
-                            <Th>
-                                <Text pt='table_display_value' fontSize='table_display_value'>
-                                    {project.paymentTerms}
-                                </Text>
-                            </Th>
-                        </Tr>
+                            <Tr >
+                                <Th bgColor="table_tile" width="project.details.column1">
+                                    Payment Terms
+                                </Th>
+                                <Th>
+                                    <Text pt='table_display_value' fontSize='table_display_value'>
+                                        {project.paymentTerms}
+                                    </Text>
+                                </Th>
+                            </Tr>
 
-                        <Tr >
-                            <Th bgColor="table_tile" width="project.details.column1">
-                                Budget
-                            </Th>
-                            <Th>
-                                <Text pt='table_display_value' fontSize='table_display_value'>
-                                    ${project.budget}
-                                </Text>
-                            </Th>
-                        </Tr>
-                        <Tr >
-                            <Th bgColor="table_tile" width="project.details.column1">
-                                Used Budget
-                            </Th>
-                            <Th>
-                                <Text pt='table_display_value' fontSize='table_display_value'>
-                                    ${project.usedBudget}
-                                </Text>
-                            </Th>
-                        </Tr>                        
-                        <Tr>
-                        <Th bgColor="table_tile" width="project.details.column1">
-                                Remaining Budget to allocate
-                            </Th>
-                            <Th>
-                                <Text pt='table_display_value' fontSize='table_display_value'>
-                                    ${remainingBudget}
-                                </Text>
-                            </Th>
-                        </Tr>
-                                                                                                
+                            <Tr >
+                                <Th bgColor="table_tile" width="project.details.column1">
+                                    Budget
+                                </Th>
+                                <Th>
+                                    <Text pt='table_display_value' fontSize='table_display_value'>
+                                        ${project.budget}
+                                    </Text>
+                                </Th>
+                            </Tr>
+                            <Tr >
+                                <Th bgColor="table_tile" width="project.details.column1">
+                                    Used Budget
+                                </Th>
+                                <Th>
+                                    <Text pt='table_display_value' fontSize='table_display_value'>
+                                        ${project.usedBudget}
+                                    </Text>
+                                </Th>
+                            </Tr>                        
+                            <Tr>
+                                <Th bgColor="table_tile" width="project.details.column1">
+                                        Remaining Budget to allocate
+                                </Th>
+                                <Th>
+                                    <Text pt='table_display_value' fontSize='table_display_value'>
+                                        ${remainingBudget}
+                                    </Text>
+                                </Th>
+                            </Tr>
+                            <Tr>
+                                <Th bgColor="table_tile" width="project.details.column1">
+                                        Expense Budget
+                                </Th>
+                                <Th>
+                                    <Text pt='table_display_value' fontSize='table_display_value'>
+                                        ${project.expenseBudget?project.expenseBudget:0}
+                                    </Text>
+                                </Th>
+                            </Tr>                                                                                                
                         </Tbody>
                     </Table>
                 </TableContainer>    

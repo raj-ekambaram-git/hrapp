@@ -90,6 +90,7 @@ const ProjectDetail = (props) => {
       paymentTerms: responseData.paymentTerms,
       // projectResource: [],
       // invoice: [],
+      expenseBudget: responseData.expenseBudget,
       budget: responseData.budget,
       totalHours: responseData.totalHours,
       averageRate: responseData.averageRate,

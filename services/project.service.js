@@ -2,6 +2,7 @@ import getConfig from 'next/config';
 
 import { fetchWrapper } from 'helpers';
 import { request } from 'http';
+import { util } from '../helpers/util';
 
 const { publicRuntimeConfig } = getConfig();
 const baseUrl = `${publicRuntimeConfig.apiUrl}`;
@@ -14,9 +15,78 @@ export const projectService = {
     getProjectTimesheetsByStatus,
     updateUsedBudget,
     updateProjectResource,
+    createProject,
+    updateProject
     
     
 };
+
+
+function updateProject(projectId, formData) {
+
+    return fetchWrapper.put(`${baseUrl}/account/project/`+projectId, {
+        id: parseInt(projectId),
+        name: formData.name,
+        referenceCode: formData.referenceCode,
+        description: formData.description,
+        type: formData.type,
+        invoiceCycle: formData.invoiceCycle,
+        addressId: parseInt(formData.addressId),
+        vendorId: parseInt(formData.vendorId),
+        accountId: parseInt(formData.accountId),
+        budget: formData.budget,
+        expenseBudget: formData.expenseBudget,
+        paymentTerms: formData.paymentTerms,
+        contactName: formData.contactName,
+        contactEmail: formData.contactEmail,
+        contactPhone: formData.contactPhone,
+        totalHours: parseInt(formData.totalHours),
+        averageRate: formData.averageRate,            
+        status: formData.status
+      }
+  )
+  .then(project => {
+    return project;
+  })
+  .catch(err => {
+    console.log("Error Updating Project::"+err)
+    return {errorMessage: err, error: true};
+   });
+}
+
+function createProject(formData) {
+    console.log("Project Service Create Project ::"+JSON.stringify(formData))
+    return fetchWrapper.post(`${baseUrl}/account/project/create`, {
+            name: formData.name,
+            referenceCode: formData.referenceCode,
+            description: formData.description,
+            type: formData.type,
+            invoiceCycle: formData.invoiceCycle,
+            addressId: parseInt(formData.addressId),
+            vendorId: parseInt(formData.vendorId),
+            accountId: parseInt(formData.accountId),
+            budget: formData.budget,
+            expenseBudget: formData.expenseBudget,
+            remainingBudgetToAllocate: formData.budget,
+            paymentTerms: formData.paymentTerms,
+            contactName: formData.contactName,
+            contactEmail: formData.contactEmail,
+            contactPhone: formData.contactPhone,
+            totalHours: parseInt(formData.totalHours),
+            averageRate: util.getDecimalValue(formData.averageRate),            
+            status: formData.status
+        }
+    )
+    .then(async project => {
+  
+        return project;
+    })        
+    .catch(err => {
+      console.log("Error Creating Project"+err)
+      return {errorMessage: err, error: true};
+    });
+  }
+
 
 function updateProjectResource(requestData, remainingBudgetToUpdate) {
 
