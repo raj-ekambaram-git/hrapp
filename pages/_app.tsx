@@ -8,12 +8,12 @@ import {ChakraProvider} from '@chakra-ui/react';
 import theme from '../components/styles/theme';
 import 'styles/index.css';
 import { Fonts } from "../components/styles/fonts"
-import nextCookie from 'next-cookies'
 import cookie from 'js-cookie'
-
 import { userService } from '../services';
 import {Alert, Spinner } from '../components';
 import { Provider } from 'react-redux';
+import { access } from '../helpers/access';
+import useSWR from 'swr';
 
 function MyApp({ Component, pageProps }: AppProps) {
 
@@ -22,6 +22,8 @@ function MyApp({ Component, pageProps }: AppProps) {
   const [authorized, setAuthorized] = useState(false);
   const [loading, setLoading] = useState(false);
   const store = useStore(pageProps.initialReduxState);
+  const fetcher = (url) => fetch(url).then((res) => res.json());
+  const { data, error, isLoading } = useSWR('/api/access/roles', fetcher);
 
   useEffect(() => {
       // on initial load - run auth check 
@@ -52,14 +54,19 @@ function MyApp({ Component, pageProps }: AppProps) {
     setUser(userService.userValue);
     const publicPaths = ['/login', '/register', '/changepassword'];
     const path = url.split('?')[0];
-
-    if (!userService.userValue && !publicPaths.includes(path)) {
+    if (!userService.userValue && !publicPaths.includes(path)) { // When user is not logged in and URL is NOT Public
         setAuthorized(false);
         router.push({
             pathname: '/login',
             query: { returnUrl: router.asPath }
         });
-    } else if (!userService.userValue && publicPaths.includes(path)) {
+    } else if (!userService.userValue && publicPaths.includes(path)) { //User NOT logged in and path is pub,ic
+        setAuthorized(false);
+    } else if(userService.userValue && !publicPaths.includes(path)) { //User logged in and path is NOT pubmic now check the ROLES
+        const userCookie = cookie.get("user");
+        if(userCookie){
+          access.hasAccess(url, JSON.parse(userCookie).authToken, data)
+        }
         setAuthorized(false);
     } else {
         setAuthorized(true);
