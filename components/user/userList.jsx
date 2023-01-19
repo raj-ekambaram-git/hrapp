@@ -41,7 +41,7 @@ const UserList = (props) => {
       if(userService.isSuperAdmin()) {
         getUsersList(data.vendorId, "NaN")
       }else {
-        getUsersList(data.vendorId, accountId)
+        getUsersList(data.vendorId, accountId? accountId : userService.getAccountDetails().accountId)
       }
       setPageAuthorized(true);
       
@@ -49,9 +49,9 @@ const UserList = (props) => {
     }else {
       //Since this is just the account call only accountId
       if(userService.isSuperAdmin()) {
-        getUsersList("", accountId)
+        getUsersList("", accountId? accountId : userService.getAccountDetails().accountId)
       }else {
-        getUsersList("", accountId)
+        getUsersList("", accountId? accountId : userService.getAccountDetails().accountId)
       }
       
      setPageAuthorized(true);

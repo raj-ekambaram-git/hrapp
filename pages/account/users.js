@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import UserList from "../../components/user/userList";
+import { userService } from "../../services";
 
 
 export default function Home(props) {
@@ -7,7 +8,7 @@ export default function Home(props) {
 
   const data = {
     action: "accountUserList",
-    accountId: accountId
+    accountId: accountId? accountId : userService.getAccountDetails().accountId
   }
 
   return (
