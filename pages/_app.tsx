@@ -20,6 +20,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   const [user, setUser] = useState(null);
   const [authorized, setAuthorized] = useState(false);
   const [hasAccess, setHasAccess] = useState(true);
+  const [allowedModules, setAllowedModules] = useState([]);
   const [loading, setLoading] = useState(false);
   const store = useStore(pageProps.initialReduxState);
 
@@ -65,6 +66,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         const userCookie = cookie.get("user");
         if(userCookie && await roleAccess.hasAccess(url, JSON.parse(userCookie).authToken)){
           setHasAccess(true)
+          setAllowedModules(await roleAccess.getAllowedModules(JSON.parse(userCookie).authToken))
         }else {
           setHasAccess(false)
         }
@@ -88,7 +90,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <div>
         <Provider store={store}>
           <Alert />
-          <Layout data={{authorized, hasAccess}}>
+          <Layout data={{authorized, hasAccess, allowedModules}}>
               <ChakraProvider theme={theme}>
                 <Fonts/>
                 {loading? (

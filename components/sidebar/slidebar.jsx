@@ -20,7 +20,6 @@ import cookie from 'js-cookie'
 const Slidebar = (props) => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const [allowedModule, setAllowedModule] = useState([]);
   const [state,setstate]=useState(false);
   const handleclick=()=>{
       setstate(!state)
@@ -29,22 +28,10 @@ const Slidebar = (props) => {
  function handleLogout(){
   userService.logout()
   dispatch(removeLoggedInUser())
+  // props.allowedModules = null;
   router.push('/login');
  }
- 
-  
- useEffect(() => {
-   getModules();
- }, []);
 
- async function getModules(){
-   const userCookie = cookie.get("user");
-   if(userCookie){
-     setAllowedModule(await roleAccess.getAllowedModules(JSON.parse(userCookie).authToken))
-   }
-   console.log("ALLOWED MODULE::"+allowedModule)
-   
- }
  
   return (
     <div className={styles.main}>
@@ -104,11 +91,11 @@ const Slidebar = (props) => {
                 <div className={styles.Slideflex}>
                     <div>{
                             state ? <div className={styles.slidingfuncbox}>
-                          <div><Slideopen allowedModule={allowedModule}/></div>
-                          <div><Slideclose allowedModule={allowedModule}/></div>
+                          <div><Slideopen allowedModule={props.allowedModules}/></div>
+                          <div><Slideclose allowedModule={props.allowedModules}/></div>
                     </div>:
                           <div>
-                              <Slideopen allowedModule={allowedModule}/>
+                              <Slideopen allowedModule={props.allowedModules}/>
                           </div>
                           }                        
                     </div>
