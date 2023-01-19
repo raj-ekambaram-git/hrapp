@@ -1,3 +1,3 @@
 export * from './fetch-wrapper';
 export * from './util';
-export * from './access';
+export * from './roleAccess';

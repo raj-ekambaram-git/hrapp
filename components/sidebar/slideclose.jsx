@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { access } from '../../helpers/access';
+// import { roleAccess } from '../../helpers/roleAccess';
 import cookie from 'js-cookie'
 import Link from "next/link";
 import styles from "./styles/slideclose.module.css"
@@ -22,13 +22,13 @@ const Slideclose = () => {
   const [allowedModule, setAllowedModule] = useState([]);
   
   useEffect(() => {
-    getModules();
+    // getModules();
   }, []);
 
   async function getModules(){
     const userCookie = cookie.get("user");
     if(userCookie){
-      setAllowedModule(await access.getAllowedModules(JSON.parse(userCookie).authToken))
+      setAllowedModule(await roleAccess.getAllowedModules(JSON.parse(userCookie).authToken))
     }
     console.log("ALLOWED MODULE::"+allowedModule)
   }

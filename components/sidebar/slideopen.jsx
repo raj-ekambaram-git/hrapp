@@ -10,7 +10,7 @@ import {TbFileDollar} from 'react-icons/tb';
 import cookie from 'js-cookie'
 import { Tooltip } from '@chakra-ui/react'
 import Link from "next/link";
-import { access } from '../../helpers/access';
+import { roleAccess } from '../../helpers/roleAccess';
 
 const navbaractive={
   backgroundColor: "black",
@@ -36,7 +36,7 @@ const Slideopen = () => {
   async function getModules(){
     const userCookie = cookie.get("user");
     if(userCookie){
-      setAllowedModule(await access.getAllowedModules(JSON.parse(userCookie).authToken))
+      setAllowedModule(await roleAccess.getAllowedModules(JSON.parse(userCookie).authToken))
     }
     console.log("ALLOWED MODULE::"+allowedModule)
   }

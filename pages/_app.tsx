@@ -12,7 +12,7 @@ import cookie from 'js-cookie'
 import { userService } from '../services';
 import {Alert, Spinner } from '../components';
 import { Provider } from 'react-redux';
-import { access } from '../helpers/access';
+import { roleAccess } from '../helpers/roleAccess';
 
 function MyApp({ Component, pageProps }: AppProps) {
 
@@ -63,7 +63,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     } else if(userService.userValue && !publicPaths.includes(path)) { //User logged in and path is NOT pubmic now check the ROLES
         setAuthorized(true);
         const userCookie = cookie.get("user");
-        if(userCookie && await access.hasAccess(url, JSON.parse(userCookie).authToken)){
+        if(userCookie && await roleAccess.hasAccess(url, JSON.parse(userCookie).authToken)){
           setHasAccess(true)
         }else {
           setHasAccess(false)
