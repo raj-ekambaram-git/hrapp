@@ -51,7 +51,7 @@ const Slidebar = (props) => {
 
           <div className={styles.navbar}>
 
-            <div className={styles.navbarleftmain} bgColor="red">
+            <div className={styles.navbarleftmain}>
             
               <div  onClick={handleclick} className={styles.menuicons} >
                 <VscMenu fontSize="27px" />
