@@ -3,8 +3,8 @@ module.exports = {
   serverRuntimeConfig: {
     apiUrl: process.env.NODE_ENV === 'development'
     ? 'http://localhost:3000/api' // development api
-    : process.env.NODE_ENV === 'vercel'
-    ? "https://hrapp-bay.vercel.app/api"
+    : process.env.NODE_ENV === 'awsdev'
+    ? 'https://apmpmfa7ay.us-east-1.awsapprunner.com/api'
     : 'https://mpik62bzs8.us-east-1.awsapprunner.com/api', // production api
       secret: '123456789',
       clientId: '11122'
@@ -12,8 +12,8 @@ module.exports = {
   publicRuntimeConfig: {
       apiUrl: process.env.NODE_ENV === 'development'
           ? 'http://localhost:3000/api' // development api
-          : process.env.NODE_ENV === 'vercel'
-          ? "https://hrapp-bay.vercel.app/api"      
+          : process.env.NODE_ENV === 'awsdev'
+          ? 'https://apmpmfa7ay.us-east-1.awsapprunner.com/api'
           : 'https://mpik62bzs8.us-east-1.awsapprunner.com/api' // production api
   },
   eslint: {
