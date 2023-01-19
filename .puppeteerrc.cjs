@@ -12,6 +12,6 @@ module.exports = {
 //   ignoreDefaultArgs: ['--disable-extensions','--no-sandbox', '--disable-setuid-sandbox','--aggressive-cache-discard'],
 // });
 
-const browser = await puppeteer.launch({
-  args: ["--no-sandbox", "--disabled-setupid-sandbox"],
-});
+// const browser = await puppeteer.launch({
+//   args: ["--no-sandbox", "--disabled-setupid-sandbox"],
+// });
