@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react'
+import React, { useState } from 'react'
 import { useRouter } from 'next/router';
 import styles from "./styles/slidebar.module.css"
 import {VscMenu} from "react-icons/vsc"
@@ -8,14 +8,12 @@ import Slideopen from "./slideopen"
 import {FaUserCheck} from "react-icons/fa"
 import { useDispatch } from 'react-redux';
 import {
-  Container, Flex, HStack, Text, Box, Stack
+  Container, Flex, HStack, Box
 } from '@chakra-ui/react'
 import { userService } from '../../services';
 import {GrLogout, GrLogin} from 'react-icons/gr';
 import { Tooltip, WrapItem, Spacer } from '@chakra-ui/react'
 import { removeLoggedInUser } from '../../store/modules/User/actions';
-import { roleAccess } from '../../helpers/roleAccess';
-import cookie from 'js-cookie'
 
 const Slidebar = (props) => {
   const router = useRouter();
