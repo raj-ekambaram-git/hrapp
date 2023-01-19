@@ -22,18 +22,14 @@ function getAllowedModules(token) {
         userRolesArray?.map((role, index) => {
             // modulesAllowed.push(rolesData[role].allowedModules)
             rolesData[role]?.allowedModules?.map((moduleVal) => {
-                console.log("moduleVal::"+moduleVal)
                 if(!modulesAllowed.includes(moduleVal)) {
                     modulesAllowed.push(moduleVal)
                 }
             })
         });
-        
-        console.log("M modules Allowed:::"+modulesAllowed)
         return modulesAllowed;
     })
     .catch(err => {
-      console.log("Error hasAccess::"+err)
       return {errorMessage: err, error: true};
     });
     
