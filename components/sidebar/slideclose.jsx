@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { useEffect, useState } from 'react'
+import { access } from '../../helpers/access';
+import cookie from 'js-cookie'
 import Link from "next/link";
 import styles from "./styles/slideclose.module.css"
 import { userService } from '../../services';
@@ -18,72 +19,93 @@ const navbarnotactive={
 
 const Slideclose = () => {
 
+  const [allowedModule, setAllowedModule] = useState([]);
+  
+  useEffect(() => {
+    getModules();
+  }, []);
+
+  async function getModules(){
+    const userCookie = cookie.get("user");
+    if(userCookie){
+      setAllowedModule(await access.getAllowedModules(JSON.parse(userCookie).authToken))
+    }
+    console.log("ALLOWED MODULE::"+allowedModule)
+  }
+
   return (
     <div className={styles.main}>
         <div className={styles.iconsname}>
-        {userService.isSuperAdmin() ? (     
-          <>
-            <Link href={`/accounts`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
-              <Box padding={2}>
-                Accounts
-              </Box>
-            </Link>
-          </>       
-        ): (
-          <>
-            
-            <Link href={`/account/vendors`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
+        {allowedModule.includes("account")?(<>
+          <Link href={`/accounts`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
+            <Box padding={2}>
+              Accounts
+            </Box>
+          </Link>
+        </>):""}
+        {allowedModule.includes("user")?(<>
+          <Link href={`/account/users`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
+            <Box padding="8px">
+              Users
+            </Box>
+          </Link>
+        </>):""}
+        {allowedModule.includes("vendor")?(<>
+          <Link href={`/account/vendors`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
+            <Box padding="8px">
+              Vendors
+            </Box>
+          </Link>
+        </>):""}
+        {allowedModule.includes("project")?(<>
+          <Link href={`/account/projects`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
+            <Box padding="8px">
+              Projects
+            </Box>
+          </Link>         
+        </>):""}
+        {allowedModule.includes("invoice")?(<>
+          <Link href={`/account/invoices`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
+            <Box padding="8px">
+              Invoices
+            </Box>
+          </Link>
+        </>):""}
+        {allowedModule.includes("timesheet")?(<>
+          <Link href={`/account/user/timesheets`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
+            <Box padding="8px">
+              Timesheets
+            </Box>
+          </Link>    
+        </>):""}
+        {allowedModule.includes("expense")?(<>
+          <Link href={`/account/user/expenses`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
+            <Box padding="8px">
+               Expenses
+            </Box>
+          </Link>              
+        </>):""}
+        {allowedModule.includes("timesheet_approval")?(<>
+          <Link href={`/account/user/timesheets/approval`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
+            <Box padding="8px">
+              Timesheet Approvals
+            </Box>
+          </Link>    
+        </>):""}
+        {allowedModule.includes("expense_approval")?(<>
+          <Link href={`/account/user/expenses/approval`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
+            <Box padding="8px">
+              Expense Approvals
+            </Box>
+          </Link>           
+        </>):""}
+        {allowedModule.includes("setting")?(<>
+          <Link href={`/account/user/expenses/approval`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
               <Box padding="8px">
-                Vendors
+                Settings
               </Box>
-            </Link>
-            
-            <Link href={`/account/users`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
-              <Box padding="8px">
-                Users
-              </Box>
-            </Link>
-            <Link href={`/account/invoices`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
-              <Box padding="8px">
-                Invoices
-              </Box>
-            </Link>
-            <Link href={`/account/projects`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
-              <Box padding="8px">
-                Projects
-              </Box>
-            </Link>         
-            <Link href={`/account/user/timesheets`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
-              <Box padding="8px">
-                My Timesheets
-              </Box>
-            </Link>    
-            <Link href={`/account/user/expenses`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
-              <Box padding="8px">
-                My Expenses
-              </Box>
-            </Link>              
-          </>
-        )}
-
-          {(userService.isManager() || userService.isAccountAdmin()) ? (
-            <>
-            <Link href={`/account/user/timesheets/approval`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
-              <Box padding="8px">
-                Timesheet Approvals
-              </Box>
-            </Link>    
-            <Link href={`/account/user/expenses/approval`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
-              <Box padding="8px">
-                Expense Approvals
-              </Box>
-            </Link>              
-            </>
-          ) : (
-            <>
-            </>
-          )}                   
-
+            </Link>           
+        </>):""}
         </div>
     </div>
   )
