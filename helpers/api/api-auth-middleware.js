@@ -1,4 +1,5 @@
 import jwtDecode from 'jwt-decode';
+import { CommonConstants } from '../../constants';
 
 export { isAuthorized };
 
@@ -18,7 +19,7 @@ function isAuthorized(req) {
     if( token != undefined) {
         const updatedToken = token.replace("Bearer ", "").trim()
         const decryptedValue = jwtDecode(updatedToken);
-        const clientIdSecret = decryptedValue['sub']?.split("_")[2];
+        const clientIdSecret = decryptedValue['sub']?.split(CommonConstants.USER_VALUE_DELIMITER)[2];
         if(clientIdSecret != undefined && process.env.NEXTAUTH_SECRET === clientIdSecret) {
           return true;
         }else {
