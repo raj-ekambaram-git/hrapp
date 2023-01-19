@@ -36,14 +36,14 @@ function getAllowedModules(token) {
 }
 
 function hasAccess(url, token) {
-  
+    url = url.split("?")
     return fetchWrapper.cachedGet(`${baseUrl}/access/roles/`, {}, 24)
     .then(async rolesData => {
         const decryptedValue = jwtDecode(token);
         const userRoles = decryptedValue['sub']?.split(":")[3];
         const userRolesArray = userRoles.split(",");
         const urlAllowed = userRolesArray?.map((role, index) => {
-            if(rolesData[role].allowedPages?.includes(url)){
+            if(rolesData[role].allowedPages?.includes(url[0])){
                 return true;
             }else{
                 return false;
