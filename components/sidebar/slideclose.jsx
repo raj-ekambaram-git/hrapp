@@ -23,7 +23,7 @@ const Slideclose = (props) => {
         <div className={styles.iconsname}>
         {props.allowedModule?.includes("account")?(<>
           <Link href={`/accounts`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
-            <Box padding={2}>
+            <Box padding="8px">
               Accounts
             </Box>
           </Link>
