@@ -42,14 +42,20 @@ function hasAccess(url, token) {
         const decryptedValue = jwtDecode(token);
         const userRoles = decryptedValue['sub']?.split(":")[3];
         const userRolesArray = userRoles.split(",");
+        const modulesAllowed = [];
         const urlAllowed = userRolesArray?.map((role, index) => {
+            rolesData[role]?.allowedModules?.map((moduleVal) => {
+                if(!modulesAllowed.includes(moduleVal)) {
+                    modulesAllowed.push(moduleVal)
+                }
+            })
             if(rolesData[role].allowedPages?.includes(url[0])){
                 return true;
             }else{
                 return false;
             }
         });
-        return urlAllowed.includes(true);
+        return {hasAccess: urlAllowed.includes(true), modulesAllowed: modulesAllowed};
 
     })
     .catch(err => {

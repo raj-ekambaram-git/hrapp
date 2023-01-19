@@ -64,9 +64,10 @@ function MyApp({ Component, pageProps }: AppProps) {
     } else if(userService.userValue && !publicPaths.includes(path)) { //User logged in and path is NOT pubmic now check the ROLES
         setAuthorized(true);
         const userCookie = cookie.get("user");
-        if(userCookie && await roleAccess.hasAccess(url, JSON.parse(userCookie).authToken)){
+        const userAccess = await roleAccess.hasAccess(url, JSON.parse(userCookie).authToken)
+        if(userCookie && userAccess.hasAccess){
           setHasAccess(true)
-          setAllowedModules(await roleAccess.getAllowedModules(JSON.parse(userCookie).authToken))
+          setAllowedModules(userAccess.modulesAllowed)
         }else {
           setHasAccess(false)
         }

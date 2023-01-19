@@ -43,7 +43,7 @@
       "/changepassword"
     ],
     "allowedAPIs": ["page1","page2"],
-    "allowedModules": ["account","user", "vendor", "project", "invoice", "timesheet","expense","timesheet_approval","expense_approval","setting"]
+    "allowedModules": ["account","user", "invoice", "timesheet","expense","setting"]
   },
   "ACCOUNT_ADMIN": {
     "allowedPages": [
