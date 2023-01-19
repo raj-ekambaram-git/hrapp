@@ -15,6 +15,7 @@ import {
     StackDivider,
     HStack,
     Button,
+    useToast
   
   } from '@chakra-ui/react';
 import UserResetPassword from '../components/user/userResetPassword';
@@ -28,6 +29,7 @@ export default Login;
 function Login() {
     const dispatch = useDispatch();
     const router = useRouter();
+    const toast = useToast();
 
     // form validation rules 
     const validationSchema = Yup.object().shape({
@@ -58,7 +60,17 @@ function Login() {
                     router.push(returnUrl);
                 }
             })
-            .catch(alertService.error);
+            .catch(err => {
+                toast({
+                    title: 'Login Error.',
+                    description: 'Pleae enter correct credentials to login or reset the password. Details:'+err,
+                    status: 'error',
+                    position: 'top',
+                    duration: 6000,
+                    isClosable: true,
+                  })
+              });            
+
     }
 
     return (
