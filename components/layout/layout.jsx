@@ -7,7 +7,7 @@ const Layout = (props) => {
 
   return (
     <Fragment>
-      <Slidebar>
+      <Slidebar authorized={props.data.authorized}>
       {props.data.authorized ? (
         <>
         {props.data.hasAccess?(<>

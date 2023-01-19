@@ -43,6 +43,7 @@ const Slidebar = (props) => {
      setAllowedModule(await roleAccess.getAllowedModules(JSON.parse(userCookie).authToken))
    }
    console.log("ALLOWED MODULE::"+allowedModule)
+   
  }
  
   return (
@@ -63,7 +64,7 @@ const Slidebar = (props) => {
               <div className={styles.navbarrightmain}>
                   <Spacer/>
                   <HStack>
-                    {userService.userValue ? (<>
+                    {props.authorized ? (<>
                       <Box marginRight={4} textAlign="center">Hi, {userService.userValue?.firstName} {userService?.userValue?.lastName}!</Box>
                     </>) : (<></>)}
                   <Flex marginRight={4}>
@@ -75,7 +76,7 @@ const Slidebar = (props) => {
                   </Flex>
                   <Flex>
                     <WrapItem>
-                            {userService.userValue ? (<>
+                            {props.authorized  ? (<>
                               <Tooltip label='Logout' hasArrow arrowSize={15} placement='bottom' color="teal">
                                 <Link href="" onClick={() => handleLogout()} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
                                   <div style={{weidth:"40px",marginRight:"20px",marginTop:"6px"}}>
@@ -99,7 +100,7 @@ const Slidebar = (props) => {
               </div>
             
             </div>
-            {userService.userValue ? (
+            {props.authorized  ? (
                 <div className={styles.Slideflex}>
                     <div>{
                             state ? <div className={styles.slidingfuncbox}>
@@ -109,9 +110,7 @@ const Slidebar = (props) => {
                           <div>
                               <Slideopen allowedModule={allowedModule}/>
                           </div>
-
-                          }
-                        
+                          }                        
                     </div>
                     <div className={styles.mainContainer}>
                         <Container marginLeft={2}>
