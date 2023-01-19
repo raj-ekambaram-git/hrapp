@@ -5,18 +5,16 @@
 # We chose this to avoid Docker Hub's throttling during the tutorial steps.
 FROM 082388193175.dkr.ecr.us-east-1.amazonaws.com/awsfusionruntime-nodejs16:16.19.0
 
+COPY . /app
+
 # You can remove this "RUN" instruction if you use a base image with
 # Node.js 12 installation.
 RUN yum install atk java-atk-wrapper at-spi2-atk gtk3 libXt libdrm mesa-libgbm
 
 WORKDIR /app
 
-COPY package*.json ./
-RUN npm install
+RUN rm -rf node_modules && npm install && npm run build
 
-COPY . .
-
-RUN npm run build
-EXPOSE 80
+EXPOSE 3000
 
 CMD [ "npm", "start" ]
