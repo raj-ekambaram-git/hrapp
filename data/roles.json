@@ -2,36 +2,36 @@
   "SUPER_ADMIN": {
     "allowedPages": ["/","/account/vendors","page1"],
     "allowedAPIs": ["page1","page2"],
-    "allowedModules": ["user", "account"]
+    "allowedModules": ["account","user", "vendor", "project", "invoice", "timesheet","expense","timesheet_approval","expense_approval","setting"]
   },
   "ACCOUNT_ADMIN": {
     "allowedPages": ["/","/account/vendors","page1"],
     "allowedAPIs": ["page1","page2"],
-    "allowedModules": ["user", "account"]
+    "allowedModules": ["user", "vendor", "project", "invoice", "timesheet","expense","timesheet_approval","expense_approval","setting"]
   },
   "ACCOUNT_VENDOR_REP": {
     "allowedPages": ["/","page1"],
     "allowedAPIs": ["page1","page2"],
-    "allowedModules": ["user", "account"]
+    "allowedModules": ["vendor", "project", "invoice", "timesheet","expense","setting"]
   },
   "ACCOUNT_USER": {
     "allowedPages": ["/","page1"],
     "allowedAPIs": ["page1","page2"],
-    "allowedModules": ["user", "account"]
+    "allowedModules": ["project","invoice", "timesheet","expense","setting"]
   },
   "ACCOUNT_VENDOR_EMPLOYEE": {
     "allowedPages": ["/","page1"],
     "allowedAPIs": ["page1","page2"],
-    "allowedModules": ["user", "account"]
+    "allowedModules": ["timesheet","expense","setting"]
   },
   "ACCOUNT_VENDOR_CONTRACTOR": {
     "allowedPages": ["/","page1"],
     "allowedAPIs": ["page1","page2"],
-    "allowedModules": ["user", "account"]
+    "allowedModules": ["timesheet","expense","setting"]
   },
   "ACCOUNT_MANAGER": {
     "allowedPages": ["/","page1"],
     "allowedAPIs": ["page1","page2"],
-    "allowedModules": ["user", "account"]
+    "allowedModules": ["user", "vendor", "project", "invoice", "timesheet","expense","timesheet_approval","expense_approval","setting"]
   }
 }

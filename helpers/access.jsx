@@ -11,26 +11,26 @@ export const access = {
 };
 
 
-function getAllowedModules(url, token) {
+function getAllowedModules(token) {
   
     return fetchWrapper.cachedGet(`${baseUrl}/access/roles/`, {}, 24)
     .then(async rolesData => {
         const decryptedValue = jwtDecode(token);
         const userRoles = decryptedValue['sub']?.split(":")[3];
         const userRolesArray = userRoles.split(",");
-        const urlAllowed = userRolesArray?.map((role, index) => {
-            console.log("url::"+url)
-            console.log("rolesData[role].allowedPages?.includes(url)::"+rolesData[role].allowedPages?.includes(url))
-            if(rolesData[role].allowedModules?.includes(url)){
-                return true;
-            }else{
-                return false;
-            }
+        const modulesAllowed = [];
+        userRolesArray?.map((role, index) => {
+            // modulesAllowed.push(rolesData[role].allowedModules)
+            rolesData[role]?.allowedModules?.map((moduleVal) => {
+                console.log("moduleVal::"+moduleVal)
+                if(!modulesAllowed.includes(moduleVal)) {
+                    modulesAllowed.push(moduleVal)
+                }
+            })
         });
-
-        console.log("urlAllowed:::"+urlAllowed.includes(true))
-        return urlAllowed.includes(true);
-
+        
+        console.log("M modules Allowed:::"+modulesAllowed)
+        return modulesAllowed;
     })
     .catch(err => {
       console.log("Error hasAccess::"+err)
