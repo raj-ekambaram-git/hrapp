@@ -90,8 +90,8 @@ function MyApp({ Component, pageProps }: AppProps) {
 
       <div>
         <Provider store={store}>
-          <Alert />
           <Layout data={{authorized, hasAccess, allowedModules}}>
+              <Alert />
               <ChakraProvider theme={theme}>
                 <Fonts/>
                 {loading? (
