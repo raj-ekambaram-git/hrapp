@@ -6,11 +6,10 @@ import {BiGridAlt} from "react-icons/bi"
 import {IoSettingsOutline} from "react-icons/io5"
 import {MdOutlineManageAccounts,MdApproval} from 'react-icons/md';
 import {FaFileInvoiceDollar, FaHandHoldingUsd} from 'react-icons/fa';
-import {TbFileDollar} from 'react-icons/tb';
-import cookie from 'js-cookie'
+import {TbFileDollar} from 'react-icons/tb'
 import { Tooltip } from '@chakra-ui/react'
 import Link from "next/link";
-import { roleAccess } from '../../helpers/roleAccess';
+
 
 const navbaractive={
   backgroundColor: "black",
@@ -26,25 +25,13 @@ const tooltip_style= {
   bgColor: "#4FD1C5",
   color: "black"
 }
-const Slideopen = () => {
-  const [allowedModule, setAllowedModule] = useState([]);
-  
-  useEffect(() => {
-    getModules();
-  }, []);
+const Slideopen = (props) => {
 
-  async function getModules(){
-    const userCookie = cookie.get("user");
-    if(userCookie){
-      setAllowedModule(await roleAccess.getAllowedModules(JSON.parse(userCookie).authToken))
-    }
-    console.log("ALLOWED MODULE::"+allowedModule)
-  }
 
   return (
     <div className={styles.main}>
         <div className={styles.iconsbox}>
-          {allowedModule.includes("account")?(<>
+          {props.allowedModule?.includes("account")?(<>
             <Tooltip label="Manage Accounts" placement='right' borderRadius="6px" padding="10px"  fontWeight={600} color={tooltip_style.color} hasArrow  backgroundColor={tooltip_style.bgColor}>
               <Link href={`/accounts`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
                 <div>
@@ -53,7 +40,7 @@ const Slideopen = () => {
               </Link> 
             </Tooltip>    
           </>):""}
-          {allowedModule.includes("user")?(<>
+          {props.allowedModule?.includes("user")?(<>
             <Tooltip label="Users" placement='right' borderRadius="6px" padding="10px"  fontWeight={600} color={tooltip_style.color} hasArrow  backgroundColor={tooltip_style.bgColor}>
               <Link href={`/account/users`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
                 <div>
@@ -62,7 +49,7 @@ const Slideopen = () => {
               </Link>
             </Tooltip>             
           </>):""}          
-          {allowedModule.includes("vendor")?(<>
+          {props.allowedModule?.includes("vendor")?(<>
             <Tooltip label="Vendors " placement='right' borderRadius="6px" padding="10px"  fontWeight={600} color={tooltip_style.color}  hasArrow backgroundColor={tooltip_style.bgColor}> 
               <Link href={`/account/vendors`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
                 <div>
@@ -71,7 +58,7 @@ const Slideopen = () => {
               </Link>
             </Tooltip>            
           </>):""}          
-          {allowedModule.includes("project")?(<>
+          {props.allowedModule?.includes("project")?(<>
             <Tooltip label="Projects" placement='right' borderRadius="6px" padding="10px" fontWeight={600} color={tooltip_style.color} hasArrow  backgroundColor={tooltip_style.bgColor}>
               <Link href={`/account/projects`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
                 <div>
@@ -80,7 +67,7 @@ const Slideopen = () => {
               </Link>     
             </Tooltip>       
           </>):""}          
-          {allowedModule.includes("invoice")?(<>
+          {props.allowedModule?.includes("invoice")?(<>
             <Tooltip label="Invoices" placement='right' borderRadius="6px" padding="10px" fontWeight={600}  color={tooltip_style.color} hasArrow  backgroundColor={tooltip_style.bgColor}>            
               <Link href={`/account/invoices`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
                 <div>
@@ -89,7 +76,7 @@ const Slideopen = () => {
               </Link>   
             </Tooltip>          
           </>):""}          
-          {allowedModule.includes("timesheet")?(<>
+          {props.allowedModule?.includes("timesheet")?(<>
               <Tooltip label="Timesheets" placement='right' borderRadius="6px" padding="10px"  fontWeight={600} color={tooltip_style.color} hasArrow backgroundColor={tooltip_style.bgColor}>
                 <Link href={`/account/user/timesheets`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
                   <div>
@@ -98,7 +85,7 @@ const Slideopen = () => {
                 </Link>   
               </Tooltip>    
           </>):""}          
-          {allowedModule.includes("expense")?(<>
+          {props.allowedModule?.includes("expense")?(<>
               <Tooltip label="Expense" placement='right' borderRadius="6px" padding="10px"  fontWeight={600} color={tooltip_style.color} hasArrow  backgroundColor={tooltip_style.bgColor}>
                 <Link href={`/account/user/expenses`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
                   <div>
@@ -107,7 +94,7 @@ const Slideopen = () => {
                 </Link>   
               </Tooltip>    
           </>):""}          
-          {allowedModule.includes("timesheet_approval")?(<>
+          {props.allowedModule?.includes("timesheet_approval")?(<>
             <Tooltip label="Timesheet Approvals" placement='right' borderRadius="6px" padding="10px"  fontWeight={600} color={tooltip_style.color} hasArrow backgroundColor={tooltip_style.bgColor}>
               <Link href={`/account/user/timesheets/approval`} styles={({isManagerActive}) => (isManagerActive ? navbaractive: navbarnotactive)}>  
                   <div>
@@ -116,7 +103,7 @@ const Slideopen = () => {
               </Link>   
             </Tooltip>        
           </>):""}          
-          {allowedModule.includes("expense_approval")?(<>
+          {props.allowedModule?.includes("expense_approval")?(<>
             <Tooltip label="Expense Approvals" placement='right' borderRadius="6px"  padding="10px" fontWeight={600} color={tooltip_style.color} hasArrow  backgroundColor={tooltip_style.bgColor}>
               <Link href={`/account/user/expenses/approval`} styles={({isManagerActive}) => (isManagerActive ? navbaractive: navbarnotactive)}>  
                   <div>
@@ -125,7 +112,7 @@ const Slideopen = () => {
               </Link>   
             </Tooltip>                
           </>):""}          
-          {allowedModule.includes("setting")?(<>
+          {props.allowedModule?.includes("setting")?(<>
             <Tooltip label="App Settings" placement='right' borderRadius="6px" padding="10px"  fontWeight={600} color={tooltip_style.color} hasArrow  backgroundColor={tooltip_style.bgColor}>
               <Link href={`/app/setting/`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
                 <div>

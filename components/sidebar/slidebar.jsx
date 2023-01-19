@@ -6,7 +6,7 @@ import Link from "next/link";
 import Slideclose from './slideclose';
 import Slideopen from "./slideopen"
 import {FaUserCheck} from "react-icons/fa"
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {
   Container, Flex, HStack, Text, Box, Stack
 } from '@chakra-ui/react'
@@ -14,11 +14,13 @@ import { userService } from '../../services';
 import {GrLogout} from 'react-icons/gr';
 import { Tooltip, WrapItem, Spacer } from '@chakra-ui/react'
 import { removeLoggedInUser } from '../../store/modules/User/actions';
-
+import { roleAccess } from '../../helpers/roleAccess';
+import cookie from 'js-cookie'
 
 const Slidebar = (props) => {
   const router = useRouter();
   const dispatch = useDispatch();
+  const [allowedModule, setAllowedModule] = useState([]);
   const [state,setstate]=useState(false);
   const handleclick=()=>{
       setstate(!state)
@@ -29,7 +31,19 @@ const Slidebar = (props) => {
   dispatch(removeLoggedInUser())
   router.push('/login');
  }
+ 
+  
+ useEffect(() => {
+   getModules();
+ }, []);
 
+ async function getModules(){
+   const userCookie = cookie.get("user");
+   if(userCookie){
+     setAllowedModule(await roleAccess.getAllowedModules(JSON.parse(userCookie).authToken))
+   }
+   console.log("ALLOWED MODULE::"+allowedModule)
+ }
  
   return (
     <div className={styles.main}>
@@ -80,11 +94,11 @@ const Slidebar = (props) => {
             <div className={styles.Slideflex}>
             <div>{
                     state ? <div className={styles.slidingfuncbox}>
-                  <div><Slideopen/></div>
-                  <div><Slideclose/></div>
+                  <div><Slideopen allowedModule={allowedModule}/></div>
+                  <div><Slideclose allowedModule={allowedModule}/></div>
             </div>:
                   <div>
-                      <Slideopen/>
+                      <Slideopen allowedModule={allowedModule}/>
                   </div>
 
                   }

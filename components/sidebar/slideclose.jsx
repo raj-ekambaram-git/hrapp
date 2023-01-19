@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from 'react'
-// import { roleAccess } from '../../helpers/roleAccess';
-import cookie from 'js-cookie'
+import React from 'react'
 import Link from "next/link";
 import styles from "./styles/slideclose.module.css"
-import { userService } from '../../services';
+
 import {
   Box,
 } from '@chakra-ui/react';
@@ -17,89 +15,76 @@ const navbarnotactive={
   color:"white"
 }
 
-const Slideclose = () => {
+const Slideclose = (props) => {
 
-  const [allowedModule, setAllowedModule] = useState([]);
-  
-  useEffect(() => {
-    // getModules();
-  }, []);
-
-  async function getModules(){
-    const userCookie = cookie.get("user");
-    if(userCookie){
-      setAllowedModule(await roleAccess.getAllowedModules(JSON.parse(userCookie).authToken))
-    }
-    console.log("ALLOWED MODULE::"+allowedModule)
-  }
 
   return (
     <div className={styles.main}>
         <div className={styles.iconsname}>
-        {allowedModule.includes("account")?(<>
+        {props.allowedModule.includes("account")?(<>
           <Link href={`/accounts`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
             <Box padding={2}>
               Accounts
             </Box>
           </Link>
         </>):""}
-        {allowedModule.includes("user")?(<>
+        {props.allowedModule.includes("user")?(<>
           <Link href={`/account/users`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
             <Box padding="8px">
               Users
             </Box>
           </Link>
         </>):""}
-        {allowedModule.includes("vendor")?(<>
+        {props.allowedModule.includes("vendor")?(<>
           <Link href={`/account/vendors`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
             <Box padding="8px">
               Vendors
             </Box>
           </Link>
         </>):""}
-        {allowedModule.includes("project")?(<>
+        {props.allowedModule.includes("project")?(<>
           <Link href={`/account/projects`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
             <Box padding="8px">
               Projects
             </Box>
           </Link>         
         </>):""}
-        {allowedModule.includes("invoice")?(<>
+        {props.allowedModule.includes("invoice")?(<>
           <Link href={`/account/invoices`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
             <Box padding="8px">
               Invoices
             </Box>
           </Link>
         </>):""}
-        {allowedModule.includes("timesheet")?(<>
+        {props.allowedModule.includes("timesheet")?(<>
           <Link href={`/account/user/timesheets`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
             <Box padding="8px">
               Timesheets
             </Box>
           </Link>    
         </>):""}
-        {allowedModule.includes("expense")?(<>
+        {props.allowedModule.includes("expense")?(<>
           <Link href={`/account/user/expenses`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
             <Box padding="8px">
                Expenses
             </Box>
           </Link>              
         </>):""}
-        {allowedModule.includes("timesheet_approval")?(<>
+        {props.allowedModule.includes("timesheet_approval")?(<>
           <Link href={`/account/user/timesheets/approval`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
             <Box padding="8px">
               Timesheet Approvals
             </Box>
           </Link>    
         </>):""}
-        {allowedModule.includes("expense_approval")?(<>
+        {props.allowedModule.includes("expense_approval")?(<>
           <Link href={`/account/user/expenses/approval`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
             <Box padding="8px">
               Expense Approvals
             </Box>
           </Link>           
         </>):""}
-        {allowedModule.includes("setting")?(<>
+        {props.allowedModule.includes("setting")?(<>
           <Link href={`/account/user/expenses/approval`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
               <Box padding="8px">
                 Settings
