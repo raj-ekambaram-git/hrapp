@@ -53,7 +53,7 @@ const Slidebar = (props) => {
                       <Box marginRight={4} textAlign="center">Hi, {userService.userValue?.firstName} {userService?.userValue?.lastName}!</Box>
                     </>) : (<></>)}
                   <Flex marginRight={4}>
-                    <Link href={`/account/user/detail`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
+                    <Link href={`/account/user/detail`} >  
                       <div style={{weidth:"40px",marginRight:"20px",marginTop:"6px"}}>
                         <FaUserCheck fontSize="27px"/>
                       </div>
@@ -63,7 +63,7 @@ const Slidebar = (props) => {
                     <WrapItem>
                             {props.authorized  ? (<>
                               <Tooltip label='Logout' hasArrow arrowSize={15} placement='bottom' color="teal">
-                                <Link href="" onClick={() => handleLogout()} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
+                                <Link href="" onClick={() => handleLogout()} >  
                                   <div style={{weidth:"40px",marginRight:"20px",marginTop:"6px"}}>
                                     <GrLogout  fontSize="27px"/>
                                   </div>
@@ -71,7 +71,7 @@ const Slidebar = (props) => {
                               </Tooltip>
                             </>) : (<>
                               <Tooltip label='Login' hasArrow arrowSize={15} placement='bottom' color="teal">
-                                <Link href="" onClick={() => handleLogout()} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
+                                <Link href="" onClick={() => handleLogout()} >  
                                   <div style={{weidth:"40px",marginRight:"20px",marginTop:"6px"}}>
                                     <GrLogin  fontSize="27px"/>
                                   </div>
