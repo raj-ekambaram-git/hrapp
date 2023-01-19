@@ -11,7 +11,7 @@ import {
   Container, Flex, HStack, Text, Box, Stack
 } from '@chakra-ui/react'
 import { userService } from '../../services';
-import {GrLogout} from 'react-icons/gr';
+import {GrLogout, GrLogin} from 'react-icons/gr';
 import { Tooltip, WrapItem, Spacer } from '@chakra-ui/react'
 import { removeLoggedInUser } from '../../store/modules/User/actions';
 import { roleAccess } from '../../helpers/roleAccess';
@@ -48,8 +48,6 @@ const Slidebar = (props) => {
   return (
     <div className={styles.main}>
 
-      {userService.userValue ? (
-        <>
           <div className={styles.navbar}>
 
             <div className={styles.navbarleftmain} bgColor="red">
@@ -65,7 +63,9 @@ const Slidebar = (props) => {
               <div className={styles.navbarrightmain}>
                   <Spacer/>
                   <HStack>
-                  <Box marginRight={4} textAlign="center">Hi, {userService.userValue.firstName} {userService.userValue.lastName}!</Box>
+                    {userService.userValue ? (<>
+                      <Box marginRight={4} textAlign="center">Hi, {userService.userValue?.firstName} {userService?.userValue?.lastName}!</Box>
+                    </>) : (<></>)}
                   <Flex marginRight={4}>
                     <Link href={`/account/user/detail`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
                       <div style={{weidth:"40px",marginRight:"20px",marginTop:"6px"}}>
@@ -75,14 +75,23 @@ const Slidebar = (props) => {
                   </Flex>
                   <Flex>
                     <WrapItem>
-                      <Tooltip label='Logout' hasArrow arrowSize={15} placement='bottom' color="teal">
-                        <Link href="" onClick={() => handleLogout()} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
-                          <div style={{weidth:"40px",marginRight:"20px",marginTop:"6px"}}>
-                            <GrLogout  fontSize="27px"/>
-                            
-                          </div>
-                        </Link>
-                      </Tooltip>
+                            {userService.userValue ? (<>
+                              <Tooltip label='Logout' hasArrow arrowSize={15} placement='bottom' color="teal">
+                                <Link href="" onClick={() => handleLogout()} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
+                                  <div style={{weidth:"40px",marginRight:"20px",marginTop:"6px"}}>
+                                    <GrLogout  fontSize="27px"/>
+                                  </div>
+                                </Link>
+                              </Tooltip>
+                            </>) : (<>
+                              <Tooltip label='Login' hasArrow arrowSize={15} placement='bottom' color="teal">
+                                <Link href="" onClick={() => handleLogout()} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
+                                  <div style={{weidth:"40px",marginRight:"20px",marginTop:"6px"}}>
+                                    <GrLogin  fontSize="27px"/>
+                                  </div>
+                                </Link>
+                              </Tooltip>
+                            </>)}
                     </WrapItem> 
                     </Flex>    
                   </HStack>            
@@ -90,42 +99,33 @@ const Slidebar = (props) => {
               </div>
             
             </div>
+            {userService.userValue ? (
+                <div className={styles.Slideflex}>
+                    <div>{
+                            state ? <div className={styles.slidingfuncbox}>
+                          <div><Slideopen allowedModule={allowedModule}/></div>
+                          <div><Slideclose allowedModule={allowedModule}/></div>
+                    </div>:
+                          <div>
+                              <Slideopen allowedModule={allowedModule}/>
+                          </div>
 
-            <div className={styles.Slideflex}>
-            <div>{
-                    state ? <div className={styles.slidingfuncbox}>
-                  <div><Slideopen allowedModule={allowedModule}/></div>
-                  <div><Slideclose allowedModule={allowedModule}/></div>
-            </div>:
-                  <div>
-                      <Slideopen allowedModule={allowedModule}/>
-                  </div>
-
-                  }
-                
-            </div>
-            <div className={styles.mainContainer}>
-            
-                <Container marginLeft={2}>
-                  {props.children}
-                </Container>
-              
-            </div>
-          </div>        
-        </>
-      ) : (
-        <>
-          <div className={styles.mainContainer}>
-              
-              <Container marginLeft={2}>
-                {props.children}
-              </Container>
-            
-          </div>
-        </>
-      )}
-    
-
+                          }
+                        
+                    </div>
+                    <div className={styles.mainContainer}>
+                        <Container marginLeft={2}>
+                          {props.children}
+                        </Container>
+                    </div>
+                  </div>  
+            ) : (<>
+              <div className={styles.mainContainer}>
+                  <Container marginLeft={2}>
+                    {props.children}
+                  </Container>
+              </div>            
+            </>)}      
     </div>
   )
 }
