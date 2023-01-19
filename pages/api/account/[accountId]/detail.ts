@@ -9,7 +9,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(405).json({ message: 'Method not allowed' });
   }
   
-  if(isAuthorized(req)) {
+  // if(isAuthorized(req)) {
     try {
       const accountId = req.query?.accountId;
       const account = await prisma.account.findUnique({
@@ -27,9 +27,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       res.status(400).json({ message: 'Something went wrong while updating' })
     }
 
-  }else {
-    res.status(400).json({ status: 400, message: 'Invalid Authentication Credentials' });
-  }
+  // }else {
+  //   res.status(400).json({ status: 400, message: 'Invalid Authentication Credentials' });
+  // }
 
 
 }
