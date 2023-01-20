@@ -264,21 +264,9 @@ const WeeklyTimesheetEntry = (props) => {
                         </Box>
                         <Box width="timesheet.nameDropDown">
                             <HStack>
-                                
-                                {isAddMode ? (
-                                    <>
-                                        <ArrowBackIcon onClick={() => changeTimesheet(true, previousWeekStart)}/>
-                                        <Heading size='sm'>{timesheetName}</Heading>
-                                        <ArrowForwardIcon onClick={() => changeTimesheet(false, nextWeekStart)}/>
-                                    </>
-                                ) : (
-                                    <>
-                                        <ArrowBackIcon onClick={() => changeTimesheet(true, previousWeekStart)}/>
-                                        <Heading size='sm'>{timesheetData.name}</Heading>
-                                        <ArrowForwardIcon onClick={() => changeTimesheet(false, nextWeekStart)}/>
-                                    </>
-                                )}
-                                
+                                <ArrowBackIcon onClick={() => changeTimesheet(true, previousWeekStart)}/>
+                                <Heading size='sm'>{isAddMode?timesheetName:timesheetData.name}</Heading>
+                                <ArrowForwardIcon onClick={() => changeTimesheet(false, nextWeekStart)}/>
                             </HStack>
                         </Box>
                         <Box></Box>
