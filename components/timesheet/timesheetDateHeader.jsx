@@ -23,7 +23,7 @@ const TimesheetDateHeader = (props) => {
 
                         </GridItem>
                         <GridItem colStart={3} colEnd={6} h='10'>
-                            {calendarData.day1 != undefined ? (
+                            {calendarData?.day1 != undefined ? (
                                 <>
                                     <HStack spacing="3rem">
                                         <HStack spacing="2em">

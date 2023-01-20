@@ -70,7 +70,14 @@ const WeeklyTimesheetEntry = (props) => {
                 setTimesheetData(timesheetResponse);
                 setTimesheetName(timesheetResponse.name);
                 setTimesheetEntries(timesheetResponse.timesheetEntries);
-                setWeekCalendar(timesheetResponse.timesheetEntries[0].entries);
+                if(timesheetResponse.timesheetEntries[0]) {
+                    setWeekCalendar(timesheetResponse.timesheetEntries[0]?.entries);
+                }else {
+                    const timesheetDateStr = (new Date(timesheetResponse.startDate))?.getFullYear()+(String((new Date(timesheetResponse.startDate))?.getMonth()+1).padStart(2, "0"))+String((new Date(timesheetResponse.startDate))?.getDate()).padStart(2, "0");
+                    const timesheetMetaData = await timesheetService.getTimesheetMetaForDate(timesheetDateStr);
+                    setWeekCalendar(timesheetMetaData.currentWeekDates);
+                }
+
                 setTimesheetStartDate(timesheetResponse.startDate);
                 setNextWeekStart(util.getNextWeekStartDateString(new Date(timesheetResponse.startDate.toString()).toLocaleDateString( "en-US", { timeZone: "UTC" } ) ));
                 setPreviousWeekStart(util.getPrevioustWeekStartDateString(new Date(timesheetResponse.startDate.toString()).toLocaleDateString( "en-US", { timeZone: "UTC" } ) ));
