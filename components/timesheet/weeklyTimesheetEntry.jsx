@@ -145,6 +145,10 @@ const WeeklyTimesheetEntry = (props) => {
             inputData[i].entries.day6.date = weekCalendar.day6.date;
             inputData[i].entries.day7.date = weekCalendar.day7.date;
 
+            if(inputData[i].projectId === null) {
+                setShowErrorMessage(ErrorMessage.SELECT_PROJECT_REQUIRED)
+                return false;
+            }
             //Validate Notes for required
             if(inputData[i].notesRequired) {
                 for(let j=1;j<8;j++){
