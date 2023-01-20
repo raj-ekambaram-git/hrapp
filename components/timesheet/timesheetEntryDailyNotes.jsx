@@ -43,7 +43,7 @@ import Link from "next/link";
         <div>
                 <Box>
                 <Button size="xs" bgColor="table_tile" onClick={() => handleClick("lg")}>
-                        Notes <Text color="red">{props.dailyNotesRequired === "true"?"*":""}</Text>
+                        Notes <Text color="red">{props.dailyNotesRequired?"*":""}</Text>
                 </Button>
 
                 </Box>

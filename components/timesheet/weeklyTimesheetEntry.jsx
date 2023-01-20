@@ -215,7 +215,7 @@ const WeeklyTimesheetEntry = (props) => {
             case "projectId":
                 timeEntryRecord.projectId = parseInt(inputValue);
                 timeEntryRecord.unitPrice = parseInt(ev.target.options.item(ev.target.selectedIndex).getAttribute("data-unitprice"));
-                timeEntryRecord.notesRequired = ev.target.options.item(ev.target.selectedIndex).getAttribute("data-dailyNotesRequired")
+                timeEntryRecord.notesRequired = ev.target.options.item(ev.target.selectedIndex).getAttribute("data-dailyNotesRequired")==="true"?true:false
                 break;
             default:
                 console.log("default");                    
