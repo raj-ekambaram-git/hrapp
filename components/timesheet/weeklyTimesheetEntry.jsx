@@ -348,7 +348,7 @@ const WeeklyTimesheetEntry = (props) => {
                                         </Select>  
                                     </Box>  
                                     <Box width={14}>
-                                        <TimesheetDailyEntryNotes dailyNotesRequired={timesheetEntry.notesRequired} weekCalendar={weekCalendar} timesheetName={timesheetName}/>
+                                        <TimesheetDailyEntryNotes dailyNotesRequired={timesheetEntry.notesRequired} weekCalendar={weekCalendar} projectName={timesheetEntry.projectName}/>
                                     </Box>
                                 </HStack>
                             </GridItem>

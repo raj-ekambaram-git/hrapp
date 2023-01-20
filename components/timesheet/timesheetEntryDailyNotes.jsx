@@ -52,7 +52,7 @@ import Link from "next/link";
                         <DrawerContent>
                             <DrawerCloseButton />
                                 <DrawerHeader>
-                                    Daily Notes for {props.timesheetName}
+                                    Daily Notes for {props.projectName}
                                 </DrawerHeader>
                                 <DrawerBody>
                                 <Stack divider={<StackDivider />} spacing='1'>
