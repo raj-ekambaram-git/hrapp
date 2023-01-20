@@ -14,7 +14,8 @@ import {
     CardBody,
     Divider,
     Textarea,
-    Button
+    Button,
+    Text
   } from '@chakra-ui/react';
 import { useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
@@ -41,10 +42,8 @@ import Link from "next/link";
     return (
         <div>
                 <Box>
-                <Button size="xs" bgColor="table_tile" 
-                    onClick={() => handleClick("lg")}
-                    >
-                        {props.dailyNotesRequired?"Notes*":"Notes"}
+                <Button size="xs" bgColor="table_tile" onClick={() => handleClick("lg")}>
+                        Notes <Text color="red">{props.dailyNotesRequired === "true"?"*":""}</Text>
                 </Button>
 
                 </Box>
