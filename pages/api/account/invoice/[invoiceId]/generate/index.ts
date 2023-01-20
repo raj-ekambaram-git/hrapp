@@ -30,7 +30,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const html = template(invoiceDetail);
 
     // simulate a chrome browser with puppeteer and navigate to a new page
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({
+      args: ["--no-sandbox", "--disabled-setupid-sandbox"],
+    });
     const page = await browser.newPage();
     // set our compiled html template as the pages content
     // then waitUntil the network is idle to make sure the content has been loaded
