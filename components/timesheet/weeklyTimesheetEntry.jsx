@@ -340,6 +340,9 @@ const WeeklyTimesheetEntry = (props) => {
                                             ))}
                                         </Select>  
                                     </Box>  
+                                    <Box width={14}>
+                                        
+                                    </Box>
                                 </HStack>
                             </GridItem>
                             <GridItem colStart={3} colEnd={6} h='10'>

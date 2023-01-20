@@ -125,7 +125,7 @@ const theme = extendTheme({
         input: "50px"
       },
       entry_project: "",
-      project_drop_down: "600px",
+      project_drop_down: "550px",
       project_timesheets_name: "30%",
       project_timesheets_resource: "30%",
       project_timesheets_hours: "4%",
