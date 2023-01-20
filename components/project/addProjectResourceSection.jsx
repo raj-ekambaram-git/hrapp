@@ -132,7 +132,7 @@ const AddProjectResource = (props) => {
     console.log("HANDLE USER...")
     setUserId(user.target.value);
     
-    if(user.target.options.item(user.target.selectedIndex).getAttribute("data-role") === UserConstants.USER_ROLES.ACCOUNT_MANAGER) {
+    if(user.target.options.item(user.target.selectedIndex).getAttribute("data-role").includes(UserConstants.USER_ROLES.ACCOUNT_MANAGER)) {
       console.log("HANDLE USER...MANAGER...")
       setTimesheetApproverCheckBox(true);
       
@@ -421,7 +421,7 @@ const AddProjectResource = (props) => {
                                           <Select width="50%%" value={userId} onChange={(ev) => handleUser(ev)} border="table_border">
                                             <option value="">Select User</option>
                                               {userList?.map((user) => (
-                                                      <option value={user.user?.id} data-role={user.user?.role} data-fn={user.user?.firstName} data-ln={user.user?.lastName}>{user.user?.firstName} {user.user?.lastName}</option>
+                                                      <option value={user.user?.id} data-role={user.user?.userRole} data-fn={user.user?.firstName} data-ln={user.user?.lastName}>{user.user?.firstName} {user.user?.lastName}</option>
                                               ))}   
                                           </Select>
                                         </Th>
