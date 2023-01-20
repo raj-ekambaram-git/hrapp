@@ -1,6 +1,7 @@
 import getConfig from 'next/config';
 
 import { fetchWrapper } from 'helpers';
+import { userService } from './user.service';
 
 
 
@@ -44,7 +45,8 @@ function createVendor(formData) {
       status: formData.status,
       accountContactName: formData.accountContactName,
       accountContactEmail: formData.accountContactEmail,
-      accountContactPhone: formData.accountContactPhone
+      accountContactPhone: formData.accountContactPhone,
+      updatedById: userService?.userValue?.id
 
     })
     .then(vendor => {
@@ -91,7 +93,8 @@ function updateVendor(formData, vendorId, addressId) {
       status: formData.status,
       accountContactName: formData.accountContactName,
       accountContactEmail: formData.accountContactEmail,
-      accountContactPhone: formData.accountContactPhone
+      accountContactPhone: formData.accountContactPhone,
+      updatedById: userService?.userValue?.id
 
     })
     .then(vendor => {

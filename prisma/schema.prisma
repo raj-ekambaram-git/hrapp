@@ -61,25 +61,28 @@ model Account {
 }
 
 model Vendor {
-  id                  Int           @id @default(autoincrement())
-  name                String
-  description         String?
-  email               String
-  phone               String        @default("111-111-1111")
-  type                VendorType    @default(Staffing)
-  address             Address[]
-  account             Account?      @relation(fields: [accountId], references: [id])
-  accountId           Int?          @default(0)
-  ein                 String        @unique
-  bankDetails         String?
-  status              VendorStatus
+  id          Int          @id @default(autoincrement())
+  name        String
+  description String?
+  email       String
+  phone       String       @default("111-111-1111")
+  type        VendorType   @default(Staffing)
+  address     Address[]
+  account     Account?     @relation(fields: [accountId], references: [id])
+  accountId   Int?         @default(0)
+  ein         String       @unique
+  bankDetails String?
+  status      VendorStatus
+  updatedBy   User?        @relation("VendorUpdatedUser", fields: [updatedById], references: [id])
+  updatedById Int?         @default(1)
+
   createdDate         DateTime      @default(now())
   accountContactName  String?
   accountContactEmail String?
   accountContactPhone String?
   lastUpdateDate      DateTime      @updatedAt
   invoice             Invoice[]
-  user                User[]
+  user                User[]        @relation("UserVendor")
   project             Project[]
   vendorUsers         VendorUsers[]
 }
@@ -209,7 +212,7 @@ model User {
   phone              String             @default("111-111-1111")
   account            Account?           @relation("UserAccount", fields: [accountId], references: [id])
   accountId          Int?               @default(0)
-  vendor             Vendor?            @relation(fields: [vendorId], references: [id])
+  vendor             Vendor?            @relation("UserVendor", fields: [vendorId], references: [id])
   vendorId           Int?               @default(0)
   isTimeSheetEnabled Boolean            @default(false)
   address            Address[]
@@ -231,6 +234,7 @@ model User {
   expenses           Expense[]          @relation("CreatedExpenses")
   expensesApproved   Expense[]          @relation("ApprovedExpenses")
   accountUpdatedUser Account[]          @relation("AccountUpdatedUser")
+  vendorUpdatedUser  Vendor[]           @relation("VendorUpdatedUser")
   Document           Document[]
 }
 
