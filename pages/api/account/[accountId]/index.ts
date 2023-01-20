@@ -28,8 +28,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       }
     });
 
-    if(savedAccount) {
-      console.log("savedAccount:::"+JSON.stringify(savedAccount))
+    if(savedAccount && process.env.ENABLE_EMAIL === "Yes") {
       const emailResponse = emailService.sendEmail(getNewAccountEmailRequest(savedAccount));
     }
 
