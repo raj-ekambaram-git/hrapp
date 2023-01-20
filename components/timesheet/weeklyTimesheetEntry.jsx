@@ -69,7 +69,8 @@ const WeeklyTimesheetEntry = (props) => {
                 const timesheetResponse = await timesheetService.getTimesheetDetails(props.data.timesheetId, userService.getAccountDetails().accountId);
                 setTimesheetData(timesheetResponse);
                 setTimesheetName(timesheetResponse.name);
-                setTimesheetEntries(timesheetResponse.timesheetEntries);
+                setTimesheetEntries(timesheetResponse?.timesheetEntries);
+                dispatch(setTSEntries(timesheetResponse?.timesheetEntries));
                 if(timesheetResponse?.timesheetEntries[0]) {
                     setWeekCalendar(timesheetResponse.timesheetEntries[0]?.entries);
                 }else {
@@ -106,6 +107,7 @@ const WeeklyTimesheetEntry = (props) => {
                 setTimesheetData(timesheets[0]);
                 props.data.isAddMode = false;
                 setTimesheetEntries(timesheets[0]?.timesheetEntries);
+                dispatch(setTSEntries(timesheets[0]?.timesheetEntries));
             }
 
         }
