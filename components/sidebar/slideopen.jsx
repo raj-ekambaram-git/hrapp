@@ -9,6 +9,7 @@ import {FaFileInvoiceDollar, FaHandHoldingUsd} from 'react-icons/fa';
 import {TbFileDollar} from 'react-icons/tb'
 import { Tooltip } from '@chakra-ui/react'
 import Link from "next/link";
+import { GrConfigure } from 'react-icons/gr';
 
 
 const navbaractive={
@@ -121,9 +122,18 @@ const Slideopen = (props) => {
               </Link>   
             </Tooltip>                                              
           </>):""}          
+          {props.allowedModule?.includes("app_admin_setting")?(<>
+            <Tooltip label="App Admin Settings" placement='right' borderRadius="6px" padding="10px"  fontWeight={600} color={tooltip_style.color} hasArrow  backgroundColor={tooltip_style.bgColor}>
+              <Link href={`/app/admin/setting`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
+                <div>
+                  <GrConfigure  className={styles.icons1}/>
+                </div>
+              </Link>   
+            </Tooltip>                                              
+          </>):""}        
           {props.allowedModule?.includes("account_setting")?(<>
             <Tooltip label="Account Settings" placement='right' borderRadius="6px" padding="10px"  fontWeight={600} color={tooltip_style.color} hasArrow  backgroundColor={tooltip_style.bgColor}>
-              <Link href={`/account/setting/`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
+              <Link href={`/account/setting`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
                 <div>
                   <IoSettingsOutline  className={styles.icons1}/>
                 </div>
@@ -132,14 +142,13 @@ const Slideopen = (props) => {
           </>):""}          
           {props.allowedModule?.includes("user_setting")?(<>
             <Tooltip label="User Settings" placement='right' borderRadius="6px" padding="10px"  fontWeight={600} color={tooltip_style.color} hasArrow  backgroundColor={tooltip_style.bgColor}>
-              <Link href={`/account/user/setting/`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
+              <Link href={`/account/user/setting`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
                 <div>
                   <IoSettingsOutline  className={styles.icons1}/>
                 </div>
               </Link>   
             </Tooltip>                                              
           </>):""}          
-
         </div>
     </div>
   )

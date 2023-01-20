@@ -9,3 +9,4 @@ export * from './email.service';
 export * from './vendor.service';
 export * from './document.service';
 export * from './expense.service';
+export * from './configuration.service';

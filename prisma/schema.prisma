@@ -236,6 +236,9 @@ model User {
   accountUpdatedUser Account[]          @relation("AccountUpdatedUser")
   vendorUpdatedUser  Vendor[]           @relation("VendorUpdatedUser")
   Document           Document[]
+  AppConfigLookup    AppConfigLookup[]
+  AppConfig          AppConfig[]
+  AccountConfig      AccountConfig[]
 }
 
 model UserAttributes {
@@ -417,13 +420,29 @@ model Notes {
   @@index([type, typeId])
 }
 
+model AppConfigLookup {
+  id                Int             @id @default(autoincrement())
+  name              String
+  displayName       String
+  configDescription String
+  type              ConfigType
+  value             Json
+  status            ConfigStatus
+  configInputType   ConfigInputType
+  updatedUser       User?           @relation(fields: [updatedBy], references: [id])
+  updatedBy         Int?
+  createdDate       DateTime        @default(now())
+  lastUpdateDate    DateTime        @default(now()) @updatedAt
+}
+
 model AppConfig {
   id             Int          @id @default(autoincrement())
   name           String
-  configKey      String
-  configValue    String
+  key            String
+  value          String[]
   status         ConfigStatus
-  createdBy      String
+  updatedUser    User?        @relation(fields: [updatedBy], references: [id])
+  updatedBy      Int?
   createdDate    DateTime     @default(now())
   lastUpdateDate DateTime     @default(now()) @updatedAt
 }
@@ -436,8 +455,8 @@ model AccountConfig {
   configKey      String
   configValue    String
   status         ConfigStatus
-  createdBy      String
-  createdDate    DateTime     @default(now())
+  updatedUser    User?        @relation(fields: [updatedBy], references: [id])
+  updatedBy      Int?
   lastUpdateDate DateTime     @default(now()) @updatedAt
 }
 
@@ -704,4 +723,18 @@ enum DocumentStatus {
   Active
   Inactive
   Delete
+}
+
+enum ConfigType {
+  App
+  Account
+  User
+}
+
+enum ConfigInputType {
+  TextBox
+  Toggle
+  DropDown
+  Checkbox
+  CheckboxMultiSelect
 }
