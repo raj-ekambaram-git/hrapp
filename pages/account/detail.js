@@ -4,7 +4,8 @@ import { accountService, userService } from "../../services";
 import {
   Stack,
   Flex,
-  Accordion
+  Accordion,
+  HStack
 } from '@chakra-ui/react';
 import AccountDetailSection from "../../components/account/detail/accountDetailSection";
 import AccountEINSection from "../../components/account/detail/accountEINSection";
@@ -84,9 +85,8 @@ const AccountDetail = (props) => {
         <>
         <PageMainHeader heading="Account Details for" param1={account.name} notesData={notesData}/>
         <Flex marginBottom="1rem">
-          <ManageDocuments/>
+            <AccountActionsSection />
         </Flex>
-
         <Flex>
             <Stack width="page.sub_heading_width">
               <Accordion defaultIndex={[0]} variant="mainPage">
@@ -98,7 +98,7 @@ const AccountDetail = (props) => {
               </Accordion>         
             </Stack>
         </Flex>
-        <AccountActionsSection />
+        
        
         </>
       ) : (

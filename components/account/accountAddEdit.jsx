@@ -126,48 +126,28 @@ const AccountAddEdit = (props) => {
   // Create Account 
   const createAccount = async (formData) => {
     try {
-        const res = await fetch("/api/account/create", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            name: formData.accountName,
-            description: formData.accountDescription,
-            address: {
-              create: [
-                {
-                  type: "A",
-                  primary: true,
-                  addressName: formData.addressName,
-                  address1: formData.address1,
-                  address2: formData.address2,
-                  address3: formData.address3,
-                  city: formData.city,
-                  state: formData.state,
-                  zipCode: formData.zipCode,
-                  country: formData.country,
-                  status: "A"
-                }
-              ]
-            },
-            ein: formData.accountEIN,
-            email: formData.accountEmail,
-            status: formData.accountStatus,
-            phone: formData.accountPhone
-          }), 
-        });
-        const data = await res.json();
+        const data = await accountService.createAccount(formData);
 
-        toast({
-          title: 'Account added.',
-          description: 'Successfully added new account.',
-          status: 'success',
-          position: 'top',
-          duration: 3000,
-          isClosable: true,
-        })    
-        router.push("/accounts");
+        if(data.error) {
+          toast({
+            title: 'Add account error.',
+            description: 'Error whild adding new account, Please try again or contact administrator.',
+            status: 'error',
+            position: 'top',
+            duration: 6000,
+            isClosable: true,
+          })       
+        }else {
+          toast({
+            title: 'Account added.',
+            description: 'Successfully added new account.',
+            status: 'success',
+            position: 'top',
+            duration: 3000,
+            isClosable: true,
+          })    
+          router.push("/accounts");  
+        }
       
     } catch (error) {
       toast({
@@ -186,53 +166,28 @@ const AccountAddEdit = (props) => {
   // update invoice in database
   const updateAccount = async (accountId, formData) => {
     try {
-      const res = await fetch(`/api/account/${accountId}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          id: parseInt(accountId),
-          name: formData.accountName,
-          description: formData.accountDescription,
-          ein: formData.accountEIN,
-          email: formData.accountEmail,
-          status: formData.accountStatus,
-          phone: formData.accountPhone,
-          address: {
-            update: {
-              where: {
-                id: account.addressId,
-              },
-              data:
-              {
-                addressName: formData.addressName,
-                address1: formData.address1,
-                address2: formData.address2,
-                address3: formData.address3,
-                city: formData.city,
-                state: formData.state,
-                zipCode: formData.zipCode,
-                country: formData.country,
-                status: "A"
-              }
-            }
-            
-          }
-        }),
-      });
+      const data = await accountService.updateAccount(accountId, formData, account.addressId)
+      if(data.error) {
+        toast({
+          title: 'Update account error.',
+          description: 'Error whild updating account, Please try again or contact administrator.',
+          status: 'error',
+          position: 'top',
+          duration: 6000,
+          isClosable: true,
+        })    
+      }else {
+        router.push(`/account/detail`);
+        toast({
+          title: 'Account updated.',
+          description: 'Successfully update account.',
+          status: 'success',
+          position: 'top',
+          duration: 3000,
+          isClosable: true,
+        })  
+      }
 
-      const data = await res.json();
-
-      router.push(`/account/detail`);
-      toast({
-        title: 'Account updated.',
-        description: 'Successfully update account.',
-        status: 'success',
-        position: 'top',
-        duration: 3000,
-        isClosable: true,
-      })  
 
     } catch (error) {
       console.log(error)

@@ -7,6 +7,7 @@ import {
 
 } from '@chakra-ui/react';
 import { useRouter } from "next/router";
+import ManageDocuments from "../../document/manageDocuments";
 
 
 const AccountActionsSection = (props) => {
@@ -15,28 +16,29 @@ const AccountActionsSection = (props) => {
   return (
 
     <div>
-          <Flex marginTop="2rem">
+          <Flex>
             <HStack spacing={2}>
                 <Box>
-                <Button onClick={() => router.push("/account/edit")}>
+                <Button size="xs" bgColor="header_actions" onClick={() => router.push("/account/edit")}>
                     Edit
                 </Button>
                 </Box>
                 <Box>
-                <Button onClick={() => router.push("/account/vendors")}>
+                <Button size="xs" bgColor="header_actions" onClick={() => router.push("/account/vendors")}>
                     Account Vendors
                 </Button>
                 </Box>   
                 <Box>
-                <Button onClick={() => router.push("/account/users")}>
+                <Button size="xs" bgColor="header_actions" onClick={() => router.push("/account/users")}>
                     Account Users
                 </Button>
                 </Box>   
                 <Box>
-                <Button onClick={() => router.push("/accounts")}>
+                <Button size="xs" bgColor="header_actions" onClick={() => router.push("/accounts")}>
                     Manage Accounts
                 </Button>
-                </Box>                                                      
+                </Box>      
+                <ManageDocuments/>                                                
             </HStack>
         </Flex>    
 

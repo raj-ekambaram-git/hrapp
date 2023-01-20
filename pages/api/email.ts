@@ -15,6 +15,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 console.log("EMAIL SERVER  SIDE API CALL")
   try {
     const {emailRequest} = req.body;
+
+    console.log("emailRequest.templateData::"+JSON.stringify(emailRequest.templateData))
       if(emailRequest && !emailRequest.withAttachment) {
         await mail.send({
           from: {
@@ -23,6 +25,8 @@ console.log("EMAIL SERVER  SIDE API CALL")
           personalizations: [
             {
               to: emailRequest.to,
+              cc: emailRequest.cc,
+              bcc: emailRequest.bcc,
               dynamic_template_data: emailRequest.templateData,
             }
           ],

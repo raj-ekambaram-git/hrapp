@@ -20,8 +20,89 @@ export const accountService = {
     getProjectDetail,
     getAddressByVendor,
     getProjectsByVendor,
-    getUserList
+    getUserList,
+    createAccount,
+    updateAccount
 };
+
+
+function updateAccount(accountId, formData, addressId) {
+
+    return fetchWrapper.put(`${baseUrl}/account/`+accountId, {
+        id: parseInt(accountId),
+        name: formData.accountName,
+        description: formData.accountDescription,
+        ein: formData.accountEIN,
+        email: formData.accountEmail,
+        status: formData.accountStatus,
+        phone: formData.accountPhone,
+        address: {
+          update: {
+            where: {
+              id: addressId,
+            },
+            data:
+            {
+              addressName: formData.addressName,
+              address1: formData.address1,
+              address2: formData.address2,
+              address3: formData.address3,
+              city: formData.city,
+              state: formData.state,
+              zipCode: formData.zipCode,
+              country: formData.country,
+              status: "A"
+            }
+          }
+          
+        }
+      }
+  )
+  .then(project => {
+    return project;
+  })
+  .catch(err => {
+    console.log("Error Updating Project::"+err)
+    return {errorMessage: err, error: true};
+   });
+}
+
+function createAccount(formData) {
+    return fetchWrapper.post(`${baseUrl}/account/create`, {
+            name: formData.accountName,
+            description: formData.accountDescription,
+            address: {
+            create: [
+                {
+                type: "A",
+                primary: true,
+                addressName: formData.addressName,
+                address1: formData.address1,
+                address2: formData.address2,
+                address3: formData.address3,
+                city: formData.city,
+                state: formData.state,
+                zipCode: formData.zipCode,
+                country: formData.country,
+                status: "A"
+                }
+            ]
+            },
+            ein: formData.accountEIN,
+            email: formData.accountEmail,
+            status: formData.accountStatus,
+            phone: formData.accountPhone
+        }
+    )
+    .then(async project => {
+  
+        return project;
+    })        
+    .catch(err => {
+      console.log("Error Creating Project"+err)
+      return {errorMessage: err, error: true};
+    });
+  }
 
 function getUserList(accountId) {
     console.log("getUserList:::"+accountId)
