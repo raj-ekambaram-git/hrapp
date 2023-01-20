@@ -99,43 +99,43 @@ import { setTSEntries } from "../../store/modules/Timesheet/actions";
                                         <>
                                         <Card variant="timesheetDailyNotes"> 
                                             <CardBody>
-                                                <Textarea isRequired border='1px' value={tsEntries[props.index]?.entries?.day1?.notes} placeholder={"Add "+props.weekCalendar?.day1?.date?.substring(5,10).replace("-","/")+" Notes"}  maxH="40%" onChange={(ev) => setTimesheetEntryDailyNotes(ev,"1")}/>       
+                                                <Textarea maxLength={50} isRequired border='1px' value={tsEntries[props.index]?.entries?.day1?.notes} placeholder={"Add "+props.weekCalendar?.day1?.date?.substring(5,10).replace("-","/")+" Notes (max 50 characters)"}  maxH="40%" onChange={(ev) => setTimesheetEntryDailyNotes(ev,"1")}/>       
                                             </CardBody>
                                             <Divider/>
                                         </Card>
                                         <Card variant="timesheetDailyNotes"> 
                                             <CardBody>
-                                            <Textarea isRequired border='1px' value={tsEntries[props.index]?.entries?.day2?.notes} placeholder={"Add "+props.weekCalendar?.day2?.date?.substring(5,10).replace("-","/")+" Notes"}  maxH="40%" onChange={(ev) => setTimesheetEntryDailyNotes(ev,"2")}/>       
+                                            <Textarea maxLength={50} isRequired border='1px' value={tsEntries[props.index]?.entries?.day2?.notes} placeholder={"Add "+props.weekCalendar?.day2?.date?.substring(5,10).replace("-","/")+" Notes (max 50 characters)"}  maxH="40%" onChange={(ev) => setTimesheetEntryDailyNotes(ev,"2")}/>       
                                             </CardBody>
                                             <Divider/>
                                         </Card>
                                         <Card variant="timesheetDailyNotes"> 
                                             <CardBody>
-                                            <Textarea isRequired border='1px' value={tsEntries[props.index]?.entries?.day3?.notes} placeholder={"Add "+props.weekCalendar?.day3?.date?.substring(5,10).replace("-","/")+" Notes"}  maxH="40%" onChange={(ev) => setTimesheetEntryDailyNotes(ev,"3")}/>       
+                                            <Textarea imaxLength={50} sRequired border='1px' value={tsEntries[props.index]?.entries?.day3?.notes} placeholder={"Add "+props.weekCalendar?.day3?.date?.substring(5,10).replace("-","/")+" Notes (max 50 characters)"}  maxH="40%" onChange={(ev) => setTimesheetEntryDailyNotes(ev,"3")}/>       
                                             </CardBody>
                                             <Divider/>
                                         </Card>
                                         <Card variant="timesheetDailyNotes"> 
                                             <CardBody>
-                                            <Textarea isRequired border='1px' value={tsEntries[props.index]?.entries?.day4?.notes} placeholder={"Add "+props.weekCalendar?.day4?.date?.substring(5,10).replace("-","/")+" Notes"}  maxH="40%" onChange={(ev) => setTimesheetEntryDailyNotes(ev,"4")}/>       
+                                            <Textarea maxLength={50} isRequired border='1px' value={tsEntries[props.index]?.entries?.day4?.notes} placeholder={"Add "+props.weekCalendar?.day4?.date?.substring(5,10).replace("-","/")+" Notes (max 50 characters)"}  maxH="40%" onChange={(ev) => setTimesheetEntryDailyNotes(ev,"4")}/>       
                                             </CardBody>
                                             <Divider/>
                                         </Card>
                                         <Card variant="timesheetDailyNotes"> 
                                             <CardBody>
-                                            <Textarea isRequired border='1px' value={tsEntries[props.index]?.entries?.day5?.notes} placeholder={"Add "+props.weekCalendar?.day5?.date?.substring(5,10).replace("-","/")+" Notes"}  maxH="40%" onChange={(ev) => setTimesheetEntryDailyNotes(ev,"5")}/>       
+                                            <Textarea maxLength={50} isRequired border='1px' value={tsEntries[props.index]?.entries?.day5?.notes} placeholder={"Add "+props.weekCalendar?.day5?.date?.substring(5,10).replace("-","/")+" Notes (max 50 characters)"}  maxH="40%" onChange={(ev) => setTimesheetEntryDailyNotes(ev,"5")}/>       
                                             </CardBody>
                                             <Divider/>
                                         </Card>
                                         <Card variant="timesheetDailyNotes"> 
                                             <CardBody>
-                                            <Textarea isRequired border='1px' value={tsEntries[props.index]?.entries?.day6?.notes} placeholder={"Add "+props.weekCalendar?.day6?.date?.substring(5,10).replace("-","/")+" Notes"}  maxH="40%" onChange={(ev) => setTimesheetEntryDailyNotes(ev,"6")}/>       
+                                            <Textarea maxLength={50} isRequired border='1px' value={tsEntries[props.index]?.entries?.day6?.notes} placeholder={"Add "+props.weekCalendar?.day6?.date?.substring(5,10).replace("-","/")+" Notes (max 50 characters)"}  maxH="40%" onChange={(ev) => setTimesheetEntryDailyNotes(ev,"6")}/>       
                                             </CardBody>
                                             <Divider/>
                                         </Card>
                                         <Card variant="timesheetDailyNotes"> 
                                             <CardBody>
-                                            <Textarea isRequired border='1px' value={tsEntries[props.index]?.entries?.day7?.notes} placeholder={"Add "+props.weekCalendar?.day7?.date?.substring(5,10).replace("-","/")+" Notes"}  maxH="40%" onChange={(ev) => setTimesheetEntryDailyNotes(ev,"7")}/>       
+                                            <Textarea maxLength={50} sRequired border='1px' value={tsEntries[props.index]?.entries?.day7?.notes} placeholder={"Add "+props.weekCalendar?.day7?.date?.substring(5,10).replace("-","/")+" Notes (max 50 characters)"}  maxH="40%" onChange={(ev) => setTimesheetEntryDailyNotes(ev,"7")}/>       
                                             </CardBody>
                                             <Divider/>
                                         </Card>
