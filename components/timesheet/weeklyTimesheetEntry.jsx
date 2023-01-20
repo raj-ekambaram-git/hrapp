@@ -28,6 +28,7 @@ import {setnewTSWeekStartDimId, setSelectedTimesheetId, setTSEntries} from '../.
 import { util } from "../../helpers/util";
 import { ErrorMessage } from "../../constants/errorMessage";
 import TimesheetEntryNotes from "../notes/timesheetEntryNotes";
+import TimesheetDailyEntryNotes from "./timesheetEntryDailyNotes";
 
 
   
@@ -39,6 +40,7 @@ const WeeklyTimesheetEntry = (props) => {
     const [isAddMode, setAddMode] = useState(true);
     const [timesheetEntries, setTimesheetEntries] = useState([{projectId: "", status: "", entries: {day1: {hours: "", error: false, date: "", note: ""}, day2: {hours: "", error: false, date: "", note: ""},day3: {hours: "", error: false, date: "", note: ""},day4: {hours: "", error: false, date: "", note: ""},day5: {hours: "", error: false, date: "", note: ""},day6: {hours: "", error: false, date: "", note: ""},day7: {hours: "", error: false,date: "", note: ""}}}]);
     const [showProjectError, setShowProjectError] = useState(false);
+    const [dailyNotesRequired, setDailyNotesRequired] = useState(false);
     const [userProjectList, setUserProjectList] = useState([]);
     const [timesheetData, setTimesheetData] = useState([]);
     const [timesheetName, setTimesheetName] = useState(EMPTY_STRING);
@@ -214,6 +216,7 @@ const WeeklyTimesheetEntry = (props) => {
             case "projectId":
                 timeEntryRecord.projectId = parseInt(inputValue);
                 timeEntryRecord.unitPrice = parseInt(ev.target.options.item(ev.target.selectedIndex).getAttribute("data-unitprice"));
+                setDailyNotesRequired(ev.target.options.item(ev.target.selectedIndex).getAttribute("data-dailyNotesRequired"));
                 break;
             default:
                 console.log("default");                    
@@ -337,15 +340,16 @@ const WeeklyTimesheetEntry = (props) => {
                                     </>
                                 )}
                                     <Box borderWidth="timesheet.entry_project" width="timesheet.project_drop_down">
+                                        
                                         <Select id="projectId" value={timesheetEntry.projectId} onChange={(ev) => setTimesheetEntry(index, ev, "projectId")}>
                                             <option value="">Select Project</option>
                                             {userProjectList?.map((project) => (
-                                                <option value={project.projectId} data-unitprice={project.unitPrice} >{project.project.name} - {project.project.referenceCode}</option>
+                                                <option value={project.projectId} data-unitprice={project.unitPrice} data-dailyNotesRequired={project.project?.timesheetNotesRequired} >{project.project?.name} - {project.project?.referenceCode}</option>
                                             ))}
                                         </Select>  
                                     </Box>  
                                     <Box width={14}>
-                                        
+                                        <TimesheetDailyEntryNotes dailyNotesRequired={dailyNotesRequired} weekCalendar={weekCalendar} timesheetName={timesheetName}/>
                                     </Box>
                                 </HStack>
                             </GridItem>

@@ -22,6 +22,17 @@ const comment = definePartsStyle({
 
 })
 
+const timesheetDailyNotes = definePartsStyle({
+  container: {
+    borderWidth: '1px',
+    borderRadius: 'lg',
+    overflow: 'hidden', 
+    border: "1px",
+    marginBottom: '10px'
+  },
+
+})
+
 const document = definePartsStyle({
   container: {
     borderWidth: '1px',
@@ -126,4 +137,4 @@ const sizes = definePartsStyle({
   },
 })
 
-export const cardTheme = defineMultiStyleConfig({ baseStyle, sizes, variants: {comment, replies, replyDetails, document} })
+export const cardTheme = defineMultiStyleConfig({ baseStyle, sizes, variants: {comment, replies, replyDetails, document, timesheetDailyNotes} })
