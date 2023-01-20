@@ -31,6 +31,10 @@ export const InvoiceConstants = {
       invoiceTypeName: "Staffing"
     },
     {
+      invoiceTypeId: "Services",
+      invoiceTypeName: "Services"
+    },
+    {
       invoiceTypeId: "Project",
       invoiceTypeName: "Project"
     },

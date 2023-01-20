@@ -24,7 +24,8 @@ import {
   Textarea,
   InputLeftElement,
   InputGroup,
-  useToast
+  useToast,
+  Checkbox
 } from '@chakra-ui/react';
 import {PageMainHeader} from '../../components/common/pageMainHeader';
 
@@ -48,6 +49,7 @@ const ProjectAddEdit = (props) => {
   
   const [project, setProject] = useState({});
   const [isPageAuthprized, setPageAuthorized] = useState(false);
+  const [timesheetNotesRequired, setTimesheetNotesRequired] = useState(false);
   const [isPageSectionAuthorized, setPageSectionAuthorized] = useState(false);
   const [isAddMode, setAddMode] = useState(true);
   const [isVendor, setVendor] = useState(true);
@@ -119,6 +121,7 @@ const ProjectAddEdit = (props) => {
 
   async function getProjectDetailsAPICall() {
 
+    
     // Call only if the user is SUPER_ADMIN and accountId as zero
     if((userService.isSuperAdmin() || userService.isAccountAdmin()) && (props && props.data && props.data.mode != MODE_ADD)) {
       const projectResponse = await accountService.getProjectDetail(props.data.projectId,userService.getAccountDetails().accountId);
@@ -136,6 +139,7 @@ const ProjectAddEdit = (props) => {
             contactEmail: projectResponse.contactEmail,
             contactPhone: projectResponse.contactPhone,            
             paymentTerms: projectResponse.paymentTerms,
+            timeSheetNotesRequired: projectResponse.timeSheetNotesRequired,
             budget: projectResponse.budget,
             miscBudget: projectResponse.miscBudget,
             totalHours: projectResponse.totalHours,
@@ -144,8 +148,9 @@ const ProjectAddEdit = (props) => {
         };
         refreshAddressForVendor(projectResponse.vendorId);
         setProject(projetData);
-
-        const fields = ['name','referenceCode', "description", "type", "invoiceCycle","contactName","contactEmail","contactPhone","addressId","vendorId", "accountId","miscBudget","budget","totalHours","status", "averageRate", 'paymentTerms'];
+        setTimesheetNotesRequired(projectResponse.timeSheetNotesRequired)
+        
+        const fields = ['name','referenceCode', "description", "type", "invoiceCycle","contactName","contactEmail","contactPhone","addressId","vendorId", "accountId","miscBudget","budget","totalHours","status", "averageRate", "timeSheetNotesRequired",'paymentTerms'];
         fields.forEach(field => setValue(field, projetData[field]));
         
     }
@@ -346,7 +351,14 @@ const ProjectAddEdit = (props) => {
                             </Select>
                           </FormControl>     
                         </Box>                                                 
-
+                        <Box>
+                          <FormControl>
+                            <FormLabel>Timesheet Notes Required?</FormLabel>
+                            <Checkbox
+                              id="timeSheetNotesRequired" {...register('timeSheetNotesRequired')} 
+                            />    
+                          </FormControl>     
+                        </Box>  
                       </HStack>                          
                   </Stack>
                 </CardBody>

@@ -228,8 +228,17 @@ export const PROJECT_TYPES = [
   {
     projectTypeId: "Project",
     projectTypeName: "Project"
+  },
+  {
+    projectTypeId: "Product",
+    projectTypeName: "Product"
+  },
+  {
+    projectTypeId: "Services",
+    projectTypeName: "Services"
   }
 ];  
+
 
 export const INVOICE_CYCLE = [
   {
