@@ -504,12 +504,12 @@ const ProjectAddEdit = (props) => {
               <Flex marginBottom={4}>
                 <HStack>
                   <Box>
-                  <Button onClick={() => props.data.onClose()}>
-                      Close
+                  <Button size="xs" bgColor="header_actions" onClick={() => props.data.onClose()}>
+                      Cancel
                     </Button>
                   </Box>
                   <Box>
-                    <Button type="submit" disabled={formState.isSubmitting} >
+                    <Button size="xs" bgColor="header_actions" type="submit" disabled={formState.isSubmitting} >
                     {formState.isSubmitting && <span className="spinner-border spinner-border-sm mr-1"></span>}
                       {isAddMode ? (
                           <div>Add New Project</div>

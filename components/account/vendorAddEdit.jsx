@@ -400,12 +400,12 @@ const VendorEdit = (props) => {
                 <Flex marginBottom={4}>
                   <HStack>
                     <Box>
-                    <Button onClick={navigateVendorListPage}>
-                        Discard
+                    <Button size="xs" bgColor="header_actions" onClick={navigateVendorListPage}>
+                        Cancel
                       </Button>
                     </Box>
                     <Box>
-                      <Button type="submit">
+                      <Button size="xs" bgColor="header_actions" type="submit">
                         {isAddMode ? (
                             <>Add New Vendor</>
                         ) : (

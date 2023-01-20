@@ -302,7 +302,7 @@ const ExpenseEntry = (props) => {
                 </Table>
                 <HStack marginTop="3rem">
                     <Box>
-                        <Button className="btn" onClick={() => addExpenseEntry()}>
+                        <Button size="xs" bgColor="header_actions"  onClick={() => addExpenseEntry()}>
                             Add Entry
                         </Button>
                     </Box>

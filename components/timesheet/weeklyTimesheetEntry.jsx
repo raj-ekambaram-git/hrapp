@@ -388,7 +388,7 @@ const WeeklyTimesheetEntry = (props) => {
                         <Box marginRight="1rem">
                         </Box>
                         <Box>
-                            <Button className="btn" onClick={() => addTimesheeEntry(timesheetEntries.length)}>
+                            <Button size="xs" bgColor="header_actions"  onClick={() => addTimesheeEntry(timesheetEntries.length)}>
                                 Add Entry
                             </Button>
                         </Box>

@@ -97,12 +97,14 @@ const ExpenseHeader = (props) => {
                 </FormControl>    
               </Box>              
               <Stack>
-                <Box>
-                  <FormControl>
-                      <FormLabel>Status</FormLabel>
-                      <Badge color={`${expenseHeader.status === "Approved"? "timesheet.approved_status": (expenseHeader.status === "Submitted" || expenseHeader.status === "Saved")? "timesheet.approved_status": "timesheet.pending_status"}`}>{expenseHeader.status}</Badge>
-                  </FormControl>                   
-                </Box>
+                {props.isAddMode?(<></>):(<>
+                  <Box>
+                    <FormControl>
+                        <FormLabel>Status</FormLabel>
+                        <Badge color={`${expenseHeader.status === "Approved"? "timesheet.approved_status": (expenseHeader.status === "Submitted" || expenseHeader.status === "Saved")? "timesheet.approved_status": "timesheet.pending_status"}`}>{expenseHeader.status}</Badge>
+                    </FormControl>                   
+                  </Box>
+                </>)}
                 {(expenseHeader.status === ExpenseStatus.Approved || expenseHeader.status === ExpenseStatus.Rejected) ? (<>
                   <Box>
                     <FormControl>

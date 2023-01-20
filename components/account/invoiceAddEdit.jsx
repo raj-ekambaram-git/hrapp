@@ -626,13 +626,13 @@ const InvoiceAddEdit = (props) => {
               <Flex marginBottom={4}>
                 <HStack>
                   <Box>
-                  <Button className="btn" onClick={() => router.push("/accounts")}>
-                      Discard
+                  <Button size="xs" bgColor="header_actions"  onClick={() => router.push("/accounts")}>
+                      Cancel
                     </Button>
                   </Box>
                   <Box>
                     {(status != InvoiceConstants.INVOICE_STATUS.Paid || status != InvoiceConstants.INVOICE_STATUS.PartiallyPaid) ? (<>
-                      <Button type="submit">
+                      <Button size="xs" bgColor="header_actions" type="submit">
                         {isAddMode ? (
                             <div>Add New Invoice</div>
                         ) : (

@@ -390,12 +390,12 @@ const AccountAddEdit = (props) => {
                 <Flex marginBottom={4}>
                   <HStack>
                     <Box>
-                      <Button onClick={() => router.push("/accounts")}>
-                        Discard
+                      <Button size="xs" bgColor="header_actions"  onClick={() => router.push("/accounts")}>
+                        Cancel
                       </Button>
                     </Box>
                     <Box>
-                      <Button type="submit">
+                      <Button size="xs" bgColor="header_actions"  type="submit">
                         {isAddMode ? (
                             <>Add New Account</>
                         ) : (

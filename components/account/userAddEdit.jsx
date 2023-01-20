@@ -505,12 +505,12 @@ const UserAddEdit = (props) => {
               <Flex marginBottom={4}>
                 <HStack>
                   <Box>
-                  <Button className="btn" onClick={() => router.push("/accounts")}>
-                      Discard
+                  <Button size="xs" bgColor="header_actions"  onClick={() => router.push("/accounts")}>
+                      Cancel
                     </Button>
                   </Box>
                   <Box>
-                    <Button type="submit"  disabled={formState.isSubmitting}>
+                    <Button size="xs" bgColor="header_actions"  type="submit"  disabled={formState.isSubmitting}>
                     {formState.isSubmitting && <span className="spinner-border spinner-border-sm mr-1"></span>}
                       {isAddMode ? (
                           <div>Add New {isVendor? "Vendor": "Account"} User</div>
