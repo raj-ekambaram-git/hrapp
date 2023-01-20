@@ -16,8 +16,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const savedAccount = await prisma.account.create({
       data: account,
       include: {
-        address: true
-
+        address: true,
+        updatedBy: {
+          select: {
+            email: true
+          }
+        }
       }
     });
     if(savedAccount) {
@@ -36,7 +40,7 @@ function getNewAccountEmailRequest(savedAccount) {
     withAttachment: false,
     from: CommonConstants.fromEmail,
     to: savedAccount.email,
-    cc: CommonConstants.adminCCEmail,
+    cc: savedAccount.updatedBy?.email,
     templateData: savedAccount,
     template_id: EmailConstants.emailTemplate.newAccountTemplateId
   }

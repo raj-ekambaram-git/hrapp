@@ -19,7 +19,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       },
       data: account,
       include: {
-        address: true
+        address: true,
+        updatedBy: {
+          select: {
+            email: true
+          }
+        }
       }
     });
 
@@ -40,7 +45,7 @@ function getNewAccountEmailRequest(savedAccount) {
     withAttachment: false,
     from: CommonConstants.fromEmail,
     to: savedAccount.email,
-    cc: CommonConstants.adminCCEmail,
+    cc: savedAccount?.updatedBy?.email,
     templateData: savedAccount,
     template_id: EmailConstants.emailTemplate.updateAccountTemplateId
   }

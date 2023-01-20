@@ -48,12 +48,14 @@ model Account {
   email          String
   phone          String          @default("111-111-1111")
   status         AccountStatus
+  updatedBy      User?           @relation("AccountUpdatedUser", fields: [updatedById], references: [id])
+  updatedById    Int?            @default(1)
   createdDate    DateTime        @default(now())
   lastUpdateDate DateTime        @updatedAt
   address        Address[]
   invoice        Invoice[]
   vendor         Vendor[]
-  user           User[]
+  user           User[]          @relation("UserAccount")
   project        Project[]
   accountConfig  AccountConfig[]
 }
@@ -205,7 +207,7 @@ model User {
   userRole           Role[]
   email              String             @unique
   phone              String             @default("111-111-1111")
-  account            Account?           @relation(fields: [accountId], references: [id])
+  account            Account?           @relation("UserAccount", fields: [accountId], references: [id])
   accountId          Int?               @default(0)
   vendor             Vendor?            @relation(fields: [vendorId], references: [id])
   vendorId           Int?               @default(0)
@@ -228,6 +230,7 @@ model User {
   vendorUsers        VendorUsers[]
   expenses           Expense[]          @relation("CreatedExpenses")
   expensesApproved   Expense[]          @relation("ApprovedExpenses")
+  accountUpdatedUser Account[]          @relation("AccountUpdatedUser")
   Document           Document[]
 }
 

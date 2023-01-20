@@ -2,6 +2,7 @@ import getConfig from 'next/config';
 import Router from 'next/router';
 
 import { fetchWrapper } from 'helpers';
+import { userService } from './user.service';
 
 const { publicRuntimeConfig } = getConfig();
 const baseUrl = `${publicRuntimeConfig.apiUrl}`;
@@ -36,6 +37,7 @@ function updateAccount(accountId, formData, addressId) {
         email: formData.accountEmail,
         status: formData.accountStatus,
         phone: formData.accountPhone,
+        updatedById: userService.userValue.id,
         address: {
           update: {
             where: {
@@ -91,7 +93,8 @@ function createAccount(formData) {
             ein: formData.accountEIN,
             email: formData.accountEmail,
             status: formData.accountStatus,
-            phone: formData.accountPhone
+            phone: formData.accountPhone,
+            updatedById: userService.userValue.id,
         }
     )
     .then(async project => {
