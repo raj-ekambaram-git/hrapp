@@ -251,7 +251,7 @@ const WeeklyTimesheetEntry = (props) => {
             <Stack spacing={2}>
               <Card variant="timesheet">
                 <CardHeader> 
-                    <HStack gap="16rem">
+                    <HStack gap="13rem">
                         <Box>
                             <Heading size='sm'>Timesheet Entry</Heading>
                         </Box>
