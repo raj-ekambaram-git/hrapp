@@ -19,11 +19,21 @@ import {
   Button,
   Badge
 } from '@chakra-ui/react';
+import { useDispatch } from "react-redux";
+import { setSelectedProjectId } from "../../../store/modules/Project/actions";
+import { useRouter } from "next/router";
 
 
 const VendorProjectsSection = (props) => {
+    const dispatch = useDispatch();
+    const router = useRouter();
     const vendor = props.data.vendor;
-    console.log("vendor::"+JSON.stringify(vendor))
+    
+
+    function handleProjectDetailSelection(projectId){
+      dispatch(setSelectedProjectId(projectId))
+      router.push("/account/project/detail");
+    }
 
   return (
 
@@ -49,16 +59,16 @@ const VendorProjectsSection = (props) => {
                         <Thead>
                             <Tr bgColor="inner_table_tile">
                                 <Th>
-                                    Projet ID
+                                     ID
                                 </Th>
                                 <Th>
-                                    Project Name
+                                     Name
                                 </Th>
                                 <Th>
-                                    Project Type
+                                     Type
                                 </Th>                                    
                                 <Th>
-                                    Project Status
+                                     Status
                                 </Th>
                             </Tr>   
                             </Thead>                
@@ -82,11 +92,10 @@ const VendorProjectsSection = (props) => {
                                     </Th>
                                     <Th>
                                         <HStack>
-                                        <Link href={`/account/project/${proj.id}/detail`} passref key={proj.id}>
-                                            <Button className="btn">
-                                            Details
-                                            </Button>
-                                        </Link>
+                                        <Button size="xs" bgColor="header_actions" 
+                                            onClick={() => handleProjectDetailSelection(proj.id)}
+                                            >Details
+                                        </Button>
                                         <Badge color={`${
                                             proj.status === "Active"
                                                 ? "paid_status"
