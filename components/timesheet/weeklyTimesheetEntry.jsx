@@ -142,6 +142,7 @@ const WeeklyTimesheetEntry = (props) => {
             inputData[i].entries.day5.date = weekCalendar.day5.date;
             inputData[i].entries.day6.date = weekCalendar.day6.date;
             inputData[i].entries.day7.date = weekCalendar.day7.date;
+            delete inputData[i]["projectName"]
         }
         setTimesheetEntries(inputData);
         dispatch(setTSEntries(timesheetEntries));
@@ -216,6 +217,7 @@ const WeeklyTimesheetEntry = (props) => {
                 timeEntryRecord.projectId = parseInt(inputValue);
                 timeEntryRecord.unitPrice = parseInt(ev.target.options.item(ev.target.selectedIndex).getAttribute("data-unitprice"));
                 timeEntryRecord.notesRequired = ev.target.options.item(ev.target.selectedIndex).getAttribute("data-dailyNotesRequired")==="true"?true:false
+                timeEntryRecord.projectName = ev.target.options.item(ev.target.selectedIndex).getAttribute("data-projectName")
                 break;
             default:
                 console.log("default");                    
@@ -343,12 +345,12 @@ const WeeklyTimesheetEntry = (props) => {
                                         <Select id="projectId" value={timesheetEntry.projectId} onChange={(ev) => setTimesheetEntry(index, ev, "projectId")}>
                                             <option value="">Select Project</option>
                                             {userProjectList?.map((project) => (
-                                                <option value={project.projectId} data-unitprice={project.unitPrice} data-dailyNotesRequired={project.project?.timesheetNotesRequired} >{project.project?.name} - {project.project?.referenceCode}</option>
+                                                <option value={project.projectId} data-unitprice={project.unitPrice} data-dailyNotesRequired={project.project?.timesheetNotesRequired} data-projectName={project.project?.name} >{project.project?.name} - {project.project?.referenceCode}</option>
                                             ))}
                                         </Select>  
                                     </Box>  
                                     <Box width={14}>
-                                        <TimesheetDailyEntryNotes dailyNotesRequired={timesheetEntry.notesRequired} weekCalendar={weekCalendar} projectName={timesheetEntry.projectName}/>
+                                        <TimesheetDailyEntryNotes index={index} dailyNotesRequired={timesheetEntry.notesRequired} weekCalendar={weekCalendar} projectName={timesheetEntry.projectName}/>
                                     </Box>
                                 </HStack>
                             </GridItem>
