@@ -29,6 +29,7 @@ import { util } from "../../helpers/util";
 import { ErrorMessage } from "../../constants/errorMessage";
 import TimesheetEntryNotes from "../notes/timesheetEntryNotes";
 import TimesheetDailyEntryNotes from "./timesheetEntryDailyNotes";
+import { ShowInlineErrorMessage } from "../common/showInlineErrorMessage";
 
 
   
@@ -36,10 +37,9 @@ const WeeklyTimesheetEntry = (props) => {
     const router = useRouter();
     const dispatch = useDispatch();
     const toast = useToast();
-
+    const [showErrorMessage, setShowErrorMessage] = useState(EMPTY_STRING);
     const [isAddMode, setAddMode] = useState(true);
-    const [timesheetEntries, setTimesheetEntries] = useState([{projectId: "", status: "", entries: {day1: {hours: "", error: false, date: "", note: ""}, day2: {hours: "", error: false, date: "", note: ""},day3: {hours: "", error: false, date: "", note: ""},day4: {hours: "", error: false, date: "", note: ""},day5: {hours: "", error: false, date: "", note: ""},day6: {hours: "", error: false, date: "", note: ""},day7: {hours: "", error: false,date: "", note: ""}}}]);
-    const [showProjectError, setShowProjectError] = useState(false);
+    // const [timesheetEntries, setTimesheetEntries] = useState([{projectId: "", status: "", entries: {day1: {hours: "", error: false, date: "", note: ""}, day2: {hours: "", error: false, date: "", note: ""},day3: {hours: "", error: false, date: "", note: ""},day4: {hours: "", error: false, date: "", note: ""},day5: {hours: "", error: false, date: "", note: ""},day6: {hours: "", error: false, date: "", note: ""},day7: {hours: "", error: false,date: "", note: ""}}}]);
     const [userProjectList, setUserProjectList] = useState([]);
     const [timesheetData, setTimesheetData] = useState([]);
     const [timesheetName, setTimesheetName] = useState(EMPTY_STRING);
@@ -49,6 +49,7 @@ const WeeklyTimesheetEntry = (props) => {
     const [nextWeekStart, setNextWeekStart] = useState(EMPTY_STRING);
     const userId = props.data.userId;
     const newTSWeekStartDimId = useSelector(state => state.timesheet.newTSWeekStartDimId);
+    const timesheetEntries = useSelector(state => state.timesheet.timesheetEntries);
 
     useEffect(() => {
 
@@ -70,7 +71,7 @@ const WeeklyTimesheetEntry = (props) => {
                 const timesheetResponse = await timesheetService.getTimesheetDetails(props.data.timesheetId, userService.getAccountDetails().accountId);
                 setTimesheetData(timesheetResponse);
                 setTimesheetName(timesheetResponse.name);
-                setTimesheetEntries(timesheetResponse?.timesheetEntries);
+                // setTimesheetEntries(timesheetResponse?.timesheetEntries);
                 dispatch(setTSEntries(timesheetResponse?.timesheetEntries));
                 if(timesheetResponse?.timesheetEntries[0]) {
                     setWeekCalendar(timesheetResponse.timesheetEntries[0]?.entries);
@@ -102,12 +103,12 @@ const WeeklyTimesheetEntry = (props) => {
             setTimesheetName(timesheetMetaData.weekOfYearISO);
             setWeekCalendar(timesheetMetaData.currentWeekDates);
             setTimesheetStartDate(timesheetMetaData.firstDayOfWeek)
-
+            dispatch(setTSEntries([{projectId: "", status: "", entries: {day1: {hours: "", error: false, date: "", note: ""}, day2: {hours: "", error: false, date: "", note: ""},day3: {hours: "", error: false, date: "", note: ""},day4: {hours: "", error: false, date: "", note: ""},day5: {hours: "", error: false, date: "", note: ""},day6: {hours: "", error: false, date: "", note: ""},day7: {hours: "", error: false, date: "", note: ""}}}]));
             const timesheets = await timesheetService.getTimesheetByName(timesheetMetaData.weekOfYearISO, userService.userValue.id);
             if(timesheets != undefined && timesheets.length > 0) {
                 setTimesheetData(timesheets[0]);
                 props.data.isAddMode = false;
-                setTimesheetEntries(timesheets[0]?.timesheetEntries);
+                // setTimesheetEntries(timesheets[0]?.timesheetEntries);
                 dispatch(setTSEntries(timesheets[0]?.timesheetEntries));
             }
 
@@ -125,7 +126,8 @@ const WeeklyTimesheetEntry = (props) => {
     function addTimesheeEntry(timesheetEntryCountLength) {
         const inputData = [...timesheetEntries];
         inputData.push({projectId: "", status: "", entries: {day1: {hours: "", error: false, date: "", note: ""}, day2: {hours: "", error: false, date: "", note: ""},day3: {hours: "", error: false, date: "", note: ""},day4: {hours: "", error: false, date: "", note: ""},day5: {hours: "", error: false, date: "", note: ""},day6: {hours: "", error: false, date: "", note: ""},day7: {hours: "", error: false, date: "", note: ""}}});
-        setTimesheetEntries(inputData);
+        // setTimesheetEntries(inputData);
+        dispatch(setTSEntries(inputData));
 
     }
 
@@ -142,9 +144,20 @@ const WeeklyTimesheetEntry = (props) => {
             inputData[i].entries.day5.date = weekCalendar.day5.date;
             inputData[i].entries.day6.date = weekCalendar.day6.date;
             inputData[i].entries.day7.date = weekCalendar.day7.date;
+
+            //Validate Notes for required
+            if(inputData[i].notesRequired) {
+                for(let j=1;j<8;j++){
+                    if(inputData[i].entries["day"+j]?.hours && inputData[i].entries["day"+j]?.hours != EMPTY_STRING && (inputData[i].entries["day"+j]?.notes === EMPTY_STRING || inputData[i].entries["day"+j]?.notes === undefined)) {
+                        setShowErrorMessage(ErrorMessage.DAILY_NOTES_REQUIRED)
+                        return false;
+                    }
+                }
+            }
+
             delete inputData[i]["projectName"]
         }
-        setTimesheetEntries(inputData);
+        // setTimesheetEntries(inputData);
         dispatch(setTSEntries(timesheetEntries));
         // props.data.handleTimeSheetEntries(timesheetEntries);
         props.data.onSubmit({status: status, timesheetName:timesheetName, timesheetStartDate: timesheetStartDate});
@@ -168,12 +181,10 @@ const WeeklyTimesheetEntry = (props) => {
 
         if(dayNumber != "projectId" && timeEntryRecord.projectId === EMPTY_STRING) {
             //Error to selecct the project firsst
-            setShowProjectError(true);
+            setShowErrorMessage(ErrorMessage.SELECT_PROJECT_REQUIRED)
             return;
         }else {
-            if(showProjectError) {
-                setShowProjectError(false);
-            }
+            setShowErrorMessage(EMPTY_STRING)
         }
         //Validate the value entered to be 24hrs max and sum of all the rows for that day is 24hrs too
         const dayN = "day"+dayNumber;
@@ -225,7 +236,7 @@ const WeeklyTimesheetEntry = (props) => {
         }
 
 
-        setTimesheetEntries(inputData);
+        // setTimesheetEntries(inputData);
         dispatch(setTSEntries(inputData));
     }
 
@@ -261,7 +272,7 @@ const WeeklyTimesheetEntry = (props) => {
     function deleteTimesheetEntry(removeIndex) {
         const inputEntriesData = [...timesheetEntries];
         inputEntriesData.splice(removeIndex, 1);
-        setTimesheetEntries(inputEntriesData);
+        // setTimesheetEntries(inputEntriesData);
         dispatch(setTSEntries(inputEntriesData))
     }
     
@@ -318,13 +329,7 @@ const WeeklyTimesheetEntry = (props) => {
 
                 <CardBody>
                   <Stack spacing='20px' divider={<StackDivider />}>
-                    {showProjectError ? (
-                        <>
-                            <Heading size='sm' color="red">Select Project First</Heading>
-                        </>
-                    ) : (
-                        <></>
-                    )} 
+                    <ShowInlineErrorMessage showErrorMessage={showErrorMessage}/>
                     <TimesheetDateHeader data={weekCalendar}></TimesheetDateHeader>
                     {timesheetEntries?.map((timesheetEntry, index) => (
                         <Grid gap="1rem" marginBottom="2rem" autoRows>
