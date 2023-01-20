@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { EMPTY_STRING, ExpenseConstants } from "../../constants";
+import { ExpenseTypeLookup } from "../../data/exponseType";
 import { util } from "../../helpers/util";
 import { expenseService, userService } from "../../services";
 import {setExpenseEntries, setExpenseHeader} from '../../store/modules/Expense/actions';
@@ -261,7 +262,7 @@ const ExpenseEntry = (props) => {
                         <Th>
                         <Select id="type" value={expenseEntry.type} onChange={(ev) => handleExpenseEntry(index,"type",ev.target.value)}>
                             <option value="">Select Expense</option>
-                            {ExpenseConstants.EXPENSE_TYPE?.map((expenseType) => (
+                            {ExpenseTypeLookup.map((expenseType) => (
                                 <option value={expenseType.typeId} >{expenseType.typeName}</option>
                             ))}
                         </Select>                           

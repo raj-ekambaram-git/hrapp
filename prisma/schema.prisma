@@ -630,9 +630,36 @@ enum NotesMode {
 }
 
 enum ExpenseType {
+  Airfare_C
+  Airfare_E
+  Baggage
+  Breakfast
+  CarRental
+  Cellular
+  Dinner
+  Dues
+  Education
+  Exam
+  Entertaintment_M
+  Entertaintment_O
+  Gas
+  Hotel
+  Hotel_Tax
+  Internet
+  Laundry
+  Lunch
   Meals
+  Mileage
+  Others
+  Parking_Tolls
+  Passport_Visa_Fee
+  Postage
+  Resource_Cost
+  Shipping
+  Subscription
+  Supplies
   Taxi
-  Cost
+  Tips
 }
 
 enum ExpenseEntryStatus {

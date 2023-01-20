@@ -5,7 +5,7 @@ import { util } from '../helpers/util'
 import { EMPTY_STRING } from './accountConstants'
 import ExpenseViewNotes from '../components/expense/approval/expenseViewNotes'
 import ExpenseViewAttachment from '../components/expense/expenseViewAttachment'
-
+import ExpenseTypeLookup from '../data/exponseType';
 
 export const ExpenseConstants = {
   EXPENSE_ENTRY_LIST_TABLE_META:[
@@ -62,28 +62,6 @@ export const ExpenseConstants = {
     notes: EMPTY_STRING,
     status: "Draft"
   },
-  EXPENSE_TYPE: [
-    {
-      typeId: "Meals",
-      typeName: "Meals",
-    },
-    {
-      typeId: "Taxi",
-      typeName: "Taxi",
-    },
-    {
-      typeId: "Cost",
-      typeName: "Cost",
-    },
-    {
-      typeId: "Meal",
-      typeName: "Meal",
-    },
-    {
-      typeId: "Meal",
-      typeName: "Meal",
-    },             
-  ],
   EXPENSE_LIST_TABLE_META: [
     {
       label: "ID",
