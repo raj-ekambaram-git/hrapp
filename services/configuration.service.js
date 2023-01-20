@@ -8,8 +8,25 @@ const baseUrl = `${publicRuntimeConfig.apiUrl}`;
 
 export const configurationService = {
 
-  getAdminConfigList
+  getAdminConfigList,
+  createConfigAdminLookup
 };
+
+
+function createConfigAdminLookup(configAdminRequest) {
+  // console.log("configAdminRequest::"+configAdminRequest)
+  return fetchWrapper.post(`${baseUrl}/admin/config/create`, {
+        configAdminRequest
+      }
+  )
+  .then(async configAdmin => {
+      return configAdmin;
+  })        
+  .catch(err => {
+    console.log("Error Creating configAdmin"+err)
+    return {errorMessage: err, error: true};
+  });
+}
 
 async function getAdminConfigList() {
 

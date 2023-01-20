@@ -27,6 +27,7 @@ import {
 import { useDispatch } from "react-redux";
 import { ConfigConstants, EMPTY_STRING } from "../../constants";
 import { ShowInlineErrorMessage } from "../common/showInlineErrorMessage";
+import { configurationService, userService } from "../../services";
 
 
 
@@ -42,7 +43,7 @@ const AddEditConfigAdmin = (props) => {
   const [name, setName] = useState(EMPTY_STRING);
   const [displayName, setDisplayName] = useState(EMPTY_STRING);
   const [configDescription, setConfigDescription] = useState(EMPTY_STRING);
-  const [type, setType] = useState(EMPTY_STRING);
+  const [configAdminType, setConfigAdminType] = useState(EMPTY_STRING);
   const [possibleValue, setPossibleValue] = useState(EMPTY_STRING);
   const [status, setStatus] = useState(EMPTY_STRING);
   const [configInputType, setConfigInputType] = useState(EMPTY_STRING);
@@ -57,6 +58,42 @@ const AddEditConfigAdmin = (props) => {
     setShowErrorMessage(EMPTY_STRING);
 
   }, []);
+
+  async function handleConfigAdmin() {
+    const configdminRequest = {
+      name: name,
+      displayName: displayName,
+      configDescription: configDescription,
+      configAdminType: configAdminType,
+      possibleValue: possibleValue,
+      status: status,
+      configInputType: configInputType,
+      updatedBy: parseInt(userService.userValue.id)
+    }
+    console.log("configdminRequest:::configdminRequest::"+JSON.stringify(configdminRequest))
+    const responseData = await configurationService.createConfigAdminLookup(configdminRequest)
+    if(responseData.error) {
+      toast({
+        title: 'Add Admin Config.',
+        description: 'Error adding new admin configuration.',
+        status: 'error',
+        position: 'top',
+        duration: 6000,
+        isClosable: true,
+      })
+      return;
+    }else {
+      toast({
+        title: 'Add Admin Config.',
+        description: 'Successfully create new admin config.',
+        status: 'success',
+        position: 'top',
+        duration: 6000,
+        isClosable: true,
+      })
+      onClose();
+    }
+  }
 
   return (
 
@@ -115,7 +152,7 @@ const AddEditConfigAdmin = (props) => {
                                           Type
                                         </Th>
                                         <Th>
-                                          <Select width="50%%" value={type} onChange={(ev) => setType(ev)} border="table_border">
+                                          <Select width="50%%" value={configAdminType} onChange={(ev) => setConfigAdminType(ev)} border="table_border">
                                             <option value="">Select Type</option>
                                               {ConfigConstants.CONFIG_LOOKUP_TYPE?.map((configType) => (
                                                       <option value={configType.typeId}>{configType.typeName}</option>
@@ -163,7 +200,7 @@ const AddEditConfigAdmin = (props) => {
                                   
                                 </Table>
                               </TableContainer>                                    
-                            <Button  size="sm" width="30%" bgColor="button.primary.color">
+                            <Button  size="sm" width="30%" bgColor="button.primary.color" onClick={() => handleConfigAdmin()}>
                               Add Vendor
                             </Button>                            
                           </Stack>
