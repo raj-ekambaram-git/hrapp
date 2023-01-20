@@ -40,7 +40,6 @@ const WeeklyTimesheetEntry = (props) => {
     const [isAddMode, setAddMode] = useState(true);
     const [timesheetEntries, setTimesheetEntries] = useState([{projectId: "", status: "", entries: {day1: {hours: "", error: false, date: "", note: ""}, day2: {hours: "", error: false, date: "", note: ""},day3: {hours: "", error: false, date: "", note: ""},day4: {hours: "", error: false, date: "", note: ""},day5: {hours: "", error: false, date: "", note: ""},day6: {hours: "", error: false, date: "", note: ""},day7: {hours: "", error: false,date: "", note: ""}}}]);
     const [showProjectError, setShowProjectError] = useState(false);
-    const [dailyNotesRequired, setDailyNotesRequired] = useState(false);
     const [userProjectList, setUserProjectList] = useState([]);
     const [timesheetData, setTimesheetData] = useState([]);
     const [timesheetName, setTimesheetName] = useState(EMPTY_STRING);
@@ -216,7 +215,7 @@ const WeeklyTimesheetEntry = (props) => {
             case "projectId":
                 timeEntryRecord.projectId = parseInt(inputValue);
                 timeEntryRecord.unitPrice = parseInt(ev.target.options.item(ev.target.selectedIndex).getAttribute("data-unitprice"));
-                setDailyNotesRequired(ev.target.options.item(ev.target.selectedIndex).getAttribute("data-dailyNotesRequired"));
+                timeEntryRecord.notesRequired = ev.target.options.item(ev.target.selectedIndex).getAttribute("data-dailyNotesRequired")
                 break;
             default:
                 console.log("default");                    
@@ -349,7 +348,7 @@ const WeeklyTimesheetEntry = (props) => {
                                         </Select>  
                                     </Box>  
                                     <Box width={14}>
-                                        <TimesheetDailyEntryNotes dailyNotesRequired={dailyNotesRequired} weekCalendar={weekCalendar} timesheetName={timesheetName}/>
+                                        <TimesheetDailyEntryNotes dailyNotesRequired={timesheetEntry.notesRequired} weekCalendar={weekCalendar} timesheetName={timesheetName}/>
                                     </Box>
                                 </HStack>
                             </GridItem>
