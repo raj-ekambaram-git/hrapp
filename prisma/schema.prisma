@@ -182,7 +182,7 @@ model Project {
   usedBudget                Decimal           @default(0)
   totalHours                Int?              @default(0)
   averageRate               Decimal?
-  timeSheetNotesRequired    Boolean           @default(false)
+  timesheetNotesRequired    Boolean           @default(false)
   status                    ProjectStatus
   contactName               String?
   contactEmail              String?

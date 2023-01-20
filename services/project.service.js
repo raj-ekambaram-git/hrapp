@@ -37,7 +37,7 @@ function updateProject(projectId, formData) {
         budget: formData.budget,
         miscBudget: formData.miscBudget,
         paymentTerms: formData.paymentTerms,
-        timeSheetNotesRequired: formData.timeSheetNotesRequired,
+        timesheetNotesRequired: formData.timesheetNotesRequired,
         contactName: formData.contactName,
         contactEmail: formData.contactEmail,
         contactPhone: formData.contactPhone,
@@ -56,7 +56,6 @@ function updateProject(projectId, formData) {
 }
 
 function createProject(formData) {
-    console.log("Project Service Create Project ::"+JSON.stringify(formData))
     return fetchWrapper.post(`${baseUrl}/account/project/create`, {
             name: formData.name,
             referenceCode: formData.referenceCode,
@@ -70,7 +69,7 @@ function createProject(formData) {
             miscBudget: formData.miscBudget,
             remainingBudgetToAllocate: formData.budget,
             paymentTerms: formData.paymentTerms,
-            timeSheetNotesRequired: formData.timeSheetNotesRequired,
+            timesheetNotesRequired: formData.timesheetNotesRequired,
             contactName: formData.contactName,
             contactEmail: formData.contactEmail,
             contactPhone: formData.contactPhone,

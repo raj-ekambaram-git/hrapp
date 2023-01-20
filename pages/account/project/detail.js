@@ -88,6 +88,7 @@ const ProjectDetail = (props) => {
       remainingBudgetToAllocate: responseData.remainingBudgetToAllocate,
       usedBudget: responseData.usedBudget,
       paymentTerms: responseData.paymentTerms,
+      timesheetNotesRequired: responseData.timesheetNotesRequired,
       // projectResource: [],
       // invoice: [],
       miscBudget: responseData.miscBudget,

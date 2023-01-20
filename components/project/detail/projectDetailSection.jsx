@@ -91,7 +91,17 @@ const ProjectDetailSection = (props) => {
                                     {project.invoiceCycle}
                                 </Text>
                             </Th>
-                        </Tr>                                                                                                        
+                        </Tr>               
+                        <Tr >
+                            <Th bgColor="table_tile">
+                            Timesheet Notes Required
+                            </Th>
+                            <Th>
+                                <Text pt='table_display_value' fontSize='table_display_value'>
+                                    {project.timesheetNotesRequired?"Yes" : "No"}
+                                </Text>
+                            </Th>
+                        </Tr>                                                                                                                   
                         </Tbody>
                     </Table>
                 </TableContainer>   

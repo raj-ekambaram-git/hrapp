@@ -118,6 +118,7 @@ const ProjectAddEdit = (props) => {
 
   }
 
+  
 
   async function getProjectDetailsAPICall() {
 
@@ -139,7 +140,7 @@ const ProjectAddEdit = (props) => {
             contactEmail: projectResponse.contactEmail,
             contactPhone: projectResponse.contactPhone,            
             paymentTerms: projectResponse.paymentTerms,
-            timeSheetNotesRequired: projectResponse.timeSheetNotesRequired,
+            timesheetNotesRequired: projectResponse.timesheetNotesRequired,
             budget: projectResponse.budget,
             miscBudget: projectResponse.miscBudget,
             totalHours: projectResponse.totalHours,
@@ -148,9 +149,9 @@ const ProjectAddEdit = (props) => {
         };
         refreshAddressForVendor(projectResponse.vendorId);
         setProject(projetData);
-        setTimesheetNotesRequired(projectResponse.timeSheetNotesRequired)
+        setTimesheetNotesRequired(projectResponse.timesheetNotesRequired)
         
-        const fields = ['name','referenceCode', "description", "type", "invoiceCycle","contactName","contactEmail","contactPhone","addressId","vendorId", "accountId","miscBudget","budget","totalHours","status", "averageRate", "timeSheetNotesRequired",'paymentTerms'];
+        const fields = ['name','referenceCode', "description", "type", "invoiceCycle","contactName","contactEmail","contactPhone","addressId","vendorId", "accountId","miscBudget","budget","totalHours","status", "averageRate",'paymentTerms'];
         fields.forEach(field => setValue(field, projetData[field]));
         
     }
@@ -158,19 +159,14 @@ const ProjectAddEdit = (props) => {
   }
 
   async function refreshAddressForVendor(vendorId) {
-    console.log("refreshAddressForVendor::"+JSON.stringify(vendorId))
-    //Call Address table to get all the addresses by vendor
-    
     const addressListResponse = await accountService.getAddressByVendor(vendorId, userService.getAccountDetails().accountId);
-    console.log("addressListResponse::::"+JSON.stringify(addressListResponse));
-    
     setAddressList(addressListResponse);
 
   } 
 
 
   function onSubmit(data) {
-    console.log("DDAAA::"+JSON.stringify(data))
+    data.timesheetNotesRequired = timesheetNotesRequired; 
     return isAddMode
         ? createProject(data)
         : updateProject(projectId, data);
@@ -355,8 +351,9 @@ const ProjectAddEdit = (props) => {
                           <FormControl>
                             <FormLabel>Timesheet Notes Required?</FormLabel>
                             <Checkbox
-                              id="timeSheetNotesRequired" {...register('timeSheetNotesRequired')} 
-                            />    
+                              isChecked={timesheetNotesRequired}
+                              onChange={(e) => setTimesheetNotesRequired(e.target.checked)}
+                            />                              
                           </FormControl>     
                         </Box>  
                       </HStack>                          
