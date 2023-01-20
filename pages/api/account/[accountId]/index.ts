@@ -17,12 +17,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       where: {
         id: account.id,
       },
-      data: account
+      data: account,
+      include: {
+        address: true
+      }
     });
 
     if(savedAccount) {
+      console.log("savedAccount:::"+JSON.stringify(savedAccount))
       const emailResponse = emailService.sendEmail(getNewAccountEmailRequest(savedAccount));
-      console.log("Email Response :::"+emailResponse)
     }
 
     res.status(200).json(savedAccount);
@@ -37,9 +40,9 @@ function getNewAccountEmailRequest(savedAccount) {
     withAttachment: false,
     from: CommonConstants.fromEmail,
     to: savedAccount.email,
-    cc: "admin@dsquaredtech.us",
+    cc: CommonConstants.adminCCEmail,
     templateData: savedAccount,
-    template_id: EmailConstants.emailTemplate.newAccountTemplateId
+    template_id: EmailConstants.emailTemplate.updateAccountTemplateId
   }
 
 }

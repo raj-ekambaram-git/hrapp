@@ -1,5 +1,6 @@
     export const CommonConstants ={
         fromEmail: "admin@dsquaredtech.us",
+        adminCCEmail: "rajapan@yopmail.com",
         backSlash: "/",
         underScore: "_",
         USER_VALUE_DELIMITER: ":"
