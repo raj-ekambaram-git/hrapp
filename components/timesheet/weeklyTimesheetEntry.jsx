@@ -320,7 +320,7 @@ const WeeklyTimesheetEntry = (props) => {
                                 {isAddMode || (!isAddMode && timesheetData.status != TIMESHEET_STATUS.Approved) ? (
                                     <>
                                         <Box>
-                                            {(timesheetEntry.status != TIMESHEET_STATUS.Approved && timesheetEntry.status != TIMESHEET_STATUS.Invoiced) ? <DeleteIcon onClick={() => deleteTimesheetEntry(index)}/> : <CheckCircleIcon color="header_actions"/>}
+                                            {(timesheetEntry.status != TIMESHEET_STATUS.Approved && timesheetEntry.status != TIMESHEET_STATUS.Invoiced && index !=0) ? <DeleteIcon onClick={() => deleteTimesheetEntry(index)}/> : <CheckCircleIcon color="header_actions"/>}
                                         </Box>                                      
                                     </>
                                 ): (
