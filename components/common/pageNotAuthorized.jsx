@@ -7,7 +7,7 @@ import {
 function PageNotAuthorized() {
     return (
         <>
-          <Flex
+          {/* <Flex
             as="nav"
             align="center"
             justify="space-between"
@@ -21,7 +21,7 @@ function PageNotAuthorized() {
             <Heading as="h1" size="sm">
               Not authorized to view this page. Please contact administrator.
             </Heading>
-          </Flex>          
+          </Flex>           */}
         </>
     );
 }

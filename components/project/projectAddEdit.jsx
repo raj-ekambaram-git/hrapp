@@ -175,7 +175,6 @@ const ProjectAddEdit = (props) => {
   // Create Account 
   const createProject = async (formData) => {
     try {
-        console.log("CreateProject ::"+JSON.stringify(formData))
       const data = await projectService.createProject(formData);
 
         if(data.error) {
