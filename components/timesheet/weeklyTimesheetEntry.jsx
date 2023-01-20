@@ -70,7 +70,7 @@ const WeeklyTimesheetEntry = (props) => {
                 setTimesheetData(timesheetResponse);
                 setTimesheetName(timesheetResponse.name);
                 setTimesheetEntries(timesheetResponse.timesheetEntries);
-                if(timesheetResponse.timesheetEntries[0]) {
+                if(timesheetResponse?.timesheetEntries[0]) {
                     setWeekCalendar(timesheetResponse.timesheetEntries[0]?.entries);
                 }else {
                     const timesheetDateStr = (new Date(timesheetResponse.startDate))?.getFullYear()+(String((new Date(timesheetResponse.startDate))?.getMonth()+1).padStart(2, "0"))+String((new Date(timesheetResponse.startDate))?.getDate()).padStart(2, "0");
@@ -100,6 +100,13 @@ const WeeklyTimesheetEntry = (props) => {
             setTimesheetName(timesheetMetaData.weekOfYearISO);
             setWeekCalendar(timesheetMetaData.currentWeekDates);
             setTimesheetStartDate(timesheetMetaData.firstDayOfWeek)
+
+            const timesheets = await timesheetService.getTimesheetByName(timesheetMetaData.weekOfYearISO, userService.userValue.id);
+            if(timesheets != undefined && timesheets.length > 0) {
+                setTimesheetData(timesheets[0]);
+                props.data.isAddMode = false;
+                setTimesheetEntries(timesheets[0]?.timesheetEntries);
+            }
 
         }
     

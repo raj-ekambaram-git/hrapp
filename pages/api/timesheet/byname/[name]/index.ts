@@ -22,9 +22,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             equals: timesheetName.toString()
           },
           userId: {
-            equals: parseInt(userId)
+            equals: parseInt(userId.toString())
           }
-      }
+        },
+        include: {
+          timesheetEntries: true
+        }
       })
       
         res.status(200).json(timesheets);
