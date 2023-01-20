@@ -40,10 +40,11 @@
       "/timesheet/add",
       "/timesheet",
       "/login",
-      "/changepassword"
+      "/changepassword",
+      "/app/setting"
     ],
     "allowedAPIs": ["page1","page2"],
-    "allowedModules": ["account","user", "invoice", "timesheet","expense","setting"]
+    "allowedModules": ["account","user", "invoice", "timesheet","expense","setting","app_setting"]
   },
   "ACCOUNT_ADMIN": {
     "allowedPages": [
@@ -86,10 +87,11 @@
       "/timesheet/add",
       "/timesheet",
       "/login",
-      "/changepassword"
+      "/changepassword",
+      "/account/setting"
     ],
     "allowedAPIs": ["page1","page2"],
-    "allowedModules": ["user", "vendor", "project", "invoice", "timesheet","expense","timesheet_approval","expense_approval","setting"]
+    "allowedModules": ["user", "vendor", "project", "invoice", "timesheet","expense","timesheet_approval","expense_approval","setting","account_setting","user_setting"]
   },
   "ACCOUNT_VENDOR_REP": {
     "allowedPages": [
@@ -132,7 +134,8 @@
       "/timesheet/add",
       "/timesheet",
       "/login",
-      "/changepassword"
+      "/changepassword",
+      "/account/setting"
     ],
     "allowedAPIs": ["page1","page2"],
     "allowedModules": ["vendor", "project", "invoice", "timesheet","expense","setting"]

@@ -112,15 +112,34 @@ const Slideopen = (props) => {
               </Link>   
             </Tooltip>                
           </>):""}          
-          {props.allowedModule?.includes("setting")?(<>
+          {props.allowedModule?.includes("app_setting")?(<>
             <Tooltip label="App Settings" placement='right' borderRadius="6px" padding="10px"  fontWeight={600} color={tooltip_style.color} hasArrow  backgroundColor={tooltip_style.bgColor}>
-              <Link href={`/app/setting/`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
+              <Link href={`/app/setting`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
                 <div>
                   <IoSettingsOutline  className={styles.icons1}/>
                 </div>
               </Link>   
             </Tooltip>                                              
           </>):""}          
+          {props.allowedModule?.includes("account_setting")?(<>
+            <Tooltip label="Account Settings" placement='right' borderRadius="6px" padding="10px"  fontWeight={600} color={tooltip_style.color} hasArrow  backgroundColor={tooltip_style.bgColor}>
+              <Link href={`/account/setting/`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
+                <div>
+                  <IoSettingsOutline  className={styles.icons1}/>
+                </div>
+              </Link>   
+            </Tooltip>                                              
+          </>):""}          
+          {props.allowedModule?.includes("user_setting")?(<>
+            <Tooltip label="User Settings" placement='right' borderRadius="6px" padding="10px"  fontWeight={600} color={tooltip_style.color} hasArrow  backgroundColor={tooltip_style.bgColor}>
+              <Link href={`/account/user/setting/`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
+                <div>
+                  <IoSettingsOutline  className={styles.icons1}/>
+                </div>
+              </Link>   
+            </Tooltip>                                              
+          </>):""}          
+
         </div>
     </div>
   )
