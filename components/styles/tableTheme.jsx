@@ -22,6 +22,19 @@ const list = definePartsStyle({
 
 })
 
+const expensePayment = definePartsStyle({
+  table: {
+  },
+  thead: {
+    bgColor: 'table_tile',
+  },
+  tbody: {
+    th: {
+      maxW: "350px"
+    }
+  },
+
+})
 
 const sortTable = definePartsStyle({
   table: {
@@ -70,4 +83,4 @@ const baseStyle = definePartsStyle({
 
 
 
-export const tableTheme = defineMultiStyleConfig({ baseStyle,  variants: {list, sortTable} })
+export const tableTheme = defineMultiStyleConfig({ baseStyle,  variants: {list, sortTable, expensePayment} })

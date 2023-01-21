@@ -6,7 +6,6 @@ import {
     AccordionItem,
     AccordionButton,
     AccordionPanel,
-    TableContainer,
     TableCaption,
     Table,
     Thead,
@@ -27,7 +26,7 @@ import {
 import { useSelector } from 'react-redux';
 import { ExpenseConstants } from '../../../constants';
 import { util } from '../../../helpers/util';
-import ExpenseEntryDetail from './expenseEntryDetail';
+import ExpenseEntryPayment from './expenseEntryPayment';
 
   
 const ProjectExpensesPayment = (props) => {
@@ -63,7 +62,7 @@ const ProjectExpensesPayment = (props) => {
                                     </AccordionButton>
                                 </h2>
                                 <AccordionPanel pb={4}>
-                                        <Table>
+                                        <Table variant="expensePayment">
                                             <TableCaption></TableCaption>
                                             <Thead>
                                                 <Tr bgColor="table_tile">
@@ -75,6 +74,9 @@ const ProjectExpensesPayment = (props) => {
                                                     </Th>      
                                                     <Th>
                                                         Total
+                                                    </Th>                                                                
+                                                    <Th>
+                                                        Paid
                                                     </Th>                                                                
                                                     <Th>
                                                         
@@ -101,9 +103,11 @@ const ProjectExpensesPayment = (props) => {
                                                                 <Th>
                                                                     $ {expenseEntry.total}
                                                                 </Th>
-
                                                                 <Th>
-                                                                    <ExpenseEntryDetail expense={expenseEntry}/>
+                                                                    $ {expenseEntry.total}
+                                                                </Th>
+                                                                <Th>
+                                                                    <ExpenseEntryPayment expense={expenseEntry}/>
                                                                 </Th> 
                                                                 <Th>
                                                                     <Badge color={`${
