@@ -28,7 +28,7 @@ import { ConfigConstants, EMPTY_STRING } from "../../constants";
 import { ShowInlineErrorMessage } from "../common/showInlineErrorMessage";
 import { configurationService, userService } from "../../services";
 import ManageConfigurationValues from "./manageConfigurationValues";
-import { DeleteIcon } from "@chakra-ui/icons";
+import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import { setConfigurations } from "../../store/modules/Configuration/actions";
 import { ErrorMessage } from "../../constants/errorMessage";
 
@@ -64,6 +64,19 @@ const AddEditConfigAdmin = (props) => {
   function handleManageAppConfigAdmin(newSize) {
     setSize(newSize);
     onOpen();
+  }
+
+  async function handleEditAppConfig(newSize) {
+    const responseData = await configurationService.getAppConfig(props.appConfigId)
+    if(!responseData.error) {
+      setAppConfigName(responseData.name)
+      setAppConfigKey(responseData.key)
+      setAppConfigValue(responseData.value)
+      setAppConfigStatus(responseData.status)
+
+      setSize(newSize);
+      onOpen()
+    }
   }
 
   useEffect(() => {
@@ -118,12 +131,18 @@ const AddEditConfigAdmin = (props) => {
 
     <div>
       <Flex marginBottom="1rem" borderRadius="lg" alignSelf="center">
-          <Button size="xs" bgColor="header_actions" 
+          {props.isAddMode? (<>
+            <Button size="xs" bgColor="header_actions" 
               onClick={() => handleManageAppConfigAdmin("lg")}
               key="lg"
               m={1}
               >{`Add App Configuration`}
-          </Button>
+            </Button>
+          </>):(<>
+          <EditIcon
+            onClick={() => handleEditAppConfig("lg")}
+          />
+          </>)}
 
           <Drawer onClose={onClose} isOpen={isOpen} size={size}>
                 <DrawerOverlay />

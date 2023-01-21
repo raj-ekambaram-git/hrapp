@@ -1,3 +1,4 @@
+import AddEditConfigAdmin from "../components/configuration/addEditConfigAdmin";
 import {
   Badge,
 } from '@chakra-ui/react'
@@ -8,7 +9,8 @@ export const ConfigConstants = {
   CONFOG_APP_ADMIN_LIST_TABLE_META: [
     {
       label: "ID",
-      accessor: "id"
+      accessor: "id",
+      format: (value) => (value ? <><AddEditConfigAdmin isAddMode={false} appConfigId={value}/> {value}</> : 'N/A')
     },
     {
       label: "Name",

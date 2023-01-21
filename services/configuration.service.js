@@ -2,6 +2,7 @@ import getConfig from 'next/config';
 
 
 import { fetchWrapper } from 'helpers';
+import { userService } from './user.service';
 
 const { publicRuntimeConfig } = getConfig();
 const baseUrl = `${publicRuntimeConfig.apiUrl}`;
@@ -10,8 +11,22 @@ export const configurationService = {
 
   getAdminAppConfigList,
   createConfigAdminLookup,
-  createAppConfigAdmin
+  createAppConfigAdmin,
+  getAppConfig
 };
+
+function getAppConfig(appConfigId) {
+  return fetchWrapper.get(`${baseUrl}/admin/app/config/`+appConfigId+'/detail?accountId='+userService.getAccountDetails().accountId, {
+    }
+  ) 
+  .then(async appConfig => {
+    return appConfig;
+  })        
+  .catch(err => {
+    console.log("Error Creating getAppConfig"+err)
+    return {errorMessage: err, error: true};
+  });
+}
 
 function createAppConfigAdmin(appConfigAdminRequest) {
   return fetchWrapper.post(`${baseUrl}/admin/app/config/create`, {

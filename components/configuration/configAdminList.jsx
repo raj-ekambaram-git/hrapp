@@ -42,7 +42,7 @@ const ConfigAdminList = (props) => {
               <Flex marginBottom="1rem">
                 <HStack>
                   <Box>
-                    <AddEditConfigAdmin/>
+                    <AddEditConfigAdmin isAddMode={true}/>
                   </Box>
                 </HStack>
               </Flex>
