@@ -92,7 +92,7 @@
       "/account/setting"
     ],
     "allowedAPIs": ["page1","page2"],
-    "allowedModules": ["user", "vendor", "project", "invoice", "timesheet","expense","timesheet_approval","expense_approval","setting","account_setting","user_setting"]
+    "allowedModules": ["user", "vendor", "project", "invoice", "timesheet","expense","timesheet_approval","expense_approval","setting"]
   },
   "ACCOUNT_VENDOR_REP": {
     "allowedPages": [
