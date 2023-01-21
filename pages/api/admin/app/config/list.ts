@@ -12,6 +12,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   console.log("Account ::"+accountId)
   try {
       const appConfigs = await prisma.appConfig.findMany({
+        include: {
+          updatedUser: {
+            select: {
+              firstName: true,
+              lastName: true
+            }
+          }
+        },
         orderBy: {
           id: "desc"
         }

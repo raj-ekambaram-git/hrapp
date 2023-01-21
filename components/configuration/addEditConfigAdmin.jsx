@@ -161,7 +161,7 @@ const AddEditConfigAdmin = (props) => {
                                 </Table>
                               </TableContainer>                                    
                             <Button  size="sm" width="30%" bgColor="button.primary.color" onClick={() => handleAppConfigAdmin()}>
-                              Add Vendor
+                              Add App Configuration
                             </Button>                            
                           </Stack>
                         </DrawerBody>

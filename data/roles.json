@@ -45,7 +45,7 @@
       "/app/admin/setting"
     ],
     "allowedAPIs": ["page1","page2"],
-    "allowedModules": ["account","user", "invoice", "timesheet","expense","setting","app_setting","app_admin_setting"]
+    "allowedModules": ["account","user", "invoice", "timesheet","expense","setting","app_setting"]
   },
   "ACCOUNT_ADMIN": {
     "allowedPages": [

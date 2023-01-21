@@ -22,6 +22,10 @@ export const ConfigConstants = {
       accessor: "value",
     },
     {
+      label: "On",
+      accessor: "lastUpdateDate"
+    },
+    {
       label: "By",
       accessor: "updatedUser"
     },
