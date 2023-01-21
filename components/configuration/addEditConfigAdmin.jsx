@@ -20,7 +20,6 @@ import {
   Th,
   TableCaption,
   Input,
-  Textarea,
   Select
 } from '@chakra-ui/react';
 
@@ -29,6 +28,8 @@ import { ConfigConstants, EMPTY_STRING } from "../../constants";
 import { ShowInlineErrorMessage } from "../common/showInlineErrorMessage";
 import { configurationService, userService } from "../../services";
 import ManageConfigurationValues from "./manageConfigurationValues";
+import { DeleteIcon } from "@chakra-ui/icons";
+import { setConfigurations } from "../../store/modules/Configuration/actions";
 
 
 
@@ -51,6 +52,12 @@ const AddEditConfigAdmin = (props) => {
     const newConfigValue = [...appConfigValue]
     newConfigValue.push(value)
     setAppConfigValue(newConfigValue)
+  }
+
+  function handleRemoveConfigValue(index) {
+    const newAppConfigValue = [...appConfigValue];
+    newAppConfigValue.splice(index, 1);
+    setAppConfigValue(newAppConfigValue)
   }
 
   function handleManageAppConfigAdmin(newSize) {
@@ -92,6 +99,7 @@ const AddEditConfigAdmin = (props) => {
         duration: 6000,
         isClosable: true,
       })
+      dispatch(setConfigurations(responseData))
       onClose();
     }
   }
@@ -130,7 +138,7 @@ const AddEditConfigAdmin = (props) => {
                                         </Th>
                                         <Th>
                                           <Input type="text" value={appConfigName} onChange={(ev) => setAppConfigName(ev.target.value)}/>                                       
-                                         </Th>
+                                        </Th>
                                     </Tr>
                                     <Tr >
                                         <Th bgColor="table_tile">
@@ -145,10 +153,10 @@ const AddEditConfigAdmin = (props) => {
                                           Value
                                         </Th>
                                         <Th>
-                                        {appConfigValue?.map((value) => (
+                                        {appConfigValue?.map((value, index) => (
                                           <Tr>
                                               <Th>
-                                            
+                                              <DeleteIcon onClick={() => handleRemoveConfigValue(index)}/>
                                               </Th>
                                               <Th>
                                                   {value}

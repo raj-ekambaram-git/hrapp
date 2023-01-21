@@ -11,4 +11,5 @@ export const ErrorMessage = {
   REPLY_REQUIRED: "Reply required.",
   ERROR_UPLOADING: "Error uploading, please try again.",
   TIMESHEET_HOURS_ENTRY_ERROR: "Total hours for a day across multiple projects cannot be greater than 24. Please adjust accordingly.",
+  VALUE_REQUIRED: "Value required, please enter."
 }

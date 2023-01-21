@@ -23,8 +23,8 @@ import {
   } from '@chakra-ui/react';
 import { ShowInlineErrorMessage } from "../common/showInlineErrorMessage";
 import { useDispatch } from "react-redux";
-import { EMPTY_STRING, UserConstants, USER_ROLES_LOOKUP, USER_ROLES_SUPERADMIN } from "../../constants";
-import { userService } from "../../services";
+import { EMPTY_STRING } from "../../constants";
+import { ErrorMessage } from "../../constants/errorMessage";
 
     
 const ManageConfigurationValues = (props) => {
@@ -32,10 +32,17 @@ const ManageConfigurationValues = (props) => {
     const dispatch = useDispatch();
     const { isOpen, onToggle, onClose } = useDisclosure()
     const [configVal, setConfigVal] = useState(EMPTY_STRING);
+    const [showErrorMessage, setShowErrorMessage] = useState(EMPTY_STRING);
 
     function handleLocalConfigValue() {
-        props.handleConfigValue(configVal)
-        onClose();
+        if(configVal != undefined && configVal != EMPTY_STRING) {
+            props.handleConfigValue(configVal)
+            onClose();
+            setConfigVal(EMPTY_STRING)
+        } else {
+            setShowErrorMessage(ErrorMessage.VALUE_REQUIRED)
+            return;
+        }
     }
     useEffect(() => {
     });
@@ -56,7 +63,7 @@ const ManageConfigurationValues = (props) => {
                             onClick={onToggle}
                             key="xl"
                             m={1}
-                            >{`Add/Remove Configuration Value`}
+                            >{`Add Value`}
                         </Button>  
                     </PopoverTrigger>
                     <PopoverContent>
@@ -65,7 +72,7 @@ const ManageConfigurationValues = (props) => {
                     <PopoverCloseButton />
                     <PopoverBody>
                         <Box>
-                            {/* <ShowInlineErrorMessage showErrorMessage={showErrorMessage}/> */}
+                            <ShowInlineErrorMessage showErrorMessage={showErrorMessage}/>
                         </Box>
                         <Table>
                             <Thead>
@@ -82,7 +89,7 @@ const ManageConfigurationValues = (props) => {
                                     
                                     </Th>
                                     <Th>
-                                        <Input type="text" onChange={(ev) => setConfigVal(ev.target.value)}/>                                       
+                                        <Input type="text" value={configVal} onChange={(ev) => setConfigVal(ev.target.value)}/>                                       
                                     </Th>
                                 </Tr>                                                                                         
                             </Tbody>
@@ -90,7 +97,7 @@ const ManageConfigurationValues = (props) => {
                     </PopoverBody>
                     <PopoverFooter display='flex' justifyContent='flex-end'>
                         <ButtonGroup size='sm'>
-                            <Button colorScheme='red' onClick={onClose} >Cancel</Button>
+                            <Button variant='outline'  onClick={onClose} >Cancel</Button>
                             <Button colorScheme='red' onClick={handleLocalConfigValue}>Apply</Button>
                         </ButtonGroup>
                     </PopoverFooter>
