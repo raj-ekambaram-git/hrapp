@@ -37,19 +37,17 @@ const AddEditConfigAdmin = (props) => {
   const {data} = props;
   const dispatch = useDispatch();
   const toast = useToast();
-  const [appConfigLookupId, setAppConfigLookupId] = useState(EMPTY_STRING);
+  const [appConfigId, setAppConfigId] = useState(EMPTY_STRING);
   const [showErrorMessage, setShowErrorMessage] = useState(EMPTY_STRING);
 
-  const [name, setName] = useState(EMPTY_STRING);
-  const [displayName, setDisplayName] = useState(EMPTY_STRING);
-  const [configDescription, setConfigDescription] = useState(EMPTY_STRING);
-  const [configAdminType, setConfigAdminType] = useState(EMPTY_STRING);
-  const [possibleValue, setPossibleValue] = useState(EMPTY_STRING);
-  const [status, setStatus] = useState(EMPTY_STRING);
-  const [configInputType, setConfigInputType] = useState(EMPTY_STRING);
+  const [appConfigName, setAppConfigName] = useState(EMPTY_STRING);
+  const [appConfigKey, setAppConfigKey] = useState(EMPTY_STRING);
+  const [appConfigValue, setAppConfigValue] = useState([]);
+  const [appConfigStatus, setAppConfigStatus] = useState(EMPTY_STRING);
+  const [updatedBy, setUpdatedBy] = useState(EMPTY_STRING);
+  
 
-
-  function handleManageConfigAdmin(newSize) {
+  function handleManageAppConfigAdmin(newSize) {
     setSize(newSize);
     onOpen();
   }
@@ -59,23 +57,20 @@ const AddEditConfigAdmin = (props) => {
 
   }, []);
 
-  async function handleConfigAdmin() {
-    const configdminRequest = {
-      name: name,
-      displayName: displayName,
-      configDescription: configDescription,
-      configAdminType: configAdminType,
-      possibleValue: possibleValue,
-      status: status,
-      configInputType: configInputType,
+  async function handleAppConfigAdmin() {
+    const appConfigdminData = {
+      name: appConfigName,
+      key: appConfigKey,
+      value: appConfigValue,
+      status: appConfigStatus,
       updatedBy: parseInt(userService.userValue.id)
     }
-    console.log("configdminRequest:::configdminRequest::"+JSON.stringify(configdminRequest))
-    const responseData = await configurationService.createConfigAdminLookup(configdminRequest)
+
+    const responseData = await configurationService.createAppConfigAdmin(appConfigdminData)
     if(responseData.error) {
       toast({
-        title: 'Add Admin Config.',
-        description: 'Error adding new admin configuration.',
+        title: 'Add App Config.',
+        description: 'Error adding new app configuration.',
         status: 'error',
         position: 'top',
         duration: 6000,
@@ -84,8 +79,8 @@ const AddEditConfigAdmin = (props) => {
       return;
     }else {
       toast({
-        title: 'Add Admin Config.',
-        description: 'Successfully create new admin config.',
+        title: 'Add App Config.',
+        description: 'Successfully create new app configuration.',
         status: 'success',
         position: 'top',
         duration: 6000,
@@ -100,10 +95,10 @@ const AddEditConfigAdmin = (props) => {
     <div>
       <Flex marginBottom="1rem" borderRadius="lg" alignSelf="center">
           <Button size="xs" bgColor="header_actions" 
-              onClick={() => handleManageConfigAdmin("lg")}
+              onClick={() => handleManageAppConfigAdmin("lg")}
               key="lg"
               m={1}
-              >{`Add Admin Configuration`}
+              >{`Add App Configuration`}
           </Button>
 
           <Drawer onClose={onClose} isOpen={isOpen} size={size}>
@@ -111,7 +106,7 @@ const AddEditConfigAdmin = (props) => {
                     <DrawerContent>
                         <DrawerCloseButton />
                         <DrawerHeader>
-                            New Config Admin
+                            New App Config Admin
                         </DrawerHeader>
                         <DrawerBody>
                           <Stack spacing={8}>
@@ -128,66 +123,31 @@ const AddEditConfigAdmin = (props) => {
                                           Name
                                         </Th>
                                         <Th>
-                                          <Input type="text" value={name} onChange={(ev) => setName(ev.target.value)}/>                                       
+                                          <Input type="text" value={appConfigName} onChange={(ev) => setAppConfigName(ev.target.value)}/>                                       
                                          </Th>
                                     </Tr>
                                     <Tr >
                                         <Th bgColor="table_tile">
-                                          Display Name
+                                          Key
                                         </Th>
                                         <Th>
-                                          <Input type="text" value={displayName} onChange={(ev) => setDisplayName(ev.target.value)}/>                                       
+                                          <Input type="text" value={appConfigKey} onChange={(ev) => setAppConfigKey(ev.target.value)}/>                                       
                                          </Th>
                                     </Tr>
-                                    <Tr >
-                                        <Th bgColor="table_tile">
-                                          Description
-                                        </Th>
-                                        <Th>
-                                          <Textarea type="text"  value={configDescription} onChange={(ev) => setConfigDescription(ev.target.value)}/>                                       
-                                         </Th>
-                                    </Tr>
-                                    <Tr >
-                                        <Th bgColor="table_tile">
-                                          Type
-                                        </Th>
-                                        <Th>
-                                          <Select width="50%%" value={configAdminType} onChange={(ev) => setConfigAdminType(ev)} border="table_border">
-                                            <option value="">Select Type</option>
-                                              {ConfigConstants.CONFIG_LOOKUP_TYPE?.map((configType) => (
-                                                      <option value={configType.typeId}>{configType.typeName}</option>
-                                              ))}   
-                                          </Select>
-
-                                         </Th>
-                                    </Tr>     
-                                    <Tr >
-                                        <Th bgColor="table_tile">
-                                          Input Type
-                                        </Th>
-                                        <Th>
-                                          <Select width="50%%" value={configInputType} onChange={(ev) => setConfigInputType(ev)} border="table_border">
-                                            <option value="">Select Input Type</option>
-                                              {ConfigConstants.CONFIG_LOOKUP_INPUT_TYPE?.map((inputType) => (
-                                                      <option value={inputType.inputTypeId}>{inputType.inputTypeName}</option>
-                                              ))}   
-                                          </Select>
-
-                                         </Th>
-                                    </Tr>                                                                      
                                     <Tr >
                                         <Th bgColor="table_tile">
                                           Value
                                         </Th>
                                         <Th>
-                                          <Input type="text" value={possibleValue} onChange={(ev) => setPossibleValue(ev.target.value)}/>                                                                                </Th>
-                                    </Tr>                                                                        
+                                          <Textarea type="text"  value={appConfigValue} onChange={(ev) => setAppConfigValue(ev.target.value)}/>                                       
+                                         </Th>
+                                    </Tr>                    
                                     <Tr >
                                         <Th bgColor="table_tile">
                                           Status
                                         </Th>
                                         <Th>
-                                          <Select width="50%%" value={status} onChange={(ev) => setStatus(ev)} border="table_border">
+                                          <Select width="50%%" value={appConfigStatus} onChange={(ev) => setAppConfigStatus(ev.target.value)} border="table_border">
                                             <option value="">Select Type</option>
                                               {ConfigConstants.CONFIG_LOOKUP_STATUS?.map((status) => (
                                                       <option value={status.statusId}>{status.statusName}</option>
@@ -200,7 +160,7 @@ const AddEditConfigAdmin = (props) => {
                                   
                                 </Table>
                               </TableContainer>                                    
-                            <Button  size="sm" width="30%" bgColor="button.primary.color" onClick={() => handleConfigAdmin()}>
+                            <Button  size="sm" width="30%" bgColor="button.primary.color" onClick={() => handleAppConfigAdmin()}>
                               Add Vendor
                             </Button>                            
                           </Stack>

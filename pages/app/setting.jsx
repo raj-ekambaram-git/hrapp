@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
+import ConfigAdminList from "../../components/configuration/configAdminList";
 import { userService } from "../../services";
 
 
@@ -15,10 +16,11 @@ const AppSetting = (props) => {
 
     return (
       <div className="main__container">
-        App Config Setting
-          {/* <InvoiceAddEdit data={requestData}/> */}
+        <ConfigAdminList/>
       </div>
+
     );
   };
 export default AppSetting;
+
 

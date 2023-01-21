@@ -1,16 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { accountService, configurationService, userService } from "../../services";
+import { configurationService, userService } from "../../services";
 import {
   HStack,
   Button,
   Box,
   Flex,
-  Heading,
-  Badge
 } from '@chakra-ui/react'
 import { PageMainHeader } from "../common/pageMainHeader";
-import { setSelectedVendorId } from "../../store/modules/Vendor/actions";
 import { useDispatch } from "react-redux";
 
 import { ConfigConstants, EMPTY_STRING } from "../../constants";
@@ -23,8 +20,8 @@ const ConfigAdminList = (props) => {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const ADMIN_CONFIG_LIST_TABLE_COLUMNS = React.useMemo(() => ConfigConstants.CONFOG_ADMIN_LIST_TABLE_META)
-  const [configAdminList, setConfigAdminList] = useState([]);
+  const ADMIN_APP_CONFIG_LIST_TABLE_COLUMNS = React.useMemo(() => ConfigConstants.CONFOG_APP_ADMIN_LIST_TABLE_META)
+  const [appConfigAdminList, setAppConfigAdminList] = useState([]);
   const [isPageAuthprized, setPageAuthorized] = useState(false);
 
 
@@ -36,7 +33,7 @@ const ConfigAdminList = (props) => {
 
   }, []);
   
-  function handleConfigEdit(adminConfigId) {
+  function handleConfigEdit(configAdminId) {
 
   }
     /**
@@ -44,14 +41,14 @@ const ConfigAdminList = (props) => {
    */
     async function getConfigAdminList() {
       // setPageAuthorized(true);
-      const responseData = await configurationService.getAdminConfigList();
+      const responseData = await configurationService.getAdminAppConfigList();
       if(responseData != undefined && responseData != EMPTY_STRING) {
-        const adminConfigList =  responseData.map((adminConfig, index)=> {
-          adminConfig.detailAction = <Button size="xs" bgColor="header_actions" onClick={() => handleConfigEdit(adminConfig.id)}>Edit</Button>
-          adminConfig.createdDate = util.getFormattedDate(vendor.createdDate)
-          return adminConfig;
+        const adminConfigList =  responseData.map((appConfig, index)=> {
+          appConfig.detailAction = <Button size="xs" bgColor="header_actions" onClick={() => handleConfigEdit(adminConfig.id)}>Edit</Button>
+          appConfig.createdDate = util.getFormattedDate(vendor.createdDate)
+          return appConfig;
         });
-        setConfigAdminList(adminConfigList );
+        setAppConfigAdminList(appConfig );
       }
       
 
@@ -72,7 +69,7 @@ const ConfigAdminList = (props) => {
                   </Box>
                 </HStack>
               </Flex>
-              <CustomTable columns={ADMIN_CONFIG_LIST_TABLE_COLUMNS} rows={configAdminList} />
+              <CustomTable columns={ADMIN_APP_CONFIG_LIST_TABLE_COLUMNS} rows={appConfigAdminList} />
           </div>
       ) : (
         <> 

@@ -4,7 +4,7 @@ import {
 
 export const ConfigConstants = {
 
-  CONFOG_ADMIN_LIST_TABLE_META: [
+  CONFOG_APP_ADMIN_LIST_TABLE_META: [
     {
       label: "ID",
       accessor: "id"
@@ -14,20 +14,12 @@ export const ConfigConstants = {
       accessor: "name"
     },    
     {
-      label: "Display Name",
-      accessor: "displayName"
+      label: "Key",
+      accessor: "key"
     },
     {
-      label: "Type",
-      accessor: "type"
-    },
-    {
-      label: "Values",
+      label: "Value",
       accessor: "value",
-    },
-    {
-      label: "Input Type",
-      accessor: "configInputType"
     },
     {
       label: "By",

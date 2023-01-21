@@ -8,10 +8,24 @@ const baseUrl = `${publicRuntimeConfig.apiUrl}`;
 
 export const configurationService = {
 
-  getAdminConfigList,
-  createConfigAdminLookup
+  getAdminAppConfigList,
+  createConfigAdminLookup,
+  createAppConfigAdmin
 };
 
+function createAppConfigAdmin(appConfigAdminRequest) {
+  return fetchWrapper.post(`${baseUrl}/admin/app/config/create`, {
+        appConfigAdminRequest
+      }
+  )
+  .then(async configAdmin => {
+      return configAdmin;
+  })        
+  .catch(err => {
+    console.log("Error Creating configAdmin"+err)
+    return {errorMessage: err, error: true};
+  });
+}
 
 function createConfigAdminLookup(configAdminRequest) {
   // console.log("configAdminRequest::"+configAdminRequest)
@@ -28,13 +42,13 @@ function createConfigAdminLookup(configAdminRequest) {
   });
 }
 
-async function getAdminConfigList() {
+async function getAdminAppConfigList() {
 
-  return fetchWrapper.get(`${baseUrl}/admin/config/lookup`, {
+  return fetchWrapper.get(`${baseUrl}/admin/app/config/list`, {
       }
     )
-    .then(adminConfigLookups => {
-      return adminConfigLookups;
+    .then(adminConfigs => {
+      return adminConfigs;
     })
     .catch(err => {
     console.log("Error getting config lookups::"+err)
