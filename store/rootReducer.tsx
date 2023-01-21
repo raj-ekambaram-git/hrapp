@@ -9,6 +9,7 @@ import notesReducer from "./modules/Notes/reducer";
 import projectReducer from "./modules/Project/reducer";
 import documentReducer from "./modules/Document/reducer";
 import expenseReducer from "./modules/Expense/reducer";
+import configurationReducer from "./modules/Configuration/reducer"
 
 const rootReducer = combineReducers({
     timesheet: timesheetReducer,
@@ -19,7 +20,8 @@ const rootReducer = combineReducers({
     notes: notesReducer,
     project: projectReducer,
     document: documentReducer,
-    expense: expenseReducer
+    expense: expenseReducer,
+    configuration: configurationReducer
     
 });
 

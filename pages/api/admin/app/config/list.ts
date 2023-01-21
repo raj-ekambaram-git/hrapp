@@ -9,7 +9,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   const accountId = req.query.accountId;
-  console.log("Account ::"+accountId)
+  console.log("LIST Account ::"+accountId)
   try {
       const appConfigs = await prisma.appConfig.findMany({
         include: {
@@ -24,6 +24,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           id: "desc"
         }
       });
+      console.log("appConfigs::::"+JSON.stringify(appConfigs))
       res.status(200).json(appConfigs);
   } catch (error) {
     console.log(error)

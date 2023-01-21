@@ -1,6 +1,7 @@
 import {
   Badge,
 } from '@chakra-ui/react'
+import { util } from '../helpers/util'
 
 export const ConfigConstants = {
 
@@ -20,14 +21,12 @@ export const ConfigConstants = {
     {
       label: "Value",
       accessor: "value",
+      format: (value) => value.map((value) => <p>{value.toString()}</p>)
     },
     {
       label: "On",
-      accessor: "lastUpdateDate"
-    },
-    {
-      label: "By",
-      accessor: "updatedUser"
+      accessor: "lastUpdateDate",
+      format: (value) => (value ? util.getFormattedDate(value) : 'N/A')
     },
     {
       label: "",

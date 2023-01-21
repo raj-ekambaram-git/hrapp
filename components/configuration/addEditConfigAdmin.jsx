@@ -61,7 +61,7 @@ const AddEditConfigAdmin = (props) => {
     const appConfigdminData = {
       name: appConfigName,
       key: appConfigKey,
-      value: appConfigValue,
+      value: ["111","222","333"],
       status: appConfigStatus,
       updatedBy: parseInt(userService.userValue.id)
     }
