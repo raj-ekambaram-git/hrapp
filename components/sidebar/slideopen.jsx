@@ -117,7 +117,7 @@ const Slideopen = (props) => {
           </>):""}     
           {props.allowedModule?.includes("expense_payments")?(<>
             <Tooltip label="Expense Payment" placement='right' borderRadius="6px" padding="10px"  fontWeight={600} color={tooltip_style.color} hasArrow  backgroundColor={tooltip_style.bgColor}>
-              <Link href={`/account/user/expense/payment`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
+              <Link href={`/account/user/expenses/payment`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
                 <div>
                   <MdPayments  className={styles.icons1}/>
                 </div>

@@ -72,6 +72,7 @@ const theme = extendTheme({
     black: '#16161D',
     heading: '#319795',
     header_actions: '#4FD1C5',
+    bold_text: '#1D4044',
     secondary_button: '#81E6D9',
     error: '#C53030',
     tooltip_bg_color: 'gray.300',

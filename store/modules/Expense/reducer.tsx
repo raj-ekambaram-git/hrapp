@@ -8,6 +8,7 @@ const initialState = {
     expenseEntries: [],
     projectExpenses: [],
     approvalExpenses: [],
+    paymentExpenses: [],
     selectedExpenseId: null,
     selectedExpenseEntryId: null,
     expenseHeader: {},
@@ -26,7 +27,11 @@ const expenseReducer = (state = initialState, {type, payload}) => {
         if(!payload.error) {
             newState.approvalExpenses = payload;
         }
-    } else if(type === ActionTypes.SET_SELECTED_EXPENSE_ENTRY_ID) {
+    } else if (type === ActionTypes.GET_PAYMENT_EXPENSES) {
+        if(!payload.error) {
+            newState.paymentExpenses = payload;
+        }
+    }else if(type === ActionTypes.SET_SELECTED_EXPENSE_ENTRY_ID) {
         newState.selectedExpenseEntryId = payload
     } else if(type === ActionTypes.SET_SELECTED_EXPENSE_ID) {
         newState.selectedExpenseId = payload

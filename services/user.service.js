@@ -47,10 +47,17 @@ export const userService = {
     updateUser,
     getExpensesByUser,
     getExpenseApprovalByUser,
-
-
+    getExpensePaymentByUser
 };
 
+
+function getExpensePaymentByUser(userId, accountId) {
+    return fetchWrapper.get(`${baseUrl}/account/user/`+userId+'/expenses/payment?accountId='+accountId, {})
+    .then(expenses => {
+        return expenses;
+    });
+ }
+ 
 function getExpenseApprovalByUser(userId, accountId) {
     return fetchWrapper.get(`${baseUrl}/account/user/`+userId+'/expenses/approval?accountId='+accountId, {})
     .then(expenses => {

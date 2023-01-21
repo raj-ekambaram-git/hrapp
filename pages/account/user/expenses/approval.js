@@ -1,11 +1,10 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import ExpenseApprovalList from "../../../../components/expense/approval/expenseApprovalList";
 import { userService } from "../../../../services";
 
 
 
-export default function TimesheetApproval(props) {
+export default function ExpenseApproval(props) {
 
   // const userId = useSelector(state => state.user.loggedInUser?.id);
   const userId = userService?.userValue?.id;

@@ -21,6 +21,13 @@ export const getPendingApprovalExpenses = (pendingApprovalExpenses) => {
     }
 }
 
+export const getPendingPaymentExpenses = (pendingPaymentExpenses) => {
+    return {
+        type: ActionTypes.GET_PAYMENT_EXPENSES,
+        payload: pendingPaymentExpenses
+    }
+}
+
 export const getAllProjectExpenses = (expenses) => {
     return {
         type: ActionTypes.GET_ALL_PROJECT_EXPENSES,
@@ -45,6 +52,13 @@ export const fetchExpensesForApproval = (userId, accountId) => {
     return async (dispatch) => {
         const responseData = await userService.getExpenseApprovalByUser(userId, accountId);
         dispatch(getPendingApprovalExpenses(responseData));
+      };
+}
+
+export const fetchExpensesForPayment = (userId, accountId) => {
+    return async (dispatch) => {
+        const responseData = await userService.getExpensePaymentByUser(userId, accountId);
+        dispatch(getPendingPaymentExpenses(responseData));
       };
 }
 

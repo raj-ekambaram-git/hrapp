@@ -85,7 +85,7 @@ const Slideclose = (props) => {
           </Link>           
         </>):""}
         {props.allowedModule?.includes("expense_payments")?(<>
-          <Link href={`/account/user/expense/payment`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
+          <Link href={`/account/user/expenses/payment`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
             <Box padding="8px">
               Expense Payment
             </Box>
