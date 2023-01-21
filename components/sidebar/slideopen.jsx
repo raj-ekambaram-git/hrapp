@@ -3,6 +3,7 @@ import styles from "./styles/slideopen.module.css"
 import { FiUsers} from 'react-icons/fi';
 import {VscCalendar, VscProject} from "react-icons/vsc"
 import {BiGridAlt} from "react-icons/bi"
+import {MdPayments} from "react-icons/md"
 import {IoSettingsOutline} from "react-icons/io5"
 import {MdOutlineManageAccounts,MdApproval} from 'react-icons/md';
 import {FaFileInvoiceDollar, FaHandHoldingUsd} from 'react-icons/fa';
@@ -10,6 +11,7 @@ import {TbFileDollar} from 'react-icons/tb'
 import { Tooltip } from '@chakra-ui/react'
 import Link from "next/link";
 import { GrConfigure } from 'react-icons/gr';
+
 
 
 const navbaractive={
@@ -112,9 +114,18 @@ const Slideopen = (props) => {
                   </div>
               </Link>   
             </Tooltip>                
-          </>):""}          
+          </>):""}     
+          {props.allowedModule?.includes("expense_payments")?(<>
+            <Tooltip label="Expense Payment" placement='right' borderRadius="6px" padding="10px"  fontWeight={600} color={tooltip_style.color} hasArrow  backgroundColor={tooltip_style.bgColor}>
+              <Link href={`/account/user/expense/payment`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
+                <div>
+                  <MdPayments  className={styles.icons1}/>
+                </div>
+              </Link>   
+            </Tooltip>                                              
+          </>):""}                   
           {props.allowedModule?.includes("app_setting")?(<>
-            <Tooltip label="App Settings" placement='right' borderRadius="6px" padding="10px"  fontWeight={600} color={tooltip_style.color} hasArrow  backgroundColor={tooltip_style.bgColor}>
+            <Tooltip label="App Setting" placement='right' borderRadius="6px" padding="10px"  fontWeight={600} color={tooltip_style.color} hasArrow  backgroundColor={tooltip_style.bgColor}>
               <Link href={`/app/setting`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
                 <div>
                   <IoSettingsOutline  className={styles.icons1}/>
@@ -123,7 +134,7 @@ const Slideopen = (props) => {
             </Tooltip>                                              
           </>):""}          
           {props.allowedModule?.includes("app_admin_setting")?(<>
-            <Tooltip label="App Admin Settings" placement='right' borderRadius="6px" padding="10px"  fontWeight={600} color={tooltip_style.color} hasArrow  backgroundColor={tooltip_style.bgColor}>
+            <Tooltip label="App Admin Setting" placement='right' borderRadius="6px" padding="10px"  fontWeight={600} color={tooltip_style.color} hasArrow  backgroundColor={tooltip_style.bgColor}>
               <Link href={`/app/admin/setting`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
                 <div>
                   <GrConfigure  className={styles.icons1}/>
@@ -132,7 +143,7 @@ const Slideopen = (props) => {
             </Tooltip>                                              
           </>):""}        
           {props.allowedModule?.includes("account_setting")?(<>
-            <Tooltip label="Account Settings" placement='right' borderRadius="6px" padding="10px"  fontWeight={600} color={tooltip_style.color} hasArrow  backgroundColor={tooltip_style.bgColor}>
+            <Tooltip label="Account Setting" placement='right' borderRadius="6px" padding="10px"  fontWeight={600} color={tooltip_style.color} hasArrow  backgroundColor={tooltip_style.bgColor}>
               <Link href={`/account/setting`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
                 <div>
                   <IoSettingsOutline  className={styles.icons1}/>
@@ -141,7 +152,7 @@ const Slideopen = (props) => {
             </Tooltip>                                              
           </>):""}          
           {props.allowedModule?.includes("user_setting")?(<>
-            <Tooltip label="User Settings" placement='right' borderRadius="6px" padding="10px"  fontWeight={600} color={tooltip_style.color} hasArrow  backgroundColor={tooltip_style.bgColor}>
+            <Tooltip label="User Setting" placement='right' borderRadius="6px" padding="10px"  fontWeight={600} color={tooltip_style.color} hasArrow  backgroundColor={tooltip_style.bgColor}>
               <Link href={`/account/user/setting`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
                 <div>
                   <IoSettingsOutline  className={styles.icons1}/>

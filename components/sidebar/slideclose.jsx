@@ -84,13 +84,41 @@ const Slideclose = (props) => {
             </Box>
           </Link>           
         </>):""}
-        {props.allowedModule?.includes("setting")?(<>
-          <Link href={`/account/user/expenses/approval`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
+        {props.allowedModule?.includes("expense_payments")?(<>
+          <Link href={`/account/user/expense/payment`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
+            <Box padding="8px">
+              Expense Payment
+            </Box>
+          </Link>           
+        </>):""}        
+        {props.allowedModule?.includes("app_setting")?(<>
+          <Link href={`/app/setting`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
               <Box padding="8px">
-                Settings
+                App Setting
               </Box>
             </Link>           
         </>):""}
+        {props.allowedModule?.includes("app_admin_setting")?(<>
+          <Link href={`/app/admin/setting`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
+              <Box padding="8px">
+                App Admin Settings
+              </Box>
+            </Link>           
+        </>):""}
+        {props.allowedModule?.includes("account_setting")?(<>
+          <Link href={`/account/setting`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
+              <Box padding="8px">
+                Account Setting
+              </Box>
+            </Link>           
+        </>):""}
+        {props.allowedModule?.includes("user_setting")?(<>
+          <Link href={`/account/user/setting`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
+              <Box padding="8px">
+                User Setting
+              </Box>
+            </Link>           
+        </>):""}                        
         </div>
     </div>
   )

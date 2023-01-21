@@ -45,7 +45,7 @@
       "/app/admin/setting"
     ],
     "allowedAPIs": ["page1","page2"],
-    "allowedModules": ["account","user", "invoice", "timesheet","expense","setting","app_setting"]
+    "allowedModules": ["account","user", "invoice", "timesheet","expense","setting","app_setting","expense_payments"]
   },
   "ACCOUNT_ADMIN": {
     "allowedPages": [
@@ -92,7 +92,7 @@
       "/account/setting"
     ],
     "allowedAPIs": ["page1","page2"],
-    "allowedModules": ["user", "vendor", "project", "invoice", "timesheet","expense","timesheet_approval","expense_approval","setting"]
+    "allowedModules": ["user", "vendor", "project", "invoice", "timesheet","expense","timesheet_approval","expense_approval","setting","expense_payments"]
   },
   "ACCOUNT_VENDOR_REP": {
     "allowedPages": [
