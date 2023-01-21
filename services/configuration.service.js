@@ -12,6 +12,7 @@ export const configurationService = {
   getAdminAppConfigList,
   createConfigAdminLookup,
   createAppConfigAdmin,
+  updateAppConfigAdmin,
   getAppConfig
 };
 
@@ -24,6 +25,20 @@ function getAppConfig(appConfigId) {
   })        
   .catch(err => {
     console.log("Error Creating getAppConfig"+err)
+    return {errorMessage: err, error: true};
+  });
+}
+
+function updateAppConfigAdmin(appConfigAdminRequest) {
+  return fetchWrapper.put(`${baseUrl}/admin/app/config/`+appConfigAdminRequest.id, {
+        appConfigAdminRequest
+      }
+  )
+  .then(async configAdmin => {
+      return configAdmin;
+  })        
+  .catch(err => {
+    console.log("Error Creating configAdmin"+err)
     return {errorMessage: err, error: true};
   });
 }

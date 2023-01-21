@@ -21,6 +21,13 @@ const configurationReducer = (state = initialState, {type, payload}) => {
         }        
     } else if(type === ActionTypes.GET_ALL_CONFIGURATIONS) {
         newState.allConfigurations = payload;
+    } else if(type === ActionTypes.UPDATE_CONFIGURATION) {
+                
+        const newAllConfigurations = [...newState.allConfigurations];
+        const appConfigToRemoveIndex = newAllConfigurations.findIndex(x => x.id === parseInt(payload.id));
+        newAllConfigurations.splice(appConfigToRemoveIndex, 1);
+        newAllConfigurations.push(payload);
+        newState.allConfigurations = newAllConfigurations;
     }
 
 

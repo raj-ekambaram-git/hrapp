@@ -29,7 +29,7 @@ import { ShowInlineErrorMessage } from "../common/showInlineErrorMessage";
 import { configurationService, userService } from "../../services";
 import ManageConfigurationValues from "./manageConfigurationValues";
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
-import { setConfigurations } from "../../store/modules/Configuration/actions";
+import { setConfigurations, updateConfiguration } from "../../store/modules/Configuration/actions";
 import { ErrorMessage } from "../../constants/errorMessage";
 
 
@@ -84,7 +84,7 @@ const AddEditConfigAdmin = (props) => {
 
   }, []);
 
-  async function handleAppConfigAdmin() {
+  function handleAppConfigAdmin() {
 
     if(appConfigName != undefined && appConfigName != EMPTY_STRING
       && appConfigKey != undefined && appConfigKey != EMPTY_STRING
@@ -98,33 +98,70 @@ const AddEditConfigAdmin = (props) => {
           updatedBy: parseInt(userService.userValue.id)
         }
     
-        const responseData = await configurationService.createAppConfigAdmin(appConfigdminData)
-        if(responseData.error) {
-          toast({
-            title: 'Add App Config.',
-            description: 'Error adding new app configuration.',
-            status: 'error',
-            position: 'top',
-            duration: 6000,
-            isClosable: true,
-          })
-          return;
+        if(props.isAddMode) {
+          createAppConfig(appConfigdminData)
         }else {
-          toast({
-            title: 'Add App Config.',
-            description: 'Successfully create new app configuration.',
-            status: 'success',
-            position: 'top',
-            duration: 6000,
-            isClosable: true,
-          })
-          dispatch(setConfigurations(responseData))
-          onClose();
-          setShowErrorMessage(EMPTY_STRING)
+          updateAppConfig(appConfigdminData)
         }
+
       } else {
         setShowErrorMessage(ErrorMessage.ALL_FIELDS_REQIURED)
       }
+  }
+
+  async function updateAppConfig(appConfigdminData) {
+    appConfigdminData.id = props.appConfigId;
+    const responseData = await configurationService.updateAppConfigAdmin(appConfigdminData)
+    if(responseData.error) {
+      toast({
+        title: 'Add App Config.',
+        description: 'Error adding new app configuration.',
+        status: 'error',
+        position: 'top',
+        duration: 6000,
+        isClosable: true,
+      })
+      return;
+    }else {
+      toast({
+        title: 'Add App Config.',
+        description: 'Successfully create new app configuration.',
+        status: 'success',
+        position: 'top',
+        duration: 6000,
+        isClosable: true,
+      })
+      dispatch(updateConfiguration(responseData))
+      onClose();
+      setShowErrorMessage(EMPTY_STRING)
+    }
+  }
+
+  async function createAppConfig(appConfigdminData) {
+    const responseData = await configurationService.createAppConfigAdmin(appConfigdminData)
+    if(responseData.error) {
+      toast({
+        title: 'Update App Config.',
+        description: 'Error adding update app configuration.',
+        status: 'error',
+        position: 'top',
+        duration: 6000,
+        isClosable: true,
+      })
+      return;
+    }else {
+      toast({
+        title: 'Update App Config.',
+        description: 'Successfully create update app configuration.',
+        status: 'success',
+        position: 'top',
+        duration: 6000,
+        isClosable: true,
+      })
+      dispatch(setConfigurations(responseData))
+      onClose();
+      setShowErrorMessage(EMPTY_STRING)
+    }
   }
 
   return (

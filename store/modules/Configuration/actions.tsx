@@ -21,3 +21,11 @@ export const fetchAllConfigurations = (inputParam) => {
         dispatch(getAllConfigurations(allConfigurations));
       };
 }
+
+
+export const updateConfiguration = (configuration) => {
+    return {
+        type: ActionTypes.UPDATE_CONFIGURATION,
+        payload: configuration
+    }
+}
