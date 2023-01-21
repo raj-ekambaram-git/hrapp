@@ -84,8 +84,8 @@ const ExpenseHeader = (props) => {
             </Box>
             <Box>
               <FormControl>
-                  <FormLabel>Billable</FormLabel>
-                  <Checkbox isChecked={expenseHeader.billable} onChange={(e) => handleExpenseHeaderEntry("billable",e.target.checked)}/>    
+                  {/* <FormLabel>Billable</FormLabel>
+                  <Checkbox isChecked={expenseHeader.billable} onChange={(e) => handleExpenseHeaderEntry("billable",e.target.checked)}/>     */}
               </FormControl>                 
             </Box>
           </HStack>    
