@@ -30,6 +30,7 @@ import { configurationService, userService } from "../../services";
 import ManageConfigurationValues from "./manageConfigurationValues";
 import { DeleteIcon } from "@chakra-ui/icons";
 import { setConfigurations } from "../../store/modules/Configuration/actions";
+import { ErrorMessage } from "../../constants/errorMessage";
 
 
 
@@ -71,37 +72,46 @@ const AddEditConfigAdmin = (props) => {
   }, []);
 
   async function handleAppConfigAdmin() {
-    const appConfigdminData = {
-      name: appConfigName,
-      key: appConfigKey,
-      value: appConfigValue,
-      status: appConfigStatus,
-      updatedBy: parseInt(userService.userValue.id)
-    }
 
-    const responseData = await configurationService.createAppConfigAdmin(appConfigdminData)
-    if(responseData.error) {
-      toast({
-        title: 'Add App Config.',
-        description: 'Error adding new app configuration.',
-        status: 'error',
-        position: 'top',
-        duration: 6000,
-        isClosable: true,
-      })
-      return;
-    }else {
-      toast({
-        title: 'Add App Config.',
-        description: 'Successfully create new app configuration.',
-        status: 'success',
-        position: 'top',
-        duration: 6000,
-        isClosable: true,
-      })
-      dispatch(setConfigurations(responseData))
-      onClose();
-    }
+    if(appConfigName != undefined && appConfigName != EMPTY_STRING
+      && appConfigKey != undefined && appConfigKey != EMPTY_STRING
+      && appConfigValue != undefined && appConfigValue != EMPTY_STRING
+      && appConfigStatus != undefined && appConfigStatus != EMPTY_STRING) {
+        const appConfigdminData = {
+          name: appConfigName,
+          key: appConfigKey,
+          value: appConfigValue,
+          status: appConfigStatus,
+          updatedBy: parseInt(userService.userValue.id)
+        }
+    
+        const responseData = await configurationService.createAppConfigAdmin(appConfigdminData)
+        if(responseData.error) {
+          toast({
+            title: 'Add App Config.',
+            description: 'Error adding new app configuration.',
+            status: 'error',
+            position: 'top',
+            duration: 6000,
+            isClosable: true,
+          })
+          return;
+        }else {
+          toast({
+            title: 'Add App Config.',
+            description: 'Successfully create new app configuration.',
+            status: 'success',
+            position: 'top',
+            duration: 6000,
+            isClosable: true,
+          })
+          dispatch(setConfigurations(responseData))
+          onClose();
+          setShowErrorMessage(EMPTY_STRING)
+        }
+      } else {
+        setShowErrorMessage(ErrorMessage.ALL_FIELDS_REQIURED)
+      }
   }
 
   return (
