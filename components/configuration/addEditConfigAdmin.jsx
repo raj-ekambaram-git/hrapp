@@ -28,6 +28,7 @@ import { useDispatch } from "react-redux";
 import { ConfigConstants, EMPTY_STRING } from "../../constants";
 import { ShowInlineErrorMessage } from "../common/showInlineErrorMessage";
 import { configurationService, userService } from "../../services";
+import ManageConfigurationValues from "./manageConfigurationValues";
 
 
 
@@ -46,6 +47,11 @@ const AddEditConfigAdmin = (props) => {
   const [appConfigStatus, setAppConfigStatus] = useState(EMPTY_STRING);
   const [updatedBy, setUpdatedBy] = useState(EMPTY_STRING);
   
+  function handleConfigValue(value) {
+    const newConfigValue = [...appConfigValue]
+    newConfigValue.push(value)
+    setAppConfigValue(newConfigValue)
+  }
 
   function handleManageAppConfigAdmin(newSize) {
     setSize(newSize);
@@ -61,7 +67,7 @@ const AddEditConfigAdmin = (props) => {
     const appConfigdminData = {
       name: appConfigName,
       key: appConfigKey,
-      value: ["111","222","333"],
+      value: appConfigValue,
       status: appConfigStatus,
       updatedBy: parseInt(userService.userValue.id)
     }
@@ -139,7 +145,17 @@ const AddEditConfigAdmin = (props) => {
                                           Value
                                         </Th>
                                         <Th>
-                                          <Textarea type="text"  value={appConfigValue} onChange={(ev) => setAppConfigValue(ev.target.value)}/>                                       
+                                        {appConfigValue?.map((value) => (
+                                          <Tr>
+                                              <Th>
+                                            
+                                              </Th>
+                                              <Th>
+                                                  {value}
+                                              </Th>
+                                          </Tr>                                                                                         
+                                        ))}                                             
+                                          <ManageConfigurationValues handleConfigValue={handleConfigValue}/>
                                          </Th>
                                     </Tr>                    
                                     <Tr >

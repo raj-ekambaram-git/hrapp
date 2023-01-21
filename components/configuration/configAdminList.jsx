@@ -32,29 +32,6 @@ const ConfigAdminList = (props) => {
 
   }, []);
   
-  function handleConfigEdit(configAdminId) {
-
-  }
-    /**
-   * Function to get the list of accounts for a drop down
-   */
-  //   async function getConfigAdminList() {
-  //     // setPageAuthorized(true);
-  //     const responseData = await configurationService.getAdminAppConfigList();
-  //     if(responseData != undefined && responseData != EMPTY_STRING) {
-  //       const adminConfigList =  responseData.map((appConfig, index)=> {
-  //         appConfig.value = appConfig.value.map((value) => <p>{value.toString()}</p>)
-  //         appConfig.detailAction = <Button size="xs" bgColor="header_actions" onClick={() => handleConfigEdit(adminConfig.id)}>Edit</Button>
-  //         appConfig.lastUpdateDate = util.getFormattedDate(appConfig.lastUpdateDate)
-  //         appConfig.updatedUser = appConfig.updatedUser.firstName+" "+appConfig.updatedUser.lastName;
-  //         return appConfig;
-  //       });
-  //       setAppConfigAdminList(adminConfigList);
-  //       dispatch(setConfigurations(adminConfigList))
-  //     }
-  // }
-  
-
   return (
 
 
