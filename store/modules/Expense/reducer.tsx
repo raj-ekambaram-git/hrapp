@@ -13,6 +13,7 @@ const initialState = {
     selectedExpenseEntryId: null,
     expenseHeader: {},
     expenseTransactions: [],
+    expensePaidAmount: null,
 };
 
 const expenseReducer = (state = initialState, {type, payload}) => {
@@ -40,7 +41,20 @@ const expenseReducer = (state = initialState, {type, payload}) => {
         newState.expenseHeader = payload
     } else if(type === ActionTypes.GET_EXPENSE_TRANSACTIONS) {
         newState.expenseTransactions = payload;
-    }
+    } else if(type === ActionTypes.UPDATE_EXPENSE_TRANSACTIONS) {
+        const newExpenseTransactions = [...newState.expenseTransactions]
+        if(Array.isArray(payload)) {
+            //Edit Condition
+            newState.expenseTransactions = payload;
+        }else {
+            //Add New Condtion or udpate
+            newExpenseTransactions.push(payload);
+            newState.expenseTransactions = newExpenseTransactions;
+        }
+        
+    } else if(type === ActionTypes.EXPENSE_PAID_AMOUNT) {
+        newState.expensePaidAmount = parseFloat(payload);
+    } 
 
 
     return newState;

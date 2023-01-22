@@ -62,6 +62,31 @@ export const ExpenseConstants = {
     notes: EMPTY_STRING,
     status: "Draft"
   },
+  EXPENSE_TRANSSACTION__STATUS: {
+    'Pending': 'Pending',
+    'Paid': 'Paid',
+    'Refund': 'Refund',
+    'Cancelled': 'Cancelled',
+    'PartiallyPaid': 'PartiallyPaid',
+  },
+  EXPENSE_TRAN_STATUS_LOOKUP: [
+    {
+      expenseTranStatusId: "Pending",
+      expenseTranStatusName: "Pending"
+    },
+    {
+      expenseTranStatusId: "Paid",
+      expenseTranStatusName: "Paid"
+    },
+    {
+      expenseTranStatusId: "Refund",
+      expenseTranStatusName: "Refund"
+    },
+    {
+      expenseTranStatusId: "Cancelled",
+      expenseTranStatusName: "Cancelled"
+    }
+  ] ,
   EXPENSE_LIST_TABLE_META: [
     {
       label: "ID",

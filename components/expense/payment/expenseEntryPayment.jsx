@@ -88,7 +88,7 @@ import ExpenseTransactions from "./transaction/expenseTransactions";
                 <DrawerContent>
                 <DrawerCloseButton />
                 <DrawerHeader>
-                    {expense?.name} of {expense?.user?.firstName} {expense?.user?.lastName}
+                    Expense {expense?.name} of {expense?.user?.firstName} {expense?.user?.lastName}
                 </DrawerHeader>                    
                 <DrawerBody>
                     <ShowInlineErrorMessage showErrorMessage={showErrorMessage}/>

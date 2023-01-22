@@ -2,6 +2,8 @@ import getConfig from 'next/config';
 
 
 import { fetchWrapper } from 'helpers';
+import { ExpenseConstants } from '../constants';
+import { util } from '../helpers/util';
 
 const { publicRuntimeConfig } = getConfig();
 const baseUrl = `${publicRuntimeConfig.apiUrl}`;
@@ -13,12 +15,57 @@ export const expenseService = {
     updateExpense,
     handleExpenseApproval,
     addAttachmentToExpenseEntry,
-    getExpenseTransactions
+    getExpenseTransactions,
+    createExpenseTransaction
 };
+
+
+function createExpenseTransaction(formData, accountId) {
+  
+  //Before Creating, make sure that invoiceTotal is greater than the paid amount and there is room to pay
+  return fetchWrapper.get(`${baseUrl}/expense/${formData.expenseId}/detail?accountId=`+accountId, {})
+  .then(async expense => {
+
+    //Check if invoie is valid
+    if(((formData.status == ExpenseConstants.EXPENSE_TRANSSACTION__STATUS.Paid || formData.status == ExpenseConstants.EXPENSE_TRANSSACTION__STATUS.PartiallyPaid || formData.status == ExpenseConstants.EXPENSE_TRANSSACTION__STATUS.Pending) && 
+      util.getZeroPriceForNull(expense.total) >= (util.getZeroPriceForNull(expense.paidAmount)+util.getZeroPriceForNull(formData.amount)))
+      || ((formData.status == ExpenseConstants.EXPENSE_TRANSSACTION__STATUS.Refund 
+            || formData.status == ExpenseConstants.EXPENSE_TRANSSACTION__STATUS.Cancelled)
+          && (util.getZeroPriceForNull(formData.amount)<= (util.getZeroPriceForNull(expense.paidAmount)- util.getZeroPriceForNull(formData.amount))))) {
+
+      return fetchWrapper.post(`${baseUrl}/expense/`+formData.expenseId+`/transaction/create`, {
+        amount: formData.amount,
+        transactionData: formData.transactionData,
+        status: formData.status,
+        expenseId: parseInt(formData.expenseId),
+        transactionId: formData.transactionId
+        }
+      )
+      .then(async expenseTransaction => {
+        //If the expense is successfuly created, then do the math and update the paid amount
+        console.log("Succesfully Created the transacton:::"+JSON.stringify(expenseTransaction));
+        return expenseTransaction;
+      })        
+      .catch(err => {
+        console.log("Error createExpenseTransaction"+err)
+        return {errorMessage: err, error: true};
+      });
+  
+    }else {
+      console.log("Error Condition here with the status")
+      return {errorMessage: ErrorMessage.EXPENSE_TRANSACTION_ALREADY_PAID, error: true};
+    }
+
+  })  
+  .catch(err => {
+    console.log("Error createExpenseTransaction"+err)
+    return {errorMessage: err, error: true};
+  });
+}
 
 function getExpenseTransactions(expenseId, accountId) {
 
-  return fetchWrapper.get(`${baseUrl}/account/expense/`+expenseId+'/transactions?accountId='+accountId, {}
+  return fetchWrapper.get(`${baseUrl}/expense/`+expenseId+'/transactions?accountId='+accountId, {}
   )
   .then(expenseTransactions => {
    return expenseTransactions;

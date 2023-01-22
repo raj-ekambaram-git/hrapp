@@ -13,4 +13,6 @@ export const ErrorMessage = {
   TIMESHEET_HOURS_ENTRY_ERROR: "Total hours for a day across multiple projects cannot be greater than 24. Please adjust accordingly.",
   VALUE_REQUIRED: "Value required, please enter.",
   ALL_FIELDS_REQIURED: "All the fields are required.",
+  EXPENSE_TRANSACTION_FORM_ERROR: "All the fields are required.",
+  INVOICE_TRANSACTION_ALREADY_PAID: "This expense is completely paid or amount you entering is more than the total expense amount, so no need for more payment.",
 }

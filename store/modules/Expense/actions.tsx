@@ -97,3 +97,17 @@ export const fetchExpenseTransactions = (expenseId, accountId) => {
         dispatch(getExpenseTransactions(responseData));
       };
 }
+
+export const updateExpenseTransactions = (expenseTransaction) => {
+    return {
+        type: ActionTypes.UPDATE_EXPENSE_TRANSACTIONS,
+        payload: expenseTransaction
+    }
+}
+
+export const setExpensePaidAmount = (expensePaidAmount) => {
+    return {
+        type: ActionTypes.EXPENSE_PAID_AMOUNT,
+        payload: expensePaidAmount
+    }
+}

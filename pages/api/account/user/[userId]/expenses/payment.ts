@@ -28,6 +28,7 @@ console.log("userId ID::"+userId+"---PAYMENT AccountioD::"+accountId)
                   name: true,
                   status: true,
                   total: true,
+                  paidAmount: true,
                   expenseEntries: true,
                   lastUpdateDate: true,
                   approvedDate: true,
@@ -57,7 +58,9 @@ console.log("userId ID::"+userId+"---PAYMENT AccountioD::"+accountId)
             project: {
               expense: {
                 some: {
-                  status: ExpenseStatus.Approved
+                  status: {
+                    in: [ExpenseStatus.Approved, ExpenseStatus.PartiallyPaid]
+                  }
                 }
               }
             }

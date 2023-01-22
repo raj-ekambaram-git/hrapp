@@ -27,13 +27,13 @@ import {
     useToast
   } from '@chakra-ui/react';
 import { EMPTY_STRING } from "../../../../constants/accountConstants";
-import { InvoiceConstants } from "../../../../constants/invoiceConstants";
+import { ExpenseConstants } from "../../../../constants/expenseConstants";
 import { ErrorMessage } from "../../../../constants/errorMessage";
-import { invoiceService, userService } from "../../../../services";
+import { expenseService, userService } from "../../../../services";
 import { util } from "../../../../helpers/util";
 import { ShowInlineErrorMessage } from "../../../common/showInlineErrorMessage";
 import { useDispatch } from "react-redux";
-import { setInvoicePaidAmount, updateInvoiceTransactions } from "../../../../store/modules/Invoice/actions";
+import { setExpensePaidAmount, updateExpenseTransactions } from "../../../../store/modules/Expense/actions";
 
   
 const AddEditTransaction = (props) => {
@@ -45,7 +45,7 @@ const AddEditTransaction = (props) => {
     const [tranStatus, setTranStatus] = useState(EMPTY_STRING);
     const [tranNotes, setTranNotes] = useState(EMPTY_STRING);
     const [showErrorMessage, setShowErrorMessage] = useState(EMPTY_STRING);
-    const invoiceId = props.invoiceId;
+    const expenseId = props.expenseId;
 
 
     async function handleTransacionSubmit() {
@@ -54,33 +54,33 @@ const AddEditTransaction = (props) => {
             && tranReferenceNo !== undefined && tranReferenceNo !== EMPTY_STRING
             && tranStatus !== undefined && tranStatus !== EMPTY_STRING
             && tranNotes !== undefined && tranNotes !== EMPTY_STRING) {
-                const invoiceTransData= {
+                const expenseTransData= {
                     amount: tranAmount,
                     transactionData: tranNotes,
                     status: tranStatus,
-                    invoiceId: invoiceId,
+                    expenseId: expenseId,
                     transactionId: tranReferenceNo
                 };
-                console.log("invoiceTransDatta::::"+JSON.stringify(invoiceTransData));
-                const responseData = await invoiceService.createInvoiceTransaction(invoiceTransData, userService.getAccountDetails().accountId);
+                console.log("expenseTransData::::"+JSON.stringify(expenseTransData));
+                const responseData = await expenseService.createExpenseTransaction(expenseTransData, userService.getAccountDetails().accountId);
 
                 console.log("handleTransacionSubmit::::responseData::::"+JSON.stringify(responseData));
                 if(responseData.error) {
                     toast({
-                        title: 'New Invoice Transaction.',
-                        description: 'Error creating transaction foor this invoice. Details::'+responseData.errorMessage,
+                        title: 'New Expense Transaction.',
+                        description: 'Error creating transaction foor this expense. Details::'+responseData.errorMessage,
                         status: 'error',
                         position: 'top',
                         duration: 9000,
                         isClosable: true,
                       })
                 }else {
-                    dispatch(updateInvoiceTransactions(responseData.invoiceTransaction));
-                    dispatch(setInvoicePaidAmount(responseData.finalPaidAmount));
+                    dispatch(updateExpenseTransactions(responseData.expenseTransaction));
+                    dispatch(setExpensePaidAmount(responseData.finalPaidAmount));
                     onClose();
                     toast({
-                        title: 'New Invoice Transaction.',
-                        description: 'Successfully added new invoice transaction.',
+                        title: 'New Expense Transaction.',
+                        description: 'Successfully added new expense transaction.',
                         status: 'success',
                         position: 'top',
                         duration: 3000,
@@ -89,7 +89,7 @@ const AddEditTransaction = (props) => {
                       
                 }
         }else {
-            setShowErrorMessage(ErrorMessage.INVOICE_TRANSACTION_FORM_ERROR);
+            setShowErrorMessage(ErrorMessage.EXPENSE_TRANSACTION_FORM_ERROR);
             return;
         }
 
@@ -156,8 +156,8 @@ const AddEditTransaction = (props) => {
                                     <Th>
                                         <Select width="100%" id="tranStatus" onChange={(ev) => setTranStatus(ev.target.value)}>
                                             <option value="">Select Transaction Status</option>
-                                            {InvoiceConstants.INVOICE_TRAN_STATUS_LOOKUP?.map((invoiceTranStatus) => (
-                                                    <option value={invoiceTranStatus.invoiceTranStatusId}>{invoiceTranStatus.invoiceTranStatusName}</option>
+                                            {ExpenseConstants.EXPENSE_TRAN_STATUS_LOOKUP?.map((expenseTranStatus) => (
+                                                    <option value={expenseTranStatus.expenseTranStatusId}>{expenseTranStatus.expenseTranStatusName}</option>
                                             ))}                                  
                                         </Select>
 
