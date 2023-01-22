@@ -1,14 +1,13 @@
 import React, { useEffect } from "react";
 import Chart from 'chart.js/auto'
 import { util } from "../../../../helpers/util";
+import { doughnutChart } from "../../../common/charts/doughnutChart";
 
 
 
 export default function BudgetGraph(props) {
-
   useEffect(() => {
-    console.log("BudgetGraph.selectedReport::"+JSON.stringify(props.project))
-    if(props.project) {
+    if(props.budget && props.usedBudget) {
       budgetData();
     }    
   }, []);
@@ -16,43 +15,20 @@ export default function BudgetGraph(props) {
 
 
   function budgetData() {
-
-
     const data = [
-      { key: "Used $"+props.project?.usedBudget, value: props.project?.usedBudget },
-      { key: "Remaining $"+(util.getZeroPriceForNull(props.project?.budget)-props.project?.usedBudget), value: (util.getZeroPriceForNull(props.project?.budget)-props.project?.usedBudget) },
+      { key: "Used $"+props.usedBudget, value: props.usedBudget },
+      { key: "Remaining $"+(util.getZeroPriceForNull(props.budget)-props.usedBudget), value: (util.getZeroPriceForNull(props.budget)-props.usedBudget) },
     ];
-    let chartStatus = Chart.getChart("budgetChart"); // <canvas> id
+    let chartStatus = Chart.getChart("budget"); // <canvas> id
     if (chartStatus != undefined) {
       chartStatus.destroy();
     }
 
-    const budgetChart = new Chart(
-      document.getElementById('budget'),
-      {
-        type: 'doughnut',
-        data: {
-          labels: data.map(row => row.key),
-          datasets: [
-            {
-              data: data.map(row => row.value)
-            }
-          ]
-        },
-        options: {
-          responsive: true,
-          plugins: {
-            legend: {
-              position: 'top',
-            },
-            title: {
-              display: true,
-              text: 'Total Budget: $'+util.getZeroPriceForNull(props.project?.budget)
-            }
-          }
-        }
-      }
-    );
+    doughnutChart({
+      canvasId:"budget", 
+      chartData: data, 
+      titleText: 'Total Budget: $'+util.getZeroPriceForNull(props.budget), 
+      position:'top'})
     
   }
 

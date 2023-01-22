@@ -27,11 +27,11 @@ return (
         <HStack>
 
         </HStack>
-        <Box maxW="25%">
+        <Box width="20%">
             {project? (
               <HStack>
-                <BudgetGraph project={project}/>
-                <InvoiceGraph project={project}/>
+                <BudgetGraph budget={project.budget} usedBudget={project.usedBudget}/>
+                <InvoiceGraph invoice={project.invoice}/>
               </HStack>
             ):(<></>)}
             <canvas id="invoice"></canvas>
