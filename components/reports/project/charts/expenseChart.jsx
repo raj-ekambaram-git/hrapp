@@ -20,8 +20,8 @@ export default function ExpenseChart(props) {
 
     let expenseTotal = 0;
     let expensePaid = 0;
-    props.expense?.map(exp => expenseTotal = parseFloat(expenseTotal)+parseFloat(exp?.total))
     props.expense?.map(exp => {
+        expenseTotal = parseFloat(expenseTotal)+parseFloat(exp?.total)
         if((exp.status === ExpenseStatus.Paid || exp.status === ExpenseStatus.PartiallyPaid)) {
           expensePaid = parseFloat(expensePaid)+parseFloat(exp?.paidAmount)
         }

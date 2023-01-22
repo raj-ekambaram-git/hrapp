@@ -20,8 +20,9 @@ export default function InvoiceChart(props) {
 
     let invoicedTotal = 0;
     let invoicePaid = 0;
-    props.invoice?.map(inv => invoicedTotal = parseFloat(invoicedTotal)+parseFloat(inv?.total))
+    
     props.invoice?.map(inv => {
+        invoicedTotal = parseFloat(invoicedTotal)+parseFloat(inv?.total)
         if((inv.status === InvoiceStatus.Paid || inv.status === InvoiceStatus.PartiallyPaid)) {
           invoicePaid = parseFloat(invoicePaid)+parseFloat(inv?.paidAmount)
         }

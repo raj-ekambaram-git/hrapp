@@ -65,6 +65,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
               total: true,
               paidAmount: true,
               userId: true,
+              status: true,
               user: {
                 select: {
                   firstName: true,
