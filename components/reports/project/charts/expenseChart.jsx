@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import Chart from 'chart.js/auto'
 import { util } from "../../../../helpers/util";
-import { InvoiceStatus } from "@prisma/client";
+import { ExpenseStatus, InvoiceStatus } from "@prisma/client";
 import { doughnutChart } from "../../../common/charts/doughnutChart";
 
 
@@ -9,7 +9,7 @@ import { doughnutChart } from "../../../common/charts/doughnutChart";
 export default function ExpenseChart(props) {
 
   useEffect(() => {
-    if(props.invoice) {
+    if(props.expense) {
       expenseData();
     }    
   }, []);
@@ -18,19 +18,19 @@ export default function ExpenseChart(props) {
 
   function expenseData() {
 
-    let invoicedTotal = 0;
-    let invoicePaid = 0;
-    props.invoice?.map(inv => invoicedTotal = parseFloat(invoicedTotal)+parseFloat(inv?.total))
-    props.invoice?.map(inv => {
-        if((inv.status === InvoiceStatus.Paid || inv.status === InvoiceStatus.PartiallyPaid)) {
-          invoicePaid = parseFloat(invoicePaid)+parseFloat(inv?.paidAmount)
+    let expenseTotal = 0;
+    let expensePaid = 0;
+    props.expense?.map(exp => expenseTotal = parseFloat(expenseTotal)+parseFloat(exp?.total))
+    props.expense?.map(exp => {
+        if((exp.status === ExpenseStatus.Paid || exp.status === ExpenseStatus.PartiallyPaid)) {
+          expensePaid = parseFloat(expensePaid)+parseFloat(exp?.paidAmount)
         }
       })
     
 
     const data = [
-      { key: "Paid $"+invoicePaid, value: invoicePaid },
-      { key: "Unpaid $"+(util.getZeroPriceForNull(invoicedTotal)-invoicePaid), value: (util.getZeroPriceForNull(invoicedTotal)-invoicePaid) },
+      { key: "Paid $"+expensePaid, value: expensePaid },
+      { key: "Unpaid $"+(util.getZeroPriceForNull(expenseTotal)-expensePaid), value: (util.getZeroPriceForNull(expenseTotal)-expensePaid) },
     ];
 
     let chartStatus = Chart.getChart("expense"); // <canvas> id
@@ -40,7 +40,7 @@ export default function ExpenseChart(props) {
     doughnutChart({
       canvasId:"expense", 
       chartData: data, 
-      titleText: 'Invoiced: $'+util.getZeroPriceForNull(invoicedTotal), 
+      titleText: 'Expense: $'+util.getZeroPriceForNull(expenseTotal), 
       position:'top'})
    
     
