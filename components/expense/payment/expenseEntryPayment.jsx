@@ -20,10 +20,11 @@ import { ShowInlineErrorMessage } from "../../common/showInlineErrorMessage";
 import { ExpenseConstants, NotesConstants } from "../../../constants";
 import NotesHistory from "../../notes/notesHistory";
 import { setNotesType } from "../../../store/modules/Notes/actions";
-import { fetchExpensesForApproval } from "../../../store/modules/Expense/actions";
+import { fetchExpensesForApproval, setExpensePaidAmount } from "../../../store/modules/Expense/actions";
 import { CustomTable } from "../../customTable/Table";
 import { expenseService, userService } from "../../../services";
 import ExpenseTransactions from "./transaction/expenseTransactions";
+import { util } from "../../../helpers/util";
 
 
 
@@ -44,7 +45,6 @@ import ExpenseTransactions from "./transaction/expenseTransactions";
       }
 
     useEffect(() => {
-        
       }, []);
 
     async function updateExpense(expenseId,status) {
@@ -92,7 +92,7 @@ import ExpenseTransactions from "./transaction/expenseTransactions";
                 </DrawerHeader>                    
                 <DrawerBody>
                     <ShowInlineErrorMessage showErrorMessage={showErrorMessage}/>
-                    <ExpenseTransactions expenseId={expense.id}/>
+                    <ExpenseTransactions expenseId={expense.id} paidAmount={expense.paidAmount}/>
                     <Stack marginTop={10}>
                         <Box>
                             Expense Details

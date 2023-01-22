@@ -21,12 +21,8 @@ const ExpenseTransactions = (props) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const dispatch = useDispatch();
     const [size, setSize] = useState(EMPTY_STRING);
-    console.log("props.invoiceId::"+props.invoiceId)
 
     const expenseTransactions = useSelector(state => state.expense.expenseTransactions);
-    const expenseTotal = useSelector(state => state.expense.expenseTotal);
-    const expensePaidAmount = useSelector(state => state.expense.expensePaidAmount);
-
 
     useEffect(() => {
       dispatch(fetchExpenseTransactions(props.expenseId,userService.getAccountDetails().accountId))
@@ -82,6 +78,11 @@ const ExpenseTransactions = (props) => {
                       </Th>
                   </Tr>
                 ))}
+                <Tr>
+                    <Th colSpan={2}>
+                        Total: ${props.paidAmount}
+                    </Th>
+                </Tr>                
               </Tbody>  
             </Table>      
             {/* {util.getZeroPriceForNull(invoiceTotal) > util.getZeroPriceForNull(invoicePaidAmount) ? ( */}
