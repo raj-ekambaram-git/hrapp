@@ -1,4 +1,4 @@
-import { Box, Card, CardBody, CardHeader, Heading, HStack, Stack } from "@chakra-ui/react";
+import { Box, Card, CardBody, CardHeader, Divider, Heading, HStack, Stack } from "@chakra-ui/react";
 import { InvoiceStatus } from "@prisma/client";
 import React, { useEffect, useState } from "react";
 import { util } from "../../../helpers/util";
@@ -54,48 +54,102 @@ export default function FinancialSummary(props) {
           <Heading size='xs' textAlign="center">Summary as of {util.getFormattedDate(new Date())}</Heading>
         </CardHeader>
         <CardBody>
-          <Stack>
-            <HStack>
-              <Box width="50%" textAlign="right">
-                Total Revenue :
-              </Box>
-              <Box width="50%" textAlign="left" fontWeight="semibold">
-                {util.getWithCurrency(totalRevenue)}
-              </Box>              
-            </HStack>
-            <HStack>
-              <Box width="50%" textAlign="right">
-                Invoiced :
-              </Box>
-              <Box width="50%" textAlign="left" fontWeight="semibold" >
-                {util.getWithCurrency(invoiced)}
-              </Box>              
-            </HStack>
-            <HStack>
-              <Box width="50%" textAlign="right">
-                Paid Invoice :
-              </Box>
-              <Box width="50%" textAlign="left" fontWeight="semibold" color="debit_amount">
-                {util.getWithCurrency(invoicePaid)}
-              </Box>              
-            </HStack>
-            <HStack>
-              <Box width="50%" textAlign="right">
-                Invoice Not Paid :
-              </Box>
-              <Box width="50%" textAlign="left" fontWeight="semibold" color={util.getZeroPriceForNull(invoiceNotPaid) > 0?'credit_amount':""}>
-                {util.getWithCurrency(invoiceNotPaid)}
-              </Box>              
-            </HStack>
-            <HStack>
-              <Box width="50%" textAlign="right">
-                Not Invoiced :
-              </Box>
-              <Box width="50%" textAlign="left" fontWeight="semibold" color={util.getZeroPriceForNull(notInvoiced) > 0 ? 'credit_amount':""}>
-                {util.getWithCurrency(notInvoiced)}
-              </Box>              
-            </HStack>                                                
-          </Stack>
+          <HStack>
+            <Stack width="50%">
+              <HStack>
+                <Box textAlign="left" fontWeight="semibold" fontStyle="italic">
+                  Income
+                </Box>
+              </HStack>
+              <HStack>
+                <Box width="50%" textAlign="right">
+                  Total Revenue :
+                </Box>
+                <Box width="50%" textAlign="left" fontWeight="semibold">
+                  {util.getWithCurrency(totalRevenue)}
+                </Box>              
+              </HStack>
+              <HStack>
+                <Box width="50%" textAlign="right">
+                  Invoiced :
+                </Box>
+                <Box width="50%" textAlign="left" fontWeight="semibold" >
+                  {util.getWithCurrency(invoiced)}
+                </Box>              
+              </HStack>
+              <HStack>
+                <Box width="50%" textAlign="right">
+                  Paid Invoice :
+                </Box>
+                <Box width="50%" textAlign="left" fontWeight="semibold" color="debit_amount">
+                  {util.getWithCurrency(invoicePaid)}
+                </Box>              
+              </HStack>
+              <HStack>
+                <Box width="50%" textAlign="right">
+                  Invoice Not Paid :
+                </Box>
+                <Box width="50%" textAlign="left" fontWeight="semibold" color={util.getZeroPriceForNull(invoiceNotPaid) > 0?'credit_amount':""}>
+                  {util.getWithCurrency(invoiceNotPaid)}
+                </Box>              
+              </HStack>
+              <HStack>
+                <Box width="50%" textAlign="right">
+                  Not Invoiced :
+                </Box>
+                <Box width="50%" textAlign="left" fontWeight="semibold" color={util.getZeroPriceForNull(notInvoiced) > 0 ? 'credit_amount':""}>
+                  {util.getWithCurrency(notInvoiced)}
+                </Box>              
+              </HStack>                                                
+            </Stack>
+            <Stack width="50%">
+              <HStack>
+                <Box textAlign="left" fontWeight="semibold" fontStyle="italic">
+                  Expense
+                </Box>
+              </HStack>
+              <HStack>
+                <Box width="50%" textAlign="right">
+                  Total Revenue :
+                </Box>
+                <Box width="50%" textAlign="left" fontWeight="semibold">
+                  {util.getWithCurrency(totalRevenue)}
+                </Box>              
+              </HStack>
+              <HStack>
+                <Box width="50%" textAlign="right">
+                  Total Revenue :
+                </Box>
+                <Box width="50%" textAlign="left" fontWeight="semibold">
+                  {util.getWithCurrency(totalRevenue)}
+                </Box>              
+              </HStack>
+              <HStack>
+                <Box width="50%" textAlign="right">
+                  Total Revenue :
+                </Box>
+                <Box width="50%" textAlign="left" fontWeight="semibold">
+                  {util.getWithCurrency(totalRevenue)}
+                </Box>              
+              </HStack>
+              <HStack>
+                <Box width="50%" textAlign="right">
+                  Total Revenue :
+                </Box>
+                <Box width="50%" textAlign="left" fontWeight="semibold">
+                  {util.getWithCurrency(totalRevenue)}
+                </Box>              
+              </HStack>
+              <HStack>
+                <Box width="50%" textAlign="right">
+                  
+                </Box>
+                <Box width="50%" textAlign="left" fontWeight="semibold">
+                  
+                </Box>              
+              </HStack>                                            
+            </Stack>          
+          </HStack>
         </CardBody>
       </Card>
     </>
