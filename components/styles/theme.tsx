@@ -69,6 +69,8 @@ const theme = extendTheme({
     }
   },
   colors: {
+    debit_amount: "#38A169",
+    credit_amount: "#C53030",
     dollor_input: 'gray.300',
     black: '#16161D',
     heading: '#319795',

@@ -19,8 +19,17 @@ export const util = {
     getZeroPriceForNull,
     getFormattedDateWithTime,
     isOdd,
-    getDueDateByPayTerms
+    getDueDateByPayTerms,
+    getWithCurrency
 };
+
+function getWithCurrency(value) {
+  if(value === undefined || value === EMPTY_STRING || value === null || isNaN(value)) {
+    return "$ "+parseFloat(0);
+  }else {
+    return "$ "+parseFloat(value);
+  }
+}
 
 function getDueDateByPayTerms(invoiceDate, payTermInput) {
   console.log("incoiceDate:::"+invoiceDate+"******PayTerms:::"+payTermInput)
