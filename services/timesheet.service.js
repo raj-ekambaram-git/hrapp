@@ -84,7 +84,7 @@ function updateTimesheetEntries(timesheetEntryIds, data) {
 function getTimesheetMetaForDate(todayStr) {
   console.log("getTimesheetDetailsAPICall:: todayStr ----- "+todayStr);
 
-  return fetchWrapper.get(`${baseUrl}/calendar/week/`+todayStr, {})
+  return fetchWrapper.cachedGet(`${baseUrl}/calendar/week/`+todayStr, {}, 24)
   .then(wkCalendar => {
 
     console.log("wkCalendar:::"+JSON.stringify(wkCalendar))
