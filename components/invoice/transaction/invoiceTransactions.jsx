@@ -112,11 +112,14 @@ const InvoiceTransactions = (props) => {
                                       </Th>
                                   </Tr>
                                 ))}
-                                <Tr>
-                                  <Th colSpan={2}>
-                                      Total: ${invoicePaidAmount}
-                                  </Th>
-                                </Tr>
+                                  <Tr bgColor="table_tile">
+                                    <Th alignItems="right">
+                                        Total:
+                                    </Th>
+                                    <Th>
+                                        ${invoicePaidAmount}
+                                    </Th>
+                                </Tr>   
                               </Tbody>  
                             </Table>      
                             {/* {util.getZeroPriceForNull(invoiceTotal) > util.getZeroPriceForNull(invoicePaidAmount) ? ( */}

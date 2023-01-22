@@ -78,9 +78,12 @@ const ExpenseTransactions = (props) => {
                       </Th>
                   </Tr>
                 ))}
-                <Tr>
-                    <Th colSpan={2}>
-                        Total: ${props.paidAmount}
+                <Tr bgColor="table_tile">
+                    <Th alignItems="right">
+                        Total:
+                    </Th>
+                    <Th>
+                        ${props.paidAmount}
                     </Th>
                 </Tr>                
               </Tbody>  
