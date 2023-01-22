@@ -1,5 +1,5 @@
 import React from "react";
-import ExpensePaymentList from "../../../../components/expense/approval/expensePaymentList";
+import ExpensePaymentList from "../../../../components/expense/payment/expensePaymentList";
 import { userService } from "../../../../services";
 
 
