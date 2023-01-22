@@ -50,7 +50,7 @@ export default function InvoiceChart(props) {
 
   return (
     <>    
-      <Box width="20%">
+      <Box width="25%">
         <canvas id="invoice"></canvas>        
       </Box>        
     </>

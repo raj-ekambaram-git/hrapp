@@ -117,7 +117,6 @@ const projectFinancialSummary = definePartsStyle({
     borderRadius: "5px",
   },
   body: {
-    
   }
 
 })

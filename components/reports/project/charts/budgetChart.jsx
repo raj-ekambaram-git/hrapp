@@ -35,7 +35,7 @@ export default function BudgetChart(props) {
 
   return (
     <>    
-      <Box width="20%">
+      <Box width="25%">
         <canvas id="budget"></canvas>
       </Box>        
     </>

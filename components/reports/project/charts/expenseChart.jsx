@@ -49,7 +49,7 @@ export default function ExpenseChart(props) {
 
   return (
     <>    
-      <Box width="20%">
+      <Box width="25%">
         <canvas id="expense"></canvas>        
       </Box>        
     </>
