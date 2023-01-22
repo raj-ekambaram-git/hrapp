@@ -12,8 +12,23 @@ export const expenseService = {
     createExpense,
     updateExpense,
     handleExpenseApproval,
-    addAttachmentToExpenseEntry
+    addAttachmentToExpenseEntry,
+    getExpenseTransactions
 };
+
+function getExpenseTransactions(expenseId, accountId) {
+
+  return fetchWrapper.get(`${baseUrl}/account/expense/`+expenseId+'/transactions?accountId='+accountId, {}
+  )
+  .then(expenseTransactions => {
+   return expenseTransactions;
+  })
+  .catch(err => {
+    console.log("Error Getting Expense Transactions::"+err)
+    return {errorMessage: err, error: true};
+  });
+
+}
 
 async function addAttachmentToExpenseEntry(expenseEntryId, attachments) {
 

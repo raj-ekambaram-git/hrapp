@@ -12,6 +12,7 @@ const initialState = {
     selectedExpenseId: null,
     selectedExpenseEntryId: null,
     expenseHeader: {},
+    expenseTransactions: [],
 };
 
 const expenseReducer = (state = initialState, {type, payload}) => {
@@ -37,6 +38,8 @@ const expenseReducer = (state = initialState, {type, payload}) => {
         newState.selectedExpenseId = payload
     } else if(type === ActionTypes.SET_EXPENSE_HEADER) {
         newState.expenseHeader = payload
+    } else if(type === ActionTypes.GET_EXPENSE_TRANSACTIONS) {
+        newState.expenseTransactions = payload;
     }
 
 

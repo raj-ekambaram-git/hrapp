@@ -1,4 +1,4 @@
-import { projectService,userService } from '../../../services';
+import { expenseService, projectService,userService } from '../../../services';
 import { ActionTypes } from './constants';
 
 export const submitNewExpense = (expense) => ({
@@ -81,4 +81,19 @@ export const setExpenseHeader = (expenseHeader) => {
         type: ActionTypes.SET_EXPENSE_HEADER,
         payload: expenseHeader
     }
+}
+
+export const getExpenseTransactions = (expenseTransaction) => {
+    return {
+        type: ActionTypes.GET_EXPENSE_TRANSACTIONS,
+        payload: expenseTransaction
+    }
+}
+
+export const fetchExpenseTransactions = (expenseId, accountId) => {
+    return async (dispatch) => {
+        const responseData = await expenseService.getExpenseTransactions(expenseId, accountId);
+        console.log("fetchInvoiceTransactions::"+JSON.stringify(responseData))
+        dispatch(getExpenseTransactions(responseData));
+      };
 }

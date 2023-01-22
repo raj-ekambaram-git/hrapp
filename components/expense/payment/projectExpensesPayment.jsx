@@ -26,7 +26,7 @@ import {
 import { useSelector } from 'react-redux';
 import { ExpenseConstants } from '../../../constants';
 import { util } from '../../../helpers/util';
-import ExpenseEntryPayment from '../approval/expenseEntryPayment';
+import ExpenseEntryPayment from './expenseEntryPayment';
 
   
 const ProjectExpensesPayment = (props) => {

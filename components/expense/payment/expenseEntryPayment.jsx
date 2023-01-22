@@ -12,6 +12,7 @@ import {
     HStack,
     Box,
     Textarea,
+    Stack,
   } from '@chakra-ui/react';
 import { DEFAULT_NOTES, EMPTY_STRING,} from "../../../constants/accountConstants";
 import { useDispatch } from "react-redux";
@@ -22,6 +23,7 @@ import { setNotesType } from "../../../store/modules/Notes/actions";
 import { fetchExpensesForApproval } from "../../../store/modules/Expense/actions";
 import { CustomTable } from "../../customTable/Table";
 import { expenseService, userService } from "../../../services";
+import ExpenseTransactions from "./transaction/expenseTransactions";
 
 
 
@@ -90,29 +92,13 @@ import { expenseService, userService } from "../../../services";
                 </DrawerHeader>                    
                 <DrawerBody>
                     <ShowInlineErrorMessage showErrorMessage={showErrorMessage}/>
-                    <CustomTable  variant="sortTable" columns={EXPENSE_ENTRY_LIST_TABLE_COLUMNS} rows={expense?.expenseEntries} disablePagination={true}/>
-                    <Box marginTop="5rem">
-                        <Heading as="h3" size="sm" marginBottom="1rem"> 
-                            Add Comment
-                        </Heading>
-                        <Textarea placeholder='Please add comment' onChange={(ev) => setExpenseNote(ev.target.value)} />
-                    </Box>
-                    
-
-                    <HStack marginTop="3rem">
-                        <Box marginRight="1rem">
-                            <Button size="xs" onClick={() => updateExpense(expense.id,ExpenseConstants.EXPENSE_STATUS.Approved)} bgColor="timesheet.approved_status">
-                                Approve
-                            </Button>
-                        </Box>
+                    <ExpenseTransactions expenseId={expense.id}/>
+                    <Stack marginTop={10}>
                         <Box>
-                            <Button size="xs"  onClick={() => updateExpense(expense.id,ExpenseConstants.EXPENSE_STATUS.Rejected)} bgColor="timesheet.rejected_status">
-                                Reject
-                            </Button>
+                            Expense Details
                         </Box>
-                        <NotesHistory/>                    
-                    </HStack>
-                    
+                        <CustomTable  variant="sortTable" columns={EXPENSE_ENTRY_LIST_TABLE_COLUMNS} rows={expense?.expenseEntries} disablePagination={true}/>
+                    </Stack>
                 </DrawerBody>
                 </DrawerContent>
             </Drawer>
