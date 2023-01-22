@@ -3,6 +3,7 @@ import Chart from 'chart.js/auto'
 import { util } from "../../../../helpers/util";
 import { ExpenseStatus, InvoiceStatus } from "@prisma/client";
 import { doughnutChart } from "../../../common/charts/doughnutChart";
+import { Box } from "@chakra-ui/react";
 
 
 
@@ -48,7 +49,9 @@ export default function ExpenseChart(props) {
 
   return (
     <>    
+      <Box width="20%">
         <canvas id="expense"></canvas>        
+      </Box>        
     </>
   );
 }

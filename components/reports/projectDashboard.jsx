@@ -4,6 +4,7 @@ import { Box, HStack, Stack } from "@chakra-ui/react";
 import BudgetChart from "./project/charts/budgetChart";
 import InvoiceChart from "./project/charts/invoiceChart";
 import ExpenseChart from "./project/charts/expenseChart";
+import FinancialSummary from "./project/financialSummary";
 
 
 export default function ProjectDashboard(props) {
@@ -28,15 +29,14 @@ return (
         <HStack>
 
         </HStack>
-        <Box width="20%">
-            {project? (
+\            {project? (
               <HStack>
                 <BudgetChart budget={project.budget} usedBudget={project.usedBudget}/>
                 <InvoiceChart invoice={project.invoice}/>
                 <ExpenseChart expense={project.expense}/>
+                <FinancialSummary project={project}/>
               </HStack>
-            ):(<></>)}            
-        </Box>
+            ):(<></>)}                    
       </Stack>
     </>
   );

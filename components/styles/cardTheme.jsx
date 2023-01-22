@@ -1,5 +1,5 @@
 import { cardAnatomy } from '@chakra-ui/anatomy'
-import { createMultiStyleConfigHelpers } from '@chakra-ui/react'
+import { border, createMultiStyleConfigHelpers } from '@chakra-ui/react'
 
 const { definePartsStyle, defineMultiStyleConfig } =
   createMultiStyleConfigHelpers(cardAnatomy.keys)
@@ -109,6 +109,18 @@ const replyDetails = definePartsStyle({
   }
 
 })
+
+const projectFinancialSummary = definePartsStyle({
+  container: {
+    width: "100%",
+    border: "1px",
+    borderRadius: "5px",
+  },
+  body: {
+    
+  }
+
+})
   
 const baseStyle = definePartsStyle({
   // define the part you're going to style
@@ -137,4 +149,4 @@ const sizes = definePartsStyle({
   },
 })
 
-export const cardTheme = defineMultiStyleConfig({ baseStyle, sizes, variants: {comment, replies, replyDetails, document, timesheetDailyNotes} })
+export const cardTheme = defineMultiStyleConfig({ baseStyle, sizes, variants: {comment, replies, replyDetails, document, timesheetDailyNotes, projectFinancialSummary} })

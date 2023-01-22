@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import Chart from 'chart.js/auto'
 import { util } from "../../../../helpers/util";
 import { doughnutChart } from "../../../common/charts/doughnutChart";
+import { Box } from "@chakra-ui/react";
 
 
 
@@ -34,7 +35,9 @@ export default function BudgetChart(props) {
 
   return (
     <>    
+      <Box width="20%">
         <canvas id="budget"></canvas>
+      </Box>        
     </>
   );
 }
