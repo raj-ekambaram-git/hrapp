@@ -44,10 +44,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             select: {
               total: true,
               paidAmount: true,
+              status: true,
               invoiceItems: {
                 select: {
                   userId: true,
                   total: true,
+                  status: true,
                   user: {
                     select: {
                       firstName: true,

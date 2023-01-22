@@ -17,14 +17,10 @@ export default function BudgetGraph(props) {
 
   function budgetData() {
 
-    let usedBudget = 0;
-    props.project?.invoice?.map(inv => usedBudget = parseFloat(usedBudget)+parseFloat(inv?.total))
-    console.log("usedBudsget:::"+usedBudget)
-    
 
     const data = [
-      { key: "Used $"+usedBudget, value: usedBudget },
-      { key: "Remaining $"+(util.getZeroPriceForNull(props.project?.budget)-usedBudget), value: (util.getZeroPriceForNull(props.project?.budget)-usedBudget) },
+      { key: "Used $"+props.project?.usedBudget, value: props.project?.usedBudget },
+      { key: "Remaining $"+(util.getZeroPriceForNull(props.project?.budget)-props.project?.usedBudget), value: (util.getZeroPriceForNull(props.project?.budget)-props.project?.usedBudget) },
     ];
     let chartStatus = Chart.getChart("budgetChart"); // <canvas> id
     if (chartStatus != undefined) {

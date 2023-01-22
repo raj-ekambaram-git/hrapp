@@ -27,7 +27,7 @@ return (
         <HStack>
 
         </HStack>
-        <Box maxW="20%">
+        <Box maxW="25%">
             {project? (
               <HStack>
                 <BudgetGraph project={project}/>

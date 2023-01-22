@@ -58,7 +58,7 @@ export default function InvoiceGraph(props) {
             },
             title: {
               display: true,
-              text: 'Invoiced Total: $'+util.getZeroPriceForNull(invoicedTotal)
+              text: 'Invoiced: $'+util.getZeroPriceForNull(invoicedTotal)
             }
           }
         }
@@ -69,8 +69,7 @@ export default function InvoiceGraph(props) {
 
   return (
     <>    
-        <canvas id="invoice"></canvas>
-        
+        <canvas id="invoice"></canvas>        
     </>
   );
 }
