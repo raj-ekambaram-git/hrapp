@@ -22,7 +22,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { fetchInvoiceTransactions } from "../../../store/modules/Invoice/actions";
 import { userService } from "../../../services";
 import { EMPTY_STRING } from "../../../constants/accountConstants";
-import { util } from "../../../helpers/util";
 import AddEditTransaction from "./addEditTransaction";
 
 const InvoiceTransactions = (props) => {
@@ -113,6 +112,11 @@ const InvoiceTransactions = (props) => {
                                       </Th>
                                   </Tr>
                                 ))}
+                                <Tr>
+                                  <Th colSpan={2}>
+                                      Total: ${invoicePaidAmount}
+                                  </Th>
+                                </Tr>
                               </Tbody>  
                             </Table>      
                             {/* {util.getZeroPriceForNull(invoiceTotal) > util.getZeroPriceForNull(invoicePaidAmount) ? ( */}
