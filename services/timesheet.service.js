@@ -140,7 +140,7 @@ async function updateTimesheetEntry(timesheetEntryId, status, approvalNote, appr
             const totalTSEHours = util.getTotalHours(timesheet.entries);
             console.log("totalTSEHours:::"+totalTSEHours)
             if(totalTSEHours != undefined && totalTSEHours != EMPTY_STRING && timesheet.unitPrice != undefined && timesheet.unitPrice != EMPTY_STRING) {
-              projectService.updateUsedBudget(timesheet.projectId, parseFloat(totalTSEHours)*parseFloat(timesheet.unitPrice));
+              projectService.updateUsedBudget(timesheet.projectId, util.getZeroPriceForNull(timesheet.project?.usedBudget) + (parseFloat(totalTSEHours)*parseFloat(timesheet.unitPrice)));
             }
           }
       

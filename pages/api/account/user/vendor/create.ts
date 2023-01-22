@@ -12,7 +12,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const userVendorData = req.body;
 
-      console.log("userVendor:::"+JSON.stringify(userVendorData));
+      console.log("userVendor UPDATE:::"+JSON.stringify(userVendorData));
 
       const savedUserVendor = await prisma.vendorUsers.create({
         data: userVendorData.userVendorData,

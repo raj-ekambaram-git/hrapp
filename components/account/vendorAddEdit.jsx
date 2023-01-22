@@ -407,9 +407,9 @@ const VendorEdit = (props) => {
                     <Box>
                       <Button size="xs" bgColor="header_actions" type="submit">
                         {isAddMode ? (
-                            <>Add New Vendor</>
+                            <>Add</>
                         ) : (
-                            <>Update Vendor</>
+                            <>Update</>
                         )}
                       </Button>
                     </Box>

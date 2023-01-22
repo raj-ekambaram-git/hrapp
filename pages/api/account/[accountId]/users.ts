@@ -31,7 +31,14 @@ console.log("Vendor ID::"+vendorId+"---AccountioD::"+accountId)
           id: "desc"
         },
         include: {
-          user: true,
+          user: {
+            select: {
+              id: true,
+              firstName: true,
+              lastName: true,
+              userRole: true
+            }
+          },
           vendor: {
             select: {
               name: true,
