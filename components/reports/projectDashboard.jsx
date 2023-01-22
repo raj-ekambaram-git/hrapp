@@ -6,10 +6,7 @@ import { userService } from "../../services";
 export default function ProjectDashboard(props) {
 
   useEffect(() => {
-    console.log("ProjectDashboard.selectedReport::"+props.selectedReport)
-    if(props.selectedReport) {
-      console.log("Project Dashboard..")
-    }
+    console.log("ProjectDashboard.selectedReport::")
   }, []);
   
   return (

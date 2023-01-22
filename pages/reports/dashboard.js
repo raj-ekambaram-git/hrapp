@@ -11,7 +11,7 @@ import { userService } from "../../services";
 
 
 export default function Dashboard(props) {
-  const [accountReport, setAccountReport] = useState(false);
+  const [accountReport, setAccountReport] = useState(true);
   const [vendorReport, setVendorReport] = useState(false);
   const [projectReport, setProjectReport] = useState(false);
 
@@ -50,13 +50,13 @@ export default function Dashboard(props) {
       </TabList>
       <TabPanels>
         <TabPanel>
-          <AccountDashboard selectedReport={accountReport}/>
+          {accountReport?<AccountDashboard/>:<></>}
         </TabPanel>
         <TabPanel>
-          <VendorDashboard selectedReport={vendorReport}/>
+          {vendorReport?<VendorDashboard/>:<></>}
         </TabPanel>
         <TabPanel>
-          <ProjectDashboard selectedReport={projectReport}/>
+          {projectReport?<ProjectDashboard/>:<></>}          
         </TabPanel>
       </TabPanels>
     </Tabs>

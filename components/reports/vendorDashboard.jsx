@@ -7,11 +7,7 @@ import { userService } from "../../services";
 export default function VendorDashboard(props) {
   
   useEffect(() => {
-    console.log("VendorDashboard.selectedReport::"+props.selectedReport)
-    if(props.selectedReport) {
-      console.log("Vendor Dashboard..")
-    }
-
+    console.log("VendorDashboard.selectedReport::")
   }, []);
 
   return (
