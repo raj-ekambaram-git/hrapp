@@ -16,11 +16,23 @@ export const projectService = {
     updateUsedBudget,
     updateProjectResource,
     createProject,
-    updateProject
+    updateProject,
+    getProjectBudgetDetails,
     
     
 };
 
+
+function getProjectBudgetDetails(projectId, accountId) {
+    return fetchWrapper.get(`${baseUrl}/reports/project/`+projectId+'/detail?accountId='+accountId, {})
+    .then(projectDetail => {
+        return projectDetail;
+    })
+    .catch(err => {
+        console.log("Error getting Project Budget ::"+err)
+        return {errorMessage: err, error: true};
+       });
+}
 
 function updateProject(projectId, formData) {
 

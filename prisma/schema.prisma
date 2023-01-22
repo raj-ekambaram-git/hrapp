@@ -93,7 +93,7 @@ model ProjectResource {
   projectId           Int?           @default(1)
   user                User?          @relation(fields: [userId], references: [id])
   userId              Int?           @default(1)
-  unitPrice           Decimal?
+  unitPrice           Decimal?       @default(0)
   currency            Currency?
   quantity            Int?
   billable            Boolean        @default(false)
@@ -121,8 +121,8 @@ model Invoice {
   invoiceDate        DateTime             @default(now())
   dueDte             DateTime?
   invoiceEmailTo     String[]
-  total              Decimal
-  paidAmount         Decimal?
+  total              Decimal              @default(0)
+  paidAmount         Decimal?             @default(0)
   status             InvoiceStatus
   paymentTerms       PaymentTerms
   createdDate        DateTime             @default(now())
@@ -157,7 +157,7 @@ model InvoiceItem {
 
 model InvoiceTransaction {
   id              Int                      @id @default(autoincrement())
-  amount          Decimal
+  amount          Decimal                  @default(0)
   transactionId   String
   transactionData String
   invoice         Invoice?                 @relation(fields: [invoiceId], references: [id])
@@ -186,7 +186,7 @@ model Project {
   remainingBudgetToAllocate Decimal           @default(0)
   usedBudget                Decimal           @default(0)
   totalHours                Int?              @default(0)
-  averageRate               Decimal?
+  averageRate               Decimal?          @default(0)
   timesheetNotesRequired    Boolean           @default(false)
   status                    ProjectStatus
   contactName               String?
@@ -304,7 +304,7 @@ model Expense {
 
 model ExpenseTransaction {
   id              Int                      @id @default(autoincrement())
-  amount          Decimal
+  amount          Decimal                  @default(0)
   transactionId   String
   transactionData String
   expense         Expense?                 @relation(fields: [expenseId], references: [id])
@@ -320,7 +320,7 @@ model ExpenseEntry {
   billable       Boolean            @default(false)
   expenseDate    DateTime
   date           DateTime?
-  amount         Decimal
+  amount         Decimal            @default(0)
   attachments    String[]
   status         ExpenseEntryStatus
   notes          String?
@@ -396,7 +396,7 @@ model TimesheetEntries {
   approvedUser   User?           @relation(fields: [approvedBy], references: [id])
   approvedBy     Int?
   entries        Json
-  unitPrice      Decimal?
+  unitPrice      Decimal?        @default(0)
   notesRequired  Boolean         @default(false)
   createdDate    DateTime        @default(now())
   lastUpdateDate DateTime        @default(now()) @updatedAt
