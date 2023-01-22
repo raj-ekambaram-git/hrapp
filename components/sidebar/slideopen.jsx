@@ -7,7 +7,7 @@ import {MdPayments} from "react-icons/md"
 import {IoSettingsOutline} from "react-icons/io5"
 import {MdOutlineManageAccounts,MdApproval} from 'react-icons/md';
 import {FaFileInvoiceDollar, FaHandHoldingUsd} from 'react-icons/fa';
-import {TbFileDollar} from 'react-icons/tb'
+import {TbFileDollar, TbReportAnalytics} from 'react-icons/tb'
 import { Tooltip } from '@chakra-ui/react'
 import Link from "next/link";
 import { GrConfigure } from 'react-icons/gr';
@@ -123,7 +123,16 @@ const Slideopen = (props) => {
                 </div>
               </Link>   
             </Tooltip>                                              
-          </>):""}                   
+          </>):""}        
+          {props.allowedModule?.includes("reports")?(<>
+            <Tooltip label="Reports" placement='right' borderRadius="6px" padding="10px"  fontWeight={600} color={tooltip_style.color} hasArrow  backgroundColor={tooltip_style.bgColor}>
+              <Link href={`/reports/dashboard`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
+                <div>
+                  <TbReportAnalytics  className={styles.icons1}/>
+                </div>
+              </Link>   
+            </Tooltip>                                              
+          </>):""}                         
           {props.allowedModule?.includes("app_setting")?(<>
             <Tooltip label="App Setting" placement='right' borderRadius="6px" padding="10px"  fontWeight={600} color={tooltip_style.color} hasArrow  backgroundColor={tooltip_style.bgColor}>
               <Link href={`/app/setting`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
