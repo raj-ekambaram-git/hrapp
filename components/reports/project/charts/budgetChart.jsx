@@ -35,7 +35,6 @@ export default function BudgetChart(props) {
   return (
     <>    
         <canvas id="budget"></canvas>
-        <canvas id="invoice"></canvas>
     </>
   );
 }

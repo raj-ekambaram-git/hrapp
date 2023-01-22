@@ -3,6 +3,7 @@ import { projectService, userService } from "../../services";
 import { Box, HStack, Stack } from "@chakra-ui/react";
 import BudgetChart from "./project/charts/budgetChart";
 import InvoiceChart from "./project/charts/invoiceChart";
+import ExpenseChart from "./project/charts/expenseChart";
 
 
 export default function ProjectDashboard(props) {
@@ -32,9 +33,9 @@ return (
               <HStack>
                 <BudgetChart budget={project.budget} usedBudget={project.usedBudget}/>
                 <InvoiceChart invoice={project.invoice}/>
+                <ExpenseChart invoice={project.invoice}/>
               </HStack>
-            ):(<></>)}
-            <canvas id="invoice"></canvas>
+            ):(<></>)}            
         </Box>
       </Stack>
     </>

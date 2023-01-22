@@ -10,13 +10,13 @@ export default function ExpenseChart(props) {
 
   useEffect(() => {
     if(props.invoice) {
-      invoiceData();
+      expenseData();
     }    
   }, []);
   
 
 
-  function invoiceData() {
+  function expenseData() {
 
     let invoicedTotal = 0;
     let invoicePaid = 0;
@@ -33,12 +33,12 @@ export default function ExpenseChart(props) {
       { key: "Unpaid $"+(util.getZeroPriceForNull(invoicedTotal)-invoicePaid), value: (util.getZeroPriceForNull(invoicedTotal)-invoicePaid) },
     ];
 
-    let chartStatus = Chart.getChart("invoice"); // <canvas> id
+    let chartStatus = Chart.getChart("expense"); // <canvas> id
     if (chartStatus != undefined) {
       chartStatus.destroy();
     }
     doughnutChart({
-      canvasId:"invoice", 
+      canvasId:"expense", 
       chartData: data, 
       titleText: 'Invoiced: $'+util.getZeroPriceForNull(invoicedTotal), 
       position:'top'})
@@ -48,7 +48,7 @@ export default function ExpenseChart(props) {
 
   return (
     <>    
-        <canvas id="invoice"></canvas>        
+        <canvas id="expense"></canvas>        
     </>
   );
 }
