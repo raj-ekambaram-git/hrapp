@@ -20,7 +20,11 @@ const { definePartsStyle, defineMultiStyleConfig } =
         },
         border: "1px"
       },
-
+      tabpanels: {
+        border: "1px",
+        borderRadius: "5px",
+        borderColor: "gray.600"
+      }
     }
   })
 
