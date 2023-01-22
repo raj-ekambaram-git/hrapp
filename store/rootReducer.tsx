@@ -10,6 +10,7 @@ import projectReducer from "./modules/Project/reducer";
 import documentReducer from "./modules/Document/reducer";
 import expenseReducer from "./modules/Expense/reducer";
 import configurationReducer from "./modules/Configuration/reducer"
+import reportsReducer from "./modules/Reports/reducer"
 
 const rootReducer = combineReducers({
     timesheet: timesheetReducer,
@@ -21,8 +22,8 @@ const rootReducer = combineReducers({
     project: projectReducer,
     document: documentReducer,
     expense: expenseReducer,
-    configuration: configurationReducer
-    
+    configuration: configurationReducer,
+    reports: reportsReducer
 });
 
 export default rootReducer;

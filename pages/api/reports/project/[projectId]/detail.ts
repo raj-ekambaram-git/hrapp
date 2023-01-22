@@ -1,5 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
+import { InvoiceStatus } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next"
 import { EMPTY_STRING } from "../../../../../constants";
 import prisma from "../../../../../lib/prisma";
@@ -29,21 +30,51 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
               user: {
                 select: {
                   firstName: true,
-                  lastName: true
+                  lastName: true,
                 }
               }
             }
           },
           invoice: {
+            where: {
+              status: {
+                in: [InvoiceStatus.Paid, InvoiceStatus.PartiallyPaid, InvoiceStatus.Submitted]
+              }
+            },
             select: {
               total: true,
-              paidAmount: true
+              paidAmount: true,
+              invoiceItems: {
+                select: {
+                  userId: true,
+                  total: true,
+                  user: {
+                    select: {
+                      firstName: true,
+                      lastName: true
+                    }
+                  }
+                }
+              }
             }
           },
           expense: {
             select: {
               total: true,
-              paidAmount: true
+              paidAmount: true,
+              userId: true,
+              user: {
+                select: {
+                  firstName: true,
+                  lastName: true
+                }
+              },
+              expenseEntries: {
+                select: {
+                  billable: true,
+                  amount: true
+                }
+              }
             }
           }
         }
