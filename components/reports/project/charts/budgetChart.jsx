@@ -5,7 +5,7 @@ import { doughnutChart } from "../../../common/charts/doughnutChart";
 
 
 
-export default function BudgetGraph(props) {
+export default function BudgetChart(props) {
   useEffect(() => {
     if(props.budget && props.usedBudget) {
       budgetData();

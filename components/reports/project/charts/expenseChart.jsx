@@ -6,7 +6,7 @@ import { doughnutChart } from "../../../common/charts/doughnutChart";
 
 
 
-export default function InvoiceGraph(props) {
+export default function ExpenseChart(props) {
 
   useEffect(() => {
     if(props.invoice) {
