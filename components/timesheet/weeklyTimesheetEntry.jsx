@@ -354,7 +354,7 @@ const WeeklyTimesheetEntry = (props) => {
                                         <Select id="projectId" value={timesheetEntry.projectId} onChange={(ev) => setTimesheetEntry(index, ev, "projectId")}>
                                             <option value="">Select Project</option>
                                             {userProjectList?.map((project) => (
-                                                <option value={project.projectId} data-unitprice={project.unitPrice} data-dailyNotesRequired={project.project?.timesheetNotesRequired} data-projectName={project.project?.name} >{project.project?.name} - {project.project?.referenceCode}</option>
+                                                <option value={project.projectId} data-unitprice={project.unitPrice} data-dailyNotesRequired={project.project?.timesheetNotesRequired} data-projectName={project.project?.name} >{project.project?.name} - {project.project?.referenceCode} - {project.billable?"Billable":"Non-Billable"} </option>
                                             ))}
                                         </Select>  
                                     </Box>  
