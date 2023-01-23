@@ -13,14 +13,8 @@ export default function ExpenseChart(props) {
     if(props.expense) {
       getExpenseData();
     }  
-  }, []);
+  }, [props.expense]);
   
-
-
-  if(props.expense) {
-    getExpenseData();
-  }
-
   function getExpenseData() {
     let expenseTotal = 0;
     let expensePaid = 0;

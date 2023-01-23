@@ -13,11 +13,7 @@ export default function InvoiceChart(props) {
     if(props.invoice) {
       invoiceData();
     }  
-  }, []);
-
-  if(props.invoice) {
-    invoiceData();
-  }
+  }, [props.invoice]);
 
   function invoiceData(){
     let invoicedTotal = 0;

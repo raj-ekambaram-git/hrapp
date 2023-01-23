@@ -12,11 +12,7 @@ export default function BudgetChart(props) {
     if(props.budget && props.usedBudget) {
       getBudgetData();
     }
-  }, []);
-
-  if(props.budget && props.usedBudget) {
-    getBudgetData();
-  }
+  }, [props.budget]);
 
   function getBudgetData(){
     let chartStatus = Chart.getChart("budget"); // <canvas> id

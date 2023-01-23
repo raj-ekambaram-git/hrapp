@@ -70,15 +70,6 @@ return (
                 <FinancialSummary project={project}/>
               </HStack>
             ):(<>
-                <Box width="25%">
-                  <canvas id="budget"></canvas>        
-                </Box>        
-                <Box width="25%">
-                  <canvas id="invoice"></canvas>        
-                </Box>      
-                <Box width="25%">
-                  <canvas id="expense"></canvas>        
-                </Box>                      
             </>)}                    
       </Stack>
     </>
