@@ -26,6 +26,7 @@ export default function FinancialSummary(props) {
 
 
   function financialSummaryData() {
+    
     setTotalRevenue(util.getZeroPriceForNull(props.project.usedBudget)+util.getZeroPriceForNull(props.project.usedMiscBudget))
 
     //INCOME CALCULATION
@@ -44,9 +45,7 @@ export default function FinancialSummary(props) {
     let notInvoicedTSE = 0;
     props.project?.timesheetEntries?.map(timesheetEntry => {
       const totalHours = util.getTotalHours(timesheetEntry.entries)
-      console.log("totalHours::"+JSON.stringify(timesheetEntry))
       notInvoicedTSE = parseFloat(notInvoicedTSE)+(parseFloat(timesheetEntry?.unitPrice)*parseInt(totalHours))
-      console.log("NOt Invoicess::"+notInvoicedTSE)
     })
     console.log("notInvoiced::"+notInvoicedTSE)
     setNotInvoiced(notInvoicedTSE)
@@ -74,7 +73,7 @@ export default function FinancialSummary(props) {
     setProjectCost(expProjectCost)
     setPaidExpense(expensePaid)
     setUnpaidExpense(parseFloat(expenseTotal)-parseFloat(expensePaid))
-    setNetRevenue(totalRevenue-(projectCost+billableExpense+nonbillableExpense))
+    setNetRevenue((util.getZeroPriceForNull(props.project.usedBudget)+util.getZeroPriceForNull(props.project.usedMiscBudget)-(util.getZeroPriceForNull(expProjectCost)+util.getZeroPriceForNull(expBillable)+util.getZeroPriceForNull(expNonBillable))))
   }
 
   
@@ -194,7 +193,7 @@ export default function FinancialSummary(props) {
                   <Box width="60%" textAlign="right" fontWeight="semibold" fontStyle="italic">
                     Net Revenue :
                   </Box>
-                  <Box width="50%" textAlign="left" fontWeight="semibold" color={util.getZeroPriceForNull(notInvoiced) > 0 ? 'debit_amount':"credit_amount"}>
+                  <Box width="50%" textAlign="left" fontWeight="semibold" color={util.getZeroPriceForNull(netRevenue) > 0 ? 'debit_amount':"credit_amount"}>
                     {util.getWithCurrency(netRevenue)}
                   </Box>  
             </HStack>
