@@ -13,6 +13,8 @@ export default function FinancialSummary(props) {
   const [projectCost, setProjectCost] = useState(0);
   const [billableExpense, setBillableExpense] = useState(0);
   const [nonbillableExpense, setNonbillableExpense] = useState(0);
+  const [paidExpense, setPaidExpense] = useState(0);
+  const [unpaidExpense, setUnpaidExpense] = useState(0);
 
   useEffect(() => {
     if(props.project) {
@@ -68,7 +70,8 @@ export default function FinancialSummary(props) {
     setBillableExpense(expBillable)
     setNonbillableExpense(expNonBillable)
     setProjectCost(expProjectCost)
-
+    setPaidExpense(expensePaid)
+    setUnpaidExpense(parseFloat(expenseTotal)-parseFloat(expensePaid))
   
   
   }
@@ -136,7 +139,7 @@ export default function FinancialSummary(props) {
                 </Box>
               </HStack>
               <HStack>
-                <Box width="50%" textAlign="right">
+                <Box width="60%" textAlign="right">
                   Project Cost :
                 </Box>
                 <Box width="50%" textAlign="left" fontWeight="semibold">
@@ -144,7 +147,7 @@ export default function FinancialSummary(props) {
                 </Box>              
               </HStack>
               <HStack>
-                <Box width="50%" textAlign="right">
+                <Box width="60%" textAlign="right">
                   Billable Expense :
                 </Box>
                 <Box width="50%" textAlign="left" fontWeight="semibold">
@@ -152,7 +155,7 @@ export default function FinancialSummary(props) {
                 </Box>              
               </HStack>
               <HStack>
-                <Box width="50%" textAlign="right">
+                <Box width="60%" textAlign="right">
                   Non-Billable Expense :
                 </Box>
                 <Box width="50%" textAlign="left" fontWeight="semibold">
@@ -160,23 +163,23 @@ export default function FinancialSummary(props) {
                 </Box>              
               </HStack>
               <HStack>
-                <Box width="50%" textAlign="right">
+                <Box width="60%" textAlign="right">
                   Paid Expense :
                 </Box>
                 <Box width="50%" textAlign="left" fontWeight="semibold">
-                  {util.getWithCurrency(totalRevenue)}
+                  {util.getWithCurrency(paidExpense)}
                 </Box>   
               </HStack>  
                 <HStack>
-                <Box width="50%" textAlign="right">
+                <Box width="60%" textAlign="right">
                   UnPaid Expense :
                 </Box>
                 <Box width="50%" textAlign="left" fontWeight="semibold">
-                  {util.getWithCurrency(totalRevenue)}
+                  {util.getWithCurrency(unpaidExpense)}
                 </Box>                             
               </HStack>
               <HStack>
-                <Box width="50%" textAlign="right">
+                <Box width="60%" textAlign="right">
                   
                 </Box>
                 <Box width="50%" textAlign="left" fontWeight="semibold">
