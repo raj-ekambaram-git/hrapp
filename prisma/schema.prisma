@@ -711,6 +711,7 @@ enum ExpenseStatus {
   PartiallyPaid
   Pending
   Cancelled
+  Invoiced
 }
 
 enum ExpenseTransactionStatus {

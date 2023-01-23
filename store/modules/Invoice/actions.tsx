@@ -56,6 +56,14 @@ export const removeTSFromInvoiceItems = (timesheetEntryId) => {
     }
 }
 
+export const removeExpenseFromInvoiceItems = (expenseId) => {
+    return {
+        type: ActionTypes.REMOVE_EXPENSE_INVOICE_ITEM,
+        payload: expenseId
+    }
+}
+
+
 export const setInvoicePaidAmount = (invoicePaidAmount) => {
     return {
         type: ActionTypes.INVOICE_PAID_AMOUNT,

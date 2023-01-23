@@ -91,6 +91,13 @@ const invoiceReducer = (state = initialState, {type, payload}) => {
 
     } else if(type === ActionTypes.SET_SELECTED_INVOICE_ID) {
         newState.selectedInvoiceId = payload;
+    } else if(type === ActionTypes.REMOVE_EXPENSE_INVOICE_ITEM) {
+        
+        const newInvoiceList = [...newState.invoiceItemList];
+        const expenseToRemoveIndex = newInvoiceList.findIndex(x => x.id === parseInt(payload));
+        newInvoiceList.splice(expenseToRemoveIndex, 1);
+        newState.invoiceItemList = newInvoiceList;
+
     }
     
     console.log("New State:::Before Return:::"+JSON.stringify(newState));

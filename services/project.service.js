@@ -18,7 +18,9 @@ export const projectService = {
     createProject,
     updateProject,
     getProjectBudgetDetails,
-    updateResourceUsedBudget
+    updateResourceUsedBudget,
+    getAllExpensesByProject,
+    getProjectExpensesByStatus
     
 };
 
@@ -208,6 +210,18 @@ function getProjectTimesheetsByStatus(inputParam){
 
 }
 
+function getProjectExpensesByStatus(inputParam){
+    return fetchWrapper.get(`${baseUrl}/account/project/`+inputParam.projectId+'/expenses/?accountId='+inputParam.accountId+'&status='+inputParam.status, {})
+                            .then(timesheets => {
+                                return timesheets
+                            })
+                            .catch(err => {
+                                console.log("Error getting timesheets by project."+err)
+                                return {errorMessage: err, error: true};
+                            });
+
+}
+
 /**
  * 
  * @param {*} projectId 
@@ -216,6 +230,19 @@ function getProjectTimesheetsByStatus(inputParam){
  */
 function getAllTimesheetsByProject(inputParam) {
     return fetchWrapper.get(`${baseUrl}/account/project/`+inputParam.projectId+'/timesheets?accountId='+inputParam.accountId, {})
+                            .then(timesheets => {
+                                    console.log("timesheets:::getAllTimesheetsByProject:::"+JSON.stringify(timesheets))
+                                return timesheets
+                            })
+                            .catch(err => {
+                                console.log("Error getting timesheets by project."+err)
+                                return {errorMessage: err, error: true};
+                            });
+}
+
+
+function getAllExpensesByProject(inputParam) {
+    return fetchWrapper.get(`${baseUrl}/account/project/`+inputParam.projectId+'/expenses?accountId='+inputParam.accountId, {})
                             .then(timesheets => {
                                     console.log("timesheets:::getAllTimesheetsByProject:::"+JSON.stringify(timesheets))
                                 return timesheets

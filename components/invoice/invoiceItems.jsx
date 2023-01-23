@@ -15,11 +15,12 @@ import {
   import {
     DeleteIcon
   } from '@chakra-ui/icons';
-  import {EMPTY_STRING, INVOICE_CALL_TYPE, PROJECT_TYPE_GENERAL, PROJECT_TYPE_STAFFING} from "../../constants/accountConstants";
+  import {EMPTY_STRING, EXPENSE_CALL_TYPE, INVOICE_CALL_TYPE, PROJECT_TYPE_GENERAL, PROJECT_TYPE_STAFFING} from "../../constants/accountConstants";
 import ProjectTimesheets from "../project/detail/projectTimesheets";
 import { useSelector, useDispatch } from "react-redux";
 import { removeItemFromInvoiceItemList, setInvoiceTotal } from "../../store/modules/Invoice/actions";
 import { InvoiceConstants } from "../../constants/invoiceConstants";
+import ProjectExpenses from "../project/detail/projectExpenses";
 
 const InvoiceItems = (props) => {
     const dispatch = useDispatch();
@@ -62,7 +63,10 @@ const InvoiceItems = (props) => {
         <div>
             <HStack>
                 {invoiceType == InvoiceConstants.INVOICE_ITEM_TYPE_TIMESHEET ? (
-                    <ProjectTimesheets data={{projectId: projectId, callType: INVOICE_CALL_TYPE}}/>
+                    <>
+                        <ProjectTimesheets data={{projectId: projectId, callType: INVOICE_CALL_TYPE}}/>
+                        <ProjectExpenses data={{projectId: projectId, callType: EXPENSE_CALL_TYPE}}/>
+                    </>
                 ) : (invoiceType != undefined && invoiceType != EMPTY_STRING) ? (
                     <AddInvoiceItem data={addInvoiceData}></AddInvoiceItem>
                 )

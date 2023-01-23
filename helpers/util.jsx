@@ -20,9 +20,23 @@ export const util = {
     getFormattedDateWithTime,
     isOdd,
     getDueDateByPayTerms,
-    getWithCurrency
+    getWithCurrency,
+    getTotalBillableExpense
 };
 
+function getTotalBillableExpense(expenseEntries) {
+  let totalBillableExpense = 0;
+  if(expenseEntries) {
+    expenseEntries?.map(expenseEntry => {
+      if(expenseEntry.billable) {
+        totalBillableExpense = parseFloat(totalBillableExpense)+parseFloat(expenseEntry?.amount)
+      }      
+    })
+
+  }
+  console.log("expenseEntries::"+JSON.stringify(totalBillableExpense))
+  return parseFloat(totalBillableExpense)
+}
 function getWithCurrency(value) {
   if(value === undefined || value === EMPTY_STRING || value === null || isNaN(value)) {
     return "$ "+parseFloat(0);

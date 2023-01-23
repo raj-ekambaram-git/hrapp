@@ -24,25 +24,25 @@ import {
   } from '@chakra-ui/react';
 import { userService } from "../../../services";
 import { useSelector, useDispatch } from "react-redux";
-import {fetchAllProjectTimesheets, fetchProjectTimesheetsByStatus} from '../../../store/modules/Timesheet/actions';
-import {removeTSFromInvoiceItems, setInvoiceTotal, setInvoiceItemList} from '../../../store/modules/Invoice/actions';
+import {fetchAllProjectExpenses, fetchProjectExpensesByStatus} from '../../../store/modules/Expense/actions';
+import {removeExpenseFromInvoiceItems, setInvoiceTotal, setInvoiceItemList} from '../../../store/modules/Invoice/actions';
 import { util } from "../../../helpers/util";
-import ProjectTimesheeEntrySection from "./projectTimesheeEntrySection";
-import { INVOICE_CALL_TYPE, TIMESHEET_STATUS } from "../../../constants/accountConstants";
+import { EXPENSE_CALL_TYPE, TIMESHEET_STATUS } from "../../../constants/accountConstants";
 import { InvoiceConstants } from "../../../constants/invoiceConstants";
 import { DrawerMainHeader } from "../../common/drawerMainHeader";
+import { ExpenseStatus } from "@prisma/client";
 
 
 
-const ProjectTimesheets = (props) => {
+const ProjectExpenses = (props) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const dispatch = useDispatch();
     const projectId = props.data.projectId;
     const callType = props.data.callType;
     const [size, setSize] = useState('');
-    const [enableAddTimeSheetEntry, setEnableAddTimeSheetEntry] = useState(false);
+    const [enableAddExpense, setEnableAddExpense] = useState(false);
     
-    const timesheetEntryList = useSelector(state => state.timesheet.projectTimesheets);
+    const expenseList = useSelector(state => state.expense.projectExpenses);
     const invoiceTotal = useSelector(state => state.invoice.invoiceTotal);
 
 
@@ -50,64 +50,63 @@ const ProjectTimesheets = (props) => {
 
     }, []);
 
-    const handleProjectTimesheets = (newSize) => {
+    const handleProjectExpenses = (newSize) => {
         
-        dispatch(fetchAllProjectTimesheets({projectId: projectId, accountId: userService.getAccountDetails().accountId }));
+        dispatch(fetchAllProjectExpenses({projectId: projectId, accountId: userService.getAccountDetails().accountId }));
         // projectService.getAllTimesheetsByProject(projectId, userService.getAccountDetails().accountId);
         setSize(newSize);
         onOpen();
     }
 
-    function handlePendingInvoiceTimesheets() {
-      dispatch(fetchProjectTimesheetsByStatus({projectId: projectId, accountId: userService.getAccountDetails().accountId, status: TIMESHEET_STATUS.Pending }));
+    function handlePendingInvoiceExpenses() {
+      dispatch(fetchProjectExpensesByStatus({projectId: projectId, accountId: userService.getAccountDetails().accountId, status: TIMESHEET_STATUS.Pending }));
     }
 
-    function handleApprovedTimesheets() {
-      dispatch(fetchProjectTimesheetsByStatus({projectId: projectId, accountId: userService.getAccountDetails().accountId, status: TIMESHEET_STATUS.Approved }));
+    function handleApprovedExpenses() {
+      dispatch(fetchProjectExpensesByStatus({projectId: projectId, accountId: userService.getAccountDetails().accountId, status: TIMESHEET_STATUS.Approved }));
     }
 
-    function handleInvoicedTimesheets() {
-      dispatch(fetchProjectTimesheetsByStatus({projectId: projectId, accountId: userService.getAccountDetails().accountId, status: TIMESHEET_STATUS.Invoiced }));
+    function handleInvoicedExpenses() {
+      dispatch(fetchProjectExpensesByStatus({projectId: projectId, accountId: userService.getAccountDetails().accountId, status: TIMESHEET_STATUS.Invoiced }));
     }
 
-    function handleRejectedTimesheets() {
-      dispatch(fetchProjectTimesheetsByStatus({projectId: projectId, accountId: userService.getAccountDetails().accountId, status: TIMESHEET_STATUS.Rejected }));
+    function handleRejectedExpenses() {
+      dispatch(fetchProjectExpensesByStatus({projectId: projectId, accountId: userService.getAccountDetails().accountId, status: TIMESHEET_STATUS.Rejected }));
     }
     
-    function addTimesheetEntryAsInvoiceItem(e) {
+    function addExpenseAsInvoiceItem(e) {
       console.log("Checked value:::"+e.target.checked+"----Value::"+e.target.value);
-      const selectedTimesheetEntry = timesheetEntryList.find(x => x.id === parseInt(e.target.value));
-      const selectedTSQuantity = util.getTotalHours(selectedTimesheetEntry.entries);
-      const selectedTSTotal = parseFloat(selectedTSQuantity) * parseFloat(selectedTimesheetEntry.unitPrice);
+      const selectedExpense = expenseList.find(x => x.id === parseInt(e.target.value));
+      const totalExpenseAmount = util.getTotalBillableExpense(selectedExpense.expenseEntries);
 
 
       if(e.target.checked) { //Add the timesheet entry to the invoice item list
-        if(!enableAddTimeSheetEntry) {
-          setEnableAddTimeSheetEntry(true);
+        if(!enableAddExpense) {
+          setEnableAddExpense(true);
         }
-        const addedTimesheetInvoiceItem = {
-          timesheetEntryId: parseInt(e.target.value),
-          userId: parseInt(selectedTimesheetEntry.timesheet?.user?.id),
-          type: InvoiceConstants.INVOICE_ITEM_TYPE_TIMESHEET,
+        const addedExpenseInvoiceItem = {
+          expenseIdId: parseInt(e.target.value),
+          userId: parseInt(selectedExpense.user?.id),
+          type: InvoiceConstants.INVOICE_ITEM_TYPE_EXPENSE,
           status: InvoiceConstants.INVOICE_STATUS.Draft,
-          unitPrice: selectedTimesheetEntry.unitPrice,
-          quantity: parseInt(selectedTSQuantity),
+          unitPrice: totalExpenseAmount,
+          quantity: parseInt(1),
           currency: InvoiceConstants.INVOICE_CURRENCY_USD,
           uom: InvoiceConstants.INVOICE_UOM_HOURS,
-          total: selectedTSTotal,
-          fromDate: new Date(selectedTimesheetEntry.entries?.day1.date),
-          toDate: new Date(selectedTimesheetEntry.entries?.day7?.date)
+          total: totalExpenseAmount,
+          // fromDate: new Date(selectedTimesheetEntry.entries?.day1.date),
+          // toDate: new Date(selectedTimesheetEntry.entries?.day7?.date)
         };
-          dispatch(setInvoiceItemList(addedTimesheetInvoiceItem));
+          dispatch(setInvoiceItemList(addedExpenseInvoiceItem));
           if(invoiceTotal != undefined) {
-            dispatch(setInvoiceTotal(parseFloat(invoiceTotal)+parseFloat(selectedTSTotal)));
+            dispatch(setInvoiceTotal(parseFloat(invoiceTotal)+parseFloat(totalExpenseAmount)));
           }else {
-            dispatch(setInvoiceTotal(parseFloat(selectedTSTotal)));
+            dispatch(setInvoiceTotal(parseFloat(totalExpenseAmount)));
           }
       } else { // Remove the timesheet entry form the invoice item list if exists
-        dispatch(removeTSFromInvoiceItems(e.target.value));   
+        dispatch(removeExpenseFromInvoiceItems(e.target.value));   
         if(invoiceTotal != undefined) {
-            dispatch(setInvoiceTotal(parseFloat(invoiceTotal)-parseFloat(selectedTSTotal)));
+            dispatch(setInvoiceTotal(parseFloat(invoiceTotal)-parseFloat(totalExpenseAmount)));
           }else {
             dispatch(setInvoiceTotal(parseFloat(total)));
         }
@@ -115,7 +114,7 @@ const ProjectTimesheets = (props) => {
       }
 
     }
-    function handleAddTimesheetsToInvoice() {
+    function handleAddExpensesToInvoice() {
       onClose();   
     }
   return (
@@ -123,7 +122,7 @@ const ProjectTimesheets = (props) => {
     <div>
         
         <Button size="xs" bgColor="header_actions"
-              onClick={() => handleProjectTimesheets("xl")}
+              onClick={() => handleProjectExpenses("xl")}
               key="xl"
               m={1}
               >{`Expenses`}
@@ -140,21 +139,21 @@ const ProjectTimesheets = (props) => {
                           <Stack divider={<StackDivider />} spacing='1'>
                             <Box>
                               <HStack>
-                                <Button className="btn" onClick={() => handlePendingInvoiceTimesheets()} width="timesheet.project_timesheets_button" bgColor="button.primary.color">
+                                <Button className="btn" onClick={() => handlePendingInvoiceExpenses()} width="timesheet.project_timesheets_button" bgColor="button.primary.color">
                                   Pending
                                 </Button>     
-                                <Button className="btn" onClick={() => handleApprovedTimesheets()} width="timesheet.project_timesheets_button" bgColor="button.primary.color">
+                                <Button className="btn" onClick={() => handleApprovedExpenses()} width="timesheet.project_timesheets_button" bgColor="button.primary.color">
                                   Approved
                                 </Button> 
-                                <Button className="btn" onClick={() => handleInvoicedTimesheets()} width="timesheet.project_timesheets_button" bgColor="button.primary.color">
+                                <Button className="btn" onClick={() => handleInvoicedExpenses()} width="timesheet.project_timesheets_button" bgColor="button.primary.color">
                                   Invoiced
                                 </Button>  
-                                <Button className="btn" onClick={() => handleRejectedTimesheets()} width="timesheet.project_timesheets_button" bgColor="button.primary.color">
+                                <Button className="btn" onClick={() => handleRejectedExpenses()} width="timesheet.project_timesheets_button" bgColor="button.primary.color">
                                   Rejected
                                 </Button>  
-                                {(callType==INVOICE_CALL_TYPE && enableAddTimeSheetEntry)? (
+                                {(callType==EXPENSE_CALL_TYPE && enableAddExpense)? (
                                   <>
-                                  <Button className="btn" onClick={() => handleAddTimesheetsToInvoice()} width="timesheet.project_timesheets_button" bgColor="button.primary.color">
+                                  <Button className="btn" onClick={() => handleAddExpensesToInvoice()} width="timesheet.project_timesheets_button" bgColor="button.primary.color">
                                     Add to Invoice
                                   </Button>  
                                   </>
@@ -180,7 +179,7 @@ const ProjectTimesheets = (props) => {
                                             Resoure
                                         </Th>
                                         <Th width="timesheet.project_timesheets_hours">
-                                            Hours
+                                            Amount
                                         </Th>
                                         <Th width="timesheet.project_timesheets_status">
                                             Status
@@ -195,14 +194,14 @@ const ProjectTimesheets = (props) => {
                                             Last Updated
                                         </Th>
                                     </Tr>
-                                    {timesheetEntryList?.map((timesheetEntry) => (
+                                    {expenseList?.map((expense) => (
                                     
                                         <Tr>
                                           <Th>
-                                            {(callType == INVOICE_CALL_TYPE && timesheetEntry.status == TIMESHEET_STATUS.Approved) ? (
+                                            {(callType == EXPENSE_CALL_TYPE && expense.status == ExpenseStatus.Approved && util.getTotalBillableExpense(expense.expenseEntries) > 0) ? (
                                               <>
-                                                <Checkbox value={timesheetEntry.id}
-                                                  onChange={(e) => addTimesheetEntryAsInvoiceItem(e)}
+                                                <Checkbox value={expense.id}
+                                                  onChange={(e) => addExpenseAsInvoiceItem(e)}
                                                 />        
                                               </>
                                             ) : (
@@ -210,19 +209,19 @@ const ProjectTimesheets = (props) => {
                                             )}
                                           </Th>
                                             <Th>
-                                                {timesheetEntry.timesheet?.name}
+                                                {expense.name}
                                             </Th>
                                             <Th>
-                                                {timesheetEntry.timesheet?.user?.firstName} {timesheetEntry.timesheet?.user?.lastName}
+                                                {expense.user?.firstName} {expense.user?.lastName}
                                             </Th>
                                             <Th>
-                                              {timesheetEntry.entries ? (
+                                              {expense.expenseEntries ? (
                                                 <>
                                                 <HStack>
                                                   <Box marginRight={3}>
-                                                    {util.getTotalHours(timesheetEntry.entries)}
+                                                    {util.getWithCurrency(util.getTotalBillableExpense(expense.expenseEntries))}
                                                   </Box>
-                                                  <ProjectTimesheeEntrySection data={timesheetEntry.entries}/>
+                                                  {/* <ProjectExpenseEntriesSection data={expense.expenseEntries}/> */}
                                                   </HStack>
                                                 </>
                                               ) : (
@@ -234,19 +233,19 @@ const ProjectTimesheets = (props) => {
                                             </Th>
                                             <Th>
                                                 <Badge color={`${
-                                                    (timesheetEntry.status !== "Rejected" )
+                                                    (expense.status !== "Rejected" )
                                                     ? "paid_status"
                                                    : "pending_status"
-                                                }`}>{timesheetEntry.status}</Badge>
+                                                }`}>{expense.status}</Badge>
                                             </Th>   
                                             <Th>
-                                                {util.getFormattedDate(timesheetEntry.approvedDate)}
+                                                {util.getFormattedDate(expense.approvedDate)}
                                             </Th> 
                                             <Th>
-                                                {timesheetEntry?.approvedUser?.firstName} {timesheetEntry.approvedUser?.lastName}
+                                                {expense?.approvedBy?.firstName} {expense.approvedBy?.lastName}
                                             </Th> 
                                             <Th>
-                                                {util.getFormattedDate(timesheetEntry.lastUpdateDate)}
+                                                {util.getFormattedDate(expense.lastUpdateDate)}
                                             </Th>                                                                                    
                                     </Tr>
                                               
@@ -266,4 +265,4 @@ const ProjectTimesheets = (props) => {
   );
 };
 
-export default ProjectTimesheets;
+export default ProjectExpenses;
