@@ -3,7 +3,7 @@ import { Badge, Input, Button, Card, CardHeader, CardBody, Box, Text, Stack, Sel
 import { ExpenseConstants } from "../../constants";
 import { useSelector, useDispatch } from "react-redux";
 import { setExpenseHeader } from "../../store/modules/Expense/actions";
-import { ExpenseStatus, ExpenseType } from "@prisma/client";
+import { ExpenseStatus, ExpenseType, ProjectStatus } from "@prisma/client";
 import { util } from "../../helpers/util";
 import ExpenseAttachment from "./expenseAttachment";
 
@@ -77,7 +77,9 @@ const ExpenseHeader = (props) => {
                     <Select id="projectId" value={expenseHeader.projectId} onChange={(ev) => handleExpenseHeaderEntry("projectId",ev.target.value)}>
                         <option value="">Select Project</option>
                         {props.userProjectList?.map((project) => (
+                          {...project.project?.status === ProjectStatus.Open?(<>
                             <option value={project.projectId} data-unitprice={project.unitPrice} >{project.project.name} - {project.project.referenceCode}</option>
+                            </>):(<></>)}
                         ))}
                     </Select>  
                 </FormControl>    
