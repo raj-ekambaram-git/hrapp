@@ -25,22 +25,24 @@ export default function ExpenseChart(props) {
         }
       })
     
-
-    const data = [
-      { key: "Paid $"+expensePaid, value: expensePaid },
-      { key: "Unpaid $"+(util.getZeroPriceForNull(expenseTotal)-expensePaid), value: (util.getZeroPriceForNull(expenseTotal)-expensePaid) },
-    ];
-
-    let chartStatus = Chart.getChart("expense"); // <canvas> id
-    if (chartStatus != undefined) {
-      chartStatus.destroy();
+    if(expenseTotal>0) {
+      const data = [
+        { key: "Paid $"+expensePaid, value: expensePaid },
+        { key: "Unpaid $"+(util.getZeroPriceForNull(expenseTotal)-expensePaid), value: (util.getZeroPriceForNull(expenseTotal)-expensePaid) },
+      ];
+  
+      let chartStatus = Chart.getChart("expense"); // <canvas> id
+      if (chartStatus != undefined) {
+        chartStatus.destroy();
+      }
+      doughnutChart({
+        canvasId:"expense", 
+        chartData: data, 
+        titleText: 'Expense: $'+util.getZeroPriceForNull(expenseTotal), 
+        position:'top'})
+     
+  
     }
-    doughnutChart({
-      canvasId:"expense", 
-      chartData: data, 
-      titleText: 'Expense: $'+util.getZeroPriceForNull(expenseTotal), 
-      position:'top'})
-   
     
   }
 

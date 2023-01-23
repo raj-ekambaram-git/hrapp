@@ -1,4 +1,5 @@
 
+import { ExpenseType } from '@prisma/client';
 import validator from 'validator';
 import { EMPTY_STRING, INVOICE_PAY_TERMS } from '../constants/accountConstants';
 const generator = require('generate-password');
@@ -26,16 +27,24 @@ export const util = {
 
 function getTotalBillableExpense(expenseEntries) {
   let totalBillableExpense = 0;
+  let totalNonBillableExpense = 0;
+  let totalProjectCost = 0;
   if(expenseEntries) {
     expenseEntries?.map(expenseEntry => {
       if(expenseEntry.billable) {
         totalBillableExpense = parseFloat(totalBillableExpense)+parseFloat(expenseEntry?.amount)
+      }else {
+        if(expenseEntry.type === ExpenseType.Resource_Cost) {
+          totalProjectCost = parseFloat(totalProjectCost)+parseFloat(expenseEntry?.amount)
+        }else {
+          totalNonBillableExpense = parseFloat(totalNonBillableExpense)+parseFloat(expenseEntry?.amount)
+        }
+        
       }      
     })
 
   }
-  console.log("expenseEntries::"+JSON.stringify(totalBillableExpense))
-  return parseFloat(totalBillableExpense)
+  return {billableExpense: parseFloat(totalBillableExpense), nonBillableExpense: parseFloat(totalNonBillableExpense), totalProjectCost: parseFloat(totalProjectCost) }
 }
 function getWithCurrency(value) {
   if(value === undefined || value === EMPTY_STRING || value === null || isNaN(value)) {

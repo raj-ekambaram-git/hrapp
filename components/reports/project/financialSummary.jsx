@@ -1,5 +1,5 @@
 import { Box, Card, CardBody, CardHeader, Divider, Heading, HStack, Stack } from "@chakra-ui/react";
-import { InvoiceStatus } from "@prisma/client";
+import { ExpenseStatus, InvoiceStatus } from "@prisma/client";
 import React, { useEffect, useState } from "react";
 import { util } from "../../../helpers/util";
 
@@ -10,6 +10,9 @@ export default function FinancialSummary(props) {
   const [invoicePaid, setInvoicePaid] = useState(0);
   const [invoiceNotPaid, setInvoiceNotPaid] = useState(0);
   const [notInvoiced, setNotInvoiced] = useState(0);
+  const [projectCost, setProjectCost] = useState(0);
+  const [billableExpense, setBillableExpense] = useState(0);
+  const [nonbillableExpense, setNonbillableExpense] = useState(0);
 
   useEffect(() => {
     if(props.project) {
@@ -19,8 +22,9 @@ export default function FinancialSummary(props) {
 
 
   function financialSummaryData() {
-    setTotalRevenue(props.project.usedBudget)
+    setTotalRevenue(util.getZeroPriceForNull(props.project.usedBudget)+util.getZeroPriceForNull(props.project.usedMiscBudget))
 
+    //INCOME CALCULATION
     let invoicedTotal = 0;
     let invoicePaid = 0;
     props.project?.invoice?.map(inv => {
@@ -42,6 +46,23 @@ export default function FinancialSummary(props) {
     })
     console.log("notInvoiced::"+notInvoicedTSE)
     setNotInvoiced(notInvoicedTSE)
+
+    //EXPENSE
+    let expProjectCost = 0
+    let expenseTotal = 0;
+    let expensePaid = 0;
+    props.project?.expense?.map(exp => {
+      expenseTotal = parseFloat(expenseTotal)+parseFloat(exp?.total)
+      if((exp.status === ExpenseStatus.Paid || exp.status === ExpenseStatus.PartiallyPaid)) {
+        expensePaid = parseFloat(expensePaid)+parseFloat(exp?.paidAmount)
+      }
+      const expenseAmounts = util.getTotalBillableExpense(exp.expenseEntries);
+      expProjectCost = expProjectCost+expenseAmounts?.totalProjectCost;
+      setBillableExpense(billableExpense+expenseAmounts?.billableExpense)
+      setNonbillableExpense(nonbillableExpense+expenseAmounts?.nonBillableExpense)
+       setProjectCost(expProjectCost+expenseAmounts?.totalProjectCost)
+    })
+
   
   }
 
@@ -109,35 +130,43 @@ export default function FinancialSummary(props) {
               </HStack>
               <HStack>
                 <Box width="50%" textAlign="right">
-                  Total Revenue :
+                  Project Cost :
                 </Box>
                 <Box width="50%" textAlign="left" fontWeight="semibold">
-                  {util.getWithCurrency(totalRevenue)}
+                  {util.getWithCurrency(projectCost)}
                 </Box>              
               </HStack>
               <HStack>
                 <Box width="50%" textAlign="right">
-                  Total Revenue :
+                  Billable Expense :
                 </Box>
                 <Box width="50%" textAlign="left" fontWeight="semibold">
-                  {util.getWithCurrency(totalRevenue)}
+                  {util.getWithCurrency(billableExpense)}
                 </Box>              
               </HStack>
               <HStack>
                 <Box width="50%" textAlign="right">
-                  Total Revenue :
+                  Non-Billable Expense :
                 </Box>
                 <Box width="50%" textAlign="left" fontWeight="semibold">
-                  {util.getWithCurrency(totalRevenue)}
+                  {util.getWithCurrency(nonbillableExpense)}
                 </Box>              
               </HStack>
               <HStack>
                 <Box width="50%" textAlign="right">
-                  Total Revenue :
+                  Paid Expense :
                 </Box>
                 <Box width="50%" textAlign="left" fontWeight="semibold">
                   {util.getWithCurrency(totalRevenue)}
-                </Box>              
+                </Box>   
+              </HStack>  
+                <HStack>
+                <Box width="50%" textAlign="right">
+                  UnPaid Expense :
+                </Box>
+                <Box width="50%" textAlign="left" fontWeight="semibold">
+                  {util.getWithCurrency(totalRevenue)}
+                </Box>                             
               </HStack>
               <HStack>
                 <Box width="50%" textAlign="right">

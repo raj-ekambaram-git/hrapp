@@ -26,21 +26,22 @@ export default function InvoiceChart(props) {
         }
       })
     
-
-    const data = [
-      { key: "Paid $"+invoicePaid, value: invoicePaid },
-      { key: "Unpaid $"+(util.getZeroPriceForNull(invoicedTotal)-invoicePaid), value: (util.getZeroPriceForNull(invoicedTotal)-invoicePaid) },
-    ];
-
-    let chartStatus = Chart.getChart("invoice"); // <canvas> id
-    if (chartStatus != undefined) {
-      chartStatus.destroy();
+    if(invoicedTotal>0) {
+      const data = [];
+      data.push({ key: "Paid $"+invoicePaid, value: invoicePaid });
+      data.push({ key: "Unpaid $"+(util.getZeroPriceForNull(invoicedTotal)-invoicePaid), value: (util.getZeroPriceForNull(invoicedTotal)-invoicePaid) })
+      let chartStatus = Chart.getChart("invoice"); // <canvas> id
+      if (chartStatus != undefined) {
+        chartStatus.destroy();
+      }
+      doughnutChart({
+        canvasId:"invoice", 
+        chartData: data, 
+        titleText: 'Invoiced: $'+util.getZeroPriceForNull(invoicedTotal), 
+        position:'top'})
+  
     }
-    doughnutChart({
-      canvasId:"invoice", 
-      chartData: data, 
-      titleText: 'Invoiced: $'+util.getZeroPriceForNull(invoicedTotal), 
-      position:'top'})
+
    
   
   }

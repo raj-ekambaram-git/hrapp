@@ -73,6 +73,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
               },
               expenseEntries: {
                 select: {
+                  type: true,
                   billable: true,
                   amount: true
                 }

@@ -125,7 +125,7 @@ async function handleExpenseApproval(expenseId, status, expenseNote, approvedBy)
       // Expense are approved, now adjust the budget based on the billable expenses
       const totalExpenseAmount = util.getTotalBillableExpense(expense.expenseEntries);
       if(totalExpenseAmount != undefined && totalExpenseAmount != EMPTY_STRING) {
-        projectService.updateMiscUsedBudget(expense.project?.id, util.getZeroPriceForNull(expense.project?.usedMiscBudget) + parseFloat(totalExpenseAmount));
+        projectService.updateMiscUsedBudget(expense.project?.id, util.getZeroPriceForNull(expense.project?.usedMiscBudget) + util.getZeroPriceForNull(totalExpenseAmount.billableExpense));
       }
       return expense;
 

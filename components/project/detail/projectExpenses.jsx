@@ -76,10 +76,8 @@ const ProjectExpenses = (props) => {
     }
     
     function addExpenseAsInvoiceItem(e) {
-      console.log("Checked value:::"+e.target.checked+"----Value::"+e.target.value);
       const selectedExpense = expenseList.find(x => x.id === parseInt(e.target.value));
-      const totalExpenseAmount = util.getTotalBillableExpense(selectedExpense.expenseEntries);
-
+      const totalExpenseAmount = util.getTotalBillableExpense(selectedExpense.expenseEntries).billableExpense;
 
       if(e.target.checked) { //Add the timesheet entry to the invoice item list
         if(!enableAddExpense) {
@@ -90,11 +88,11 @@ const ProjectExpenses = (props) => {
           userId: parseInt(selectedExpense.user?.id),
           type: InvoiceConstants.INVOICE_ITEM_TYPE_EXPENSE,
           status: InvoiceConstants.INVOICE_STATUS.Draft,
-          unitPrice: totalExpenseAmount,
+          unitPrice: totalExpenseAmount.billableExpense,
           quantity: parseInt(1),
           currency: InvoiceConstants.INVOICE_CURRENCY_USD,
           uom: InvoiceConstants.INVOICE_UOM_HOURS,
-          total: totalExpenseAmount,
+          total: totalExpenseAmount.billableExpense,
           // fromDate: new Date(selectedTimesheetEntry.entries?.day1.date),
           // toDate: new Date(selectedTimesheetEntry.entries?.day7?.date)
         };
@@ -199,7 +197,7 @@ const ProjectExpenses = (props) => {
                                     
                                         <Tr>
                                           <Th>
-                                            {(callType == EXPENSE_CALL_TYPE && expense.status == ExpenseStatus.Approved && util.getTotalBillableExpense(expense.expenseEntries) > 0) ? (
+                                            {(callType == EXPENSE_CALL_TYPE && expense.status == ExpenseStatus.Approved && util.getTotalBillableExpense(expense.expenseEntries).billableExpense > 0) ? (
                                               <>
                                                 <Checkbox value={expense.id}
                                                   onChange={(e) => addExpenseAsInvoiceItem(e)}
@@ -220,7 +218,7 @@ const ProjectExpenses = (props) => {
                                                 <>
                                                 <HStack>
                                                   <Box marginRight={3}>
-                                                    {util.getWithCurrency(util.getTotalBillableExpense(expense.expenseEntries))}
+                                                    {util.getWithCurrency(util.getTotalBillableExpense(expense.expenseEntries).billableExpense)}
                                                   </Box>
                                                   <ProjectExpenseEntriesSection data={expense.expenseEntries}/>
                                                   </HStack>
