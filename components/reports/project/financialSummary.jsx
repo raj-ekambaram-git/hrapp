@@ -15,7 +15,8 @@ export default function FinancialSummary(props) {
     if(props.project) {
       financialSummaryData();
     }    
-  }, []);
+  }, [props]);
+
 
   function financialSummaryData() {
     setTotalRevenue(props.project.usedBudget)
