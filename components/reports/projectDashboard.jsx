@@ -52,7 +52,7 @@ return (
                     <></>
                   )
                 }    
-                <Select bgColor="white" width="30%" onChange={(ev) => getProjectBudgetDetails(ev.target.value)}>
+                <Select bgColor="white" width="30%" onChange={(ev) => getProjectBudgetDetails(ev.target.value)} value={projectId}>
                   <option value="">Select Project</option>
                   {projectList?.map((project) => (
                           <option value={project.projectId}>{project.project?.name} - {project.project?.referenceCode}</option>
