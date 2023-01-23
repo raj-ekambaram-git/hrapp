@@ -21,7 +21,9 @@ import {
   CardHeader,
   CardBody,
   StackDivider,
-  useToast
+  useToast,
+  InputGroup,
+  InputLeftElement
 } from '@chakra-ui/react'
 import {PageNotAuthorized} from '../../components/common/pageNotAuthorized'
 import {PageMainHeader} from '../../components/common/pageMainHeader'
@@ -61,6 +63,7 @@ const UserAddEdit = (props) => {
   const state = useRef("");
   const zipCode = useRef("");
   const addressId = useRef("");
+  const cost = useRef("");
   
 
   const [accountPhone, setAccountPhone] = useState("");
@@ -186,6 +189,7 @@ const UserAddEdit = (props) => {
             userVendorId: userResonse.vendorId,
             timeSheetEnabled: userResonse.isTimeSheetEnabled,
             userStatus: userResonse.status,
+            cost: userResonse.cost,
             addressId: userResonse.address[0].id,
             addressName: userResonse.address[0].addressName,
             address1: userResonse.address[0].address1,
@@ -202,7 +206,7 @@ const UserAddEdit = (props) => {
         dispatch(setUserProjects(userResonse.projectResource))
 
         // get user and set form fields
-            const fields = ['firstName', "lastName","userType", "userEmail","userPhone","userAccountId", "userVendorId","timeSheetEnabled","userStatus","addressName","address1", "address2", "address3","city","state","zipCode", "userRole"];
+            const fields = ['firstName', "lastName","userType", "userEmail","userPhone","userAccountId", "userVendorId","timeSheetEnabled","userStatus","addressName","address1", "address2", "address3","city","state","zipCode", "userRole","cost"];
             fields.forEach(field => setValue(field, userData[field]));
     }
 
@@ -402,6 +406,21 @@ const UserAddEdit = (props) => {
                             </Select>
                           </FormControl>     
                         </Box>  
+                        <Box>
+                          <FormControl isRequired>
+                              <FormLabel>Cost</FormLabel>
+                              <InputGroup>
+                                <InputLeftElement
+                                    pointerEvents='none'
+                                    color='dollor_input'
+                                    fontSize='dollar_left_element'
+                                    children='$'
+                                />    
+                                <Input type="number" id="cost"  size="md" {...register('cost')} />
+                              </InputGroup>
+                              
+                            </FormControl>      
+                        </Box>                           
                       </HStack>     
                   </Stack>
                 </CardBody>

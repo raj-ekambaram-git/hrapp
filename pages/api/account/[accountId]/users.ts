@@ -36,7 +36,8 @@ console.log("Vendor ID::"+vendorId+"---AccountioD::"+accountId)
               id: true,
               firstName: true,
               lastName: true,
-              userRole: true
+              userRole: true,
+              cost: true
             }
           },
           vendor: {

@@ -47,6 +47,7 @@ const AddProjectResource = (props) => {
   const [userList, setUserList] = useState([]);
   const [userId, setUserId] = useState("");
   const [projectResourceId, setProjectResourceId] = useState("");
+  const [cost, setCost] = useState("");
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
   const [price, setPrice] = useState("");
@@ -102,6 +103,7 @@ const AddProjectResource = (props) => {
       setTimesheetApprover(data?.projectResource?.isTimesheetApprover)
       setFromDate(data?.projectResource?.fromDate)
       setToDate(data?.projectResource?.toDate)
+      setCost(data?.projectResource?.cost)
 
     }
     setSize(newSize);
@@ -141,6 +143,7 @@ const AddProjectResource = (props) => {
       setTimesheetApprover(false);
     }
 
+    setCost(user.target.options.item(user.target.selectedIndex).getAttribute("data-cost"))
     setSelectedUserFirstName(user.target.options.item(user.target.selectedIndex).getAttribute("data-fn"));
     setSelectedUserLastName(user.target.options.item(user.target.selectedIndex).getAttribute("data-ln"));
 
@@ -174,6 +177,8 @@ const AddProjectResource = (props) => {
         || price == undefined
         || quantity == ""
         || quantity == undefined
+        || cost == ""
+        || cost == undefined
         || budgetAllocated == ""
         || budgetAllocated == undefined) {
 
@@ -195,6 +200,7 @@ const AddProjectResource = (props) => {
         budgetAllocated: budgetAllocated,
         currency: currency,
         billable: billable,
+        cost: cost,
         isTimesheetApprover: isTimesheetApprover,
         fromDate: fromDate,
         toDate: toDate,
@@ -421,7 +427,8 @@ const AddProjectResource = (props) => {
                                           <Select width="50%%" value={userId} onChange={(ev) => handleUser(ev)} border="table_border">
                                             <option value="">Select User</option>
                                               {userList?.map((user) => (
-                                                      <option value={user.user?.id} data-role={user.user?.userRole} data-fn={user.user?.firstName} data-ln={user.user?.lastName}>{user.user?.firstName} {user.user?.lastName}</option>
+                                                      <option value={user.user?.id} data-role={user.user?.userRole} data-cost={user.user?.cost}
+                                                      data-fn={user.user?.firstName} data-ln={user.user?.lastName}>{user.user?.firstName} {user.user?.lastName}</option>
                                               ))}   
                                           </Select>
                                         </Th>
@@ -498,6 +505,22 @@ const AddProjectResource = (props) => {
                                           </Select>
                                         </Th>
                                     </Tr>    
+                                    <Tr>
+                                        <Th bgColor="table_tile">
+                                          Cost
+                                        </Th>
+                                        <Th>
+                                          <InputGroup>                            
+                                            <InputLeftElement
+                                                pointerEvents='none'
+                                                color='dollor_input'
+                                                fontSize='dollar_left_element'
+                                                children='$'
+                                            />     
+                                            <Input type="text" value={cost} width="50%" onChange={(ev) => setCost(ev.target.value)}/>
+                                          </InputGroup>                                         
+                                        </Th>
+                                    </Tr>                                       
                                     <Tr>
                                         <Th bgColor="table_tile">
                                           From Date

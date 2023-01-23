@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "User" ADD COLUMN     "cost" DECIMAL(65,30) DEFAULT 0;

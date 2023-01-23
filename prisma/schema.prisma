@@ -101,6 +101,7 @@ model ProjectResource {
   budgetAllocated     Decimal?       @default(0)
   usedBudget          Decimal?       @default(0)
   remainingBudget     Decimal?       @default(0)
+  cost                Decimal?       @default(0)
   isTimesheetApprover Boolean        @default(false)
   fromDate            DateTime?
   toDate              DateTime?
@@ -224,6 +225,7 @@ model User {
   passwordExpired    Boolean            @default(false)
   passwordRetries    Int                @default(1)
   passwordSalt       String             @default("123456xyz")
+  cost               Decimal?           @default(0)
   lastSignIn         DateTime           @default(now())
   createdDate        DateTime           @default(now())
   lastUpdateDate     DateTime           @updatedAt
