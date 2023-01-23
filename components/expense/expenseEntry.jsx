@@ -1,5 +1,6 @@
 import { CheckCircleIcon, DeleteIcon } from "@chakra-ui/icons";
 import { Input, Box, Card, CardBody, CardHeader, Stack, useToast, Text, Select, HStack, Checkbox, Table, Thead, Tr, Th, Tbody, Button, Tooltip } from "@chakra-ui/react";
+import { ExpenseType } from "@prisma/client";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -25,9 +26,10 @@ const ExpenseEntry = (props) => {
   const [isAddMode, setAddMode] = useState(true);
   const [expenseStatus, setExpenseStatus] = useState(EMPTY_STRING);
   const [showProjectError, setShowProjectError] = useState(false);
+  const [showBillable, setShowBillable] = useState(true);
   const [userProjectList, setUserProjectList] = useState([]);
   const [expenseTotal, setExpenseTotal] = useState(0);
-
+  
   const userId = props.data.userId;
   const expenseEntries = useSelector(state => state.expense.expenseEntries);
   const expenseHeader = useSelector(state => state.expense.expenseHeader);
@@ -198,6 +200,13 @@ const ExpenseEntry = (props) => {
       case("date"): 
         value= new Date(value)
         break;
+      case("type"): 
+        if(value === ExpenseType.Resource_Cost) {
+          setShowBillable(false)
+        }else {
+          setShowBillable(true)
+        }
+      break;        
     }
 
     newExpenseEntries[index][name] = value;
@@ -268,10 +277,12 @@ const ExpenseEntry = (props) => {
                         </Select>                           
                         </Th>             
                         <Th>
-                          <Checkbox
+                          {(expenseEntry.type != ExpenseType.Resource_Cost && showBillable)?(<>
+                            <Checkbox
                               isChecked={expenseEntry.billable}
                               onChange={(e) => handleExpenseEntry(index,"billable",e.target.checked)}
                             />    
+                          </>):(<></>)}
                         </Th>             
                         <Th>
                           <HStack>

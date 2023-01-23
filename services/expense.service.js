@@ -121,7 +121,10 @@ async function handleExpenseApproval(expenseId, status, expenseNote, approvedBy)
       }
     )
     .then(expense => {
+      // Expense are approved, now adjust the budget based on the billable expenses
+      
       return expense;
+
     })
     .catch(err => {
     console.log("Error Updating Expense::"+err)
