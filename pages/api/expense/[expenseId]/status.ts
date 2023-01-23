@@ -35,7 +35,17 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
               }
             }
           }        
+        },
+        select: {
+          project: {
+            select: {
+              id: true,
+              usedMiscBudget: true
+            }
+          },
+          expenseEntries: true
         }
+        
       });
 
       const savedNotes = await prisma.notes.create({

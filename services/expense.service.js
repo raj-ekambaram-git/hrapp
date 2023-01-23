@@ -2,8 +2,9 @@ import getConfig from 'next/config';
 
 
 import { fetchWrapper } from 'helpers';
-import { ExpenseConstants } from '../constants';
+import { EMPTY_STRING, ExpenseConstants } from '../constants';
 import { util } from '../helpers/util';
+import { projectService } from './project.service';
 
 const { publicRuntimeConfig } = getConfig();
 const baseUrl = `${publicRuntimeConfig.apiUrl}`;
@@ -122,7 +123,10 @@ async function handleExpenseApproval(expenseId, status, expenseNote, approvedBy)
     )
     .then(expense => {
       // Expense are approved, now adjust the budget based on the billable expenses
-      
+      const totalExpenseAmount = util.getTotalBillableExpense(expense.expenseEntries);
+      if(totalExpenseAmount != undefined && totalExpenseAmount != EMPTY_STRING) {
+        projectService.updateMiscUsedBudget(expense.project?.id, util.getZeroPriceForNull(expense.project?.usedMiscBudget) + parseFloat(totalExpenseAmount));
+      }
       return expense;
 
     })

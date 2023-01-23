@@ -20,9 +20,25 @@ export const projectService = {
     getProjectBudgetDetails,
     updateResourceUsedBudget,
     getAllExpensesByProject,
-    getProjectExpensesByStatus
+    getProjectExpensesByStatus,
+    updateMiscUsedBudget
     
 };
+
+function updateMiscUsedBudget(projectId, usedMiscBudget) {
+    console.log("Project Id::"+projectId+"*****usedMiscBudget::"+usedMiscBudget)
+    return fetchWrapper.put(`${baseUrl}/account/project/${projectId}`, {
+        id: projectId,
+        usedMiscBudget: usedMiscBudget
+    })
+        .then(updatedProject => {
+            return updatedProject;
+        })  
+        .catch(err => {
+          console.log("Error Updating Used Budget")
+          return {errorMessage: err, error: true};
+      });
+  }
 
 function updateResourceUsedBudget(projectResourceId,projectResourceUsedBudget) {
 
