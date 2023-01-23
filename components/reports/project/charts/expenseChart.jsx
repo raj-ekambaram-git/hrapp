@@ -11,14 +11,17 @@ export default function ExpenseChart(props) {
 
   useEffect(() => {
     if(props.expense) {
-      expenseData();
-    }    
+      getExpenseData();
+    }  
   }, []);
   
 
 
-  function expenseData() {
+  if(props.expense) {
+    getExpenseData();
+  }
 
+  function getExpenseData() {
     let expenseTotal = 0;
     let expensePaid = 0;
     props.expense?.map(exp => {

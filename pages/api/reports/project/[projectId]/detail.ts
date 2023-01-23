@@ -13,9 +13,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const projectId = req.query?.projectId;
     const accountId = req.query?.accountId;
-    
     if(projectId != EMPTY_STRING && projectId != undefined && accountId != EMPTY_STRING && accountId != undefined && accountId != "NaN") {
-      const vendors = await prisma.project.findMany({
+      const projects = await prisma.project.findMany({
         where: {
           id: {
             equals: parseInt(projectId.toString())            
@@ -102,7 +101,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         }
       })
       
-        res.status(200).json(vendors[0]);
+        res.status(200).json(projects[0]);
   
     } else {
       res.status(400).json({ message: 'Something went wrong while updating' })

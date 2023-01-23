@@ -12,13 +12,14 @@ export default function InvoiceChart(props) {
   useEffect(() => {
     if(props.invoice) {
       invoiceData();
-    }    
+    }  
   }, []);
-  
 
+  if(props.invoice) {
+    invoiceData();
+  }
 
-  function invoiceData() {
-
+  function invoiceData(){
     let invoicedTotal = 0;
     let invoicePaid = 0;
     
@@ -45,7 +46,7 @@ export default function InvoiceChart(props) {
       titleText: 'Invoiced: $'+util.getZeroPriceForNull(invoicedTotal), 
       position:'top'})
    
-    
+  
   }
 
   return (

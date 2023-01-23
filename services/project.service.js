@@ -21,9 +21,15 @@ export const projectService = {
     updateResourceUsedBudget,
     getAllExpensesByProject,
     getProjectExpensesByStatus,
-    updateMiscUsedBudget
+    updateMiscUsedBudget,
+    getAllAllowedProjects
     
 };
+
+function getAllAllowedProjects(accountId) {
+
+}
+
 
 function updateMiscUsedBudget(projectId, usedMiscBudget) {
     console.log("Project Id::"+projectId+"*****usedMiscBudget::"+usedMiscBudget)

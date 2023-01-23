@@ -16,8 +16,6 @@ export default function FinancialSummary(props) {
       financialSummaryData();
     }    
   }, []);
-  
-
 
   function financialSummaryData() {
     setTotalRevenue(props.project.usedBudget)
