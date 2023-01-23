@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import Chart from 'chart.js/auto'
 import { util } from "../../../../helpers/util";
-import { ExpenseStatus, InvoiceStatus } from "@prisma/client";
+import { ExpenseStatus } from "@prisma/client";
 import { doughnutChart } from "../../../common/charts/doughnutChart";
 import { Box } from "@chakra-ui/react";
 
@@ -38,10 +38,17 @@ export default function ExpenseChart(props) {
 
     if(expenseTotal>0) {
       const data = [
-        { key: "Paid $"+expensePaid, value: expensePaid },
-        { key: "Unpaid $"+(util.getZeroPriceForNull(expenseTotal)-expensePaid), value: (util.getZeroPriceForNull(expenseTotal)-expensePaid) },
       ];
   
+      if(expProjectCost>0) {
+        data.push({ key: "Cost $"+expProjectCost, value: expProjectCost },)
+      }
+      if(expBillable>0) {
+        data.push({ key: "Billable $"+expBillable, value: expBillable },)
+      }
+      if(expNonBillable>0) {
+        data.push({ key: "Non-Billable $"+expNonBillable, value: expNonBillable },)
+      }      
       let chartStatus = Chart.getChart("expense"); // <canvas> id
       if (chartStatus != undefined) {
         chartStatus.destroy();
