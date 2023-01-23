@@ -126,7 +126,7 @@ const ProjectTimesheets = (props) => {
               onClick={() => handleProjectTimesheets("xl")}
               key="xl"
               m={1}
-              >{`Timesheets`}
+              >{`Expenses`}
           </Button>
 
           <Drawer onClose={onClose} isOpen={isOpen} size={size}>
@@ -134,7 +134,7 @@ const ProjectTimesheets = (props) => {
                     <DrawerContent>
                         <DrawerCloseButton />
                         <DrawerHeader>
-                          Project Timesheets
+                          Project Expenses
                         </DrawerHeader>
                         <DrawerBody>
                           <Stack divider={<StackDivider />} spacing='1'>
@@ -199,7 +199,7 @@ const ProjectTimesheets = (props) => {
                                     
                                         <Tr>
                                           <Th>
-                                            {(callType == INVOICE_CALL_TYPE && timesheetEntry.status == TIMESHEET_STATUS.Approved && timesheetEntry.billable) ? (
+                                            {(callType == INVOICE_CALL_TYPE && timesheetEntry.status == TIMESHEET_STATUS.Approved) ? (
                                               <>
                                                 <Checkbox value={timesheetEntry.id}
                                                   onChange={(e) => addTimesheetEntryAsInvoiceItem(e)}
