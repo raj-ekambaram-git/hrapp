@@ -49,20 +49,27 @@ export default function FinancialSummary(props) {
 
     //EXPENSE
     let expProjectCost = 0
+    let expBillable = 0
+    let expNonBillable = 0
     let expenseTotal = 0;
     let expensePaid = 0;
     props.project?.expense?.map(exp => {
       expenseTotal = parseFloat(expenseTotal)+parseFloat(exp?.total)
       if((exp.status === ExpenseStatus.Paid || exp.status === ExpenseStatus.PartiallyPaid)) {
         expensePaid = parseFloat(expensePaid)+parseFloat(exp?.paidAmount)
+      } else if( exp.status === ExpenseStatus.Approved) {
+        const expenseAmounts = util.getTotalBillableExpense(exp.expenseEntries);
+        expBillable = expBillable+expenseAmounts?.billableExpense;
+        expNonBillable = expNonBillable+expenseAmounts?.nonBillableExpense;
+        expProjectCost = expProjectCost+expenseAmounts?.totalProjectCost;  
       }
-      const expenseAmounts = util.getTotalBillableExpense(exp.expenseEntries);
-      expProjectCost = expProjectCost+expenseAmounts?.totalProjectCost;
-      setBillableExpense(billableExpense+expenseAmounts?.billableExpense)
-      setNonbillableExpense(nonbillableExpense+expenseAmounts?.nonBillableExpense)
-       setProjectCost(expProjectCost+expenseAmounts?.totalProjectCost)
+      
     })
+    setBillableExpense(expBillable)
+    setNonbillableExpense(expNonBillable)
+    setProjectCost(expProjectCost)
 
+  
   
   }
 
