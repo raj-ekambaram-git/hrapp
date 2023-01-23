@@ -9,6 +9,7 @@ import { timesheetService } from './timesheet.service';
 import { util } from '../helpers/util';
 import { emailService } from './email.service';
 import { CommonConstants, EmailConstants } from '../constants';
+import { expenseService } from './expense.service';
 
 
 
@@ -213,6 +214,7 @@ function updateInvoice(formData, invoiceId, invoiceDate, dueDte, invoiceItemList
 
   const result = invoiceItemList.map((invoiceItem) => delete invoiceItem["timesheetEntry"]);
   invoiceItemList.map((invoiceItem) => delete invoiceItem["user"]);
+  invoiceItemList.map((invoiceItem) => delete invoiceItem["expense"]);
   console.log("updateInvoice::::result:::"+JSON.stringify(result));
   console.log("updateInvoice::::invoiceItemList:::"+JSON.stringify(invoiceItemList));
   
@@ -238,11 +240,9 @@ function updateInvoice(formData, invoiceId, invoiceDate, dueDte, invoiceItemList
       }
   )
   .then(invoice => {
-    
-    console.log("Inside the update service ::"+JSON.stringify(invoice)+"*******invoiceItemList:::"+JSON.stringify(invoiceItemList));
 
     if(!invoice.error) {
-      updateTSEntriesAsInvoiced(invoice, invoiceItemList);
+      updateInvoiceItemStatus(invoice, invoiceItemList);
       if((invoice.status != undefined && (invoice.status === InvoiceConstants.INVOICE_STATUS.Submitted
         || invoice.status === InvoiceConstants.INVOICE_STATUS.Cancelled))) {
           const responseData = sendInvoiceEmail(invoice.id, invoice.accountId);
@@ -259,7 +259,6 @@ function updateInvoice(formData, invoiceId, invoiceDate, dueDte, invoiceItemList
 
 
 function createNewInvoice(formData, invoiceItemList, invoiceDate, dueDte, invoiceEmailTos) {
-  console.log("Before calling the create invoice....."+JSON.stringify(formData))
   let paidAmountValue = 0;
   if(formData.paidAmount != undefined && formData.paidAmount != EMPTY_STRING) {
     paidAmountValue = parseFloat(formData.paidAmount);
@@ -286,7 +285,7 @@ function createNewInvoice(formData, invoiceItemList, invoiceDate, dueDte, invoic
 
     console.log("Inside the create service ::"+JSON.stringify(invoice)+"*******invoiceItemList:::"+JSON.stringify(invoiceItemList));
     if(!invoice.error) {
-      updateTSEntriesAsInvoiced(invoice, invoiceItemList);
+      updateInvoiceItemStatus(invoice, invoiceItemList);
       if((invoice.status != undefined && (invoice.status === InvoiceConstants.INVOICE_STATUS.Submitted
         || invoice.status === InvoiceConstants.INVOICE_STATUS.Cancelled))) {
           const responseData = sendInvoiceEmail(invoice.id, invoice.accountId);
@@ -302,28 +301,49 @@ function createNewInvoice(formData, invoiceItemList, invoiceDate, dueDte, invoic
   });
 }
 
+async function updateInvoiceItemStatus(invoice, invoiceItemList) {
 
 
-async function updateTSEntriesAsInvoiced(invoice, invoiceItemList) {
+    let tsEntriyIDs = [];
+    invoiceItemList.map( (item) => {
+      if(item.timesheetEntryId != null && item.timesheetEntryId != undefined) {
+        tsEntriyIDs.push(item.timesheetEntryId)
+      }
+    });
 
-    //If Invoice Type is Timesheet and the status as submitted, then update timeshee entry status as Invoiced
-    if(invoice.type === InvoiceConstants.INVOICE_ITEM_TYPE_TIMESHEET && (invoice.status != InvoiceConstants.INVOICE_STATUS.Draft 
-                                                                        && invoice.status != InvoiceConstants.INVOICE_STATUS.Cancelled)) {
-          //Get the TImesheetEntries ID as an array
-        let tsEntriyIDs = invoiceItemList.map( (item) => item.timesheetEntryId);
-        console.log("IDSSS:"+JSON.stringify(tsEntriyIDs));
-        const data = {status: TIMESHEET_STATUS.Invoiced};
-        const udpateTSEntries = await timesheetService.updateTimesheetEntries(tsEntriyIDs, data);
-        if(udpateTSEntries.error) {
-          console.log("Error updating the timnesheet etnrries"+udpateTSEntries.errorMessage)
-          return {errorMessage: udpateTSEntries.errorMessage, error: true};
+    let expenseIDs = [];
+    invoiceItemList.map( (item) => {
+      if(item.expenseId != null && item.expenseId != undefined) {
+          expenseIDs.push(item.expenseId)
+      }
+    });
+
+    const data = {status: TIMESHEET_STATUS.Invoiced};
+
+    if(tsEntriyIDs && tsEntriyIDs.length > 0) {
+      if((invoice.type === InvoiceConstants.INVOICE_ITEM_TYPE_TIMESHEET || invoice.type === InvoiceConstants.INVOICE_ITEM_TYPE_PROJECT) && (invoice.status != InvoiceConstants.INVOICE_STATUS.Draft 
+        && invoice.status != InvoiceConstants.INVOICE_STATUS.Cancelled)) {
+          const udpateTSEntries = await timesheetService.updateTimesheetEntries(tsEntriyIDs, data);
+          if(udpateTSEntries.error) {
+            return {errorMessage: udpateTSEntries.errorMessage, error: true};
+          }
         }
-      
     }
+    
+    if(expenseIDs && expenseIDs.length > 0) {
+      if((invoice.type === InvoiceConstants.INVOICE_ITEM_TYPE_EXPENSE || invoice.type === InvoiceConstants.INVOICE_ITEM_TYPE_PROJECT) && (invoice.status != InvoiceConstants.INVOICE_STATUS.Draft 
+        && invoice.status != InvoiceConstants.INVOICE_STATUS.Cancelled)) {
+          const updateExpense = await expenseService.updateExpenseStatus(expenseIDs, data);
+          if(updateExpense.error) {
+            return {errorMessage: updateExpense.errorMessage, error: true};
+          }
+        }
+    }
+
 }
-  
+
+
 async function callGenerateInvoiceAPI(generateInvoiceDetail, invoiceId) {
-  console.log("generateInvoiceDetail::"+JSON.stringify(generateInvoiceDetail))
   const authHeader = JSON.stringify(fetchWrapper.authHeader(`${baseUrl}/account/invoice/${invoiceId}/generate`));
   const data = await fetch(`${baseUrl}/account/invoice/${invoiceId}/generate`, {
     method: 'POST',

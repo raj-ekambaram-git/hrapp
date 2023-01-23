@@ -16,9 +16,23 @@ export const expenseService = {
     handleExpenseApproval,
     addAttachmentToExpenseEntry,
     getExpenseTransactions,
-    createExpenseTransaction
+    createExpenseTransaction,
+    updateExpenseStatus
 };
 
+function updateExpenseStatus(expenseIds, data) {
+  return fetchWrapper.put(`${baseUrl}/expense/status/update`, {
+    expenseIds: expenseIds,
+    data: data
+  }
+  ).then(expenses => {
+    return expenses;
+  }).catch(err => {
+    console.log("Successfylly Created Invooice But error updating expenses::"+err)
+    return {errorMessage: err, error: true};
+  });
+
+}
 
 function createExpenseTransaction(formData, accountId) {
   
