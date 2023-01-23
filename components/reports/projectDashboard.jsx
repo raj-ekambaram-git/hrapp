@@ -64,7 +64,6 @@ return (
         </HStack>
            {project? (
               <HStack>
-                <Box>{project.name}</Box>
                 <BudgetChart budget={project.budget} usedBudget={project.usedBudget} miscBudget={project.miscBudget} usedMiscBudget={project.usedMiscBudget}/>
                 <InvoiceChart invoice={project.invoice}/>
                 <ExpenseChart expense={project.expense}/>
