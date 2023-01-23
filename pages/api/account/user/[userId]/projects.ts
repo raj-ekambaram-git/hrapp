@@ -1,5 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
+import { ProjectStatus } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next"
 import prisma from "../../../../../lib/prisma";
 
@@ -24,8 +25,11 @@ console.log("userId ID::"+userId+"---AccountioD::"+accountId)
             project: {
               accountId: {
                 equals: parseInt(accountId.toString())
+              },
+              status: {
+                in: [ProjectStatus.Open, ProjectStatus.Closed, ProjectStatus.Settled]
               }
-            }
+            },
         },
         orderBy: {
           id: "desc"
@@ -45,6 +49,9 @@ console.log("userId ID::"+userId+"---AccountioD::"+accountId)
             project: {
               accountId: {
                 equals: parseInt(accountId.toString())
+              },
+              status: {
+                in: [ProjectStatus.Open, ProjectStatus.Closed, ProjectStatus.Settled]
               }
             }
         },
@@ -67,6 +74,9 @@ console.log("userId ID::"+userId+"---AccountioD::"+accountId)
             project: {
               accountId: {
                 equals: parseInt(accountId.toString())
+              },
+              status: {
+                in: [ProjectStatus.Open, ProjectStatus.Closed, ProjectStatus.Settled]
               }
             }
         },
