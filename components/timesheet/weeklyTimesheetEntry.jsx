@@ -232,6 +232,7 @@ const WeeklyTimesheetEntry = (props) => {
                 timeEntryRecord.projectId = parseInt(inputValue);
                 timeEntryRecord.unitPrice = parseInt(ev.target.options.item(ev.target.selectedIndex).getAttribute("data-unitprice"));
                 timeEntryRecord.notesRequired = ev.target.options.item(ev.target.selectedIndex).getAttribute("data-dailyNotesRequired")==="true"?true:false
+                timeEntryRecord.billable = ev.target.options.item(ev.target.selectedIndex).getAttribute("data-billable")==="true"?true:false
                 timeEntryRecord.projectName = ev.target.options.item(ev.target.selectedIndex).getAttribute("data-projectName")
                 break;
             default:
@@ -354,7 +355,10 @@ const WeeklyTimesheetEntry = (props) => {
                                         <Select id="projectId" value={timesheetEntry.projectId} onChange={(ev) => setTimesheetEntry(index, ev, "projectId")}>
                                             <option value="">Select Project</option>
                                             {userProjectList?.map((project) => (
-                                                <option value={project.projectId} data-unitprice={project.unitPrice} data-dailyNotesRequired={project.project?.timesheetNotesRequired} data-projectName={project.project?.name} >{project.project?.name} - {project.project?.referenceCode} - {project.billable?"Billable":"Non-Billable"} </option>
+                                                <option value={project.projectId} data-unitprice={project.unitPrice} 
+                                                    data-dailyNotesRequired={project.project?.timesheetNotesRequired} 
+                                                    data-billable={project.billable} 
+                                                    data-projectName={project.project?.name} >{project.project?.name} - {project.project?.referenceCode} - {project.billable?"Billable":"Non-Billable"} </option>
                                             ))}
                                         </Select>  
                                     </Box>  
