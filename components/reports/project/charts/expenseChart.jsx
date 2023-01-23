@@ -21,7 +21,7 @@ export default function ExpenseChart(props) {
     let expProjectCost = 0
     let expBillable = 0
     let expNonBillable = 0
-    props.project?.expense?.map(exp => {
+    props.expense?.map(exp => {
       if((exp.status != ExpenseStatus.Submitted && exp.status != ExpenseStatus.Draft)) {
         expenseTotal = parseFloat(expenseTotal)+parseFloat(exp?.total)
       }      
