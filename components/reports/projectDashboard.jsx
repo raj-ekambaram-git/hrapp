@@ -6,6 +6,7 @@ import InvoiceChart from "./project/charts/invoiceChart";
 import ExpenseChart from "./project/charts/expenseChart";
 import FinancialSummary from "./project/financialSummary";
 import { useDispatch, useSelector } from "react-redux";
+import RevenueByUsers from "./project/charts/revenueByUsers";
 
 
 export default function ProjectDashboard(props) {
@@ -63,12 +64,26 @@ return (
           </Card>
         </HStack>
            {project? (
+            <>
               <HStack>
                 <BudgetChart budget={project.budget} usedBudget={project.usedBudget} miscBudget={project.miscBudget} usedMiscBudget={project.usedMiscBudget}/>
                 {project.invoice && project.invoice?.length > 0?(<InvoiceChart invoice={project.invoice}/>):(<></>)}
                 {project.expense && project.expense?.length > 0?(<ExpenseChart expense={project.expense}/>):(<></>)}                
                 <FinancialSummary project={project}/>
               </HStack>
+              <Card variant="reportByUsers">
+                <CardHeader>
+                  By Users
+                </CardHeader>
+                <CardBody>
+                  <HStack>
+                    <RevenueByUsers budget={project.budget} usedBudget={project.usedBudget} miscBudget={project.miscBudget} usedMiscBudget={project.usedMiscBudget}/>
+                  </HStack>
+
+                </CardBody>
+              </Card>
+
+            </>              
             ):(<>
             </>)}                    
       </Stack>
