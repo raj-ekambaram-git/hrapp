@@ -15,6 +15,8 @@ export default function FinancialSummary(props) {
   const [nonbillableExpense, setNonbillableExpense] = useState(0);
   const [paidExpense, setPaidExpense] = useState(0);
   const [unpaidExpense, setUnpaidExpense] = useState(0);
+  const [netRevenue, setNetRevenue] = useState(0);
+  
 
   useEffect(() => {
     if(props.project) {
@@ -72,8 +74,7 @@ export default function FinancialSummary(props) {
     setProjectCost(expProjectCost)
     setPaidExpense(expensePaid)
     setUnpaidExpense(parseFloat(expenseTotal)-parseFloat(expensePaid))
-  
-  
+    setNetRevenue(totalRevenue-(projectCost+billableExpense+nonbillableExpense))
   }
 
   
@@ -84,110 +85,120 @@ export default function FinancialSummary(props) {
           <Heading size='xs' textAlign="center">Summary as of {util.getFormattedDate(new Date())}</Heading>
         </CardHeader>
         <CardBody>
-          <HStack>
-            <Stack width="50%">
-              <HStack>
-                <Box textAlign="left" fontWeight="semibold" fontStyle="italic">
-                  Income
-                </Box>
-              </HStack>
-              <HStack>
-                <Box width="50%" textAlign="right">
-                  Total Revenue :
-                </Box>
-                <Box width="50%" textAlign="left" fontWeight="semibold">
-                  {util.getWithCurrency(totalRevenue)}
-                </Box>              
-              </HStack>
-              <HStack>
-                <Box width="50%" textAlign="right">
-                  Invoiced :
-                </Box>
-                <Box width="50%" textAlign="left" fontWeight="semibold" >
-                  {util.getWithCurrency(invoiced)}
-                </Box>              
-              </HStack>
-              <HStack>
-                <Box width="50%" textAlign="right">
-                  Paid Invoice :
-                </Box>
-                <Box width="50%" textAlign="left" fontWeight="semibold" color="debit_amount">
-                  {util.getWithCurrency(invoicePaid)}
-                </Box>              
-              </HStack>
-              <HStack>
-                <Box width="50%" textAlign="right">
-                  Invoice Not Paid :
-                </Box>
-                <Box width="50%" textAlign="left" fontWeight="semibold" color={util.getZeroPriceForNull(invoiceNotPaid) > 0?'credit_amount':""}>
-                  {util.getWithCurrency(invoiceNotPaid)}
-                </Box>              
-              </HStack>
-              <HStack>
-                <Box width="50%" textAlign="right">
-                  Not Invoiced :
-                </Box>
-                <Box width="50%" textAlign="left" fontWeight="semibold" color={util.getZeroPriceForNull(notInvoiced) > 0 ? 'credit_amount':""}>
-                  {util.getWithCurrency(notInvoiced)}
-                </Box>              
-              </HStack>                                                
-            </Stack>
-            <Stack width="50%">
-              <HStack>
-                <Box textAlign="left" fontWeight="semibold" fontStyle="italic">
-                  Expense
-                </Box>
-              </HStack>
-              <HStack>
-                <Box width="60%" textAlign="right">
-                  Project Cost :
-                </Box>
-                <Box width="50%" textAlign="left" fontWeight="semibold">
-                  {util.getWithCurrency(projectCost)}
-                </Box>              
-              </HStack>
-              <HStack>
-                <Box width="60%" textAlign="right">
-                  Billable Expense :
-                </Box>
-                <Box width="50%" textAlign="left" fontWeight="semibold">
-                  {util.getWithCurrency(billableExpense)}
-                </Box>              
-              </HStack>
-              <HStack>
-                <Box width="60%" textAlign="right">
-                  Non-Billable Expense :
-                </Box>
-                <Box width="50%" textAlign="left" fontWeight="semibold">
-                  {util.getWithCurrency(nonbillableExpense)}
-                </Box>              
-              </HStack>
-              <HStack>
-                <Box width="60%" textAlign="right">
-                  Paid Expense :
-                </Box>
-                <Box width="50%" textAlign="left" fontWeight="semibold">
-                  {util.getWithCurrency(paidExpense)}
-                </Box>   
-              </HStack>  
+          <Stack>
+            <HStack>
+              <Stack width="50%">
                 <HStack>
-                <Box width="60%" textAlign="right">
-                  UnPaid Expense :
-                </Box>
-                <Box width="50%" textAlign="left" fontWeight="semibold">
-                  {util.getWithCurrency(unpaidExpense)}
-                </Box>                             
-              </HStack>
-              <HStack>
-                <Box width="60%" textAlign="right">
-                  
-                </Box>
-                <Box width="50%" textAlign="left" fontWeight="semibold">
-                  
-                </Box>              
-              </HStack>                                            
-            </Stack>          
-          </HStack>
+                  <Box textAlign="left" fontWeight="semibold" fontStyle="italic">
+                    Income
+                  </Box>
+                </HStack>
+                <HStack>
+                  <Box width="50%" textAlign="right">
+                    Total Revenue :
+                  </Box>
+                  <Box width="50%" textAlign="left" fontWeight="semibold">
+                    {util.getWithCurrency(totalRevenue)}
+                  </Box>              
+                </HStack>
+                <HStack>
+                  <Box width="50%" textAlign="right">
+                    Invoiced :
+                  </Box>
+                  <Box width="50%" textAlign="left" fontWeight="semibold" >
+                    {util.getWithCurrency(invoiced)}
+                  </Box>              
+                </HStack>
+                <HStack>
+                  <Box width="50%" textAlign="right">
+                    Paid Invoice :
+                  </Box>
+                  <Box width="50%" textAlign="left" fontWeight="semibold" color="debit_amount">
+                    {util.getWithCurrency(invoicePaid)}
+                  </Box>              
+                </HStack>
+                <HStack>
+                  <Box width="50%" textAlign="right">
+                    Invoice Not Paid :
+                  </Box>
+                  <Box width="50%" textAlign="left" fontWeight="semibold" color={util.getZeroPriceForNull(invoiceNotPaid) > 0?'credit_amount':""}>
+                    {util.getWithCurrency(invoiceNotPaid)}
+                  </Box>              
+                </HStack>
+                <HStack>
+                  <Box width="50%" textAlign="right">
+                    Not Invoiced :
+                  </Box>
+                  <Box width="50%" textAlign="left" fontWeight="semibold" color={util.getZeroPriceForNull(notInvoiced) > 0 ? 'credit_amount':""}>
+                    {util.getWithCurrency(notInvoiced)}
+                  </Box>              
+                </HStack>                                                
+              </Stack>
+              <Stack width="50%">
+                <HStack>
+                  <Box textAlign="left" fontWeight="semibold" fontStyle="italic">
+                    Expense
+                  </Box>
+                </HStack>
+                <HStack>
+                  <Box width="60%" textAlign="right">
+                    Project Cost :
+                  </Box>
+                  <Box width="50%" textAlign="left" fontWeight="semibold">
+                    {util.getWithCurrency(projectCost)}
+                  </Box>              
+                </HStack>
+                <HStack>
+                  <Box width="60%" textAlign="right">
+                    Billable Expense :
+                  </Box>
+                  <Box width="50%" textAlign="left" fontWeight="semibold">
+                    {util.getWithCurrency(billableExpense)}
+                  </Box>              
+                </HStack>
+                <HStack>
+                  <Box width="60%" textAlign="right">
+                    Non-Billable Expense :
+                  </Box>
+                  <Box width="50%" textAlign="left" fontWeight="semibold">
+                    {util.getWithCurrency(nonbillableExpense)}
+                  </Box>              
+                </HStack>
+                <HStack>
+                  <Box width="60%" textAlign="right">
+                    Paid Expense :
+                  </Box>
+                  <Box width="50%" textAlign="left" fontWeight="semibold">
+                    {util.getWithCurrency(paidExpense)}
+                  </Box>   
+                </HStack>  
+                  <HStack>
+                  <Box width="60%" textAlign="right">
+                    UnPaid Expense :
+                  </Box>
+                  <Box width="50%" textAlign="left" fontWeight="semibold">
+                    {util.getWithCurrency(unpaidExpense)}
+                  </Box>                             
+                </HStack>
+                <HStack>
+                  <Box width="60%" textAlign="right">
+                    
+                  </Box>
+                  <Box width="50%" textAlign="left" fontWeight="semibold">
+                    
+                  </Box>              
+                </HStack>                                            
+              </Stack>          
+            </HStack>
+            <HStack>
+                  <Box width="60%" textAlign="right" fontWeight="semibold" fontStyle="italic">
+                    Net Revenue :
+                  </Box>
+                  <Box width="50%" textAlign="left" fontWeight="semibold" color={util.getZeroPriceForNull(notInvoiced) > 0 ? 'debit_amount':"credit_amount"}>
+                    {util.getWithCurrency(netRevenue)}
+                  </Box>  
+            </HStack>
+          </Stack>
         </CardBody>
       </Card>
     </>
