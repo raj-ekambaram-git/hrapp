@@ -17,13 +17,12 @@ import {
 import {
     AddIcon
   } from '@chakra-ui/icons';
+import { util } from "../../../helpers/util";
   
 
 const ProjectExpenseEntriesSection = (props) => {
-    const timesheetEntries = props.data;
+    const expenseEntries = props.data;
     const initialFocusRef = React.useRef();
-    const tsEntriesArray = [timesheetEntries];
-    console.log("ProjectTimesheeEntryDetail::"+JSON.stringify(tsEntriesArray))
 
   return (
 
@@ -49,13 +48,13 @@ const ProjectExpenseEntriesSection = (props) => {
                             <Thead>
                                 <Tr bgColor="table_tile">
                                     <Th>
-                                        Day
-                                    </Th>
-                                    <Th>
-                                        Hours
-                                    </Th>
-                                    <Th>
                                         Date
+                                    </Th>
+                                    <Th>
+                                        Type
+                                    </Th>
+                                    <Th>
+                                        Amount
                                     </Th>
                                     <Th>
                                         Notes
@@ -63,104 +62,22 @@ const ProjectExpenseEntriesSection = (props) => {
                                 </Tr>
                             </Thead>
                             <Tbody>
+                            {expenseEntries?.map((expenseEntry) => (
                                     <Tr>
                                         <Th>
-                                            Day1
+                                            {util.getFormattedDate(expenseEntry.expenseDate)}
                                         </Th>
                                         <Th>
-                                            {timesheetEntries.day1.hours}
+                                            {expenseEntry.type}
                                         </Th>
                                         <Th>
-                                            {timesheetEntries.day1.date}
+                                            {util.getWithCurrency(expenseEntry.amount)}
                                         </Th>
                                         <Th>
-                                            {timesheetEntries.day1.notes}
+                                            {expenseEntry.notes}
                                         </Th>                                                                                                            
-                                    </Tr>
-                                <Tr>
-                                    <Th>
-                                        Day2
-                                    </Th>
-                                    <Th>
-                                        {timesheetEntries.day2.hours}
-                                    </Th>
-                                    <Th>
-                                        {timesheetEntries.day2.date}
-                                    </Th>
-                                    <Th>
-                                        {timesheetEntries.day2.notes}
-                                    </Th>                                                                                                            
-                                </Tr>
-                                <Tr>
-                                    <Th>
-                                        Day3
-                                    </Th>
-                                    <Th>
-                                        {timesheetEntries.day3.hours}
-                                    </Th>
-                                    <Th>
-                                        {timesheetEntries.day3.date}
-                                    </Th>
-                                    <Th>
-                                        {timesheetEntries.day3.notes}
-                                    </Th>                                                                                                            
-                                </Tr>
-                                <Tr>
-                                    <Th>
-                                        Day4
-                                    </Th>
-                                    <Th>
-                                        {timesheetEntries.day4.hours}
-                                    </Th>
-                                    <Th>
-                                        {timesheetEntries.day4.date}
-                                    </Th>
-                                    <Th>
-                                        {timesheetEntries.day4.notes}
-                                    </Th>                                                                                                            
-                                </Tr>
-                                <Tr>
-                                    <Th>
-                                        Day5
-                                    </Th>
-                                    <Th>
-                                        {timesheetEntries.day5.hours}
-                                    </Th>
-                                    <Th>
-                                        {timesheetEntries.day5.date}
-                                    </Th>
-                                    <Th>
-                                        {timesheetEntries.day5.notes}
-                                    </Th>                                                                                                            
-                                </Tr>
-                                <Tr>
-                                    <Th>
-                                        Day6
-                                    </Th>
-                                    <Th>
-                                        {timesheetEntries.day6.hours}
-                                    </Th>
-                                    <Th>
-                                        {timesheetEntries.day6.date}
-                                    </Th>
-                                    <Th>
-                                        {timesheetEntries.day6.notes}
-                                    </Th>                                                                                                            
-                                </Tr>
-                                <Tr>
-                                    <Th>
-                                        Day7
-                                    </Th>
-                                    <Th>
-                                        {timesheetEntries.day7.hours}
-                                    </Th>
-                                    <Th>
-                                        {timesheetEntries.day7.date}
-                                    </Th>
-                                    <Th>
-                                        {timesheetEntries.day7.notes}
-                                    </Th>                                                                                                            
-                                </Tr>                                                                                                                                                                                                
+                                    </Tr>     
+                            ))}                                                                                                                                                                                        
                             </Tbody>
                         </Table>                        
                     </TableContainer>                       

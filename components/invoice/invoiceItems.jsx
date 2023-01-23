@@ -67,9 +67,17 @@ const InvoiceItems = (props) => {
                         <ProjectTimesheets data={{projectId: projectId, callType: INVOICE_CALL_TYPE}}/>
                         <ProjectExpenses data={{projectId: projectId, callType: EXPENSE_CALL_TYPE}}/>
                     </>
+                ) : (invoiceType == InvoiceConstants.INVOICE_ITEM_TYPE_EXPENSE) ? (
+                    <ProjectExpenses data={{projectId: projectId, callType: EXPENSE_CALL_TYPE}}/>
+                ) : (invoiceType == InvoiceConstants.INVOICE_ITEM_TYPE_EXPENSE) ? (
+                    <>
+                        <ProjectTimesheets data={{projectId: projectId, callType: INVOICE_CALL_TYPE}}/>
+                        <ProjectExpenses data={{projectId: projectId, callType: EXPENSE_CALL_TYPE}}/>
+                    </>
                 ) : (invoiceType != undefined && invoiceType != EMPTY_STRING) ? (
                     <AddInvoiceItem data={addInvoiceData}></AddInvoiceItem>
                 )
+    
                 : (
                     <></>
                 )}

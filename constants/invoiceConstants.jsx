@@ -5,6 +5,7 @@ import {
 export const InvoiceConstants = {
   INVOICE_ITEM_TYPE_TIMESHEET: 'Timesheet',
   INVOICE_ITEM_TYPE_EXPENSE: 'Expense',
+  INVOICE_ITEM_TYPE_PROJECT: 'Project',
   INVOICE_STATUS: {
     'Draft': 'Draft',
     'Submitted': 'Submitted',

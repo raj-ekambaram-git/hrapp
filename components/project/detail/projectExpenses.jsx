@@ -31,6 +31,7 @@ import { EXPENSE_CALL_TYPE, TIMESHEET_STATUS } from "../../../constants/accountC
 import { InvoiceConstants } from "../../../constants/invoiceConstants";
 import { DrawerMainHeader } from "../../common/drawerMainHeader";
 import { ExpenseStatus } from "@prisma/client";
+import ProjectExpenseEntriesSection from "./projectExpenseEntriesSection";
 
 
 
@@ -85,7 +86,7 @@ const ProjectExpenses = (props) => {
           setEnableAddExpense(true);
         }
         const addedExpenseInvoiceItem = {
-          expenseIdId: parseInt(e.target.value),
+          expenseId: parseInt(e.target.value),
           userId: parseInt(selectedExpense.user?.id),
           type: InvoiceConstants.INVOICE_ITEM_TYPE_EXPENSE,
           status: InvoiceConstants.INVOICE_STATUS.Draft,
@@ -221,7 +222,7 @@ const ProjectExpenses = (props) => {
                                                   <Box marginRight={3}>
                                                     {util.getWithCurrency(util.getTotalBillableExpense(expense.expenseEntries))}
                                                   </Box>
-                                                  {/* <ProjectExpenseEntriesSection data={expense.expenseEntries}/> */}
+                                                  <ProjectExpenseEntriesSection data={expense.expenseEntries}/>
                                                   </HStack>
                                                 </>
                                               ) : (

@@ -146,6 +146,8 @@ model InvoiceItem {
   userId           Int?
   timesheetEntry   TimesheetEntries? @relation(fields: [timesheetEntryId], references: [id])
   timesheetEntryId Int?
+  expense          Expense?          @relation(fields: [expenseId], references: [id])
+  expenseId        Int?
   invoice          Invoice?          @relation(fields: [invoiceId], references: [id])
   invoiceId        Int?
   fromDate         DateTime?
@@ -300,6 +302,7 @@ model Expense {
   lastUpdateDate     DateTime             @updatedAt
   expenseTransaction ExpenseTransaction[]
   expenseEntries     ExpenseEntry[]
+  InvoiceItem        InvoiceItem[]
 }
 
 model ExpenseTransaction {
