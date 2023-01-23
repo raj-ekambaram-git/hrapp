@@ -17,9 +17,14 @@ export default function BudgetChart(props) {
 
   function budgetData() {
     const data = [
-      { key: "Used $"+props.usedBudget, value: props.usedBudget },
-      { key: "Remaining $"+(util.getZeroPriceForNull(props.budget)-props.usedBudget), value: (util.getZeroPriceForNull(props.budget)-props.usedBudget) },
+      { key: "Used $"+props.usedBudget, value: props.usedBudget },      
+      { key: "Rem $"+(util.getZeroPriceForNull(props.budget)-props.usedBudget), value: (util.getZeroPriceForNull(props.budget)-props.usedBudget) },      
     ];
+
+    if(util.getZeroPriceForNull(props.miscBudget)>0) {
+      data.push({ key: "Used Misc Budget $"+props.usedMiscBudget, value: props.usedMiscBudget})
+      data.push({ key: "Rem Misc $"+(util.getZeroPriceForNull(props.miscBudget)-props.usedMiscBudget), value: (util.getZeroPriceForNull(props.miscBudget)-props.usedMiscBudget)})
+    }
     let chartStatus = Chart.getChart("budget"); // <canvas> id
     if (chartStatus != undefined) {
       chartStatus.destroy();
@@ -28,7 +33,7 @@ export default function BudgetChart(props) {
     doughnutChart({
       canvasId:"budget", 
       chartData: data, 
-      titleText: 'Total Budget: $'+util.getZeroPriceForNull(props.budget), 
+      titleText: 'Total Budget: $'+(util.getZeroPriceForNull(props.budget)+util.getZeroPriceForNull(props.miscBudget)), 
       position:'top'})
     
   }

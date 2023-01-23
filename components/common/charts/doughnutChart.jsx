@@ -17,7 +17,7 @@ export const doughnutChart = ({ canvasId, chartData, titleText, position }) => {
             responsive: true,
             plugins: {
               legend: {
-                position: position,
+                position: position,                
               },
               title: {
                 display: true,

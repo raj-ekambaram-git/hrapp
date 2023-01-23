@@ -29,9 +29,9 @@ return (
         <HStack>
 
         </HStack>
-\            {project? (
+           {project? (
               <HStack>
-                <BudgetChart budget={project.budget} usedBudget={project.usedBudget}/>
+                <BudgetChart budget={project.budget} usedBudget={project.usedBudget} miscBudget={project.miscBudget} usedMiscBudget={project.usedMiscBudget}/>
                 <InvoiceChart invoice={project.invoice}/>
                 <ExpenseChart expense={project.expense}/>
                 <FinancialSummary project={project}/>
