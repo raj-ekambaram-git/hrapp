@@ -560,9 +560,9 @@ const AddProjectResource = (props) => {
 
                             <Button onClick={() => handleSelectedProjectResource()} width="button.primary.width" bgColor="button.primary.color">
                               {isAddMode ? (<>
-                                  Add Resource                              
+                                  Add                               
                               </>) : (<>
-                                  Edit Resource
+                                  Update
                               </>)}
                             </Button>                            
 
