@@ -31,7 +31,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     });
 
     //Project Resource created now update the project
-    if(savedProjectResource != undefined) {
+    if(savedProjectResource != undefined && projetUpdateData) {
+      console.log("INSIDE UPDATING THE REMAINIGN BUDGET FOR PROJECT")
       const savedProject = await prisma.project.update({
         where: {
           id: projetUpdateData.projectId,

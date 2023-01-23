@@ -18,9 +18,28 @@ export const projectService = {
     createProject,
     updateProject,
     getProjectBudgetDetails,
-    
+    updateResourceUsedBudget
     
 };
+
+function updateResourceUsedBudget(projectResourceId,projectResourceUsedBudget) {
+
+    return fetchWrapper.put(`${baseUrl}/account/project/resource/`+projectResourceId, {
+        projectResourceData: {
+            id: parseInt(projectResourceId),
+            usedBudget: projectResourceUsedBudget,    
+        }
+      }
+  )
+  .then(projectResource => {
+    return projectResource;
+  })
+  .catch(err => {
+    console.log("Error Updating projectResource::"+err)
+    return {errorMessage: err, error: true};
+   });
+
+}
 
 
 function getProjectBudgetDetails(projectId, accountId) {

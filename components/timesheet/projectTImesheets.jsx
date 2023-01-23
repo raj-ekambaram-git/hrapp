@@ -71,6 +71,9 @@ const ProjectTimesheets = (props) => {
                                                         Timesheet
                                                     </Th>      
                                                     <Th>
+                                                        Billable
+                                                    </Th>                                                        
+                                                    <Th>
                                                         Entries
                                                     </Th>                                                                
                                                     <Th>
@@ -88,6 +91,9 @@ const ProjectTimesheets = (props) => {
                                                                 </Th>
                                                                 <Th>
                                                                     {timesheetEntry.timesheet.name}
+                                                                </Th>
+                                                                <Th>
+                                                                    {timesheetEntry.billable?"Yes":"No"}
                                                                 </Th>
                                                                 <Th>
                                                                     <TimesheetEntryDetail tsEntryDetail={timesheetEntry}/>

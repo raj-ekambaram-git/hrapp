@@ -118,16 +118,21 @@ function getTimesheetByName(timesheetName, userId) {
     });
 }
 
-async function updateTimesheetEntry(timesheetEntryId, status, approvalNote, approvedBy) {
+async function updateTimesheetEntry(timesheetUserId,billable,timesheetEntryId, status, approvalNote, approvedBy) {
 
   return fetchWrapper.put(`${baseUrl}/timesheet/entry/`+timesheetEntryId, {
+        timesheetEntryData: {
           id: parseInt(timesheetEntryId),
           status: status,
+          billable: billable,
           approvedDate: new Date(),
           approvedBy: parseInt(approvedBy)
+        },
+        timesheetUserId: timesheetUserId
       }
     )
     .then(timesheet => {
+          console.log("AFTER UPDATING TIMESHEET::"+JSON.stringify(timesheet))
           //Timesheet entry happened, now add the notes
           if(timesheet.message === undefined && approvalNote != undefined && approvalNote != EMPTY_STRING) {
             //Create Notes
@@ -141,6 +146,12 @@ async function updateTimesheetEntry(timesheetEntryId, status, approvalNote, appr
             console.log("totalTSEHours:::"+totalTSEHours)
             if(totalTSEHours != undefined && totalTSEHours != EMPTY_STRING && timesheet.unitPrice != undefined && timesheet.unitPrice != EMPTY_STRING) {
               projectService.updateUsedBudget(timesheet.projectId, util.getZeroPriceForNull(timesheet.project?.usedBudget) + (parseFloat(totalTSEHours)*parseFloat(timesheet.unitPrice)));
+            }
+
+            //Now update the projectResource usedBudget
+            
+            if(totalTSEHours != undefined && totalTSEHours != EMPTY_STRING && timesheet.unitPrice != undefined && timesheet.unitPrice != EMPTY_STRING) {
+              projectService.updateResourceUsedBudget(timesheet.project?.projectResource[0]?.id, util.getZeroPriceForNull(timesheet.project?.projectResource[0]?.usedBudget) + (parseFloat(totalTSEHours)*parseFloat(timesheet.unitPrice)));
             }
           }
       

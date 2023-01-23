@@ -28,9 +28,11 @@ console.log("userId ID::"+userId+"---AccountioD::"+accountId)
                   status: true,
                   entries: true,
                   lastUpdateDate: true,
+                  billable: true,
                   timesheet: {
                     select: {
                       name: true,
+                      userId: true,
                       user: {
                         select: {
                           firstName: true,

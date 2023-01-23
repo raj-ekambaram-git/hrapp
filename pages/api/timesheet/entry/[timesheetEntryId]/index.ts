@@ -10,13 +10,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   try {
-    const timesheetEntry = req.body;
+    const {timesheetEntryData} = req.body;
+    const {timesheetUserId} = req.body;
+    console.log("timesheetEntryData::::"+JSON.stringify(timesheetEntryData)+"*******TImesheetENtryUserId::"+timesheetUserId)
     const savedTSEntry =  await prisma.$transaction(async (tx) => {
       const savedTSEntry = await prisma.timesheetEntries.update({
         where: {
-          id: timesheetEntry.id,
+          id: timesheetEntryData.id,
         },
-        data: timesheetEntry,
+        data: timesheetEntryData,
         select: {
           timesheetId: true,
           entries: true,
@@ -24,7 +26,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           projectId: true,
           project: {
             select: {
-              usedBudget: true
+              usedBudget: true,
+              projectResource: {
+                where: {
+                  userId: timesheetUserId,
+                  billable: timesheetEntryData.billable
+                }
+              }
             }
           },
           timesheet: {
@@ -43,9 +51,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       //Check if all the etntrie are approved or rejected, if its is, update the timesheet status to be the same
       savedTSEntry.timesheet?.timesheetEntries?.map((tsEntry) => {
           console.log("TSEntry:::"+JSON.stringify(tsEntry))
-          if(timesheetEntry.status === TimesheetStatus.Approved && (tsEntry.status !== TimesheetStatus.Approved && tsEntry.status !== TimesheetStatus.Invoiced)) {
+          if(timesheetEntryData.status === TimesheetStatus.Approved && (tsEntry.status !== TimesheetStatus.Approved && tsEntry.status !== TimesheetStatus.Invoiced)) {
             updaetTimesheetStatus = false;
-          }else if (timesheetEntry.status === TimesheetStatus.Rejected && (tsEntry.status !== TimesheetStatus.Rejected)) {
+          }else if (timesheetEntryData.status === TimesheetStatus.Rejected && (tsEntry.status !== TimesheetStatus.Rejected)) {
             updaetTimesheetStatus = false;
           }
         }
@@ -57,7 +65,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           where: {
             id: parseInt(savedTSEntry.timesheetId.toString()),
           },
-          data: {status: timesheetEntry.status},
+          data: {status: timesheetEntryData.status},
 
         });
       }

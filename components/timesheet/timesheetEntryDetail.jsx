@@ -60,11 +60,11 @@ import { setNotesType } from "../../store/modules/Notes/actions";
     
       }, []);
 
-    async function updateTimesheetEntry(timesheetEntryId,status) {
-        console.log("updateTimesheetEntry::::"+status);
+    async function updateTimesheetEntry(userId, timesheetEntryId,status, billable) {
+        console.log("updateTimesheetEntry::::"+userId);
         if(timesheetEntryNote != undefined && timesheetEntryNote != EMPTY_STRING && timesheetEntryNote != DEFAULT_NOTES) {
             setShowErrorMessage(EMPTY_STRING);
-            const timesheetEntryUpdateResponse = await timesheetService.updateTimesheetEntry(timesheetEntryId, status, timesheetEntryNote, userService.userValue.id);    
+            const timesheetEntryUpdateResponse = await timesheetService.updateTimesheetEntry(userId, billable, timesheetEntryId, status, timesheetEntryNote, userService.userValue.id);    
             console.log("timesheetEntryUpdateResponse::"+JSON.stringify(timesheetEntryUpdateResponse));
             if(timesheetEntryUpdateResponse.error) {
                 setShowErrorMessage("Error Updating timesheet entry");
@@ -187,12 +187,12 @@ import { setNotesType } from "../../store/modules/Notes/actions";
 
                 <HStack marginTop="3rem">
                     <Box marginRight="1rem">
-                        <Button size="xs" onClick={() => updateTimesheetEntry(tsEntryDetail.id,TIMESHEET_STATUS.Approved)} bgColor="timesheet.approved_status">
+                        <Button size="xs" onClick={() => updateTimesheetEntry(tsEntryDetail.timesheet?.userId,tsEntryDetail.id,TIMESHEET_STATUS.Approved)} bgColor="timesheet.approved_status">
                             Approve
                         </Button>
                     </Box>
                     <Box>
-                        <Button size="xs"  onClick={() => updateTimesheetEntry(tsEntryDetail.id,TIMESHEET_STATUS.Rejected)} bgColor="timesheet.rejected_status">
+                        <Button size="xs"  onClick={() => updateTimesheetEntry(tsEntryDetail.timesheet?.userId,tsEntryDetail.id,TIMESHEET_STATUS.Rejected)} bgColor="timesheet.rejected_status">
                             Reject
                         </Button>
                     </Box>

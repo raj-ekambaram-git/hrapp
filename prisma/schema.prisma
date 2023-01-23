@@ -397,6 +397,7 @@ model TimesheetEntries {
   approvedBy     Int?
   entries        Json
   unitPrice      Decimal?        @default(0)
+  billable       Boolean?        @default(false)
   notesRequired  Boolean         @default(false)
   createdDate    DateTime        @default(now())
   lastUpdateDate DateTime        @default(now()) @updatedAt
