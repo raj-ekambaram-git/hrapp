@@ -65,8 +65,8 @@ return (
            {project? (
               <HStack>
                 <BudgetChart budget={project.budget} usedBudget={project.usedBudget} miscBudget={project.miscBudget} usedMiscBudget={project.usedMiscBudget}/>
-                <InvoiceChart invoice={project.invoice}/>
-                <ExpenseChart expense={project.expense}/>
+                {project.invoice && project.invoice?.length > 0?(<InvoiceChart invoice={project.invoice}/>):(<></>)}
+                {project.expense && project.expense?.length > 0?(<ExpenseChart expense={project.expense}/>):(<></>)}                
                 <FinancialSummary project={project}/>
               </HStack>
             ):(<>
