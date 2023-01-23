@@ -152,6 +152,10 @@ export const InvoiceConstants = {
       accessor: "vendorName"
     },
     {
+      label: "Project",
+      accessor: "projectName"
+    },
+    {
       label: "Account",
       accessor: "accountName"
     },

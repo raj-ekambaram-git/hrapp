@@ -78,6 +78,7 @@ const InvoiceList = (props) => {
     async function getInvoiceListByVendor(vendorId, accountId) {
       // setPageAuthorized(true);
       const responseData = await accountService.getInvoiceListByVendor(vendorId, accountId);
+      console.log("Response Data:::"+JSON.stringify(responseData))
       if(responseData != undefined && responseData != EMPTY_STRING) {
         setInvoiceList(updateInvoicesForDisplay(responseData) );
       }
@@ -87,6 +88,7 @@ const InvoiceList = (props) => {
     async function getInvoiceListByProject(projectId, accountId) {
       // setPageAuthorized(true);
       const responseData = await accountService.getInvoiceListByProject(projectId, accountId);
+      console.log("Response Data:::"+JSON.stringify(responseData))
       if(responseData != undefined && responseData != EMPTY_STRING) {
         setInvoiceList(updateInvoicesForDisplay(responseData) );
       }
@@ -102,8 +104,9 @@ const InvoiceList = (props) => {
         invoice.paidAmount = "$ "+(util.getZeroPriceForNull(invoice.paidAmount))
         invoice.formattedInvoiceDate = util.getFormattedDate(invoice.invoiceDate)
         invoice.formattedDueDate = util.getFormattedDate(invoice.dueDte)
-        invoice.vendorName = invoice.vendor.name
-        invoice.accountName = invoice.account.name
+        invoice.vendorName = invoice.vendor?.name
+        invoice.accountName = invoice.account?.name
+        invoice.projectName = invoice.project?.name
         return invoice;
       });
       
@@ -113,6 +116,7 @@ const InvoiceList = (props) => {
       console.log("getInvoiceListByAccount:::"+accountId)
       // setPageAuthorized(true);
       const responseData = await accountService.getInvoiceListByAccount(accountId);
+      console.log("Response Data:::"+JSON.stringify(responseData))
       if(responseData != undefined && responseData != EMPTY_STRING) {
         setInvoiceList(updateInvoicesForDisplay(responseData) );
       }

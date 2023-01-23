@@ -27,7 +27,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         },
         include: {
           vendor: true,
-          account: true
+          account: true,
+          project: {
+            select: {
+              name: true
+            }
+          }
         }
 
       });

@@ -29,7 +29,12 @@ console.log("projectId ID::"+projectId+"---AccountioD::"+accountId)
         },
         include: {
           vendor: true,
-          account: true
+          account: true,
+          project: {
+            select: {
+              name: true
+            }
+          }
         }
       });
       res.status(200).json(invoices);
