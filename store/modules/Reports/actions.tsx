@@ -8,3 +8,10 @@ export const setSelectedReportsProjectId = (selectedReportsProjectId) => {
         payload: selectedReportsProjectId
     }
 }
+
+export const setSelectedReportsVendorId = (selectedReportsVendorId) => {
+    return {
+        type: ActionTypes.SET_SELECTED_REPORTS_VENDOR_ID,
+        payload: selectedReportsVendorId
+    }
+}
