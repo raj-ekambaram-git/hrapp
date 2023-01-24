@@ -58,6 +58,9 @@ const ProjectList = (props) => {
    * Function to get the list of accounts for a drop down
    */
     async function getProjectList(vendorId, accountId) {
+      if(accountId === undefined || accountId === EMPTY_STRING || accountId === null) {
+        accountId = userService.getAccountDetails().accountId
+      }
       console.log("7777777::::vendorId::"+vendorId+"----AccountID:::"+accountId)
       // setPageAuthorized(true);
       const responseData = await accountService.getProjectList(vendorId, accountId);

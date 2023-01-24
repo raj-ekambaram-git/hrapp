@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { projectService, userService } from "../../services";
+import { accountService, projectService, reportsService, userService } from "../../services";
 import { Box, Card, CardBody, CardHeader, HStack, Select, Stack } from "@chakra-ui/react";
 import BudgetChart from "./project/charts/budgetChart";
 import InvoiceChart from "./project/charts/invoiceChart";
@@ -31,8 +31,10 @@ export default function ProjectDashboard(props) {
   }, []);
   
   async function getProjectForUser(userId) {
-    const projectsForUserResponse = await userService.getProjectsByUser(userId, userService.getAccountDetails().accountId);    
-    setProjectList(projectsForUserResponse);
+    // const projectsForUserResponse = await userService.getProjectsByUser(userId, userService.getAccountDetails().accountId);    
+    const responseData = await reportsService.getProjects(userService.getAccountDetails().accountId);
+    console.log("responseDatsfa responseData::"+JSON.stringify(responseData))
+    setProjectList(responseData);
 }
 
   async function getProjectBudgetDetails(projectIdInput) {    
@@ -58,7 +60,7 @@ return (
                 <Select bgColor="white" width="30%" onChange={(ev) => getProjectBudgetDetails(ev.target.value)} value={projectId}>
                   <option value="">Select Project</option>
                   {projectList?.map((project) => (
-                          <option value={project.projectId}>{project.project?.name} - {project.project?.referenceCode}</option>
+                          <option value={project.id}>{project.name} - {project.referenceCode} </option>
                     ))}                                  
                 </Select>  
                 {project?(
