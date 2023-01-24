@@ -31,9 +31,7 @@ export default function ProjectDashboard(props) {
   }, []);
   
   async function getProjectForUser(userId) {
-    // const projectsForUserResponse = await userService.getProjectsByUser(userId, userService.getAccountDetails().accountId);    
     const responseData = await reportsService.getProjects(userService.getAccountDetails().accountId);
-    console.log("responseDatsfa responseData::"+JSON.stringify(responseData))
     setProjectList(responseData);
 }
 

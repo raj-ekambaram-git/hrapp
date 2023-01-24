@@ -42,6 +42,14 @@ export default function FinancialSummary(props) {
     setInvoicePaid(invoicePaid)
     setInvoiceNotPaid(invoicedTotal-invoicePaid)
 
+    let notInvoicedTSE = 0;
+    props.project?.timesheetEntries?.map(timesheetEntry => {
+      const totalHours = util.getTotalHours(timesheetEntry.entries)
+      notInvoicedTSE = parseFloat(notInvoicedTSE)+(parseFloat(timesheetEntry?.unitPrice)*parseInt(totalHours))
+    })
+    console.log("notInvoiced::"+notInvoicedTSE)
+    
+
     //EXPENSE
     let expProjectCost = 0
     let expBillable = 0
@@ -62,11 +70,13 @@ export default function FinancialSummary(props) {
           expBillable = expBillable+expenseAmounts?.billableExpense;
           expNonBillable = expNonBillable+expenseAmounts?.nonBillableExpense;
           if(exp.status === ExpenseStatus.PartiallyPaid || exp.status === ExpenseStatus.Approved) {
+            console.log("APproved:LL:::"+expBillable)
             expenseNotInvoiced = expenseNotInvoiced+expBillable;
           }
         }
       
     })
+    console.log("expenseNotInvoiced:::"+expenseNotInvoiced)
     setBillableExpense(expBillable)
     setNonbillableExpense(expNonBillable)
     setProjectCost(expProjectCost)
