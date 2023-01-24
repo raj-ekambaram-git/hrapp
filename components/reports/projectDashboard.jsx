@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { accountService, projectService, reportsService, userService } from "../../services";
-import { Box, Card, CardBody, CardHeader, HStack, Select, Stack } from "@chakra-ui/react";
+import { Badge, Box, Card, CardBody, CardHeader, HStack, Select, Stack } from "@chakra-ui/react";
 import BudgetChart from "./project/charts/budgetChart";
 import InvoiceChart from "./project/charts/invoiceChart";
 import ExpenseChart from "./project/charts/expenseChart";
@@ -65,6 +65,7 @@ return (
                 </Select>  
                 {project?(
                   <>
+                    <Badge color={`${(project.status === "Created" ||project.status === "Open" )? "paid_status":project.status === "Closed"? "pending_status": "pending_status"}`}>{project.status}</Badge>
                     <ProjectTimesheets data={{projectId: project.id, callType: PROJECT_CALL_TYPE}}/> 
                     <ProjectExpenses data={{projectId: project.id, callType: PROJECT_CALL_TYPE}}/> 
                   </>

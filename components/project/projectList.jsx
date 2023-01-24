@@ -7,7 +7,6 @@ import {
   Button,
   Box,
   Flex,
-  Badge
 } from '@chakra-ui/react'
 import {PageMainHeader} from '../../components/common/pageMainHeader'
 import { useDispatch, useSelector } from "react-redux";

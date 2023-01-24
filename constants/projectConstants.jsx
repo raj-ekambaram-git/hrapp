@@ -23,7 +23,9 @@ export const ProjectConstants = {
     },
     {
       label: "Status",
-      accessor: "status"
+      accessor: "status",
+      format: (value) => (value ?<Badge color={`${(value !== "Rejected" )? "paid_status": "pending_status"}`}>{value}</Badge> : '✖️')
+      
     },
     {
       label: "Approved On",
@@ -58,7 +60,9 @@ export const ProjectConstants = {
     },
     {
       label: "Status",
-      accessor: "status"
+      accessor: "status",
+      format: (value) => (value ? <Badge color={`${(value!== "Rejected" )? "paid_status": "pending_status"}`}>{value}</Badge> : '✖️')
+      
     },
     {
       label: "Approved On",
