@@ -234,6 +234,8 @@ const InvoiceAddEdit = (props) => {
       setProjectType("");
   
     }
+    setValue("total",0)
+    dispatch(setInvoiceTotal(0));
     setProjectId(e.target.value);
     dispatch(resetInvoiceItemList());
     dispatch(removeEmailFromInvoiceEmailListByIndex(1));
@@ -576,6 +578,7 @@ const InvoiceAddEdit = (props) => {
                                 fontSize='dollar_left_element'
                                 children='$'
                             />      
+                            
                             <Input type="number" id="total"  value={invoiceTotal} size="md" {...register('total')} />
                           </InputGroup>    
                           
