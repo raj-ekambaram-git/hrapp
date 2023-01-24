@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { accountService, projectService, userService } from "../../services";
-import { Box, Card, CardBody, CardHeader, HStack, Select, Stack } from "@chakra-ui/react";
-import BudgetChart from "./project/charts/budgetChart";
-import InvoiceChart from "./project/charts/invoiceChart";
-import ExpenseChart from "./project/charts/expenseChart";
-import FinancialSummary from "./project/financialSummary";
+import { accountService, userService, vendorService } from "../../services";
+import { Box, Card, CardHeader, HStack, Select, Stack } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
-
+import BudgetChart from "./vendor/charts/budgetChart";
 
 export default function VendorDashboard(props) {
   const dispatch = useDispatch();
@@ -33,9 +29,9 @@ export default function VendorDashboard(props) {
 
   async function getVendorReportData(vendorIdInput) {
     console.log("vendorIdInput::"+vendorIdInput)
-    // const responseData = await projectService.getProjectBudgetDetails(projectIdInput, userService.getAccountDetails().accountId);
-    // console.log("responseData::"+JSON.stringify(responseData))
-    // setProject(responseData)
+    const responseData = await vendorService.getVendorReportData(vendorIdInput, userService.getAccountDetails().accountId);
+    console.log("responseDataresponseData::"+JSON.stringify(responseData))
+    setVendor(responseData)
   }
 
 
@@ -64,8 +60,11 @@ return (
         </HStack>
            {vendor? (
               <HStack>
-                {/* <BudgetChart budget={project.budget} usedBudget={project.usedBudget} miscBudget={project.miscBudget} usedMiscBudget={project.usedMiscBudget}/>
-                {project.invoice && project.invoice?.length > 0?(<InvoiceChart invoice={project.invoice}/>):(<></>)}
+                {vendor.project && vendor.project?.length>0?(
+                  <BudgetChart projects={vendor.project}/>
+                ):(<></>)}
+                
+                {/* {project.invoice && project.invoice?.length > 0?(<InvoiceChart invoice={project.invoice}/>):(<></>)}
                 {project.expense && project.expense?.length > 0?(<ExpenseChart expense={project.expense}/>):(<></>)}                
                 <FinancialSummary project={project}/> */}
               </HStack>

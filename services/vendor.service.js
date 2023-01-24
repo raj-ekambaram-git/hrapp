@@ -11,10 +11,22 @@ const baseUrl = `${publicRuntimeConfig.apiUrl}`;
 export const vendorService = {
 
     updateVendor,
-    createVendor
+    createVendor,
+    getVendorReportData
  
 
 };
+
+function getVendorReportData(vendorId, accountId) {
+  return fetchWrapper.get(`${baseUrl}/reports/vendor/`+vendorId+'/detail?accountId='+accountId, {})
+  .then(vendorDetail => {
+      return vendorDetail;
+  })
+  .catch(err => {
+      console.log("Error getting getVendorReportData  ::"+err)
+      return {errorMessage: err, error: true};
+     });
+}
 
 function createVendor(formData) {
   return fetchWrapper.post(`${baseUrl}/account/vendor/create`, {

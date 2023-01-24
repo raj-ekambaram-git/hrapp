@@ -7,34 +7,50 @@ import { Box } from "@chakra-ui/react";
 
 
 export default function BudgetChart(props) {
+  
 
   useEffect(() => {
-    if(props.budget && props.usedBudget) {
+    if(props.projects && props.projects.length > 0) {
       getBudgetData();
     }
   }, [props.budget]);
 
   function getBudgetData(){
-    let chartStatus = Chart.getChart("budget"); // <canvas> id
+    let chartStatus = Chart.getChart("vendorBudget"); // <canvas> id
     if (chartStatus != undefined) {
       chartStatus.destroy();
     }
 
+
+
+    let totalBudget = 0;
+    let totalUsedBudget = 0;
+    let totalMiscBudget = 0;
+    let totalMiscUsedBudget = 0;
+
+    props.projects?.map(project => {
+      totalBudget = totalBudget+util.getZeroPriceForNull(project.budget)
+      totalUsedBudget = totalUsedBudget+util.getZeroPriceForNull(project.usedBudget)
+      totalMiscBudget = totalMiscBudget+util.getZeroPriceForNull(project.miscBudget)
+      totalMiscUsedBudget = totalMiscUsedBudget+util.getZeroPriceForNull(project.usedMiscBudget)
+      
+    })
+
     const data = [
-      { key: "Used $"+props.usedBudget, value: props.usedBudget },      
-      { key: "Rem $"+(util.getZeroPriceForNull(props.budget)-props.usedBudget), value: (util.getZeroPriceForNull(props.budget)-props.usedBudget) },      
+      { key: "Used $"+totalUsedBudget, value: totalUsedBudget },      
+      { key: "Rem $"+(util.getZeroPriceForNull(totalBudget)-totalUsedBudget), value: (util.getZeroPriceForNull(totalBudget)-totalUsedBudget) },      
     ];
 
-    if(util.getZeroPriceForNull(props.miscBudget)>0) {
-      data.push({ key: "Used Misc Budget $"+props.usedMiscBudget, value: props.usedMiscBudget})
-      data.push({ key: "Rem Misc $"+(util.getZeroPriceForNull(props.miscBudget)-props.usedMiscBudget), value: (util.getZeroPriceForNull(props.miscBudget)-props.usedMiscBudget)})
+    if(util.getZeroPriceForNull(totalMiscBudget)>0) {
+      data.push({ key: "Used Misc Budget $"+totalMiscUsedBudget, value: totalMiscUsedBudget})
+      data.push({ key: "Rem Misc $"+(util.getZeroPriceForNull(totalMiscBudget)-totalMiscUsedBudget), value: (util.getZeroPriceForNull(totalMiscBudget)-totalMiscUsedBudget)})
     }
 
 
     doughnutChart({
-      canvasId:"budget", 
+      canvasId:"vendorBudget", 
       chartData: data, 
-      titleText: 'Total Budget: $'+(util.getZeroPriceForNull(props.budget)+util.getZeroPriceForNull(props.miscBudget)), 
+      titleText: 'Total Budget: $'+(util.getZeroPriceForNull(totalBudget)+util.getZeroPriceForNull(totalMiscBudget)), 
       position:'top'})
   }
   
@@ -42,7 +58,7 @@ export default function BudgetChart(props) {
   return (
     <>    
       <Box width="25%">
-        <canvas id="budget"></canvas>
+        <canvas id="vendorBudget"></canvas>
       </Box>        
     </>
   );
