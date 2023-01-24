@@ -48,7 +48,7 @@ export default function FinancialSummary(props) {
       notInvoicedTSE = parseFloat(notInvoicedTSE)+(parseFloat(timesheetEntry?.unitPrice)*parseInt(totalHours))
     })
     console.log("notInvoiced::"+notInvoicedTSE)
-    setNotInvoiced(notInvoicedTSE)
+    
 
     //EXPENSE
     let expProjectCost = 0
@@ -56,32 +56,45 @@ export default function FinancialSummary(props) {
     let expNonBillable = 0
     let expenseTotal = 0;
     let expensePaid = 0;
+    let expenseNotInvoiced = 0;
     props.project?.expense?.map(exp => {
       if((exp.status != ExpenseStatus.Submitted && exp.status != ExpenseStatus.Draft)) {
         expenseTotal = parseFloat(expenseTotal)+parseFloat(exp?.total)
-      }      
+      }
+       
       if((exp.status === ExpenseStatus.Paid || exp.status === ExpenseStatus.PartiallyPaid)) {
         const expenseAmounts = util.getTotalBillableExpense(exp.expenseEntries);
         expensePaid = parseFloat(expensePaid)+parseFloat(exp?.paidAmount)
         expProjectCost = expProjectCost+expenseAmounts?.totalProjectCost; 
         expBillable = expBillable+expenseAmounts?.billableExpense;
         expNonBillable = expNonBillable+expenseAmounts?.nonBillableExpense;
+        if(exp.status === ExpenseStatus.PartiallyPaid) {
+          console.log("APproved:LL:::"+expBillable)
+          expenseNotInvoiced = expenseNotInvoiced+expBillable;
+        }
         
       } else if( (exp.status === ExpenseStatus.Approved || exp.status === ExpenseStatus.Invoiced)) {
         const expenseAmounts = util.getTotalBillableExpense(exp.expenseEntries);
         expBillable = expBillable+expenseAmounts?.billableExpense;
         expNonBillable = expNonBillable+expenseAmounts?.nonBillableExpense;
         expProjectCost = expProjectCost+expenseAmounts?.totalProjectCost;  
+        if(exp.status === ExpenseStatus.Approved) {
+          console.log("APproved:LL:::"+expBillable)
+          expenseNotInvoiced = expenseNotInvoiced+expBillable;
+        }
       }
       
     })
+    console.log("expenseNotInvoiced:::"+expenseNotInvoiced)
     setBillableExpense(expBillable)
     setNonbillableExpense(expNonBillable)
     setProjectCost(expProjectCost)
     setPaidExpense(expensePaid)
     setUnpaidExpense(parseFloat(expenseTotal)-parseFloat(expensePaid))
     setNetRevenue((util.getZeroPriceForNull(props.project.usedBudget)+util.getZeroPriceForNull(props.project.usedMiscBudget)-(util.getZeroPriceForNull(expProjectCost)+util.getZeroPriceForNull(expBillable)+util.getZeroPriceForNull(expNonBillable))))
+    setNotInvoiced(notInvoicedTSE+util.getZeroPriceForNull(expenseNotInvoiced))
   }
+
 
   
   return (
