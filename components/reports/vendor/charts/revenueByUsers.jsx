@@ -41,7 +41,7 @@ export default function RevenueByUsers(props) {
         allocatedBudget.push(util.getZeroPriceForNull(resource.budgetAllocated))
         usedBudget.push(util.getZeroPriceForNull(resource.usedBudget))
         totalResourceCost = parseFloat(totalResourceCost)+((parseFloat(resource.usedBudget)/parseFloat(resource.unitPrice))*parseFloat(resource.cost))
-        userRevenue.push((util.getZeroPriceForNull(resource.usedBudget)-totalResourceCost))
+        userRevenue.push((util.getZeroPriceForNull(resource.usedBudget)-((parseFloat(resource.usedBudget)/parseFloat(resource.unitPrice))*parseFloat(resource.cost))))
       })
 
     })
@@ -124,14 +124,6 @@ export default function RevenueByUsers(props) {
                     {util.getWithCurrency(allProjectsBudget)}
                   </Box>                
                 </HStack>
-                <HStack>
-                  <Box width="50%" textAlign="right">
-                    Remaining Budget:
-                  </Box>
-                  <Box width="50%" textAlign="left" fontWeight="semibold" color="debit_amount">
-                    {util.getWithCurrency(allProjectsRemainBudgetToAllocate)}
-                  </Box>                
-                </HStack>   
                 <HStack>
                   <Box width="50%" textAlign="right">
                     Used Budget:

@@ -31,7 +31,7 @@ export default function RevenueByUsers(props) {
       allocatedBudget.push(util.getZeroPriceForNull(resource.budgetAllocated))
       usedBudget.push(util.getZeroPriceForNull(resource.usedBudget))
       totalResourceCost = parseFloat(totalResourceCost)+((parseFloat(resource.usedBudget)/parseFloat(resource.unitPrice))*parseFloat(resource.cost))
-      userRevenue.push((util.getZeroPriceForNull(resource.usedBudget)-totalResourceCost))
+      userRevenue.push((util.getZeroPriceForNull(resource.usedBudget)-((parseFloat(resource.usedBudget)/parseFloat(resource.unitPrice))*parseFloat(resource.cost))))
     })
 
     setTotalResourceCost(totalResourceCost)
