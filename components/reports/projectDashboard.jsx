@@ -73,11 +73,18 @@ return (
               </HStack>
               <Card variant="reportByUsers">
                 <CardHeader>
-                  By Users
+                  <HStack>
+                    <Box>
+                      By Users
+                    </Box>
+                    <Box fontSize="12px">
+                      (Click on user name to get more details)
+                    </Box>
+                  </HStack>
                 </CardHeader>
                 <CardBody>
                   <HStack>
-                    <RevenueByUsers budget={project.budget} usedBudget={project.usedBudget} miscBudget={project.miscBudget} usedMiscBudget={project.usedMiscBudget}/>
+                    <RevenueByUsers projectResource={project.projectResource} budget={project.budget} usedBudget={project.usedBudget}/>
                   </HStack>
 
                 </CardBody>

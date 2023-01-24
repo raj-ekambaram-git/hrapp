@@ -25,13 +25,21 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         },
         include: {
           projectResource: {
+            where: {
+              billable: {
+                equals: true
+              }
+            },
             select: {
               user: {
                 select: {
                   firstName: true,
                   lastName: true,
                 }
-              }
+              },
+              budgetAllocated: true,
+              usedBudget: true,
+              unitPrice: true
             }
           },
           invoice: {
