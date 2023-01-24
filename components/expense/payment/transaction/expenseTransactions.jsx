@@ -16,6 +16,7 @@ import { fetchExpenseTransactions } from "../../../../store/modules/Expense/acti
 import { userService } from "../../../../services";
 import { EMPTY_STRING } from "../../../../constants/accountConstants";
 import AddEditTransaction from "./addEditTransaction";
+import { util } from "../../../../helpers/util";
 
 const ExpenseTransactions = (props) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -23,6 +24,7 @@ const ExpenseTransactions = (props) => {
     const [size, setSize] = useState(EMPTY_STRING);
 
     const expenseTransactions = useSelector(state => state.expense.expenseTransactions);
+    const expensePaidAmount = useSelector(state => state.expense.expensePaidAmount);
 
     useEffect(() => {
       dispatch(fetchExpenseTransactions(props.expenseId,userService.getAccountDetails().accountId))
@@ -83,7 +85,7 @@ const ExpenseTransactions = (props) => {
                         Total:
                     </Th>
                     <Th>
-                        ${props.paidAmount}
+                        {util.getWithCurrency(expensePaidAmount)}
                     </Th>
                 </Tr>                
               </Tbody>  

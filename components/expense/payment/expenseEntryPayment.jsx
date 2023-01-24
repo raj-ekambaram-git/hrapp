@@ -73,6 +73,7 @@ import { util } from "../../../helpers/util";
         setSize(newSize)
         onOpen()
         dispatch(setNotesType(notesData))
+        dispatch(setExpensePaidAmount(expense.paidAmount))
       }
 
     return (
