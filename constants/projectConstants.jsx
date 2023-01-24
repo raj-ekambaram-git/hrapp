@@ -4,7 +4,41 @@ import {
 
 export const ProjectConstants = {
 
-
+  EXPENSE_LIST_TABLE_META: [
+    {
+      label: "",
+      accessor: "enableAddtoInvoiceCheckBox"
+    },
+    {
+      label: "Name",
+      accessor: "name"
+    },
+    {
+      label: "Resource",
+      accessor: "resource"
+    },    
+    {
+      label: "Amount",
+      accessor: "totalAmount"
+    },
+    {
+      label: "Status",
+      accessor: "status"
+    },
+    {
+      label: "Approved On",
+      accessor: "approvedOn",
+    },
+    {
+      label: "Approved By",
+      accessor: "approvedBy"
+    },
+    {
+      label: "Last Updated",
+      accessor: "lastUpdated"
+    },
+                         
+  ],
   TIMESHEET_LIST_TABLE_META: [
     {
       label: "",

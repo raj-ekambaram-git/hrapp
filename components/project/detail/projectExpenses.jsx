@@ -22,15 +22,17 @@ import {
     HStack,
     Checkbox
   } from '@chakra-ui/react';
-import { userService } from "../../../services";
+import { projectService, userService } from "../../../services";
 import { useSelector, useDispatch } from "react-redux";
-import {fetchAllProjectExpenses, fetchProjectExpensesByStatus} from '../../../store/modules/Expense/actions';
+import {fetchAllProjectExpenses, fetchProjectExpensesByStatus, getAllProjectExpenses} from '../../../store/modules/Expense/actions';
 import {removeExpenseFromInvoiceItems, setInvoiceTotal, setInvoiceItemList} from '../../../store/modules/Invoice/actions';
 import { util } from "../../../helpers/util";
-import { INVOICE_CALL_TYPE, TIMESHEET_STATUS } from "../../../constants/accountConstants";
+import { EMPTY_STRING, EXPENSE_STATUS, INVOICE_CALL_TYPE, TIMESHEET_STATUS } from "../../../constants/accountConstants";
 import { InvoiceConstants } from "../../../constants/invoiceConstants";
 import { ExpenseStatus } from "@prisma/client";
 import ProjectExpenseEntriesSection from "./projectExpenseEntriesSection";
+import { ProjectConstants } from "../../../constants";
+import { CustomTable } from "../../customTable/Table";
 
 
 
@@ -41,7 +43,8 @@ const ProjectExpenses = (props) => {
     const callType = props.data.callType;
     const [size, setSize] = useState('');
     const [enableAddExpense, setEnableAddExpense] = useState(false);
-    
+    const [expenseEntriesForTable, setExpenseEntriesForTable] = useState([]);
+    const EXPENSE_LIST_TABLE_COLUMNS = React.useMemo(() => ProjectConstants.EXPENSE_LIST_TABLE_META)
     const expenseList = useSelector(state => state.expense.projectExpenses);
     const invoiceTotal = useSelector(state => state.invoice.invoiceTotal);
 
@@ -50,30 +53,47 @@ const ProjectExpenses = (props) => {
 
     }, []);
 
-    const handleProjectExpenses = (newSize) => {
+    function prepareExpenseListForTable(projectExpenseByStatus) {
+      if(projectExpenseByStatus != undefined && projectExpenseByStatus != EMPTY_STRING && projectExpenseByStatus.length != 0) {        
+        const updatedExpenseist =  projectExpenseByStatus.map((expense, index)=> {
+          
+          if((callType == INVOICE_CALL_TYPE && expense.status == ExpenseStatus.Approved && util.getTotalBillableExpense(expense.expenseEntries).billableExpense > 0)) {
+            expense.enableAddtoInvoiceCheckBox = <Checkbox value={expense.id} onChange={(e) => addExpenseAsInvoiceItem(e)}/>    
+          }
+          expense.name = expense.name
+          expense.resource = expense.user?.firstName?expense.user?.firstName:EMPTY_STRING+" "+expense.user?.lastName?expense.user?.lastName:EMPTY_STRING
+          expense.totalAmount = expense.expenseEntries?<HStack><Box marginRight={3}>{util.getWithCurrency(util.getTotalBillableExpense(expense.expenseEntries).billableExpense)}</Box><ProjectExpenseEntriesSection data={expense.expenseEntries}/></HStack>:""
+          expense.status = <Badge color={`${(expense.status !== "Rejected" )? "paid_status": "pending_status"}`}>{expense.status}</Badge>
+          expense.approvedOn = util.getFormattedDate(expense.approvedDate)
+          expense.approvedBy = expense?.approvedBy?.firstName?expense?.approvedBy?.firstName:EMPTY_STRING+" "+expense?.approvedBy?.lastName?expense?.approvedBy?.lastName:EMPTY_STRING
+          expense.lastUpdated = util.getFormattedDate(expense.lastUpdateDate)
+
+          return expense;
+        });
+        setExpenseEntriesForTable(updatedExpenseist);
+      }else {
+        setExpenseEntriesForTable([]);
+      }
+    }
+
+    const handleProjectExpenses = async (newSize) => {
         
-        dispatch(fetchAllProjectExpenses({projectId: projectId, accountId: userService.getAccountDetails().accountId }));
-        // projectService.getAllTimesheetsByProject(projectId, userService.getAccountDetails().accountId);
-        setSize(newSize);
-        onOpen();
+      const projectTimesheeetByStatus = await projectService.getAllExpensesByProject({projectId: projectId, accountId: userService.getAccountDetails().accountId });
+      dispatch(getAllProjectExpenses(projectTimesheeetByStatus));
+      prepareExpenseListForTable(projectTimesheeetByStatus)
+
+      // projectService.getAllTimesheetsByProject(projectId, userService.getAccountDetails().accountId);
+      setSize(newSize);
+      onOpen();
     }
 
-    function handlePendingInvoiceExpenses() {
-      dispatch(fetchProjectExpensesByStatus({projectId: projectId, accountId: userService.getAccountDetails().accountId, status: TIMESHEET_STATUS.Pending }));
+    async function handleInvoiceExpenses(status) {
+      const projectTimesheeetByStatus = await projectService.getProjectExpensesByStatus({projectId: projectId, accountId: userService.getAccountDetails().accountId, status: status });
+      dispatch(getAllProjectExpenses(projectTimesheeetByStatus));
+      prepareExpenseListForTable(projectTimesheeetByStatus)
+
     }
 
-    function handleApprovedExpenses() {
-      dispatch(fetchProjectExpensesByStatus({projectId: projectId, accountId: userService.getAccountDetails().accountId, status: TIMESHEET_STATUS.Approved }));
-    }
-
-    function handleInvoicedExpenses() {
-      dispatch(fetchProjectExpensesByStatus({projectId: projectId, accountId: userService.getAccountDetails().accountId, status: TIMESHEET_STATUS.Invoiced }));
-    }
-
-    function handleRejectedExpenses() {
-      dispatch(fetchProjectExpensesByStatus({projectId: projectId, accountId: userService.getAccountDetails().accountId, status: TIMESHEET_STATUS.Rejected }));
-    }
-    
     function addExpenseAsInvoiceItem(e) {
       const selectedExpense = expenseList.find(x => x.id === parseInt(e.target.value));
       const totalExpenseAmount = util.getTotalBillableExpense(selectedExpense.expenseEntries).billableExpense;
@@ -120,8 +140,8 @@ const ProjectExpenses = (props) => {
     <div>
         
         <Button size="xs" bgColor="header_actions"
-              onClick={() => handleProjectExpenses("xl")}
-              key="xl"
+              onClick={() => handleProjectExpenses("xxl")}
+              key="xxl"
               m={1}
               >{`Expenses`}
           </Button>
@@ -137,17 +157,20 @@ const ProjectExpenses = (props) => {
                           <Stack divider={<StackDivider />} spacing='1'>
                             <Box>
                               <HStack>
-                                <Button className="btn" onClick={() => handlePendingInvoiceExpenses()} width="timesheet.project_timesheets_button" bgColor="button.primary.color">
+                                <Button className="btn" onClick={() => handleInvoiceExpenses(EXPENSE_STATUS.Pending)} width="timesheet.project_timesheets_button" bgColor="button.primary.color">
                                   Pending
                                 </Button>     
-                                <Button className="btn" onClick={() => handleApprovedExpenses()} width="timesheet.project_timesheets_button" bgColor="button.primary.color">
+                                <Button className="btn" onClick={() => handleInvoiceExpenses(ExpenseStatus.Approved)} width="timesheet.project_timesheets_button" bgColor="button.primary.color">
                                   Approved
                                 </Button> 
-                                <Button className="btn" onClick={() => handleInvoicedExpenses()} width="timesheet.project_timesheets_button" bgColor="button.primary.color">
+                                <Button className="btn" onClick={() => handleInvoiceExpenses(ExpenseStatus.Invoiced)} width="timesheet.project_timesheets_button" bgColor="button.primary.color">
                                   Invoiced
                                 </Button>  
-                                <Button className="btn" onClick={() => handleRejectedExpenses()} width="timesheet.project_timesheets_button" bgColor="button.primary.color">
+                                <Button className="btn" onClick={() => handleInvoiceExpenses(ExpenseStatus.Rejected)} width="timesheet.project_timesheets_button" bgColor="button.primary.color">
                                   Rejected
+                                </Button>  
+                                <Button className="btn" onClick={() => handleInvoiceExpenses(ExpenseStatus.Paid)} width="timesheet.project_timesheets_button" bgColor="button.primary.color">
+                                  Paid
                                 </Button>  
                                 {(callType==INVOICE_CALL_TYPE && enableAddExpense)? (
                                   <>
@@ -162,7 +185,7 @@ const ProjectExpenses = (props) => {
                               </HStack>                                                   
                             </Box>
                             <Box border="box_border">
-                                <Table variant="sortTable">
+                                {/* <Table variant="sortTable">
                                   <TableCaption></TableCaption>
                                   <Thead></Thead>
                                   <Tbody>
@@ -250,7 +273,8 @@ const ProjectExpenses = (props) => {
                                     ))}
                                   </Tbody>
                                   
-                                </Table>
+                                </Table> */}
+                                <CustomTable columns={EXPENSE_LIST_TABLE_COLUMNS} rows={expenseEntriesForTable} />
                             </Box>                            
                           </Stack>
                         </DrawerBody>

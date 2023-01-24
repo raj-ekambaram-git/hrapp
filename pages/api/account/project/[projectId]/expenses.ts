@@ -33,12 +33,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   if(status != undefined && status != EMPTY_STRING && status == EXPENSE_STATUS.Pending) {
     whereStatusValue = [ExpenseStatus.Draft, ExpenseStatus.Saved, ExpenseStatus.Submitted, ExpenseStatus.Rejected]
-  } else if (status != undefined && status != EMPTY_STRING && status == TIMESHEET_STATUS.Approved ) {
+  } else if (status != undefined && status != EMPTY_STRING && status == EXPENSE_STATUS.Approved ) {
     whereStatusValue = [ExpenseStatus.Approved]
-  } else if (status != undefined && status != EMPTY_STRING && status == TIMESHEET_STATUS.Invoiced) {
+  } else if (status != undefined && status != EMPTY_STRING && status == EXPENSE_STATUS.Invoiced) {
     whereStatusValue = [ExpenseStatus.Invoiced]
-  } else if (status != undefined && status != EMPTY_STRING && status == TIMESHEET_STATUS.Rejected) {
+  } else if (status != undefined && status != EMPTY_STRING && status == EXPENSE_STATUS.Rejected) {
     whereStatusValue = [ExpenseStatus.Rejected]
+  } else if (status != undefined && status != EMPTY_STRING && status == EXPENSE_STATUS.Paid) {
+    whereStatusValue = [ExpenseStatus.Paid, ExpenseStatus.PartiallyPaid]
   }
 
 console.log("projectId ID::"+projectId+"---AccountioD::"+accountId+"--status::"+status)

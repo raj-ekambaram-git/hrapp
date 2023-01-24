@@ -344,7 +344,8 @@ export const EXPENSE_STATUS = {
   'Approved': 'Approved',
   'Rejected': 'Rejected',
   'Invoiced': 'Invoiced',
-  "Pending": "Pending"
+  "Pending": "Pending",
+  "Paid": "Paid"
 };
 
 export const TIMESHEET_VALIDATION_SCHEMA = Yup.object().shape({

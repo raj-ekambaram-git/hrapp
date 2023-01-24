@@ -43,7 +43,7 @@ const ProjectTimesheets = (props) => {
     const projectId = props.data.projectId;
     const callType = props.data.callType;
     const [size, setSize] = useState('');
-    const [timsheeEntriesForTable, setTimsheeEntriesForTable] = useState([]);
+    const [timsheetEntriesForTable, setTimsheetEntriesForTable] = useState([]);
     const [enableAddTimeSheetEntry, setEnableAddTimeSheetEntry] = useState(false);
     const TIMESHEET_LIST_TABLE_COLUMNS = React.useMemo(() => ProjectConstants.TIMESHEET_LIST_TABLE_META)
 
@@ -71,18 +71,19 @@ const ProjectTimesheets = (props) => {
 
           return timesheetEntry;
         });
-        setTimsheeEntriesForTable(updatedTSEist);
+        setTimsheetEntriesForTable(updatedTSEist);
       }else {
-        setTimsheeEntriesForTable([]);
+        setTimsheetEntriesForTable([]);
       }
     }
 
     const handleProjectTimesheets = async (newSize) => {
       const projectTimesheeetByStatus = await projectService.getAllTimesheetsByProject({projectId: projectId, accountId: userService.getAccountDetails().accountId });
-        prepareTimesheetListForTable(projectTimesheeetByStatus)
-        // projectService.getAllTimesheetsByProject(projectId, userService.getAccountDetails().accountId);
-        setSize(newSize);
-        onOpen();
+      dispatch(getAllProjectTimesheets(projectTimesheeetByStatus));
+      prepareTimesheetListForTable(projectTimesheeetByStatus)
+      // projectService.getAllTimesheetsByProject(projectId, userService.getAccountDetails().accountId);
+      setSize(newSize);
+      onOpen();
     }
 
     async function handleInvoiceTimesheets(status) {
@@ -182,7 +183,7 @@ const ProjectTimesheets = (props) => {
                               </HStack>                                                   
                             </Box>
                             <Box border="box_border">
-                                <CustomTable columns={TIMESHEET_LIST_TABLE_COLUMNS} rows={timsheeEntriesForTable} />
+                                <CustomTable columns={TIMESHEET_LIST_TABLE_COLUMNS} rows={timsheetEntriesForTable} />
                             </Box>                            
                           </Stack>
                         </DrawerBody>
