@@ -62,11 +62,9 @@ export default function FinancialSummary(props) {
       }      
       if((exp.status === ExpenseStatus.Paid || exp.status === ExpenseStatus.PartiallyPaid)) {
         const expenseAmounts = util.getTotalBillableExpense(exp.expenseEntries);
-        if(expenseAmounts?.totalProjectCost>=util.getZeroPriceForNull(exp?.paidAmount)) {
-          expProjectCost = expProjectCost+parseFloat(exp?.paidAmount);  
-        }else {
-          expensePaid = parseFloat(expensePaid)+parseFloat(exp?.paidAmount)
-        }
+        expensePaid = parseFloat(expensePaid)+parseFloat(exp?.paidAmount)
+        expProjectCost = expProjectCost+expenseAmounts?.totalProjectCost; 
+
         
       } else if( (exp.status === ExpenseStatus.Approved || exp.status === ExpenseStatus.Invoiced)) {
         const expenseAmounts = util.getTotalBillableExpense(exp.expenseEntries);

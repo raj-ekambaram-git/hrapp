@@ -26,7 +26,10 @@ export default function ExpenseChart(props) {
         expenseTotal = parseFloat(expenseTotal)+parseFloat(exp?.total)
       }      
       if((exp.status === ExpenseStatus.Paid || exp.status === ExpenseStatus.PartiallyPaid)) {
+        const expenseAmounts = util.getTotalBillableExpense(exp.expenseEntries);
         expensePaid = parseFloat(expensePaid)+parseFloat(exp?.paidAmount)
+        expProjectCost = expProjectCost+expenseAmounts?.totalProjectCost; 
+
       } else if( (exp.status === ExpenseStatus.Approved || exp.status === ExpenseStatus.Invoiced)) {
         const expenseAmounts = util.getTotalBillableExpense(exp.expenseEntries);
         expBillable = expBillable+expenseAmounts?.billableExpense;
