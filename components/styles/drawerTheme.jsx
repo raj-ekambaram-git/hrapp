@@ -5,12 +5,14 @@ const { definePartsStyle, defineMultiStyleConfig } =
   createMultiStyleConfigHelpers(drawerAnatomy.keys)
 
   const sizes = {
-    "xl": {
-      maxW: "10vw",
-      minH: "$100vh",
-      my: "0",
-      borderRadius: "0",
-    }
+    "xxl": definePartsStyle({
+      dialog: {
+        maxW: "70vw",
+        minH: "$100vh",
+        my: "0",
+        borderRadius: "0",
+      },
+    })
   }
 
 

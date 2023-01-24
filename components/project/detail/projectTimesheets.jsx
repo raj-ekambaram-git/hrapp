@@ -22,9 +22,9 @@ import {
     HStack,
     Checkbox
   } from '@chakra-ui/react';
-import { userService } from "../../../services";
+import { projectService, userService } from "../../../services";
 import { useSelector, useDispatch } from "react-redux";
-import {fetchAllProjectTimesheets, fetchProjectTimesheetsByStatus} from '../../../store/modules/Timesheet/actions';
+import {fetchAllProjectTimesheets, fetchProjectTimesheetsByStatus, getAllProjectTimesheets} from '../../../store/modules/Timesheet/actions';
 import {removeTSFromInvoiceItems, setInvoiceTotal, setInvoiceItemList} from '../../../store/modules/Invoice/actions';
 import { util } from "../../../helpers/util";
 import ProjectTimesheeEntrySection from "./projectTimesheeEntrySection";
@@ -55,9 +55,9 @@ const ProjectTimesheets = (props) => {
 
     }, []);
 
-    const prepareTimesheetListForTable =() => {
-      if(timesheetEntryList != undefined && timesheetEntryList != EMPTY_STRING) {
-        const updatedTSEist =  timesheetEntryList.map((timesheetEntry, index)=> {
+    function prepareTimesheetListForTable(projectTimesheeetByStatus) {
+      if(projectTimesheeetByStatus != undefined && projectTimesheeetByStatus != EMPTY_STRING && projectTimesheeetByStatus.length != 0) {        
+        const updatedTSEist =  projectTimesheeetByStatus.map((timesheetEntry, index)=> {
           if(callType == INVOICE_CALL_TYPE && timesheetEntry.status == TIMESHEET_STATUS.Approved && timesheetEntry.billable) {
             timesheetEntry.enableAddtoInvoiceCheckBox = <Checkbox value={timesheetEntry.id} onChange={(e) => addTimesheetEntryAsInvoiceItem(e)} />
           }
@@ -71,25 +71,28 @@ const ProjectTimesheets = (props) => {
 
           return timesheetEntry;
         });
-        setTimsheeEntriesForTable(updatedTSEist );
+        setTimsheeEntriesForTable(updatedTSEist);
+      }else {
+        setTimsheeEntriesForTable([]);
       }
     }
 
-    const handleProjectTimesheets = (newSize) => {
-        dispatch(fetchAllProjectTimesheets({projectId: projectId, accountId: userService.getAccountDetails().accountId }));
-        prepareTimesheetListForTable()
+    const handleProjectTimesheets = async (newSize) => {
+      const projectTimesheeetByStatus = await projectService.getAllTimesheetsByProject({projectId: projectId, accountId: userService.getAccountDetails().accountId });
+        prepareTimesheetListForTable(projectTimesheeetByStatus)
         // projectService.getAllTimesheetsByProject(projectId, userService.getAccountDetails().accountId);
         setSize(newSize);
         onOpen();
     }
 
-    function handleInvoiceTimesheets(status) {
-      dispatch(fetchProjectTimesheetsByStatus({projectId: projectId, accountId: userService.getAccountDetails().accountId, status: status }));
-      prepareTimesheetListForTable()
+    async function handleInvoiceTimesheets(status) {
+      
+      const projectTimesheeetByStatus = await projectService.getProjectTimesheetsByStatus({projectId: projectId, accountId: userService.getAccountDetails().accountId, status: status });
+      dispatch(getAllProjectTimesheets(projectTimesheeetByStatus));
+      prepareTimesheetListForTable(projectTimesheeetByStatus)
     }
 
     function addTimesheetEntryAsInvoiceItem(e) {
-      console.log("Checked value:::"+e.target.checked+"----Value::"+e.target.value);
       const selectedTimesheetEntry = timesheetEntryList.find(x => x.id === parseInt(e.target.value));
       const selectedTSQuantity = util.getTotalHours(selectedTimesheetEntry.entries);
       const selectedTSTotal = parseFloat(selectedTSQuantity) * parseFloat(selectedTimesheetEntry.unitPrice);
@@ -137,8 +140,8 @@ const ProjectTimesheets = (props) => {
     <div>
         
         <Button size="xs" bgColor="header_actions"
-              onClick={() => handleProjectTimesheets("xl")}
-              key="xl"
+              onClick={() => handleProjectTimesheets("xxl")}
+              key="xxl"
               m={1}
               >{`Timesheets`}
           </Button>
