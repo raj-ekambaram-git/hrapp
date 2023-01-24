@@ -97,7 +97,7 @@ const ProjectExpenses = (props) => {
 
     function addExpenseAsInvoiceItem(e) {
       const selectedExpense = expenseList.find(x => x.id === parseInt(e.target.value));
-      const totalExpenseAmount = util.getTotalBillableExpense(selectedExpense.expenseEntries).billableExpense;
+      const totalExpenseAmount = util.getTotalBillableExpense(selectedExpense?.expenseEntries).billableExpense;
 
       if(e.target.checked) { //Add the timesheet entry to the invoice item list
         if(!enableAddExpense) {

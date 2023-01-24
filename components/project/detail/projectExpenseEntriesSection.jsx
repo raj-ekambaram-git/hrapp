@@ -54,6 +54,9 @@ const ProjectExpenseEntriesSection = (props) => {
                                         Type
                                     </Th>
                                     <Th>
+                                        Billable
+                                    </Th>                                    
+                                    <Th>
                                         Amount
                                     </Th>
                                     <Th>
@@ -70,6 +73,9 @@ const ProjectExpenseEntriesSection = (props) => {
                                         <Th>
                                             {expenseEntry.type}
                                         </Th>
+                                        <Th>
+                                            {expenseEntry.billable?"Yes":"No"}
+                                        </Th>                                        
                                         <Th>
                                             {util.getWithCurrency(expenseEntry.amount)}
                                         </Th>
