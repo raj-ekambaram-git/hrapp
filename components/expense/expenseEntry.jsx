@@ -152,7 +152,7 @@ const ExpenseEntry = (props) => {
   };
   
   async function getProjectForUser(userId) {
-    const projectsForUserResponse = await userService.getProjectsByUser(userId, userService.getAccountDetails().accountId);    
+    const projectsForUserResponse = await userService.getProjectsByUser(userId, userService.getAccountDetails().accountId, "billable");    
     setUserProjectList(projectsForUserResponse);
   }
 

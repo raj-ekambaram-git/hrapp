@@ -267,8 +267,8 @@ function getTimesheetByUser(userId, accountId) {
     });
  }
 
-function getProjectsByUser(userId, accountId) {
-    return fetchWrapper.get(`${baseUrl}/account/user/`+userId+'/projects?accountId='+accountId, {})
+function getProjectsByUser(userId, accountId, filter) {
+    return fetchWrapper.get(`${baseUrl}/account/user/`+userId+'/projects?accountId='+accountId+"&filter="+filter, {})
     .then(users => {
         return users;
     });

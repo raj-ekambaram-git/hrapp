@@ -9,28 +9,32 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(405).json({ message: 'Method not allowed' });
   }
 
-  const userId = req.query.userId;
-  const accountId = req.query.accountId;
+  const userId = req.query?.userId;
+  const accountId = req.query?.accountId;
+  const filter = req.query?.filter;
+  const whereClasuse = {
+      userId: {
+        equals: parseInt(userId.toString())            
+      },
+      project: {
+        accountId: {
+          equals: parseInt(accountId.toString())
+        },
+        status: {
+          in: [ProjectStatus.Open, ProjectStatus.Closed, ProjectStatus.Settled]
+        },
+      },
+  }
 
-console.log("userId ID::"+userId+"---AccountioD::"+accountId)
+  if(filter && filter === "billable") {
+    whereClasuse["billable"] = true;
+  }
+console.log("userId ID::"+userId+"---AccountioD::"+accountId+"***filter::"+filter+"*****whereClasuse::"+JSON.stringify(whereClasuse))
   
   try {
     if(userId != "" && accountId != "" && accountId != "NaN" && accountId != undefined && userId != undefined && userId != "NaN") {
-      console.log("11111");
       const projects = await prisma.projectResource.findMany({
-        where: {
-            userId: {
-              equals: parseInt(userId.toString())            
-            },
-            project: {
-              accountId: {
-                equals: parseInt(accountId.toString())
-              },
-              status: {
-                in: [ProjectStatus.Open, ProjectStatus.Closed, ProjectStatus.Settled]
-              }
-            },
-        },
+        where: whereClasuse,
         orderBy: {
           id: "desc"
         },
@@ -42,19 +46,7 @@ console.log("userId ID::"+userId+"---AccountioD::"+accountId)
     } else if (accountId != "" && accountId != undefined && userId == "NaN"){
       console.log("2222");
       const projects = await prisma.projectResource.findMany({
-        where: {
-            userId: {
-              equals: parseInt(userId.toString())            
-            },
-            project: {
-              accountId: {
-                equals: parseInt(accountId.toString())
-              },
-              status: {
-                in: [ProjectStatus.Open, ProjectStatus.Closed, ProjectStatus.Settled]
-              }
-            }
-        },
+        where: whereClasuse,
         orderBy: {
           id: "desc"
         },
@@ -65,21 +57,8 @@ console.log("userId ID::"+userId+"---AccountioD::"+accountId)
       res.status(200).json(projects);
 
     }else if (userId != "" && userId != undefined && accountId == "NaN") {
-      console.log("33333333");
       const projects = await prisma.projectResource.findMany({
-        where: {
-            userId: {
-              equals: parseInt(userId.toString())            
-            },
-            project: {
-              accountId: {
-                equals: parseInt(accountId.toString())
-              },
-              status: {
-                in: [ProjectStatus.Open, ProjectStatus.Closed, ProjectStatus.Settled]
-              }
-            }
-        },
+        where: whereClasuse,
         orderBy: {
           id: "desc"
         },
