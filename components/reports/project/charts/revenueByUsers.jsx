@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Chart from 'chart.js/auto'
 import { util } from "../../../../helpers/util";
-import { doughnutChart } from "../../../common/charts/doughnutChart";
 import { Box, Card, CardBody, CardHeader, Heading, HStack, Stack } from "@chakra-ui/react";
 import { horizontalBarChart } from "../../../common/charts/horizontalBarChart";
 
@@ -35,7 +34,7 @@ export default function RevenueByUsers(props) {
       totalResourceCost = parseFloat(totalResourceCost)+((parseFloat(resource.usedBudget)/parseFloat(resource.unitPrice))*parseFloat(resource.cost))
     })
     setTotalResourceCost(totalResourceCost)
-    console.log("totalResourceCost:::"+totalResourceCost)
+    
     const data = {
       labels: labels,
       datasets: [
@@ -50,14 +49,29 @@ export default function RevenueByUsers(props) {
         
       ]
     };
-    
+
+    const subtitle = {
+      display: true,
+      text: "Used Budget: $"+util.getZeroPriceForNull(props.usedBudget),
+      color: 'blue',
+      font: {
+        size: 12,
+        family: 'tahoma',
+        weight: 'normal',
+        style: 'italic'
+      },
+      padding: {
+        bottom: 10
+      }
+    }
 
     horizontalBarChart({
       canvasId:"revenueByUser", 
       chartData: data, 
-      titleText: 'Total Budget: $'+(util.getZeroPriceForNull(props.budget)+" Used Budget: $"+util.getZeroPriceForNull(props.usedBudget)), 
-      // titleText: <></>,
-      position:'top'})
+      titleText: 'Total Budget: $'+(util.getZeroPriceForNull(props.budget)), 
+      subtitleData: subtitle,
+      position:'top',
+      })
   }
   
 
@@ -67,7 +81,7 @@ export default function RevenueByUsers(props) {
       <Box width="60%">
         <canvas id="revenueByUser"></canvas>
       </Box>  
-      <HStack width="100%">
+      <Stack width="50%">
         <Card variant="projectUsersFinancialSummary">
           <CardHeader>
             <Heading size='xs' textAlign="center">All Users Summary as of {util.getFormattedDate(new Date())}</Heading>          
@@ -117,7 +131,7 @@ export default function RevenueByUsers(props) {
               </Stack>
           </CardBody>
         </Card>  
-        <Card variant="projectUsersFinancialSummary">
+        {/* <Card variant="projectUsersFinancialSummary">
           <CardHeader>
             <Heading size='xs' textAlign="center">Users Summary as of {util.getFormattedDate(new Date())}</Heading>          
           </CardHeader>
@@ -157,8 +171,8 @@ export default function RevenueByUsers(props) {
                 </HStack>                       
               </Stack>
           </CardBody>
-        </Card>          
-      </HStack> 
+        </Card>           */}
+      </Stack> 
     </>
   );
 }

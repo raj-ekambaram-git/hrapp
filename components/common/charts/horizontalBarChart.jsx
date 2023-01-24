@@ -1,6 +1,8 @@
 import Chart from 'chart.js/auto'
 
-export const horizontalBarChart = ({ canvasId, chartData, titleText, position }) => {
+export const horizontalBarChart = ({ canvasId, chartData, titleText, subtitleData, position }) => {
+  console.log("SUBTITLE ::"+JSON.stringify(subtitleData))
+
 
     return new Chart(
         document.getElementById(canvasId),
@@ -24,7 +26,8 @@ export const horizontalBarChart = ({ canvasId, chartData, titleText, position })
               title: {
                 display: true,
                 text: titleText
-              }
+              },
+              subtitle: subtitleData,
             }
           },
         }
