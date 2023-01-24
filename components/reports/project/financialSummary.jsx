@@ -61,28 +61,19 @@ export default function FinancialSummary(props) {
       if((exp.status != ExpenseStatus.Submitted && exp.status != ExpenseStatus.Draft)) {
         expenseTotal = parseFloat(expenseTotal)+parseFloat(exp?.total)
       }
-       
-      if((exp.status === ExpenseStatus.Paid || exp.status === ExpenseStatus.PartiallyPaid)) {
-        const expenseAmounts = util.getTotalBillableExpense(exp.expenseEntries);
-        expensePaid = parseFloat(expensePaid)+parseFloat(exp?.paidAmount)
-        expProjectCost = expProjectCost+expenseAmounts?.totalProjectCost; 
-        expBillable = expBillable+expenseAmounts?.billableExpense;
-        expNonBillable = expNonBillable+expenseAmounts?.nonBillableExpense;
-        if(exp.status === ExpenseStatus.PartiallyPaid) {
-          console.log("APproved:LL:::"+expBillable)
-          expenseNotInvoiced = expenseNotInvoiced+expBillable;
+      
+      if(exp.status === ExpenseStatus.Paid || exp.status === ExpenseStatus.PartiallyPaid ||
+        exp.status === ExpenseStatus.Approved || exp.status === ExpenseStatus.Invoiced ){
+          const expenseAmounts = util.getTotalBillableExpense(exp.expenseEntries);
+          expensePaid = parseFloat(expensePaid)+parseFloat(exp?.paidAmount)
+          expProjectCost = expProjectCost+expenseAmounts?.totalProjectCost; 
+          expBillable = expBillable+expenseAmounts?.billableExpense;
+          expNonBillable = expNonBillable+expenseAmounts?.nonBillableExpense;
+          if(exp.status === ExpenseStatus.PartiallyPaid || exp.status === ExpenseStatus.Approved) {
+            console.log("APproved:LL:::"+expBillable)
+            expenseNotInvoiced = expenseNotInvoiced+expBillable;
+          }
         }
-        
-      } else if( (exp.status === ExpenseStatus.Approved || exp.status === ExpenseStatus.Invoiced)) {
-        const expenseAmounts = util.getTotalBillableExpense(exp.expenseEntries);
-        expBillable = expBillable+expenseAmounts?.billableExpense;
-        expNonBillable = expNonBillable+expenseAmounts?.nonBillableExpense;
-        expProjectCost = expProjectCost+expenseAmounts?.totalProjectCost;  
-        if(exp.status === ExpenseStatus.Approved) {
-          console.log("APproved:LL:::"+expBillable)
-          expenseNotInvoiced = expenseNotInvoiced+expBillable;
-        }
-      }
       
     })
     console.log("expenseNotInvoiced:::"+expenseNotInvoiced)
