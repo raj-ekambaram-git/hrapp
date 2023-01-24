@@ -49,6 +49,7 @@ console.log("userId ID::"+userId+"---AccountioD::"+accountId)
             isTimesheetApprover: {
               equals: true
             },
+            billable: true,
             project: {
               expense: {
                 some: {
