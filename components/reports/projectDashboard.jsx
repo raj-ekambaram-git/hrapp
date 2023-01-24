@@ -7,6 +7,8 @@ import ExpenseChart from "./project/charts/expenseChart";
 import FinancialSummary from "./project/financialSummary";
 import { useDispatch, useSelector } from "react-redux";
 import RevenueByUsers from "./project/charts/revenueByUsers";
+import { PROJECT_CALL_TYPE } from "../../constants";
+import ProjectTimesheets from "../project/detail/projectTimesheets";
 
 
 export default function ProjectDashboard(props) {
@@ -32,8 +34,7 @@ export default function ProjectDashboard(props) {
     setProjectList(projectsForUserResponse);
 }
 
-  async function getProjectBudgetDetails(projectIdInput) {
-    console.log("projectIdInput::"+projectIdInput)
+  async function getProjectBudgetDetails(projectIdInput) {    
     const responseData = await projectService.getProjectBudgetDetails(projectIdInput, userService.getAccountDetails().accountId);
     console.log("responseData::"+JSON.stringify(responseData))
     setProject(responseData)
@@ -58,7 +59,8 @@ return (
                   {projectList?.map((project) => (
                           <option value={project.projectId}>{project.project?.name} - {project.project?.referenceCode}</option>
                     ))}                                  
-                </Select>    
+                </Select>  
+                {project?(<ProjectTimesheets data={{projectId: project.id, callType: PROJECT_CALL_TYPE}}/>  ):(<></>)}                
               </HStack>     
             </CardHeader>
           </Card>

@@ -51,7 +51,6 @@ const ProjectTimesheets = (props) => {
     }, []);
 
     const handleProjectTimesheets = (newSize) => {
-        
         dispatch(fetchAllProjectTimesheets({projectId: projectId, accountId: userService.getAccountDetails().accountId }));
         // projectService.getAllTimesheetsByProject(projectId, userService.getAccountDetails().accountId);
         setSize(newSize);
