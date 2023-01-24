@@ -3,6 +3,7 @@ import { accountService, userService, vendorService } from "../../services";
 import { Box, Card, CardHeader, HStack, Select, Stack } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import BudgetChart from "./vendor/charts/budgetChart";
+import InvoiceChart from "./vendor/charts/invoiceChart";
 
 export default function VendorDashboard(props) {
   const dispatch = useDispatch();
@@ -61,8 +62,8 @@ return (
            {vendor? (
               <HStack>
                 <BudgetChart projects={vendor.project}/>
-                {/* {project.invoice && project.invoice?.length > 0?(<InvoiceChart invoice={project.invoice}/>):(<></>)}
-                {project.expense && project.expense?.length > 0?(<ExpenseChart expense={project.expense}/>):(<></>)}                
+                <InvoiceChart projects={vendor.project}/>
+                {/* {project.expense && project.expense?.length > 0?(<ExpenseChart expense={project.expense}/>):(<></>)}                
                 <FinancialSummary project={project}/> */}
               </HStack>
             ):(<>
