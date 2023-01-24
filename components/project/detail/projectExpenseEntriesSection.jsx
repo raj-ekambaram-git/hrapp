@@ -43,7 +43,7 @@ const ProjectExpenseEntriesSection = (props) => {
                 <PopoverArrow />
                 <PopoverCloseButton />
                 <PopoverBody>
-                    <TableContainer  marginTop="2rem">
+                    <TableContainer>
                         <Table>
                             <Thead>
                                 <Tr bgColor="table_tile">

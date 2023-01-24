@@ -62,7 +62,8 @@ const ProjectExpenses = (props) => {
           }
           expense.name = expense.name
           expense.resource = expense.user?.firstName?expense.user?.firstName:EMPTY_STRING+" "+expense.user?.lastName?expense.user?.lastName:EMPTY_STRING
-          expense.totalAmount = expense.expenseEntries?<HStack><Box marginRight={3}>{util.getWithCurrency(util.getTotalBillableExpense(expense.expenseEntries).billableExpense)}</Box><ProjectExpenseEntriesSection data={expense.expenseEntries}/></HStack>:""
+          const expenseAmount = util.getTotalBillableExpense(expense.expenseEntries)
+          expense.totalAmount = expense.expenseEntries?<HStack><Box marginRight={3}>{util.getWithCurrency((util.getZeroPriceForNull(expenseAmount.billableExpense)+util.getZeroPriceForNull(expenseAmount.nonBillableExpense)+util.getZeroPriceForNull(expenseAmount.totalProjectCost)))}</Box><ProjectExpenseEntriesSection data={expense.expenseEntries}/></HStack>:""
           expense.status = <Badge color={`${(expense.status !== "Rejected" )? "paid_status": "pending_status"}`}>{expense.status}</Badge>
           expense.approvedOn = util.getFormattedDate(expense.approvedDate)
           expense.approvedBy = expense?.approvedBy?.firstName?expense?.approvedBy?.firstName:EMPTY_STRING+" "+expense?.approvedBy?.lastName?expense?.approvedBy?.lastName:EMPTY_STRING
