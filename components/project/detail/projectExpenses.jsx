@@ -105,7 +105,7 @@ const ProjectExpenses = (props) => {
         }
         const addedExpenseInvoiceItem = {
           expenseId: parseInt(e.target.value),
-          userId: parseInt(selectedExpense.user?.id),
+          userId: parseInt(selectedExpense.userId),
           type: InvoiceConstants.INVOICE_ITEM_TYPE_EXPENSE,
           status: InvoiceConstants.INVOICE_STATUS.Draft,
           unitPrice: totalExpenseAmount,
