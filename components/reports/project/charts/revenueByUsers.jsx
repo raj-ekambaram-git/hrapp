@@ -24,15 +24,16 @@ export default function RevenueByUsers(props) {
     const labels = []; 
     const allocatedBudget = []; 
     const usedBudget = []; 
+    const userRevenue = []; 
     let totalResourceCost = 0;
     props.projectResource?.map(resource => {
       labels.push((resource.user?.firstName.length>5?resource.user?.firstName.substring(0,5):resource.user?.firstName)+" "+(resource.user?.lastName.length>5?resource.user?.lastName.substring(0,5):resource.user?.lastName))
       allocatedBudget.push(util.getZeroPriceForNull(resource.budgetAllocated))
       usedBudget.push(util.getZeroPriceForNull(resource.usedBudget))
-      console.log("parseFloat(resource.cost)::"+parseFloat(resource.cost))
-      console.log("Total Hours::"+((parseFloat(resource.usedBudget)/parseFloat(resource.unitPrice))*parseFloat(resource.cost)))
       totalResourceCost = parseFloat(totalResourceCost)+((parseFloat(resource.usedBudget)/parseFloat(resource.unitPrice))*parseFloat(resource.cost))
+      userRevenue.push((util.getZeroPriceForNull(resource.usedBudget)-totalResourceCost))
     })
+
     setTotalResourceCost(totalResourceCost)
     
     const data = {
@@ -46,7 +47,10 @@ export default function RevenueByUsers(props) {
           label: 'Used Budget',
           data: usedBudget,
         },
-        
+        {
+          label: 'Net Revenue',
+          data: userRevenue,
+        },        
       ]
     };
 
