@@ -4,6 +4,8 @@ import { Box, Card, CardHeader, HStack, Select, Stack } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import BudgetChart from "./vendor/charts/budgetChart";
 import InvoiceChart from "./vendor/charts/invoiceChart";
+import ExpenseChart from "./vendor/charts/expenseChart";
+import {setSelectedReportsVendorId} from '../../store/modules/Reports/actions'
 
 export default function VendorDashboard(props) {
   const dispatch = useDispatch();
@@ -15,13 +17,11 @@ export default function VendorDashboard(props) {
   // const projectId = "209"
 
   useEffect(() => {
+    getVendorList(userService.userValue.id);
     if(vendorId) {
       getVendorReportData(vendorId);
-    }else {
-      getVendorList(userService.userValue.id);
-    }
-    
-  }, []);
+    }    
+  }, [vendorId]);
   
   async function getVendorList(userId ) {
     const vendorListResponse = await accountService.getVendorList(userService.getAccountDetails().accountId);
@@ -29,9 +29,8 @@ export default function VendorDashboard(props) {
 }
 
   async function getVendorReportData(vendorIdInput) {
-    console.log("vendorIdInput::"+vendorIdInput)
+    dispatch(setSelectedReportsVendorId(vendorIdInput))
     const responseData = await vendorService.getVendorReportData(vendorIdInput, userService.getAccountDetails().accountId);
-    console.log("responseDataresponseData::"+JSON.stringify(responseData))
     setVendor(responseData)
   }
 
@@ -44,7 +43,7 @@ return (
             <CardHeader>
               <HStack>
                 {vendorId
-                ?<Box fontWeight="semibold">{vendorId}</Box>
+                ?<Box fontWeight="semibold"></Box>
                 :(
                     <></>
                   )
@@ -63,8 +62,8 @@ return (
               <HStack>
                 <BudgetChart projects={vendor.project}/>
                 <InvoiceChart projects={vendor.project}/>
-                {/* {project.expense && project.expense?.length > 0?(<ExpenseChart expense={project.expense}/>):(<></>)}                
-                <FinancialSummary project={project}/> */}
+                <ExpenseChart projects={vendor.project}/>            
+                {/* <FinancialSummary project={project}/> */}
               </HStack>
             ):(<>
             </>)}                    

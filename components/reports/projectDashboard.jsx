@@ -10,6 +10,7 @@ import RevenueByUsers from "./project/charts/revenueByUsers";
 import { PROJECT_CALL_TYPE } from "../../constants";
 import ProjectTimesheets from "../project/detail/projectTimesheets";
 import ProjectExpenses from "../project/detail/projectExpenses";
+import { setSelectedReportsProjectId } from "../../store/modules/Reports/actions";
 
 
 export default function ProjectDashboard(props) {
@@ -18,17 +19,16 @@ export default function ProjectDashboard(props) {
   const [project, setProject] = useState();
   const [displayProjectSelection, setDisplayProjectSelection] = useState(false)
   const [projectList, setProjectList] = useState([])
-  const projectId = useSelector(state => state.reports.selectedReportsProjectId);
+  const projectId = useSelector(state => state.reports.project.selectedReportsProjectId);
   // const projectId = "209"
 
   useEffect(() => {
+    getProjectForUser(userService.userValue.id);
     if(projectId) {
       getProjectBudgetDetails(projectId);
-    }else {
-      getProjectForUser(userService.userValue.id);
     }
     
-  }, []);
+  }, [projectId]);
   
   async function getProjectForUser(userId) {
     const responseData = await reportsService.getProjects(userService.getAccountDetails().accountId);
@@ -36,8 +36,8 @@ export default function ProjectDashboard(props) {
 }
 
   async function getProjectBudgetDetails(projectIdInput) {    
+    dispatch(setSelectedReportsProjectId(projectIdInput))
     const responseData = await projectService.getProjectBudgetDetails(projectIdInput, userService.getAccountDetails().accountId);
-    console.log("responseData::"+JSON.stringify(responseData))
     setProject(responseData)
   }
 

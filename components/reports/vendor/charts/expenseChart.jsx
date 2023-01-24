@@ -10,10 +10,12 @@ import { Box } from "@chakra-ui/react";
 export default function ExpenseChart(props) {
 
   useEffect(() => {
-    if(props.expense) {
+    if(props.projects && props.projects.length > 0) {
       getExpenseData();
-    }  
-  }, [props.expense]);
+    }else {
+      removeChart()
+    }
+  }, [props.projects]);
   
   function getExpenseData() {
     let expenseTotal = 0;
@@ -21,24 +23,26 @@ export default function ExpenseChart(props) {
     let expProjectCost = 0
     let expBillable = 0
     let expNonBillable = 0
-    props.expense?.map(exp => {
-      if((exp.status != ExpenseStatus.Submitted && exp.status != ExpenseStatus.Draft)) {
-        expenseTotal = parseFloat(expenseTotal)+parseFloat(exp?.total)
-      }      
-      if((exp.status === ExpenseStatus.Paid || exp.status === ExpenseStatus.PartiallyPaid)) {
-        const expenseAmounts = util.getTotalBillableExpense(exp.expenseEntries);
-        expensePaid = parseFloat(expensePaid)+parseFloat(exp?.paidAmount)
-        expProjectCost = expProjectCost+expenseAmounts?.totalProjectCost; 
-        expBillable = expBillable+expenseAmounts?.billableExpense;
-        expNonBillable = expNonBillable+expenseAmounts?.nonBillableExpense;
+    props.projects?.map(project => {
+      project.expense?.map(exp => {
+        if((exp.status != ExpenseStatus.Submitted && exp.status != ExpenseStatus.Draft)) {
+          expenseTotal = parseFloat(expenseTotal)+parseFloat(exp?.total)
+        }      
+        if((exp.status === ExpenseStatus.Paid || exp.status === ExpenseStatus.PartiallyPaid)) {
+          const expenseAmounts = util.getTotalBillableExpense(exp.expenseEntries);
+          expensePaid = parseFloat(expensePaid)+parseFloat(exp?.paidAmount)
+          expProjectCost = expProjectCost+expenseAmounts?.totalProjectCost; 
+          expBillable = expBillable+expenseAmounts?.billableExpense;
+          expNonBillable = expNonBillable+expenseAmounts?.nonBillableExpense;
 
-      } else if( (exp.status === ExpenseStatus.Approved || exp.status === ExpenseStatus.Invoiced)) {
-        const expenseAmounts = util.getTotalBillableExpense(exp.expenseEntries);
-        expBillable = expBillable+expenseAmounts?.billableExpense;
-        expNonBillable = expNonBillable+expenseAmounts?.nonBillableExpense;
-        expProjectCost = expProjectCost+expenseAmounts?.totalProjectCost;  
-      }
-      
+        } else if( (exp.status === ExpenseStatus.Approved || exp.status === ExpenseStatus.Invoiced)) {
+          const expenseAmounts = util.getTotalBillableExpense(exp.expenseEntries);
+          expBillable = expBillable+expenseAmounts?.billableExpense;
+          expNonBillable = expNonBillable+expenseAmounts?.nonBillableExpense;
+          expProjectCost = expProjectCost+expenseAmounts?.totalProjectCost;  
+        }
+        
+      })
     })
 
     if(expenseTotal>0) {
@@ -54,29 +58,33 @@ export default function ExpenseChart(props) {
       if(expNonBillable>0) {
         data.push({ key: "Non-Billable $"+expNonBillable, value: expNonBillable },)
       }      
-      let chartStatus = Chart.getChart("expense"); // <canvas> id
-      if (chartStatus != undefined) {
-        chartStatus.destroy();
-      }
+
+      removeChart();
 
       if(data && data.length == 0) {
         data.push({ key: "Total $"+expenseTotal, value: expenseTotal },)
       }
       doughnutChart({
-        canvasId:"expense", 
+        canvasId:"vendorExpense", 
         chartData: data, 
         titleText: 'Expense: $'+util.getZeroPriceForNull(expenseTotal), 
         position:'top'})
-     
+    } else {
+      removeChart();
+    }    
+  }
   
+  const removeChart = () => {
+    let chartStatus = Chart.getChart("vendorExpense"); // <canvas> id
+    if (chartStatus != undefined) {
+      chartStatus.destroy();
     }
-    
   }
 
   return (
     <>    
       <Box width="25%">
-        <canvas id="expense"></canvas>        
+        <canvas id="vendorExpense"></canvas>        
       </Box>        
     </>
   );
