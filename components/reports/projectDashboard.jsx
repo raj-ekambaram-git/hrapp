@@ -86,9 +86,6 @@ return (
                     <Box fontWeight="semibold">
                       By Users
                     </Box>
-                    <Box fontSize="12px">
-                      (Click on user name to get more details specific to user)
-                    </Box>
                   </HStack>
                 </CardHeader>
                 <CardBody>
