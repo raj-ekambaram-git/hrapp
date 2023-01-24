@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import RevenueByUsers from "./project/charts/revenueByUsers";
 import { PROJECT_CALL_TYPE } from "../../constants";
 import ProjectTimesheets from "../project/detail/projectTimesheets";
+import ProjectExpenses from "../project/detail/projectExpenses";
 
 
 export default function ProjectDashboard(props) {
@@ -60,7 +61,13 @@ return (
                           <option value={project.projectId}>{project.project?.name} - {project.project?.referenceCode}</option>
                     ))}                                  
                 </Select>  
-                {project?(<ProjectTimesheets data={{projectId: project.id, callType: PROJECT_CALL_TYPE}}/>  ):(<></>)}                
+                {project?(
+                  <>
+                    <ProjectTimesheets data={{projectId: project.id, callType: PROJECT_CALL_TYPE}}/> 
+                    <ProjectExpenses data={{projectId: project.id, callType: PROJECT_CALL_TYPE}}/> 
+                  </>
+                 ):(<></>)}                
+
               </HStack>     
             </CardHeader>
           </Card>

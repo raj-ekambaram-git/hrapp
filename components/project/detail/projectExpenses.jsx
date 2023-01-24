@@ -27,9 +27,8 @@ import { useSelector, useDispatch } from "react-redux";
 import {fetchAllProjectExpenses, fetchProjectExpensesByStatus} from '../../../store/modules/Expense/actions';
 import {removeExpenseFromInvoiceItems, setInvoiceTotal, setInvoiceItemList} from '../../../store/modules/Invoice/actions';
 import { util } from "../../../helpers/util";
-import { EXPENSE_CALL_TYPE, TIMESHEET_STATUS } from "../../../constants/accountConstants";
+import { INVOICE_CALL_TYPE, TIMESHEET_STATUS } from "../../../constants/accountConstants";
 import { InvoiceConstants } from "../../../constants/invoiceConstants";
-import { DrawerMainHeader } from "../../common/drawerMainHeader";
 import { ExpenseStatus } from "@prisma/client";
 import ProjectExpenseEntriesSection from "./projectExpenseEntriesSection";
 
@@ -150,7 +149,7 @@ const ProjectExpenses = (props) => {
                                 <Button className="btn" onClick={() => handleRejectedExpenses()} width="timesheet.project_timesheets_button" bgColor="button.primary.color">
                                   Rejected
                                 </Button>  
-                                {(callType==EXPENSE_CALL_TYPE && enableAddExpense)? (
+                                {(callType==INVOICE_CALL_TYPE && enableAddExpense)? (
                                   <>
                                   <Button className="btn" onClick={() => handleAddExpensesToInvoice()} width="timesheet.project_timesheets_button" bgColor="button.primary.color">
                                     Add to Invoice
@@ -197,7 +196,7 @@ const ProjectExpenses = (props) => {
                                     
                                         <Tr>
                                           <Th>
-                                            {(callType == EXPENSE_CALL_TYPE && expense.status == ExpenseStatus.Approved && util.getTotalBillableExpense(expense.expenseEntries).billableExpense > 0) ? (
+                                            {(callType == INVOICE_CALL_TYPE && expense.status == ExpenseStatus.Approved && util.getTotalBillableExpense(expense.expenseEntries).billableExpense > 0) ? (
                                               <>
                                                 <Checkbox value={expense.id}
                                                   onChange={(e) => addExpenseAsInvoiceItem(e)}

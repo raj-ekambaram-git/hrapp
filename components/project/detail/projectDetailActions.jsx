@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 import ProjectTimesheets from '../../../components/project/detail/projectTimesheets';
 import { PROJECT_CALL_TYPE } from "../../../constants";
 import ManageDocuments from "../../document/manageDocuments";
+import ProjectExpenses from "./projectExpenses";
 
 
 const ProjectDetailActions = (props) => {
@@ -33,8 +34,11 @@ const ProjectDetailActions = (props) => {
                   </Button>
                 </Box>   
                 <Box>
-                <ProjectTimesheets data={{projectId: projectId, callType: PROJECT_CALL_TYPE}}/>
+                  <ProjectTimesheets data={{projectId: projectId, callType: PROJECT_CALL_TYPE}}/>
                 </Box>   
+                <Box>
+                  <ProjectExpenses data={{projectId: projectId, callType: PROJECT_CALL_TYPE}}/>
+                </Box>
                 <ManageDocuments/>                 
               </HStack>
         </Flex>           
