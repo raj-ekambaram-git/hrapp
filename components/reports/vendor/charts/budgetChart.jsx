@@ -13,7 +13,7 @@ export default function BudgetChart(props) {
     if(props.projects && props.projects.length > 0) {
       getBudgetData();
     }
-  }, [props.budget]);
+  }, [props.projects]);
 
   function getBudgetData(){
     let chartStatus = Chart.getChart("vendorBudget"); // <canvas> id
