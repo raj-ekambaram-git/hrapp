@@ -60,7 +60,7 @@ const ProjectTimesheets = (props) => {
                                 </h2>
                                 <AccordionPanel pb={4}>
                                     <TableContainer marginTop="1rem">
-                                        <Table variant="sortTable">
+                                        <Table variant="tableInsideAccoridion">
                                             <TableCaption></TableCaption>
                                             <Thead>
                                                 <Tr bgColor="table_tile">
