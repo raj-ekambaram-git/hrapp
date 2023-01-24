@@ -28,9 +28,12 @@ import {fetchAllProjectTimesheets, fetchProjectTimesheetsByStatus} from '../../.
 import {removeTSFromInvoiceItems, setInvoiceTotal, setInvoiceItemList} from '../../../store/modules/Invoice/actions';
 import { util } from "../../../helpers/util";
 import ProjectTimesheeEntrySection from "./projectTimesheeEntrySection";
-import { INVOICE_CALL_TYPE, TIMESHEET_STATUS } from "../../../constants/accountConstants";
+import { INVOICE_CALL_TYPE, TIMESHEET_STATUS, EMPTY_STRING } from "../../../constants/accountConstants";
 import { InvoiceConstants } from "../../../constants/invoiceConstants";
 import { DrawerMainHeader } from "../../common/drawerMainHeader";
+import { ProjectConstants } from "../../../constants";
+import { TimesheetStatus } from "@prisma/client";
+import { CustomTable } from "../../customTable/Table";
 
 
 
@@ -40,8 +43,10 @@ const ProjectTimesheets = (props) => {
     const projectId = props.data.projectId;
     const callType = props.data.callType;
     const [size, setSize] = useState('');
+    const [timsheeEntriesForTable, setTimsheeEntriesForTable] = useState([]);
     const [enableAddTimeSheetEntry, setEnableAddTimeSheetEntry] = useState(false);
-    
+    const TIMESHEET_LIST_TABLE_COLUMNS = React.useMemo(() => ProjectConstants.TIMESHEET_LIST_TABLE_META)
+
     const timesheetEntryList = useSelector(state => state.timesheet.projectTimesheets);
     const invoiceTotal = useSelector(state => state.invoice.invoiceTotal);
 
@@ -50,29 +55,39 @@ const ProjectTimesheets = (props) => {
 
     }, []);
 
+    const prepareTimesheetListForTable =() => {
+      if(timesheetEntryList != undefined && timesheetEntryList != EMPTY_STRING) {
+        const updatedTSEist =  timesheetEntryList.map((timesheetEntry, index)=> {
+          if(callType == INVOICE_CALL_TYPE && timesheetEntry.status == TIMESHEET_STATUS.Approved && timesheetEntry.billable) {
+            timesheetEntry.enableAddtoInvoiceCheckBox = <Checkbox value={timesheetEntry.id} onChange={(e) => addTimesheetEntryAsInvoiceItem(e)} />
+          }
+          timesheetEntry.name = timesheetEntry.timesheet?.name
+          timesheetEntry.resource = timesheetEntry.timesheet?.user?.firstName?timesheetEntry.timesheet?.user?.firstName:EMPTY_STRING+" "+timesheetEntry.timesheet?.user?.lastName?timesheetEntry.timesheet?.user?.lastName:EMPTY_STRING
+          timesheetEntry.totalHours = timesheetEntry.entries?(<HStack><Box marginRight={3}>{util.getTotalHours(timesheetEntry.entries)}</Box><ProjectTimesheeEntrySection data={timesheetEntry.entries}/></HStack>):""
+          timesheetEntry.status = <Badge color={`${(timesheetEntry.status !== "Rejected" )? "paid_status": "pending_status"}`}>{timesheetEntry.status}</Badge>
+          timesheetEntry.approvedOn = util.getFormattedDate(timesheetEntry.approvedDate)
+          timesheetEntry.approvedBy = timesheetEntry?.approvedUser?.firstName?timesheetEntry?.approvedUser?.firstName:EMPTY_STRING+" "+timesheetEntry.approvedUser?.lastName?timesheetEntry.approvedUser?.lastName:EMPTY_STRING
+          timesheetEntry.lastUpdated = util.getFormattedDate(timesheetEntry.lastUpdateDate)
+
+          return timesheetEntry;
+        });
+        setTimsheeEntriesForTable(updatedTSEist );
+      }
+    }
+
     const handleProjectTimesheets = (newSize) => {
         dispatch(fetchAllProjectTimesheets({projectId: projectId, accountId: userService.getAccountDetails().accountId }));
+        prepareTimesheetListForTable()
         // projectService.getAllTimesheetsByProject(projectId, userService.getAccountDetails().accountId);
         setSize(newSize);
         onOpen();
     }
 
-    function handlePendingInvoiceTimesheets() {
-      dispatch(fetchProjectTimesheetsByStatus({projectId: projectId, accountId: userService.getAccountDetails().accountId, status: TIMESHEET_STATUS.Pending }));
+    function handleInvoiceTimesheets(status) {
+      dispatch(fetchProjectTimesheetsByStatus({projectId: projectId, accountId: userService.getAccountDetails().accountId, status: status }));
+      prepareTimesheetListForTable()
     }
 
-    function handleApprovedTimesheets() {
-      dispatch(fetchProjectTimesheetsByStatus({projectId: projectId, accountId: userService.getAccountDetails().accountId, status: TIMESHEET_STATUS.Approved }));
-    }
-
-    function handleInvoicedTimesheets() {
-      dispatch(fetchProjectTimesheetsByStatus({projectId: projectId, accountId: userService.getAccountDetails().accountId, status: TIMESHEET_STATUS.Invoiced }));
-    }
-
-    function handleRejectedTimesheets() {
-      dispatch(fetchProjectTimesheetsByStatus({projectId: projectId, accountId: userService.getAccountDetails().accountId, status: TIMESHEET_STATUS.Rejected }));
-    }
-    
     function addTimesheetEntryAsInvoiceItem(e) {
       console.log("Checked value:::"+e.target.checked+"----Value::"+e.target.value);
       const selectedTimesheetEntry = timesheetEntryList.find(x => x.id === parseInt(e.target.value));
@@ -139,16 +154,16 @@ const ProjectTimesheets = (props) => {
                           <Stack divider={<StackDivider />} spacing='1'>
                             <Box>
                               <HStack>
-                                <Button className="btn" onClick={() => handlePendingInvoiceTimesheets()} width="timesheet.project_timesheets_button" bgColor="button.primary.color">
+                                <Button className="btn" onClick={() => handleInvoiceTimesheets(TIMESHEET_STATUS.Pending)} width="timesheet.project_timesheets_button" bgColor="button.primary.color">
                                   Pending
                                 </Button>     
-                                <Button className="btn" onClick={() => handleApprovedTimesheets()} width="timesheet.project_timesheets_button" bgColor="button.primary.color">
+                                <Button className="btn" onClick={() => handleInvoiceTimesheets(TimesheetStatus.Approved)} width="timesheet.project_timesheets_button" bgColor="button.primary.color">
                                   Approved
                                 </Button> 
-                                <Button className="btn" onClick={() => handleInvoicedTimesheets()} width="timesheet.project_timesheets_button" bgColor="button.primary.color">
+                                <Button className="btn" onClick={() => handleInvoiceTimesheets(TimesheetStatus.Invoiced)} width="timesheet.project_timesheets_button" bgColor="button.primary.color">
                                   Invoiced
                                 </Button>  
-                                <Button className="btn" onClick={() => handleRejectedTimesheets()} width="timesheet.project_timesheets_button" bgColor="button.primary.color">
+                                <Button className="btn" onClick={() => handleInvoiceTimesheets(TimesheetStatus.Rejected)} width="timesheet.project_timesheets_button" bgColor="button.primary.color">
                                   Rejected
                                 </Button>  
                                 {(callType==INVOICE_CALL_TYPE && enableAddTimeSheetEntry)? (
@@ -164,95 +179,7 @@ const ProjectTimesheets = (props) => {
                               </HStack>                                                   
                             </Box>
                             <Box border="box_border">
-                                <Table variant="sortTable">
-                                  <TableCaption></TableCaption>
-                                  <Thead></Thead>
-                                  <Tbody>
-                                    <Tr bgColor="table_tile">
-                                      <Th>
-
-                                      </Th>
-                                        <Th width="timesheet.project_timesheets_name">
-                                            Name
-                                        </Th>
-                                        <Th width="timesheet.project_timesheets_resource">
-                                            Resoure
-                                        </Th>
-                                        <Th width="timesheet.project_timesheets_hours">
-                                            Hours
-                                        </Th>
-                                        <Th width="timesheet.project_timesheets_status">
-                                            Status
-                                        </Th>
-                                        <Th width="timesheet.project_timesheets_approved_on">
-                                            Approved On
-                                        </Th>
-                                        <Th width="timesheet.project_timesheets_approved_by">
-                                            Approved By
-                                        </Th>                                                                                
-                                        <Th width="timesheet.project_timesheets_last_update">
-                                            Last Updated
-                                        </Th>
-                                    </Tr>
-                                    {timesheetEntryList?.map((timesheetEntry) => (
-                                    
-                                        <Tr>
-                                          <Th>
-                                            {(callType == INVOICE_CALL_TYPE && timesheetEntry.status == TIMESHEET_STATUS.Approved && timesheetEntry.billable) ? (
-                                              <>
-                                                <Checkbox value={timesheetEntry.id}
-                                                  onChange={(e) => addTimesheetEntryAsInvoiceItem(e)}
-                                                />        
-                                              </>
-                                            ) : (
-                                              <></>
-                                            )}
-                                          </Th>
-                                            <Th>
-                                                {timesheetEntry.timesheet?.name}
-                                            </Th>
-                                            <Th>
-                                                {timesheetEntry.timesheet?.user?.firstName} {timesheetEntry.timesheet?.user?.lastName}
-                                            </Th>
-                                            <Th>
-                                              {timesheetEntry.entries ? (
-                                                <>
-                                                <HStack>
-                                                  <Box marginRight={3}>
-                                                    {util.getTotalHours(timesheetEntry.entries)}
-                                                  </Box>
-                                                  <ProjectTimesheeEntrySection data={timesheetEntry.entries}/>
-                                                  </HStack>
-                                                </>
-                                              ) : (
-                                                <>
-                                                </>
-                                              )}
-                                                
-
-                                            </Th>
-                                            <Th>
-                                                <Badge color={`${
-                                                    (timesheetEntry.status !== "Rejected" )
-                                                    ? "paid_status"
-                                                   : "pending_status"
-                                                }`}>{timesheetEntry.status}</Badge>
-                                            </Th>   
-                                            <Th>
-                                                {util.getFormattedDate(timesheetEntry.approvedDate)}
-                                            </Th> 
-                                            <Th>
-                                                {timesheetEntry?.approvedUser?.firstName} {timesheetEntry.approvedUser?.lastName}
-                                            </Th> 
-                                            <Th>
-                                                {util.getFormattedDate(timesheetEntry.lastUpdateDate)}
-                                            </Th>                                                                                    
-                                    </Tr>
-                                              
-                                    ))}
-                                  </Tbody>
-                                  
-                                </Table>
+                                <CustomTable columns={TIMESHEET_LIST_TABLE_COLUMNS} rows={timsheeEntriesForTable} />
                             </Box>                            
                           </Stack>
                         </DrawerBody>
