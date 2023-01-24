@@ -62,7 +62,7 @@ const ProjectExpensesPayment = (props) => {
                                     </AccordionButton>
                                 </h2>
                                 <AccordionPanel pb={4}>
-                                        <Table variant="expensePayment">
+                                        <Table variant="sortTable">
                                             <TableCaption></TableCaption>
                                             <Thead>
                                                 <Tr bgColor="table_tile">

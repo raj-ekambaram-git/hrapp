@@ -61,7 +61,7 @@ const ProjectExpenses = (props) => {
                                 </h2>
                                 <AccordionPanel pb={4}>
                                     <TableContainer marginTop="1rem">
-                                        <Table>
+                                        <Table variant="sortTable">
                                             <TableCaption></TableCaption>
                                             <Thead>
                                                 <Tr bgColor="table_tile">

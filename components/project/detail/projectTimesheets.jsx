@@ -164,7 +164,7 @@ const ProjectTimesheets = (props) => {
                               </HStack>                                                   
                             </Box>
                             <Box border="box_border">
-                                <Table>
+                                <Table variant="sortTable">
                                   <TableCaption></TableCaption>
                                   <Thead></Thead>
                                   <Tbody>

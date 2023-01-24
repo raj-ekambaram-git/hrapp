@@ -38,15 +38,22 @@ const expensePayment = definePartsStyle({
 
 const sortTable = definePartsStyle({
   table: {
-    marginTop: "3rem"
+    marginTop: "1rem",    
   },
   thead: {
     bgColor: 'table_tile',
+    textTransform: "uppercase",  
   },
   tr: {
-    textTransform: "none",
+    
   },
   th: {
+    fontSize: "12px",
+    paddingTop: '7px',
+    paddingBottom: '6px',
+    columnWidth: "60px",
+    wordWrap: "break-word",
+    textTransform: "none",  
   },
   tbody: {
   },
@@ -56,7 +63,9 @@ const sortTable = definePartsStyle({
     paddingTop: '2px',
     paddingBottom: '6px',
     columnWidth: "60px",
-    wordWrap: "break-word"
+    wordWrap: "break-word",
+    textTransform: "none",  
+    
   }
 
 })
