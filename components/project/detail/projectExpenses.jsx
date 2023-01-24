@@ -24,10 +24,10 @@ import {
   } from '@chakra-ui/react';
 import { projectService, userService } from "../../../services";
 import { useSelector, useDispatch } from "react-redux";
-import {fetchAllProjectExpenses, fetchProjectExpensesByStatus, getAllProjectExpenses} from '../../../store/modules/Expense/actions';
+import { getAllProjectExpenses} from '../../../store/modules/Expense/actions';
 import {removeExpenseFromInvoiceItems, setInvoiceTotal, setInvoiceItemList} from '../../../store/modules/Invoice/actions';
 import { util } from "../../../helpers/util";
-import { EMPTY_STRING, EXPENSE_STATUS, INVOICE_CALL_TYPE, TIMESHEET_STATUS } from "../../../constants/accountConstants";
+import { EMPTY_STRING, EXPENSE_STATUS, INVOICE_CALL_TYPE } from "../../../constants/accountConstants";
 import { InvoiceConstants } from "../../../constants/invoiceConstants";
 import { ExpenseStatus } from "@prisma/client";
 import ProjectExpenseEntriesSection from "./projectExpenseEntriesSection";
@@ -63,7 +63,8 @@ const ProjectExpenses = (props) => {
           expense.name = expense.name
           expense.resource = expense.user?.firstName?expense.user?.firstName:EMPTY_STRING+" "+expense.user?.lastName?expense.user?.lastName:EMPTY_STRING
           const expenseAmount = util.getTotalBillableExpense(expense.expenseEntries)
-          expense.totalAmount = expense.expenseEntries?<HStack><Box marginRight={3}>{util.getWithCurrency((util.getZeroPriceForNull(expenseAmount.billableExpense)+util.getZeroPriceForNull(expenseAmount.nonBillableExpense)+util.getZeroPriceForNull(expenseAmount.totalProjectCost)))}</Box><ProjectExpenseEntriesSection data={expense.expenseEntries}/></HStack>:""
+          expense.totalAmount = expense.expenseEntries?util.getWithCurrency((util.getZeroPriceForNull(expenseAmount.billableExpense)+util.getZeroPriceForNull(expenseAmount.nonBillableExpense)+util.getZeroPriceForNull(expenseAmount.totalProjectCost))):""
+          expense.detailAction =  <ProjectExpenseEntriesSection data={expense.expenseEntries}/>
           expense.status = expense.status
           expense.approvedOn = util.getFormattedDate(expense.approvedDate)
           expense.approvedBy = expense?.approvedBy?.firstName?expense?.approvedBy?.firstName:EMPTY_STRING+" "+expense?.approvedBy?.lastName?expense?.approvedBy?.lastName:EMPTY_STRING

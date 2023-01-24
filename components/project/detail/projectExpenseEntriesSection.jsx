@@ -12,7 +12,8 @@ import {
   Tbody,
   Thead,
   Th,
-  Tr
+  Tr,
+  Button
 } from '@chakra-ui/react';
 import {
     AddIcon
@@ -34,7 +35,9 @@ const ProjectExpenseEntriesSection = (props) => {
         closeOnBlur={false}
         >
             <PopoverTrigger>
-                <AddIcon/>
+            <Button size="xs" bgColor="header_actions" 
+              >{`Details`}
+          </Button>
            </PopoverTrigger>
             <PopoverContent>
                 <PopoverHeader>

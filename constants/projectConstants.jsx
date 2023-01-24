@@ -7,7 +7,8 @@ export const ProjectConstants = {
   EXPENSE_LIST_TABLE_META: [
     {
       label: "",
-      accessor: "enableAddtoInvoiceCheckBox"
+      accessor: "enableAddtoInvoiceCheckBox",
+      disableSearch: true
     },
     {
       label: "Name",
@@ -19,8 +20,13 @@ export const ProjectConstants = {
     },    
     {
       label: "Amount",
-      accessor: "totalAmount"
+      accessor: "totalAmount",
     },
+    {
+      label: "",
+      accessor: "detailAction",
+      disableSearch: true
+    },    
     {
       label: "Status",
       accessor: "status",
@@ -58,6 +64,11 @@ export const ProjectConstants = {
       label: "Hours",
       accessor: "totalHours"
     },
+    {
+      label: "",
+      accessor: "detailAction",
+      disableSearch: true
+    },  
     {
       label: "Status",
       accessor: "status",

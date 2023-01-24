@@ -12,12 +12,9 @@ import {
   Tbody,
   Thead,
   Th,
-  Tr
+  Tr,
+  Button
 } from '@chakra-ui/react';
-import {
-    AddIcon
-  } from '@chakra-ui/icons';
-  
 
 const ProjectTimesheeEntrySection = (props) => {
     const timesheetEntries = props.data;
@@ -35,7 +32,9 @@ const ProjectTimesheeEntrySection = (props) => {
         closeOnBlur={false}
         >
             <PopoverTrigger>
-                <AddIcon/>
+                <Button size="xs" bgColor="header_actions" 
+                    >{`Details`}
+                </Button>
            </PopoverTrigger>
             <PopoverContent>
                 <PopoverHeader>

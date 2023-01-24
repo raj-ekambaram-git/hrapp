@@ -24,13 +24,12 @@ import {
   } from '@chakra-ui/react';
 import { projectService, userService } from "../../../services";
 import { useSelector, useDispatch } from "react-redux";
-import {fetchAllProjectTimesheets, fetchProjectTimesheetsByStatus, getAllProjectTimesheets} from '../../../store/modules/Timesheet/actions';
+import { getAllProjectTimesheets} from '../../../store/modules/Timesheet/actions';
 import {removeTSFromInvoiceItems, setInvoiceTotal, setInvoiceItemList} from '../../../store/modules/Invoice/actions';
 import { util } from "../../../helpers/util";
 import ProjectTimesheeEntrySection from "./projectTimesheeEntrySection";
 import { INVOICE_CALL_TYPE, TIMESHEET_STATUS, EMPTY_STRING } from "../../../constants/accountConstants";
 import { InvoiceConstants } from "../../../constants/invoiceConstants";
-import { DrawerMainHeader } from "../../common/drawerMainHeader";
 import { ProjectConstants } from "../../../constants";
 import { TimesheetStatus } from "@prisma/client";
 import { CustomTable } from "../../customTable/Table";
@@ -63,7 +62,8 @@ const ProjectTimesheets = (props) => {
           }
           timesheetEntry.name = timesheetEntry.timesheet?.name
           timesheetEntry.resource = timesheetEntry.timesheet?.user?.firstName?timesheetEntry.timesheet?.user?.firstName:EMPTY_STRING+" "+timesheetEntry.timesheet?.user?.lastName?timesheetEntry.timesheet?.user?.lastName:EMPTY_STRING
-          timesheetEntry.totalHours = timesheetEntry.entries?(<HStack><Box marginRight={3}>{util.getTotalHours(timesheetEntry.entries)}</Box><ProjectTimesheeEntrySection data={timesheetEntry.entries}/></HStack>):""
+          timesheetEntry.totalHours = timesheetEntry.entries?util.getTotalHours(timesheetEntry.entries):""
+          timesheetEntry.detailAction =  <ProjectTimesheeEntrySection data={timesheetEntry.entries}/>
           timesheetEntry.status = timesheetEntry.status
           timesheetEntry.approvedOn = util.getFormattedDate(timesheetEntry.approvedDate)
           timesheetEntry.approvedBy = timesheetEntry?.approvedUser?.firstName?timesheetEntry?.approvedUser?.firstName:EMPTY_STRING+" "+timesheetEntry.approvedUser?.lastName?timesheetEntry.approvedUser?.lastName:EMPTY_STRING
