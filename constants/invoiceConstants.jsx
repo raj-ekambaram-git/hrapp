@@ -23,6 +23,7 @@ export const InvoiceConstants = {
   },
   INVOICE_CURRENCY_USD: 'USD',
   INVOICE_UOM_HOURS: 'Hours',
+  INVOICE_UOM_ITEM: 'Item',
   INVOICE_TYPES: [
     {
       invoiceTypeId: "General",

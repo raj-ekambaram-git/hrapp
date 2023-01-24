@@ -91,6 +91,9 @@ const InvoiceItems = (props) => {
                                 <Th>
                                 </Th>   
                                 <Th>
+                                    Type
+                                </Th>   
+                                <Th>
                                     {props.data.invoiceType === PROJECT_TYPE_GENERAL ? (
                                         <>
                                         Genaral</>
@@ -122,7 +125,10 @@ const InvoiceItems = (props) => {
                                 <Tr>
                                     <Th>
                                         <DeleteIcon onClick={() => deleteInvoiceItem(index, invoiceItem.total)}/>
-                                    </Th>                                      
+                                    </Th>       
+                                    <Th>
+                                        {invoiceItem.type}
+                                    </Th>                                                                      
                                     <Th>
                                         <Text pt='table_display_value' fontSize='table_display_value'>
                                             {props.data.invoiceType === PROJECT_TYPE_GENERAL ? (
@@ -130,7 +136,8 @@ const InvoiceItems = (props) => {
                                                 {invoiceItem.generalNote}</>
                                             ) : (
                                                 <>
-                                                {invoiceItem.user?.firstName} {invoiceItem.user?.lastName}
+                                                {/* {invoiceItem.user?.firstName} {invoiceItem.user?.lastName} */}
+                                                {invoiceItem.userId}
                                                 </>
                                             )}                                
                                         </Text>

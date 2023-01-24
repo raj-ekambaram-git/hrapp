@@ -108,11 +108,11 @@ const ProjectExpenses = (props) => {
           userId: parseInt(selectedExpense.user?.id),
           type: InvoiceConstants.INVOICE_ITEM_TYPE_EXPENSE,
           status: InvoiceConstants.INVOICE_STATUS.Draft,
-          unitPrice: totalExpenseAmount.billableExpense,
+          unitPrice: totalExpenseAmount,
           quantity: parseInt(1),
           currency: InvoiceConstants.INVOICE_CURRENCY_USD,
-          uom: InvoiceConstants.INVOICE_UOM_HOURS,
-          total: totalExpenseAmount.billableExpense,
+          uom: InvoiceConstants.INVOICE_UOM_ITEM,
+          total: totalExpenseAmount,
           // fromDate: new Date(selectedTimesheetEntry.entries?.day1.date),
           // toDate: new Date(selectedTimesheetEntry.entries?.day7?.date)
         };

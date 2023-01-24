@@ -578,6 +578,7 @@ enum InvoiceItemType {
 enum UnitOfMeasure {
   Hours
   Item
+  Expense
 }
 
 enum Currency {

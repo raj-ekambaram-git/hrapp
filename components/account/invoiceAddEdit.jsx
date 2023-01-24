@@ -277,6 +277,9 @@ const InvoiceAddEdit = (props) => {
     
 
   function onSubmit(data) {
+    if(invoiceTotal) {
+      data.total = invoiceTotal
+    }
     return isAddMode
         ? createInvoice(data)
         : updateInvoice(invoiceId, data);
