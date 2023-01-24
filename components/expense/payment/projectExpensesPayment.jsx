@@ -20,8 +20,8 @@ import {
     StackDivider,
     Badge,
     AccordionIcon,
-    Text
-
+    Text,
+    TableContainer
   } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
 import { ExpenseConstants } from '../../../constants';
@@ -62,6 +62,7 @@ const ProjectExpensesPayment = (props) => {
                                     </AccordionButton>
                                 </h2>
                                 <AccordionPanel pb={4}>
+                                    <TableContainer marginTop="1rem">
                                         <Table variant="sortTable">
                                             <TableCaption></TableCaption>
                                             <Thead>
@@ -132,7 +133,8 @@ const ProjectExpensesPayment = (props) => {
                                                     </Tr>
                                                 ))}
                                             </Tbody>    
-                                        </Table>                                  
+                                        </Table>  
+                                </TableContainer>                                
                                 </AccordionPanel>
                             </AccordionItem>
                         ))}
