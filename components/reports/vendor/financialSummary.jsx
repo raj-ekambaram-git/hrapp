@@ -19,36 +19,24 @@ export default function FinancialSummary(props) {
   
 
   useEffect(() => {
-    if(props.project) {
+    if(props.projects && props.projects.length > 0) {
       financialSummaryData();
-    }    
-  }, [props]);
+    }else {
+      removeChart()
+    }
+  }, [props.projects]);
 
 
   function financialSummaryData() {
-    
-    setTotalRevenue(util.getZeroPriceForNull(props.project.usedBudget)+util.getZeroPriceForNull(props.project.usedMiscBudget))
+
+    let totalBudget = 0;
+    let totalUsedBudget = 0;
+    let totalMiscBudget = 0;
+    let totalMiscUsedBudget = 0;
 
     //INCOME CALCULATION
     let invoicedTotal = 0;
     let invoicePaid = 0;
-    props.project?.invoice?.map(inv => {
-        invoicedTotal = parseFloat(invoicedTotal)+parseFloat(inv?.total)
-        if((inv.status === InvoiceStatus.Paid || inv.status === InvoiceStatus.PartiallyPaid)) {
-          invoicePaid = parseFloat(invoicePaid)+parseFloat(inv?.paidAmount)
-        }
-      })
-    setInvoiced(invoicedTotal)  
-    setInvoicePaid(invoicePaid)
-    setInvoiceNotPaid(invoicedTotal-invoicePaid)
-
-    let notInvoicedTSE = 0;
-    props.project?.timesheetEntries?.map(timesheetEntry => {
-      const totalHours = util.getTotalHours(timesheetEntry.entries)
-      notInvoicedTSE = parseFloat(notInvoicedTSE)+(parseFloat(timesheetEntry?.unitPrice)*parseInt(totalHours))
-    })
-    console.log("notInvoiced::"+notInvoicedTSE)
-    
 
     //EXPENSE
     let expProjectCost = 0
@@ -57,32 +45,54 @@ export default function FinancialSummary(props) {
     let expenseTotal = 0;
     let expensePaid = 0;
     let expenseNotInvoiced = 0;
-    props.project?.expense?.map(exp => {
-      if((exp.status != ExpenseStatus.Submitted && exp.status != ExpenseStatus.Draft)) {
-        expenseTotal = parseFloat(expenseTotal)+parseFloat(exp?.total)
-      }
-      
-      if(exp.status === ExpenseStatus.Paid || exp.status === ExpenseStatus.PartiallyPaid ||
-        exp.status === ExpenseStatus.Approved || exp.status === ExpenseStatus.Invoiced ){
-          const expenseAmounts = util.getTotalBillableExpense(exp.expenseEntries);
-          expensePaid = parseFloat(expensePaid)+parseFloat(exp?.paidAmount)
-          expProjectCost = expProjectCost+expenseAmounts?.totalProjectCost; 
-          expBillable = expBillable+expenseAmounts?.billableExpense;
-          expNonBillable = expNonBillable+expenseAmounts?.nonBillableExpense;
-          if(exp.status === ExpenseStatus.PartiallyPaid || exp.status === ExpenseStatus.Approved) {
-            console.log("APproved:LL:::"+expBillable)
-            expenseNotInvoiced = expenseNotInvoiced+expBillable;
-          }
+
+        
+    props.projects?.map(project => {      
+      totalBudget = totalBudget+util.getZeroPriceForNull(project.budget)
+      totalUsedBudget = totalUsedBudget+util.getZeroPriceForNull(project.usedBudget)
+      totalMiscBudget = totalMiscBudget+util.getZeroPriceForNull(project.miscBudget)
+      totalMiscUsedBudget = totalMiscUsedBudget+util.getZeroPriceForNull(project.usedMiscBudget)
+
+      project?.invoice?.map(inv => {
+        invoicedTotal = parseFloat(invoicedTotal)+parseFloat(inv?.total)
+        if((inv.status === InvoiceStatus.Paid || inv.status === InvoiceStatus.PartiallyPaid)) {
+          invoicePaid = parseFloat(invoicePaid)+parseFloat(inv?.paidAmount)
         }
-      
+      })
+
+      project?.expense?.map(exp => {
+        if((exp.status != ExpenseStatus.Submitted && exp.status != ExpenseStatus.Draft)) {
+          expenseTotal = parseFloat(expenseTotal)+parseFloat(exp?.total)
+        }
+        
+        if(exp.status === ExpenseStatus.Paid || exp.status === ExpenseStatus.PartiallyPaid ||
+          exp.status === ExpenseStatus.Approved || exp.status === ExpenseStatus.Invoiced ){
+            const expenseAmounts = util.getTotalBillableExpense(exp.expenseEntries);
+            expensePaid = parseFloat(expensePaid)+parseFloat(exp?.paidAmount)
+            expProjectCost = expProjectCost+expenseAmounts?.totalProjectCost; 
+            expBillable = expBillable+expenseAmounts?.billableExpense;
+            expNonBillable = expNonBillable+expenseAmounts?.nonBillableExpense;
+            if(exp.status === ExpenseStatus.PartiallyPaid || exp.status === ExpenseStatus.Approved) {
+              expenseNotInvoiced = expenseNotInvoiced+expBillable;
+            }
+          }
+        
+      })
+
     })
-    console.log("expenseNotInvoiced:::"+expenseNotInvoiced)
+
+    setTotalRevenue(util.getZeroPriceForNull(totalUsedBudget)+util.getZeroPriceForNull(totalMiscUsedBudget))
+
+    setInvoiced(invoicedTotal)  
+    setInvoicePaid(invoicePaid)
+    setInvoiceNotPaid(invoicedTotal-invoicePaid)
+
     setBillableExpense(expBillable)
     setNonbillableExpense(expNonBillable)
     setProjectCost(expProjectCost)
     setPaidExpense(expensePaid)
     setUnpaidExpense(parseFloat(expenseTotal)-parseFloat(expensePaid))
-    setNetRevenue((util.getZeroPriceForNull(props.project.usedBudget)+util.getZeroPriceForNull(props.project.usedMiscBudget)-(util.getZeroPriceForNull(expProjectCost)+util.getZeroPriceForNull(expBillable)+util.getZeroPriceForNull(expNonBillable))))    
+    setNetRevenue((util.getZeroPriceForNull(totalUsedBudget)+util.getZeroPriceForNull(totalMiscUsedBudget)-(util.getZeroPriceForNull(expProjectCost)+util.getZeroPriceForNull(expBillable)+util.getZeroPriceForNull(expNonBillable))))    
   }
 
 

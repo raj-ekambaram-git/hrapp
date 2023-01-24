@@ -6,6 +6,7 @@ import BudgetChart from "./vendor/charts/budgetChart";
 import InvoiceChart from "./vendor/charts/invoiceChart";
 import ExpenseChart from "./vendor/charts/expenseChart";
 import {setSelectedReportsVendorId} from '../../store/modules/Reports/actions'
+import FinancialSummary from "./vendor/financialSummary";
 
 export default function VendorDashboard(props) {
   const dispatch = useDispatch();
@@ -63,7 +64,7 @@ return (
                 <BudgetChart projects={vendor.project}/>
                 <InvoiceChart projects={vendor.project}/>
                 <ExpenseChart projects={vendor.project}/>            
-                {/* <FinancialSummary project={project}/> */}
+                <FinancialSummary projects={vendor.project}/>
               </HStack>
             ):(<>
             </>)}                    
