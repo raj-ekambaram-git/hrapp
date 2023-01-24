@@ -39,7 +39,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
               },
               budgetAllocated: true,
               usedBudget: true,
-              unitPrice: true
+              unitPrice: true,
+              cost: true,
             }
           },
           invoice: {

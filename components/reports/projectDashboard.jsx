@@ -74,17 +74,17 @@ return (
               <Card variant="reportByUsers">
                 <CardHeader>
                   <HStack>
-                    <Box>
+                    <Box fontWeight="semibold">
                       By Users
                     </Box>
                     <Box fontSize="12px">
-                      (Click on user name to get more details)
+                      (Click on user name to get more details specific to user)
                     </Box>
                   </HStack>
                 </CardHeader>
                 <CardBody>
                   <HStack>
-                    <RevenueByUsers projectResource={project.projectResource} budget={project.budget} usedBudget={project.usedBudget}/>
+                    <RevenueByUsers projectResource={project.projectResource} budget={project.budget} usedBudget={project.usedBudget} remainingBudgetToAllocate={project.remainingBudgetToAllocate}/>
                   </HStack>
 
                 </CardBody>

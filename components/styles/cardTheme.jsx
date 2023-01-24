@@ -147,6 +147,18 @@ const projectFinancialSummary = definePartsStyle({
   }
 
 })
+
+const projectUsersFinancialSummary = definePartsStyle({
+  container: {
+    width: "50%",
+    border: "1px",
+    borderRadius: "5px",    
+    fontSize: "12px"
+  },
+  body: {
+  }
+
+})
   
 const baseStyle = definePartsStyle({
   // define the part you're going to style
@@ -175,4 +187,4 @@ const sizes = definePartsStyle({
   },
 })
 
-export const cardTheme = defineMultiStyleConfig({ baseStyle, sizes, variants: {reportByUsers, projectReportsHeader, comment, replies, replyDetails, document, timesheetDailyNotes, projectFinancialSummary} })
+export const cardTheme = defineMultiStyleConfig({ baseStyle, sizes, variants: {projectUsersFinancialSummary, reportByUsers, projectReportsHeader, comment, replies, replyDetails, document, timesheetDailyNotes, projectFinancialSummary} })

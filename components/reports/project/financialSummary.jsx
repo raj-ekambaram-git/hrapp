@@ -57,7 +57,6 @@ export default function FinancialSummary(props) {
     let expenseTotal = 0;
     let expensePaid = 0;
     props.project?.expense?.map(exp => {
-      console.log("expexpexp:"+JSON.stringify(exp))
       if((exp.status != ExpenseStatus.Submitted && exp.status != ExpenseStatus.Draft)) {
         expenseTotal = parseFloat(expenseTotal)+parseFloat(exp?.total)
       }      
