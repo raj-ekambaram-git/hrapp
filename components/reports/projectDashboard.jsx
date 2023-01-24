@@ -17,7 +17,6 @@ export default function ProjectDashboard(props) {
   const dispatch = useDispatch();
 
   const [project, setProject] = useState();
-  const [displayProjectSelection, setDisplayProjectSelection] = useState(false)
   const [projectList, setProjectList] = useState([])
   const projectId = useSelector(state => state.reports.project.selectedReportsProjectId);
   // const projectId = "209"

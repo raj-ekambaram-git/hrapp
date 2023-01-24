@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { accountService, userService, vendorService } from "../../services";
-import { Box, Card, CardHeader, HStack, Select, Stack } from "@chakra-ui/react";
+import { Box, Card, CardHeader, HStack, Select, Stack , CardBody} from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import BudgetChart from "./vendor/charts/budgetChart";
 import InvoiceChart from "./vendor/charts/invoiceChart";
 import ExpenseChart from "./vendor/charts/expenseChart";
 import {setSelectedReportsVendorId} from '../../store/modules/Reports/actions'
 import FinancialSummary from "./vendor/financialSummary";
+import RevenueByUsers from "./vendor/charts/revenueByUsers";
+
 
 export default function VendorDashboard(props) {
   const dispatch = useDispatch();
@@ -60,14 +62,30 @@ return (
           </Card>
         </HStack>
            {vendor? (
+            <>
               <HStack>
                 <BudgetChart projects={vendor.project}/>
                 <InvoiceChart projects={vendor.project}/>
                 <ExpenseChart projects={vendor.project}/>            
                 <FinancialSummary projects={vendor.project}/>
               </HStack>
-            ):(<>
-            </>)}                    
+              <Card variant="reportByUsers">
+              <CardHeader>
+                <HStack>
+                  <Box fontWeight="semibold">
+                    By Users
+                  </Box>
+                </HStack>
+              </CardHeader>
+              <CardBody>
+                <HStack>
+                  <RevenueByUsers projects={vendor.project}/>
+                </HStack>
+              </CardBody>
+            </Card>   
+          </>           
+          ):(<>
+          </>)}                    
       </Stack>
     </>
   );

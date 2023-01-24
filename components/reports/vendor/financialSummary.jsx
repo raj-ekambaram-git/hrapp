@@ -21,8 +21,6 @@ export default function FinancialSummary(props) {
   useEffect(() => {
     if(props.projects && props.projects.length > 0) {
       financialSummaryData();
-    }else {
-      removeChart()
     }
   }, [props.projects]);
 
