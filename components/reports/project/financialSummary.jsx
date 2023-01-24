@@ -91,8 +91,7 @@ export default function FinancialSummary(props) {
     setProjectCost(expProjectCost)
     setPaidExpense(expensePaid)
     setUnpaidExpense(parseFloat(expenseTotal)-parseFloat(expensePaid))
-    setNetRevenue((util.getZeroPriceForNull(props.project.usedBudget)+util.getZeroPriceForNull(props.project.usedMiscBudget)-(util.getZeroPriceForNull(expProjectCost)+util.getZeroPriceForNull(expBillable)+util.getZeroPriceForNull(expNonBillable))))
-    setNotInvoiced(notInvoicedTSE+util.getZeroPriceForNull(expenseNotInvoiced))
+    setNetRevenue((util.getZeroPriceForNull(props.project.usedBudget)+util.getZeroPriceForNull(props.project.usedMiscBudget)-(util.getZeroPriceForNull(expProjectCost)+util.getZeroPriceForNull(expBillable)+util.getZeroPriceForNull(expNonBillable))))    
   }
 
 
@@ -149,7 +148,7 @@ export default function FinancialSummary(props) {
                     Not Invoiced :
                   </Box>
                   <Box width="50%" textAlign="left" fontWeight="semibold" color={util.getZeroPriceForNull(notInvoiced) > 0 ? 'credit_amount':""}>
-                    {util.getWithCurrency(notInvoiced)}
+                    {util.getWithCurrency((util.getZeroPriceForNull(totalRevenue)-util.getZeroPriceForNull(invoiced)))}
                   </Box>              
                 </HStack>                                                
               </Stack>
