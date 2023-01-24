@@ -53,6 +53,10 @@ export default function ExpenseChart(props) {
       if (chartStatus != undefined) {
         chartStatus.destroy();
       }
+
+      if(data && data.length == 0) {
+        data.push({ key: "Total $"+expenseTotal, value: expenseTotal },)
+      }
       doughnutChart({
         canvasId:"expense", 
         chartData: data, 
