@@ -113,6 +113,9 @@ const baseStyle = definePartsStyle({
   },
   thead: {
     bgColor: 'table_tile',
+    th: {
+      
+    }
   },
   tr: {
     border: "1px",
@@ -124,7 +127,11 @@ const baseStyle = definePartsStyle({
     
   },
   tbody: {
-    
+    th:{
+      wordBreak: "normal",
+      overflow: "hidden",
+      wordWrap: "break-word"
+    }
   }
 })
 
