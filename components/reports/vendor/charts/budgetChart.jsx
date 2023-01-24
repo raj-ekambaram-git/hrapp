@@ -12,6 +12,11 @@ export default function BudgetChart(props) {
   useEffect(() => {
     if(props.projects && props.projects.length > 0) {
       getBudgetData();
+    }else {
+      let chartStatus = Chart.getChart("vendorBudget"); // <canvas> id
+      if (chartStatus != undefined) {
+        chartStatus.destroy();
+      }
     }
   }, [props.projects]);
 

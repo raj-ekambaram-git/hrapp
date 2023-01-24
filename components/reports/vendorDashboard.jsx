@@ -60,10 +60,7 @@ return (
         </HStack>
            {vendor? (
               <HStack>
-                {vendor.project && vendor.project?.length>0?(
-                  <BudgetChart projects={vendor.project}/>
-                ):(<></>)}
-                
+                <BudgetChart projects={vendor.project}/>
                 {/* {project.invoice && project.invoice?.length > 0?(<InvoiceChart invoice={project.invoice}/>):(<></>)}
                 {project.expense && project.expense?.length > 0?(<ExpenseChart expense={project.expense}/>):(<></>)}                
                 <FinancialSummary project={project}/> */}
