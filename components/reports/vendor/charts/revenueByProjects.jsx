@@ -3,6 +3,7 @@ import Chart from 'chart.js/auto'
 import { util } from "../../../../helpers/util";
 import { AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Card, CardBody, CardHeader, Heading, HStack, Stack } from "@chakra-ui/react";
 import { horizontalBarChart } from "../../../common/charts/horizontalBarChart";
+import { ExpenseStatus } from "@prisma/client";
 
 
 
@@ -14,81 +15,98 @@ export default function RevenueByProjects(props) {
 
   useEffect(() => {
     if(props.projects && props.projects.length > 0) {      
-      getUsersRevenueData()
+      getProjetsRevenueData()
     }else {
       removeChart()
     }
   }, [props.projects]);
 
-  function getUsersRevenueData(){
+  function getProjetsRevenueData(){
     removeChart()
 
-    const labels = []; 
-    const allocatedBudget = []; 
-    const usedBudget = []; 
-    const userRevenue = []; 
-    const userTrackingArray = []; 
-    let totalResourceCost = 0;
-    let totalRemainingBudgetToAllocate = 0;
-    let totalUsedBudget = 0;
+
     let totalBudget = 0;
+    let totalUsedBudget = 0;
+    let totalProjectResourceCost = 0;
+    let totalProfit = 0;
+    const labels = []; 
+    const projectTotalBudget = []; 
+    const projectUsedBudget = []; 
+    const projectNetProfit = []; 
+    const projectResourceCost = [];
+    const projectBillableExpense = [];
+    const projectNonBillableExpense = [];
 
     props.projects?.map(project => {
-      totalRemainingBudgetToAllocate = totalRemainingBudgetToAllocate+util.getZeroPriceForNull(project.remainingBudgetToAllocate)
-      totalUsedBudget = totalUsedBudget+util.getZeroPriceForNull(project.usedBudget)
-      totalBudget = totalBudget+util.getZeroPriceForNull(project.budget)
+      labels.push((project?.name?.length>25?project?.name?.substring(0,25):project?.name)+"-"+project?.referenceCode)
+      totalBudget = totalBudget+(parseFloat(project.budget)+parseFloat(project.miscBudget))
+      totalUsedBudget = totalUsedBudget+(parseFloat(project.usedBudget)+parseFloat(project.usedMiscBudget))
+      projectTotalBudget.push(parseFloat(project.budget)+parseFloat(project.miscBudget))
+      projectUsedBudget.push(parseFloat(project.usedBudget)+parseFloat(project.usedMiscBudget))
+
+      //Total Project Cost
+      let totalResourceCost = 0;
       project.projectResource?.map(resource => {
-        console.log("resource::::"+JSON.stringify(resource))
-        if(userTrackingArray.includes(resource.userId)) {
-          const indexWhereUserPresent = userTrackingArray.findIndex(x => x === resource.userId);
-          console.log("indexWhereUserPresent::"+indexWhereUserPresent)
-          
-          allocatedBudget[indexWhereUserPresent] = (util.getZeroPriceForNull(allocatedBudget[indexWhereUserPresent])+util.getZeroPriceForNull(resource.budgetAllocated))
-          usedBudget[indexWhereUserPresent] = (util.getZeroPriceForNull(usedBudget[indexWhereUserPresent])+util.getZeroPriceForNull(resource.usedBudget))
-          totalResourceCost = parseFloat(totalResourceCost)+((parseFloat(resource.usedBudget)/parseFloat(resource.unitPrice))*parseFloat(resource.cost))
-          userRevenue[indexWhereUserPresent] = (userRevenue[indexWhereUserPresent] +(util.getZeroPriceForNull(resource.usedBudget)-((parseFloat(resource.usedBudget)/parseFloat(resource.unitPrice))*parseFloat(resource.cost))))
-          userRevenue.push()    
-        }else {
-          userTrackingArray.push(resource.userId)
-          labels.push((resource.user?.firstName.length>5?resource.user?.firstName.substring(0,5):resource.user?.firstName)+" "+(resource.user?.lastName.length>5?resource.user?.lastName.substring(0,5):resource.user?.lastName))
-          allocatedBudget.push(util.getZeroPriceForNull(resource.budgetAllocated))
-          usedBudget.push(util.getZeroPriceForNull(resource.usedBudget))
-          totalResourceCost = parseFloat(totalResourceCost)+((parseFloat(resource.usedBudget)/parseFloat(resource.unitPrice))*parseFloat(resource.cost))
-          userRevenue.push((util.getZeroPriceForNull(resource.usedBudget)-((parseFloat(resource.usedBudget)/parseFloat(resource.unitPrice))*parseFloat(resource.cost))))    
-        }
-
+        totalResourceCost = parseFloat(totalResourceCost)+((parseFloat(resource.usedBudget)/parseFloat(resource.unitPrice))*parseFloat(resource.cost))
       })
+      projectResourceCost.push(totalResourceCost)
+      totalProjectResourceCost = totalProjectResourceCost+totalResourceCost;
 
+      //Total Billable and Non-Billable Expense
+      let totalBillableExp = 0;
+      let totalNonBillableExp = 0;
+      project.expense?.map(exp => {
+        if((exp.status != ExpenseStatus.Submitted && exp.status != ExpenseStatus.Draft)) {
+          const expenseAmounts = util.getTotalBillableExpense(exp.expenseEntries);
+          totalBillableExp = totalBillableExp+expenseAmounts?.billableExpense;
+          totalNonBillableExp = totalNonBillableExp+expenseAmounts?.nonBillableExpense;
+        }              
+      })
+      projectBillableExpense.push(totalBillableExp)
+      projectNonBillableExpense.push(totalNonBillableExp)
+
+      //Net profit: totalRevenue-(projectCost+billableExpense+nonBillableExpense)
+      let totalNetProfit = 0
+      totalNetProfit = (parseFloat(project.usedBudget)+parseFloat(project.usedMiscBudget))-(totalResourceCost+totalBillableExp+totalNonBillableExp)
+      projectNetProfit.push(totalNetProfit)
+      totalProfit = totalProfit+projectNetProfit;
     })
 
-    console.log("userRevenue:::"+userRevenue)
-    setAllProjectsBudget(totalBudget)
-    setAllProjectsUsedBudget(totalUsedBudget)
-    setAllProjectsRemainBudgetToAllocate(totalRemainingBudgetToAllocate)
 
-    setAllProjectsTotalResourceCost(totalResourceCost)
     
     const data = {
       labels: labels,
       datasets: [
         {
-          label: 'Allocated Budget',
-          data: allocatedBudget,
+          label: 'Estimated Revenue',
+          data: projectTotalBudget,
         },
         {
-          label: 'Used Budget',
-          data: usedBudget,
+          label: 'Revenue',
+          data: projectUsedBudget,
         },
         {
-          label: 'Net Revenue',
-          data: userRevenue,
+          label: 'Resource Cost',
+          data: projectResourceCost,
+        },       
+        {
+          label: 'Billable Expense',
+          data: projectBillableExpense,
+        },   
+        {
+          label: 'Non-Billable Expense',
+          data: projectNonBillableExpense,
+        },                    
+        {
+          label: 'Net Profit',
+          data: projectNetProfit,
         },        
       ]
     };
 
     const subtitle = {
       display: true,
-      text: "Used Budget: $"+util.getZeroPriceForNull(totalUsedBudget),
+      text: "Total Revenue: $"+util.getZeroPriceForNull(totalUsedBudget),
       color: 'blue',
       font: {
         size: 12,
@@ -104,7 +122,7 @@ export default function RevenueByProjects(props) {
     horizontalBarChart({
       canvasId:"revenueByVendorProject", 
       chartData: data, 
-      titleText: 'Total Budget: $'+(util.getZeroPriceForNull(totalBudget)), 
+      titleText: 'Estimated Total Revenue: $'+(util.getZeroPriceForNull(totalBudget)), 
       subtitleData: subtitle,
       position:'top',
       })

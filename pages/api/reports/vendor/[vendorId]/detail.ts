@@ -27,6 +27,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         include: {
           project: {
            select: {
+              name: true,
+              referenceCode: true,
               usedBudget: true,
               usedMiscBudget: true,
               miscBudget: true,
