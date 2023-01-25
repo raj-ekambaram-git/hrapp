@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { accountService, userService, vendorService } from "../../services";
-import { Box, Card, CardHeader, HStack, Select, Stack , CardBody, Accordion} from "@chakra-ui/react";
+import { Box, Card, CardHeader, HStack, Select, Stack , CardBody, Accordion, Badge} from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import BudgetChart from "./vendor/charts/budgetChart";
 import InvoiceChart from "./vendor/charts/invoiceChart";
@@ -52,12 +52,17 @@ return (
                     <></>
                   )
                 }    
-                      <Select width="30%" bgColor="white" size="sm" onChange={(ev) => getVendorReportData(ev.target.value)} value={vendorId}>
-                            <option value="">Select an Vendor</option>
-                            {vendorList?.map((vendor) => (
-                              <option value={vendor.id} data-email={vendor.email}>{vendor.name}</option>
-                            ))}
-                      </Select> 
+                <Select width="30%" bgColor="white" size="sm" onChange={(ev) => getVendorReportData(ev.target.value)} value={vendorId}>
+                      <option value="">Select an Vendor</option>
+                      {vendorList?.map((vendor) => (
+                        <option value={vendor.id} data-email={vendor.email}>{vendor.name}</option>
+                      ))}
+                </Select> 
+                {vendor?(
+                  <>
+                    <Badge color={`${(vendor.status === "Active" ||vendor.status === "Approved" )? "paid_status":vendor.status === "Inactive"? "pending_status": "pending_status"}`}>{vendor.status}</Badge>
+                  </>
+                 ):(<></>)}                   
               </HStack>     
             </CardHeader>
           </Card>

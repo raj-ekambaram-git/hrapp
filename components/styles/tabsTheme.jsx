@@ -18,13 +18,13 @@ const { definePartsStyle, defineMultiStyleConfig } =
           color: "black",
           bg: "header_actions",
         },
-        border: "1px"
+        border: "1px",        
       },
       tabpanels: {
         border: "1px",
         borderRadius: "5px",
         borderColor: "gray.600"
-      }
+      },      
     }
   })
 

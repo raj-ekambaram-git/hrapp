@@ -42,7 +42,7 @@ export default function Dashboard(props) {
     userId: userId
   }
   return (
-    <Tabs isFitted variant='reports'>
+    <Tabs isFitted variant='reports' size="sm">
       <TabList mb='1em'>
         <Tab onClick={() => handleReportSelection("account")}>Account</Tab>
         <Tab onClick={() => handleReportSelection("vendor")}>Vendor</Tab>
