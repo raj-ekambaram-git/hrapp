@@ -527,7 +527,7 @@ const AddProjectResource = (props) => {
                                         </Th>
                                         <Th>
                                           <HStack>
-                                            <Input type="text" id="fromDate"  value={util.getFormattedDate(fromDate)} size="md" onChange={handleFromDate}/>
+                                            <Input type="text" id="fromDate"  value={util.getFormattedDate(fromDate)}  onChange={handleFromDate}/>
                                             <DatePicker onChange={handleFromDate}/> 
                                           </HStack>
                                         </Th>
@@ -538,7 +538,7 @@ const AddProjectResource = (props) => {
                                         </Th>
                                         <Th>
                                           <HStack>
-                                            <Input type="text" id="toDate"  value={util.getFormattedDate(toDate)} size="md" onChange={handleFromDate}/>
+                                            <Input type="text" id="toDate"  value={util.getFormattedDate(toDate)}  onChange={handleFromDate}/>
                                             <DatePicker onChange={handleToDate}/> 
                                           </HStack>
                                         </Th>

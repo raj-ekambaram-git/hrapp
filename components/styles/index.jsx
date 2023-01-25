@@ -8,3 +8,5 @@ export * from './tableTheme';
 export * from './flexTheme';
 export * from './toolTipTheme';
 export * from './tabsTheme';
+export * from './selectTheme';
+export * from './inputTheme';

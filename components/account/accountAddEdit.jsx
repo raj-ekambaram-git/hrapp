@@ -225,17 +225,17 @@ const AccountAddEdit = (props) => {
                   <Stack>
                         <FormControl isRequired>
                           <FormLabel>Account Name</FormLabel>
-                          <Input type="text" {...register('accountName')}  id="accountName"  size="md" maxWidth="page.single_input"/>
+                          <Input type="text" {...register('accountName')}  id="accountName"   maxWidth="page.single_input"/>
                         </FormControl>     
                         <FormControl isRequired>
                             <FormLabel>Account Descirption</FormLabel>
-                            <Input type="text" id="accountDescription" {...register('accountDescription')}  size="md" maxWidth="page.single_input"/>
+                            <Input type="text" id="accountDescription" {...register('accountDescription')}   maxWidth="page.single_input"/>
                         </FormControl>   
                         <HStack spacing="15rem">
                           <Box>
                           <FormControl isRequired>
                             <FormLabel>Account EIN</FormLabel>
-                            <Input type="text" id="accountEIN"  size="md" {...register('accountEIN')} />
+                            <Input type="text" id="accountEIN"   {...register('accountEIN')} />
                           </FormControl>  
                           </Box>
                           <Box>
@@ -262,13 +262,13 @@ const AccountAddEdit = (props) => {
                       <Box>
                         <FormControl isRequired>
                           <FormLabel>Account Email</FormLabel>
-                          <Input type="email" id="accountEmail"  size="md" {...register('accountEmail')}  />
+                          <Input type="email" id="accountEmail"   {...register('accountEmail')}  />
                         </FormControl>     
                       </Box>
                       <Box>
                         <FormControl isRequired>
                             <FormLabel>Account Phone</FormLabel>
-                            <Input type="tel" id="accountPhone"  size="md" {...register('accountPhone')}  />
+                            <Input type="tel" id="accountPhone"   {...register('accountPhone')}  />
                           </FormControl>      
                       </Box>                                                                    
                       </HStack>
@@ -285,27 +285,27 @@ const AccountAddEdit = (props) => {
                     <Stack maxWidth="page.single_input" spacing="1rem">
                         <FormControl isRequired>
                           <FormLabel>Address Name</FormLabel>
-                          <Input type="text" id="addressName"  size="md" {...register('addressName')} />
+                          <Input type="text" id="addressName"   {...register('addressName')} />
                         </FormControl>                         
                         <FormControl isRequired>
                           <FormLabel>Address1</FormLabel>
-                          <Input type="text" id="address1"  size="md" {...register('address1')} />
+                          <Input type="text" id="address1"   {...register('address1')} />
                         </FormControl>    
                         <HStack>
                           <FormControl>
                             <FormLabel>Address2</FormLabel>
-                            <Input type="text" id="address2"  size="md" {...register('address2')} />
+                            <Input type="text" id="address2"   {...register('address2')} />
                           </FormControl>     
                           <FormControl>
                             <FormLabel>Address3</FormLabel>
-                            <Input type="text" id="address3"  size="md" {...register('address3')} />
+                            <Input type="text" id="address3"   {...register('address3')} />
                           </FormControl>     
                         </HStack>
                       <HStack>
                         <Box>
                           <FormControl isRequired>
                             <FormLabel>City</FormLabel>
-                            <Input type="text" id="city"  size="md" {...register('city')} />
+                            <Input type="text" id="city"   {...register('city')} />
                           </FormControl>     
                         </Box>
                         <Box>
@@ -324,7 +324,7 @@ const AccountAddEdit = (props) => {
                         <Box>
                           <FormControl isRequired>
                             <FormLabel>ZipCode</FormLabel>
-                            <Input type="text" id="zipCode"  size="md" {...register('zipCode')} />
+                            <Input type="text" id="zipCode"   {...register('zipCode')} />
                           </FormControl>     
                         </Box>
                         <Box>

@@ -341,13 +341,13 @@ const UserAddEdit = (props) => {
                       <Box>
                         <FormControl isRequired>
                           <FormLabel>First Name</FormLabel>
-                          <Input type="text" {...register('firstName')}  id="firstName"  size="md"/>
+                          <Input type="text" {...register('firstName')}  id="firstName"  />
                         </FormControl>     
                       </Box>
                       <Box>
                         <FormControl isRequired>
                             <FormLabel>Last Name</FormLabel>
-                            <Input type="text" id="lastName" {...register('lastName')}  size="md"/>
+                            <Input type="text" id="lastName" {...register('lastName')}  />
                         </FormControl>    
                       </Box>  
                       </HStack>
@@ -355,13 +355,13 @@ const UserAddEdit = (props) => {
                         <Box>
                           <FormControl isRequired>
                             <FormLabel>Emaail/UserId</FormLabel>
-                            <Input type="text" id="userEmail"  size="md" {...register('userEmail')}/>
+                            <Input type="text" id="userEmail"   {...register('userEmail')}/>
                           </FormControl>     
                         </Box>    
                         <Box>
                           <FormControl isRequired>
                             <FormLabel>User Passowrd</FormLabel>
-                            <Input type="password" id="userPassword"  size="md" {...register('userPassword')}/>
+                            <Input type="password" id="userPassword"   {...register('userPassword')}/>
                           </FormControl>     
                         </Box>  
                       </HStack> 
@@ -369,7 +369,7 @@ const UserAddEdit = (props) => {
                         <Box>
                           <FormControl isRequired>
                               <FormLabel>User Phone</FormLabel>
-                              <Input type="tel" id="userPhone"  size="md" {...register('userPhone')} />
+                              <Input type="tel" id="userPhone"   {...register('userPhone')} />
                             </FormControl>      
                         </Box>   
                         <Box>
@@ -416,7 +416,7 @@ const UserAddEdit = (props) => {
                                     fontSize='dollar_left_element'
                                     children='$'
                                 />    
-                                <Input type="number" id="cost"  size="md" {...register('cost')} />
+                                <Input type="number" id="cost"   {...register('cost')} />
                               </InputGroup>
                               
                             </FormControl>      
@@ -475,26 +475,26 @@ const UserAddEdit = (props) => {
                   <Stack maxWidth="page.single_input" spacing="1rem">
                     <FormControl isRequired>
                       <FormLabel>Address Name</FormLabel>
-                      <Input type="text" id="addressName"  size="md" {...register('addressName')} />
+                      <Input type="text" id="addressName"   {...register('addressName')} />
                     </FormControl>                        
                     <FormControl isRequired>
                       <FormLabel>Address1</FormLabel>
-                      <Input type="text" id="address1"  size="md" {...register('address1')} />
+                      <Input type="text" id="address1"   {...register('address1')} />
                     </FormControl>    
                     <HStack>
                       <FormControl>
                         <FormLabel>Address2</FormLabel>
-                        <Input type="text" id="address2"  size="md" {...register('address2')} />
+                        <Input type="text" id="address2"   {...register('address2')} />
                       </FormControl>     
                       <FormControl>
                         <FormLabel>Address3</FormLabel>
-                        <Input type="text" id="address3"  size="md" {...register('address3')} />
+                        <Input type="text" id="address3"   {...register('address3')} />
                       </FormControl>     
                     </HStack>                       
                     <HStack spacing="1rem">
                       <FormControl isRequired>
                         <FormLabel>City</FormLabel>
-                        <Input type="text" id="city"  size="md" {...register('city')} />
+                        <Input type="text" id="city"   {...register('city')} />
                       </FormControl>     
                       <FormControl isRequired>
                         <FormLabel>State</FormLabel>
@@ -509,7 +509,7 @@ const UserAddEdit = (props) => {
                     <HStack spacing="1rem">
                       <FormControl isRequired>
                         <FormLabel>ZipCode</FormLabel>
-                        <Input type="text" id="zipCode"  size="md" {...register('zipCode')} />
+                        <Input type="text" id="zipCode"   {...register('zipCode')} />
                       </FormControl>     
                       <FormControl isRequired>
                         <FormLabel>Country</FormLabel>

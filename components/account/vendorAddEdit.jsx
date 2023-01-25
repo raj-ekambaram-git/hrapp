@@ -247,20 +247,20 @@ const VendorEdit = (props) => {
                       <Box>
                         <FormControl isRequired>
                           <FormLabel>Vendor Name</FormLabel>
-                          <Input type="text" {...register('name')}  id="name"  size="md" maxWidth="page.single_input"/>
+                          <Input type="text" {...register('name')}  id="name"  maxWidth="page.single_input"/>
                         </FormControl>     
                       </Box>
                       <Box>
                         <FormControl isRequired>
                             <FormLabel>Vendor Descirption</FormLabel>
-                            <Input type="text" id="description" {...register('description')}  size="md" maxWidth="page.single_input"/>
+                            <Input type="text" id="description" {...register('description')}  maxWidth="page.single_input"/>
                         </FormControl>    
                       </Box>  
                       <HStack spacing={4}>
                         <Box>
                           <FormControl isRequired>
                             <FormLabel>Vendor Status</FormLabel>
-                            <Select width="100%" id="status" {...register('status')} >
+                            <Select width="100%" id="status" {...register('status')} size="sm">
                               <option value="Active">Active</option>
                               <option value="Inactive">Inactive</option>
                               <option value="Error">Error</option>
@@ -272,7 +272,7 @@ const VendorEdit = (props) => {
                         <Box>
                           <FormControl isRequired>
                             <FormLabel>Vendor Type</FormLabel>
-                            <Select width="100%" id="type" {...register('type')} >
+                            <Select width="100%" id="type" {...register('type')}  size="sm">
                               <option value="Staffing">Staffing</option>
                               <option value="Product">Product</option>
                               <option value="Project">Project</option>
@@ -283,7 +283,7 @@ const VendorEdit = (props) => {
                       <Box>
                         <FormControl isRequired>
                           <FormLabel>Account EIN</FormLabel>
-                          <Input type="text" id="ein"  size="md" {...register('ein')} maxWidth="page.single_input" />
+                          <Input type="text" id="ein"   {...register('ein')} maxWidth="page.single_input" />
                         </FormControl>     
                       </Box>                                                                                                         
                   </Stack>
@@ -299,11 +299,11 @@ const VendorEdit = (props) => {
                     <HStack>
                         <FormControl isRequired>
                           <FormLabel>Vendor Email</FormLabel>
-                          <Input type="email" id="email"  size="md" {...register('email')}  />
+                          <Input type="email" id="email"   {...register('email')}  />
                         </FormControl>     
                         <FormControl isRequired>
                             <FormLabel>Account Phone</FormLabel>
-                            <Input type="tel" id="phone"  size="md" {...register('phone')}  />
+                            <Input type="tel" id="phone"   {...register('phone')}  />
                           </FormControl>      
                       </HStack>
                     </Stack>
@@ -318,28 +318,28 @@ const VendorEdit = (props) => {
                     <Stack maxWidth="page.single_input" spacing="1rem">
                       <FormControl isRequired>
                         <FormLabel>Address Name</FormLabel>
-                        <Input type="text" id="addressName"  size="md" {...register('addressName')} />
+                        <Input type="text" id="addressName"   {...register('addressName')} />
                       </FormControl>                          
                       <FormControl isRequired>
                         <FormLabel>Address1</FormLabel>
-                        <Input type="text" id="address1"  size="md" {...register('address1')} />
+                        <Input type="text" id="address1"   {...register('address1')} />
                       </FormControl>   
                       <HStack spacing="1rem">
                         </HStack>  
                         <HStack>
                           <FormControl>
                             <FormLabel>Address2</FormLabel>
-                            <Input type="text" id="address2"  size="md" {...register('address2')} />
+                            <Input type="text" id="address2"   {...register('address2')} />
                           </FormControl>     
                           <FormControl>
                             <FormLabel>Address3</FormLabel>
-                            <Input type="text" id="address3"  size="md" {...register('address3')} />
+                            <Input type="text" id="address3"   {...register('address3')} />
                           </FormControl>     
                         </HStack>
                       <HStack spacing="1rem">
                           <FormControl isRequired>
                             <FormLabel>City</FormLabel>
-                            <Input type="text" id="city"  size="md" {...register('city')} />
+                            <Input type="text" id="city"   {...register('city')} />
                           </FormControl>     
                           <FormControl isRequired>
                             <FormLabel>State</FormLabel>
@@ -354,7 +354,7 @@ const VendorEdit = (props) => {
                       <HStack spacing="1rem">
                           <FormControl isRequired>
                             <FormLabel>ZipCode</FormLabel>
-                            <Input type="text" id="zipCode"  size="md" {...register('zipCode')} />
+                            <Input type="text" id="zipCode"   {...register('zipCode')} />
                           </FormControl>     
                           <FormControl isRequired>
                             <FormLabel>Country</FormLabel>
@@ -377,19 +377,19 @@ const VendorEdit = (props) => {
                         <Box>
                           <FormControl isRequired>
                             <FormLabel>Account Contact Name</FormLabel>
-                            <Input type="text" id="accountContactName"  size="md" {...register('accountContactName')}  />
+                            <Input type="text" id="accountContactName"   {...register('accountContactName')}  />
                           </FormControl>     
                         </Box>
                         <Box>
                           <FormControl isRequired>
                             <FormLabel>Account Contact Email</FormLabel>
-                            <Input type="email" id="accountContactEmail"  size="md" {...register('accountContactEmail')}  />
+                            <Input type="email" id="accountContactEmail"   {...register('accountContactEmail')}  />
                           </FormControl>     
                         </Box>
                         <Box>
                           <FormControl isRequired>
                               <FormLabel>Account ContactPhone</FormLabel>
-                              <Input type="tel" id="accountContactPhone"  size="md" {...register('accountContactPhone')}  />
+                              <Input type="tel" id="accountContactPhone"   {...register('accountContactPhone')}  />
                             </FormControl>      
                         </Box>                                                                    
                         </HStack>

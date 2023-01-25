@@ -288,19 +288,19 @@ const ProjectAddEdit = (props) => {
                       <Box>
                         <FormControl isRequired>
                           <FormLabel>Project Name</FormLabel>
-                          <Input type="text" {...register('name')}  id="name"  size="md" maxWidth="page.single_input"/>
+                          <Input type="text" {...register('name')}  id="name"   maxWidth="page.single_input"/>
                         </FormControl>     
                       </Box>
                       <Box>
                         <FormControl isRequired>
                             <FormLabel>Project Details</FormLabel>
-                            <Textarea type="text" id="description" {...register('description')}  size="md" maxWidth="page.single_input"/>
+                            <Textarea type="text" id="description" {...register('description')}   maxWidth="page.single_input"/>
                         </FormControl>    
                       </Box>  
                       <Box>
                         <FormControl isRequired>
                             <FormLabel>Project Reference</FormLabel>
-                            <Input type="text" id="referenceCode" {...register('referenceCode')}  size="md" maxWidth="page.single_input"/>
+                            <Input type="text" id="referenceCode" {...register('referenceCode')}   maxWidth="page.single_input"/>
                         </FormControl>    
                       </Box>                        
                       <HStack spacing="10rem">
@@ -422,19 +422,19 @@ const ProjectAddEdit = (props) => {
                       <Box>
                         <FormControl isRequired>
                           <FormLabel>Project Contact Name</FormLabel>
-                          <Input type="text" {...register('contactName')}  id="contactName"  size="md" />                    
+                          <Input type="text" {...register('contactName')}  id="contactName"   />                    
                         </FormControl>     
                       </Box>
                       <Box>
                         <FormControl isRequired>
                           <FormLabel>Project Contact Email</FormLabel>
-                          <Input type="text" {...register('contactEmail')}  id="contactEmail"  size="md" />
+                          <Input type="text" {...register('contactEmail')}  id="contactEmail"   />
                         </FormControl>     
                       </Box>
                       <Box>
                         <FormControl isRequired>
                           <FormLabel>Project Contact Phone</FormLabel>
-                          <Input type="text" {...register('contactPhone')}  id="contactPhone"  size="md" />
+                          <Input type="text" {...register('contactPhone')}  id="contactPhone"   />
                         </FormControl>     
                       </Box>
                     </HStack>
@@ -459,7 +459,7 @@ const ProjectAddEdit = (props) => {
                                       fontSize='dollar_left_element'
                                       children='$'
                                   />   
-                            <Input type="text" {...register('budget')}  id="budget"  size="md" />                    
+                            <Input type="text" {...register('budget')}  id="budget"   />                    
                           </InputGroup>
                         </FormControl>     
                       </Box>
@@ -473,14 +473,14 @@ const ProjectAddEdit = (props) => {
                                       fontSize='dollar_left_element'
                                       children='$'
                                   />   
-                            <Input type="text" {...register('miscBudget')}  id="miscBudget"  size="md" />                    
+                            <Input type="text" {...register('miscBudget')}  id="miscBudget"   />                    
                           </InputGroup>
                         </FormControl>     
                       </Box>                      
                       <Box>
                         <FormControl>
                           <FormLabel>Project Total Hours</FormLabel>
-                          <Input type="text" {...register('totalHours')}  id="totalHours"  size="md" />
+                          <Input type="text" {...register('totalHours')}  id="totalHours"   />
                         </FormControl>     
                       </Box>
                       <Box>
@@ -493,7 +493,7 @@ const ProjectAddEdit = (props) => {
                                       fontSize='dollar_left_element'
                                       children='$'
                                   />  
-                            <Input type="text" {...register('averageRate')}  id="averageRate"  size="md" />
+                            <Input type="text" {...register('averageRate')}  id="averageRate"   />
                           </InputGroup>
                         </FormControl>     
                       </Box>

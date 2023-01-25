@@ -1,7 +1,7 @@
 
 
 import { extendTheme, Tooltip } from '@chakra-ui/react';
-import {cardTheme, accordionTheme, buttonTheme, drawerTheme, popoverTheme, boxTheme, tableTheme, flexTheme, toolTipTheme, tabsTheme} from '.';
+import {cardTheme, accordionTheme, buttonTheme, drawerTheme, popoverTheme, boxTheme, tableTheme, flexTheme, toolTipTheme, tabsTheme, selectTheme, inputTheme} from '.';
 
 
 
@@ -27,8 +27,9 @@ const theme = extendTheme({
     Table: tableTheme,
     Flext: flexTheme,
     Tooltip: toolTipTheme,
-    Tabs: tabsTheme
-
+    Tabs: tabsTheme,
+    Select: selectTheme,
+    Input: inputTheme
   },
   semanticTokens: {
     borders: {

@@ -421,7 +421,7 @@ const InvoiceAddEdit = (props) => {
                       <Box>
                         <FormControl isRequired>
                           <FormLabel>Invoice Reference/Details</FormLabel>
-                          <Input type="text" {...register('description')}  id="description"  size="md"  maxWidth="page.single_input" />
+                          <Input type="text" {...register('description')}  id="description"    maxWidth="page.single_input" />
                         </FormControl>     
                       </Box>
                       <HStack spacing={8}>
@@ -558,14 +558,14 @@ const InvoiceAddEdit = (props) => {
                       <Box>
                           <FormLabel>Invoice Date</FormLabel>
                           <HStack>
-                            <Input type="text" id="invoiceDate"  value={util.getFormattedDate(invoiceDate)} size="md" {...register('invoiceDate')}/>
+                            <Input type="text" id="invoiceDate"  value={util.getFormattedDate(invoiceDate)}  {...register('invoiceDate')}/>
                             <DatePicker onChange={handleInvoiceDate}/> 
                           </HStack>
                       </Box>
                       <Box>
                            <FormLabel>Due Date</FormLabel>
                           <HStack>
-                            <Input type="text" id="dueDte"  value={util.getFormattedDate(dueDte)} size="md" {...register('dueDte')}/>
+                            <Input type="text" id="dueDte"  value={util.getFormattedDate(dueDte)}  {...register('dueDte')}/>
                             <DatePicker onChange={handleDueDate}/> 
                           </HStack>  
                       </Box>  
@@ -582,7 +582,7 @@ const InvoiceAddEdit = (props) => {
                                 children='$'
                             />      
                             
-                            <Input type="number" id="total"  value={invoiceTotal} size="md" {...register('total')} />
+                            <Input type="number" id="total"  value={invoiceTotal}  {...register('total')} />
                           </InputGroup>    
                           
                         </FormControl>     
