@@ -9,7 +9,9 @@ const initialState = {
     invoicePaidAmount: null,
     invoiceTransactions: [],
     invoiceEmailTo: [],
-    selectedInvoiceId: null
+    selectedInvoiceId: null,
+    selectedInvoiceTSEId: [],
+    selectedInvoiceExpId: [],
 };
 
 const invoiceReducer = (state = initialState, {type, payload}) => {
@@ -30,6 +32,8 @@ const invoiceReducer = (state = initialState, {type, payload}) => {
     } else if(type === ActionTypes.RESET_INVOICE_ITEM_LIST) {
         newState.invoiceItemList = [];
         newState.invoiceTotal = null;
+        newState.selectedInvoiceExpId = [];
+        newState.selectedInvoiceTSEId = [];
     } else if( type === ActionTypes.REMOVE_ITEM_INVOICE_ITEM_LIST) {
         const newInvoiceList = [...newState.invoiceItemList]
         newInvoiceList.splice(payload, 1);
@@ -95,6 +99,36 @@ const invoiceReducer = (state = initialState, {type, payload}) => {
         newInvoiceList.splice(expenseToRemoveIndex, 1);
         newState.invoiceItemList = newInvoiceList;
 
+    } else if(type === ActionTypes.SET_SELECTED_INVOICE_TSE_ITEMS) {
+        const newSelectedInvoiceTSEId = [...newState.selectedInvoiceTSEId]
+        if(Array.isArray(payload)) {
+            //Edit Condition
+            newState.selectedInvoiceTSEId = payload;
+        }else {
+            //Add New Condtion or udpate
+            newSelectedInvoiceTSEId.push(payload);
+            newState.selectedInvoiceTSEId = newSelectedInvoiceTSEId;
+        }
+    } else if(type === ActionTypes.SET_SELECTED_INVOICE_EXP_ITEMS) {
+        const newSelectedInvoiceExpId = [...newState.selectedInvoiceExpId]
+        if(Array.isArray(payload)) {
+            //Edit Condition
+            newState.selectedInvoiceTSEId = payload;
+        }else {
+            //Add New Condtion or udpate
+            newSelectedInvoiceExpId.push(payload);
+            newState.selectedInvoiceExpId = newSelectedInvoiceExpId;
+        }
+    } else if( type === ActionTypes.REMOVE_SELECTED_INVOICE_TSE_ITEMS) {
+        const newSelectedInvoiceTSEId = [...newState.selectedInvoiceTSEId]
+        const teseToRemoveIndex = newSelectedInvoiceTSEId.findIndex(x => x.id === parseInt(payload));
+        newSelectedInvoiceTSEId.splice(teseToRemoveIndex, 1);
+        newState.selectedInvoiceTSEId = newSelectedInvoiceTSEId;
+    } else if( type === ActionTypes.REMOVE_SELECTED_INVOICE_EXP_ITEMS) {
+        const newSelectedInvoiceExpId = [...newState.selectedInvoiceExpId]
+        const expenseToRemoveIndex = newSelectedInvoiceExpId.findIndex(x => x.id === parseInt(payload));
+        newSelectedInvoiceExpId.splice(expenseToRemoveIndex, 1);
+        newState.selectedInvoiceExpId = newSelectedInvoiceExpId;
     }
     return newState;
 };

@@ -2,14 +2,7 @@ import React, { useState, useEffect } from "react";
 import {
     useDisclosure,
     Button,
-    Table,
-    Thead,
-    Tbody,
-    Th,
-    Tr,
     Box,
-    Heading,
-    TableCaption,
     Drawer,
     DrawerOverlay,
     DrawerContent,
@@ -18,14 +11,13 @@ import {
     DrawerBody,
     Stack,
     StackDivider,
-    Badge,
     HStack,
     Checkbox
   } from '@chakra-ui/react';
 import { projectService, userService } from "../../../services";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllProjectExpenses} from '../../../store/modules/Expense/actions';
-import {removeExpenseFromInvoiceItems, setInvoiceTotal, setInvoiceItemList} from '../../../store/modules/Invoice/actions';
+import {removeExpenseFromInvoiceItems, setInvoiceTotal, setInvoiceItemList, setSelectedInvoiceExpId, removeExpFromSelectedExp} from '../../../store/modules/Invoice/actions';
 import { util } from "../../../helpers/util";
 import { EMPTY_STRING, EXPENSE_STATUS, INVOICE_CALL_TYPE } from "../../../constants/accountConstants";
 import { InvoiceConstants } from "../../../constants/invoiceConstants";
@@ -48,7 +40,7 @@ const ProjectExpenses = (props) => {
     const EXPENSE_LIST_TABLE_COLUMNS = React.useMemo(() => ProjectConstants.EXPENSE_LIST_TABLE_META)
     const expenseList = useSelector(state => state.expense.projectExpenses);
     const invoiceTotal = useSelector(state => state.invoice.invoiceTotal);
-
+    const selectedExpIds = useSelector(state => state.invoice.selectedInvoiceExpId);
 
     useEffect(() => {
       invTotal.total = invoiceTotal;
@@ -59,7 +51,7 @@ const ProjectExpenses = (props) => {
         const updatedExpenseist =  projectExpenseByStatus.map((expense, index)=> {
           
           if((callType == INVOICE_CALL_TYPE && expense.status == ExpenseStatus.Approved && util.getTotalBillableExpense(expense.expenseEntries).billableExpense > 0)) {
-            expense.enableAddtoInvoiceCheckBox = <Checkbox value={expense.id} onChange={(e) => addExpenseAsInvoiceItem(e)}/>    
+            expense.enableAddtoInvoiceCheckBox = <Checkbox value={expense.id} isChecked={selectedExpIds.includes(expense.id)?true:false} onChange={(e) => addExpenseAsInvoiceItem(e)}/>    
           }
           expense.name = expense.name
           expense.resource = expense.user?.firstName?expense.user?.firstName:EMPTY_STRING+" "+expense.user?.lastName?expense.user?.lastName:EMPTY_STRING
@@ -119,6 +111,7 @@ const ProjectExpenses = (props) => {
           // toDate: new Date(selectedTimesheetEntry.entries?.day7?.date)
         };
           dispatch(setInvoiceItemList(addedExpenseInvoiceItem));
+          dispatch(setSelectedInvoiceExpId(parseInt(e.target.value)))
           if(invTotal != undefined) {
             invTotal.total = invTotal.total+parseFloat(totalExpenseAmount)
             dispatch(setInvoiceTotal(invTotal.total));
@@ -128,6 +121,7 @@ const ProjectExpenses = (props) => {
           }
       } else { // Remove the timesheet entry form the invoice item list if exists
         dispatch(removeExpenseFromInvoiceItems(e.target.value));   
+        dispatch(removeExpFromSelectedExp(e.target.value))
         if(invTotal != undefined) {
             invTotal.total = invTotal.total-parseFloat(totalExpenseAmount)
             dispatch(setInvoiceTotal(invTotal.total));

@@ -2,14 +2,7 @@ import React, { useState, useEffect } from "react";
 import {
     useDisclosure,
     Button,
-    Table,
-    Thead,
-    Tbody,
-    Th,
-    Tr,
     Box,
-    Heading,
-    TableCaption,
     Drawer,
     DrawerOverlay,
     DrawerContent,
@@ -18,14 +11,13 @@ import {
     DrawerBody,
     Stack,
     StackDivider,
-    Badge,
     HStack,
     Checkbox
   } from '@chakra-ui/react';
 import { projectService, userService } from "../../../services";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllProjectTimesheets} from '../../../store/modules/Timesheet/actions';
-import {removeTSFromInvoiceItems, setInvoiceTotal, setInvoiceItemList} from '../../../store/modules/Invoice/actions';
+import {removeTSFromInvoiceItems, setInvoiceTotal, setInvoiceItemList, setSelectedInvoiceTSEId, removeTSFromSelectedTSE} from '../../../store/modules/Invoice/actions';
 import { util } from "../../../helpers/util";
 import ProjectTimesheeEntrySection from "./projectTimesheeEntrySection";
 import { INVOICE_CALL_TYPE, TIMESHEET_STATUS, EMPTY_STRING } from "../../../constants/accountConstants";
@@ -50,6 +42,7 @@ const ProjectTimesheets = (props) => {
 
     const timesheetEntryList = useSelector(state => state.timesheet.projectTimesheets);
     const invoiceTotal = useSelector(state => state.invoice.invoiceTotal);
+    const selectedTSEIds = useSelector(state => state.invoice.selectedInvoiceTSEId);
 
     useEffect(() => {
       invTotal.total = invoiceTotal;
@@ -59,7 +52,7 @@ const ProjectTimesheets = (props) => {
       if(projectTimesheeetByStatus != undefined && projectTimesheeetByStatus != EMPTY_STRING && projectTimesheeetByStatus.length != 0) {        
         const updatedTSEist =  projectTimesheeetByStatus.map((timesheetEntry, index)=> {
           if(callType == INVOICE_CALL_TYPE && timesheetEntry.status == TIMESHEET_STATUS.Approved && timesheetEntry.billable) {
-            timesheetEntry.enableAddtoInvoiceCheckBox = <Checkbox value={timesheetEntry.id} onChange={(e) => addTimesheetEntryAsInvoiceItem(e)} />
+            timesheetEntry.enableAddtoInvoiceCheckBox = <Checkbox value={timesheetEntry.id} isChecked={selectedTSEIds.includes(timesheetEntry.id)?true:false} onChange={(e) => addTimesheetEntryAsInvoiceItem(e)} />
           }
           timesheetEntry.name = timesheetEntry.timesheet?.name
           timesheetEntry.resource = timesheetEntry.timesheet?.user?.firstName?timesheetEntry.timesheet?.user?.firstName:EMPTY_STRING+" "+timesheetEntry.timesheet?.user?.lastName?timesheetEntry.timesheet?.user?.lastName:EMPTY_STRING
@@ -119,15 +112,17 @@ const ProjectTimesheets = (props) => {
         };
 
           dispatch(setInvoiceItemList(addedTimesheetInvoiceItem));
+          dispatch(setSelectedInvoiceTSEId(parseInt(e.target.value)))
           if(invTotal != undefined) {
             invTotal.total = invTotal.total+parseFloat(selectedTSTotal)
-            dispatch(setInvoiceTotal(invTotal.total));
+            dispatch(setInvoiceTotal(invTotal.total));            
           }else {
             invTotal.total = invTotal.total+parseFloat(selectedTSTotal)
             dispatch(setInvoiceTotal(parseFloat(selectedTSTotal)));
           }
       } else { // Remove the timesheet entry form the invoice item list if exists
         dispatch(removeTSFromInvoiceItems(e.target.value));   
+        dispatch(removeTSFromSelectedTSE(e.target.value))
         if(invTotal != undefined) {
             invTotal.total = invTotal.total-parseFloat(selectedTSTotal)
             dispatch(setInvoiceTotal(invTotal.total));

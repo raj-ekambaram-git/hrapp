@@ -56,6 +56,19 @@ export const removeTSFromInvoiceItems = (timesheetEntryId) => {
     }
 }
 
+export const removeTSFromSelectedTSE = (tseId) => {
+    return {
+        type: ActionTypes.REMOVE_SELECTED_INVOICE_TSE_ITEMS,
+        payload: tseId
+    }
+}
+
+export const removeExpFromSelectedExp = (expId) => {
+    return {
+        type: ActionTypes.REMOVE_SELECTED_INVOICE_EXP_ITEMS,
+        payload: expId
+    }
+}
 export const removeExpenseFromInvoiceItems = (expenseId) => {
     return {
         type: ActionTypes.REMOVE_EXPENSE_INVOICE_ITEM,
@@ -133,5 +146,19 @@ export const setSelectedInvoiceId = (selectedInvoiceId) => {
     return {
         type: ActionTypes.SET_SELECTED_INVOICE_ID,
         payload: selectedInvoiceId
+    }
+}
+
+export const setSelectedInvoiceTSEId = (selectedInvoiceTSEId) => {
+    return {
+        type: ActionTypes.SET_SELECTED_INVOICE_TSE_ITEMS,
+        payload: selectedInvoiceTSEId
+    }
+}
+
+export const setSelectedInvoiceExpId = (selectedInvoiceExpId) => {
+    return {
+        type: ActionTypes.SET_SELECTED_INVOICE_EXP_ITEMS,
+        payload: selectedInvoiceExpId
     }
 }
