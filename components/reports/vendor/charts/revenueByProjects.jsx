@@ -6,7 +6,7 @@ import { horizontalBarChart } from "../../../common/charts/horizontalBarChart";
 
 
 
-export default function RevenueByUsers(props) {
+export default function RevenueByProjects(props) {
   const [allProjectsTotalResourceCost, setAllProjectsTotalResourceCost] = useState(0);
   const [allProjectsBudget, setAllProjectsBudget] = useState(0);
   const [allProjectsUsedBudget, setAllProjectsUsedBudget] = useState(0);
@@ -102,7 +102,7 @@ export default function RevenueByUsers(props) {
     }
 
     horizontalBarChart({
-      canvasId:"revenueByVendorUser", 
+      canvasId:"revenueByVendorProject", 
       chartData: data, 
       titleText: 'Total Budget: $'+(util.getZeroPriceForNull(totalBudget)), 
       subtitleData: subtitle,
@@ -112,7 +112,7 @@ export default function RevenueByUsers(props) {
 
 
   const removeChart = () => {
-    let chartStatus = Chart.getChart("revenueByVendorUser"); // <canvas> id
+    let chartStatus = Chart.getChart("revenueByVendorProject"); // <canvas> id
     if (chartStatus != undefined) {
       chartStatus.destroy();
     }
@@ -125,19 +125,19 @@ export default function RevenueByUsers(props) {
       <CardHeader>
         <HStack>
           <Box fontWeight="semibold">
-            By Users
+            By Projects
           </Box>
         </HStack>
       </CardHeader>
       <CardBody>
         <HStack>
             <Box width="60%">
-              <canvas id="revenueByVendorUser"></canvas>
+              <canvas id="revenueByVendorProject"></canvas>
             </Box>  
             <Stack width="50%">
               <Card variant="projectUsersFinancialSummary">
                 <CardHeader>
-                  <Heading size='xs' textAlign="center">All Users Summary as of {util.getFormattedDate(new Date())}</Heading>          
+                  <Heading size='xs' textAlign="center">All Projects Summary as of {util.getFormattedDate(new Date())}</Heading>          
                 </CardHeader>
                 <CardBody>
                     <Stack>

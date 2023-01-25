@@ -8,6 +8,7 @@ import ExpenseChart from "./vendor/charts/expenseChart";
 import {setSelectedReportsVendorId} from '../../store/modules/Reports/actions'
 import FinancialSummary from "./vendor/financialSummary";
 import RevenueByUsers from "./vendor/charts/revenueByUsers";
+import RevenueByProjects from "./vendor/charts/revenueByProjects";
 
 
 export default function VendorDashboard(props) {
@@ -69,20 +70,9 @@ return (
                 <ExpenseChart projects={vendor.project}/>            
                 <FinancialSummary projects={vendor.project}/>
               </HStack>
-              <Card variant="reportByUsers">
-              <CardHeader>
-                <HStack>
-                  <Box fontWeight="semibold">
-                    By Users
-                  </Box>
-                </HStack>
-              </CardHeader>
-              <CardBody>
-                <HStack>
-                  <RevenueByUsers projects={vendor.project}/>
-                </HStack>
-              </CardBody>
-            </Card>   
+              <RevenueByProjects projects={vendor.project}/>
+              <RevenueByUsers projects={vendor.project}/>              
+
           </>           
           ):(<>
           </>)}                    
