@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Chart from 'chart.js/auto'
 import { util } from "../../../../helpers/util";
-import { Box, Card, CardBody, CardHeader, Heading, HStack, Stack } from "@chakra-ui/react";
+import { AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Card, CardBody, CardHeader, Heading, HStack, Stack } from "@chakra-ui/react";
 import { horizontalBarChart } from "../../../common/charts/horizontalBarChart";
 
 
@@ -81,102 +81,74 @@ export default function RevenueByUsers(props) {
 
   return (
     <>    
+      <AccordionItem>
+          <AccordionButton>
+              <Box as="span" flex='1' textAlign='left'>
+                      By Users
+              </Box>
+              <AccordionIcon />
+          </AccordionButton>
+          <AccordionPanel>
+            <HStack>
 
-      <Box width="60%">
-        <canvas id="revenueByUser"></canvas>
-      </Box>  
-      <Stack width="70%">
-        <Card variant="projectUsersFinancialSummary">
-          <CardHeader>
-            <Heading size='xs' textAlign="center">All Users Summary as of {util.getFormattedDate(new Date())}</Heading>          
-          </CardHeader>
-          <CardBody>
-              <Stack>
-                <HStack>
-                  <Box width="50%" textAlign="right">
-                    Total Available Budget:
-                  </Box>
-                  <Box width="50%" textAlign="left" fontWeight="semibold">
-                    {util.getWithCurrency(props.budget)}
-                  </Box>                
-                </HStack>
-                <HStack>
-                  <Box width="50%" textAlign="right">
-                    Remaining Budget to allocate:
-                  </Box>
-                  <Box width="50%" textAlign="left" fontWeight="semibold" color="debit_amount">
-                    {util.getWithCurrency(props.remainingBudgetToAllocate)}
-                  </Box>                
-                </HStack>   
-                <HStack>
-                  <Box width="50%" textAlign="right">
-                    Used Budget:
-                  </Box>
-                  <Box width="50%" textAlign="left" fontWeight="semibold">
-                    {util.getWithCurrency(props.usedBudget)}
-                  </Box>                
-                </HStack>   
-                <HStack>
-                  <Box width="50%" textAlign="right">
-                    Total Resource Cost:
-                  </Box>
-                  <Box width="50%" textAlign="left" fontWeight="semibold" color="credit_amount">
-                    {util.getWithCurrency(totalResourceCost)}
-                  </Box>                
-                </HStack>                  
-                <HStack>
-                  <Box width="50%" textAlign="right">
-                    Net Revenue:
-                  </Box>
-                  <Box width="50%" textAlign="left" fontWeight="semibold" color={(util.getZeroPriceForNull(props.usedBudget)-util.getZeroPriceForNull(totalResourceCost)) > 0 ? 'debit_amount':""}>
-                    {util.getWithCurrency((util.getZeroPriceForNull(props.usedBudget)-util.getZeroPriceForNull(totalResourceCost)))}
-                  </Box>                
-                </HStack>                       
-              </Stack>
-          </CardBody>
-        </Card>  
-        {/* <Card variant="projectUsersFinancialSummary">
-          <CardHeader>
-            <Heading size='xs' textAlign="center">Users Summary as of {util.getFormattedDate(new Date())}</Heading>          
-          </CardHeader>
-          <CardBody>
-              <Stack>
-                <HStack>
-                  <Box width="50%" textAlign="right">
-                    Total Budget:
-                  </Box>
-                  <Box>
-                    $ 100
-                  </Box>                
-                </HStack>
-                <HStack>
-                  <Box width="50%" textAlign="right">
-                    Allocated Budget:
-                  </Box>
-                  <Box>
-                    $ 100
-                  </Box>                
-                </HStack>   
-                <HStack>
-                  <Box width="50%" textAlign="right">
-                    Used Budget:
-                  </Box>
-                  <Box>
-                    $ 100
-                  </Box>                
-                </HStack>   
-                <HStack>
-                  <Box width="50%" textAlign="right">
-                    Net Revenue:
-                  </Box>
-                  <Box>
-                    $ 100
-                  </Box>                
-                </HStack>                       
-              </Stack>
-          </CardBody>
-        </Card>           */}
-      </Stack> 
+              <Box width="60%">
+                <canvas id="revenueByUser"></canvas>
+              </Box>  
+              <Stack width="70%">
+                <Card variant="projectUsersFinancialSummary">
+                  <CardHeader>
+                    <Heading size='xs' textAlign="center">All Users Summary as of {util.getFormattedDate(new Date())}</Heading>          
+                  </CardHeader>
+                  <CardBody>
+                      <Stack>
+                        <HStack>
+                          <Box width="50%" textAlign="right">
+                            Total Available Budget:
+                          </Box>
+                          <Box width="50%" textAlign="left" fontWeight="semibold">
+                            {util.getWithCurrency(props.budget)}
+                          </Box>                
+                        </HStack>
+                        <HStack>
+                          <Box width="50%" textAlign="right">
+                            Remaining Budget to allocate:
+                          </Box>
+                          <Box width="50%" textAlign="left" fontWeight="semibold" color="debit_amount">
+                            {util.getWithCurrency(props.remainingBudgetToAllocate)}
+                          </Box>                
+                        </HStack>   
+                        <HStack>
+                          <Box width="50%" textAlign="right">
+                            Used Budget:
+                          </Box>
+                          <Box width="50%" textAlign="left" fontWeight="semibold">
+                            {util.getWithCurrency(props.usedBudget)}
+                          </Box>                
+                        </HStack>   
+                        <HStack>
+                          <Box width="50%" textAlign="right">
+                            Total Resource Cost:
+                          </Box>
+                          <Box width="50%" textAlign="left" fontWeight="semibold" color="credit_amount">
+                            {util.getWithCurrency(totalResourceCost)}
+                          </Box>                
+                        </HStack>                  
+                        <HStack>
+                          <Box width="50%" textAlign="right">
+                            Net Revenue:
+                          </Box>
+                          <Box width="50%" textAlign="left" fontWeight="semibold" color={(util.getZeroPriceForNull(props.usedBudget)-util.getZeroPriceForNull(totalResourceCost)) > 0 ? 'debit_amount':""}>
+                            {util.getWithCurrency((util.getZeroPriceForNull(props.usedBudget)-util.getZeroPriceForNull(totalResourceCost)))}
+                          </Box>                
+                        </HStack>                       
+                      </Stack>
+                  </CardBody>
+                </Card>  
+              </Stack> 
+            </HStack>
+
+          </AccordionPanel>   
+      </AccordionItem>    
     </>
   );
 }

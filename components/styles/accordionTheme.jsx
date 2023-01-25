@@ -37,6 +37,25 @@ const mainPage = definePartsStyle({
     },
   })
 
+  const vendorReport = definePartsStyle({
+    container: {
+        marginTop: "2rem",        
+      },
+    button: {
+         bgColor: "table_tile",
+         borderRadius: "5px",
+    },
+    
+    panel: {          
+    },
+    icon: {
+      border: '2px solid',
+      borderColor: 'black',
+      background: 'gray.200',
+      borderRadius: 'full',
+      color: 'black',
+    },
+  })
 
 const baseStyle = definePartsStyle({
     // define the part you're going to style
@@ -46,6 +65,6 @@ const baseStyle = definePartsStyle({
   
 export const accordionTheme = defineMultiStyleConfig({ 
     baseStyle,
-    variants: { mainPage }
+    variants: { mainPage,vendorReport }
 })
   

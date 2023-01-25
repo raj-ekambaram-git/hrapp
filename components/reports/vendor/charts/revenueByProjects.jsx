@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Chart from 'chart.js/auto'
 import { util } from "../../../../helpers/util";
-import { Box, Card, CardBody, CardHeader, Heading, HStack, Stack } from "@chakra-ui/react";
+import { AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Card, CardBody, CardHeader, Heading, HStack, Stack } from "@chakra-ui/react";
 import { horizontalBarChart } from "../../../common/charts/horizontalBarChart";
 
 
@@ -121,65 +121,65 @@ export default function RevenueByProjects(props) {
 
   return (
     <>    
-    <Card variant="reportByUsers">
-      <CardHeader>
-        <HStack>
-          <Box fontWeight="semibold">
-            By Projects
-          </Box>
-        </HStack>
-      </CardHeader>
-      <CardBody>
-        <HStack>
-            <Box width="60%">
-              <canvas id="revenueByVendorProject"></canvas>
-            </Box>  
-            <Stack width="50%">
-              <Card variant="projectUsersFinancialSummary">
-                <CardHeader>
-                  <Heading size='xs' textAlign="center">All Projects Summary as of {util.getFormattedDate(new Date())}</Heading>          
-                </CardHeader>
-                <CardBody>
-                    <Stack>
-                      <HStack>
-                        <Box width="50%" textAlign="right">
-                          Total Available Budget:
-                        </Box>
-                        <Box width="50%" textAlign="left" fontWeight="semibold">
-                          {util.getWithCurrency(allProjectsBudget)}
-                        </Box>                
-                      </HStack>
-                      <HStack>
-                        <Box width="50%" textAlign="right">
-                          Used Budget:
-                        </Box>
-                        <Box width="50%" textAlign="left" fontWeight="semibold">
-                          {util.getWithCurrency(allProjectsUsedBudget)}
-                        </Box>                
-                      </HStack>   
-                      <HStack>
-                        <Box width="50%" textAlign="right">
-                          Total Resource Cost:
-                        </Box>
-                        <Box width="50%" textAlign="left" fontWeight="semibold" color="credit_amount">
-                          {util.getWithCurrency(allProjectsTotalResourceCost)}
-                        </Box>                
-                      </HStack>                  
-                      <HStack>
-                        <Box width="50%" textAlign="right">
-                          Net Revenue:
-                        </Box>
-                        <Box width="50%" textAlign="left" fontWeight="semibold" color={(util.getZeroPriceForNull(allProjectsUsedBudget)-util.getZeroPriceForNull(allProjectsTotalResourceCost)) > 0 ? 'debit_amount':""}>
-                          {util.getWithCurrency((util.getZeroPriceForNull(allProjectsUsedBudget)-util.getZeroPriceForNull(allProjectsTotalResourceCost)))}
-                        </Box>                
-                      </HStack>                       
-                    </Stack>
-                </CardBody>
-              </Card>  
-            </Stack> 
-          </HStack>
-        </CardBody>
-    </Card>   
+      <AccordionItem>
+          <AccordionButton>
+              <Box as="span" flex='1' textAlign='left'>
+                      By Projects
+              </Box>
+              <AccordionIcon />
+          </AccordionButton>
+          <AccordionPanel>
+            <HStack>
+              <Box width="60%">
+                <canvas id="revenueByVendorProject"></canvas>
+              </Box>  
+              <Stack width="50%">
+                <Card variant="projectUsersFinancialSummary">
+                  <CardHeader>
+                    <Heading size='xs' textAlign="center">All Projects Summary as of {util.getFormattedDate(new Date())}</Heading>          
+                  </CardHeader>
+                  <CardBody>
+                      <Stack>
+                        <HStack>
+                          <Box width="50%" textAlign="right">
+                            Total Available Budget:
+                          </Box>
+                          <Box width="50%" textAlign="left" fontWeight="semibold">
+                            {util.getWithCurrency(allProjectsBudget)}
+                          </Box>                
+                        </HStack>
+                        <HStack>
+                          <Box width="50%" textAlign="right">
+                            Used Budget:
+                          </Box>
+                          <Box width="50%" textAlign="left" fontWeight="semibold">
+                            {util.getWithCurrency(allProjectsUsedBudget)}
+                          </Box>                
+                        </HStack>   
+                        <HStack>
+                          <Box width="50%" textAlign="right">
+                            Total Resource Cost:
+                          </Box>
+                          <Box width="50%" textAlign="left" fontWeight="semibold" color="credit_amount">
+                            {util.getWithCurrency(allProjectsTotalResourceCost)}
+                          </Box>                
+                        </HStack>                  
+                        <HStack>
+                          <Box width="50%" textAlign="right">
+                            Net Revenue:
+                          </Box>
+                          <Box width="50%" textAlign="left" fontWeight="semibold" color={(util.getZeroPriceForNull(allProjectsUsedBudget)-util.getZeroPriceForNull(allProjectsTotalResourceCost)) > 0 ? 'debit_amount':""}>
+                            {util.getWithCurrency((util.getZeroPriceForNull(allProjectsUsedBudget)-util.getZeroPriceForNull(allProjectsTotalResourceCost)))}
+                          </Box>                
+                        </HStack>                       
+                      </Stack>
+                  </CardBody>
+                </Card>  
+              </Stack> 
+            </HStack>            
+          </AccordionPanel>   
+      </AccordionItem>          
+
     </>
   );
 }

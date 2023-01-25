@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { accountService, projectService, reportsService, userService } from "../../services";
-import { Badge, Box, Card, CardBody, CardHeader, HStack, Select, Stack } from "@chakra-ui/react";
+import { Accordion, Badge, Box, Card, CardBody, CardHeader, HStack, Select, Stack } from "@chakra-ui/react";
 import BudgetChart from "./project/charts/budgetChart";
 import InvoiceChart from "./project/charts/invoiceChart";
 import ExpenseChart from "./project/charts/expenseChart";
@@ -54,7 +54,7 @@ return (
                     <></>
                   )
                 }    
-                <Select bgColor="white" width="30%" onChange={(ev) => getProjectBudgetDetails(ev.target.value)} value={projectId}>
+                <Select bgColor="white" width="30%" size="sm" onChange={(ev) => getProjectBudgetDetails(ev.target.value)} value={projectId}>
                   <option value="">Select Project</option>
                   {projectList?.map((project) => (
                           <option value={project.id}>{project.name} - {project.referenceCode} </option>
@@ -80,21 +80,11 @@ return (
                 {project.expense && project.expense?.length > 0?(<ExpenseChart expense={project.expense} projectResource={project.projectResource}/>):(<></>)}                
                 <FinancialSummary project={project}/>
               </HStack>
-              <Card variant="reportByUsers">
-                <CardHeader>
-                  <HStack>
-                    <Box fontWeight="semibold">
-                      By Users
-                    </Box>
-                  </HStack>
-                </CardHeader>
-                <CardBody>
-                  <HStack>
-                    <RevenueByUsers projectResource={project.projectResource} budget={project.budget} usedBudget={project.usedBudget} remainingBudgetToAllocate={project.remainingBudgetToAllocate}/>
-                  </HStack>
+              <Accordion variant="vendorReport" defaultIndex={[0]} >
+                <RevenueByUsers projectResource={project.projectResource} budget={project.budget} usedBudget={project.usedBudget} remainingBudgetToAllocate={project.remainingBudgetToAllocate}/>
+              </Accordion>
+                    
 
-                </CardBody>
-              </Card>
 
             </>              
             ):(<>

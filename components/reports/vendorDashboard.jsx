@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { accountService, userService, vendorService } from "../../services";
-import { Box, Card, CardHeader, HStack, Select, Stack , CardBody} from "@chakra-ui/react";
+import { Box, Card, CardHeader, HStack, Select, Stack , CardBody, Accordion} from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import BudgetChart from "./vendor/charts/budgetChart";
 import InvoiceChart from "./vendor/charts/invoiceChart";
@@ -52,7 +52,7 @@ return (
                     <></>
                   )
                 }    
-                      <Select width="30%" bgColor="white"  onChange={(ev) => getVendorReportData(ev.target.value)} value={vendorId}>
+                      <Select width="30%" bgColor="white" size="sm" onChange={(ev) => getVendorReportData(ev.target.value)} value={vendorId}>
                             <option value="">Select an Vendor</option>
                             {vendorList?.map((vendor) => (
                               <option value={vendor.id} data-email={vendor.email}>{vendor.name}</option>
@@ -70,8 +70,10 @@ return (
                 <ExpenseChart projects={vendor.project}/>            
                 <FinancialSummary projects={vendor.project}/>
               </HStack>
-              <RevenueByProjects projects={vendor.project}/>
-              <RevenueByUsers projects={vendor.project}/>              
+              <Accordion variant="vendorReport" defaultIndex={[0]} >
+                <RevenueByProjects projects={vendor.project}/>
+                <RevenueByUsers projects={vendor.project}/>              
+              </Accordion>
 
           </>           
           ):(<>
