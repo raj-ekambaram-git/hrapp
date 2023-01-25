@@ -38,7 +38,7 @@ export default function RevenueByUsers(props) {
       totalUsedBudget = totalUsedBudget+util.getZeroPriceForNull(project.usedBudget)
       totalBudget = totalBudget+util.getZeroPriceForNull(project.budget)
       project.projectResource?.map(resource => {
-
+        console.log("resource::::"+JSON.stringify(resource))
         if(userTrackingArray.includes(resource.userId)) {
           const indexWhereUserPresent = userTrackingArray.findIndex(x => x === resource.userId);
           console.log("indexWhereUserPresent::"+indexWhereUserPresent)
@@ -46,7 +46,8 @@ export default function RevenueByUsers(props) {
           allocatedBudget[indexWhereUserPresent] = (util.getZeroPriceForNull(allocatedBudget[indexWhereUserPresent])+util.getZeroPriceForNull(resource.budgetAllocated))
           usedBudget[indexWhereUserPresent] = (util.getZeroPriceForNull(usedBudget[indexWhereUserPresent])+util.getZeroPriceForNull(resource.usedBudget))
           totalResourceCost = parseFloat(totalResourceCost)+((parseFloat(resource.usedBudget)/parseFloat(resource.unitPrice))*parseFloat(resource.cost))
-          userRevenue[indexWhereUserPresent] = (util.getZeroPriceForNull(userRevenue[indexWhereUserPresent])+util.getZeroPriceForNull(resource.userRevenue))
+          userRevenue[indexWhereUserPresent] = (userRevenue[indexWhereUserPresent] +(util.getZeroPriceForNull(resource.usedBudget)-((parseFloat(resource.usedBudget)/parseFloat(resource.unitPrice))*parseFloat(resource.cost))))
+          userRevenue.push()    
         }else {
           userTrackingArray.push(resource.userId)
           labels.push((resource.user?.firstName.length>5?resource.user?.firstName.substring(0,5):resource.user?.firstName)+" "+(resource.user?.lastName.length>5?resource.user?.lastName.substring(0,5):resource.user?.lastName))
@@ -60,7 +61,7 @@ export default function RevenueByUsers(props) {
 
     })
 
-    console.log("userTrackingArray:::"+userTrackingArray)
+    console.log("userRevenue:::"+userRevenue)
     setAllProjectsBudget(totalBudget)
     setAllProjectsUsedBudget(totalUsedBudget)
     setAllProjectsRemainBudgetToAllocate(totalRemainingBudgetToAllocate)
