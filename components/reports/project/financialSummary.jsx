@@ -1,4 +1,4 @@
-import { Box, Card, CardBody, CardHeader, Divider, Heading, HStack, Stack } from "@chakra-ui/react";
+import { Box, Card, CardBody, CardHeader, Tooltip, Heading, HStack, Stack } from "@chakra-ui/react";
 import { ExpenseStatus, InvoiceStatus } from "@prisma/client";
 import React, { useEffect, useState } from "react";
 import { util } from "../../../helpers/util";
@@ -191,7 +191,9 @@ export default function FinancialSummary(props) {
             </HStack>
             <HStack>
                   <Box width="60%" textAlign="right" fontWeight="semibold" fontStyle="italic">
-                    Net Revenue :
+                    <Tooltip label="Net profit as of today excluding all the project expenses (aproved resource cost, billabld and non-billable expense) approved">
+                      Net Revenue :
+                    </Tooltip>
                   </Box>
                   <Box width="50%" textAlign="left" fontWeight="semibold" color={util.getZeroPriceForNull(netRevenue) > 0 ? 'debit_amount':"credit_amount"}>
                     {util.getWithCurrency(netRevenue)}
