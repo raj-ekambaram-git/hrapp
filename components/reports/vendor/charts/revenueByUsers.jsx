@@ -118,7 +118,7 @@ export default function RevenueByUsers(props) {
               <Stack>
                 <HStack>
                   <Box width="50%" textAlign="right">
-                    Total Budget:
+                    Total Available Budget:
                   </Box>
                   <Box width="50%" textAlign="left" fontWeight="semibold">
                     {util.getWithCurrency(allProjectsBudget)}

@@ -85,7 +85,7 @@ export default function RevenueByUsers(props) {
       <Box width="60%">
         <canvas id="revenueByUser"></canvas>
       </Box>  
-      <Stack width="50%">
+      <Stack width="70%">
         <Card variant="projectUsersFinancialSummary">
           <CardHeader>
             <Heading size='xs' textAlign="center">All Users Summary as of {util.getFormattedDate(new Date())}</Heading>          
@@ -94,7 +94,7 @@ export default function RevenueByUsers(props) {
               <Stack>
                 <HStack>
                   <Box width="50%" textAlign="right">
-                    Total Budget:
+                    Total Available Budget:
                   </Box>
                   <Box width="50%" textAlign="left" fontWeight="semibold">
                     {util.getWithCurrency(props.budget)}
@@ -102,7 +102,7 @@ export default function RevenueByUsers(props) {
                 </HStack>
                 <HStack>
                   <Box width="50%" textAlign="right">
-                    Remaining Budget:
+                    Remaining Budget to allocate:
                   </Box>
                   <Box width="50%" textAlign="left" fontWeight="semibold" color="debit_amount">
                     {util.getWithCurrency(props.remainingBudgetToAllocate)}
