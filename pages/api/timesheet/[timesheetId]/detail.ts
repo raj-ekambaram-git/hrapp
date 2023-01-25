@@ -29,7 +29,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
               approvedDate: true,
               entries: true,
               unitPrice: true,
-              notesRequired: true
+              notesRequired: true,
+              billable: true
             }
           }
         }

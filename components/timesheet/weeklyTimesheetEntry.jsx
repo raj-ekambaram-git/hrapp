@@ -160,6 +160,21 @@ const WeeklyTimesheetEntry = (props) => {
                 }
             }
 
+            //Validate the budget here
+            const projectObj = userProjectList.filter((project) => (project.projectId == inputData[i].projectId && project.billable == inputData[i].billable));
+            if(projectObj && projectObj.length>0) {
+                const remainingBudget = util.getZeroPriceForNull(projectObj[0]?.budgetAllocated)-util.getZeroPriceForNull(projectObj[0]?.usedBudget)
+                const totalAvailableHours = remainingBudget/parseFloat(projectObj[0]?.unitPrice)
+                const enteredHours = util.getTotalHours(inputData[i].entries)
+                if(enteredHours>totalAvailableHours) {
+                    setShowErrorMessage(ErrorMessage.TIMESHEET_PROJECT_BUDGET_ERROR_1+projectObj[0]?.project?.name
+                        +ErrorMessage.TIMESHEET_PROJECT_BUDGET_ERROR_2+(-(totalAvailableHours-enteredHours))
+                        +ErrorMessage.TIMESHEET_PROJECT_BUDGET_ERROR_3)
+                        return false;
+                }
+            }
+
+
             delete inputData[i]["projectName"]
         }
         // setTimesheetEntries(inputData);

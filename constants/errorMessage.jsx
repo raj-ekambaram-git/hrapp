@@ -15,4 +15,7 @@ export const ErrorMessage = {
   ALL_FIELDS_REQIURED: "All the fields are required.",
   EXPENSE_TRANSACTION_FORM_ERROR: "All the fields are required.",
   INVOICE_TRANSACTION_ALREADY_PAID: "This expense is completely paid or amount you entering is more than the total expense amount, so no need for more payment.",
+  TIMESHEET_PROJECT_BUDGET_ERROR_1: "Not enough budget available for the project: ",
+  TIMESHEET_PROJECT_BUDGET_ERROR_2: ". You are over by ",
+  TIMESHEET_PROJECT_BUDGET_ERROR_3: " hours. Please contact project administrator or adjust your hours accordingly."
 }
