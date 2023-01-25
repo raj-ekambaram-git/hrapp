@@ -127,7 +127,7 @@ const theme = extendTheme({
       entry_project_header: "10px",
       entry_header:  "60px",
       entry: {
-        input: "50px"
+        input: "40px"
       },
       entry_project: "",
       project_drop_down: "550px",

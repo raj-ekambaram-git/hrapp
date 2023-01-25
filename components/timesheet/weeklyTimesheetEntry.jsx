@@ -366,8 +366,7 @@ const WeeklyTimesheetEntry = (props) => {
                                     <>
                                     </>
                                 )}
-                                    <Box borderWidth="timesheet.entry_project" width="timesheet.project_drop_down">
-                                        
+                                    <Box borderWidth="timesheet.entry_project" width="timesheet.project_drop_down">                                        
                                         <Select id="projectId" value={timesheetEntry.projectId} onChange={(ev) => setTimesheetEntry(index, ev, "projectId")}>
                                             <option value="">Select Project</option>
                                             {userProjectList?.map((project) => (
@@ -386,8 +385,8 @@ const WeeklyTimesheetEntry = (props) => {
                                 </HStack>
                             </GridItem>
                             <GridItem colStart={3} colEnd={6} h='10'>
-                                <HStack spacing="1rem">
-                                    <HStack spacing="2em">
+                                <HStack spacing="2.5rem">
+                                    <HStack spacing="2.5em">
                                         <Box borderWidth="timesheet.entry" borderColor={timesheetEntry.entries.day1.error ? 'timesheet.entryError' : ""}>
                                             <Input type="number" id="day1" isReadOnly={(timesheetEntry.status == TIMESHEET_STATUS.Approved || timesheetEntry.status == TIMESHEET_STATUS.Invoiced) ? true : false}  value= {timesheetEntry.entries.day1.error ? "" : timesheetEntry.entries.day1.hours}   onChange={(ev) => setTimesheetEntry(index, ev,"1")} boxSize="timesheet.entry.input"/>
                                         </Box>    
