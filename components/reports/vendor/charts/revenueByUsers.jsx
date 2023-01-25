@@ -11,6 +11,7 @@ export default function RevenueByUsers(props) {
   const [allProjectsBudget, setAllProjectsBudget] = useState(0);
   const [allProjectsUsedBudget, setAllProjectsUsedBudget] = useState(0);
   const [allProjectsRemainBudgetToAllocate, setAllProjectsRemainBudgetToAllocate] = useState(0);
+  const [allProjectAllocatedBudget, setAllProjectAllocatedBudget] = useState(0);
 
   useEffect(() => {
     if(props.projects && props.projects.length > 0) {      
@@ -30,6 +31,7 @@ export default function RevenueByUsers(props) {
     const userTrackingArray = []; 
     let totalResourceCost = 0;
     let totalRemainingBudgetToAllocate = 0;
+    let totalAllocatedBudget = 0;
     let totalUsedBudget = 0;
     let totalBudget = 0;
 
@@ -38,12 +40,10 @@ export default function RevenueByUsers(props) {
       totalUsedBudget = totalUsedBudget+util.getZeroPriceForNull(project.usedBudget)
       totalBudget = totalBudget+util.getZeroPriceForNull(project.budget)
       project.projectResource?.map(resource => {
-        console.log("resource::::"+JSON.stringify(resource))
         if(userTrackingArray.includes(resource.userId)) {
           const indexWhereUserPresent = userTrackingArray.findIndex(x => x === resource.userId);
-          console.log("indexWhereUserPresent::"+indexWhereUserPresent)
-          
           allocatedBudget[indexWhereUserPresent] = (util.getZeroPriceForNull(allocatedBudget[indexWhereUserPresent])+util.getZeroPriceForNull(resource.budgetAllocated))
+          totalAllocatedBudget = totalAllocatedBudget+util.getZeroPriceForNull(resource.budgetAllocated);
           usedBudget[indexWhereUserPresent] = (util.getZeroPriceForNull(usedBudget[indexWhereUserPresent])+util.getZeroPriceForNull(resource.usedBudget))
           totalResourceCost = parseFloat(totalResourceCost)+((parseFloat(resource.usedBudget)/parseFloat(resource.unitPrice))*parseFloat(resource.cost))
           userRevenue[indexWhereUserPresent] = (userRevenue[indexWhereUserPresent] +(util.getZeroPriceForNull(resource.usedBudget)-((parseFloat(resource.usedBudget)/parseFloat(resource.unitPrice))*parseFloat(resource.cost))))
@@ -52,6 +52,7 @@ export default function RevenueByUsers(props) {
           userTrackingArray.push(resource.userId)
           labels.push((resource.user?.firstName.length>5?resource.user?.firstName.substring(0,5):resource.user?.firstName)+" "+(resource.user?.lastName.length>5?resource.user?.lastName.substring(0,5):resource.user?.lastName))
           allocatedBudget.push(util.getZeroPriceForNull(resource.budgetAllocated))
+          totalAllocatedBudget = totalAllocatedBudget+util.getZeroPriceForNull(resource.budgetAllocated);
           usedBudget.push(util.getZeroPriceForNull(resource.usedBudget))
           totalResourceCost = parseFloat(totalResourceCost)+((parseFloat(resource.usedBudget)/parseFloat(resource.unitPrice))*parseFloat(resource.cost))
           userRevenue.push((util.getZeroPriceForNull(resource.usedBudget)-((parseFloat(resource.usedBudget)/parseFloat(resource.unitPrice))*parseFloat(resource.cost))))    
@@ -65,6 +66,7 @@ export default function RevenueByUsers(props) {
     setAllProjectsBudget(totalBudget)
     setAllProjectsUsedBudget(totalUsedBudget)
     setAllProjectsRemainBudgetToAllocate(totalRemainingBudgetToAllocate)
+    setAllProjectAllocatedBudget(totalAllocatedBudget)
 
     setAllProjectsTotalResourceCost(totalResourceCost)
     
@@ -133,7 +135,7 @@ export default function RevenueByUsers(props) {
               <Box width="60%">
                 <canvas id="revenueByVendorUser"></canvas>
               </Box>  
-              <Stack width="50%">
+              <Stack width="70%">
                 <Card variant="projectUsersFinancialSummary">
                   <CardHeader>
                     <Heading size='xs' textAlign="center">All Projects Summary as of {util.getFormattedDate(new Date())}</Heading>          
@@ -150,6 +152,22 @@ export default function RevenueByUsers(props) {
                         </HStack>
                         <HStack>
                           <Box width="50%" textAlign="right">
+                            Allocated Budget:
+                          </Box>
+                          <Box width="50%" textAlign="left" fontWeight="semibold" color="debit_amount">
+                            {util.getWithCurrency(allProjectAllocatedBudget)}
+                          </Box>                
+                        </HStack>                           
+                        <HStack>
+                          <Box width="50%" textAlign="right">
+                            Remaining Budget to allocate:
+                          </Box>
+                          <Box width="50%" textAlign="left" fontWeight="semibold" color="debit_amount">
+                            {util.getWithCurrency(allProjectsBudget-allProjectAllocatedBudget)}
+                          </Box>                
+                        </HStack>                           
+                        <HStack>
+                          <Box width="50%" textAlign="right">
                             Used Budget:
                           </Box>
                           <Box width="50%" textAlign="left" fontWeight="semibold">
@@ -158,15 +176,15 @@ export default function RevenueByUsers(props) {
                         </HStack>   
                         <HStack>
                           <Box width="50%" textAlign="right">
-                            Total Resource Cost:
+                            Resource Cost:
                           </Box>
                           <Box width="50%" textAlign="left" fontWeight="semibold" color="credit_amount">
                             {util.getWithCurrency(allProjectsTotalResourceCost)}
                           </Box>                
                         </HStack>                  
                         <HStack>
-                          <Box width="50%" textAlign="right">
-                            Net Revenue:
+                          <Box width="50%" textAlign="right" fontWeight="semibold" fontStyle="italic">
+                            Net Profit:
                           </Box>
                           <Box width="50%" textAlign="left" fontWeight="semibold" color={(util.getZeroPriceForNull(allProjectsUsedBudget)-util.getZeroPriceForNull(allProjectsTotalResourceCost)) > 0 ? 'debit_amount':""}>
                             {util.getWithCurrency((util.getZeroPriceForNull(allProjectsUsedBudget)-util.getZeroPriceForNull(allProjectsTotalResourceCost)))}

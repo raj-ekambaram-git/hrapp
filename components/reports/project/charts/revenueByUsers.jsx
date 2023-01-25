@@ -142,7 +142,7 @@ export default function RevenueByUsers(props) {
                           </Box>                
                         </HStack>                  
                         <HStack>
-                          <Box width="50%" textAlign="right">
+                          <Box width="50%" textAlign="right" fontWeight="semibold" fontStyle="italic">
                             Net Profit:
                           </Box>
                           <Box width="50%" textAlign="left" fontWeight="semibold" color={(util.getZeroPriceForNull(props.usedBudget)-util.getZeroPriceForNull(totalResourceCost)) > 0 ? 'debit_amount':""}>
