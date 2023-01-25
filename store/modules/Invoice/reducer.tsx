@@ -17,8 +17,6 @@ const invoiceReducer = (state = initialState, {type, payload}) => {
     const newState = {...state};
 
     if(type === ActionTypes.SET_INVOICE_ITEM_LIST) {
-        console.log("SET_INVOICE_ITEM_LIST INSIDE::"+JSON.stringify(payload));
-        console.log("newState:::"+JSON.stringify(newState));
         const newInvoiceList = [...newState.invoiceItemList]
         if(Array.isArray(payload)) {
             //Edit Condition
@@ -67,7 +65,6 @@ const invoiceReducer = (state = initialState, {type, payload}) => {
         }
         
     } else if(type === ActionTypes.SET_INVOICE_EMAIL_TO) {
-        console.log("newState.invoiceEmailTo::"+JSON.stringify(newState.invoiceEmailTo))
         const newInvoiceEmailToList = [...newState.invoiceEmailTo]
         if(Array.isArray(payload)) {
             //Edit Condition
@@ -99,8 +96,6 @@ const invoiceReducer = (state = initialState, {type, payload}) => {
         newState.invoiceItemList = newInvoiceList;
 
     }
-    
-    console.log("New State:::Before Return:::"+JSON.stringify(newState));
     return newState;
 };
 

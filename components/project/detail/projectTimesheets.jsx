@@ -44,15 +44,16 @@ const ProjectTimesheets = (props) => {
     const [size, setSize] = useState('');
     const [timsheetEntriesForTable, setTimsheetEntriesForTable] = useState([]);
     const [enableAddTimeSheetEntry, setEnableAddTimeSheetEntry] = useState(false);
+    const [invTotal, setInvTotal] = useState({total: 0});
+
     const TIMESHEET_LIST_TABLE_COLUMNS = React.useMemo(() => ProjectConstants.TIMESHEET_LIST_TABLE_META)
 
     const timesheetEntryList = useSelector(state => state.timesheet.projectTimesheets);
     const invoiceTotal = useSelector(state => state.invoice.invoiceTotal);
 
-
     useEffect(() => {
-
-    }, []);
+      invTotal.total = invoiceTotal;
+    }, [invoiceTotal]);
 
     function prepareTimesheetListForTable(projectTimesheeetByStatus) {
       if(projectTimesheeetByStatus != undefined && projectTimesheeetByStatus != EMPTY_STRING && projectTimesheeetByStatus.length != 0) {        
@@ -116,16 +117,20 @@ const ProjectTimesheets = (props) => {
           fromDate: new Date(selectedTimesheetEntry.entries?.day1.date),
           toDate: new Date(selectedTimesheetEntry.entries?.day7?.date)
         };
+
           dispatch(setInvoiceItemList(addedTimesheetInvoiceItem));
-          if(invoiceTotal != undefined) {
-            dispatch(setInvoiceTotal(parseFloat(invoiceTotal)+parseFloat(selectedTSTotal)));
+          if(invTotal != undefined) {
+            invTotal.total = invTotal.total+parseFloat(selectedTSTotal)
+            dispatch(setInvoiceTotal(invTotal.total));
           }else {
+            invTotal.total = invTotal.total+parseFloat(selectedTSTotal)
             dispatch(setInvoiceTotal(parseFloat(selectedTSTotal)));
           }
       } else { // Remove the timesheet entry form the invoice item list if exists
         dispatch(removeTSFromInvoiceItems(e.target.value));   
-        if(invoiceTotal != undefined) {
-            dispatch(setInvoiceTotal(parseFloat(invoiceTotal)-parseFloat(selectedTSTotal)));
+        if(invTotal != undefined) {
+            invTotal.total = invTotal.total-parseFloat(selectedTSTotal)
+            dispatch(setInvoiceTotal(invTotal.total));
           }else {
             dispatch(setInvoiceTotal(parseFloat(total)));
         }

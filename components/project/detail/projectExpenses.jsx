@@ -44,14 +44,15 @@ const ProjectExpenses = (props) => {
     const [size, setSize] = useState('');
     const [enableAddExpense, setEnableAddExpense] = useState(false);
     const [expenseEntriesForTable, setExpenseEntriesForTable] = useState([]);
+    const [invTotal, setInvTotal] = useState({total: 0});
     const EXPENSE_LIST_TABLE_COLUMNS = React.useMemo(() => ProjectConstants.EXPENSE_LIST_TABLE_META)
     const expenseList = useSelector(state => state.expense.projectExpenses);
     const invoiceTotal = useSelector(state => state.invoice.invoiceTotal);
 
 
     useEffect(() => {
-
-    }, []);
+      invTotal.total = invoiceTotal;
+    }, [invoiceTotal]);
 
     function prepareExpenseListForTable(projectExpenseByStatus) {
       if(projectExpenseByStatus != undefined && projectExpenseByStatus != EMPTY_STRING && projectExpenseByStatus.length != 0) {        
@@ -118,15 +119,18 @@ const ProjectExpenses = (props) => {
           // toDate: new Date(selectedTimesheetEntry.entries?.day7?.date)
         };
           dispatch(setInvoiceItemList(addedExpenseInvoiceItem));
-          if(invoiceTotal != undefined) {
-            dispatch(setInvoiceTotal(parseFloat(invoiceTotal)+parseFloat(totalExpenseAmount)));
+          if(invTotal != undefined) {
+            invTotal.total = invTotal.total+parseFloat(totalExpenseAmount)
+            dispatch(setInvoiceTotal(invTotal.total));
           }else {
+            invTotal.total = invTotal.total+parseFloat(totalExpenseAmount)
             dispatch(setInvoiceTotal(parseFloat(totalExpenseAmount)));
           }
       } else { // Remove the timesheet entry form the invoice item list if exists
         dispatch(removeExpenseFromInvoiceItems(e.target.value));   
-        if(invoiceTotal != undefined) {
-            dispatch(setInvoiceTotal(parseFloat(invoiceTotal)-parseFloat(totalExpenseAmount)));
+        if(invTotal != undefined) {
+            invTotal.total = invTotal.total-parseFloat(totalExpenseAmount)
+            dispatch(setInvoiceTotal(invTotal.total));
           }else {
             dispatch(setInvoiceTotal(parseFloat(total)));
         }
