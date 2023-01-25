@@ -72,7 +72,7 @@ export default function RevenueByUsers(props) {
     horizontalBarChart({
       canvasId:"revenueByUser", 
       chartData: data, 
-      titleText: 'Total Budget: $'+(util.getZeroPriceForNull(props.budget)), 
+      titleText: 'Total Available Budget: $'+(util.getZeroPriceForNull(props.budget)), 
       subtitleData: subtitle,
       position:'top',
       })
@@ -103,12 +103,20 @@ export default function RevenueByUsers(props) {
                       <Stack>
                         <HStack>
                           <Box width="50%" textAlign="right">
-                            Total Available Budget:
+                            Available Budget:
                           </Box>
                           <Box width="50%" textAlign="left" fontWeight="semibold">
                             {util.getWithCurrency(props.budget)}
                           </Box>                
                         </HStack>
+                        <HStack>
+                          <Box width="50%" textAlign="right">
+                            Allocated Budget:
+                          </Box>
+                          <Box width="50%" textAlign="left" fontWeight="semibold" color="debit_amount">
+                            {util.getWithCurrency(props.budget-props.remainingBudgetToAllocate)}
+                          </Box>                
+                        </HStack>                           
                         <HStack>
                           <Box width="50%" textAlign="right">
                             Remaining Budget to allocate:
@@ -127,7 +135,7 @@ export default function RevenueByUsers(props) {
                         </HStack>   
                         <HStack>
                           <Box width="50%" textAlign="right">
-                            Total Resource Cost:
+                            Resource Cost:
                           </Box>
                           <Box width="50%" textAlign="left" fontWeight="semibold" color="credit_amount">
                             {util.getWithCurrency(totalResourceCost)}
@@ -135,7 +143,7 @@ export default function RevenueByUsers(props) {
                         </HStack>                  
                         <HStack>
                           <Box width="50%" textAlign="right">
-                            Net Revenue:
+                            Net Profit:
                           </Box>
                           <Box width="50%" textAlign="left" fontWeight="semibold" color={(util.getZeroPriceForNull(props.usedBudget)-util.getZeroPriceForNull(totalResourceCost)) > 0 ? 'debit_amount':""}>
                             {util.getWithCurrency((util.getZeroPriceForNull(props.usedBudget)-util.getZeroPriceForNull(totalResourceCost)))}
