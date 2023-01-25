@@ -8,10 +8,14 @@ import { ExpenseStatus } from "@prisma/client";
 
 
 export default function RevenueByProjects(props) {
-  const [allProjectsTotalResourceCost, setAllProjectsTotalResourceCost] = useState(0);
-  const [allProjectsBudget, setAllProjectsBudget] = useState(0);
-  const [allProjectsUsedBudget, setAllProjectsUsedBudget] = useState(0);
-  const [allProjectsRemainBudgetToAllocate, setAllProjectsRemainBudgetToAllocate] = useState(0);
+  const [totalEstimatedRevenue, setTotalEstimatedRevenue] = useState(0);
+  const [totalActualRevenue, setTotalActualRevenue] = useState(0);
+  const [totalProjectCost, setTotalProjectCost] = useState(0);
+  const [totalBillableExp, setTotalBillableExp] = useState(0);
+  const [totalNonBillableExp, setTotalNonBillableExp] = useState(0);
+  const [totalNetProfit, setTotalNetProfit] = useState(0);
+
+  
 
   useEffect(() => {
     if(props.projects && props.projects.length > 0) {      
@@ -25,10 +29,13 @@ export default function RevenueByProjects(props) {
     removeChart()
 
 
-    let totalBudget = 0;
-    let totalUsedBudget = 0;
-    let totalProjectResourceCost = 0;
-    let totalProfit = 0;
+    let allProjectEstimatedRevenue = 0;
+    let allProjectActualRevenue = 0;
+    let allProjectCost = 0;
+    let allProjectBillableExp = 0;
+    let allProjectNonBillableExp = 0;
+    let allProjectNetProfit = 0;
+
     const labels = []; 
     const projectTotalBudget = []; 
     const projectUsedBudget = []; 
@@ -39,8 +46,8 @@ export default function RevenueByProjects(props) {
 
     props.projects?.map(project => {
       labels.push((project?.name?.length>25?project?.name?.substring(0,25):project?.name)+"-"+project?.referenceCode)
-      totalBudget = totalBudget+(parseFloat(project.budget)+parseFloat(project.miscBudget))
-      totalUsedBudget = totalUsedBudget+(parseFloat(project.usedBudget)+parseFloat(project.usedMiscBudget))
+      allProjectEstimatedRevenue = allProjectEstimatedRevenue +(parseFloat(project.budget)+parseFloat(project.miscBudget))
+      allProjectActualRevenue = allProjectActualRevenue+(parseFloat(project.usedBudget)+parseFloat(project.usedMiscBudget))
       projectTotalBudget.push(parseFloat(project.budget)+parseFloat(project.miscBudget))
       projectUsedBudget.push(parseFloat(project.usedBudget)+parseFloat(project.usedMiscBudget))
 
@@ -50,7 +57,7 @@ export default function RevenueByProjects(props) {
         totalResourceCost = parseFloat(totalResourceCost)+((parseFloat(resource.usedBudget)/parseFloat(resource.unitPrice))*parseFloat(resource.cost))
       })
       projectResourceCost.push(totalResourceCost)
-      totalProjectResourceCost = totalProjectResourceCost+totalResourceCost;
+      allProjectCost = allProjectCost+totalResourceCost;
 
       //Total Billable and Non-Billable Expense
       let totalBillableExp = 0;
@@ -64,14 +71,22 @@ export default function RevenueByProjects(props) {
       })
       projectBillableExpense.push(totalBillableExp)
       projectNonBillableExpense.push(totalNonBillableExp)
+      allProjectBillableExp = allProjectBillableExp+totalBillableExp;
+      allProjectNonBillableExp = allProjectNonBillableExp+totalNonBillableExp;
 
       //Net profit: totalRevenue-(projectCost+billableExpense+nonBillableExpense)
       let totalNetProfit = 0
       totalNetProfit = (parseFloat(project.usedBudget)+parseFloat(project.usedMiscBudget))-(totalResourceCost+totalBillableExp+totalNonBillableExp)
       projectNetProfit.push(totalNetProfit)
-      totalProfit = totalProfit+projectNetProfit;
+      allProjectNetProfit = allProjectNetProfit+totalNetProfit;
     })
 
+    setTotalActualRevenue(allProjectActualRevenue)
+    setTotalEstimatedRevenue(allProjectEstimatedRevenue)
+    setTotalProjectCost(allProjectCost)
+    setTotalBillableExp(allProjectBillableExp)
+    setTotalNonBillableExp(allProjectNonBillableExp)
+    setTotalNetProfit(allProjectNetProfit)
 
     
     const data = {
@@ -106,7 +121,7 @@ export default function RevenueByProjects(props) {
 
     const subtitle = {
       display: true,
-      text: "Total Revenue: $"+util.getZeroPriceForNull(totalUsedBudget),
+      text: "Total Revenue: $"+util.getZeroPriceForNull(totalActualRevenue),
       color: 'blue',
       font: {
         size: 12,
@@ -122,7 +137,7 @@ export default function RevenueByProjects(props) {
     horizontalBarChart({
       canvasId:"revenueByVendorProject", 
       chartData: data, 
-      titleText: 'Estimated Total Revenue: $'+(util.getZeroPriceForNull(totalBudget)), 
+      titleText: 'Estimated Total Revenue: $'+(util.getZeroPriceForNull(totalEstimatedRevenue)), 
       subtitleData: subtitle,
       position:'top',
       })
@@ -159,35 +174,51 @@ export default function RevenueByProjects(props) {
                   <CardBody>
                       <Stack>
                         <HStack>
-                          <Box width="50%" textAlign="right">
-                            Total Available Budget:
+                          <Box width="60%" textAlign="right">
+                            Total Estimated Revenue:
                           </Box>
                           <Box width="50%" textAlign="left" fontWeight="semibold">
-                            {util.getWithCurrency(allProjectsBudget)}
+                            {util.getWithCurrency(totalEstimatedRevenue)}
                           </Box>                
                         </HStack>
                         <HStack>
-                          <Box width="50%" textAlign="right">
-                            Used Budget:
+                          <Box width="60%" textAlign="right">
+                            Total Net Revenue:
                           </Box>
                           <Box width="50%" textAlign="left" fontWeight="semibold">
-                            {util.getWithCurrency(allProjectsUsedBudget)}
+                            {util.getWithCurrency(totalActualRevenue)}
                           </Box>                
                         </HStack>   
                         <HStack>
-                          <Box width="50%" textAlign="right">
+                          <Box width="60%" textAlign="right">
                             Total Resource Cost:
                           </Box>
                           <Box width="50%" textAlign="left" fontWeight="semibold" color="credit_amount">
-                            {util.getWithCurrency(allProjectsTotalResourceCost)}
+                            {util.getWithCurrency(totalProjectCost)}
                           </Box>                
-                        </HStack>                  
+                        </HStack>          
                         <HStack>
-                          <Box width="50%" textAlign="right">
-                            Net Revenue:
+                          <Box width="60%" textAlign="right">
+                            Total Billable Expense:
                           </Box>
-                          <Box width="50%" textAlign="left" fontWeight="semibold" color={(util.getZeroPriceForNull(allProjectsUsedBudget)-util.getZeroPriceForNull(allProjectsTotalResourceCost)) > 0 ? 'debit_amount':""}>
-                            {util.getWithCurrency((util.getZeroPriceForNull(allProjectsUsedBudget)-util.getZeroPriceForNull(allProjectsTotalResourceCost)))}
+                          <Box width="50%" textAlign="left" fontWeight="semibold">
+                            {util.getWithCurrency(totalBillableExp)}
+                          </Box>                
+                        </HStack>   
+                        <HStack>
+                          <Box width="60%" textAlign="right">
+                            Total Non-Billable Expense:
+                          </Box>
+                          <Box width="50%" textAlign="left" fontWeight="semibold" color="credit_amount">
+                            {util.getWithCurrency(totalNonBillableExp)}
+                          </Box>                
+                        </HStack>                                                           
+                        <HStack>
+                          <Box width="60%" textAlign="right" fontWeight="semibold" fontStyle="italic">
+                            Net Profit:
+                          </Box>
+                          <Box width="50%" textAlign="left" fontWeight="semibold" color={util.getZeroPriceForNull(totalNetProfit) > 0 ? 'debit_amount':""}>
+                            {util.getWithCurrency(util.getZeroPriceForNull(totalNetProfit))}
                           </Box>                
                         </HStack>                       
                       </Stack>
