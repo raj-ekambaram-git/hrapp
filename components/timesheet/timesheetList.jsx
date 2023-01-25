@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { accountService, userService } from "../../services";
+import { userService } from "../../services";
 import {
   HStack,
   Button,
-  Box,
   Flex,
-  TableContainer,
-  Badge
+  Checkbox,
+  useToast
 } from '@chakra-ui/react'
 import { PageNotAuthorized } from "../common/pageNotAuthorized";
 import { PageMainHeader } from "../common/pageMainHeader";
@@ -17,15 +16,18 @@ import { TimesheetConstants } from "../../constants/timesheetConstants";
 import { CustomTable } from "../../components/customTable/Table";
 import { util } from "../../helpers";
 import { EMPTY_STRING } from "../../constants";
+import { TimesheetStatus } from "@prisma/client";
 
 
 
 const TimesheetList = (props) => {
   const router = useRouter();
+  const toast = useToast();
   const dispatch = useDispatch();
   const { data } = props.userData;
   const { isManager } = props.userData;
   const [timesheetList, setTimesheetList] = useState([]);
+  const [timesheetsToDelete, setTimesheetsToDelete] = useState([]);
   const [isPageAuthprized, setPageAuthorized] = useState(false);
   const TIMESHEET_LIST_TABLE_COLUMNS = React.useMemo(() => TimesheetConstants.TIMESHEET_LIST_TABLE_META)
 
@@ -55,6 +57,35 @@ const TimesheetList = (props) => {
 
   }, []);
   
+  const handleAddTimesheetToDelete = (e) => {
+    if(e.target.checked) { 
+      timesheetsToDelete.push(e.target.value)
+    }else {
+      const newSelectedTSEId = [...timesheetsToDelete]
+      const teseToRemoveIndex = newSelectedTSEId.findIndex(x => x === parseInt(e.target.value));
+      newSelectedTSEId.splice(teseToRemoveIndex, 1);
+      setTimesheetsToDelete(newSelectedTSEId);
+    }    
+  }
+
+  const deleteTimesheet = () => {
+    console.log("deleteTimesheet:::"+JSON.stringify(timesheetsToDelete))
+    if(timesheetsToDelete.length >0) {
+      //Call the service to delete
+    }else {
+      toast({
+        title: 'Timesheet Delete Error.',
+        description: 'Add at least one item to delete.',
+        status: 'error',
+        position: 'top',
+        duration: 6000,
+        isClosable: true,
+      })
+    }
+
+  }
+
+
     /**
    * Function to get the list of accounts for a drop down
    */
@@ -64,6 +95,9 @@ const TimesheetList = (props) => {
 
       if(responseData != undefined && responseData != EMPTY_STRING) {
         const updatedTimesheetist =  responseData.map((timesheet, index)=> {
+          if(timesheet.status === TimesheetStatus.Draft || timesheet.status === TimesheetStatus.Saved) {            
+            // timesheet.deleteAction = <Checkbox value={timesheet.id} onChange={(e) => handleAddTimesheetToDelete(e)}/>    
+          }
           timesheet.detailAction = <Button size="xs" bgColor="header_actions" onClick={() => handleTimesheetSelection(timesheet.id)}>Details</Button>
           // timesheet.status = 
           timesheet.lastUpdateDate = util.getFormattedDate(timesheet.lastUpdateDate)
@@ -99,11 +133,12 @@ const TimesheetList = (props) => {
     
               <Flex marginBottom="1rem">
                 <HStack>
-                  <Box>
                     <Button size="xs" bgColor="header_actions"   onClick={handleAddNewTS}>
                         Add New Timesheet
                     </Button>
-                  </Box>
+                    {/* <Button size="xs" bgColor="header_actions"   onClick={deleteTimesheet}>
+                        Delete Timesheet
+                    </Button>                     */}
                 </HStack>
               </Flex>
               <CustomTable variant="sortTable" columns={TIMESHEET_LIST_TABLE_COLUMNS} rows={timesheetList} />

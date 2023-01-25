@@ -20,8 +20,31 @@ export const timesheetService = {
     getTimesheetByName,
     updateTimesheetEntries,
     createTimesheet,
-    updateTimesheet
+    updateTimesheet,
+    deleteTimesheet
 };
+
+function deleteTimesheet(timesheetIds, userId, accountId) {
+
+  return fetchWrapper.delete(`${baseUrl}/timesheet/create`, {
+        name: formData.timesheetName,
+        type: "Weekly",
+        userId: userId,
+        status: formData.status,
+        startDate: formData.timesheetStartDate,
+        timesheetEntries: {
+          create: timesheetActivityList
+        }
+      }
+  )
+  .then(async timesheet => {
+      return timesheet;
+  })        
+  .catch(err => {
+    console.log("Error Creating createTimesheet"+err)
+    return {errorMessage: err, error: true};
+  });
+}
 
 function createTimesheet(formData, userId, timesheetActivityList) {
 
