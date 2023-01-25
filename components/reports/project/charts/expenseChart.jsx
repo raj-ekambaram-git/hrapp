@@ -51,7 +51,7 @@ export default function ExpenseChart(props) {
       const data = [
       ];
   
-      if(expProjectCost>0) {
+      if(estProjectCost>0) {
         data.push({ key: "Cost $"+estProjectCost, value: estProjectCost },)
       }
       if(expBillable>0) {

@@ -23,10 +23,12 @@ export default function ExpenseChart(props) {
     let expProjectCost = 0
     let expBillable = 0
     let expNonBillable = 0
+    let estProjectCost = 0;
     props.projects?.map(project => {
       project.expense?.map(exp => {
         if((exp.status != ExpenseStatus.Submitted && exp.status != ExpenseStatus.Draft)) {
-          expenseTotal = parseFloat(expenseTotal)+parseFloat(exp?.total)
+          const expenseAmounts = util.getTotalBillableExpense(exp.expenseEntries);
+          expenseTotal = (parseFloat(expenseTotal)+parseFloat(exp?.total))-util.getZeroPriceForNull(expenseAmounts.totalProjectCost)  
         }      
         if((exp.status === ExpenseStatus.Paid || exp.status === ExpenseStatus.PartiallyPaid)) {
           const expenseAmounts = util.getTotalBillableExpense(exp.expenseEntries);
@@ -43,14 +45,19 @@ export default function ExpenseChart(props) {
         }
         
       })
+
+      project.projectResource?.map(resource => {
+        estProjectCost = estProjectCost+((parseFloat(resource.usedBudget)/parseFloat(resource.unitPrice))*parseFloat(resource.cost))
+      })
+
     })
 
-    if(expenseTotal>0) {
+    if(expenseTotal>0 || estProjectCost>0) {
       const data = [
       ];
   
-      if(expProjectCost>0) {
-        data.push({ key: "Cost $"+expProjectCost, value: expProjectCost },)
+      if(estProjectCost>0) {
+        data.push({ key: "Cost $"+estProjectCost, value: estProjectCost },)
       }
       if(expBillable>0) {
         data.push({ key: "Billable $"+expBillable, value: expBillable },)
@@ -62,12 +69,12 @@ export default function ExpenseChart(props) {
       removeChart();
 
       if(data && data.length == 0) {
-        data.push({ key: "Total $"+expenseTotal, value: expenseTotal },)
+        data.push({ key: "Total $"+expenseTotal+util.getZeroPriceForNull(estProjectCost), value: expenseTotal+util.getZeroPriceForNull(estProjectCost) },)
       }
       doughnutChart({
         canvasId:"vendorExpense", 
         chartData: data, 
-        titleText: 'Expense: $'+util.getZeroPriceForNull(expenseTotal), 
+        titleText: 'Expense: $'+util.getZeroPriceForNull(expenseTotal+util.getZeroPriceForNull(estProjectCost)), 
         position:'top'})
     } else {
       removeChart();
