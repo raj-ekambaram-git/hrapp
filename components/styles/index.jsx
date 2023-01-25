@@ -10,3 +10,4 @@ export * from './toolTipTheme';
 export * from './tabsTheme';
 export * from './selectTheme';
 export * from './inputTheme';
+export * from './formLabelTheme';
