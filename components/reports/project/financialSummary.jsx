@@ -52,6 +52,7 @@ export default function FinancialSummary(props) {
     let expenseTotal = 0;
     let expensePaid = 0;
     let expenseNotInvoiced = 0;
+    let expPaidProjectCost = 0;
     props.project?.expense?.map(exp => {
       if((exp.status != ExpenseStatus.Submitted && exp.status != ExpenseStatus.Draft)) {
         expenseTotal = parseFloat(expenseTotal)+parseFloat(exp?.total)
@@ -67,6 +68,9 @@ export default function FinancialSummary(props) {
           if(exp.status === ExpenseStatus.PartiallyPaid || exp.status === ExpenseStatus.Approved) {
             expenseNotInvoiced = expenseNotInvoiced+expBillable;
           }
+          if(exp.status === ExpenseStatus.PartiallyPaid || exp.status === ExpenseStatus.Paid) {
+            expPaidProjectCost = expPaidProjectCost+expenseAmounts?.totalProjectCost;
+          }
         }
       
     })
@@ -76,6 +80,7 @@ export default function FinancialSummary(props) {
       estProjectCost = estProjectCost+((parseFloat(resource.usedBudget)/parseFloat(resource.unitPrice))*parseFloat(resource.cost))
     })
 
+    setPaidProjectCost(expPaidProjectCost)
     setEstimatedProjectCost(estProjectCost)
     setBillableExpense(expBillable)
     setNonbillableExpense(expNonBillable)
@@ -177,7 +182,7 @@ export default function FinancialSummary(props) {
                     </Tooltip>
                   </Box>
                   <Box width="50%" textAlign="left" fontWeight="semibold">
-                    {util.getWithCurrency(submittedProjectCost)}
+                    {util.getWithCurrency(paidProjectCost)}
                   </Box>              
                 </HStack>
                 <HStack>
