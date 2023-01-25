@@ -27,6 +27,7 @@ export default function RevenueByUsers(props) {
     const allocatedBudget = []; 
     const usedBudget = []; 
     const userRevenue = []; 
+    const userTrackingArray = []; 
     let totalResourceCost = 0;
     let totalRemainingBudgetToAllocate = 0;
     let totalUsedBudget = 0;
@@ -37,15 +38,29 @@ export default function RevenueByUsers(props) {
       totalUsedBudget = totalUsedBudget+util.getZeroPriceForNull(project.usedBudget)
       totalBudget = totalBudget+util.getZeroPriceForNull(project.budget)
       project.projectResource?.map(resource => {
-        labels.push((resource.user?.firstName.length>5?resource.user?.firstName.substring(0,5):resource.user?.firstName)+" "+(resource.user?.lastName.length>5?resource.user?.lastName.substring(0,5):resource.user?.lastName))
-        allocatedBudget.push(util.getZeroPriceForNull(resource.budgetAllocated))
-        usedBudget.push(util.getZeroPriceForNull(resource.usedBudget))
-        totalResourceCost = parseFloat(totalResourceCost)+((parseFloat(resource.usedBudget)/parseFloat(resource.unitPrice))*parseFloat(resource.cost))
-        userRevenue.push((util.getZeroPriceForNull(resource.usedBudget)-((parseFloat(resource.usedBudget)/parseFloat(resource.unitPrice))*parseFloat(resource.cost))))
+
+        if(userTrackingArray.includes(resource.userId)) {
+          const indexWhereUserPresent = userTrackingArray.findIndex(x => x === resource.userId);
+          console.log("indexWhereUserPresent::"+indexWhereUserPresent)
+          
+          allocatedBudget[indexWhereUserPresent] = (util.getZeroPriceForNull(allocatedBudget[indexWhereUserPresent])+util.getZeroPriceForNull(resource.budgetAllocated))
+          usedBudget[indexWhereUserPresent] = (util.getZeroPriceForNull(usedBudget[indexWhereUserPresent])+util.getZeroPriceForNull(resource.usedBudget))
+          totalResourceCost = parseFloat(totalResourceCost)+((parseFloat(resource.usedBudget)/parseFloat(resource.unitPrice))*parseFloat(resource.cost))
+          userRevenue[indexWhereUserPresent] = (util.getZeroPriceForNull(userRevenue[indexWhereUserPresent])+util.getZeroPriceForNull(resource.userRevenue))
+        }else {
+          userTrackingArray.push(resource.userId)
+          labels.push((resource.user?.firstName.length>5?resource.user?.firstName.substring(0,5):resource.user?.firstName)+" "+(resource.user?.lastName.length>5?resource.user?.lastName.substring(0,5):resource.user?.lastName))
+          allocatedBudget.push(util.getZeroPriceForNull(resource.budgetAllocated))
+          usedBudget.push(util.getZeroPriceForNull(resource.usedBudget))
+          totalResourceCost = parseFloat(totalResourceCost)+((parseFloat(resource.usedBudget)/parseFloat(resource.unitPrice))*parseFloat(resource.cost))
+          userRevenue.push((util.getZeroPriceForNull(resource.usedBudget)-((parseFloat(resource.usedBudget)/parseFloat(resource.unitPrice))*parseFloat(resource.cost))))    
+        }
+
       })
 
     })
 
+    console.log("userTrackingArray:::"+userTrackingArray)
     setAllProjectsBudget(totalBudget)
     setAllProjectsUsedBudget(totalUsedBudget)
     setAllProjectsRemainBudgetToAllocate(totalRemainingBudgetToAllocate)

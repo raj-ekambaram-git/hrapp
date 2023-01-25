@@ -44,6 +44,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                       lastName: true,
                     }
                   },
+                  userId: true,
                   budgetAllocated: true,
                   usedBudget: true,
                   unitPrice: true,
