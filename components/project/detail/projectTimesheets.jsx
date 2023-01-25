@@ -37,6 +37,7 @@ const ProjectTimesheets = (props) => {
     const [timsheetEntriesForTable, setTimsheetEntriesForTable] = useState([]);
     const [enableAddTimeSheetEntry, setEnableAddTimeSheetEntry] = useState(false);
     const [invTotal, setInvTotal] = useState({total: 0});
+    const [selectedTimesheetEntries, setSelectedTimesheetEntries] = useState([]);
 
     const TIMESHEET_LIST_TABLE_COLUMNS = React.useMemo(() => ProjectConstants.TIMESHEET_LIST_TABLE_META)
 
@@ -46,13 +47,14 @@ const ProjectTimesheets = (props) => {
 
     useEffect(() => {
       invTotal.total = invoiceTotal;
-    }, [invoiceTotal]);
+      setSelectedTimesheetEntries(selectedTSEIds)
+    }, [invoiceTotal, selectedTSEIds]);
 
     function prepareTimesheetListForTable(projectTimesheeetByStatus) {
       if(projectTimesheeetByStatus != undefined && projectTimesheeetByStatus != EMPTY_STRING && projectTimesheeetByStatus.length != 0) {        
         const updatedTSEist =  projectTimesheeetByStatus.map((timesheetEntry, index)=> {
           if(callType == INVOICE_CALL_TYPE && timesheetEntry.status == TIMESHEET_STATUS.Approved && timesheetEntry.billable) {
-            timesheetEntry.enableAddtoInvoiceCheckBox = <Checkbox value={timesheetEntry.id} isChecked={selectedTSEIds.includes(timesheetEntry.id)?true:false} onChange={(e) => addTimesheetEntryAsInvoiceItem(e)} />
+            timesheetEntry.enableAddtoInvoiceCheckBox = <Checkbox value={timesheetEntry.id} onChange={(e) => addTimesheetEntryAsInvoiceItem(e)}/>
           }
           timesheetEntry.name = timesheetEntry.timesheet?.name
           timesheetEntry.resource = timesheetEntry.timesheet?.user?.firstName?timesheetEntry.timesheet?.user?.firstName:EMPTY_STRING+" "+timesheetEntry.timesheet?.user?.lastName?timesheetEntry.timesheet?.user?.lastName:EMPTY_STRING

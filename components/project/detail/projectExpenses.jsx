@@ -51,7 +51,7 @@ const ProjectExpenses = (props) => {
         const updatedExpenseist =  projectExpenseByStatus.map((expense, index)=> {
           
           if((callType == INVOICE_CALL_TYPE && expense.status == ExpenseStatus.Approved && util.getTotalBillableExpense(expense.expenseEntries).billableExpense > 0)) {
-            expense.enableAddtoInvoiceCheckBox = <Checkbox value={expense.id} isChecked={selectedExpIds.includes(expense.id)?true:false} onChange={(e) => addExpenseAsInvoiceItem(e)}/>    
+            expense.enableAddtoInvoiceCheckBox = <Checkbox value={expense.id} onChange={(e) => addExpenseAsInvoiceItem(e)}/>    
           }
           expense.name = expense.name
           expense.resource = expense.user?.firstName?expense.user?.firstName:EMPTY_STRING+" "+expense.user?.lastName?expense.user?.lastName:EMPTY_STRING
