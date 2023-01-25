@@ -6,6 +6,7 @@ import { util } from "../../../helpers/util";
 
 export default function FinancialSummary(props) {
   const [totalRevenue, setTotalRevenue] = useState(0);
+  const [totalEstimatedRevenue, setTotalEstimatedRevenue] = useState(0);
   const [invoiced, setInvoiced] = useState(0);
   const [invoicePaid, setInvoicePaid] = useState(0);
   const [invoiceNotPaid, setInvoiceNotPaid] = useState(0);
@@ -93,7 +94,8 @@ export default function FinancialSummary(props) {
 
 
     setTotalRevenue(util.getZeroPriceForNull(totalUsedBudget)+util.getZeroPriceForNull(totalMiscUsedBudget))
-
+    setTotalEstimatedRevenue(util.getZeroPriceForNull(totalBudget)+util.getZeroPriceForNull(totalMiscBudget))
+    
     setInvoiced(invoicedTotal)  
     setInvoicePaid(invoicePaid)
     setInvoiceNotPaid(invoicedTotal-invoicePaid)
@@ -119,7 +121,7 @@ export default function FinancialSummary(props) {
         <CardBody>
           <Stack>
             <HStack>
-              <Stack width="50%">
+              <Stack width="65%">
                 <HStack>
                   <Box textAlign="left" fontWeight="semibold" fontStyle="italic">
                     Income
@@ -127,7 +129,15 @@ export default function FinancialSummary(props) {
                 </HStack>
                 <HStack>
                   <Box width="50%" textAlign="right">
-                    Total Revenue :
+                    Estimated Revenue :
+                  </Box>
+                  <Box width="50%" textAlign="left" fontWeight="semibold">
+                    {util.getWithCurrency(totalEstimatedRevenue)}
+                  </Box>              
+                </HStack>
+                <HStack>
+                  <Box width="50%" textAlign="right">
+                    Already Planned Revenue :
                   </Box>
                   <Box width="50%" textAlign="left" fontWeight="semibold">
                     {util.getWithCurrency(totalRevenue)}
@@ -246,15 +256,15 @@ export default function FinancialSummary(props) {
             </HStack>
             <HStack>
                   <Box width="60%" textAlign="right" fontWeight="semibold" fontStyle="italic">
-                    <Tooltip label="Estimated net revenue after removing all the known costs as of now.">
-                      Estimated Net Revenue :
+                    <Tooltip label="Estimated net profit after removing all the known costs as of now.">
+                      Net Profit :
                     </Tooltip>
                   </Box>
                   <Box width="50%" textAlign="left" fontWeight="semibold" color={util.getZeroPriceForNull(estimatedNetRevenue) > 0 ? 'debit_amount':"credit_amount"}>
                     {util.getWithCurrency(estimatedNetRevenue)}
                   </Box>  
             </HStack>
-            <HStack>
+            {/* <HStack>
                   <Box width="60%" textAlign="right" fontWeight="semibold" fontStyle="italic">
                     <Tooltip label="Net revenue as of today excluding all the project expenses (aproved resource cost, billabld and non-billable expense) approved">
                       Actual Net Revenue :
@@ -263,7 +273,7 @@ export default function FinancialSummary(props) {
                   <Box width="50%" textAlign="left" fontWeight="semibold" color={util.getZeroPriceForNull(netRevenue) > 0 ? 'debit_amount':"credit_amount"}>
                     {util.getWithCurrency(netRevenue)}
                   </Box>  
-            </HStack>                
+            </HStack>                 */}
           </Stack>
         </CardBody>
       </Card>

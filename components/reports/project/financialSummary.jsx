@@ -120,7 +120,7 @@ export default function FinancialSummary(props) {
                 </HStack>
                 <HStack>
                   <Box width="50%" textAlign="right">
-                    Total Revenue :
+                    Already Planned Revenue :
                   </Box>
                   <Box width="50%" textAlign="left" fontWeight="semibold">
                     {util.getWithCurrency(totalRevenue)}
@@ -248,7 +248,7 @@ export default function FinancialSummary(props) {
             <HStack>
                   <Box width="60%" textAlign="right" fontWeight="semibold" fontStyle="italic">
                     <Tooltip label="Estimated net profit after removing all the known costs as of now.">
-                      Estimated Net Profit :
+                      Net Profit :
                     </Tooltip>
                   </Box>
                   <Box width="50%" textAlign="left" fontWeight="semibold" color={util.getZeroPriceForNull(estimatedNetRevenue) > 0 ? 'debit_amount':"credit_amount"}>
