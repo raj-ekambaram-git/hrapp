@@ -121,7 +121,7 @@ export default function RevenueByProjects(props) {
 
     const subtitle = {
       display: true,
-      text: "Total Revenue: $"+util.getZeroPriceForNull(totalActualRevenue),
+      text: "Total Revenue: $"+util.getZeroPriceForNull(allProjectActualRevenue),
       color: 'blue',
       font: {
         size: 12,
@@ -137,7 +137,7 @@ export default function RevenueByProjects(props) {
     horizontalBarChart({
       canvasId:"revenueByVendorProject", 
       chartData: data, 
-      titleText: 'Estimated Total Revenue: $'+(util.getZeroPriceForNull(totalEstimatedRevenue)), 
+      titleText: 'Estimated Total Revenue: $'+(util.getZeroPriceForNull(allProjectEstimatedRevenue)), 
       subtitleData: subtitle,
       position:'top',
       })
@@ -175,7 +175,7 @@ export default function RevenueByProjects(props) {
                       <Stack>
                         <HStack>
                           <Box width="60%" textAlign="right">
-                            Total Estimated Revenue:
+                            Estimated Revenue:
                           </Box>
                           <Box width="50%" textAlign="left" fontWeight="semibold">
                             {util.getWithCurrency(totalEstimatedRevenue)}
@@ -183,7 +183,7 @@ export default function RevenueByProjects(props) {
                         </HStack>
                         <HStack>
                           <Box width="60%" textAlign="right">
-                            Total Net Revenue:
+                            Net Revenue:
                           </Box>
                           <Box width="50%" textAlign="left" fontWeight="semibold">
                             {util.getWithCurrency(totalActualRevenue)}
@@ -191,7 +191,7 @@ export default function RevenueByProjects(props) {
                         </HStack>   
                         <HStack>
                           <Box width="60%" textAlign="right">
-                            Total Resource Cost:
+                            Resource Cost:
                           </Box>
                           <Box width="50%" textAlign="left" fontWeight="semibold" color="credit_amount">
                             {util.getWithCurrency(totalProjectCost)}
@@ -199,7 +199,7 @@ export default function RevenueByProjects(props) {
                         </HStack>          
                         <HStack>
                           <Box width="60%" textAlign="right">
-                            Total Billable Expense:
+                            Billable Expense:
                           </Box>
                           <Box width="50%" textAlign="left" fontWeight="semibold">
                             {util.getWithCurrency(totalBillableExp)}
@@ -207,7 +207,7 @@ export default function RevenueByProjects(props) {
                         </HStack>   
                         <HStack>
                           <Box width="60%" textAlign="right">
-                            Total Non-Billable Expense:
+                            Non-Billable Expense:
                           </Box>
                           <Box width="50%" textAlign="left" fontWeight="semibold" color="credit_amount">
                             {util.getWithCurrency(totalNonBillableExp)}
