@@ -32,7 +32,6 @@ const TimesheetList = (props) => {
   const { isManager } = props.userData;
   const [timesheetList, setTimesheetList] = useState([]);
   const timesheetListRef = useRef([]);
-  const [timesheetsToDelete, setTimesheetsToDelete] = useState([]);
   const [isPageAuthprized, setPageAuthorized] = useState(false);
   const TIMESHEET_LIST_TABLE_COLUMNS = React.useMemo(() => TimesheetConstants.TIMESHEET_LIST_TABLE_META)
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -79,8 +78,8 @@ const TimesheetList = (props) => {
       timesheetListRef.current = responseData;
 
       if(responseData != undefined && responseData != EMPTY_STRING) {
-        timesheetListRef.current = responseData;
         updateTimesheetListForTable(responseData)
+        timesheetListRef.current = responseData;
       }
     }
 
@@ -97,8 +96,8 @@ const TimesheetList = (props) => {
     }
 
 
-    const handleDeleteConfirmation = async (projectInput) => {
-      const responseData = await timesheetService.markTimesheetDelete(projectInput.current, userService.getAccountDetails().accountId) 
+    const handleDeleteConfirmation = async (timesheetInput) => {
+      const responseData = await timesheetService.markTimesheetDelete(timesheetInput.current, userService.getAccountDetails().accountId) 
       if(responseData.error) {
         toast({
           title: 'Delete Timesheet.',
@@ -118,7 +117,7 @@ const TimesheetList = (props) => {
           isClosable: true,
         })
         const newTimesheetList = [...timesheetListRef.current]
-        const timesheetToRemoveIndex = newTimesheetList.findIndex(x => x.id === projectInput.current);
+        const timesheetToRemoveIndex = newTimesheetList.findIndex(x => x.id === timesheetInput.current);
         newTimesheetList.splice(timesheetToRemoveIndex, 1);
         updateTimesheetListForTable(newTimesheetList)
         timesheetListRef.current = newTimesheetList;
@@ -149,7 +148,7 @@ const TimesheetList = (props) => {
                 <PageMainHeader heading="Timesheets"/>
               )}
               <DeleteConfirmDialog        
-                  deleteHeader="Delete Project"
+                  deleteHeader="Delete Timesheet"
                   dialogRef={dialogRef}
                   isOpen={isOpen}
                   handleDeleteConfirmation={handleDeleteConfirmation}

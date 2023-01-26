@@ -89,8 +89,8 @@ export const ExpenseConstants = {
   ] ,
   EXPENSE_LIST_TABLE_META: [
     {
-      label: "ID",
-      accessor: "id"
+      label: "",
+      accessor: "deleteAction"
     },
     {
       label: "Expense",
