@@ -13,7 +13,7 @@ export default function ProjectsByStatusSummarySection(props) {
           <Table variant="reportTableList" colorScheme="teal">
             <Thead position="sticky" top={0}>
               <Tr>
-                <Th colSpan={2} textAlign="center"><Tooltip label="Click on a project for detailed project reports">Projects</Tooltip></Th>
+                <Th colSpan={3} textAlign="center"><Tooltip label="Click on a project for detailed project reports">Projects</Tooltip></Th>
               </Tr>
             </Thead>
             <Tbody>
@@ -25,9 +25,11 @@ export default function ProjectsByStatusSummarySection(props) {
                       <Box>
                       {status}
                       </Box>
-                      <FcViewDetails size={20}/>
                     </HStack>
                      
+                  </Td>
+                  <Td>
+                  <FcViewDetails size={20}/>
                   </Td>
                 </Tr>                
               ))}

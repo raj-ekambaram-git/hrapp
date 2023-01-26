@@ -117,12 +117,12 @@ const reportTableList = definePartsStyle((props) => {
         "&:nth-of-type(even)": {
           "th, td": {
             borderColor: mode(`${c}.50`, `${c}.50`)(props),
-            width: "170px",
+            width: "120px",
             height: "30px" 
           },
           td: {
             background: mode(`${c}.50`, `${c}.50`)(props),
-            width: "170px",
+            width: "142px",
             height: "30px" ,
             height: "30px" 
           },

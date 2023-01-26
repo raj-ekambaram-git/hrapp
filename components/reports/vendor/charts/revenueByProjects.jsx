@@ -171,7 +171,7 @@ export default function RevenueByProjects(props) {
               <Box width="60%">
                 <canvas id={props.canvasId}></canvas>
               </Box>  
-              <HStack width="50%">
+              <HStack width="60%">
                 <RevenueBySummarySection totalEstimatedRevenue={totalEstimatedRevenue} totalActualRevenue={totalActualRevenue} totalProjectCost={totalProjectCost}
                                             totalBillableExp={totalBillableExp} totalNonBillableExp={totalNonBillableExp} totalNetProfit={totalNetProfit}/>
                 <ProjectsByStatusSummarySection projects={allProjects}/>                                            

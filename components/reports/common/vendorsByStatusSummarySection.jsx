@@ -13,7 +13,7 @@ export default function VendorsByStatusSummarySection(props) {
           <Table variant="reportTableList" colorScheme="teal">
             <Thead position="sticky" top={0}>
               <Tr>
-                <Th colSpan={2} textAlign="center"><Tooltip label="Click on a vendor for detailed reports">Vendors</Tooltip></Th>
+                <Th colSpan={3} textAlign="center"><Tooltip label="Click on a vendor for detailed reports">Vendors</Tooltip></Th>
               </Tr>
             </Thead>
             <Tbody>
@@ -24,10 +24,11 @@ export default function VendorsByStatusSummarySection(props) {
                     <HStack spacing={4}>
                       <Box>
                       {status}
-                      </Box>
-                      <FcViewDetails size={20}/>
-                    </HStack>
-                     
+                      </Box>                      
+                    </HStack>                     
+                  </Td>
+                  <Td>
+                    <FcViewDetails size={20}/>
                   </Td>
                 </Tr>                
               ))}
