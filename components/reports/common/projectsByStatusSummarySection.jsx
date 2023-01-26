@@ -1,11 +1,22 @@
 import React, { useEffect } from "react";
 import { Box, Tr, Th, Td, Table, Thead,Tbody, Tooltip, Link, HStack } from "@chakra-ui/react";
 import {FcViewDetails} from 'react-icons/fc'
+import { useDispatch } from "react-redux";
+import {setSelectedReportsProjectId} from '../../../store/modules/Reports/actions'
+import { useRouter } from "next/router";
 
 export default function ProjectsByStatusSummarySection(props) {
-  
+  const dispatch = useDispatch();
+  const router = useRouter();
+
   useEffect(() => {
   }, [props.projects]);
+
+  const handleDetailedProjectReport = (projectId) => {
+      dispatch(setSelectedReportsProjectId(projectId))
+      router.push("/reports/dashboard");
+  }
+
   
   return (
     <>    
@@ -29,7 +40,7 @@ export default function ProjectsByStatusSummarySection(props) {
                      
                   </Td>
                   <Td>
-                  <FcViewDetails size={20}/>
+                  <FcViewDetails size={20} onClick={() => handleDetailedProjectReport(id)}/>
                   </Td>
                 </Tr>                
               ))}
