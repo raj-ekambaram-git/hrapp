@@ -15,3 +15,10 @@ export const setSelectedReportsVendorId = (selectedReportsVendorId) => {
         payload: selectedReportsVendorId
     }
 }
+
+export const setSelectedReportsTabIndex = (selectedReportsTabIndex) => {
+    return {
+        type: ActionTypes.SET_SELECTED_REPORTS_TAB_INDEX,
+        payload: selectedReportsTabIndex
+    }
+}

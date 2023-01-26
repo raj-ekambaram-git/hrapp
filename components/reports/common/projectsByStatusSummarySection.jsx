@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Box, Tr, Th, Td, Table, Thead,Tbody, Tooltip, Link, HStack } from "@chakra-ui/react";
 import {FcViewDetails} from 'react-icons/fc'
 import { useDispatch } from "react-redux";
-import {setSelectedReportsProjectId} from '../../../store/modules/Reports/actions'
+import {setSelectedReportsProjectId, setSelectedReportsTabIndex} from '../../../store/modules/Reports/actions'
 import { useRouter } from "next/router";
 
 export default function ProjectsByStatusSummarySection(props) {
@@ -14,6 +14,7 @@ export default function ProjectsByStatusSummarySection(props) {
 
   const handleDetailedProjectReport = (projectId) => {
       dispatch(setSelectedReportsProjectId(projectId))
+      dispatch(setSelectedReportsTabIndex(2))
       router.push("/reports/dashboard");
   }
 
@@ -44,13 +45,6 @@ export default function ProjectsByStatusSummarySection(props) {
                   </Td>
                 </Tr>                
               ))}
-              {props.projects?.length === 0} {
-                <Tr>
-                  <Th colSpan={3}>
-                    No data
-                  </Th>
-                </Tr>
-              }
             </Tbody>
           </Table>
         </Box>

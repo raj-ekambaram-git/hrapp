@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Box, Tr, Th, Td, Table, Thead,Tbody, Tooltip, Link, HStack } from "@chakra-ui/react";
 import {FcViewDetails} from 'react-icons/fc'
 import { useDispatch } from "react-redux";
-import {setSelectedReportsVendorId} from '../../../store/modules/Reports/actions'
+import {setSelectedReportsTabIndex, setSelectedReportsVendorId} from '../../../store/modules/Reports/actions'
 import { useRouter } from "next/router";
 
 export default function VendorsByStatusSummarySection(props) {
@@ -14,6 +14,7 @@ export default function VendorsByStatusSummarySection(props) {
   
   const handleDetailedVendorReport = (vendorId) => {
     dispatch(setSelectedReportsVendorId(vendorId))
+    dispatch(setSelectedReportsTabIndex(1))
     router.push("/reports/dashboard");
 }
 
@@ -43,13 +44,6 @@ export default function VendorsByStatusSummarySection(props) {
                   </Td>
                 </Tr>                
               ))}
-              {props.vendors?.length === 0} {
-                <Tr>
-                  <Th colSpan={3}>
-                    No Vendors
-                  </Th>
-                </Tr>
-              }
             </Tbody>
           </Table>
         </Box>

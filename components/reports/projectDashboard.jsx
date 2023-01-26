@@ -49,7 +49,7 @@ return (
             <CardHeader>
               <HStack>
                 {projectId
-                ?<Box fontWeight="semibold">{project?.name}</Box>
+                ?<Box fontWeight="semibold"></Box>
                 :(
                     <></>
                   )
