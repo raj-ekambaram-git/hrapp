@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Box, Tr, Th, Td, Table, Thead,Tbody, Tooltip, Link, HStack } from "@chakra-ui/react";
-import {FcViewDetails} from 'react-icons/Fc'
+import {FcViewDetails} from 'react-icons/fc'
 
 export default function ProjectsByStatusSummarySection(props) {
   
