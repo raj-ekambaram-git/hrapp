@@ -3,6 +3,7 @@ import getConfig from 'next/config';
 import { fetchWrapper } from 'helpers';
 import { request } from 'http';
 import { util } from '../helpers/util';
+import { ProjectStatus } from '@prisma/client';
 
 const { publicRuntimeConfig } = getConfig();
 const baseUrl = `${publicRuntimeConfig.apiUrl}`;
@@ -22,14 +23,24 @@ export const projectService = {
     getAllExpensesByProject,
     getProjectExpensesByStatus,
     updateMiscUsedBudget,
-    getAllAllowedProjects
+    markProjectDelete
     
 };
 
-function getAllAllowedProjects(accountId) {
-
-}
-
+function markProjectDelete(projectId, accountId) {
+    console.log("Project Id::"+projectId+"*****usedMiscBudget::")
+    return fetchWrapper.put(`${baseUrl}/account/project/`+projectId+"?accountId"+accountId, {
+        id: projectId,
+        status: ProjectStatus.MarkForDelete
+    })
+        .then(deletedProject => {
+            return deletedProject;
+        })  
+        .catch(err => {
+          console.log("Error deletedProject")
+          return {errorMessage: err, error: true};
+      });
+  }
 
 function updateMiscUsedBudget(projectId, usedMiscBudget) {
     console.log("Project Id::"+projectId+"*****usedMiscBudget::"+usedMiscBudget)
