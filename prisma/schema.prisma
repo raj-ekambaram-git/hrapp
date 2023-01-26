@@ -486,6 +486,7 @@ enum UserStatus {
   Approved
   Rejected
   Error
+  MarkForDelete
 }
 
 enum Role {
@@ -511,12 +512,14 @@ enum VendorStatus {
   Active
   Inactive
   Fraud
+  MarkForDelete
 }
 
 enum AccountStatus {
   Active
   Inactive
   Fraud
+  MarkForDelete
 }
 
 enum AddressStatus {
@@ -551,6 +554,7 @@ enum InvoiceStatus {
   PartiallyPaid
   Paid
   Cancelled
+  MarkForDelete
 }
 
 enum PaymentTerms {
@@ -591,6 +595,7 @@ enum ProjectStatus {
   Open
   Closed
   Settled
+  MarkForDelete
 }
 
 enum TimesheetType {
@@ -606,6 +611,7 @@ enum TimesheetStatus {
   Approved
   Rejected
   Invoiced
+  MarkForDelete
 }
 
 enum DocumentType {
@@ -644,6 +650,7 @@ enum InvoiceTransactionStatus {
   Paid
   Refund
   Cancelled
+  MarkForDelete
 }
 
 enum UserType {
@@ -655,6 +662,7 @@ enum UserType {
 enum VendorUserStatus {
   Active
   Inactive
+  MarkForDelete
 }
 
 enum NotesMode {
@@ -705,6 +713,7 @@ enum ExpenseEntryStatus {
   PartiallyPaid
   Pending
   Cancelled
+  MarkForDelete
 }
 
 enum ExpenseStatus {
@@ -718,6 +727,7 @@ enum ExpenseStatus {
   Pending
   Cancelled
   Invoiced
+  MarkForDelete
 }
 
 enum ExpenseTransactionStatus {
@@ -725,12 +735,14 @@ enum ExpenseTransactionStatus {
   Paid
   Refund
   Cancelled
+  MarkForDelete
 }
 
 enum DocumentStatus {
   Active
   Inactive
   Delete
+  MarkForDelete
 }
 
 enum ConfigType {
