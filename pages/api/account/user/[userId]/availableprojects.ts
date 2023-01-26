@@ -1,5 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
+import { ProjectStatus } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next"
 import prisma from "../../../../../lib/prisma";
 
@@ -31,7 +32,10 @@ console.log("userId ID::"+userId+"---AccountioD::"+accountId)
                   referenceCode: true
                 },
                 where: {
-                  accountId: parseInt(accountId.toString())
+                  accountId: parseInt(accountId.toString()),
+                  status: {
+                    not: ProjectStatus.MarkForDelete
+                  }
                 }
               }
             }

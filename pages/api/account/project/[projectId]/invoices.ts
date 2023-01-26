@@ -1,5 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
+import { InvoiceStatus } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next"
 import prisma from "../../../../../lib/prisma";
 
@@ -22,6 +23,9 @@ console.log("projectId ID::"+projectId+"---AccountioD::"+accountId)
             },
             accountId: {
               equals: parseInt(accountId.toString())
+            },
+            status: {
+              not: InvoiceStatus.MarkForDelete
             }
         },
         orderBy: {

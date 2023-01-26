@@ -1,5 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
+import { AddressStatus } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next"
 import prisma from "../../../../../lib/prisma";
 
@@ -22,6 +23,9 @@ console.log("Vendor ID::"+vendorId+"---AccountioD::"+accountId)
             },
             accountId: {
               equals: parseInt(accountId.toString())
+            },
+            status: {
+              not: AddressStatus.D
             }
         },
         orderBy: {
@@ -35,6 +39,9 @@ console.log("Vendor ID::"+vendorId+"---AccountioD::"+accountId)
         where: {
             accountId: {
               equals: parseInt(accountId.toString())
+            },
+            status: {
+              not: AddressStatus.D
             }
         },
         orderBy: {
@@ -49,6 +56,9 @@ console.log("Vendor ID::"+vendorId+"---AccountioD::"+accountId)
         where: {
             vendorId: {
               equals: parseInt(vendorId.toString())
+            },
+            status: {
+              not: AddressStatus.D
             }
         },
         orderBy: {

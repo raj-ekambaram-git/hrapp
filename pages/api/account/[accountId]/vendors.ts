@@ -1,5 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
+import { VendorStatus } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next"
 import prisma from "../../../../lib/prisma";
 
@@ -15,6 +16,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         where: {
             accountId: {
               equals: parseInt(accountId.toString())
+            },
+            status: {
+              not: VendorStatus.MarkForDelete
             }
         },
         orderBy: {

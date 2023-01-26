@@ -23,6 +23,11 @@ console.log("userId ID::"+userId+"---PAYMENT AccountioD::"+accountId)
               name: true,
               referenceCode: true,
               expense: {
+                where: {
+                  status: {
+                    not: ExpenseStatus.MarkForDelete
+                  }
+                },
                 select: {
                   id: true,
                   name: true,

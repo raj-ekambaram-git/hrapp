@@ -14,7 +14,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       const accountId = req.query?.accountId;
       const account = await prisma.account.findUnique({
         where: {
-          id: parseInt(accountId.toString()),
+          id: parseInt(accountId.toString()),          
         },
         include: {
           address: true,

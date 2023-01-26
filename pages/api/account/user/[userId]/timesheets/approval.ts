@@ -1,5 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
+import { TimesheetStatus } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next"
 import prisma from "../../../../../../lib/prisma";
 
@@ -23,6 +24,11 @@ console.log("userId ID::"+userId+"---AccountioD::"+accountId)
               name: true,
               referenceCode: true,
               timesheetEntries: {
+                where: {
+                  status: {
+                    not: TimesheetStatus.MarkForDelete
+                  }
+                },
                 select: {
                   id: true,
                   status: true,

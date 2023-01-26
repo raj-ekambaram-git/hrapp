@@ -20,7 +20,8 @@ console.log("projectId ID::"+projectId+"---AccountioD::"+accountId)
         where: {
             projectId: {
               equals: parseInt(projectId.toString())            
-            }
+            },
+            
         },
         orderBy: {
           id: "desc"

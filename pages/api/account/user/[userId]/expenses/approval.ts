@@ -24,6 +24,11 @@ console.log("userId ID::"+userId+"---AccountioD::"+accountId)
               name: true,
               referenceCode: true,
               expense: {
+                where:{
+                  status: {
+                    not: ExpenseStatus.MarkForDelete
+                  }
+                },
                 select: {
                   id: true,
                   name: true,
@@ -86,6 +91,9 @@ console.log("userId ID::"+userId+"---AccountioD::"+accountId)
         where: {
             userId: {
               equals: parseInt(userId.toString())            
+            },
+            status: {
+              not: ExpenseStatus.MarkForDelete
             }
         },
         orderBy: {

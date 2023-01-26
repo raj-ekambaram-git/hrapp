@@ -1,5 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
+import { AccountStatus } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next"
 import prisma from "../../../lib/prisma";
 
@@ -10,6 +11,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   try {
     const accounts = await prisma.account.findMany({
+      where: {
+        status: {
+          not: AccountStatus.MarkForDelete
+        }
+      }
     });
     res.status(200).json(accounts);
   } catch (error) {

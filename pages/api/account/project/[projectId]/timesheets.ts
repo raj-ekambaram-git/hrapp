@@ -16,6 +16,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     Approved = "Approved",
     Rejected = "Rejected",
     Invoiced= "Invoiced",
+    MarkForDelete= "MarkForDelete",
   }
 
   const projectId = req?.query?.projectId;
@@ -41,6 +42,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           }
         }
       }
+    },
+    status: {
+      not: TimesheetStatus.MarkForDelete
     }
    };
 
