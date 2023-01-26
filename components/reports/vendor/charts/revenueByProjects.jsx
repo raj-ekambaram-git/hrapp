@@ -5,6 +5,7 @@ import { AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Car
 import { horizontalBarChart } from "../../../common/charts/horizontalBarChart";
 import { ExpenseStatus } from "@prisma/client";
 import RevenueBySummarySection from "../../common/revenueBySummarySection";
+import ProjectsByStatusSummarySection from "../../common/projectsByStatusSummarySection";
 
 
 
@@ -15,6 +16,7 @@ export default function RevenueByProjects(props) {
   const [totalBillableExp, setTotalBillableExp] = useState(0);
   const [totalNonBillableExp, setTotalNonBillableExp] = useState(0);
   const [totalNetProfit, setTotalNetProfit] = useState(0);
+  const [allProjects, setAllProjects] = useState([]);
 
   
 
@@ -47,6 +49,8 @@ export default function RevenueByProjects(props) {
 
     props.projects?.map(project => {
       labels.push((project?.name?.length>25?project?.name?.substring(0,25):project?.name)+"-"+project?.referenceCode)
+      allProjects.push({id: project?.id, name: project?.name, status: project?.status})
+      
       allProjectEstimatedRevenue = allProjectEstimatedRevenue +(parseFloat(project.budget)+parseFloat(project.miscBudget))
       allProjectActualRevenue = allProjectActualRevenue+(parseFloat(project.usedBudget)+parseFloat(project.usedMiscBudget))
       projectTotalBudget.push(parseFloat(project.budget)+parseFloat(project.miscBudget))
@@ -167,10 +171,11 @@ export default function RevenueByProjects(props) {
               <Box width="60%">
                 <canvas id={props.canvasId}></canvas>
               </Box>  
-              <Stack width="50%">
+              <HStack width="50%">
                 <RevenueBySummarySection totalEstimatedRevenue={totalEstimatedRevenue} totalActualRevenue={totalActualRevenue} totalProjectCost={totalProjectCost}
                                             totalBillableExp={totalBillableExp} totalNonBillableExp={totalNonBillableExp} totalNetProfit={totalNetProfit}/>
-              </Stack> 
+                <ProjectsByStatusSummarySection projects={allProjects}/>                                            
+              </HStack> 
             </HStack>            
           </AccordionPanel>   
       </AccordionItem>          
