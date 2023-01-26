@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import { accountService, projectService, userService } from "../../services";
 import { PageNotAuthorized } from "../../components/common/pageNotAuthorized";
 import {
   HStack,
-  Button,
   Box,
   Flex,
-  useToast
+  useToast,
+  AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, AlertDialogOverlay, Button, useDisclosure, AlertDialogHeader
 } from '@chakra-ui/react'
 import {PageMainHeader} from '../../components/common/pageMainHeader'
 import { useDispatch, useSelector } from "react-redux";
@@ -17,6 +17,7 @@ import { CustomTable } from "../customTable/Table";
 import { util } from "../../helpers";
 import { DeleteIcon } from "@chakra-ui/icons";
 import { ProjectStatus } from "@prisma/client";
+import DeleteConfirmDialog from "../common/deleteConfirmDialog";
 
 const ProjectList = (props) => {
   const router = useRouter();
@@ -27,6 +28,8 @@ const ProjectList = (props) => {
   const [projectList, setProjectList] = useState([]);
   const [isPageAuthprized, setPageAuthorized] = useState(false);
   const accountId = useSelector(state => state.account.selectedAccountId);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const dialogRef = useRef("Delete");
 
   const PROJECT_LIST_TABLE_COLUMNS = React.useMemo(() => ProjectConstants.PROJECT_LIST_TABLE_META)
 
@@ -63,10 +66,7 @@ const ProjectList = (props) => {
       if(accountId === undefined || accountId === EMPTY_STRING || accountId === null) {
         accountId = userService.getAccountDetails().accountId
       }
-      console.log("7777777::::vendorId::"+vendorId+"----AccountID:::"+accountId)
-      // setPageAuthorized(true);
       const responseData = await accountService.getProjectList(vendorId, accountId);
-
       if(responseData != undefined && responseData != EMPTY_STRING) {
         const updatedProjectList =  responseData.map((project, index)=> {
           project.deleteAction = <><HStack spacing={6}>{project.status === ProjectStatus.Created?(<DeleteIcon size="xs" onClick={() => handleProjectDeleteSelection(project.id)}/>):(<Box marginRight={3}></Box>)}<Box>{project.id}</Box></HStack></>
@@ -82,8 +82,8 @@ const ProjectList = (props) => {
 
     }
 
-    const handleProjectDeleteSelection = async (projectId) => {
-      const responseData = await projectService.markProjectDelete(projectId, userService.getAccountDetails().accountId) 
+    const handleDeleteConfirmation = async (projectInput) => {
+      const responseData = await projectService.markProjectDelete(projectInput.current, userService.getAccountDetails().accountId) 
       if(responseData.error) {
         toast({
           title: 'Delete Project.',
@@ -104,6 +104,13 @@ const ProjectList = (props) => {
         })
         getProjectList(data.vendorId, userService.getAccountDetails().accountId)
       }
+      onClose()
+    }
+
+
+    const handleProjectDeleteSelection = (projectId) => {
+      dialogRef.current = projectId;
+      onOpen();
     }
 
     function handleProjectDetailSelection(projectId){
@@ -126,8 +133,12 @@ const ProjectList = (props) => {
               ) : (
                 <PageMainHeader heading="Account Projects"/>
               )}
-
-    
+              <DeleteConfirmDialog        
+                  deleteHeader="Delete Project"
+                  dialogRef={dialogRef}
+                  isOpen={isOpen}
+                  handleDeleteConfirmation={handleDeleteConfirmation}
+                  onClose={onClose}/>
               <Flex marginBottom="1rem">
                 <HStack>
                   <Box>

@@ -28,7 +28,6 @@ export const projectService = {
 };
 
 function markProjectDelete(projectId, accountId) {
-    console.log("Project Id::"+projectId+"*****usedMiscBudget::")
     return fetchWrapper.put(`${baseUrl}/account/project/`+projectId+"?accountId"+accountId, {
         id: projectId,
         status: ProjectStatus.MarkForDelete
@@ -43,7 +42,6 @@ function markProjectDelete(projectId, accountId) {
   }
 
 function updateMiscUsedBudget(projectId, usedMiscBudget) {
-    console.log("Project Id::"+projectId+"*****usedMiscBudget::"+usedMiscBudget)
     return fetchWrapper.put(`${baseUrl}/account/project/${projectId}`, {
         id: projectId,
         usedMiscBudget: usedMiscBudget
