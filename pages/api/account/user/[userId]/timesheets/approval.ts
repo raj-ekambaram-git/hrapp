@@ -85,7 +85,7 @@ console.log("userId ID::"+userId+"---AccountioD::"+accountId)
             }
         },
         orderBy: {
-          id: "desc"
+          lastUpdateDate: "asc"
         }
       });
       res.status(200).json(timesheets);
@@ -99,7 +99,7 @@ console.log("userId ID::"+userId+"---AccountioD::"+accountId)
             }
         },
         orderBy: {
-          id: "desc"
+          lastUpdateDate: "asc"
         }
       });
       res.status(200).json(timesheets);

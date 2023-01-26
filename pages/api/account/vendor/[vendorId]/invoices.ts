@@ -29,7 +29,7 @@ console.log("Vendor ID::"+vendorId+"---AccountioD::"+accountId)
             }
         },
         orderBy: {
-          id: "desc"
+          lastUpdateDate: "desc"
         },
         include: {
           vendor: true,
@@ -54,7 +54,7 @@ console.log("Vendor ID::"+vendorId+"---AccountioD::"+accountId)
             }
         },
         orderBy: {
-          id: "desc"
+          lastUpdateDate: "desc"
         },
         include: {
           vendor: true,
@@ -75,7 +75,7 @@ console.log("Vendor ID::"+vendorId+"---AccountioD::"+accountId)
             }
         },
         orderBy: {
-          id: "desc"
+          lastUpdateDate: "desc"
         },
         include: {
           vendor: true,

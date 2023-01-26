@@ -90,7 +90,9 @@ export const ExpenseConstants = {
   EXPENSE_LIST_TABLE_META: [
     {
       label: "",
-      accessor: "deleteAction"
+      accessor: "deleteAction",
+      disableSearch: true,
+      disableSort: true
     },
     {
       label: "Expense",

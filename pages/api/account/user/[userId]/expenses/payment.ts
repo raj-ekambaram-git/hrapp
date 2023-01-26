@@ -87,7 +87,7 @@ console.log("userId ID::"+userId+"---PAYMENT AccountioD::"+accountId)
             }
         },
         orderBy: {
-          id: "desc"
+          lastUpdateDate: "asc"
         }
       });
       res.status(200).json(expenses);
@@ -100,7 +100,7 @@ console.log("userId ID::"+userId+"---PAYMENT AccountioD::"+accountId)
             }
         },
         orderBy: {
-          id: "desc"
+          lastUpdateDate: "asc"
         }
       });
       res.status(200).json(expenses);

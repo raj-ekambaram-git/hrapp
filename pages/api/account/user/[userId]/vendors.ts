@@ -41,7 +41,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             }
         },
         orderBy: {
-          id: "desc"
+          lastUpdateDate: "desc"
         },
         include: {
           vendor: {
@@ -69,7 +69,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             }
         },
         orderBy: {
-          id: "desc"
+          lastUpdateDate: "desc"
         },
         include: {
           vendor: {
@@ -93,7 +93,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             }
         },
         orderBy: {
-          id: "desc"
+          lastUpdateDate: "desc"
         },
         include: {
           vendor: true,

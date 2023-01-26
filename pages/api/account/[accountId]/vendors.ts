@@ -22,7 +22,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             }
         },
         orderBy: {
-          id: "desc"
+          lastUpdateDate: "desc"
         }
       });
       res.status(200).json(vendors);
