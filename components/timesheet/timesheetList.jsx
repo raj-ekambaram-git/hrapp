@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import { userService } from "../../services";
 import {
@@ -6,7 +6,8 @@ import {
   Button,
   Flex,
   Checkbox,
-  useToast
+  useToast,
+  Box
 } from '@chakra-ui/react'
 import { PageNotAuthorized } from "../common/pageNotAuthorized";
 import { PageMainHeader } from "../common/pageMainHeader";
@@ -17,6 +18,7 @@ import { CustomTable } from "../../components/customTable/Table";
 import { util } from "../../helpers";
 import { EMPTY_STRING } from "../../constants";
 import { TimesheetStatus } from "@prisma/client";
+import { DeleteIcon } from "@chakra-ui/icons";
 
 
 
@@ -27,6 +29,7 @@ const TimesheetList = (props) => {
   const { data } = props.userData;
   const { isManager } = props.userData;
   const [timesheetList, setTimesheetList] = useState([]);
+  const timesheetListRef = useRef([]);
   const [timesheetsToDelete, setTimesheetsToDelete] = useState([]);
   const [isPageAuthprized, setPageAuthorized] = useState(false);
   const TIMESHEET_LIST_TABLE_COLUMNS = React.useMemo(() => TimesheetConstants.TIMESHEET_LIST_TABLE_META)
@@ -57,15 +60,9 @@ const TimesheetList = (props) => {
 
   }, []);
   
-  const handleAddTimesheetToDelete = (e) => {
-    if(e.target.checked) { 
-      timesheetsToDelete.push(e.target.value)
-    }else {
-      const newSelectedTSEId = [...timesheetsToDelete]
-      const teseToRemoveIndex = newSelectedTSEId.findIndex(x => x === parseInt(e.target.value));
-      newSelectedTSEId.splice(teseToRemoveIndex, 1);
-      setTimesheetsToDelete(newSelectedTSEId);
-    }    
+  const handleTimesheetDeleteSelection = (e) => {
+    console.log("handleTimesheetDeleteSelection::"+e+"***timesheetListRef::"+JSON.stringify(timesheetListRef))
+
   }
 
   const deleteTimesheet = () => {
@@ -91,13 +88,13 @@ const TimesheetList = (props) => {
    */
     async function getTimesheetList(userId, accountId) {
       // setPageAuthorized(true);
+      console.log("getTimesheetList::::")
       const responseData = await userService.getTimesheetByUser(userId, accountId);
-
+      timesheetListRef.current = responseData;
+      
       if(responseData != undefined && responseData != EMPTY_STRING) {
         const updatedTimesheetist =  responseData.map((timesheet, index)=> {
-          if(timesheet.status === TimesheetStatus.Draft || timesheet.status === TimesheetStatus.Saved) {            
-            // timesheet.deleteAction = <Checkbox value={timesheet.id} onChange={(e) => handleAddTimesheetToDelete(e)}/>    
-          }
+          timesheet.deleteAction = <><HStack spacing={6}>{(timesheet.status === TimesheetStatus.Draft || timesheet.status === TimesheetStatus.Saved )?(<DeleteIcon size="xs" onClick={() => handleTimesheetDeleteSelection(timesheet.id)}/>):(<Box marginRight={3}></Box>)}<Box>{timesheet.id}</Box></HStack></>
           timesheet.detailAction = <Button size="xs" bgColor="header_actions" onClick={() => handleTimesheetSelection(timesheet.id)}>Details</Button>
           // timesheet.status = 
           timesheet.lastUpdateDate = util.getFormattedDate(timesheet.lastUpdateDate)
@@ -141,6 +138,7 @@ const TimesheetList = (props) => {
                     </Button>                     */}
                 </HStack>
               </Flex>
+              ---{JSON.stringify(timesheetListRef)}---
               <CustomTable variant="sortTable" columns={TIMESHEET_LIST_TABLE_COLUMNS} rows={timesheetList} />
           </div>
       ) : (

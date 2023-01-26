@@ -7,15 +7,15 @@ export const TimesheetConstants = {
   
   TIMESHEET_LIST_TABLE_META: [
     
-    // {
-    //   label: "",
-    //   accessor: "deleteAction",
-    //   disableSearch: true
-    // },
     {
-      label: "ID",
-      accessor: "id"
+      label: "",
+      accessor: "deleteAction",
+      disableSearch: true
     },
+    // {
+    //   label: "ID",
+    //   accessor: "id"
+    // },
     {
       label: "Timesheet",
       accessor: "name"

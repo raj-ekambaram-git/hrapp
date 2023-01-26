@@ -7,7 +7,7 @@ import {
   Box,
   Flex,
   useToast,
-  AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, AlertDialogOverlay, Button, useDisclosure, AlertDialogHeader
+  Button, useDisclosure
 } from '@chakra-ui/react'
 import {PageMainHeader} from '../../components/common/pageMainHeader'
 import { useDispatch, useSelector } from "react-redux";
@@ -26,6 +26,7 @@ const ProjectList = (props) => {
   const { data } = props.projectList;
   const { isVendor } = props.projectList;
   const [projectList, setProjectList] = useState([]);
+  const projectListRef = useRef([]);
   const [isPageAuthprized, setPageAuthorized] = useState(false);
   const accountId = useSelector(state => state.account.selectedAccountId);
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -68,19 +69,23 @@ const ProjectList = (props) => {
       }
       const responseData = await accountService.getProjectList(vendorId, accountId);
       if(responseData != undefined && responseData != EMPTY_STRING) {
-        const updatedProjectList =  responseData.map((project, index)=> {
-          project.deleteAction = <><HStack spacing={6}>{project.status === ProjectStatus.Created?(<DeleteIcon size="xs" onClick={() => handleProjectDeleteSelection(project.id)}/>):(<Box marginRight={3}></Box>)}<Box>{project.id}</Box></HStack></>
-          project.detailAction = <Button size="xs" bgColor="header_actions" onClick={() => handleProjectDetailSelection(project.id)}>Details</Button>
-          project.vendorName = project.vendor?.name?project.vendor?.name:"N/A"
-          project.accountName = project.account?.name?project.account?.name:"N/A"
-          project.createdDate = util.getFormattedDate(project.createdDate)
-          return project;
-        });
-        setProjectList(updatedProjectList);
-      }
-      
-
+        projectListRef.current = responseData;
+        updateProjectForTable(responseData)
+      }      
     }
+
+    function updateProjectForTable(projectListInput) {
+      console.log("projectListInput updateProjectForTable::"+JSON.stringify(projectListInput))
+      const updatedProjectList =  projectListInput.map((project, index)=> {
+        project.deleteAction = <><HStack spacing={6}>{project.status === ProjectStatus.Created?(<DeleteIcon size="xs" onClick={() => handleProjectDeleteSelection(project.id)}/>):(<Box marginRight={3}></Box>)}<Box>{project.id}</Box></HStack></>
+        project.detailAction = <Button size="xs" bgColor="header_actions" onClick={() => handleProjectDetailSelection(project.id)}>Details</Button>
+        project.vendorName = project.vendor?.name?project.vendor?.name:"N/A"
+        project.accountName = project.account?.name?project.account?.name:"N/A"
+        project.createdDate = util.getFormattedDate(project.createdDate)
+        return project;
+      });
+      setProjectList(updatedProjectList);
+   }
 
     const handleDeleteConfirmation = async (projectInput) => {
       const responseData = await projectService.markProjectDelete(projectInput.current, userService.getAccountDetails().accountId) 
@@ -102,9 +107,13 @@ const ProjectList = (props) => {
           duration: 3000,
           isClosable: true,
         })
-        getProjectList(data.vendorId, userService.getAccountDetails().accountId)
+        const newProjectList = [...projectListRef.current]
+        const projectToRemoveIndex = newProjectList.findIndex(x => x.id === projectInput.current);
+        newProjectList.splice(projectToRemoveIndex, 1);
+        updateProjectForTable(newProjectList)
+        projectListRef.current = newProjectList;
+        onClose()
       }
-      onClose()
     }
 
 
