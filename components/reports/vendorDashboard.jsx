@@ -70,14 +70,14 @@ return (
            {vendor? (
             <>
               <HStack>
-                <BudgetChart projects={vendor.project}/>
-                <InvoiceChart projects={vendor.project}/>
-                <ExpenseChart projects={vendor.project}/>            
+                <BudgetChart projects={vendor.project} canvasId="vendorBudget"/>
+                <InvoiceChart projects={vendor.project} canvasId="vendorInvoice"/>
+                <ExpenseChart projects={vendor.project} canvasId="vendorExpense"/>            
                 <FinancialSummary projects={vendor.project}/>
               </HStack>
               <Accordion variant="vendorReport" defaultIndex={[0]} >
-                <RevenueByProjects projects={vendor.project}/>
-                <RevenueByUsers projects={vendor.project}/>              
+                <RevenueByProjects projects={vendor.project} canvasId="vendorRevenueByProjects"/>
+                <RevenueByUsers projects={vendor.project} canvasId="vendorRevenueByUsers"/>              
               </Accordion>
 
           </>           

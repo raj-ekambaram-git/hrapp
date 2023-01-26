@@ -48,15 +48,15 @@ return (
         </HStack>
         {account? (
             <>
-              <HStack>
-                <BudgetChart projects={account.project}/>
-                <InvoiceChart projects={account.project}/>
-                <ExpenseChart projects={account.project}/>            
+               <HStack>
+                <BudgetChart projects={account.project}  canvasId="accountBudget"/>
+                <InvoiceChart projects={account.project} canvasId="accountInvoice"/>
+                <ExpenseChart projects={account.project} canvasId="accountExpense"/>            
                 <FinancialSummary projects={account.project}/>
               </HStack>
               <Accordion variant="vendorReport" defaultIndex={[0]} >
-                <RevenueByProjects projects={account.project}/>
-                <RevenueByUsers projects={account.project}/>              
+                <RevenueByProjects projects={account.project} canvasId="accountRevenueByProjects"/>
+                <RevenueByUsers projects={account.project} canvasId="accountRevenueByUsers"/>              
               </Accordion>
 
           </>           

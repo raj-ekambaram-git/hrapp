@@ -23,7 +23,7 @@ export default function RevenueByProjects(props) {
     }else {
       removeChart()
     }
-  }, [props.projects]);
+  }, [props.projects, props.canvasId]);
 
   function getProjetsRevenueData(){
     removeChart()
@@ -135,7 +135,7 @@ export default function RevenueByProjects(props) {
     }
 
     horizontalBarChart({
-      canvasId:"revenueByVendorProject", 
+      canvasId: props.canvasId, 
       chartData: data, 
       titleText: 'Estimated Total Revenue: $'+(util.getZeroPriceForNull(allProjectEstimatedRevenue)), 
       subtitleData: subtitle,
@@ -145,7 +145,7 @@ export default function RevenueByProjects(props) {
 
 
   const removeChart = () => {
-    let chartStatus = Chart.getChart("revenueByVendorProject"); // <canvas> id
+    let chartStatus = Chart.getChart(props.canvasId); // <canvas> id
     if (chartStatus != undefined) {
       chartStatus.destroy();
     }
@@ -164,7 +164,7 @@ export default function RevenueByProjects(props) {
           <AccordionPanel>
             <HStack>
               <Box width="60%">
-                <canvas id="revenueByVendorProject"></canvas>
+                <canvas id={props.canvasId}></canvas>
               </Box>  
               <Stack width="50%">
                 <Card variant="projectUsersFinancialSummary">

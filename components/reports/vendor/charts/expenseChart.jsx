@@ -15,7 +15,7 @@ export default function ExpenseChart(props) {
     }else {
       removeChart()
     }
-  }, [props.projects]);
+  }, [props.projects, props.canvasId]);
   
   function getExpenseData() {
     let expenseTotal = 0;
@@ -72,7 +72,7 @@ export default function ExpenseChart(props) {
         data.push({ key: "Total $"+expenseTotal+util.getZeroPriceForNull(estProjectCost), value: expenseTotal+util.getZeroPriceForNull(estProjectCost) },)
       }
       doughnutChart({
-        canvasId:"vendorExpense", 
+        canvasId: props.canvasId, 
         chartData: data, 
         titleText: 'Expense: $'+util.getZeroPriceForNull(expenseTotal+util.getZeroPriceForNull(estProjectCost)), 
         position:'top'})
@@ -82,7 +82,7 @@ export default function ExpenseChart(props) {
   }
   
   const removeChart = () => {
-    let chartStatus = Chart.getChart("vendorExpense"); // <canvas> id
+    let chartStatus = Chart.getChart(props.canvasId); // <canvas> id
     if (chartStatus != undefined) {
       chartStatus.destroy();
     }
@@ -91,7 +91,7 @@ export default function ExpenseChart(props) {
   return (
     <>    
       <Box width="25%">
-        <canvas id="vendorExpense"></canvas>        
+        <canvas id={props.canvasId}></canvas>        
       </Box>        
     </>
   );

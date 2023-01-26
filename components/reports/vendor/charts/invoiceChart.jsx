@@ -15,7 +15,7 @@ export default function InvoiceChart(props) {
     }else {
       removeChart()
     }
-  }, [props.projects]);
+  }, [props.projects, props.canvasId]);
 
   function invoiceData(){
     let invoicedTotal = 0;
@@ -37,7 +37,7 @@ export default function InvoiceChart(props) {
       data.push({ key: "Unpaid $"+(util.getZeroPriceForNull(invoicedTotal)-invoicePaid), value: (util.getZeroPriceForNull(invoicedTotal)-invoicePaid) })
       removeChart()
       doughnutChart({
-        canvasId:"vendorInvoice", 
+        canvasId: props.canvasId, 
         chartData: data, 
         titleText: 'Invoiced: $'+util.getZeroPriceForNull(invoicedTotal), 
         position:'top'})  
@@ -47,7 +47,7 @@ export default function InvoiceChart(props) {
   }
 
   const removeChart = () => {
-    let chartStatus = Chart.getChart("vendorInvoice"); // <canvas> id
+    let chartStatus = Chart.getChart(props.canvasId); // <canvas> id
     if (chartStatus != undefined) {
       chartStatus.destroy();
     }
@@ -56,7 +56,7 @@ export default function InvoiceChart(props) {
   return (
     <>    
       <Box width="25%">
-        <canvas id="vendorInvoice"></canvas>        
+        <canvas id={props.canvasId}></canvas>        
       </Box>        
     </>
   );

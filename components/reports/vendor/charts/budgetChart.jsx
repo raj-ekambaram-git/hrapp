@@ -13,18 +13,12 @@ export default function BudgetChart(props) {
     if(props.projects && props.projects.length > 0) {
       getBudgetData();
     }else {
-      let chartStatus = Chart.getChart("vendorBudget"); // <canvas> id
-      if (chartStatus != undefined) {
-        chartStatus.destroy();
-      }
+      removeChart();
     }
-  }, [props.projects]);
+  }, [props.projects, props.canvasId]);
 
   function getBudgetData(){
-    let chartStatus = Chart.getChart("vendorBudget"); // <canvas> id
-    if (chartStatus != undefined) {
-      chartStatus.destroy();
-    }
+    removeChart();
 
 
 
@@ -53,17 +47,24 @@ export default function BudgetChart(props) {
 
 
     doughnutChart({
-      canvasId:"vendorBudget", 
+      canvasId: props.canvasId, 
       chartData: data, 
       titleText: 'Total Budget: $'+(util.getZeroPriceForNull(totalBudget)+util.getZeroPriceForNull(totalMiscBudget)), 
       position:'top'})
+  }
+
+  const removeChart = () => {
+    let chartStatus = Chart.getChart(props.canvasId); // <canvas> id
+    if (chartStatus != undefined) {
+      chartStatus.destroy();
+    }
   }
   
 
   return (
     <>    
       <Box width="25%">
-        <canvas id="vendorBudget"></canvas>
+        <canvas id={props.canvasId}></canvas>
       </Box>        
     </>
   );
