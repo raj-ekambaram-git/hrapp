@@ -5,6 +5,7 @@ import { fetchWrapper } from 'helpers';
 import { EMPTY_STRING, ExpenseConstants } from '../constants';
 import { util } from '../helpers/util';
 import { projectService } from './project.service';
+import { ExpenseStatus } from '@prisma/client';
 
 const { publicRuntimeConfig } = getConfig();
 const baseUrl = `${publicRuntimeConfig.apiUrl}`;
@@ -18,8 +19,15 @@ export const expenseService = {
     addAttachmentToExpenseEntry,
     getExpenseTransactions,
     createExpenseTransaction,
-    updateExpenseStatus
+    updateExpenseStatus,
+    markExpenseDelete
 };
+
+function markExpenseDelete(expenseId, accountId) {
+  let expenseIDs = [expenseId];
+  const data = {status: ExpenseStatus.MarkForDelete};
+  return updateExpenseStatus(expenseIDs,data)
+}
 
 function updateExpenseStatus(expenseIds, data) {
   return fetchWrapper.put(`${baseUrl}/expense/status/update`, {
@@ -150,7 +158,7 @@ function updateExpense(expense, expenseEntries) {
       console.log("Error Updating Expense::"+err)
       return {errorMessage: err, error: true};
   });
-  }
+}
 
 function createExpense(expenseRequest) {
     console.log("Before calling the create expense....."+JSON.stringify(expenseRequest))

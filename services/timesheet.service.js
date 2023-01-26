@@ -31,15 +31,14 @@ function markTimesheetDelete(timesheetId, accountId) {
   return fetchWrapper.put(`${baseUrl}/timesheet/`+timesheetId, {
       id: parseInt(timesheetId),
       status: TimesheetStatus.MarkForDelete
-  }
-)
-.then(async timesheet => {
-  return timesheet;
-})        
-.catch(err => {
-  console.log("Error deleteTimesheet"+err)
-  return {errorMessage: err, error: true};
-});
+  })
+  .then(async timesheet => {
+    return timesheet;
+  })        
+  .catch(err => {
+    console.log("Error deleteTimesheet"+err)
+    return {errorMessage: err, error: true};
+  });
 
 }
 

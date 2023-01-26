@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
-import { userService } from "../../services";
+import { expenseService, userService } from "../../services";
 import {
   HStack,
   Button,
@@ -96,8 +96,7 @@ const ExpenseList = (props) => {
     }
 
     const handleDeleteConfirmation = async (expenseInput) => {
-      // const responseData = await timesheetService.markTimesheetDelete(expenseInput.current, userService.getAccountDetails().accountId) 
-      const responseData = []
+      const responseData = await expenseService.markExpenseDelete(expenseInput.current, userService.getAccountDetails().accountId) 
       if(responseData.error) {
         toast({
           title: 'Delete Timesheet.',
