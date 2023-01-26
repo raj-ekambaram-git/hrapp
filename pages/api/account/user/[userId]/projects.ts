@@ -39,7 +39,28 @@ console.log("userId ID::"+userId+"---AccountioD::"+accountId+"***filter::"+filte
           id: "desc"
         },
         include: {
-          project: true,
+          project: {
+            include: {
+              projectResource: {
+                select: {
+                  cost: true,
+                  user: {
+                    select: {
+                      id: true,
+                      firstName: true,
+                      lastName: true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          user: {
+            select: {
+              firstName: true,
+              lastName: true
+            }
+          }
         }
       });
       res.status(200).json(projects);

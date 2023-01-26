@@ -17,5 +17,7 @@ export const ErrorMessage = {
   INVOICE_TRANSACTION_ALREADY_PAID: "This expense is completely paid or amount you entering is more than the total expense amount, so no need for more payment.",
   TIMESHEET_PROJECT_BUDGET_ERROR_1: "Not enough budget available for the project: ",
   TIMESHEET_PROJECT_BUDGET_ERROR_2: ". You are over by ",
-  TIMESHEET_PROJECT_BUDGET_ERROR_3: " hours. Please contact project administrator or adjust your hours accordingly."
+  TIMESHEET_PROJECT_BUDGET_ERROR_3: " hours. Please contact project administrator or adjust your hours accordingly.",
+  SELECT_PROJECT_BEFORE_EXPENSE_ENTRY: "Please select a project before selecting an expense entry.",
+  SELECT_RESOURCE_COST_ERROR: "Not able to add this expense type now.",
 }

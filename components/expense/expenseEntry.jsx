@@ -5,14 +5,18 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { EMPTY_STRING, ExpenseConstants } from "../../constants";
+import { ErrorMessage } from "../../constants/errorMessage";
 import { ExpenseTypeLookup } from "../../data/exponseType";
 import { util } from "../../helpers/util";
 import { expenseService, userService } from "../../services";
 import {setExpenseEntries, setExpenseHeader} from '../../store/modules/Expense/actions';
 import DatePicker from "../common/datePicker";
+import { ShowInlineErrorMessage } from "../common/showInlineErrorMessage";
 import ExpenseEntryAttachment from "./expenseEntryAttachment";
 import ExpenseHeader from "./expenseHeader";
 import ExpenseNotes from "./expenseNotes";
+import ResourceListWithCost from "./resourceListWithCost";
+
 
 
 
@@ -25,9 +29,10 @@ const ExpenseEntry = (props) => {
 
   const [isAddMode, setAddMode] = useState(true);
   const [expenseStatus, setExpenseStatus] = useState(EMPTY_STRING);
-  const [showProjectError, setShowProjectError] = useState(false);
+  const [showErrorMessage, setShowErrorMessage] = useState(EMPTY_STRING);
   const [showBillable, setShowBillable] = useState(true);
   const [userProjectList, setUserProjectList] = useState([]);
+  const [projectResourceList, setProjectResourceList] = useState([]);
   const [expenseTotal, setExpenseTotal] = useState(0);
   
   const userId = props.data.userId;
@@ -203,7 +208,21 @@ const ExpenseEntry = (props) => {
       case("type"): 
         if(value === ExpenseType.Resource_Cost) {
           setShowBillable(false)
-          onToggle()
+          if(expenseHeader.projectId) {
+            // console.log("userProjectList:::"+JSON.stringify(userProjectList))
+            const projectResources = userProjectList.filter((project) => (project.projectId == expenseHeader.projectId));
+            console.log("Project Resource List:::"+JSON.stringify(projectResources[0].project?.projectResource))
+            if(projectResources[0].project?.projectResource && projectResources[0].project?.projectResource?.length>1) {
+              setProjectResourceList(projectResources[0].project?.projectResource)              
+              onToggle()
+            }else {
+              setShowErrorMessage(ErrorMessage.SELECT_RESOURCE_COST_ERROR)
+            }
+            
+          }else {
+            value= EMPTY_STRING
+            setShowErrorMessage(ErrorMessage.SELECT_PROJECT_BEFORE_EXPENSE_ENTRY)
+          }
         }else {
           setShowBillable(true)
         }
@@ -232,6 +251,7 @@ const ExpenseEntry = (props) => {
   return (
     <div>
       <Stack>
+        <ShowInlineErrorMessage showErrorMessage={showErrorMessage}/>
         <ExpenseHeader submitExpense={submitExpense} isAddMode={isAddMode} userProjectList={userProjectList} status={expenseStatus}/>
         <Card variant="expenseDetails">
           <CardHeader>
@@ -286,10 +306,8 @@ const ExpenseEntry = (props) => {
                             closeOnBlur={false}
                         >
                             <PopoverContent>
-                              <PopoverHeader>Select a resource</PopoverHeader>
-                              <PopoverArrow />
-                              <PopoverCloseButton />
                               <PopoverBody>
+                                  <ResourceListWithCost resourceListWithCost={projectResourceList} handleSelectResource/>
                               </PopoverBody>
                               <PopoverFooter display='flex' justifyContent='flex-end'>
                                   <ButtonGroup size='sm'>
