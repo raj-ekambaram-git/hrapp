@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { accountService, userService } from "../../services";
+import { accountService, projectService, userService } from "../../services";
 import { PageNotAuthorized } from "../../components/common/pageNotAuthorized";
 import {
   HStack,
   Button,
   Box,
   Flex,
+  useToast
 } from '@chakra-ui/react'
 import {PageMainHeader} from '../../components/common/pageMainHeader'
 import { useDispatch, useSelector } from "react-redux";
@@ -20,6 +21,7 @@ import { ProjectStatus } from "@prisma/client";
 const ProjectList = (props) => {
   const router = useRouter();
   const dispatch = useDispatch();
+  const toast = useToast();
   const { data } = props.projectList;
   const { isVendor } = props.projectList;
   const [projectList, setProjectList] = useState([]);
@@ -80,8 +82,28 @@ const ProjectList = (props) => {
 
     }
 
-    const handleProjectDeleteSelection = (projectId) => {
-        console.log("Project ID::"+projectId)
+    const handleProjectDeleteSelection = async (projectId) => {
+      const responseData = await projectService.markProjectDelete(projectId, userService.getAccountDetails().accountId) 
+      if(responseData.error) {
+        toast({
+          title: 'Delete Project.',
+          description: 'Error deleting project',
+          status: 'error',
+          position: 'top',
+          duration: 6000,
+          isClosable: true,
+        })
+      }else {
+        toast({
+          title: 'Delete Project.',
+          description: 'Successfully deleted project.',
+          status: 'success',
+          position: 'top',
+          duration: 3000,
+          isClosable: true,
+        })
+        getProjectList(data.vendorId, userService.getAccountDetails().accountId)
+      }
     }
 
     function handleProjectDetailSelection(projectId){
