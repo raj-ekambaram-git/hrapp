@@ -8,42 +8,18 @@ export default function ResourceListWithCost(props) {
   useEffect(() => {
   }, [props.resourceListWithCost]);
   
-  const handleUserSelecction = (selectedUserId) => {
-    console.log("handleUserSelecction:::"+selectedUserId)
-  }
-
   return (
     <>    
 
-      <RadioGroup onChange={handleUserSelecction} value={value}>
+      <RadioGroup onChange={props.handleUserSelecction} textTransform="none">
         <Stack spacing={5}>
          {props.resourceListWithCost?.map((resource) => (                
-          <Radio colorScheme='blue' value={resource.user?.id}>
-            {resource.user?.firstName} {resource.user?.firstName} -- {util.getWithCurrency(resource.cost)} / hour
+          <Radio colorScheme='blue' value={resource.user?.id+"_"+resource.cost}>
+            <Box fontSize="13px">{resource.user?.firstName} {resource.user?.firstName} -- {util.getWithCurrency(resource.cost)}/hour</Box>
           </Radio>          
           ))}
         </Stack>
       </RadioGroup>
-          {/* <Table variant="reportTableList" colorScheme="teal">
-            <Thead position="sticky" top={0}>
-              <Tr>
-                <Th colSpan={3} textAlign="center">Select Resource</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {props.resourceListWithCost?.map((resource) => (                
-                <Tr>
-                  <Td><Radio value={resource.user?.id}></Radio></Td>
-                  <Td>
-                    {resource.user?.firstName} {resource.user?.lastName}
-                  </Td>
-                  <Td>
-                    {util.getWithCurrency(resource.cost)} / hour
-                  </Td>
-                </Tr>                
-              ))}
-            </Tbody>
-          </Table> */}
     </>
   );
 }

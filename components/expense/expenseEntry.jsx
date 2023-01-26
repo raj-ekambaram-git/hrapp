@@ -246,6 +246,10 @@ const ExpenseEntry = (props) => {
     }
     
   }
+
+  const handleUserSelecction = (selectedUserId) => {
+    console.log("handleUserSelecction:::"+selectedUserId)
+  }
   
 
   return (
@@ -307,7 +311,7 @@ const ExpenseEntry = (props) => {
                         >
                             <PopoverContent>
                               <PopoverBody>
-                                  <ResourceListWithCost resourceListWithCost={projectResourceList} handleSelectResource/>
+                                  <ResourceListWithCost resourceListWithCost={projectResourceList} handleUserSelecction={handleUserSelecction} />
                               </PopoverBody>
                               <PopoverFooter display='flex' justifyContent='flex-end'>
                                   <ButtonGroup size='sm'>
