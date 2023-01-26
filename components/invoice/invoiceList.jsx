@@ -98,9 +98,12 @@ const InvoiceList = (props) => {
     async function getInvoiceListByProject(projectId, accountId) {
       // setPageAuthorized(true);
       const responseData = await accountService.getInvoiceListByProject(projectId, accountId);
+      invoiceListRef.current = responseData;
+
       if(responseData != undefined && responseData != EMPTY_STRING) {
-        setInvoiceList(updateInvoicesForDisplay(responseData) );
         invoiceListRef.current = responseData;
+        // updateInvoicesForDisplay(responseData)
+        setInvoiceList(updateInvoicesForDisplay(responseData) );
       }
 
     }    
@@ -120,7 +123,7 @@ const InvoiceList = (props) => {
         invoice.projectName = invoice.project?.name
         return invoice;
       });
-      
+      // setInvoiceList(updatedInvoiceList)
     }
 
   const handleInvoiceDeleteSelection = (invoiceId) => {
@@ -150,11 +153,13 @@ const InvoiceList = (props) => {
         duration: 3000,
         isClosable: true,
       })
+      console.log("invoiceListRef::"+JSON.stringify(invoiceListRef))
       const newInvoiceList = [...invoiceListRef.current]
       const invoiceToRemoveIndex = newInvoiceList.findIndex(x => x.id === invoiceInput.current);
       newInvoiceList.splice(invoiceToRemoveIndex, 1);
-      updateInvoicesForDisplay(newInvoiceList)
       invoiceListRef.current = newInvoiceList;
+      console.log("newInvoiceListnewInvoiceListnewInvoiceListnewInvoiceList"+JSON.stringify(newInvoiceList))
+      setInvoiceList(updateInvoicesForDisplay(newInvoiceList));      
       onClose()
     }
   }
