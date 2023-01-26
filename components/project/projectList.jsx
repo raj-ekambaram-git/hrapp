@@ -14,7 +14,8 @@ import { setSelectedProjectId } from "../../store/modules/Project/actions";
 import { EMPTY_STRING, ProjectConstants } from "../../constants";
 import { CustomTable } from "../customTable/Table";
 import { util } from "../../helpers";
-
+import { DeleteIcon } from "@chakra-ui/icons";
+import { ProjectStatus } from "@prisma/client";
 
 const ProjectList = (props) => {
   const router = useRouter();
@@ -66,6 +67,7 @@ const ProjectList = (props) => {
 
       if(responseData != undefined && responseData != EMPTY_STRING) {
         const updatedProjectList =  responseData.map((project, index)=> {
+          project.deleteAction = <><HStack spacing={6}>{project.status === ProjectStatus.Created?(<DeleteIcon size="xs" onClick={() => handleProjectDeleteSelection(project.id)}/>):(<Box marginRight={3}></Box>)}<Box>{project.id}</Box></HStack></>
           project.detailAction = <Button size="xs" bgColor="header_actions" onClick={() => handleProjectDetailSelection(project.id)}>Details</Button>
           project.vendorName = project.vendor?.name?project.vendor?.name:"N/A"
           project.accountName = project.account?.name?project.account?.name:"N/A"
@@ -76,6 +78,10 @@ const ProjectList = (props) => {
       }
       
 
+    }
+
+    const handleProjectDeleteSelection = (projectId) => {
+        console.log("Project ID::"+projectId)
     }
 
     function handleProjectDetailSelection(projectId){

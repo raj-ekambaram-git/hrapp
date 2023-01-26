@@ -135,7 +135,9 @@ export const ProjectConstants = {
   PROJECT_LIST_TABLE_META: [
     {
       label: "ID",
-      accessor: "id"
+      accessor: "deleteAction",
+      disableSearch: true,
+      disableSort: true
     },
     {
       label: "Name",

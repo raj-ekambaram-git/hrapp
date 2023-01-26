@@ -36,12 +36,14 @@ export const CustomTable = ({ columns, rows, disablePagination }) => {
     }
   }
 
-  const handleSort = (accessor) => {
-    setActivePage(1)
-    setSort((prevSort) => ({
-      order: prevSort.order === 'asc' && prevSort.orderBy === accessor ? 'desc' : 'asc',
-      orderBy: accessor,
-    }))
+  const handleSort = (accessor, disableSort) => {
+    if(!disableSort) {
+      setActivePage(1)
+      setSort((prevSort) => ({
+        order: prevSort.order === 'asc' && prevSort.orderBy === accessor ? 'desc' : 'asc',
+        orderBy: accessor,
+      }))  
+    }
   }
 
   const clearAll = () => {
@@ -69,7 +71,7 @@ export const CustomTable = ({ columns, rows, disablePagination }) => {
               }
               return (
                 <Th key={column.accessor}>
-                    <Flex alignItems="center" onClick={() => handleSort(column.accessor)}>
+                    <Flex alignItems="center" onClick={() => handleSort(column.accessor, column.disableSort)}>
                     {column.label}{sortIcon()}
                   </Flex>
                 </Th>
