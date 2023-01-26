@@ -1,5 +1,5 @@
 import { CheckCircleIcon, DeleteIcon } from "@chakra-ui/icons";
-import { Input, Box, Card, CardBody, CardHeader, Stack, useToast, Text, Select, HStack, Checkbox, Table, Thead, Tr, Th, Tbody, Button, Tooltip } from "@chakra-ui/react";
+import { Input, Box, Card, CardBody, CardHeader, Stack, useToast, Text, Select, HStack, Checkbox, Table, Thead, Tr, Th, Tbody, Button, Tooltip, useDisclosure, Popover, PopoverContent, PopoverHeader, PopoverArrow, PopoverCloseButton, PopoverFooter, PopoverBody, ButtonGroup } from "@chakra-ui/react";
 import { ExpenseType } from "@prisma/client";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
@@ -10,7 +10,6 @@ import { util } from "../../helpers/util";
 import { expenseService, userService } from "../../services";
 import {setExpenseEntries, setExpenseHeader} from '../../store/modules/Expense/actions';
 import DatePicker from "../common/datePicker";
-import ExpenseAttachment from "./expenseAttachment";
 import ExpenseEntryAttachment from "./expenseEntryAttachment";
 import ExpenseHeader from "./expenseHeader";
 import ExpenseNotes from "./expenseNotes";
@@ -22,6 +21,7 @@ const ExpenseEntry = (props) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const toast = useToast();
+  const { isOpen, onToggle, onClose } = useDisclosure()
 
   const [isAddMode, setAddMode] = useState(true);
   const [expenseStatus, setExpenseStatus] = useState(EMPTY_STRING);
@@ -203,6 +203,7 @@ const ExpenseEntry = (props) => {
       case("type"): 
         if(value === ExpenseType.Resource_Cost) {
           setShowBillable(false)
+          onToggle()
         }else {
           setShowBillable(true)
         }
@@ -272,9 +273,32 @@ const ExpenseEntry = (props) => {
                         <Select id="type" value={expenseEntry.type} onChange={(ev) => handleExpenseEntry(index,"type",ev.target.value)}>
                             <option value="">Select Expense</option>
                             {ExpenseTypeLookup.map((expenseType) => (
-                                <option value={expenseType.typeId} >{expenseType.typeName}</option>
+                                <>
+                                {((userService.isAccountAdmin() && expenseType.typeId === "Resource_Cost")
+                                || (expenseType.typeId != "Resource_Cost"))?<option value={expenseType.typeId} >{expenseType.typeName}</option>:""}                                
+                                </>
                             ))}
-                        </Select>                           
+                        </Select>    
+                        <Popover
+                            returnFocusOnClose={true}
+                            isOpen={isOpen}
+                            onClose={onClose}
+                            closeOnBlur={false}
+                        >
+                            <PopoverContent>
+                              <PopoverHeader>Select a resource</PopoverHeader>
+                              <PopoverArrow />
+                              <PopoverCloseButton />
+                              <PopoverBody>
+                              </PopoverBody>
+                              <PopoverFooter display='flex' justifyContent='flex-end'>
+                                  <ButtonGroup size='sm'>
+                                  <Button variant='outline'  onClick={onClose} >Cancel</Button>
+                                  <Button colorScheme='red' onClick={onClose}>Apply</Button>
+                                  </ButtonGroup>
+                              </PopoverFooter>
+                            </PopoverContent>
+                        </Popover>                                                  
                         </Th>             
                         <Th>
                           {(expenseEntry.type != ExpenseType.Resource_Cost && showBillable)?(<>

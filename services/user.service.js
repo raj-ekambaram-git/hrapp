@@ -306,7 +306,6 @@ function isSuperAdmin() {
 }
 
 function isAccountAdmin() {
-    console.log("userSubject.value?.userRole::"+userSubject.value?.userRole)
     if( userSubject.value 
         && userSubject.value?.userRole?.includes(UserConstants.USER_ROLES.ACCOUNT_ADMIN)
         && userSubject.value?.accountId != UserConstants.SUPER_ADMIN_ID) {
