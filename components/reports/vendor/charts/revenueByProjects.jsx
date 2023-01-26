@@ -4,6 +4,7 @@ import { util } from "../../../../helpers/util";
 import { AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Card, CardBody, CardHeader, Heading, HStack, Stack } from "@chakra-ui/react";
 import { horizontalBarChart } from "../../../common/charts/horizontalBarChart";
 import { ExpenseStatus } from "@prisma/client";
+import RevenueBySummarySection from "../../common/revenueBySummarySection";
 
 
 
@@ -167,7 +168,10 @@ export default function RevenueByProjects(props) {
                 <canvas id={props.canvasId}></canvas>
               </Box>  
               <Stack width="50%">
-                <Card variant="projectUsersFinancialSummary">
+                <RevenueBySummarySection totalEstimatedRevenue={totalEstimatedRevenue} totalActualRevenue={totalActualRevenue} totalProjectCost={totalProjectCost}
+                                            totalBillableExp={totalBillableExp} totalNonBillableExp={totalNonBillableExp} totalNetProfit={totalNetProfit}/>
+
+                {/* <Card variant="projectUsersFinancialSummary">
                   <CardHeader>
                     <Heading size='xs' textAlign="center">All Projects Summary as of {util.getFormattedDate(new Date())}</Heading>          
                   </CardHeader>
@@ -223,7 +227,7 @@ export default function RevenueByProjects(props) {
                         </HStack>                       
                       </Stack>
                   </CardBody>
-                </Card>  
+                </Card>   */}
               </Stack> 
             </HStack>            
           </AccordionPanel>   
