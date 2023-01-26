@@ -22,9 +22,26 @@ export const timesheetService = {
     updateTimesheetEntries,
     createTimesheet,
     updateTimesheet,
-    deleteTimesheet,
-    isTimesheetDeletable
+    isTimesheetDeletable,
+    markTimesheetDelete
 };
+
+function markTimesheetDelete(timesheetId, accountId) {
+
+  return fetchWrapper.put(`${baseUrl}/timesheet/`+timesheetId, {
+      id: parseInt(timesheetId),
+      status: TimesheetStatus.MarkForDelete
+  }
+)
+.then(async timesheet => {
+  return timesheet;
+})        
+.catch(err => {
+  console.log("Error deleteTimesheet"+err)
+  return {errorMessage: err, error: true};
+});
+
+}
 
 function isTimesheetDeletable(timesheet){
    const deletable = timesheet?.timesheetEntries.map((timesheetEntry, index)=> {
@@ -36,27 +53,6 @@ function isTimesheetDeletable(timesheet){
   return !deletable.includes(false);
 }
 
-function deleteTimesheet(timesheetIds, userId, accountId) {
-
-  return fetchWrapper.delete(`${baseUrl}/timesheet/create`, {
-        name: formData.timesheetName,
-        type: "Weekly",
-        userId: userId,
-        status: formData.status,
-        startDate: formData.timesheetStartDate,
-        timesheetEntries: {
-          create: timesheetActivityList
-        }
-      }
-  )
-  .then(async timesheet => {
-      return timesheet;
-  })        
-  .catch(err => {
-    console.log("Error Creating createTimesheet"+err)
-    return {errorMessage: err, error: true};
-  });
-}
 
 function createTimesheet(formData, userId, timesheetActivityList) {
 

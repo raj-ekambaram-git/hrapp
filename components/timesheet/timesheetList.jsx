@@ -98,8 +98,7 @@ const TimesheetList = (props) => {
 
 
     const handleDeleteConfirmation = async (projectInput) => {
-      // const responseData = await projectService.markProjectDelete(projectInput.current, userService.getAccountDetails().accountId) 
-      const responseData = [];
+      const responseData = await timesheetService.markTimesheetDelete(projectInput.current, userService.getAccountDetails().accountId) 
       if(responseData.error) {
         toast({
           title: 'Delete Timesheet.',
