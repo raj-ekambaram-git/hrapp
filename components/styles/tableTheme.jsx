@@ -51,6 +51,8 @@ const sortTable = definePartsStyle({
     textTransform: "uppercase",  
   },
   tr: {
+    _hover: { bg: "teal.50" , fontWeight: "600" },
+    _focus: { boxShadow: "outline" },
     
   },
   th: {
