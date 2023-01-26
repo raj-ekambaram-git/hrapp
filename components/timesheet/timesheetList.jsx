@@ -18,7 +18,6 @@ import { TimesheetConstants } from "../../constants/timesheetConstants";
 import { CustomTable } from "../../components/customTable/Table";
 import { util } from "../../helpers";
 import { EMPTY_STRING } from "../../constants";
-import { TimesheetStatus } from "@prisma/client";
 import { DeleteIcon } from "@chakra-ui/icons";
 import DeleteConfirmDialog from "../common/deleteConfirmDialog";
 

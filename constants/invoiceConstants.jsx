@@ -141,8 +141,10 @@ export const InvoiceConstants = {
   },
   INVOICE_LIST_TABLE_META: [
     {
-      label: "ID",
-      accessor: "id"
+      label: "",
+      accessor: "deleteAction",
+      disableSearch: true,
+      disableSort: true
     },
     {
       label: "Type",

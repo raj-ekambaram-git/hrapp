@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import { accountService, userService } from "../../services";
 
@@ -7,6 +7,8 @@ import {
   Button,
   Box,
   Flex,
+  useDisclosure,
+  useToast
 } from '@chakra-ui/react'
 import { util } from "../../helpers";
 import {PageMainHeader} from '../../components/common/pageMainHeader'
@@ -15,18 +17,26 @@ import { useDispatch } from "react-redux";
 import { setSelectedInvoiceId } from "../../store/modules/Invoice/actions";
 import { EMPTY_STRING, InvoiceConstants } from "../../constants";
 import { CustomTable } from "../customTable/Table";
+import { DeleteIcon } from "@chakra-ui/icons";
+import DeleteConfirmDialog from "../common/deleteConfirmDialog";
+import { InvoiceStatus } from "@prisma/client";
 
 
 
 const InvoiceList = (props) => {
   const router = useRouter();
   const dispatch = useDispatch();
+  const toast = useToast();
 
   const { data } = props.invoiceList;
   const { requestMode } = props.invoiceList;
   const [invoiceList, setInvoiceList] = useState([]);
+  const invoiceListRef = useRef([]);
   const [isPageAuthprized, setPageAuthorized] = useState(false);
   const INVOICE_LIST_TABLE_COLUMNS = React.useMemo(() => InvoiceConstants.INVOICE_LIST_TABLE_META)
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const dialogRef = useRef("Delete");
+
 
   useEffect(() => {
 
@@ -88,15 +98,16 @@ const InvoiceList = (props) => {
     async function getInvoiceListByProject(projectId, accountId) {
       // setPageAuthorized(true);
       const responseData = await accountService.getInvoiceListByProject(projectId, accountId);
-      console.log("Response Data:::"+JSON.stringify(responseData))
       if(responseData != undefined && responseData != EMPTY_STRING) {
         setInvoiceList(updateInvoicesForDisplay(responseData) );
+        invoiceListRef.current = responseData;
       }
 
     }    
 
     function updateInvoicesForDisplay(responseData) {
       return responseData.map((invoice)=> {
+        invoice.deleteAction = <><HStack spacing={6}>{(invoice.status === InvoiceStatus.Draft)?(<DeleteIcon size="xs" onClick={() => handleInvoiceDeleteSelection(invoice.id)}/>):(<Box marginRight={3}></Box>)}<Box>{invoice.id}</Box></HStack></>
         invoice.detailAction = <Button size="xs" bgColor="header_actions" onClick={() => handleInvoiceDetailSelection(invoice.id)}>Details</Button>
         // invoice.status = <Badge color={`${(invoice.status === "Paid" || invoice.status === "PartiallyPaid") ? "paid_status": invoice.status === "Pending" ? "pending_status": "pending_status"}`}>{invoice.status}</Badge>
         invoice.amount = "$ "+(parseFloat(invoice.total))
@@ -112,11 +123,45 @@ const InvoiceList = (props) => {
       
     }
 
+  const handleInvoiceDeleteSelection = (invoiceId) => {
+    dialogRef.current = invoiceId;
+    onOpen();
+
+  }
+
+  const handleDeleteConfirmation = async (invoiceInput) => {
+    // const responseData = await timesheetService.markTimesheetDelete(invoiceInput.current, userService.getAccountDetails().accountId) 
+    const responseData = []
+    if(responseData.error) {
+      toast({
+        title: 'Delete Invoicce.',
+        description: 'Error deleting invoice',
+        status: 'error',
+        position: 'top',
+        duration: 6000,
+        isClosable: true,
+      })
+    }else {
+      toast({
+        title: 'Delete Invoicce.',
+        description: 'Successfully deleted invoice.',
+        status: 'success',
+        position: 'top',
+        duration: 3000,
+        isClosable: true,
+      })
+      const newInvoiceList = [...invoiceListRef.current]
+      const invoiceToRemoveIndex = newInvoiceList.findIndex(x => x.id === invoiceInput.current);
+      newInvoiceList.splice(invoiceToRemoveIndex, 1);
+      updateInvoicesForDisplay(newInvoiceList)
+      invoiceListRef.current = newInvoiceList;
+      onClose()
+    }
+  }
+  
+
     async function getInvoiceListByAccount(accountId) {
-      console.log("getInvoiceListByAccount:::"+accountId)
-      // setPageAuthorized(true);
       const responseData = await accountService.getInvoiceListByAccount(accountId);
-      console.log("Response Data:::"+JSON.stringify(responseData))
       if(responseData != undefined && responseData != EMPTY_STRING) {
         setInvoiceList(updateInvoicesForDisplay(responseData) );
       }
@@ -152,6 +197,12 @@ const InvoiceList = (props) => {
               ) : (
                 <PageMainHeader heading="Account Invoices"/>
               )}
+              <DeleteConfirmDialog        
+                  deleteHeader="Delete Invoice"
+                  dialogRef={dialogRef}
+                  isOpen={isOpen}
+                  handleDeleteConfirmation={handleDeleteConfirmation}
+                  onClose={onClose}/>
 
               <Flex marginBottom="1rem">
                 <HStack>
