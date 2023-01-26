@@ -3,6 +3,7 @@ import Chart from 'chart.js/auto'
 import { util } from "../../../../helpers/util";
 import { AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Card, CardBody, CardHeader, Heading, HStack, Stack } from "@chakra-ui/react";
 import { horizontalBarChart } from "../../../common/charts/horizontalBarChart";
+import RevenueByUsersSummarySection from "../../common/revenueByUsersSummarySection";
 
 
 
@@ -143,7 +144,9 @@ export default function RevenueByUsers(props) {
                 <canvas id={props.canvasId}></canvas>
               </Box>  
               <Stack width="70%">
-                <Card variant="projectUsersFinancialSummary">
+                <RevenueByUsersSummarySection allProjectsBudget={allProjectsBudget} allProjectAllocatedBudget={allProjectAllocatedBudget} allProjectsUsedBudget={allProjectsUsedBudget}
+                                              allProjectsTotalResourceCost={allProjectsTotalResourceCost}/>
+                {/* <Card variant="projectUsersFinancialSummary">
                   <CardHeader>
                     <Heading size='xs' textAlign="center">All Projects Summary as of {util.getFormattedDate(new Date())}</Heading>          
                   </CardHeader>
@@ -199,7 +202,7 @@ export default function RevenueByUsers(props) {
                         </HStack>                       
                       </Stack>
                   </CardBody>
-                </Card>  
+                </Card>   */}
               </Stack> 
             </HStack>            
           </AccordionPanel>   

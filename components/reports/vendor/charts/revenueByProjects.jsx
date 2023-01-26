@@ -170,64 +170,6 @@ export default function RevenueByProjects(props) {
               <Stack width="50%">
                 <RevenueBySummarySection totalEstimatedRevenue={totalEstimatedRevenue} totalActualRevenue={totalActualRevenue} totalProjectCost={totalProjectCost}
                                             totalBillableExp={totalBillableExp} totalNonBillableExp={totalNonBillableExp} totalNetProfit={totalNetProfit}/>
-
-                {/* <Card variant="projectUsersFinancialSummary">
-                  <CardHeader>
-                    <Heading size='xs' textAlign="center">All Projects Summary as of {util.getFormattedDate(new Date())}</Heading>          
-                  </CardHeader>
-                  <CardBody>
-                      <Stack>
-                        <HStack>
-                          <Box width="60%" textAlign="right">
-                            Estimated Revenue:
-                          </Box>
-                          <Box width="50%" textAlign="left" fontWeight="semibold">
-                            {util.getWithCurrency(totalEstimatedRevenue)}
-                          </Box>                
-                        </HStack>
-                        <HStack>
-                          <Box width="60%" textAlign="right">
-                            Net Revenue:
-                          </Box>
-                          <Box width="50%" textAlign="left" fontWeight="semibold">
-                            {util.getWithCurrency(totalActualRevenue)}
-                          </Box>                
-                        </HStack>   
-                        <HStack>
-                          <Box width="60%" textAlign="right">
-                            Resource Cost:
-                          </Box>
-                          <Box width="50%" textAlign="left" fontWeight="semibold" color="credit_amount">
-                            {util.getWithCurrency(totalProjectCost)}
-                          </Box>                
-                        </HStack>          
-                        <HStack>
-                          <Box width="60%" textAlign="right">
-                            Billable Expense:
-                          </Box>
-                          <Box width="50%" textAlign="left" fontWeight="semibold">
-                            {util.getWithCurrency(totalBillableExp)}
-                          </Box>                
-                        </HStack>   
-                        <HStack>
-                          <Box width="60%" textAlign="right">
-                            Non-Billable Expense:
-                          </Box>
-                          <Box width="50%" textAlign="left" fontWeight="semibold" color="credit_amount">
-                            {util.getWithCurrency(totalNonBillableExp)}
-                          </Box>                
-                        </HStack>                                                           
-                        <HStack>
-                          <Box width="60%" textAlign="right" fontWeight="semibold" fontStyle="italic">
-                            Net Profit:
-                          </Box>
-                          <Box width="50%" textAlign="left" fontWeight="semibold" color={util.getZeroPriceForNull(totalNetProfit) > 0 ? 'debit_amount':""}>
-                            {util.getWithCurrency(util.getZeroPriceForNull(totalNetProfit))}
-                          </Box>                
-                        </HStack>                       
-                      </Stack>
-                  </CardBody>
-                </Card>   */}
               </Stack> 
             </HStack>            
           </AccordionPanel>   
