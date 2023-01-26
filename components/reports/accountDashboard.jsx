@@ -38,7 +38,7 @@ return (
             <CardHeader>
               <HStack>
                 {userService.getAccountDetails().accountId
-                ?<Box fontWeight="semibold" boxSize={1} fontSize="12px">{userService.getAccountDetails().accountId}</Box>
+                ?<Box fontWeight="semibold" boxSize={1} fontSize="12px"></Box>
                 :(
                     <></>
                   )
