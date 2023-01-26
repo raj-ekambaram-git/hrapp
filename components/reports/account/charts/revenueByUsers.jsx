@@ -3,6 +3,7 @@ import Chart from 'chart.js/auto'
 import { util } from "../../../../helpers/util";
 import { AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Card, CardBody, CardHeader, Heading, HStack, Stack } from "@chakra-ui/react";
 import { horizontalBarChart } from "../../../common/charts/horizontalBarChart";
+import RevenueByUsersSummarySection from "../../common/revenueByUsersSummarySection";
 
 
 
@@ -145,63 +146,8 @@ export default function RevenueByUsers(props) {
                 <canvas id={props.canvasId}></canvas>
               </Box>  
               <Stack width="70%">
-                <Card variant="projectUsersFinancialSummary">
-                  <CardHeader>
-                    <Heading size='xs' textAlign="center">All Projects Summary as of {util.getFormattedDate(new Date())}</Heading>          
-                  </CardHeader>
-                  <CardBody>
-                      <Stack>
-                        <HStack>
-                          <Box width="50%" textAlign="right">
-                            Total Available Budget:
-                          </Box>
-                          <Box width="50%" textAlign="left" fontWeight="semibold">
-                            {util.getWithCurrency(allProjectsBudget)}
-                          </Box>                
-                        </HStack>
-                        <HStack>
-                          <Box width="50%" textAlign="right">
-                            Allocated Budget:
-                          </Box>
-                          <Box width="50%" textAlign="left" fontWeight="semibold" color="debit_amount">
-                            {util.getWithCurrency(allProjectAllocatedBudget)}
-                          </Box>                
-                        </HStack>                           
-                        <HStack>
-                          <Box width="50%" textAlign="right">
-                            Remaining Budget to allocate:
-                          </Box>
-                          <Box width="50%" textAlign="left" fontWeight="semibold" color="debit_amount">
-                            {util.getWithCurrency(allProjectsBudget-allProjectAllocatedBudget)}
-                          </Box>                
-                        </HStack>                           
-                        <HStack>
-                          <Box width="50%" textAlign="right">
-                            Used Budget:
-                          </Box>
-                          <Box width="50%" textAlign="left" fontWeight="semibold">
-                            {util.getWithCurrency(allProjectsUsedBudget)}
-                          </Box>                
-                        </HStack>   
-                        <HStack>
-                          <Box width="50%" textAlign="right">
-                            Resource Cost:
-                          </Box>
-                          <Box width="50%" textAlign="left" fontWeight="semibold" color="credit_amount">
-                            {util.getWithCurrency(allProjectsTotalResourceCost)}
-                          </Box>                
-                        </HStack>                  
-                        <HStack>
-                          <Box width="50%" textAlign="right" fontWeight="semibold" fontStyle="italic">
-                            Net Profit:
-                          </Box>
-                          <Box width="50%" textAlign="left" fontWeight="semibold" color={(util.getZeroPriceForNull(allProjectsUsedBudget)-util.getZeroPriceForNull(allProjectsTotalResourceCost)) > 0 ? 'debit_amount':""}>
-                            {util.getWithCurrency((util.getZeroPriceForNull(allProjectsUsedBudget)-util.getZeroPriceForNull(allProjectsTotalResourceCost)))}
-                          </Box>                
-                        </HStack>                       
-                      </Stack>
-                  </CardBody>
-                </Card>  
+                <RevenueByUsersSummarySection allProjectsBudget={allProjectsBudget} allProjectAllocatedBudget={allProjectAllocatedBudget} allProjectsUsedBudget={allProjectsUsedBudget}
+                                                allProjectsTotalResourceCost={allProjectsTotalResourceCost}/>
               </Stack> 
             </HStack>            
           </AccordionPanel>   
