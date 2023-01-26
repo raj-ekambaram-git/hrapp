@@ -23,9 +23,20 @@ export const accountService = {
     getProjectsByVendor,
     getUserList,
     createAccount,
-    updateAccount
+    updateAccount,
+    getAccountReportData
 };
 
+function getAccountReportData(accountId) {
+    return fetchWrapper.get(`${baseUrl}/reports/account/`+accountId+'/detail', {})
+    .then(accountData => {
+        return accountData;
+    })
+    .catch(err => {
+        console.log("Error getting getAccountReportData  ::"+err)
+        return {errorMessage: err, error: true};
+       });
+  }
 
 function updateAccount(accountId, formData, addressId) {
 

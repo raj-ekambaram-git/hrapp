@@ -28,6 +28,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           project: {
            select: {
               name: true,
+              status: true,
               referenceCode: true,
               usedBudget: true,
               usedMiscBudget: true,

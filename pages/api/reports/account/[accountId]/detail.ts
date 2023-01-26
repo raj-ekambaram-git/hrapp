@@ -11,20 +11,47 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   try {
-    const vendorId = req.query?.vendorId;
     const accountId = req.query?.accountId;
     
-    if(vendorId != EMPTY_STRING && vendorId != undefined && accountId != EMPTY_STRING && accountId != undefined && accountId != "NaN") {
-      const vendors = await prisma.vendor.findMany({
+    if(accountId != EMPTY_STRING && accountId != undefined && accountId != "NaN") {
+      const accounts = await prisma.account.findMany({
         where: {
           id: {
-            equals: parseInt(vendorId.toString())            
+            equals: parseInt(accountId.toString())            
           },
-          accountId: {
-            equals: parseInt(accountId.toString())
-          }
       },
         include: {
+          vendor:{
+            select: {
+              name: true,
+              status: true,
+              vendorUsers: {
+                select: {
+                  id: true,
+                  vendorId: true,
+                  status: true,
+                  user: {
+                    select: {
+                      id: true,
+                      firstName: true,
+                      lastName: true,
+                      email: true,
+                      status: true,
+                      phone: true,
+                      userRole: true,
+                      projectResource: {
+                        select: {
+                          usedBudget: true,
+                          budgetAllocated: true,
+                          cost: true                          
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }            
+          },
           project: {
            select: {
               name: true,
@@ -120,27 +147,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
               }
            }
           },
-          vendorUsers: {
-            select: {
-              id: true,
-              vendorId: true,
-              status: true,
-              user: {
-                select: {
-                  id: true,
-                  firstName: true,
-                  lastName: true,
-                  email: true,
-                  status: true,
-                  phone: true,
-                  userRole: true
-                }
-              }
-            }
-          }
+
         }
       })      
-      res.status(200).json(vendors[0]);  
+      res.status(200).json(accounts[0]);  
     } 
   } catch (error) {
     console.log(error)
