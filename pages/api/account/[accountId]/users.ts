@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import { VendorUserStatus } from "@prisma/client";
+import { UserStatus, VendorUserStatus } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next"
 import { EMPTY_STRING } from "../../../../constants/accountConstants";
 import prisma from "../../../../lib/prisma";
@@ -60,6 +60,9 @@ console.log("Vendor ID::"+vendorId+"---AccountioD::"+accountId)
         where: {
             accountId: {
               equals: parseInt(accountId.toString())
+            },
+            status: {
+              not: UserStatus.MarkForDelete
             }
         },
         orderBy: {
