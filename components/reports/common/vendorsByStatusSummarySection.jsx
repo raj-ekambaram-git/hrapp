@@ -1,12 +1,23 @@
 import React, { useEffect } from "react";
 import { Box, Tr, Th, Td, Table, Thead,Tbody, Tooltip, Link, HStack } from "@chakra-ui/react";
 import {FcViewDetails} from 'react-icons/fc'
+import { useDispatch } from "react-redux";
+import {setSelectedReportsVendorId} from '../../../store/modules/Reports/actions'
+import { useRouter } from "next/router";
 
 export default function VendorsByStatusSummarySection(props) {
-  
+  const dispatch = useDispatch();
+  const router = useRouter();
+
   useEffect(() => {
   }, [props.vendors]);
   
+  const handleDetailedVendorReport = (vendorId) => {
+    dispatch(setSelectedReportsVendorId(vendorId))
+    router.push("/reports/dashboard");
+}
+
+
   return (
     <>    
         <Box overflowY="auto" maxHeight="230px" border="1px">
@@ -28,10 +39,17 @@ export default function VendorsByStatusSummarySection(props) {
                     </HStack>                     
                   </Td>
                   <Td>
-                    <FcViewDetails size={20}/>
+                    <FcViewDetails size={20} onClick={() => handleDetailedVendorReport(id)}/>
                   </Td>
                 </Tr>                
               ))}
+              {props.vendors?.length === 0} {
+                <Tr>
+                  <Th colSpan={3}>
+                    No Vendors
+                  </Th>
+                </Tr>
+              }
             </Tbody>
           </Table>
         </Box>

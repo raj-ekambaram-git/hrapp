@@ -44,6 +44,13 @@ export default function ProjectsByStatusSummarySection(props) {
                   </Td>
                 </Tr>                
               ))}
+              {props.projects?.length === 0} {
+                <Tr>
+                  <Th colSpan={3}>
+                    No data
+                  </Th>
+                </Tr>
+              }
             </Tbody>
           </Table>
         </Box>
