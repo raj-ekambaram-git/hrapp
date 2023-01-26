@@ -5,6 +5,7 @@ import { AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Car
 import { horizontalBarChart } from "../../../common/charts/horizontalBarChart";
 import { ExpenseStatus } from "@prisma/client";
 import RevenueBySummarySection from "../../common/revenueBySummarySection";
+import VendorsByStatusSummarySection from "../../common/vendorsByStatusSummarySection";
 
 
 
@@ -15,6 +16,7 @@ export default function RevenueByVendors(props) {
   const [totalBillableExp, setTotalBillableExp] = useState(0);
   const [totalNonBillableExp, setTotalNonBillableExp] = useState(0);
   const [totalNetProfit, setTotalNetProfit] = useState(0);
+  const [allVendors, setAllVendors] = useState([]);
 
   
 
@@ -52,6 +54,8 @@ export default function RevenueByVendors(props) {
       let allProjectBillableExp = 0;
       let allProjectNonBillableExp = 0;
       let allProjectNetProfit = 0;
+      
+      allVendors.push({id: vendor?.id, name: vendor?.name, status: vendor?.status})
 
       labels.push((vendor?.name?.length>25?vendor?.name?.substring(0,25):vendor?.name))
 
@@ -188,10 +192,12 @@ export default function RevenueByVendors(props) {
               <Box width="60%">
                 <canvas id={props.canvasId}></canvas>
               </Box>  
-              <Stack width="50%">
+              <HStack width="50%">
                 <RevenueBySummarySection totalEstimatedRevenue={totalEstimatedRevenue} totalActualRevenue={totalActualRevenue} totalProjectCost={totalProjectCost}
                                           totalBillableExp={totalBillableExp} totalNonBillableExp={totalNonBillableExp} totalNetProfit={totalNetProfit}/>
-              </Stack> 
+                <VendorsByStatusSummarySection vendors={allVendors}/>
+
+              </HStack> 
             </HStack>            
           </AccordionPanel>   
       </AccordionItem>          

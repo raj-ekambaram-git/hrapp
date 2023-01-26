@@ -1,9 +1,15 @@
 import { tableAnatomy } from '@chakra-ui/anatomy'
-import { createMultiStyleConfigHelpers } from '@chakra-ui/react'
+import { createMultiStyleConfigHelpers, defineStyle } from '@chakra-ui/react'
+import { mode } from "@chakra-ui/theme-tools"
 
 const { definePartsStyle, defineMultiStyleConfig } =
   createMultiStyleConfigHelpers(tableAnatomy.keys)
 
+  const numericStyles = defineStyle({
+    "&[data-is-numeric=true]": {
+      textAlign: "end",
+    },
+  })
 
 const list = definePartsStyle({
   container: {
@@ -71,6 +77,68 @@ const sortTable = definePartsStyle({
 })
 
 
+const reportTableList = definePartsStyle((props) => {
+  const { colorScheme: c } = props
+
+  return {
+    table:{
+      borderColor: "black",
+      borderSpacing: '1px',
+      borderRadius: "full",
+      border: "1px",
+      borderColor: "black"
+    },
+    thead: {
+      
+    },
+    tr:{
+    },
+    th: {
+      color: mode("gray.600", "gray.400")(props),
+      borderColor: mode(`${c}.100`, `${c}.700`)(props),
+      ...numericStyles,
+      fontSize: "13px",
+      fontWeight: "900",
+      fontcolor: "black",
+      textTransform: "none",     
+      height: "30px" 
+    },
+    td: {
+      borderColor: mode(`${c}.100`, `${c}.700`)(props),
+      ...numericStyles,
+    },
+    caption: {
+      color: mode("gray.600", "gray.100")(props),
+    },
+    tbody: {
+      tr: {
+        
+        fontSize: "12px",
+        "&:nth-of-type(even)": {
+          "th, td": {
+            borderColor: mode(`${c}.50`, `${c}.50`)(props),
+            width: "170px",
+            height: "30px" 
+          },
+          td: {
+            background: mode(`${c}.50`, `${c}.50`)(props),
+            width: "170px",
+            height: "30px" ,
+            height: "30px" 
+          },
+        },
+      },
+    },
+    tfoot: {
+      tr: {
+        "&:last-of-type": {
+          th: { borderBottomWidth: 0 },
+        },
+      },
+    },
+  }
+})
+
 const tableInsideAccoridion = definePartsStyle({
   table: {
     marginTop: "1rem",    
@@ -137,4 +205,4 @@ const baseStyle = definePartsStyle({
 
 
 
-export const tableTheme = defineMultiStyleConfig({ baseStyle,  variants: {tableInsideAccoridion,list, sortTable, expensePayment} })
+export const tableTheme = defineMultiStyleConfig({ baseStyle,  variants: {reportTableList, tableInsideAccoridion,list, sortTable, expensePayment} })

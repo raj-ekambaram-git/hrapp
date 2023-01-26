@@ -24,6 +24,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         include: {
           vendor:{
             select: {
+              id: true,
               name: true,
               status: true,
               vendorUsers: {
@@ -53,7 +54,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
               },
               project: {
                 select: {
+                  id: true,
                   name: true,
+                  status: true,
                   referenceCode: true,
                   usedBudget: true,
                   usedMiscBudget: true,
