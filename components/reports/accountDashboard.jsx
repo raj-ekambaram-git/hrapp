@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { accountService, userService } from "../../services";
 import { Accordion, Box, Card, CardBody, CardHeader, HStack, Select, Stack } from "@chakra-ui/react";
-import BudgetChart from "./vendor/charts/budgetChart";
-import InvoiceChart from "./vendor/charts/invoiceChart";
-import ExpenseChart from "./vendor/charts/expenseChart";
-import FinancialSummary from "./vendor/financialSummary";
+import BudgetChart from "./account/charts/budgetChart";
+import InvoiceChart from "./account/charts/invoiceChart";
+import ExpenseChart from "./account/charts/expenseChart";
+import FinancialSummary from "./account/financialSummary";
 import { useDispatch, useSelector } from "react-redux";
-import RevenueByProjects from "./vendor/charts/revenueByProjects";
-import RevenueByUsers from "./vendor/charts/revenueByUsers";
+import RevenueByProjects from "./account/charts/revenueByProjects";
+import RevenueByUsers from "./account/charts/revenueByUsers";
+import RevenueByVendors from "./account/charts/revenueByVendors";
 
 
 export default function AccountDashboard(props) {
@@ -49,14 +50,15 @@ return (
         {account? (
             <>
                <HStack>
-                <BudgetChart projects={account.project}  canvasId="accountBudget"/>
-                <InvoiceChart projects={account.project} canvasId="accountInvoice"/>
-                <ExpenseChart projects={account.project} canvasId="accountExpense"/>            
-                <FinancialSummary projects={account.project}/>
+                <BudgetChart vendors={account.vendor}  canvasId="accountBudget"/>
+                <InvoiceChart vendors={account.vendor} canvasId="accountInvoice"/>
+                <ExpenseChart vendors={account.vendor} canvasId="accountExpense"/>            
+                <FinancialSummary vendors={account.vendor}/>
               </HStack>
               <Accordion variant="vendorReport" defaultIndex={[0]} >
-                <RevenueByProjects projects={account.project} canvasId="accountRevenueByProjects"/>
-                <RevenueByUsers projects={account.project} canvasId="accountRevenueByUsers"/>              
+                <RevenueByVendors vendors={account.vendor} canvasId="accountRevenueByVendors"/>              
+                <RevenueByProjects vendors={account.vendor} canvasId="accountRevenueByProjects"/>
+                <RevenueByUsers vendors={account.vendor} canvasId="accountRevenueByUsers"/>                              
               </Accordion>
 
           </>           
