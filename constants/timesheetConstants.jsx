@@ -10,7 +10,8 @@ export const TimesheetConstants = {
     {
       label: "",
       accessor: "deleteAction",
-      disableSearch: true
+      disableSearch: true,
+      disableSort: true
     },
     // {
     //   label: "ID",

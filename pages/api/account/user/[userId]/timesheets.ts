@@ -26,8 +26,11 @@ console.log("userId ID::"+userId+"---AccountioD::"+accountId)
               not: TimesheetStatus.MarkForDelete
             }
         },
+        include: {
+          timesheetEntries: true
+        },
         orderBy: {
-          id: "desc"
+          lastUpdateDate: "desc"
         }
       });
       res.status(200).json(timesheets);
@@ -42,8 +45,11 @@ console.log("userId ID::"+userId+"---AccountioD::"+accountId)
               not: TimesheetStatus.MarkForDelete
             }
         },
+        include: {
+          timesheetEntries: true
+        },
         orderBy: {
-          id: "desc"
+          lastUpdateDate: "desc"
         }
       });
       res.status(200).json(timesheets);
@@ -59,8 +65,11 @@ console.log("userId ID::"+userId+"---AccountioD::"+accountId)
               not: TimesheetStatus.MarkForDelete
             }
         },
+        include: {
+          timesheetEntries: true
+        },
         orderBy: {
-          id: "desc"
+          lastUpdateDate: "desc"
         }
       });
       res.status(200).json(timesheets);

@@ -8,6 +8,7 @@ import { notesService } from './notes.service';
 import { projectService } from './project.service';
 import { util } from '../helpers/util';
 import { NotesConstants } from '../constants';
+import { TimesheetStatus } from '@prisma/client';
 
 const { publicRuntimeConfig } = getConfig();
 const baseUrl = `${publicRuntimeConfig.apiUrl}`;
@@ -21,8 +22,19 @@ export const timesheetService = {
     updateTimesheetEntries,
     createTimesheet,
     updateTimesheet,
-    deleteTimesheet
+    deleteTimesheet,
+    isTimesheetDeletable
 };
+
+function isTimesheetDeletable(timesheet){
+   const deletable = timesheet?.timesheetEntries.map((timesheetEntry, index)=> {
+    if(timesheetEntry.status === TimesheetStatus.Approved || timesheetEntry.status === TimesheetStatus.Invoiced) {      
+      return false;
+    }
+    return true;
+  })
+  return !deletable.includes(false);
+}
 
 function deleteTimesheet(timesheetIds, userId, accountId) {
 

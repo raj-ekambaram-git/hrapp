@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
-import { userService } from "../../services";
+import { timesheetService, userService } from "../../services";
 import {
   HStack,
   Button,
   Flex,
   Checkbox,
   useToast,
-  Box
+  Box,
+  useDisclosure
 } from '@chakra-ui/react'
 import { PageNotAuthorized } from "../common/pageNotAuthorized";
 import { PageMainHeader } from "../common/pageMainHeader";
@@ -19,6 +20,7 @@ import { util } from "../../helpers";
 import { EMPTY_STRING } from "../../constants";
 import { TimesheetStatus } from "@prisma/client";
 import { DeleteIcon } from "@chakra-ui/icons";
+import DeleteConfirmDialog from "../common/deleteConfirmDialog";
 
 
 
@@ -33,6 +35,9 @@ const TimesheetList = (props) => {
   const [timesheetsToDelete, setTimesheetsToDelete] = useState([]);
   const [isPageAuthprized, setPageAuthorized] = useState(false);
   const TIMESHEET_LIST_TABLE_COLUMNS = React.useMemo(() => TimesheetConstants.TIMESHEET_LIST_TABLE_META)
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const dialogRef = useRef("Delete");
+
 
   useEffect(() => {
 
@@ -60,51 +65,68 @@ const TimesheetList = (props) => {
 
   }, []);
   
-  const handleTimesheetDeleteSelection = (e) => {
-    console.log("handleTimesheetDeleteSelection::"+e+"***timesheetListRef::"+JSON.stringify(timesheetListRef))
+  const handleTimesheetDeleteSelection = (timesheetId) => {
+    dialogRef.current = timesheetId;
+    onOpen();
 
   }
 
-  const deleteTimesheet = () => {
-    console.log("deleteTimesheet:::"+JSON.stringify(timesheetsToDelete))
-    if(timesheetsToDelete.length >0) {
-      //Call the service to delete
-    }else {
-      toast({
-        title: 'Timesheet Delete Error.',
-        description: 'Add at least one item to delete.',
-        status: 'error',
-        position: 'top',
-        duration: 6000,
-        isClosable: true,
-      })
-    }
-
-  }
-
-
-    /**
+  /**
    * Function to get the list of accounts for a drop down
    */
     async function getTimesheetList(userId, accountId) {
-      // setPageAuthorized(true);
-      console.log("getTimesheetList::::")
       const responseData = await userService.getTimesheetByUser(userId, accountId);
       timesheetListRef.current = responseData;
-      
+
       if(responseData != undefined && responseData != EMPTY_STRING) {
-        const updatedTimesheetist =  responseData.map((timesheet, index)=> {
-          timesheet.deleteAction = <><HStack spacing={6}>{(timesheet.status === TimesheetStatus.Draft || timesheet.status === TimesheetStatus.Saved )?(<DeleteIcon size="xs" onClick={() => handleTimesheetDeleteSelection(timesheet.id)}/>):(<Box marginRight={3}></Box>)}<Box>{timesheet.id}</Box></HStack></>
-          timesheet.detailAction = <Button size="xs" bgColor="header_actions" onClick={() => handleTimesheetSelection(timesheet.id)}>Details</Button>
-          // timesheet.status = 
-          timesheet.lastUpdateDate = util.getFormattedDate(timesheet.lastUpdateDate)
-          timesheet.createdDate = util.getFormattedDate(timesheet.createdDate)
-          return timesheet;
-        });
-        setTimesheetList(updatedTimesheetist);
+        timesheetListRef.current = responseData;
+        updateTimesheetListForTable(responseData)
       }
     }
 
+    const updateTimesheetListForTable = (responseData) => {
+      const updatedTimesheetist =  responseData.map((timesheet, index)=> {
+        timesheet.deleteAction = <><HStack spacing={6}>{timesheetService.isTimesheetDeletable(timesheet)?(<DeleteIcon size="xs" onClick={() => handleTimesheetDeleteSelection(timesheet.id)}/>):(<Box marginRight={3}></Box>)}<Box>{timesheet.id}</Box></HStack></>
+        timesheet.detailAction = <Button size="xs" bgColor="header_actions" onClick={() => handleTimesheetSelection(timesheet.id)}>Details</Button>
+        // timesheet.status = 
+        timesheet.lastUpdateDate = util.getFormattedDate(timesheet.lastUpdateDate)
+        timesheet.createdDate = util.getFormattedDate(timesheet.createdDate)
+        return timesheet;
+      });
+      setTimesheetList(updatedTimesheetist);
+    }
+
+
+    const handleDeleteConfirmation = async (projectInput) => {
+      // const responseData = await projectService.markProjectDelete(projectInput.current, userService.getAccountDetails().accountId) 
+      const responseData = [];
+      if(responseData.error) {
+        toast({
+          title: 'Delete Timesheet.',
+          description: 'Error deleting timesheet',
+          status: 'error',
+          position: 'top',
+          duration: 6000,
+          isClosable: true,
+        })
+      }else {
+        toast({
+          title: 'Delete Timesheet.',
+          description: 'Successfully deleted timesheet.',
+          status: 'success',
+          position: 'top',
+          duration: 3000,
+          isClosable: true,
+        })
+        const newTimesheetList = [...timesheetListRef.current]
+        const timesheetToRemoveIndex = newTimesheetList.findIndex(x => x.id === projectInput.current);
+        newTimesheetList.splice(timesheetToRemoveIndex, 1);
+        updateTimesheetListForTable(newTimesheetList)
+        timesheetListRef.current = newTimesheetList;
+        onClose()
+      }
+    }
+    
     function handleTimesheetSelection(timesheetId){
       dispatch(setSelectedTimesheetId(timesheetId))
       router.push("/timesheet");
@@ -127,7 +149,13 @@ const TimesheetList = (props) => {
               ) : (
                 <PageMainHeader heading="Timesheets"/>
               )}
-    
+              <DeleteConfirmDialog        
+                  deleteHeader="Delete Project"
+                  dialogRef={dialogRef}
+                  isOpen={isOpen}
+                  handleDeleteConfirmation={handleDeleteConfirmation}
+                  onClose={onClose}/>
+
               <Flex marginBottom="1rem">
                 <HStack>
                     <Button size="xs" bgColor="header_actions"   onClick={handleAddNewTS}>
@@ -138,7 +166,6 @@ const TimesheetList = (props) => {
                     </Button>                     */}
                 </HStack>
               </Flex>
-              ---{JSON.stringify(timesheetListRef)}---
               <CustomTable variant="sortTable" columns={TIMESHEET_LIST_TABLE_COLUMNS} rows={timesheetList} />
           </div>
       ) : (
