@@ -29,7 +29,7 @@ import {
 import InvoiceItems from "../invoice/invoiceItems";
 import { useDispatch,useSelector } from "react-redux";
 import { resetInvoiceItemList, setInvoiceItemList, setProjectResources, resetProjectResources, setInvoiceTotal, setInvoicePaidAmount, setInvoiceEmailTo,
-  resetInvoiceEmailTo, removeEmailFromInvoiceEmailListByIndex } from "../../store/modules/Invoice/actions";
+  resetInvoiceEmailTo, removeEmailFromInvoiceEmailListByIndex, setSelectedInvoiceTSEId, setSelectedInvoiceExpId } from "../../store/modules/Invoice/actions";
 import DatePicker from "../common/datePicker";
 import { InvoiceConstants } from "../../constants/invoiceConstants";
 import {PageNotAuthorized} from '../../components/common/pageNotAuthorized';
@@ -176,6 +176,23 @@ const InvoiceAddEdit = (props) => {
         }
 
         console.log("invoiceResponse.invoiceItemList::::"+JSON.stringify(invoiceResponse.invoiceItems))
+        const expenseIds =  invoiceResponse.invoiceItems.map((invoice)=> {
+          if(invoice.type ==InvoiceType.Expense) {
+            return invoice.id
+          }
+        });
+
+        const timesheetEntryIds =  invoiceResponse.invoiceItems.map((invoice)=> {
+          if(invoice.type ==InvoiceType.Timesheet) {
+            return invoice.id
+          }
+        });
+
+        console.log("expenseIds::"+expenseIds+"****TSE::"+timesheetEntryIds)
+        // const expenseIds = invoiceResponse.invoiceItems.filter((invoice) => (invoice.type ==InvoiceType.Expense));
+        // const timesheetEntryIds = invoiceResponse.invoiceItems.filter((invoice) => (invoice.type ==InvoiceType.timesheetEntry));
+        dispatch(setSelectedInvoiceTSEId(timesheetEntryIds));
+        dispatch(setSelectedInvoiceExpId(expenseIds));
         
         dispatch(setInvoiceTotal(invoiceResponse.total));
         dispatch(setInvoicePaidAmount(invoiceResponse.paidAmount));
