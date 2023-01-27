@@ -7,7 +7,7 @@ import { userService } from './user.service';
 import { notesService } from './notes.service';
 import { projectService } from './project.service';
 import { util } from '../helpers/util';
-import { NotesConstants } from '../constants';
+import { CommonConstants, EmailConstants, NotesConstants } from '../constants';
 import { TimesheetStatus } from '@prisma/client';
 
 const { publicRuntimeConfig } = getConfig();
@@ -23,8 +23,28 @@ export const timesheetService = {
     createTimesheet,
     updateTimesheet,
     isTimesheetDeletable,
-    markTimesheetDelete
+    markTimesheetDelete,
+    getNewTimesheetEmailRequest
 };
+
+function getNewTimesheetEmailRequest(timesheetEntry, saveTimesheet) {
+
+  return {
+    withAttachment: false,
+    from: CommonConstants.fromEmail,
+    to: [{email: timesheetEntry.project?.contactEmail}],
+    bcc: [{email: saveTimesheet.user?.email}, {email: timesheetEntry.project?.vendor?.email}],
+    templateData: {
+      timesheetName: saveTimesheet.name,
+      projectName: timesheetEntry.project?.name,
+      submittedBy: saveTimesheet.user?.firstName+" "+saveTimesheet.user?.lastName,
+      submittedDate: util.getFormattedDate(new Date()),
+      timePeriod: util.getFormattedDate(saveTimesheet.startDate)
+    },
+    template_id: EmailConstants.emailTemplate.newTimesheetSubmitted
+  }
+
+}
 
 function markTimesheetDelete(timesheetId, accountId) {
 
