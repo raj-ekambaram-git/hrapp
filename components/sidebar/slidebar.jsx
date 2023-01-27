@@ -51,14 +51,23 @@ const Slidebar = (props) => {
                   <HStack>
                     {props.authorized ? (<>
                       <Box marginRight={4} textAlign="center">Hi, {userService.userValue?.firstName} {userService?.userValue?.lastName}!</Box>
-                    </>) : (<></>)}
-                  <Flex marginRight={4}>
-                    <Link href={`/account/user/detail`} >  
-                      <div style={{weidth:"40px",marginRight:"20px",marginTop:"6px"}}>
-                        <FaUserCheck fontSize="27px"/>
-                      </div>
-                    </Link>
-                  </Flex>
+                      <Flex marginRight={4}>
+                        <Link href={`/account/user/detail`} >  
+                          <div style={{weidth:"40px",marginRight:"20px",marginTop:"6px"}}>
+                            <FaUserCheck fontSize="27px"/>
+                          </div>
+                        </Link>
+                      </Flex>                      
+                    </>) : (<>
+                      <Flex marginRight={4}>
+                        <Link href={`/login`} >  
+                          <div style={{weidth:"40px",marginRight:"20px",marginTop:"6px"}}>
+                            <FaUserCheck fontSize="27px"/>
+                          </div>
+                        </Link>
+                      </Flex>                    
+                    </>)}
+
                   <Flex>
                     <WrapItem>
                             {props.authorized  ? (<>
