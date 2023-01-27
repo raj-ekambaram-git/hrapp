@@ -3,7 +3,8 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import prisma from "../../../../lib/prisma";
 import {EMPTY_STRING} from "../../../../constants/accountConstants";
-import { NotesType } from "@prisma/client";
+import { ExpenseEntryStatus, NotesType } from "@prisma/client";
+import { emailService, expenseService } from "../../../../services";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method !== 'PUT') {
@@ -37,6 +38,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           }        
         },
         select: {
+          id: true,
+          status: true,
           project: {
             select: {
               id: true,
@@ -63,6 +66,62 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           }
         }
       });
+
+      //Send email here 
+      if(savedExpense && (savedExpense.status === ExpenseEntryStatus.Approved || savedExpense.status === ExpenseEntryStatus.Rejected)) {
+
+        const expenseDetailsForEmail = await prisma.expense.findUnique({
+          where: {
+            id: savedExpense.id,
+          },
+          select: {
+            status: true,   
+            total: true,
+            billable: true,
+            name: true,
+            createdDate: true,
+            project: {
+              select: {
+                name: true,
+                projectResource: {
+                  where: {
+                    isTimesheetApprover: true
+                  },
+                  select: {
+                    user: {
+                      select: {
+                        email: true
+                      }                        
+                    }
+                  }              
+                },
+                vendor: {
+                  select: {
+                    name: true
+                  }
+                }
+              }
+            },
+            approvedBy: {
+              select: {
+                firstName: true,
+                lastName: true
+              }
+            },
+            user: {
+              select: {
+                firstName: true,
+                lastName: true,
+                email: true                
+              }
+            }
+          }
+        });
+        const emailResponse = emailService.sendEmail(expenseService.getExpenseApprovalEmailRequest(expenseDetailsForEmail, expenseNote));
+            if(!emailResponse.error) {
+              console.log("error happened sending email:::"+JSON.stringify(savedExpense))
+            }              
+        }
 
       return savedExpense;
   });

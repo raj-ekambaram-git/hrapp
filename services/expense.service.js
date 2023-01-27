@@ -21,9 +21,35 @@ export const expenseService = {
     createExpenseTransaction,
     updateExpenseStatus,
     markExpenseDelete,
-    getNewExpenseEmailRequest
+    getNewExpenseEmailRequest,
+    getExpenseApprovalEmailRequest
 };
 
+
+function getExpenseApprovalEmailRequest(expense, notes) {
+
+  //Logic to handle the approvers
+  const approvers = [];
+  expense.project?.projectResource?.map((resource) => {
+      approvers.push({email: resource.user?.email})
+  })
+  const jsonObject = approvers.map(JSON.stringify);
+  const uniqueSet = new Set(jsonObject);
+  const uniqueArray = Array.from(uniqueSet).map(JSON.parse);
+  
+  return {
+    withAttachment: false,
+    from: CommonConstants.fromEmail,
+    to: uniqueArray,
+    bcc: [{email: expense.user?.email}],
+    templateData: {
+      expense: expense,
+      reason: notes,
+    },
+    template_id: expense.status === ExpenseStatus.Approved?EmailConstants.emailTemplate.approvedExpenseSubmitted:EmailConstants.emailTemplate.rejectedExpenseSubmitted
+  }
+
+}
 
 
 function getNewExpenseEmailRequest(expense) {
@@ -50,13 +76,6 @@ function getNewExpenseEmailRequest(expense) {
     bcc: [{email: expense.user?.email}, {email: expense.project?.vendor?.email}],
     templateData: {
       expense: expense
-      // expenseName: expense.name,
-      // vendorName: expense.project?.name,
-      // projectName: expense.project?.name,      
-      // submittedBy: saveTimesheet.user?.firstName+" "+saveTimesheet.user?.lastName,
-      // submittedDate: util.getFormattedDate(new Date()),
-      // timePeriod: util.getFormattedDate(saveTimesheet.startDate)+" - "+util.getFormattedDate(startPlusWeek),
-      // status: saveTimesheet.status
     },
     template_id: EmailConstants.emailTemplate.newExpenseSubmitted
   }
