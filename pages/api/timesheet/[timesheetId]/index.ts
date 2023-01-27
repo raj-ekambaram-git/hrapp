@@ -35,61 +35,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     });
 
 
-
-  //   let timesheetEntryStatus = EMPTY_STRING;
-  //   let updateTimesheetStatus = false;
-  //   //Update the timesheet entries first
-  //   for (let i = 0; i < timesheet.timesheetEntries.length; i++) {
-  //     console.log("inside the entries presenet..")
-  //     let timesheetEntry = timesheet.timesheetEntries[i];
-  //     timesheetEntryStatus = timesheetEntry.status;
-  //     if(timesheetEntryStatus === EMPTY_STRING || timesheetEntry.status === timesheetEntryStatus) {
-  //       timesheetEntryStatus = timesheetEntry.status;
-  //       updateTimesheetStatus = true;
-  //     }else {
-  //       updateTimesheetStatus = false;
-  //     }
-
-  //     console.log("timesheetEntryStatus:::"+JSON.stringify(timesheetEntryStatus));
-
-  //     if(timesheetEntry.id && timesheetEntry.id != undefined && timesheetEntry.id != EMPTY_STRING) {
-  //       console.log("ID Present:::"+timesheetEntry.id);
-  //       //Update Timesheet Entry
-  //       const savedTimesheetEntries = await prisma.timesheetEntries.update({
-  //         where: {
-  //           id: timesheetEntry.id,
-  //         },
-  //         data: timesheetEntry
-  //       });        
-
-  //     }else {
-  //       console.log("Inside the creeate...")
-  //       //Create Timesheet Entry
-  //       timesheetEntry.timesheetId = timesheet.id;
-
-  //       console.log("Inside new entry of timesheetentry:::"+JSON.stringify(timesheetEntry));
-  //       const savedTimesheetEntries = await prisma.timesheetEntries.create({
-  //         data: timesheetEntry
-  //       });
-  //       // res.status(200).json(savedTimesheetEntries);
-  //     }
-  // }
-
-
-  //   //TImesheet status calculation
-  //   let timesheetStatus = timesheet.status;
-  //   if(updateTimesheetStatus) {
-  //     timesheetStatus = timesheetEntryStatus;
-  //   }
-  //   const savedTimesheet = await prisma.timesheet.update({
-  //     where: {
-  //       id: timesheet.id,
-  //     },
-  //     data: {
-  //       name: timesheet.name,
-  //       status: timesheetStatus
-  //     }
-  //   });
     res.status(200).json(savedTimesheet);
   } catch (error) {
     console.log(error)

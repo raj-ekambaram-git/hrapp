@@ -29,10 +29,24 @@ export const timesheetService = {
 
 function getNewTimesheetEmailRequest(timesheetEntry, saveTimesheet) {
 
+  //Logic to handle the approvers
+  const approvers = [];
+  timesheetEntry.project?.projectResource?.map((resource) => {
+    if(!approvers.includes({email: resource.user?.email})) {
+      approvers.push({email: resource.user?.email})
+    }    
+  })
+  if(!approvers.includes({email: timesheetEntry.project?.contactEmail})) {
+    approvers.push({email: timesheetEntry.project?.contactEmail})
+  }
+  const jsonObject = approvers.map(JSON.stringify);
+  const uniqueSet = new Set(jsonObject);
+  const uniqueArray = Array.from(uniqueSet).map(JSON.parse);
+  
   return {
     withAttachment: false,
     from: CommonConstants.fromEmail,
-    to: [{email: timesheetEntry.project?.contactEmail}],
+    to: uniqueArray,
     bcc: [{email: saveTimesheet.user?.email}, {email: timesheetEntry.project?.vendor?.email}],
     templateData: {
       timesheetName: saveTimesheet.name,

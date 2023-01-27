@@ -60,12 +60,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       }
     });
 
-    if(saveTimesheet && saveTimesheet.status === TimesheetStatus.Submitted) {
+    if(saveTimesheet && saveTimesheet.status === TimesheetStatus.Saved) {
       saveTimesheet.timesheetEntries?.map((timesheetEntry) => {
-        const emailResponse = emailService.sendEmail(timesheetService.getNewTimesheetEmailRequest(timesheetEntry, saveTimesheet));
-        if(!emailResponse.error) {
-          console.log("error happened sending email:::"+JSON.stringify(timesheetEntry))
-        }
+        console.log("EMAIL REQUEST ::"+JSON.stringify(timesheetService.getNewTimesheetEmailRequest(timesheetEntry, saveTimesheet)))
+        // const emailResponse = emailService.sendEmail(timesheetService.getNewTimesheetEmailRequest(timesheetEntry, saveTimesheet));
+        // if(!emailResponse.error) {
+        //   console.log("error happened sending email:::"+JSON.stringify(timesheetEntry))
+        // }
       })      
     }
     res.status(200).json(saveTimesheet);
@@ -74,23 +75,3 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(400).json({ message: 'Something went wrong while saving account' })
   }
 }
-
-
-// const getNewTimesheetEmailRequest = (timesheetEntry, saveTimesheet) => {
-
-//   return {
-//     withAttachment: false,
-//     from: CommonConstants.fromEmail,
-//     to: [{email: timesheetEntry.project?.contactEmail}],
-//     bcc: [{email: saveTimesheet.user?.email}, {email: timesheetEntry.project?.vendor?.email}],
-//     templateData: {
-//       timesheetName: saveTimesheet.name,
-//       projectName: timesheetEntry.project?.name,
-//       submittedBy: saveTimesheet.user?.firstName+" "+saveTimesheet.user?.lastName,
-//       submittedDate: util.getFormattedDate(new Date()),
-//       timePeriod: util.getFormattedDate(saveTimesheet.startDate)
-//     },
-//     template_id: EmailConstants.emailTemplate.newTimesheetSubmitted
-//   }
-
-// }
