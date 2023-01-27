@@ -10,6 +10,7 @@ import { util } from '../helpers/util';
 import { emailService } from './email.service';
 import { CommonConstants, EmailConstants } from '../constants';
 import { expenseService } from './expense.service';
+import { InvoiceStatus } from '@prisma/client';
 
 
 
@@ -26,9 +27,29 @@ export const invoiceService = {
     generateInvoice,
     updateInvoiceEmailTo,
     generateInvoiceWithoutDetail,
-    sendInvoiceEmail
+    sendInvoiceEmail,
+    markInvoiceDelete
 
 };
+
+function markInvoiceDelete(invoiceId, accountId) {
+
+  return fetchWrapper.put(`${baseUrl}/account/invoice/`+invoiceId, {
+    invoiceData: {
+      id: parseInt(invoiceId),
+      status: InvoiceStatus.MarkForDelete
+    },
+    skipInvoiceItemsUpdate: true
+  })
+  .then(async invoice => {
+    return invoice;
+  })        
+  .catch(err => {
+    console.log("Error markInvoiceDelete"+err)
+    return {errorMessage: err, error: true};
+  });
+
+}
 
 async function sendInvoiceEmail(invoiceId, accountId){
 
@@ -184,8 +205,11 @@ function getInvoiceTransactions(invoiceId, accountId) {
 function updateInvoiceEmailTo(invoiceId, invoiceEmailTos) {
 
   return fetchWrapper.put(`${baseUrl}/account/invoice/`+invoiceId, {
-    id: parseInt(invoiceId),
-    invoiceEmailTo: invoiceEmailTos
+    invoiceData: {
+      id: parseInt(invoiceId),
+      invoiceEmailTo: invoiceEmailTos      
+    },
+    skipInvoiceItemsUpdate: true
   })
   .then(invoice => {
     console.log("Inside the updateInvoiceEmailTo service ::"+JSON.stringify(invoice)+"*******invoiceEmailTos:::"+JSON.stringify(invoiceEmailTos));

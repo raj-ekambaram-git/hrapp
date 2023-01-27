@@ -21,26 +21,40 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     // });
 
     // const savedAccount: Prisma.UserCreateInput = JSON.parse(req.body);
-    const savedInvoice = await prisma.invoice.update({
-      where: {
-        id: invoice.invoiceData.id,
-      },
-      data: {
-        ...invoice.invoiceData,
-        invoiceItems: {
-          deleteMany: {
-            invoiceId: invoice.invoiceData.id,
-            NOT: invoice.invoiceItems?.map(({ id }) => ({ id })),
-          },
-          upsert: invoice.invoiceItems?.map((invoiceItem) => ({ 
-            where: { id: invoiceItem.id?invoiceItem.id:0 },
-            create: {...invoiceItem},
-            update: {...invoiceItem},
-          }))
+    if(invoice.skipInvoiceItemsUpdate) {
+      const savedInvoice = await prisma.invoice.update({
+        where: {
+          id: invoice.invoiceData.id,
         },
-      }
-    });
-    res.status(200).json(savedInvoice);
+        data: {
+          ...invoice.invoiceData,
+        }
+      });
+      res.status(200).json(savedInvoice);
+
+    }else {
+      const savedInvoice = await prisma.invoice.update({
+        where: {
+          id: invoice.invoiceData.id,
+        },
+        data: {
+          ...invoice.invoiceData,
+          invoiceItems: {
+            deleteMany: {
+              invoiceId: invoice.invoiceData.id,
+              NOT: invoice.invoiceItems?.map(({ id }) => ({ id })),
+            },
+            upsert: invoice.invoiceItems?.map((invoiceItem) => ({ 
+              where: { id: invoiceItem.id?invoiceItem.id:0 },
+              create: {...invoiceItem},
+              update: {...invoiceItem},
+            }))
+          },
+        }
+      });
+      res.status(200).json(savedInvoice);
+    }
+
   } catch (error) {
     console.log(error)
     res.status(400).json({ message: 'Something went wrong while updating' })

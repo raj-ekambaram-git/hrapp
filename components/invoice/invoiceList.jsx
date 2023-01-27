@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
-import { accountService, userService } from "../../services";
+import { accountService, invoiceService, userService } from "../../services";
 
 import {
   HStack,
@@ -31,7 +31,7 @@ const InvoiceList = (props) => {
   const { data } = props.invoiceList;
   const { requestMode } = props.invoiceList;
   const [invoiceList, setInvoiceList] = useState([]);
-  const invoiceListRef = useRef([]);
+  const invoiceListRef = useRef(["1","2"]);
   const [isPageAuthprized, setPageAuthorized] = useState(false);
   const INVOICE_LIST_TABLE_COLUMNS = React.useMemo(() => InvoiceConstants.INVOICE_LIST_TABLE_META)
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -90,6 +90,7 @@ const InvoiceList = (props) => {
       const responseData = await accountService.getInvoiceListByVendor(vendorId, accountId);
       console.log("Response Data:::"+JSON.stringify(responseData))
       if(responseData != undefined && responseData != EMPTY_STRING) {
+        invoiceListRef.current = responseData;
         setInvoiceList(updateInvoicesForDisplay(responseData) );
       }
 
@@ -98,8 +99,8 @@ const InvoiceList = (props) => {
     async function getInvoiceListByProject(projectId, accountId) {
       // setPageAuthorized(true);
       const responseData = await accountService.getInvoiceListByProject(projectId, accountId);
-      invoiceListRef.current = responseData;
-
+      console.log("invoiceListRef:::"+JSON.stringify(invoiceListRef))
+      
       if(responseData != undefined && responseData != EMPTY_STRING) {
         invoiceListRef.current = responseData;
         // updateInvoicesForDisplay(responseData)
@@ -133,8 +134,7 @@ const InvoiceList = (props) => {
   }
 
   const handleDeleteConfirmation = async (invoiceInput) => {
-    // const responseData = await timesheetService.markTimesheetDelete(invoiceInput.current, userService.getAccountDetails().accountId) 
-    const responseData = []
+    const responseData = await invoiceService.markInvoiceDelete(invoiceInput.current, userService.getAccountDetails().accountId) 
     if(responseData.error) {
       toast({
         title: 'Delete Invoicce.',
@@ -153,12 +153,10 @@ const InvoiceList = (props) => {
         duration: 3000,
         isClosable: true,
       })
-      console.log("invoiceListRef::"+JSON.stringify(invoiceListRef))
       const newInvoiceList = [...invoiceListRef.current]
       const invoiceToRemoveIndex = newInvoiceList.findIndex(x => x.id === invoiceInput.current);
       newInvoiceList.splice(invoiceToRemoveIndex, 1);
       invoiceListRef.current = newInvoiceList;
-      console.log("newInvoiceListnewInvoiceListnewInvoiceListnewInvoiceList"+JSON.stringify(newInvoiceList))
       setInvoiceList(updateInvoicesForDisplay(newInvoiceList));      
       onClose()
     }
@@ -168,6 +166,7 @@ const InvoiceList = (props) => {
     async function getInvoiceListByAccount(accountId) {
       const responseData = await accountService.getInvoiceListByAccount(accountId);
       if(responseData != undefined && responseData != EMPTY_STRING) {
+        invoiceListRef.current = responseData;
         setInvoiceList(updateInvoicesForDisplay(responseData) );
       }
     }    
