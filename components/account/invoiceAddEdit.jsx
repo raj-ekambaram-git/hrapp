@@ -176,23 +176,25 @@ const InvoiceAddEdit = (props) => {
         }
 
         console.log("invoiceResponse.invoiceItemList::::"+JSON.stringify(invoiceResponse.invoiceItems))
-        const expenseIds =  invoiceResponse.invoiceItems.map((invoice)=> {
+        const expenseIds =  [...invoiceResponse.invoiceItems].map((invoice)=> {
           if(invoice.type ==InvoiceType.Expense) {
-            return invoice.id
+            return parseInt(invoice?.expense?.id)
+          }
+        });
+        console.log("expenseIds::::"+expenseIds)
+        const timesheetEntryIds =  [...invoiceResponse.invoiceItems].map((invoice)=> {
+          if(invoice.type ==InvoiceType.Timesheet) {
+            return parseInt(invoice.timesheetEntry?.id)
           }
         });
 
-        const timesheetEntryIds =  invoiceResponse.invoiceItems.map((invoice)=> {
-          if(invoice.type ==InvoiceType.Timesheet) {
-            return invoice.id
-          }
-        });
+        console.log("timesheetEntryIds::::"+timesheetEntryIds)
 
         console.log("expenseIds::"+expenseIds+"****TSE::"+timesheetEntryIds)
         // const expenseIds = invoiceResponse.invoiceItems.filter((invoice) => (invoice.type ==InvoiceType.Expense));
         // const timesheetEntryIds = invoiceResponse.invoiceItems.filter((invoice) => (invoice.type ==InvoiceType.timesheetEntry));
         dispatch(setSelectedInvoiceTSEId(timesheetEntryIds));
-        dispatch(setSelectedInvoiceExpId(expenseIds));
+        // dispatch(setSelectedInvoiceExpId(expenseIds));
         
         dispatch(setInvoiceTotal(invoiceResponse.total));
         dispatch(setInvoicePaidAmount(invoiceResponse.paidAmount));
