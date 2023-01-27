@@ -39,6 +39,7 @@ import { DocumentConstants, NotesConstants } from "../../constants";
 import { util } from "../../helpers/util";
 import { setDocumentType } from "../../store/modules/Document/actions";
 import InvoiceDetailActions from "../invoice/invoiceDetailActions";
+import { ExpenseStatus, InvoiceType, TimesheetStatus } from "@prisma/client";
 
 
 
@@ -359,6 +360,37 @@ const InvoiceAddEdit = (props) => {
           isClosable: true,
         })
         return;
+      }else {
+        const invoiceItemStatuses = invoiceItemList.map((invoiceItem)=> {
+                if(invoiceItem.type === InvoiceType.Expense) {
+                  if(invoiceItem.expense?.status === ExpenseStatus.Invoiced 
+                    || invoiceItem.expense?.status === ExpenseStatus.Paid
+                    || invoiceItem.expense?.status === ExpenseStatus.PartiallyPaid) {
+                      return false;
+                    }else {
+                      return true;
+                    }
+                } else if(invoiceItem.type === InvoiceType.Timesheet) {
+                  if(invoiceItem.timesheetEntry?.status === TimesheetStatus.Invoiced 
+                    || invoiceItem.timesheetEntry?.status === TimesheetStatus.Paid
+                    || invoiceItem.timesheetEntry?.status === TimesheetStatus.PartiallyPaid) {
+                      return false;
+                    }else {
+                      return true;
+                    }
+                }                
+        })
+        if(invoiceItemStatuses.includes(false)) {
+          toast({
+            title: 'Invoice Error.',
+            description: 'One of the invoice item is already invoiced/paid, so remove that item before submitting.',
+            status: 'error',
+            position: 'top',
+            duration: 6000,
+            isClosable: true,
+          })
+          return;
+        }
       }
       const responseData = await invoiceService.updateInvoice(formData, invoiceId, invoiceDate, dueDte,invoiceItemList, invoiceTotal, invoiceEmailTos);
 
