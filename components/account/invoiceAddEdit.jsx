@@ -188,6 +188,8 @@ const InvoiceAddEdit = (props) => {
   async function refreshProjectForVendor(selectedVendorObj) {
     
     setEnableInvoiceItemAdd(false);
+    setValue("total",0)
+    dispatch(setInvoiceTotal(0));
     dispatch(resetInvoiceItemList());
     dispatch(resetInvoiceEmailTo());
     
@@ -210,6 +212,10 @@ const InvoiceAddEdit = (props) => {
   function handleInvoiceType(invoiceTypeValue) {
     console.log("handleInvoiceType:::"+invoiceTypeValue);
     setInvoiceType(invoiceTypeValue)
+    setValue("total",0)
+    dispatch(setInvoiceTotal(0));
+    dispatch(resetInvoiceItemList());
+
   }
 
   function handleInvoiceDate(e) {

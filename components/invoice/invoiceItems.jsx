@@ -21,6 +21,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { removeItemFromInvoiceItemList, setInvoiceTotal } from "../../store/modules/Invoice/actions";
 import { InvoiceConstants } from "../../constants/invoiceConstants";
 import ProjectExpenses from "../project/detail/projectExpenses";
+import { InvoiceType } from "@prisma/client";
 
 const InvoiceItems = (props) => {
     const dispatch = useDispatch();
@@ -118,6 +119,9 @@ const InvoiceItems = (props) => {
                                 <Th>
                                 Total Item 
                                 </Th>
+                                <Th>
+                                Status
+                                </Th>                                
                             </Tr>   
                         </Thead>                
                         <Tbody>
@@ -166,6 +170,17 @@ const InvoiceItems = (props) => {
                                         <Text pt='table_display_value' fontSize='table_display_value'>  
                                            $ {invoiceItem.total} 
                                         </Text>
+                                    </Th>
+                                    <Th>
+                                        {(invoiceItem.type == InvoiceType.Expense)
+                                        ?<>
+                                            {invoiceItem.expense?.status}
+                                        </>
+                                        : (invoiceItem.type == InvoiceType.Timesheet)
+                                        ?<>
+                                            {invoiceItem.timesheetEntry?.status}
+                                        </>                                            
+                                        : <></>}
                                     </Th>
                                 </Tr>
                             ))}
