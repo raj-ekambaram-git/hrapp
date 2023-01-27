@@ -60,6 +60,7 @@ model Account {
   user           User[]          @relation("UserAccount")
   project        Project[]
   accountConfig  AccountConfig[]
+  contact        Contact[]
 }
 
 model Vendor {
@@ -195,16 +196,15 @@ model Project {
   timesheetNotesRequired    Boolean           @default(false)
   parent                    ProjectRelation[] @relation("ParentProject")
   child                     ProjectRelation[] @relation("ChildProject")
-
-  status          ProjectStatus
-  contactName     String?
-  contactEmail    String?
-  contactPhone    String?
-  paymentTerms    PaymentTerms      @default(Net60)
-  createdDate     DateTime          @default(now())
-  lastUpdateDate  DateTime          @updatedAt
-  invoice         Invoice[]
-  projectResource ProjectResource[]
+  status                    ProjectStatus
+  contactName               String?
+  contactEmail              String?
+  contactPhone              String?
+  paymentTerms              PaymentTerms      @default(Net60)
+  createdDate               DateTime          @default(now())
+  lastUpdateDate            DateTime          @updatedAt
+  invoice                   Invoice[]
+  projectResource           ProjectResource[]
 
   timesheetEntries TimesheetEntries[]
   expense          Expense[]
@@ -473,13 +473,21 @@ model AccountConfig {
 
 model Contact {
   id        Int           @id @default(autoincrement())
-  type      ContactType
   firstName String
   lastName  String
   email     String
   phone     String
+  account   Account       @relation(fields: [accountId], references: [id])
+  accountId Int           @default(0)
   address   Address[]
   status    ContactStatus
+}
+
+model ContactAssociation {
+  id     Int                      @id @default(autoincrement())
+  type   ContactType
+  typeId Int
+  status ContactAssociationStatus
 }
 
 model ProjectRelation {
@@ -490,6 +498,12 @@ model ProjectRelation {
   childId        Int?     @default(1)
   createdDate    DateTime @default(now())
   lastUpdateDate DateTime @default(now()) @updatedAt
+}
+
+enum ContactAssociationStatus {
+  Active
+  Inactive
+  MarkForDelete
 }
 
 enum ContactStatus {
