@@ -194,7 +194,7 @@ const InvoiceAddEdit = (props) => {
         // const expenseIds = invoiceResponse.invoiceItems.filter((invoice) => (invoice.type ==InvoiceType.Expense));
         // const timesheetEntryIds = invoiceResponse.invoiceItems.filter((invoice) => (invoice.type ==InvoiceType.timesheetEntry));
         dispatch(setSelectedInvoiceTSEId(timesheetEntryIds));
-        // dispatch(setSelectedInvoiceExpId(expenseIds));
+        dispatch(setSelectedInvoiceExpId(expenseIds));
         
         dispatch(setInvoiceTotal(invoiceResponse.total));
         dispatch(setInvoicePaidAmount(invoiceResponse.paidAmount));

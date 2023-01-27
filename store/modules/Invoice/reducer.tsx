@@ -113,7 +113,7 @@ const invoiceReducer = (state = initialState, {type, payload}) => {
         const newSelectedInvoiceExpId = [...newState.selectedInvoiceExpId]
         if(Array.isArray(payload)) {
             //Edit Condition
-            newState.selectedInvoiceTSEId = payload;
+            newState.selectedInvoiceExpId = payload;
         }else {
             //Add New Condtion or udpate
             newSelectedInvoiceExpId.push(payload);
@@ -121,12 +121,12 @@ const invoiceReducer = (state = initialState, {type, payload}) => {
         }
     } else if( type === ActionTypes.REMOVE_SELECTED_INVOICE_TSE_ITEMS) {
         const newSelectedInvoiceTSEId = [...newState.selectedInvoiceTSEId]
-        const teseToRemoveIndex = newSelectedInvoiceTSEId.findIndex(x => x.id === parseInt(payload));
+        const teseToRemoveIndex = newSelectedInvoiceTSEId.findIndex(x => x === parseInt(payload));
         newSelectedInvoiceTSEId.splice(teseToRemoveIndex, 1);
         newState.selectedInvoiceTSEId = newSelectedInvoiceTSEId;
     } else if( type === ActionTypes.REMOVE_SELECTED_INVOICE_EXP_ITEMS) {
         const newSelectedInvoiceExpId = [...newState.selectedInvoiceExpId]
-        const expenseToRemoveIndex = newSelectedInvoiceExpId.findIndex(x => x.id === parseInt(payload));
+        const expenseToRemoveIndex = newSelectedInvoiceExpId.findIndex(x => x === parseInt(payload));
         newSelectedInvoiceExpId.splice(expenseToRemoveIndex, 1);
         newState.selectedInvoiceExpId = newSelectedInvoiceExpId;
     }
