@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
     useDisclosure,
     Button,
@@ -35,6 +35,7 @@ const ProjectTimesheets = (props) => {
     const callType = props.data.callType;
     const [size, setSize] = useState('');
     const [timsheetEntriesForTable, setTimsheetEntriesForTable] = useState([]);
+    const timesheetListRef = useRef([]);
     const [enableAddTimeSheetEntry, setEnableAddTimeSheetEntry] = useState(false);
     const [invTotal, setInvTotal] = useState({total: 0});
     const [selectedTimesheetEntries, setSelectedTimesheetEntries] = useState([]);
@@ -75,6 +76,7 @@ const ProjectTimesheets = (props) => {
 
     const handleProjectTimesheets = async (newSize) => {
       const projectTimesheeetByStatus = await projectService.getAllTimesheetsByProject({projectId: projectId, accountId: userService.getAccountDetails().accountId });
+      timesheetListRef.current = projectTimesheeetByStatus;
       dispatch(getAllProjectTimesheets(projectTimesheeetByStatus));
       prepareTimesheetListForTable(projectTimesheeetByStatus)
       // projectService.getAllTimesheetsByProject(projectId, userService.getAccountDetails().accountId);
@@ -85,12 +87,13 @@ const ProjectTimesheets = (props) => {
     async function handleInvoiceTimesheets(status) {
       
       const projectTimesheeetByStatus = await projectService.getProjectTimesheetsByStatus({projectId: projectId, accountId: userService.getAccountDetails().accountId, status: status });
+      timesheetListRef.current = projectTimesheeetByStatus;
       dispatch(getAllProjectTimesheets(projectTimesheeetByStatus));
       prepareTimesheetListForTable(projectTimesheeetByStatus)
     }
 
     function addTimesheetEntryAsInvoiceItem(e) {
-      const selectedTimesheetEntry = timesheetEntryList.find(x => x.id === parseInt(e.target.value));
+      const selectedTimesheetEntry = [...timesheetListRef.current].find(x => x.id === parseInt(e.target.value));
       const selectedTSQuantity = util.getTotalHours(selectedTimesheetEntry.entries);
       const selectedTSTotal = parseFloat(selectedTSQuantity) * parseFloat(selectedTimesheetEntry.unitPrice);
 

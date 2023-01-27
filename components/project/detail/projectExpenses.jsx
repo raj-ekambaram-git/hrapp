@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
     useDisclosure,
     Button,
@@ -36,6 +36,7 @@ const ProjectExpenses = (props) => {
     const [size, setSize] = useState('');
     const [enableAddExpense, setEnableAddExpense] = useState(false);
     const [expenseEntriesForTable, setExpenseEntriesForTable] = useState([]);
+    const expenseListRef = useRef([]);
     const [invTotal, setInvTotal] = useState({total: 0});
     const EXPENSE_LIST_TABLE_COLUMNS = React.useMemo(() => ProjectConstants.EXPENSE_LIST_TABLE_META)
     const expenseList = useSelector(state => state.expense.projectExpenses);
@@ -74,6 +75,7 @@ const ProjectExpenses = (props) => {
     const handleProjectExpenses = async (newSize) => {
         
       const projectTimesheeetByStatus = await projectService.getAllExpensesByProject({projectId: projectId, accountId: userService.getAccountDetails().accountId });
+      expenseListRef.current = projectTimesheeetByStatus;
       dispatch(getAllProjectExpenses(projectTimesheeetByStatus));
       prepareExpenseListForTable(projectTimesheeetByStatus)
 
@@ -84,13 +86,14 @@ const ProjectExpenses = (props) => {
 
     async function handleInvoiceExpenses(status) {
       const projectTimesheeetByStatus = await projectService.getProjectExpensesByStatus({projectId: projectId, accountId: userService.getAccountDetails().accountId, status: status });
+      expenseListRef.current = projectTimesheeetByStatus;
       dispatch(getAllProjectExpenses(projectTimesheeetByStatus));
       prepareExpenseListForTable(projectTimesheeetByStatus)
 
     }
 
     function addExpenseAsInvoiceItem(e) {
-      const selectedExpense = expenseList.find(x => x.id === parseInt(e.target.value));
+      const selectedExpense = [...expenseListRef.current].find(x => x.id === parseInt(e.target.value));
       const totalExpenseAmount = util.getTotalBillableExpense(selectedExpense?.expenseEntries).billableExpense;
 
       if(e.target.checked) { //Add the timesheet entry to the invoice item list
