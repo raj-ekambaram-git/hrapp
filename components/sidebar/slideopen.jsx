@@ -11,6 +11,7 @@ import {TbFileDollar, TbReportAnalytics} from 'react-icons/tb'
 import { Tooltip } from '@chakra-ui/react'
 import Link from "next/link";
 import { GrConfigure } from 'react-icons/gr';
+import { BsFillFileEarmarkBarGraphFill } from 'react-icons/bs';
 
 
 
@@ -128,7 +129,7 @@ const Slideopen = (props) => {
             <Tooltip label="Reports" placement='right' borderRadius="6px" padding="10px"  fontWeight={600} color={tooltip_style.color} hasArrow  backgroundColor={tooltip_style.bgColor}>
               <Link href={`/reports/dashboard`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
                 <div>
-                  <TbReportAnalytics  className={styles.icons1}/>
+                  <BsFillFileEarmarkBarGraphFill  className={styles.icons1}/>
                 </div>
               </Link>   
             </Tooltip>                                              
