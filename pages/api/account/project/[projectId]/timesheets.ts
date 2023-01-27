@@ -42,11 +42,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           }
         }
       }
-    },
-    status: {
-      not: TimesheetStatus.MarkForDelete
     }
-   };
+  };
 
 
   if(status != undefined && status != EMPTY_STRING && status == TIMESHEET_STATUS.Pending) {
