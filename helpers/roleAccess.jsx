@@ -7,7 +7,8 @@ const baseUrl = `${publicRuntimeConfig.apiUrl}`;
 
 export const roleAccess = {
     hasAccess,
-    getAllowedModules
+    getAllowedModules,
+    getPublicPaths
 };
 
 
@@ -61,5 +62,24 @@ function hasAccess(url, token) {
     .catch(err => {
       return {errorMessage: err, error: true};
     });
+    
+}
+
+async function getPublicPaths() {
+    // return fetchWrapper.cachedGet(`${baseUrl}/publicPaths/`, {}, 24)
+    // .then(async rolesData => {
+    //     return {hasAccess: urlAllowed.includes(true), modulesAllowed: modulesAllowed};
+    // })
+    // .catch(err => {
+    //   return {errorMessage: err, error: true};
+    // // });
+
+    // const jsonDirectory = path.join(process.cwd(), 'data');
+    // //Read the json data file data.json
+    // const fileContents = await promises.readFile(jsonDirectory + '/publicPaths.json', 'utf8');
+    //Return the content of the data file in json format
+    return {
+        publicPaths: ["/login", "/register", "/changepassword", "/"]
+      };
     
 }

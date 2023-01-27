@@ -51,7 +51,8 @@ function MyApp({ Component, pageProps }: AppProps) {
 
     // redirect to login page if accessing a private page and not logged in 
     setUser(userService.userValue);
-    const publicPaths = ['/login', '/register', '/changepassword'];
+    console.log("getPublicPaths::::"+JSON.stringify(roleAccess.getPublicPaths()))
+    const publicPaths = ['/login', '/register', '/changepassword', '/'];
     const path = url.split('?')[0];
     if (!userService.userValue && !publicPaths.includes(path)) { // When user is not logged in and URL is NOT Public
         setAuthorized(true);
