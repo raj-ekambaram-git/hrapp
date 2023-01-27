@@ -9,7 +9,8 @@ import {
     Tr,
     TableContainer,
     TableCaption,
-    HStack
+    HStack,
+    Badge
   
   } from '@chakra-ui/react';
   import {
@@ -21,7 +22,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { removeItemFromInvoiceItemList, setInvoiceTotal } from "../../store/modules/Invoice/actions";
 import { InvoiceConstants } from "../../constants/invoiceConstants";
 import ProjectExpenses from "../project/detail/projectExpenses";
-import { InvoiceType } from "@prisma/client";
+import { ExpenseStatus, InvoiceType, TimesheetStatus } from "@prisma/client";
 
 const InvoiceItems = (props) => {
     const dispatch = useDispatch();
@@ -174,11 +175,19 @@ const InvoiceItems = (props) => {
                                     <Th>
                                         {(invoiceItem.type == InvoiceType.Expense)
                                         ?<>
-                                            {invoiceItem.expense?.status}
+                                            <Badge color={`${
+                                                invoiceItem.expense?.status === ExpenseStatus.Invoiced
+                                                ? "pending_status"
+                                                : "paid_status"
+                                            }`}>{invoiceItem.expense?.status}</Badge>   
                                         </>
                                         : (invoiceItem.type == InvoiceType.Timesheet)
                                         ?<>
-                                            {invoiceItem.timesheetEntry?.status}
+                                            <Badge color={`${
+                                                invoiceItem.timesheetEntry?.status === TimesheetStatus.Invoiced
+                                                ? "pending_status"
+                                                : "paid_status"
+                                            }`}>{invoiceItem.timesheetEntry?.status}</Badge>   
                                         </>                                            
                                         : <></>}
                                     </Th>
