@@ -53,7 +53,8 @@ function getNewTimesheetEmailRequest(timesheetEntry, saveTimesheet) {
       projectName: timesheetEntry.project?.name,
       submittedBy: saveTimesheet.user?.firstName+" "+saveTimesheet.user?.lastName,
       submittedDate: util.getFormattedDate(new Date()),
-      timePeriod: util.getFormattedDate(saveTimesheet.startDate)
+      timePeriod: util.getFormattedDate(saveTimesheet.startDate),
+      status: saveTimesheet.status
     },
     template_id: EmailConstants.emailTemplate.newTimesheetSubmitted
   }

@@ -3,6 +3,8 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import prisma from "../../../../lib/prisma";
 import {EMPTY_STRING} from "../../../../constants/accountConstants";
+import { TimesheetStatus } from "@prisma/client";
+import { emailService, timesheetService } from "../../../../services";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method !== 'PUT') {
@@ -31,9 +33,55 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             update: {...timesheetEntry},
           }))          
         }
+      },
+      include: {        
+        user: {
+          select: {
+            firstName: true,
+            lastName: true,
+            email: true
+          },          
+        },        
+        timesheetEntries: {
+          select: {
+            entries: true,
+            project: {
+              select: {
+                name: true,
+                contactEmail: true,
+                projectResource: {
+                  where: {
+                    isTimesheetApprover: true,                    
+                  },
+                  select: {
+                    user: {
+                      select: {
+                        email: true
+                      }
+                    }
+                  }
+                },
+                vendor: {
+                  select: {
+                    email: true,
+                    accountContactEmail: true
+                  }
+                }
+              }
+            },
+          }
+        },        
       }
     });
 
+    if(savedTimesheet && savedTimesheet.status === TimesheetStatus.Submitted) {
+      savedTimesheet.timesheetEntries?.map((timesheetEntry) => {
+        const emailResponse = emailService.sendEmail(timesheetService.getNewTimesheetEmailRequest(timesheetEntry, savedTimesheet));
+        if(!emailResponse.error) {
+          console.log("error happened sending email:::"+JSON.stringify(timesheetEntry))
+        }
+      })      
+    }
 
     res.status(200).json(savedTimesheet);
   } catch (error) {

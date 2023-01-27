@@ -62,11 +62,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     if(saveTimesheet && saveTimesheet.status === TimesheetStatus.Saved) {
       saveTimesheet.timesheetEntries?.map((timesheetEntry) => {
-        console.log("EMAIL REQUEST ::"+JSON.stringify(timesheetService.getNewTimesheetEmailRequest(timesheetEntry, saveTimesheet)))
-        // const emailResponse = emailService.sendEmail(timesheetService.getNewTimesheetEmailRequest(timesheetEntry, saveTimesheet));
-        // if(!emailResponse.error) {
-        //   console.log("error happened sending email:::"+JSON.stringify(timesheetEntry))
-        // }
+        const emailResponse = emailService.sendEmail(timesheetService.getNewTimesheetEmailRequest(timesheetEntry, saveTimesheet));
+        if(!emailResponse.error) {
+          console.log("error happened sending email:::"+JSON.stringify(timesheetEntry))
+        }
       })      
     }
     res.status(200).json(saveTimesheet);
