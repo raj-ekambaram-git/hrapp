@@ -2,6 +2,7 @@
   "SUPER_ADMIN": {
     "allowedPages": [
       "/",
+      "/account/dashboard",
       "/account/add",
       "/account/address",
       "/account/invoice",
@@ -52,6 +53,7 @@
   "ACCOUNT_ADMIN": {
     "allowedPages": [
       "/",
+      "/account/dashboard",
       "/account/add",
       "/account/address",
       "/account/invoice",
@@ -101,6 +103,7 @@
   "ACCOUNT_VENDOR_REP": {
     "allowedPages": [
       "/",
+      "/account/dashboard",
       "/account/add",
       "/account/address",
       "/account/invoice",
@@ -148,6 +151,7 @@
   "ACCOUNT_USER": {
     "allowedPages": [
       "/",
+      "/account/dashboard",
       "/account/add",
       "/account/address",
       "/account/invoice",
@@ -194,6 +198,7 @@
   "ACCOUNT_VENDOR_EMPLOYEE": {
     "allowedPages": [
       "/",
+      "/account/dashboard",
       "/account/add",
       "/account/address",
       "/account/invoice",
@@ -240,6 +245,7 @@
   "ACCOUNT_VENDOR_CONTRACTOR": {
     "allowedPages": [
       "/",
+      "/account/dashboard",
       "/account/add",
       "/account/address",
       "/account/invoice",
@@ -286,6 +292,7 @@
   "ACCOUNT_MANAGER": {
     "allowedPages": [
       "/",
+      "/account/dashboard",
       "/account/add",
       "/account/address",
       "/account/invoice",

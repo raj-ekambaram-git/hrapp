@@ -56,7 +56,7 @@ function Login() {
                     dispatch(setSelectedAccountId(user.accountId))
                     dispatch(setLoggedInUser(user))
                     // get return url from query parameters or default to '/'
-                    const returnUrl = router.query.returnUrl || '/';
+                    const returnUrl = router.query.returnUrl || '/account/dashboard';
                     router.push(returnUrl);
                 }
             })
