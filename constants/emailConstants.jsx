@@ -8,5 +8,8 @@ export const EmailConstants = {
         approvedTimesheetSubmitted: "d-91da72d74a41404eb92bca4376f86e26",
         rejectedTimesheetSubmitted: "d-412fd2d2bd46487d894f56c84410f10c",
         newExpenseSubmitted: "d-e1efbef1e6da42d19f831ea9f15a3341",
+        approvedExpenseSubmitted: "d-533af75f2ba94ead8e389bdc5f38a129",
+        rejectedExpenseSubmitted: "d-3578f98e3dcb43ccabfd9b131d53744c",
+
     }
 }

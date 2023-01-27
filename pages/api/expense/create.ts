@@ -53,8 +53,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       }
     });
 
-    if(savedExpense && savedExpense.status === ExpenseStatus.Saved) {
-        console.log("Expenseseese Email Data ::"+JSON.stringify(expenseService.getNewExpenseEmailRequest(savedExpense)))
+    if(savedExpense && savedExpense.status === ExpenseStatus.Submitted) {
         const emailResponse = emailService.sendEmail(expenseService.getNewExpenseEmailRequest(savedExpense));
         if(!emailResponse.error) {
           console.log("error happened sending email:::"+JSON.stringify(savedExpense))
