@@ -65,7 +65,7 @@ function hasAccess(url, token) {
     
 }
 
-async function getPublicPaths() {
+function getPublicPaths() {
     // return fetchWrapper.cachedGet(`${baseUrl}/publicPaths/`, {}, 24)
     // .then(async rolesData => {
     //     return {hasAccess: urlAllowed.includes(true), modulesAllowed: modulesAllowed};
