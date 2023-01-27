@@ -101,7 +101,6 @@ export const fetchAvailableProjectsForUser = (userId, accountId) => {
 
 
 export const setUserProjects = (userProjects) => {
-    console.log("setUserProjects::::ACTIONS:::"+JSON.stringify(userProjects));
     return {
         type: ActionTypes.SET_USER_PROJECTS,
         payload: userProjects

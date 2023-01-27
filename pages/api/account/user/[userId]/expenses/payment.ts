@@ -77,7 +77,6 @@ console.log("userId ID::"+userId+"---PAYMENT AccountioD::"+accountId)
         }
       });
 
-      console.log("PROJECTS:::"+JSON.stringify(projects));
       res.status(200).json(projects);
     } else if (accountId != "" && accountId != undefined && userId == "NaN"){
       const expenses = await prisma.expense.findMany({

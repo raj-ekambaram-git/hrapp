@@ -69,10 +69,8 @@ console.log("userId ID::"+userId+"---AccountioD::"+accountId)
         }
       });
 
-      console.log("PROJECTS:::"+JSON.stringify(projects));
       res.status(200).json(projects);
     } else if (accountId != "" && accountId != undefined && userId == "NaN"){
-      console.log("2222");
       const expenses = await prisma.expense.findMany({
         where: {
             userId: {
@@ -86,7 +84,6 @@ console.log("userId ID::"+userId+"---AccountioD::"+accountId)
       res.status(200).json(expenses);
 
     }else if (userId != "" && userId != undefined && accountId == "NaN") {
-      console.log("33333333");
       const expenses = await prisma.expense.findMany({
         where: {
             userId: {

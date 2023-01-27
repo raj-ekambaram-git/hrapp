@@ -5,5 +5,7 @@ export const EmailConstants = {
         newAccountTemplateId: "d-f01127c188724f369a415daf1f52ee45",
         updateAccountTemplateId: "d-5db8253fb76e4eb385f4f3aa3e719b7b",
         newTimesheetSubmitted: "d-9cbf9241e4b34415a198c4f57ade1a85",
+        approvedTimesheetSubmitted: "d-91da72d74a41404eb92bca4376f86e26",
+        rejectedTimesheetSubmitted: "d-412fd2d2bd46487d894f56c84410f10c",
     }
 }

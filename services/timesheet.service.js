@@ -24,11 +24,50 @@ export const timesheetService = {
     updateTimesheet,
     isTimesheetDeletable,
     markTimesheetDelete,
-    getNewTimesheetEmailRequest
+    getNewTimesheetEmailRequest,
+    getTimesheetApprovalEmailRequest
 };
+
+function getTimesheetApprovalEmailRequest(timesheetEntry, saveTimesheet, notes) {
+
+  const startPlusWeek = new Date(saveTimesheet?.startDate);
+  startPlusWeek.setDate(startPlusWeek.getDate() + 7);
+  
+  //Logic to handle the approvers
+  const approvers = [];
+  timesheetEntry.project?.projectResource?.map((resource) => {
+      approvers.push({email: resource.user?.email})
+  })
+  const jsonObject = approvers.map(JSON.stringify);
+  const uniqueSet = new Set(jsonObject);
+  const uniqueArray = Array.from(uniqueSet).map(JSON.parse);
+  
+  return {
+    withAttachment: false,
+    from: CommonConstants.fromEmail,
+    to: uniqueArray,
+    bcc: [{email: saveTimesheet.user?.email}],
+    templateData: {
+      timesheetName: saveTimesheet.name,
+      projectName: timesheetEntry.project?.name,
+      submittedBy: saveTimesheet.user?.firstName+" "+saveTimesheet.user?.lastName,
+      submittedDate: util.getFormattedDate(new Date()),
+      timePeriod: util.getFormattedDate(saveTimesheet.startDate)+" - "+util.getFormattedDate(startPlusWeek),
+      status: timesheetEntry.status,
+      reason: notes,
+      approvedBy: timesheetEntry?.approvedUser?.firstName+" "+timesheetEntry?.approvedUser?.lastName
+    },
+    template_id: timesheetEntry.status === TimesheetStatus.Approved?EmailConstants.emailTemplate.approvedTimesheetSubmitted:EmailConstants.emailTemplate.rejectedTimesheetSubmitted
+  }
+
+}
+
 
 function getNewTimesheetEmailRequest(timesheetEntry, saveTimesheet) {
 
+  const startPlusWeek = new Date(saveTimesheet?.startDate);
+  startPlusWeek.setDate(startPlusWeek.getDate() + 7);
+  
   //Logic to handle the approvers
   const approvers = [];
   timesheetEntry.project?.projectResource?.map((resource) => {
@@ -53,7 +92,7 @@ function getNewTimesheetEmailRequest(timesheetEntry, saveTimesheet) {
       projectName: timesheetEntry.project?.name,
       submittedBy: saveTimesheet.user?.firstName+" "+saveTimesheet.user?.lastName,
       submittedDate: util.getFormattedDate(new Date()),
-      timePeriod: util.getFormattedDate(saveTimesheet.startDate),
+      timePeriod: util.getFormattedDate(saveTimesheet.startDate)+" - "+util.getFormattedDate(startPlusWeek),
       status: saveTimesheet.status
     },
     template_id: EmailConstants.emailTemplate.newTimesheetSubmitted
@@ -193,7 +232,8 @@ async function updateTimesheetEntry(timesheetUserId,billable,timesheetEntryId, s
           approvedDate: new Date(),
           approvedBy: parseInt(approvedBy)
         },
-        timesheetUserId: timesheetUserId
+        timesheetUserId: timesheetUserId,
+        timesheetEntryNotes: approvalNote,        
       }
     )
     .then(timesheet => {

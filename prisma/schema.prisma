@@ -480,6 +480,7 @@ model Contact {
   account   Account       @relation(fields: [accountId], references: [id])
   accountId Int           @default(0)
   address   Address[]
+  receiveEmail  Boolean @default(false)
   status    ContactStatus
 }
 
@@ -529,6 +530,7 @@ enum UserAttributeKeys {
   rate
   startDate
   endDate
+  enableTimesheetApprovalEmail
 }
 
 enum UserStatus {

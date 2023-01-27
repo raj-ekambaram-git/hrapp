@@ -16,7 +16,6 @@ console.log("userId ID::"+userId+"---AccountioD::"+accountId)
   
   try {
     if(userId != "" && accountId != "" && accountId != "NaN" && accountId != undefined && userId != undefined && userId != "NaN") {
-      console.log("11111");
       const projects = await prisma.projectResource.findMany({
         select: {
           project: {
@@ -74,10 +73,8 @@ console.log("userId ID::"+userId+"---AccountioD::"+accountId)
         }
       });
 
-      console.log("PROJECTS:::"+JSON.stringify(projects));
       res.status(200).json(projects);
     } else if (accountId != "" && accountId != undefined && userId == "NaN"){
-      console.log("2222");
       const timesheets = await prisma.timesheet.findMany({
         where: {
             userId: {
@@ -91,7 +88,6 @@ console.log("userId ID::"+userId+"---AccountioD::"+accountId)
       res.status(200).json(timesheets);
 
     }else if (userId != "" && userId != undefined && accountId == "NaN") {
-      console.log("33333333");
       const timesheets = await prisma.timesheet.findMany({
         where: {
             userId: {

@@ -2,7 +2,9 @@
 
 import { TimesheetStatus } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next"
+import { util } from "../../../../../helpers/util";
 import prisma from "../../../../../lib/prisma";
+import { emailService, timesheetService } from "../../../../../services";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method !== 'PUT') {
@@ -12,7 +14,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const {timesheetEntryData} = req.body;
     const {timesheetUserId} = req.body;
-    console.log("timesheetEntryData::::"+JSON.stringify(timesheetEntryData)+"*******TImesheetENtryUserId::"+timesheetUserId)
+    const {timesheetEntryNotes} = req.body;
+    
     const savedTSEntry =  await prisma.$transaction(async (tx) => {
       const savedTSEntry = await prisma.timesheetEntries.update({
         where: {
@@ -21,6 +24,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         data: timesheetEntryData,
         select: {
           timesheetId: true,
+          status: true,
           entries: true,
           unitPrice: true,
           projectId: true,
@@ -31,7 +35,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                 where: {
                   userId: timesheetUserId,
                   billable: timesheetEntryData.billable
-                }
+                }              
               }
             }
           },
@@ -45,12 +49,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         }
       });
 
-      console.log("saved TimesheetEntry::"+JSON.stringify(savedTSEntry))
-
       let updaetTimesheetStatus = true;
       //Check if all the etntrie are approved or rejected, if its is, update the timesheet status to be the same
       savedTSEntry.timesheet?.timesheetEntries?.map((tsEntry) => {
-          console.log("TSEntry:::"+JSON.stringify(tsEntry))
           if(timesheetEntryData.status === TimesheetStatus.Approved && (tsEntry.status !== TimesheetStatus.Approved && tsEntry.status !== TimesheetStatus.Invoiced)) {
             updaetTimesheetStatus = false;
           }else if (timesheetEntryData.status === TimesheetStatus.Rejected && (tsEntry.status !== TimesheetStatus.Rejected)) {
@@ -58,7 +59,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           }
         }
       )
-      console.log("updaetTimesheetStatus:::"+updaetTimesheetStatus)
       if(updaetTimesheetStatus) {
         //Now update the timesheet with the status
         const savedTimesheet = await prisma.timesheet.update({
@@ -69,6 +69,60 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
         });
       }
+
+      //Send email here 
+      if(savedTSEntry && (savedTSEntry.status === TimesheetStatus.Approved || savedTSEntry.status === TimesheetStatus.Rejected)) {
+
+          const tsEntryDetailsForEmail = await prisma.timesheetEntries.findUnique({
+            where: {
+              id: timesheetEntryData.id,
+            },
+            select: {
+              status: true,          
+              project: {
+                select: {
+                  name: true,
+                  projectResource: {
+                    where: {
+                      isTimesheetApprover: true
+                    },
+                    select: {
+                      user: {
+                        select: {
+                          email: true
+                        }                        
+                      }
+                    }              
+                  }
+                }
+              },
+              timesheet: {
+                select: {
+                  name: true,
+                  startDate: true,
+                  user:{
+                    select: {
+                      email: true,
+                      firstName: true,
+                      lastName: true
+                    }
+                  }
+                }
+              },
+              approvedUser: {
+                select: {
+                  firstName: true,
+                  lastName: true
+                }
+              }
+            }
+          });
+          const emailResponse = emailService.sendEmail(timesheetService.getTimesheetApprovalEmailRequest(tsEntryDetailsForEmail, tsEntryDetailsForEmail.timesheet, timesheetEntryNotes));
+          if(!emailResponse.error) {
+            console.log("error happened sending email:::"+JSON.stringify(savedTSEntry))
+          }              
+      }
+
       return savedTSEntry;
     });
 
