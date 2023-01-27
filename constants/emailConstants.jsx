@@ -7,5 +7,6 @@ export const EmailConstants = {
         newTimesheetSubmitted: "d-9cbf9241e4b34415a198c4f57ade1a85",
         approvedTimesheetSubmitted: "d-91da72d74a41404eb92bca4376f86e26",
         rejectedTimesheetSubmitted: "d-412fd2d2bd46487d894f56c84410f10c",
+        newExpenseSubmitted: "d-e1efbef1e6da42d19f831ea9f15a3341",
     }
 }

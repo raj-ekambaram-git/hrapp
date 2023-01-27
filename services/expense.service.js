@@ -2,7 +2,7 @@ import getConfig from 'next/config';
 
 
 import { fetchWrapper } from 'helpers';
-import { EMPTY_STRING, ExpenseConstants } from '../constants';
+import { CommonConstants, EmailConstants, EMPTY_STRING, ExpenseConstants } from '../constants';
 import { util } from '../helpers/util';
 import { projectService } from './project.service';
 import { ExpenseStatus } from '@prisma/client';
@@ -20,8 +20,50 @@ export const expenseService = {
     getExpenseTransactions,
     createExpenseTransaction,
     updateExpenseStatus,
-    markExpenseDelete
+    markExpenseDelete,
+    getNewExpenseEmailRequest
 };
+
+
+
+function getNewExpenseEmailRequest(expense) {
+
+  
+  //Logic to handle the approvers
+  const approvers = [];
+  expense.project?.projectResource?.map((resource) => {
+    if(!approvers.includes({email: resource.user?.email})) {
+      approvers.push({email: resource.user?.email})
+    }    
+  })
+  if(!approvers.includes({email: expense.project?.contactEmail})) {
+    approvers.push({email: expense.project?.contactEmail})
+  }
+  const jsonObject = approvers.map(JSON.stringify);
+  const uniqueSet = new Set(jsonObject);
+  const uniqueArray = Array.from(uniqueSet).map(JSON.parse);
+  
+  return {
+    withAttachment: false,
+    from: CommonConstants.fromEmail,
+    to: uniqueArray,
+    bcc: [{email: expense.user?.email}, {email: expense.project?.vendor?.email}],
+    templateData: {
+      expense: expense
+      // expenseName: expense.name,
+      // vendorName: expense.project?.name,
+      // projectName: expense.project?.name,      
+      // submittedBy: saveTimesheet.user?.firstName+" "+saveTimesheet.user?.lastName,
+      // submittedDate: util.getFormattedDate(new Date()),
+      // timePeriod: util.getFormattedDate(saveTimesheet.startDate)+" - "+util.getFormattedDate(startPlusWeek),
+      // status: saveTimesheet.status
+    },
+    template_id: EmailConstants.emailTemplate.newExpenseSubmitted
+  }
+
+}
+
+
 
 function markExpenseDelete(expenseId, accountId) {
   let expenseIDs = [expenseId];

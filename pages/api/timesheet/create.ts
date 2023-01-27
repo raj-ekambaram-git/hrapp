@@ -60,7 +60,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       }
     });
 
-    if(saveTimesheet && saveTimesheet.status === TimesheetStatus.Saved) {
+    if(saveTimesheet && saveTimesheet.status === TimesheetStatus.Submitted) {
       saveTimesheet.timesheetEntries?.map((timesheetEntry) => {
         const emailResponse = emailService.sendEmail(timesheetService.getNewTimesheetEmailRequest(timesheetEntry, saveTimesheet));
         if(!emailResponse.error) {
