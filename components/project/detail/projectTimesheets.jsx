@@ -176,21 +176,21 @@ const ProjectTimesheets = (props) => {
                           <Stack divider={<StackDivider />} spacing='1'>
                             <Box>
                               <HStack>
-                                <Button className="btn" onClick={() => handleInvoiceTimesheets(TIMESHEET_STATUS.Pending)} width="timesheet.project_timesheets_button" bgColor="button.primary.color">
+                                <Button size="xs" bgColor="header_actions" onClick={() => handleInvoiceTimesheets(TIMESHEET_STATUS.Pending)} width="timesheet.project_timesheets_button" >
                                   Pending
                                 </Button>     
-                                <Button className="btn" onClick={() => handleInvoiceTimesheets(TimesheetStatus.Approved)} width="timesheet.project_timesheets_button" bgColor="button.primary.color">
+                                <Button size="xs" bgColor="header_actions"  onClick={() => handleInvoiceTimesheets(TimesheetStatus.Approved)} width="timesheet.project_timesheets_button" >
                                   Approved
                                 </Button> 
-                                <Button className="btn" onClick={() => handleInvoiceTimesheets(TimesheetStatus.Invoiced)} width="timesheet.project_timesheets_button" bgColor="button.primary.color">
+                                <Button size="xs" bgColor="header_actions"  onClick={() => handleInvoiceTimesheets(TimesheetStatus.Invoiced)} width="timesheet.project_timesheets_button" >
                                   Invoiced
                                 </Button>  
-                                <Button className="btn" onClick={() => handleInvoiceTimesheets(TimesheetStatus.Rejected)} width="timesheet.project_timesheets_button" bgColor="button.primary.color">
+                                <Button size="xs" bgColor="header_actions"  onClick={() => handleInvoiceTimesheets(TimesheetStatus.Rejected)} width="timesheet.project_timesheets_button" >
                                   Rejected
                                 </Button>  
                                 {(callType==INVOICE_CALL_TYPE && enableAddTimeSheetEntry)? (
                                   <>
-                                  <Button className="btn" onClick={() => handleAddTimesheetsToInvoice()} width="timesheet.project_timesheets_button" bgColor="button.primary.color">
+                                  <Button size="xs" bgColor="header_actions"  onClick={() => handleAddTimesheetsToInvoice()} width="timesheet.project_timesheets_button" >
                                     Add to Invoice
                                   </Button>  
                                   </>

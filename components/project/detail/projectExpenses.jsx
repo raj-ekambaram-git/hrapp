@@ -172,24 +172,24 @@ const ProjectExpenses = (props) => {
                           <Stack divider={<StackDivider />} spacing='1'>
                             <Box>
                               <HStack>
-                                <Button className="btn" onClick={() => handleInvoiceExpenses(EXPENSE_STATUS.Pending)} width="timesheet.project_timesheets_button" bgColor="button.primary.color">
+                                <Button size="xs" bgColor="header_actions"  onClick={() => handleInvoiceExpenses(EXPENSE_STATUS.Pending)} width="timesheet.project_timesheets_button" >
                                   Pending
                                 </Button>     
-                                <Button className="btn" onClick={() => handleInvoiceExpenses(ExpenseStatus.Approved)} width="timesheet.project_timesheets_button" bgColor="button.primary.color">
+                                <Button size="xs" bgColor="header_actions"  onClick={() => handleInvoiceExpenses(ExpenseStatus.Approved)} width="timesheet.project_timesheets_button" >
                                   Approved
                                 </Button> 
-                                <Button className="btn" onClick={() => handleInvoiceExpenses(ExpenseStatus.Invoiced)} width="timesheet.project_timesheets_button" bgColor="button.primary.color">
+                                <Button size="xs" bgColor="header_actions"  onClick={() => handleInvoiceExpenses(ExpenseStatus.Invoiced)} width="timesheet.project_timesheets_button" >
                                   Invoiced
                                 </Button>  
-                                <Button className="btn" onClick={() => handleInvoiceExpenses(ExpenseStatus.Rejected)} width="timesheet.project_timesheets_button" bgColor="button.primary.color">
+                                <Button size="xs" bgColor="header_actions"  onClick={() => handleInvoiceExpenses(ExpenseStatus.Rejected)} width="timesheet.project_timesheets_button" >
                                   Rejected
                                 </Button>  
-                                <Button className="btn" onClick={() => handleInvoiceExpenses(ExpenseStatus.Paid)} width="timesheet.project_timesheets_button" bgColor="button.primary.color">
+                                <Button size="xs" bgColor="header_actions"  onClick={() => handleInvoiceExpenses(ExpenseStatus.Paid)} width="timesheet.project_timesheets_button" >
                                   Paid
                                 </Button>  
                                 {(callType==INVOICE_CALL_TYPE && enableAddExpense)? (
                                   <>
-                                  <Button className="btn" onClick={() => handleAddExpensesToInvoice()} width="timesheet.project_timesheets_button" bgColor="button.primary.color">
+                                  <Button size="xs" bgColor="header_actions"  onClick={() => handleAddExpensesToInvoice()} width="timesheet.project_timesheets_button" >
                                     Add to Invoice
                                   </Button>  
                                   </>
