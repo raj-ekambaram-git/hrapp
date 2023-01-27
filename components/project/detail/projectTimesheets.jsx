@@ -36,9 +36,9 @@ const ProjectTimesheets = (props) => {
     const [size, setSize] = useState('');
     const [timsheetEntriesForTable, setTimsheetEntriesForTable] = useState([]);
     const timesheetListRef = useRef([]);
+    const selectedTSEIdsRef = useRef([]);
     const [enableAddTimeSheetEntry, setEnableAddTimeSheetEntry] = useState(false);
     const [invTotal, setInvTotal] = useState({total: 0});
-    const [selectedTimesheetEntries, setSelectedTimesheetEntries] = useState([]);
 
     const TIMESHEET_LIST_TABLE_COLUMNS = React.useMemo(() => ProjectConstants.TIMESHEET_LIST_TABLE_META)
 
@@ -48,14 +48,14 @@ const ProjectTimesheets = (props) => {
 
     useEffect(() => {
       invTotal.total = invoiceTotal;
-      setSelectedTimesheetEntries(selectedTSEIds)
+      selectedTSEIdsRef.current = selectedTSEIds;
     }, [invoiceTotal, selectedTSEIds]);
 
     function prepareTimesheetListForTable(projectTimesheeetByStatus) {
       if(projectTimesheeetByStatus != undefined && projectTimesheeetByStatus != EMPTY_STRING && projectTimesheeetByStatus.length != 0) {        
         const updatedTSEist =  projectTimesheeetByStatus.map((timesheetEntry, index)=> {
           if(callType == INVOICE_CALL_TYPE && timesheetEntry.status == TIMESHEET_STATUS.Approved && timesheetEntry.billable) {
-            timesheetEntry.enableAddtoInvoiceCheckBox = <Checkbox value={timesheetEntry.id} onChange={(e) => addTimesheetEntryAsInvoiceItem(e)}/>
+            timesheetEntry.enableAddtoInvoiceCheckBox = <Checkbox value={timesheetEntry.id} isChecked={selectedTSEIdsRef.current.includes(timesheetEntry.id)?true:false} onChange={(e) => addTimesheetEntryAsInvoiceItem(e)}/>
           }
           timesheetEntry.name = timesheetEntry.timesheet?.name
           timesheetEntry.resource = timesheetEntry.timesheet?.user?.firstName?timesheetEntry.timesheet?.user?.firstName:EMPTY_STRING+" "+timesheetEntry.timesheet?.user?.lastName?timesheetEntry.timesheet?.user?.lastName:EMPTY_STRING
@@ -118,13 +118,16 @@ const ProjectTimesheets = (props) => {
 
           dispatch(setInvoiceItemList(addedTimesheetInvoiceItem));
           dispatch(setSelectedInvoiceTSEId(parseInt(e.target.value)))
+          selectedTSEIdsRef.current.push(parseInt(e.target.value));
           if(invTotal != undefined) {
             invTotal.total = invTotal.total+parseFloat(selectedTSTotal)
             dispatch(setInvoiceTotal(invTotal.total));            
           }else {
             invTotal.total = invTotal.total+parseFloat(selectedTSTotal)
             dispatch(setInvoiceTotal(parseFloat(selectedTSTotal)));
-          }
+          }          
+
+          prepareTimesheetListForTable(timesheetListRef.current);
       } else { // Remove the timesheet entry form the invoice item list if exists
         dispatch(removeTSFromInvoiceItems(e.target.value));   
         dispatch(removeTSFromSelectedTSE(e.target.value))
@@ -135,7 +138,17 @@ const ProjectTimesheets = (props) => {
             dispatch(setInvoiceTotal(parseFloat(total)));
         }
 
+        const newSelecteTSEIds = [...selectedTSEIdsRef.current]
+        const index = newSelecteTSEIds.indexOf(parseInt(e.target.value));
+        if (index > -1) { // only splice array when item is found
+          newSelecteTSEIds.splice(index, 1); // 2nd parameter means remove one item only
+        }
+        selectedTSEIdsRef.current = newSelecteTSEIds;
+
+        prepareTimesheetListForTable(timesheetListRef.current);
       }
+
+      
 
     }
     function handleAddTimesheetsToInvoice() {

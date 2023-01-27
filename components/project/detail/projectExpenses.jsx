@@ -37,6 +37,7 @@ const ProjectExpenses = (props) => {
     const [enableAddExpense, setEnableAddExpense] = useState(false);
     const [expenseEntriesForTable, setExpenseEntriesForTable] = useState([]);
     const expenseListRef = useRef([]);
+    const selectedExpIdsRef = useRef([]);
     const [invTotal, setInvTotal] = useState({total: 0});
     const EXPENSE_LIST_TABLE_COLUMNS = React.useMemo(() => ProjectConstants.EXPENSE_LIST_TABLE_META)
     const expenseList = useSelector(state => state.expense.projectExpenses);
@@ -45,14 +46,15 @@ const ProjectExpenses = (props) => {
 
     useEffect(() => {
       invTotal.total = invoiceTotal;
-    }, [invoiceTotal]);
+      selectedExpIdsRef.current = selectedExpIds;
+    }, [invoiceTotal, selectedExpIds]);
 
     function prepareExpenseListForTable(projectExpenseByStatus) {
       if(projectExpenseByStatus != undefined && projectExpenseByStatus != EMPTY_STRING && projectExpenseByStatus.length != 0) {        
         const updatedExpenseist =  projectExpenseByStatus.map((expense, index)=> {
           
           if((callType == INVOICE_CALL_TYPE && expense.status == ExpenseStatus.Approved && util.getTotalBillableExpense(expense.expenseEntries).billableExpense > 0)) {
-            expense.enableAddtoInvoiceCheckBox = <Checkbox value={expense.id} onChange={(e) => addExpenseAsInvoiceItem(e)}/>    
+            expense.enableAddtoInvoiceCheckBox = <Checkbox value={expense.id} isChecked={selectedExpIdsRef.current.includes(expense.id)?true:false}  onChange={(e) => addExpenseAsInvoiceItem(e)}/>    
           }
           expense.name = expense.name
           expense.resource = expense.user?.firstName?expense.user?.firstName:EMPTY_STRING+" "+expense.user?.lastName?expense.user?.lastName:EMPTY_STRING
@@ -115,6 +117,7 @@ const ProjectExpenses = (props) => {
         };
           dispatch(setInvoiceItemList(addedExpenseInvoiceItem));
           dispatch(setSelectedInvoiceExpId(parseInt(e.target.value)))
+          selectedExpIdsRef.current.push(parseInt(e.target.value));
           if(invTotal != undefined) {
             invTotal.total = invTotal.total+parseFloat(totalExpenseAmount)
             dispatch(setInvoiceTotal(invTotal.total));
@@ -122,6 +125,7 @@ const ProjectExpenses = (props) => {
             invTotal.total = invTotal.total+parseFloat(totalExpenseAmount)
             dispatch(setInvoiceTotal(parseFloat(totalExpenseAmount)));
           }
+          prepareExpenseListForTable(expenseListRef.current);
       } else { // Remove the timesheet entry form the invoice item list if exists
         dispatch(removeExpenseFromInvoiceItems(e.target.value));   
         dispatch(removeExpFromSelectedExp(e.target.value))
@@ -132,6 +136,14 @@ const ProjectExpenses = (props) => {
             dispatch(setInvoiceTotal(parseFloat(total)));
         }
 
+        const newSelecteExpenseIds = [...selectedExpIdsRef.current]
+        const index = newSelecteExpenseIds.indexOf(parseInt(e.target.value));
+        if (index > -1) { // only splice array when item is found
+          newSelecteExpenseIds.splice(index, 1); // 2nd parameter means remove one item only
+        }
+        selectedExpIdsRef.current = newSelecteExpenseIds;
+
+        prepareExpenseListForTable(expenseListRef.current);
       }
 
     }
