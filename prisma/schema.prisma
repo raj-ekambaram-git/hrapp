@@ -33,6 +33,8 @@ model Address {
   Vendor         Vendor?       @relation(fields: [vendorId], references: [id])
   vendorId       Int?
   project        Project[]
+  contact        Contact?      @relation(fields: [contactId], references: [id])
+  contactId      Int?
 
   @@index([accountId])
   @@index([accountId, vendorId, userId])
@@ -61,21 +63,21 @@ model Account {
 }
 
 model Vendor {
-  id          Int          @id @default(autoincrement())
-  name        String
-  description String?
-  email       String
-  phone       String       @default("111-111-1111")
-  type        VendorType   @default(Staffing)
-  address     Address[]
-  account     Account?     @relation(fields: [accountId], references: [id])
-  accountId   Int?         @default(0)
-  ein         String       @unique
-  bankDetails String?
-  status      VendorStatus
-  updatedBy   User?        @relation("VendorUpdatedUser", fields: [updatedById], references: [id])
-  updatedById Int?         @default(1)
-
+  id                  Int           @id @default(autoincrement())
+  name                String
+  description         String?
+  email               String
+  phone               String        @default("111-111-1111")
+  type                VendorType    @default(Staffing)
+  address             Address[]
+  account             Account?      @relation(fields: [accountId], references: [id])
+  accountId           Int?          @default(0)
+  ein                 String        @unique
+  bankDetails         String?
+  status              VendorStatus
+  updatedBy           User?         @relation("VendorUpdatedUser", fields: [updatedById], references: [id])
+  updatedById         Int?          @default(1)
+  paymentTerms        PaymentTerms  @default(Net30)
   createdDate         DateTime      @default(now())
   accountContactName  String?
   accountContactEmail String?
@@ -191,15 +193,18 @@ model Project {
   totalHours                Int?              @default(0)
   averageRate               Decimal?          @default(0)
   timesheetNotesRequired    Boolean           @default(false)
-  status                    ProjectStatus
-  contactName               String?
-  contactEmail              String?
-  contactPhone              String?
-  paymentTerms              PaymentTerms      @default(Net60)
-  createdDate               DateTime          @default(now())
-  lastUpdateDate            DateTime          @updatedAt
-  invoice                   Invoice[]
-  projectResource           ProjectResource[]
+  parent                    ProjectRelation[] @relation("ParentProject")
+  child                     ProjectRelation[] @relation("ChildProject")
+
+  status          ProjectStatus
+  contactName     String?
+  contactEmail    String?
+  contactPhone    String?
+  paymentTerms    PaymentTerms      @default(Net60)
+  createdDate     DateTime          @default(now())
+  lastUpdateDate  DateTime          @updatedAt
+  invoice         Invoice[]
+  projectResource ProjectResource[]
 
   timesheetEntries TimesheetEntries[]
   expense          Expense[]
@@ -239,10 +244,10 @@ model User {
   expensesApproved   Expense[]          @relation("ApprovedExpenses")
   accountUpdatedUser Account[]          @relation("AccountUpdatedUser")
   vendorUpdatedUser  Vendor[]           @relation("VendorUpdatedUser")
-  Document           Document[]
-  AppConfigLookup    AppConfigLookup[]
-  AppConfig          AppConfig[]
-  AccountConfig      AccountConfig[]
+  document           Document[]
+  appConfigLookup    AppConfigLookup[]
+  appConfig          AppConfig[]
+  accountConfig      AccountConfig[]
 }
 
 model UserAttributes {
@@ -406,7 +411,7 @@ model TimesheetEntries {
   notesRequired  Boolean         @default(false)
   createdDate    DateTime        @default(now())
   lastUpdateDate DateTime        @default(now()) @updatedAt
-  InvoiceItem    InvoiceItem[]
+  invoiceItem    InvoiceItem[]
 }
 
 model Notes {
@@ -464,6 +469,38 @@ model AccountConfig {
   updatedUser    User?        @relation(fields: [updatedBy], references: [id])
   updatedBy      Int?
   lastUpdateDate DateTime     @default(now()) @updatedAt
+}
+
+model Contact {
+  id        Int           @id @default(autoincrement())
+  type      ContactType
+  firstName String
+  lastName  String
+  email     String
+  phone     String
+  address   Address[]
+  status    ContactStatus
+}
+
+model ProjectRelation {
+  id             Int      @id @default(autoincrement())
+  parent         Project? @relation("ParentProject", fields: [parentId], references: [id])
+  parentId       Int?     @default(1)
+  child          Project? @relation("ChildProject", fields: [childId], references: [id])
+  childId        Int?     @default(1)
+  createdDate    DateTime @default(now())
+  lastUpdateDate DateTime @default(now()) @updatedAt
+}
+
+enum ContactStatus {
+  Active
+  Inactive
+  MarkForDelete
+}
+
+enum ContactType {
+  Vendor
+  Project
 }
 
 enum AddressType {
