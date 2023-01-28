@@ -1,9 +1,11 @@
 
 import { ExpenseType } from '@prisma/client';
 import validator from 'validator';
-import { EMPTY_STRING, INVOICE_PAY_TERMS } from '../constants/accountConstants';
+import { EMPTY_STRING, INVOICE_PAY_TERMS, USER_ROLE_DESC } from '../constants/accountConstants';
 const generator = require('generate-password');
 const bcrypt = require('bcryptjs');
+import cookie from 'js-cookie'
+import jwtDecode from 'jwt-decode';
 
 export const util = {
     formatPhoneNumber,
@@ -22,8 +24,22 @@ export const util = {
     isOdd,
     getDueDateByPayTerms,
     getWithCurrency,
-    getTotalBillableExpense
+    getTotalBillableExpense,
+    getUserRole
 };
+
+function getUserRole() {
+  const userCookie = cookie.get("user");
+  if(userCookie) {
+    const authToken = JSON.parse(userCookie).authToken
+    const decryptedValue = jwtDecode(authToken);
+    const userRolesArray = decryptedValue['sub']?.split(":")[3].split(",");
+    return userRolesArray.map((role) => {
+      return USER_ROLE_DESC[role]
+    })  
+  }
+  return [EMPTY_STRING]
+}
 
 function getTotalBillableExpense(expenseEntries) {
   let totalBillableExpense = 0;

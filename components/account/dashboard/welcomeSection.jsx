@@ -6,7 +6,6 @@ import {
     CardHeader,
     HStack,
     Stack,
-    VStack
   } from '@chakra-ui/react'
 import { util } from '../../../helpers/util';
 import {userService} from '../../../services'
@@ -27,13 +26,17 @@ function WelcomeSection(props) {
                 
             </CardHeader>
             <CardBody>
-                <Stack width="50%">
+                <Stack width="50%" marginBottom={4}>
                     <HStack>
                         <Box width="50%" textAlign="right" fontWeight="600">
                             Role:
                         </Box>
-                        <Box width="80%" textAlign="left">
-                            Account Admin
+                        <Box width="60%" textAlign="left">
+                            {util.getUserRole()?.map((userRole) => (
+                                <Box>
+                                    {userRole}
+                                </Box>
+                            ))}         
                         </Box>
                     </HStack>
                 </Stack>
@@ -42,7 +45,7 @@ function WelcomeSection(props) {
                         <Box  width="50%" textAlign="right" fontWeight="600">
                             Last Logged In:
                         </Box>
-                        <Box width="80%" textAlign="left">
+                        <Box width="60%" textAlign="left">
                             {util.getFormattedDateWithTime(userService.userValue?.lastSignIn)}
                         </Box>
                     </HStack>

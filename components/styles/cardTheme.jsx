@@ -181,7 +181,7 @@ const baseStyle = definePartsStyle({
 
 const dashboardWelcome = definePartsStyle({
   container: {
-    width: "50%",
+    width: "40%",
     borderWidth: '1px',
     marginTop: "30px",
     borderRadius: 'lg',
@@ -191,7 +191,7 @@ const dashboardWelcome = definePartsStyle({
     
   },
   header:{
-    
+    fontSize: "16px"
   }
 
 })
