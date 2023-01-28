@@ -21,7 +21,7 @@ export default function Home(props) {
       </Stack>
       <Stack marginTop={10}>
         <HStack spacing={50}>
-          <CashFlowReportSection/>
+          <CashFlowReportSection canvasId="cashFlow"/>
         </HStack>
       </Stack>      
     </>
