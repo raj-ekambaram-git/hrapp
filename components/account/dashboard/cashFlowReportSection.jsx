@@ -27,21 +27,24 @@ function CashFlowReportSection(props) {
 
                     const labels = []; 
                     const datasets = [];
+                    if(cashFlowData.monthly && cashFlowData?.monthly?.length > 0) {
+                        cashFlowData.monthly?.map((monthData) => {
+                            labels.push(util.getFormattedDate(monthData.txn_month))
+                            console.log("monthData.monthly_sum::"+monthData.monthly_sum)
+                            const dataSet = {
+                                label: util.getFormattedDate(monthData.txn_month),
+                                data: parseFloat(monthData.monthly_sum)
+                            }
+                            datasets.push(dataSet)
+                        })
+                    }
     
                     const data = {
                         labels: labels,
-                        datasets: [
-                        {
-                            label: 'Estimated Revenue',
-                            data: "10",
-                        },
-                        {
-                            label: 'sdsde',
-                            data: "20",
-                        },
-                        ]
+                        datasets: datasets
                     };
                 
+                    console.log("DATTA::"+JSON.stringify(data))
                     // const subtitle = {
                     //     display: true,
                     //     text: "Total Revenue: $"+util.getZeroPriceForNull(allProjectActualRevenue),
@@ -60,10 +63,10 @@ function CashFlowReportSection(props) {
                     barChart({
                         canvasId: props.canvasId, 
                         chartData: data, 
-                        titleText: 'Lifetime Cash Flow: $'+(util.getZeroPriceForNull(cashFlowData?.lifeTime[0]?.total)), 
+                        titleText: 'Lifetime Cash Flow: $ '+(util.getZeroPriceForNull(cashFlowData?.lifeTime[0]?.total)), 
                         subtitleData: {},
                         position:'top',
-                        axis: "y"
+                        axis: "x"
                     })
 
                 }else {
