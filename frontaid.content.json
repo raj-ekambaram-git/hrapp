@@ -1,0 +1,30 @@
+{
+    "title": "boNeeds  with Next.js",
+    "index": {
+      "title": "Index Page",
+      "content": "<p>Some <strong>index ssdd</strong> content...</p>"
+    },
+    "pages": [
+      {
+        "title": "Foo Page",
+        "path": "/static/foo",
+        "content": "<Box> Testing</Box>"
+      },
+      {
+        "title": "Bar Page",
+        "path": "/bar",
+        "content": "<p><strong>Bar</strong> content...</p>"
+      },
+      {
+        "title": "Baz Page",
+        "path": "/baz",
+        "content": "<p><strong>Baz</strong> content...</p>"
+      }
+    ],
+    "topNav": {
+        "content:": "Top Nav Content"
+    },
+    "footer": {
+        "content": ""
+    }
+  }

@@ -32,7 +32,7 @@ const Slidebar = (props) => {
 
  
   return (
-    <div className={styles.main}>
+    <div className={styles.main} >
 
           <div className={styles.navbar}>
 
