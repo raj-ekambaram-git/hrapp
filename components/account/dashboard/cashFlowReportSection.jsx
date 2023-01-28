@@ -28,29 +28,11 @@ function CashFlowReportSection(props) {
                     const labels = []; 
                     const datasets = [];
                     if(cashFlowData.weekly && cashFlowData?.weekly?.length > 0) {
-                        let count = 0
-                        cashFlowData.weekly?.map((weeklyData) => {
-                            labels.push(util.getDayMonthFormat(weeklyData.txn_week))
-                            const totalArray = weeklyData.total.split(",")
-                            let netAmount = 0;
-                            totalArray?.map((amountString) => {
-                                if(amountString) {
-                                    const amountVal = amountString.split("_")
-                                    if(amountVal[0] === "Paid") {
-                                        netAmount = netAmount+parseFloat(amountVal[1])
-                                    }else {
-                                        netAmount = netAmount-parseFloat(amountVal[1])
-                                    }
-                                }
-                            })
-                            const data = {
-                                label: util.getDayMonthFormat(weeklyData.txn_week),
-                                data: [netAmount],
-                              }
-                              datasets.push(data)
-                        })
+                        populateDataSet(cashFlowData.weekly, labels, datasets, "Week: ")
                     }
-    
+                    if(cashFlowData.monthly && cashFlowData?.monthly?.length > 0) {
+                        populateDataSet(cashFlowData.monthly, labels, datasets, "Month: ")
+                    }                    
                     const data = {
                         labels: labels,
                         datasets: datasets
@@ -92,12 +74,42 @@ function CashFlowReportSection(props) {
             }                    
         }
 
-        const removeChart = () => {
-            let chartStatus = Chart.getChart(props.canvasId); // <canvas> id
-            if (chartStatus != undefined) {
-                chartStatus.destroy();
+    const removeChart = () => {
+        let chartStatus = Chart.getChart(props.canvasId); // <canvas> id
+        if (chartStatus != undefined) {
+            chartStatus.destroy();
+        }
+    }        
+
+    function populateDataSet(dataInput, labels, dataSet, labelName) {
+        let count = 0
+        dataInput?.map((dataVal) => {
+            if(count>2) {
+                return
             }
-        }        
+            count++
+            labels.push(labelName+util.getDayMonthFormat(dataVal.tx_period))
+            const totalArray = dataVal.total.split(",")
+            let netAmount = 0;
+            totalArray?.map((amountString) => {
+                if(amountString) {
+                    const amountVal = amountString.split("_")
+                    if(amountVal[0] === "Paid") {
+                        netAmount = netAmount+parseFloat(amountVal[1])
+                    }else {
+                        netAmount = netAmount-parseFloat(amountVal[1])
+                    }
+                }
+            })
+            const data = {
+                label: labelName+util.getDayMonthFormat(dataVal.tx_period),
+                data: [netAmount],
+                }
+                dataSet.push(data)
+        })
+        
+        // return {labels, dataSet}
+    }
        
     return (
         <Card variant="cashFlowDashboard">

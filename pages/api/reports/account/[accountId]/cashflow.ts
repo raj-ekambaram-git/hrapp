@@ -22,24 +22,24 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         const pastMonth = new Date();
         pastMonth.setDate(pastMonth.getDate() - 30);
     
-        const monthly = await prisma.$queryRaw`select txn_month,
+        const monthly = await prisma.$queryRaw`select tx_period,
         string_agg(distinct tranStatus||'_'||monthly_sum, ',' order by  tranStatus||'_'||monthly_sum) as total 
          from (
-        SELECT date_trunc('month', tran."createdDate") AS txn_month, sum(tran.amount) as monthly_sum, tran.status as tranStatus FROM "InvoiceTransaction" as tran, "Invoice" as inv where 
+        SELECT date_trunc('month', tran."createdDate") AS tx_period, sum(tran.amount) as monthly_sum, tran.status as tranStatus FROM "InvoiceTransaction" as tran, "Invoice" as inv where 
         inv."accountId" = 5
         and tran."invoiceId" = inv.id
         and tran.status in ('Paid','Refund', 'Cancelled') 
-        GROUP BY txn_month, tran.status order by txn_month desc ) as temp_table group by txn_month`
+        GROUP BY tx_period, tran.status order by tx_period desc ) as temp_table group by tx_period`
 
         const weekly = await prisma.$queryRaw`
-        select txn_week,
+        select tx_period,
         string_agg(distinct tranStatus||'_'||weekly_sum, ',' order by  tranStatus||'_'||weekly_sum) as total 
          from (
-        SELECT date_trunc('week', tran."createdDate") AS txn_week, sum(tran.amount) as weekly_sum, tran.status as tranStatus FROM "InvoiceTransaction" as tran, "Invoice" as inv where 
+        SELECT date_trunc('week', tran."createdDate") AS tx_period, sum(tran.amount) as weekly_sum, tran.status as tranStatus FROM "InvoiceTransaction" as tran, "Invoice" as inv where 
         inv."accountId" = ${parseInt(accountId.toString())}
         and tran."invoiceId" = inv.id
         and tran.status in ('Paid','Refund', 'Cancelled') 
-        GROUP BY txn_week, tran.status order by txn_week desc ) as temp_table group by txn_week`
+        GROUP BY tx_period, tran.status order by tx_period desc ) as temp_table group by tx_period`
 
         const lifeTime = await prisma.$queryRaw`select sum("paidAmount") as total from "Invoice" where "accountId" = ${parseInt(accountId.toString())} and status in ('Paid', 'PartiallyPaid')`
         
