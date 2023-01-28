@@ -24,8 +24,20 @@ export const accountService = {
     getUserList,
     createAccount,
     updateAccount,
-    getAccountReportData
+    getAccountReportData,
+    getCashFlowData
 };
+
+function getCashFlowData(accountId) {
+    return fetchWrapper.get(`${baseUrl}/reports/account/`+accountId+'/cashflow', {})
+    .then(accountCashFlowData => {
+        return accountCashFlowData;
+    })
+    .catch(err => {
+        console.log("Error getting getCashFlowData  ::"+err)
+        return {errorMessage: err, error: true};
+       });
+  }
 
 function getAccountReportData(accountId) {
     return fetchWrapper.get(`${baseUrl}/reports/account/`+accountId+'/detail', {})

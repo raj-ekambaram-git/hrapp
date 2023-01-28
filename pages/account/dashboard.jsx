@@ -2,7 +2,9 @@ import { useRouter } from "next/router";
 import {WelcomeSection} from '../../components/account/dashboard/welcomeSection'
 import {ApprovalSection} from '../../components/account/dashboard/approvalSection'
 import {HelpSection} from '../../components/account/dashboard/helpSection'
+import {CashFlowReportSection} from '../../components/account/dashboard/cashFlowReportSection'
 import { HStack, Stack } from "@chakra-ui/react";
+
 
 export default function Home(props) {
   const router = useRouter();
@@ -17,6 +19,11 @@ export default function Home(props) {
           <HelpSection/>
         </HStack>
       </Stack>
+      <Stack marginTop={10}>
+        <HStack spacing={50}>
+          <CashFlowReportSection/>
+        </HStack>
+      </Stack>      
     </>
     // <div className="main__container">
     //     <h1> Welcome!</h1>
