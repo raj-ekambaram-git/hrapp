@@ -179,6 +179,23 @@ const baseStyle = definePartsStyle({
   },
 })
 
+const dashboardWelcome = definePartsStyle({
+  container: {
+    width: "50%",
+    borderWidth: '1px',
+    marginTop: "30px",
+    borderRadius: 'lg',
+    overflow: 'hidden', 
+    border: "1px",
+    fontSize: "14px"
+    
+  },
+  header:{
+    
+  }
+
+})
+
 const sizes = definePartsStyle({
   md: {
     container: {
@@ -187,4 +204,4 @@ const sizes = definePartsStyle({
   },
 })
 
-export const cardTheme = defineMultiStyleConfig({ baseStyle, sizes, variants: {projectUsersFinancialSummary, reportByUsers, projectReportsHeader, comment, replies, replyDetails, document, timesheetDailyNotes, projectFinancialSummary} })
+export const cardTheme = defineMultiStyleConfig({ baseStyle, sizes, variants: {dashboardWelcome,projectUsersFinancialSummary, reportByUsers, projectReportsHeader, comment, replies, replyDetails, document, timesheetDailyNotes, projectFinancialSummary} })

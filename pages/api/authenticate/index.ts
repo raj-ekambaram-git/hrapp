@@ -82,6 +82,7 @@ async function hasAccess(result, res, user) {
         userRole: user.userRole,
         accountId: user.accountId,
         passwordExpired: user.passwordExpired,
+        lastSignIn: user.lastSignIn,
         authToken,
         accountToken
     });

@@ -107,7 +107,7 @@ const Slidebar = (props) => {
                           }                        
                     </div>
                     <div className={styles.mainContainer}>
-                        <Container marginLeft={2}>
+                        <Container marginLeft={1}>
                           {props.children}
                         </Container>
                     </div>
