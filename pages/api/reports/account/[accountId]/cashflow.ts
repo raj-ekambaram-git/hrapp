@@ -35,7 +35,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         and tran.status in ('Paid','Refund', 'Cancelled') 
         GROUP BY txn_week, tran.status order by txn_week desc`
 
-        const lifeTime = await prisma.$queryRaw`select sum("paidAmount") from "Invoice" where "accountId" = ${parseInt(accountId.toString())} and status in ('Paid', 'PartiallyPaid')`
+        const lifeTime = await prisma.$queryRaw`select sum("paidAmount") as total from "Invoice" where "accountId" = ${parseInt(accountId.toString())} and status in ('Paid', 'PartiallyPaid')`
         
         cashFlowData["lifeTime"] = lifeTime?lifeTime:parseFloat("0")
         cashFlowData["monthly"] = monthly?monthly:parseFloat("0")

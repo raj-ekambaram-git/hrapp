@@ -133,6 +133,11 @@ model Invoice {
   lastUpdateDate     DateTime             @updatedAt
   invoiceItems       InvoiceItem[]
   invoiceTransaction InvoiceTransaction[]
+
+  @@index([lastUpdateDate])
+  @@index([paidAmount])
+  @@index([dueDte])
+  @@index([accountId])
 }
 
 model InvoiceItem {
@@ -171,6 +176,9 @@ model InvoiceTransaction {
   status          InvoiceTransactionStatus
   createdDate     DateTime                 @default(now())
   lastUpdatedDate DateTime                 @updatedAt
+  
+  @@index([invoiceId, status])
+  @@index([lastUpdatedDate, status])
 }
 
 model Project {
