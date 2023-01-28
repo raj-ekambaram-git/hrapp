@@ -24,6 +24,7 @@ console.log("userId ID::"+userId+"---AccountioD::"+accountId)
                 isTimesheetApprover: true
             },
             select: {
+                isTimesheetApprover: true,
                 billable: true,
                 project: {
                     select: {
@@ -34,6 +35,7 @@ console.log("userId ID::"+userId+"---AccountioD::"+accountId)
                                 status: TimesheetStatus.Submitted
                             },
                             select: {
+                                _count: true,
                                 id: true
                             }
                         },
@@ -41,7 +43,7 @@ console.log("userId ID::"+userId+"---AccountioD::"+accountId)
                             where: {
                                 status: ExpenseStatus.Submitted
                             },
-                            select: {
+                            select: {                                
                                 id: true
                             }
                         }
@@ -50,7 +52,31 @@ console.log("userId ID::"+userId+"---AccountioD::"+accountId)
             }
         });
 
-        console.log("projects::"+JSON.stringify(projects))
+        let billableTimesheetCount = 0;
+        let nonBillableExpenseCount = 0;
+        let expenseCount = 0;
+        const projectEpeneList = [];
+        projects.map((project) => {
+          project.project?.timesheetEntries?.map((timesheetEntry) => {
+            if(project.billable) {
+              billableTimesheetCount++
+            }else {
+              nonBillableExpenseCount++
+            }
+          })
+
+          project.project?.expense?.map((expense) => {
+            if(!projectEpeneList.includes(project.project?.id)) {
+              projectEpeneList.push(project.project?.id)
+              expenseCount++
+            }
+            
+          })
+        
+        })
+        approvalData["billableTimesheetCount"] = billableTimesheetCount;
+        approvalData["nonBillableExpenseCount"] = nonBillableExpenseCount;
+        approvalData["expenseCount"] = expenseCount;
       res.status(200).json(approvalData);
     } 
 

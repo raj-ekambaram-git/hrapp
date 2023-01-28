@@ -18,7 +18,7 @@ function WelcomeSection(props) {
                     <Box>
                         Welcome
                     </Box>
-                    <Box fontWeight="600">
+                    <Box fontWeight="500">
                         {userService.userValue?.firstName} {userService.userValue?.lastName} !
                     </Box>
                 </HStack>
@@ -26,6 +26,14 @@ function WelcomeSection(props) {
             </CardHeader>
             <CardBody>
                 <Stack width="50%" marginBottom={4}>
+                    <HStack>
+                        <Box  width="50%" textAlign="right" fontWeight="600">
+                            Username:
+                        </Box>
+                        <Box width="60%" textAlign="left">
+                            {userService.userValue?.username}
+                        </Box>
+                    </HStack>                        
                     <HStack>
                         <Box width="50%" textAlign="right" fontWeight="600">
                             Role:
@@ -38,16 +46,14 @@ function WelcomeSection(props) {
                             ))}         
                         </Box>
                     </HStack>
-                </Stack>
-                <Stack width="50%">
                     <HStack>
                         <Box  width="50%" textAlign="right" fontWeight="600">
-                            Last Logged In:
+                            Last logged in:
                         </Box>
                         <Box width="60%" textAlign="left">
                             {util.getFormattedDateWithTime(userService.userValue?.lastSignIn)}
                         </Box>
-                    </HStack>
+                    </HStack>                    
                 </Stack>
             </CardBody>
         </Card>

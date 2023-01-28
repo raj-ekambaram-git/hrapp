@@ -187,12 +187,13 @@ const dashboardWelcome = definePartsStyle({
     borderRadius: 'lg',
     overflow: 'hidden', 
     border: "1px",
-    fontSize: "14px"
-    
+    fontSize: "14px",
   },
   header:{
-    fontSize: "16px"
-  }
+    fontSize: "16px",
+    fontWeight: "600",
+  },
+  
 
 })
 
