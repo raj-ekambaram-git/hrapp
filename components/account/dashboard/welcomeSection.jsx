@@ -11,7 +11,6 @@ import { util } from '../../../helpers/util';
 import {userService} from '../../../services'
 
 function WelcomeSection(props) {
-    console.log("PROPS::"+JSON.stringify(props))
     return (
         <Card variant="dashboardWelcome">
             <CardHeader>
@@ -55,9 +54,3 @@ function WelcomeSection(props) {
 
     );
 }
-
-export async function getServerSideProps(context) {
-    return {
-      props: {testDat: "3333"}, // will be passed to the page component as props
-    }
-  }
