@@ -37,7 +37,7 @@ const DesktopSidebarContents = ({ name }: any) => {
         direction={['column', 'row']}
       >
         <Box display={{ base: 'none', md: 'flex' }}>
-          
+          <Heading fontSize="xl">{name}</Heading>
         </Box>
         <Spacer />
         <Stack
