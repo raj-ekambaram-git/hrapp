@@ -27,8 +27,29 @@ function CashFlowReportSection(props) {
 
                     const labels = []; 
                     const datasets = [];
-                    const calculationAmount = [];
-
+                    if(cashFlowData.weekly && cashFlowData?.weekly?.length > 0) {
+                        let count = 0
+                        cashFlowData.weekly?.map((weeklyData) => {
+                            labels.push(util.getDayMonthFormat(weeklyData.txn_week))
+                            const totalArray = weeklyData.total.split(",")
+                            let netAmount = 0;
+                            totalArray?.map((amountString) => {
+                                if(amountString) {
+                                    const amountVal = amountString.split("_")
+                                    if(amountVal[0] === "Paid") {
+                                        netAmount = netAmount+parseFloat(amountVal[1])
+                                    }else {
+                                        netAmount = netAmount-parseFloat(amountVal[1])
+                                    }
+                                }
+                            })
+                            const data = {
+                                label: util.getDayMonthFormat(weeklyData.txn_week),
+                                data: [netAmount],
+                              }
+                              datasets.push(data)
+                        })
+                    }
     
                     const data = {
                         labels: labels,

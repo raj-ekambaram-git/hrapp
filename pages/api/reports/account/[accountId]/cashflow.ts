@@ -23,7 +23,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         pastMonth.setDate(pastMonth.getDate() - 30);
     
         const monthly = await prisma.$queryRaw`select txn_month,
-        string_agg(distinct '{'||tranStatus||':'||monthly_sum||'}', ',' order by  '{'||tranStatus||':'||monthly_sum||'}') as total 
+        string_agg(distinct tranStatus||'_'||monthly_sum, ',' order by  tranStatus||'_'||monthly_sum) as total 
          from (
         SELECT date_trunc('month', tran."createdDate") AS txn_month, sum(tran.amount) as monthly_sum, tran.status as tranStatus FROM "InvoiceTransaction" as tran, "Invoice" as inv where 
         inv."accountId" = 5
@@ -33,7 +33,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
         const weekly = await prisma.$queryRaw`
         select txn_week,
-        string_agg(distinct '{'||tranStatus||':'||weekly_sum||'}', ',' order by  '{'||tranStatus||':'||weekly_sum||'}') as total 
+        string_agg(distinct tranStatus||'_'||weekly_sum, ',' order by  tranStatus||'_'||weekly_sum) as total 
          from (
         SELECT date_trunc('week', tran."createdDate") AS txn_week, sum(tran.amount) as weekly_sum, tran.status as tranStatus FROM "InvoiceTransaction" as tran, "Invoice" as inv where 
         inv."accountId" = ${parseInt(accountId.toString())}
