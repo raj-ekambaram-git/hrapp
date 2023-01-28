@@ -1,13 +1,21 @@
 import { useRouter } from "next/router";
-import { Tooltip, Text, Icon, Container } from '@chakra-ui/react';
 import {WelcomeSection} from '../../components/account/dashboard/welcomeSection'
+import {ApprovalSection} from '../../components/account/dashboard/approvalSection'
+import { HStack, Stack } from "@chakra-ui/react";
 
 export default function Home(props) {
   const router = useRouter();
   const { data } = props;
 
   return (
-    <WelcomeSection/>
+    <>
+      <Stack marginTop={10}>
+        <HStack spacing={50}>
+          <WelcomeSection/>
+          <ApprovalSection/>
+        </HStack>
+      </Stack>
+    </>
     // <div className="main__container">
     //     <h1> Welcome!</h1>
 

@@ -47,9 +47,16 @@ export const userService = {
     updateUser,
     getExpensesByUser,
     getExpenseApprovalByUser,
-    getExpensePaymentByUser
+    getExpensePaymentByUser,
+    getApprovalData,
 };
 
+function getApprovalData(userId, accountId) {
+    return fetchWrapper.get(`${baseUrl}/account/user/`+userId+'/approval?accountId='+accountId, {})
+    .then(approvalData => {
+        return approvalData;
+    });
+}
 
 function getExpensePaymentByUser(userId, accountId) {
     return fetchWrapper.get(`${baseUrl}/account/user/`+userId+'/expenses/payment?accountId='+accountId, {})
@@ -348,7 +355,7 @@ function isContractor() {
 function isManager() {
     if( userSubject.value 
         && userSubject.value?.userRole?.includes(UserConstants.USER_ROLES.ACCOUNT_MANAGER)
-        && userSubject.value?.accountId != UserConstants.SUPER_ADMIN_ID) {
+        && (userSubject.value?.accountId != UserConstants.SUPER_ADMIN_ID || userSubject.value?.accountId != UserConstants.ACCOUNT_ADMIN)) {
         return true;
     }
     
@@ -360,7 +367,7 @@ function isManager() {
 function isAccountVendorRep() {
     if( userSubject.value 
         && userSubject.value?.userRole?.includes(UserConstants.USER_ROLES.ACCOUNT_VENDOR_REP)
-        && userSubject.value?.accountId != UserConstants.SUPER_ADMIN_ID) {
+        && (userSubject.value?.accountId != UserConstants.SUPER_ADMIN_ID || userSubject.value?.accountId != UserConstants.ACCOUNT_ADMIN)) {
         return true;
     }
     

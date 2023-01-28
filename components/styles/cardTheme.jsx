@@ -179,11 +179,11 @@ const baseStyle = definePartsStyle({
   },
 })
 
+
 const dashboardWelcome = definePartsStyle({
   container: {
     width: "40%",
     borderWidth: '1px',
-    marginTop: "30px",
     borderRadius: 'lg',
     overflow: 'hidden', 
     border: "1px",

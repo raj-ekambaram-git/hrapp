@@ -52,7 +52,7 @@ const ProjectTimesheets = (props) => {
                                     <AccordionButton bgColor="table_tile">
                                         <Box as="span" flex='1' textAlign='left'>
                                             <Heading size='xs' textTransform='uppercase'>
-                                                {timesheet.project.name} -- {timesheet.project.referenceCode}
+                                                {timesheet.project.name} -- {timesheet.project.referenceCode} -- {timesheet.billable?"Billable":"Non-Billable"} 
                                             </Heading>
                                         </Box>
                                         <AccordionIcon />

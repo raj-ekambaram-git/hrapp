@@ -18,6 +18,7 @@ console.log("userId ID::"+userId+"---AccountioD::"+accountId)
     if(userId != "" && accountId != "" && accountId != "NaN" && accountId != undefined && userId != undefined && userId != "NaN") {
       const projects = await prisma.projectResource.findMany({
         select: {
+          billable: true,
           project: {
             select: {
               name: true,
@@ -58,7 +59,6 @@ console.log("userId ID::"+userId+"---AccountioD::"+accountId)
             isTimesheetApprover: {
               equals: true
             },
-            billable: true,
             project: {
               timesheetEntries: {
                 some: {
