@@ -28,35 +28,7 @@ function CashFlowReportSection(props) {
                     const labels = []; 
                     const datasets = [];
                     const calculationAmount = [];
-                    if(cashFlowData.weekly && cashFlowData?.weekly?.length > 0) {
-                        cashFlowData.weekly?.map((monthData) => {
-                            if(labels.includes(util.getFormattedDate(monthData.txn_week))) {
-                                const indexVal = labels.indexOf(util.getFormattedDate(monthData.txn_week))
-                                const alreadySavedAmount = calculationAmount[indexVal]
-                                if(monthData.status === "Paid") {
-                                    datasets[indexVal] = {
-                                        label: util.getFormattedDate(monthData.txn_week),
-                                        data: [parseFloat(monthData.weekly_sum) - alreadySavedAmount]
-                                    }                                    
-                                }else {
-                                    datasets[indexVal] = {
-                                        label: util.getFormattedDate(monthData.txn_week),
-                                        data: [alreadySavedAmount-parseFloat(monthData.weekly_sum)]
-                                    }  
-                                }
-                          
-                            }else {
-                                labels.push(util.getFormattedDate(monthData.txn_week))
-                                calculationAmount.push(parseFloat(monthData.weekly_sum))
-                                const dataSet = {
-                                    label: util.getFormattedDate(monthData.txn_week),
-                                    data: [parseInt(monthData.weekly_sum)]
-                                }
-                                datasets.push(dataSet)
-                            }                            
-                            
-                        })
-                    }
+
     
                     const data = {
                         labels: labels,
