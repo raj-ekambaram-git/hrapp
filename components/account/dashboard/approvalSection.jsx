@@ -30,7 +30,7 @@ function ApprovalSection(props) {
     return (
         <>
             {approvalData?
-                <Card variant="dashboardWelcome">
+                <Card variant="helpDashboard">
                     <CardHeader>
                         <HStack>
                             <Box textAlign="center">
@@ -40,9 +40,9 @@ function ApprovalSection(props) {
                         
                     </CardHeader>
                     <CardBody>
-                        <Stack width="50%" marginBottom={4}>
+                        <Stack width="100%" marginBottom={4}>
                             <HStack>
-                                <Box width="80%" textAlign="right" fontWeight="600">
+                                <Box width="60%" textAlign="right" fontWeight="600">
                                     Billable Timesheets:
                                 </Box>
                                 <Box width="10%" textAlign="left">
@@ -50,7 +50,7 @@ function ApprovalSection(props) {
                                 </Box>
                             </HStack>
                             <HStack>
-                                <Box width="80%" textAlign="right" fontWeight="600">
+                                <Box width="60%" textAlign="right" fontWeight="600">
                                     Non-Billable Timesheets:
                                 </Box>
                                 <Box width="10%" textAlign="left">
@@ -58,7 +58,7 @@ function ApprovalSection(props) {
                                 </Box>
                             </HStack>
                             <HStack>
-                                <Box width="80%" textAlign="right" fontWeight="600">
+                                <Box width="60%" textAlign="right" fontWeight="600">
                                     Expenses:
                                 </Box>
                                 <Box width="10%" textAlign="left">

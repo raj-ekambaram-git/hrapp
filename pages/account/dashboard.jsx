@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import {WelcomeSection} from '../../components/account/dashboard/welcomeSection'
 import {ApprovalSection} from '../../components/account/dashboard/approvalSection'
+import {HelpSection} from '../../components/account/dashboard/helpSection'
 import { HStack, Stack } from "@chakra-ui/react";
 
 export default function Home(props) {
@@ -13,6 +14,7 @@ export default function Home(props) {
         <HStack spacing={50}>
           <WelcomeSection/>
           <ApprovalSection/>
+          <HelpSection/>
         </HStack>
       </Stack>
     </>
