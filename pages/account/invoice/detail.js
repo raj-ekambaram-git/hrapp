@@ -24,9 +24,7 @@ const EditInvoice = (props) => {
   }
   
     return (
-      <div className="main__container">
           <InvoiceAddEdit data={requestData}/>
-      </div>
     );
   };
 export default EditInvoice;

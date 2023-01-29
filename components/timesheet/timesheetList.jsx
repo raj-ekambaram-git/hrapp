@@ -153,7 +153,7 @@ const TimesheetList = (props) => {
                   handleDeleteConfirmation={handleDeleteConfirmation}
                   onClose={onClose}/>
 
-              <Flex marginBottom="1rem">
+              <Box width="page.sub_heading_width">
                 <HStack>
                     <Button size="xs" bgColor="header_actions"   onClick={handleAddNewTS}>
                         Add New Timesheet
@@ -162,8 +162,9 @@ const TimesheetList = (props) => {
                         Delete Timesheet
                     </Button>                     */}
                 </HStack>
-              </Flex>
-              <CustomTable variant="sortTable" columns={TIMESHEET_LIST_TABLE_COLUMNS} rows={timesheetList} />
+                <CustomTable variant="sortTable" columns={TIMESHEET_LIST_TABLE_COLUMNS} rows={timesheetList} />                
+              </Box>
+              
           </div>
       ) : (
         <> 

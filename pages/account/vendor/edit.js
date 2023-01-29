@@ -16,9 +16,7 @@ const EditVendor = (props) => {
   }
   
     return (
-      <div className="main__container">
           <VendorAddEdit data={requestData}/>
-      </div>
     );
   };
 export default EditVendor;

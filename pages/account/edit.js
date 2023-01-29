@@ -13,9 +13,7 @@ const EditAccount = (props) => {
   }
   
     return (
-      <div className="main__container">
           <AccountAddEdit data={requestData}/>
-      </div>
     );
   };
 export default EditAccount;

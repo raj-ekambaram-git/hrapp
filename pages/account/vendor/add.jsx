@@ -13,9 +13,7 @@ const AddNewVendor = (props) => {
   }
 
   return (
-    <div className="main__container">
         <VendorAddEdit data={requestData}/>
-    </div>
   );
 };
 

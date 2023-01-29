@@ -232,8 +232,7 @@ const VendorEdit = (props) => {
               <PageMainHeader heading="New Vendor"/>
           ) : (
               <PageMainHeader heading="Update Vendor"/>
-          )}              
-
+          )}     
           <Box width="page.sub_heading_width">
           <form onSubmit={handleSubmit(onSubmit)}>
             <Stack spacing={4}>

@@ -454,7 +454,7 @@ const InvoiceAddEdit = (props) => {
 
   return (
 
-    <div>
+    <>
       {isPageAuthprized ? (
         <div> 
           
@@ -716,7 +716,7 @@ const InvoiceAddEdit = (props) => {
         <PageNotAuthorized/>      
       </>
       )}
-    </div>
+    </>
 
   );
 };

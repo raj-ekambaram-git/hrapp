@@ -19,9 +19,7 @@ const requestData = {
 }
 
   return (
-    <div className="main__container">
         <UserAddEdit data={requestData}/>
-    </div>
   );
 };
 

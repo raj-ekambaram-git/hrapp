@@ -9,9 +9,7 @@ const requestData = {
 }
 
   return (
-    <div className="main__container">
         <AccountAddEdit data={requestData}/>
-    </div>
   );
 };
 

@@ -12,6 +12,8 @@ import {
   HStack,
   useDisclosure,
   Accordion,
+  Flex,
+  Button,
 
 } from '@chakra-ui/react'
 import UserDetailSection from "../../../components/user/detail/userDetailSection";
@@ -89,16 +91,30 @@ const UserDetail = (props) => {
 
   return (
 
-    <div>
+    <Box width="page.sub_heading_width">
       {isPageAuthprized ? (
         <>
           <Card>
             <CardHeader bgColor="heading">
-              <HStack spacing="50rem">
+              <Flex
+                as="nav"
+                align="center"
+                justify="space-between"
+                wrap="wrap"
+                bg="heading"
+                color="white"
+                width="page.heading_width"
+                borderRadius='9px'
+              >
+              <Heading size='md'>Hi, {user.firstName} {user.lastName}!</Heading>
+              <HStack spacing={2}>
                 <Box>
-                  <Heading size='md'>Hi, {user.firstName} {user.lastName}!</Heading>
+                  <Button size="xs" colorScheme="yellow" onClick={() => router.back()}>
+                    Go Back
+                  </Button>
                 </Box>
-              </HStack>
+              </HStack>                                   
+              </Flex>                              
             </CardHeader>
             <UserDetailActions/>
             <CardBody>
@@ -123,7 +139,7 @@ const UserDetail = (props) => {
         </div>
 
       )}
-    </div>    
+    </Box>    
   );
 };
 

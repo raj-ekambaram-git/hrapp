@@ -154,6 +154,7 @@ const VendorDetail = (props) => {
             color="white"
             marginBottom="page.heading_marginBottom"
             width="page.heading_width"
+            borderRadius='9px'
           >
             <Heading size='md'>Vendor Details for {vendor.name}</Heading>
             <Box alignItems='right'>

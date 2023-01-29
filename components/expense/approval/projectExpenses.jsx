@@ -34,7 +34,7 @@ const ProjectExpenses = (props) => {
     const approvalList = useSelector(state => state.expense.approvalExpenses);
 
     return (
-        <div>
+        
              <Card>
                 <CardHeader>
                     <HStack spacing="50rem">
@@ -134,7 +134,7 @@ const ProjectExpenses = (props) => {
                   </Stack>
                 </CardBody>
             </Card>
-        </div>
+    
     );
 };
 

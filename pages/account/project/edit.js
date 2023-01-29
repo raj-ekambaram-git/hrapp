@@ -29,9 +29,7 @@ const EditProject = (props) => {
   }
   
     return (
-      <div className="main__container">
           <ProjectAddEdit data={requestData}/>
-      </div>
     );
   };
 export default EditProject;

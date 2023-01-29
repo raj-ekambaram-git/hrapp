@@ -24,9 +24,7 @@ const EditUser = (props) => {
   }
   
     return (
-      <div className="main__container">
           <UserAddEdit data={requestData}/>
-      </div>
     );
   };
 export default EditUser;

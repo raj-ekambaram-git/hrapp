@@ -11,8 +11,7 @@ export default function ProjectInvoices(props) {
     projectId: projectId
   }
   return (
-   <InvoiceList invoiceList={{ data: data, requestMode: "PROJECT" }} /> 
-   
+   <InvoiceList invoiceList={{ data: data, requestMode: "PROJECT" }} />    
   );
 }
 

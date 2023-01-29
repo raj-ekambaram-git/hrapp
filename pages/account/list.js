@@ -47,8 +47,7 @@ export default function Home(props) {
   const navigatePage = () => router.push("/account/add-new");
 
   return (
-    <div className="main__container">
-
+      <>
       {isPageAuthprized ? (
         <>
         <div className="account__header">
@@ -117,7 +116,7 @@ export default function Home(props) {
 
       )}
       
-    </div>
+    </>
   );
 }
 
