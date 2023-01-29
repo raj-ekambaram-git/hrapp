@@ -399,7 +399,7 @@ const VendorEdit = (props) => {
                 <Flex marginBottom={4}>
                   <HStack>
                     <Box>
-                    <Button size="xs" bgColor="header_actions" onClick={navigateVendorListPage}>
+                      <Button size="xs" colorScheme="yellow" onClick={() => router.back()}>
                         Cancel
                       </Button>
                     </Box>

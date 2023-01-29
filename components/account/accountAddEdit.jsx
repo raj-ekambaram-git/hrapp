@@ -345,16 +345,16 @@ const AccountAddEdit = (props) => {
                 <Flex marginBottom={4}>
                   <HStack>
                     <Box>
-                      <Button size="xs" bgColor="header_actions"  onClick={() => router.push("/accounts")}>
+                      <Button size="xs" colorScheme="yellow" onClick={() => router.back()}>
                         Cancel
                       </Button>
                     </Box>
                     <Box>
                       <Button size="xs" bgColor="header_actions"  type="submit">
                         {isAddMode ? (
-                            <>Add New Account</>
+                            <>Add</>
                         ) : (
-                            <>Update Account</>
+                            <>Update</>
                         )}
                       </Button>
                     </Box>
