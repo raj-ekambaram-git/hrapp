@@ -1,4 +1,4 @@
-import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
+import { Box, Container, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import AccountDashboard from "../../components/reports/accountDashboard";
@@ -50,23 +50,25 @@ export default function Dashboard(props) {
     userId: userId
   }
   return (
-    <Tabs isFitted variant='reports' size="sm" defaultIndex={selectedTabIndex}>
-      <TabList mb='1em'>
-        <Tab onClick={() => handleReportSelection("account")}>Account</Tab>
-        <Tab onClick={() => handleReportSelection("vendor")}>Vendor</Tab>
-        <Tab onClick={() => handleReportSelection("project")}>Project</Tab>
-      </TabList>
-      <TabPanels>
-        <TabPanel>
-          {accountReport?<AccountDashboard/>:<></>}
-        </TabPanel>
-        <TabPanel>
-          {vendorReport?<VendorDashboard/>:<></>}
-        </TabPanel>
-        <TabPanel>
-          {projectReport?<ProjectDashboard/>:<></>}          
-        </TabPanel>
-      </TabPanels>
-    </Tabs>
+    <Box width="1600px">
+      <Tabs isFitted variant='reports' size="sm" defaultIndex={selectedTabIndex}>
+        <TabList mb='1em'>
+          <Tab onClick={() => handleReportSelection("account")}>Account</Tab>
+          <Tab onClick={() => handleReportSelection("vendor")}>Vendor</Tab>
+          <Tab onClick={() => handleReportSelection("project")}>Project</Tab>
+        </TabList>
+        <TabPanels>
+          <TabPanel>
+            {accountReport?<AccountDashboard/>:<></>}
+          </TabPanel>
+          <TabPanel>
+            {vendorReport?<VendorDashboard/>:<></>}
+          </TabPanel>
+          <TabPanel>
+            {projectReport?<ProjectDashboard/>:<></>}          
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
+    </Box>
   );
 }
