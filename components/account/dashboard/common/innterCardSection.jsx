@@ -15,7 +15,7 @@ function InnerCardSection(props) {
                 {props.headerData}
             </CardHeader>
             <CardBody>
-                    <Box>
+                    <Box color={props.fColor?props.fColor:""}>
                         {props.bodyData}
                     </Box>
                     <Box>

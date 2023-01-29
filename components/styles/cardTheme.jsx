@@ -226,7 +226,6 @@ const cashFlowDashboard = definePartsStyle({
   },
   header:{
     fontSize: "16px",
-    fontWeight: "600",
     textAlign: "center"
   },
 })
@@ -243,7 +242,6 @@ const invoiceReportDashboard = definePartsStyle({
   },
   header:{
     fontSize: "16px",
-    fontWeight: "600",
     textAlign: "center",    
   },
 })
@@ -255,12 +253,12 @@ const cashFlowInnerDetails = definePartsStyle({
     borderRadius: 'lg',
     overflow: 'hidden', 
     border: "1px",
-    fontSize: "20px",
+    fontSize: "16px",
     height: "120px"
   },
   header:{
     fontSize: "13px",
-    bgColor: "gray.50",
+    bgColor: "teal.50",
     borderBottom: "1px",
     textAlign: "center",
     height: "35px",
