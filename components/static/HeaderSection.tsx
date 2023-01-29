@@ -18,8 +18,11 @@ import {
   LinkOverlay,
   Spacer,
   Stack,
+  Tooltip,
   useDisclosure,
 } from '@chakra-ui/react'
+import { useRouter } from 'next/router'
+import { GrLogin } from 'react-icons/gr'
 
 const navLinks = [
   { name: 'Home', link: '/' },
@@ -28,6 +31,7 @@ const navLinks = [
 ]
 
 const DesktopSidebarContents = ({ name }: any) => {
+  const router = useRouter();
   return (
     <Container maxW={['full', 'container.lg']} p={0}>
       <Stack
@@ -59,11 +63,12 @@ const DesktopSidebarContents = ({ name }: any) => {
           })}
         </Stack>
         <Spacer />
-        <LinkBox>
-          <LinkOverlay href={`https://twitter.com/thisissukh_`} isExternal>
-            <Image src="twitter.svg"></Image>
-          </LinkOverlay>
-        </LinkBox>
+        <Tooltip label='Login' hasArrow arrowSize={15} placement='bottom' color="teal">
+          <Link href="/login">  
+              <GrLogin  fontSize="27px"/>
+          </Link>
+        </Tooltip>
+
       </Stack>
     </Container>
   )
