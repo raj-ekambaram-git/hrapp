@@ -14,7 +14,7 @@ export default function Home(props) {
 
   return (
     <>
-      <Stack marginTop={10}>
+      <Stack marginTop={10} width="1500px">
         <HStack spacing={50}>
           <WelcomeSection/>
           <ApprovalSection/>
