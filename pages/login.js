@@ -8,7 +8,7 @@ import { userService, alertService } from 'services';
 import {
     Card,
     CardHeader,
-    Box,
+    Flex,
     Heading,
     CardBody,
     Stack,
@@ -78,11 +78,18 @@ function Login() {
 
             <Card>
                 <CardHeader bgColor="heading">
-                    <HStack spacing="50rem">
-                        <Box>
-                            <Heading size='md'>Login</Heading>
-                        </Box>
-                    </HStack>
+                    <Flex
+                        as="nav"
+                        align="center"
+                        justify="space-between"
+                        wrap="wrap"
+                        bg="heading"
+                        color="white"
+                        width="page.heading_width"
+                        borderRadius='9px'
+                    >
+                    <Heading size='md'>Login</Heading>
+                    </Flex>                        
                 </CardHeader>
 
                 <CardBody>
