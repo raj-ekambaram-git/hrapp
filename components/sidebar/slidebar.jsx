@@ -85,19 +85,15 @@ const Slidebar = (props) => {
                             </div>
                           }                        
                       </div>
-                      <div className={styles.mainContainer}>
-                          <Container marginLeft={1}>
+                          <Container marginLeft="3rem" marginTop="3rem" marginRight="3rem">
                             {props.children}
                           </Container>
-                      </div>
                     </div>                                 
                 </>              
             ) : (<>
-              <div className={styles.mainContainer}>
                   <Container marginLeft={2}>
                     {props.children}
                   </Container>
-              </div>            
             </>)}      
       </Container>
   )
