@@ -79,47 +79,53 @@ function CashFlowReportSection(props) {
     }
        
     return (
-        <Card variant="cashFlowDashboard">
-            <CardHeader>
-                <HStack>
-                    <Box>
-                        Cash Flow
-                    </Box>
-                </HStack>                
-            </CardHeader>
-            <CardBody variant="cashFlowDashboard">
-                <Stack spacing={4}>
-                    <Stack>
+        <>
+            {cashFlowData?
+                <Card variant="cashFlowDashboard">
+                    <CardHeader>
                         <HStack>
-                            <Box fontWeight="700" color="debit_amount">
-                                Received
+                            <Box>
+                                Cash Flow
                             </Box>
-                        </HStack>
-                        <HStack>
-                            <InnerCardSection headerData="Overall" bodyData={cashFlowData?.lifetime}/>
-                            {cashFlowData?.weekly[0]?.label?<InnerCardSection headerData={cashFlowData?.weekly[0]?.label} bodyData={cashFlowData?.weekly[0]?.amount}/>:<></>}
-                            {cashFlowData?.weekly[1]?.label?<InnerCardSection headerData={cashFlowData?.weekly[1]?.label} bodyData={cashFlowData?.weekly[1]?.amount}/>:<></>}
-                            {cashFlowData?.monthly[0]?.label?<InnerCardSection headerData={cashFlowData?.monthly[0]?.label} bodyData={cashFlowData?.monthly[0]?.amount}/>:<></>}
-                            {cashFlowData?.monthly[1]?.label?<InnerCardSection headerData={cashFlowData?.monthly[1]?.label} bodyData={cashFlowData?.monthly[1]?.amount}/>:<></>}                             
-                        </HStack>
-                    </Stack>
-                    <Stack>
-                        <HStack>
-                            <Box fontWeight="700" color="credit_amount">
-                                Paid
-                            </Box>
-                        </HStack>
-                        <HStack>
-                            <InnerCardSection headerData="Overall" bodyData={cashFlowData?.lifetimeExp}/>
-                            {cashFlowData?.weeklyExp[0]?.label?<InnerCardSection headerData={cashFlowData?.weeklyExp[0]?.label} bodyData={cashFlowData?.weeklyExp[0]?.amount}/>:<></>}
-                            {cashFlowData?.weeklyExp[1]?.label?<InnerCardSection headerData={cashFlowData?.weeklyExp[1]?.label} bodyData={cashFlowData?.weeklyExp[1]?.amount}/>:<></>}
-                            {cashFlowData?.monthlyExp[0]?.label?<InnerCardSection headerData={cashFlowData?.monthlyExp[0]?.label} bodyData={cashFlowData?.monthlyExp[0]?.amount}/>:<></>}
-                            {cashFlowData?.monthlyExp[1]?.label?<InnerCardSection headerData={cashFlowData?.monthlyExp[1]?.label} bodyData={cashFlowData?.monthlyExp[1]?.amount}/>:<></>}                             
-                        </HStack>
-                    </Stack>
-                </Stack>
-            </CardBody>
-        </Card>
+                        </HStack>                
+                    </CardHeader>
+                    <CardBody variant="cashFlowDashboard">
+                        <Stack spacing={4}>
+                            <Stack>
+                                <HStack>
+                                    <Box fontWeight="700" color="debit_amount">
+                                        Received
+                                    </Box>
+                                </HStack>
+                                <HStack>
+                                    <InnerCardSection headerData="Overall" bodyData={cashFlowData?.lifetime}/>
+                                    {cashFlowData?.weekly[0]?.label?<InnerCardSection headerData={cashFlowData?.weekly[0]?.label} bodyData={cashFlowData?.weekly[0]?.amount}/>:<></>}
+                                    {cashFlowData?.weekly[1]?.label?<InnerCardSection headerData={cashFlowData?.weekly[1]?.label} bodyData={cashFlowData?.weekly[1]?.amount}/>:<></>}
+                                    {cashFlowData?.monthly[0]?.label?<InnerCardSection headerData={cashFlowData?.monthly[0]?.label} bodyData={cashFlowData?.monthly[0]?.amount}/>:<></>}
+                                    {cashFlowData?.monthly[1]?.label?<InnerCardSection headerData={cashFlowData?.monthly[1]?.label} bodyData={cashFlowData?.monthly[1]?.amount}/>:<></>}                             
+                                </HStack>
+                            </Stack>
+                            <Stack>
+                                <HStack>
+                                    <Box fontWeight="700" color="credit_amount">
+                                        Paid
+                                    </Box>
+                                </HStack>
+                                <HStack>
+                                    <InnerCardSection headerData="Overall" bodyData={cashFlowData?.lifetimeExp}/>
+                                    {cashFlowData?.weeklyExp[0]?.label?<InnerCardSection headerData={cashFlowData?.weeklyExp[0]?.label} bodyData={cashFlowData?.weeklyExp[0]?.amount}/>:<></>}
+                                    {cashFlowData?.weeklyExp[1]?.label?<InnerCardSection headerData={cashFlowData?.weeklyExp[1]?.label} bodyData={cashFlowData?.weeklyExp[1]?.amount}/>:<></>}
+                                    {cashFlowData?.monthlyExp[0]?.label?<InnerCardSection headerData={cashFlowData?.monthlyExp[0]?.label} bodyData={cashFlowData?.monthlyExp[0]?.amount}/>:<></>}
+                                    {cashFlowData?.monthlyExp[1]?.label?<InnerCardSection headerData={cashFlowData?.monthlyExp[1]?.label} bodyData={cashFlowData?.monthlyExp[1]?.amount}/>:<></>}                             
+                                </HStack>
+                            </Stack>
+                        </Stack>
+                    </CardBody>
+                </Card>
+            :<></>}
+        </>
+        
+
 
     );
 }
