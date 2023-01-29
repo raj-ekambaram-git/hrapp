@@ -29,7 +29,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         inv."accountId" = 5
         and tran."invoiceId" = inv.id
         and tran.status in ('Paid','Refund', 'Cancelled') 
-        GROUP BY tx_period, tran.status order by tx_period desc ) as temp_table group by tx_period`
+        GROUP BY tx_period, tran.status order by tx_period desc ) as temp_table group by tx_period order by tx_period desc`
 
         const weekly = await prisma.$queryRaw`
         select tx_period,
@@ -39,7 +39,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         inv."accountId" = ${parseInt(accountId.toString())}
         and tran."invoiceId" = inv.id
         and tran.status in ('Paid','Refund', 'Cancelled') 
-        GROUP BY tx_period, tran.status order by tx_period desc ) as temp_table group by tx_period`
+        GROUP BY tx_period, tran.status order by tx_period desc ) as temp_table group by tx_period order by tx_period desc`
 
         const lifeTime = await prisma.$queryRaw`select sum("paidAmount") as total from "Invoice" where "accountId" = ${parseInt(accountId.toString())} and status in ('Paid', 'PartiallyPaid')`
         

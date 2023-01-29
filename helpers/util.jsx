@@ -18,6 +18,7 @@ export const util = {
     getFormattedDate,
     getTotalHours,
     getDayMonthFormat,
+    getMonthFormat,
     getDecimalValue,
     getZeroPriceForNull,
     getFormattedDateWithTime,
@@ -25,7 +26,7 @@ export const util = {
     getDueDateByPayTerms,
     getWithCurrency,
     getTotalBillableExpense,
-    getUserRole
+    getUserRole,
 };
 
 function getUserRole() {
@@ -125,6 +126,16 @@ function getTotalHours(entries) {
     }                        
     
   return totalHours;
+}
+
+function getMonthFormat(dateTime) {
+  if(dateTime != undefined && dateTime != EMPTY_STRING) {
+    return new Date(new Date(dateTime?.toString()).toLocaleDateString( "en-US", { timeZone: "UTC" })).toLocaleString('default', { month: 'long' });
+    // return new Date(new Date(dateTime?.toString())).toLocaleString('default', { month: 'long' });
+  }else {
+    return EMPTY_STRING;
+  }
+  
 }
 
 function getDayMonthFormat(dateTime) {

@@ -5,90 +5,53 @@ import {
     CardBody,
     CardHeader,
     HStack,
+    Stack,
   } from '@chakra-ui/react'
 import { useEffect, useState } from 'react';
 import {accountService, userService} from '../../../services'
-import {barChart} from '../../../components/common/charts/barChart'
 import { util } from '../../../helpers/util';
-import Chart from 'chart.js/auto'
+import {InnerCardSection} from '../../../components/account/dashboard/common/innterCardSection'
 
 function CashFlowReportSection(props) {
     const [cashFlowData, setCashFlowData] = useState();
 
     useEffect(() => {
         getCashFlowData()
-        removeChart(props.canvasId)
       }, [props.canvasId]);
     
       const getCashFlowData = async () => {
         if(userService.isAccountAdmin()) {
             const cashFlowData = await accountService.getCashFlowData(userService.getAccountDetails().accountId);
+                 const finalCashFlowData = {};
+                 finalCashFlowData["lifetime"] = util.getWithCurrency(cashFlowData?.lifeTime[0]?.total);
                 if(cashFlowData) {
-
-                    const labels = []; 
-                    const datasets = [];
                     if(cashFlowData.weekly && cashFlowData?.weekly?.length > 0) {
-                        populateDataSet(cashFlowData.weekly, labels, datasets, "Week: ")
+                        const weeklyData = populateDataSet(cashFlowData.weekly, "Week ")
+                        console.log("weeklyData:::"+JSON.stringify(weeklyData))
+                        finalCashFlowData["weekly"] = weeklyData
                     }
                     if(cashFlowData.monthly && cashFlowData?.monthly?.length > 0) {
-                        populateDataSet(cashFlowData.monthly, labels, datasets, "Month: ")
-                    }                    
-                    const data = {
-                        labels: labels,
-                        datasets: datasets
-                    };
-                
-                    console.log("DATTA::"+JSON.stringify(data))
-                    // const subtitle = {
-                    //     display: true,
-                    //     text: "Total Revenue: $"+util.getZeroPriceForNull(allProjectActualRevenue),
-                    //     color: 'blue',
-                    //     font: {
-                    //     size: 12,
-                    //     family: 'tahoma',
-                    //     weight: 'normal',
-                    //     style: 'italic'
-                    //     },
-                    //     padding: {
-                    //     bottom: 10
-                    //     }
-                    // }
-                
-                    barChart({
-                        canvasId: props.canvasId, 
-                        chartData: data, 
-                        titleText: 'Lifetime Cash Flow: $ '+(util.getZeroPriceForNull(cashFlowData?.lifeTime[0]?.total)), 
-                        subtitleData: {},
-                        position:'top',
-                        axis: "x"
-                    })
-
-                }else {
-                    removeChart(props.canvasId)
+                        const monthlyData = populateDataSet(cashFlowData.monthly, "Month ")
+                        console.log("monthlyData:::"+JSON.stringify(monthlyData))
+                        finalCashFlowData["monthly"] = monthlyData
+                    }                           
                 }
-                setCashFlowData(cashFlowData)
+
+                setCashFlowData(finalCashFlowData)
         
 
-            } else {
-                removeChart(props.canvasId)
-            }                    
+            }                   
         }
+   
 
-    const removeChart = () => {
-        let chartStatus = Chart.getChart(props.canvasId); // <canvas> id
-        if (chartStatus != undefined) {
-            chartStatus.destroy();
-        }
-    }        
-
-    function populateDataSet(dataInput, labels, dataSet, labelName) {
+    function populateDataSet(dataInput, labelPrefix) {
         let count = 0
+        const dataSet = []
         dataInput?.map((dataVal) => {
             if(count>2) {
                 return
             }
             count++
-            labels.push(labelName+util.getDayMonthFormat(dataVal.tx_period))
             const totalArray = dataVal.total.split(",")
             let netAmount = 0;
             totalArray?.map((amountString) => {
@@ -101,14 +64,12 @@ function CashFlowReportSection(props) {
                     }
                 }
             })
-            const data = {
-                label: labelName+util.getDayMonthFormat(dataVal.tx_period),
-                data: [netAmount],
-                }
+                
+                const data = {label: labelPrefix+(labelPrefix == "Month "?util.getMonthFormat(dataVal.tx_period):util.getDayMonthFormat(dataVal.tx_period)), amount: util.getWithCurrency(netAmount)}
                 dataSet.push(data)
         })
-        
-        // return {labels, dataSet}
+        console.log("dataSet:::"+JSON.stringify(dataSet))
+        return dataSet;
     }
        
     return (
@@ -121,8 +82,37 @@ function CashFlowReportSection(props) {
                 </HStack>
                 
             </CardHeader>
-            <CardBody>
-                    <canvas id={props.canvasId}></canvas>
+            <CardBody variant="cashFlowDashboard">
+                <Stack spacing={4}>
+                    <Stack>
+                        <HStack>
+                            <Box fontWeight="700" color="debit_amount">
+                                Received
+                            </Box>
+                        </HStack>
+                        <HStack>
+                            <InnerCardSection headerData="Overall" bodyData={cashFlowData?.lifetime}/>
+                            {cashFlowData?.weekly[0]?.label?<InnerCardSection headerData={cashFlowData?.weekly[0]?.label} bodyData={cashFlowData?.weekly[0]?.amount}/>:<></>}
+                            {cashFlowData?.weekly[1]?.label?<InnerCardSection headerData={cashFlowData?.weekly[1]?.label} bodyData={cashFlowData?.weekly[1]?.amount}/>:<></>}
+                            {cashFlowData?.monthly[0]?.label?<InnerCardSection headerData={cashFlowData?.monthly[0]?.label} bodyData={cashFlowData?.monthly[0]?.amount}/>:<></>}
+                            {cashFlowData?.monthly[1]?.label?<InnerCardSection headerData={cashFlowData?.monthly[1]?.label} bodyData={cashFlowData?.monthly[1]?.amount}/>:<></>}                             
+                        </HStack>
+                    </Stack>
+                    <Stack>
+                        <HStack>
+                            <Box fontWeight="700" color="credit_amount">
+                                Paid
+                            </Box>
+                        </HStack>
+                        <HStack>
+                            <InnerCardSection headerData="Overall" bodyData="$100"/>
+                            <InnerCardSection headerData="This Week" bodyData="$100"/>
+                            <InnerCardSection headerData="Last Week" bodyData="$100"/>
+                            <InnerCardSection headerData="This Month" bodyData="$100"/>
+                            <InnerCardSection headerData="Last Month" bodyData="$100"/>
+                        </HStack>
+                    </Stack>
+                </Stack>
             </CardBody>
         </Card>
 
