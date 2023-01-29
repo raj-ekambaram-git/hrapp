@@ -66,8 +66,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         cashFlowData["monthlyExp"] = monthlyExp?monthlyExp:parseFloat("0")
         cashFlowData["weeklyExp"] = weeklyExp?weeklyExp:parseFloat("0")
 
-        console.log("cashFlowData::"+JSON.stringify(cashFlowData))
-
       res.status(200).json(cashFlowData);  
     } 
   } catch (error) {

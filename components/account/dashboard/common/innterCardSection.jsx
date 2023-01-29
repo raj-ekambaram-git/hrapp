@@ -15,7 +15,13 @@ function InnerCardSection(props) {
                 {props.headerData}
             </CardHeader>
             <CardBody>
-                    {props.bodyData}
+                    <Box>
+                        {props.bodyData}
+                    </Box>
+                    <Box>
+                        {props.bodyData1}
+                    </Box>
+
             </CardBody>
         </Card>
 

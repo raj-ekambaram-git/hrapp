@@ -3,7 +3,9 @@ import {WelcomeSection} from '../../components/account/dashboard/welcomeSection'
 import {ApprovalSection} from '../../components/account/dashboard/approvalSection'
 import {HelpSection} from '../../components/account/dashboard/helpSection'
 import {CashFlowReportSection} from '../../components/account/dashboard/cashFlowReportSection'
+import {InvoiceReportSection} from '../../components/account/dashboard/invoiceReportSection'
 import { HStack, Stack } from "@chakra-ui/react";
+
 
 
 export default function Home(props) {
@@ -19,6 +21,11 @@ export default function Home(props) {
           <HelpSection/>
         </HStack>
       </Stack>
+      <Stack marginTop={10}>
+        <HStack spacing={50}>
+          <InvoiceReportSection/>
+        </HStack>
+      </Stack>      
       <Stack marginTop={10}>
         <HStack spacing={50}>
           <CashFlowReportSection canvasId="cashFlow"/>

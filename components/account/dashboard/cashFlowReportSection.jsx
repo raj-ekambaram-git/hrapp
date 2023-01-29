@@ -98,7 +98,7 @@ function CashFlowReportSection(props) {
                                     </Box>
                                 </HStack>
                                 <HStack>
-                                    <InnerCardSection headerData="Overall" bodyData={cashFlowData?.lifetime}/>
+                                    {cashFlowData?.lifetime?<InnerCardSection headerData="Overall" bodyData={cashFlowData?.lifetime}/>:<></>}
                                     {cashFlowData?.weekly[0]?.label?<InnerCardSection headerData={cashFlowData?.weekly[0]?.label} bodyData={cashFlowData?.weekly[0]?.amount}/>:<></>}
                                     {cashFlowData?.weekly[1]?.label?<InnerCardSection headerData={cashFlowData?.weekly[1]?.label} bodyData={cashFlowData?.weekly[1]?.amount}/>:<></>}
                                     {cashFlowData?.monthly[0]?.label?<InnerCardSection headerData={cashFlowData?.monthly[0]?.label} bodyData={cashFlowData?.monthly[0]?.amount}/>:<></>}

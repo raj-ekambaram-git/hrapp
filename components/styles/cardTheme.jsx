@@ -231,6 +231,23 @@ const cashFlowDashboard = definePartsStyle({
   },
 })
 
+const invoiceReportDashboard = definePartsStyle({
+  container: {
+    width: "100%",
+    borderWidth: '1px',
+    borderRadius: 'lg',
+    overflow: 'hidden', 
+    border: "1px",
+    fontSize: "14px",
+    height: "200px"
+  },
+  header:{
+    fontSize: "16px",
+    fontWeight: "600",
+    textAlign: "center",    
+  },
+})
+
 const cashFlowInnerDetails = definePartsStyle({
   container: {
     width: "20%",
@@ -251,7 +268,6 @@ const cashFlowInnerDetails = definePartsStyle({
   },
   body: {
     textAlign: "center",
-    height: "20px",
   }
 })
 
@@ -264,4 +280,4 @@ const sizes = definePartsStyle({
   },
 })
 
-export const cardTheme = defineMultiStyleConfig({ baseStyle, sizes, variants: {cashFlowInnerDetails, cashFlowDashboard, helpDashboard, dashboardWelcome,projectUsersFinancialSummary, reportByUsers, projectReportsHeader, comment, replies, replyDetails, document, timesheetDailyNotes, projectFinancialSummary} })
+export const cardTheme = defineMultiStyleConfig({ baseStyle, sizes, variants: {invoiceReportDashboard, cashFlowInnerDetails, cashFlowDashboard, helpDashboard, dashboardWelcome,projectUsersFinancialSummary, reportByUsers, projectReportsHeader, comment, replies, replyDetails, document, timesheetDailyNotes, projectFinancialSummary} })

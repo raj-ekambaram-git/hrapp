@@ -138,6 +138,7 @@ model Invoice {
   @@index([paidAmount])
   @@index([dueDte])
   @@index([accountId])
+  @@index([accountId, status])
 }
 
 model InvoiceItem {
