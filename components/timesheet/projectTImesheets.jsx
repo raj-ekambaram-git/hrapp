@@ -33,6 +33,7 @@ const ProjectTimesheets = (props) => {
     const approvalList = useSelector(state => state.timesheet.approvalTimesheets);
 
     return (
+            <Box width="page.sub_heading_width">
                 <Card>
                     <CardHeader>
                         <HStack spacing="50rem">
@@ -125,6 +126,7 @@ const ProjectTimesheets = (props) => {
                     </Stack>
                     </CardBody>
                 </Card>
+            </Box>                
     );
 };
 
