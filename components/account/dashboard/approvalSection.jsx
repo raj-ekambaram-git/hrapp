@@ -5,15 +5,17 @@ import {
     CardBody,
     CardHeader,
     HStack,
-    Spacer,
+    Link,
+    LinkOverlay,
     Stack,
+    Text,
   } from '@chakra-ui/react'
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { util } from '../../../helpers/util';
 import {userService} from '../../../services'
 
 function ApprovalSection(props) {
-
+    const router = useRouter();
     const [approvalData, setApprovalData] = useState();
     useEffect(() => {
         getApprovalData()
@@ -32,12 +34,7 @@ function ApprovalSection(props) {
             {approvalData?
                 <Card variant="helpDashboard">
                     <CardHeader>
-                        <HStack>
-                            <Box textAlign="center">
-                                To Approve
-                            </Box>
-                        </HStack>
-                        
+                        To Approve <Text fontSize="10px">(Click # to get to list of items)</Text>
                     </CardHeader>
                     <CardBody>
                         <Stack width="100%" marginBottom={4}>
@@ -46,7 +43,9 @@ function ApprovalSection(props) {
                                     Billable Timesheets:
                                 </Box>
                                 <Box width="10%" textAlign="left">
-                                    {approvalData.billableTimesheetCount}
+                                        <Link href="#" onClick={() => router.push("/account/user/timesheets/approval")}>
+                                            {approvalData.billableTimesheetCount}
+                                        </Link>
                                 </Box>
                             </HStack>
                             <HStack>
@@ -54,7 +53,9 @@ function ApprovalSection(props) {
                                     Non-Billable Timesheets:
                                 </Box>
                                 <Box width="10%" textAlign="left">
-                                    {approvalData.nonBillableExpenseCount}
+                                        <Link href="#" onClick={() => router.push("/account/user/timesheets/approval")}>
+                                            {approvalData.nonBillableTimesheetCount}
+                                        </Link>
                                 </Box>
                             </HStack>
                             <HStack>
@@ -62,7 +63,9 @@ function ApprovalSection(props) {
                                     Expenses:
                                 </Box>
                                 <Box width="10%" textAlign="left">
-                                    {approvalData.expenseCount}
+                                        <Link href="#" onClick={() => router.push("/account/user/expenses/approval")}>
+                                            {approvalData.expenseCount}
+                                        </Link>
                                 </Box>
                             </HStack>                                                        
                         </Stack>

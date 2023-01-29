@@ -53,7 +53,7 @@ console.log("userId ID::"+userId+"---AccountioD::"+accountId)
         });
 
         let billableTimesheetCount = 0;
-        let nonBillableExpenseCount = 0;
+        let nonBillableTimesheetCount = 0;
         let expenseCount = 0;
         const projectEpeneList = [];
         projects.map((project) => {
@@ -61,7 +61,7 @@ console.log("userId ID::"+userId+"---AccountioD::"+accountId)
             if(project.billable) {
               billableTimesheetCount++
             }else {
-              nonBillableExpenseCount++
+              nonBillableTimesheetCount++
             }
           })
 
@@ -75,7 +75,7 @@ console.log("userId ID::"+userId+"---AccountioD::"+accountId)
         
         })
         approvalData["billableTimesheetCount"] = billableTimesheetCount;
-        approvalData["nonBillableExpenseCount"] = nonBillableExpenseCount;
+        approvalData["nonBillableTimesheetCount"] = nonBillableTimesheetCount;
         approvalData["expenseCount"] = expenseCount;
       res.status(200).json(approvalData);
     } 

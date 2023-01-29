@@ -210,7 +210,7 @@ const helpDashboard = definePartsStyle({
   header:{
     fontSize: "16px",
     fontWeight: "600",
-
+    textAlign: "center"
   },
 })
 

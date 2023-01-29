@@ -14,12 +14,7 @@ function HelpSection(props) {
     return (
         <Card variant="helpDashboard">
             <CardHeader>
-                <HStack>
-                    <Box>
-                        Help Links
-                    </Box>
-                </HStack>
-                
+                Help Links
             </CardHeader>
             <CardBody>
                 <Stack width="40%" marginBottom={4}>
