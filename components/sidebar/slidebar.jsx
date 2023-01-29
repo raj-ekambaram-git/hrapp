@@ -8,7 +8,7 @@ import Slideopen from "./slideopen"
 import {FaUserCheck} from "react-icons/fa"
 import { useDispatch } from 'react-redux';
 import {
-  Container, Flex, HStack, Box
+  Container, Flex, HStack, Box, Heading, Text
 } from '@chakra-ui/react'
 import { userService } from '../../services';
 import {GrLogout, GrLogin} from 'react-icons/gr';
@@ -42,9 +42,9 @@ const Slidebar = (props) => {
                 <VscMenu fontSize="27px" />
               </div>
                 <Link href={`/account/dashboard`} >  
-                  <div style={{weidth:"40px",marginRight:"20px",marginTop:"6px"}}>
-                      LOGO IMAGE
-                  </div>
+                  <Box display={{ base: 'none', md: 'flex' }} fontWeight="bold" alignContent="center" marginTop="10px">
+                    <Heading fontSize="2xl">boNeeds</Heading>
+                  </Box>
                 </Link>                
             </div>
             {/* right div */}
