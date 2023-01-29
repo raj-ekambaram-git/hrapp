@@ -694,12 +694,12 @@ const InvoiceAddEdit = (props) => {
                     </Button>
                   </Box>
                   <Box>
-                    {(status != InvoiceConstants.INVOICE_STATUS.Paid || status != InvoiceConstants.INVOICE_STATUS.PartiallyPaid) ? (<>
+                    {(status != InvoiceConstants.INVOICE_STATUS.Paid && status != InvoiceConstants.INVOICE_STATUS.PartiallyPaid) ? (<>
                       <Button size="xs" bgColor="header_actions" type="submit">
                         {isAddMode ? (
-                            <div>Add New Invoice</div>
+                            <div>Add</div>
                         ) : (
-                          <div>Update Invoice</div>
+                          <div>Update</div>
                         )}              
                       </Button>
                     </>) : (<></>)}
