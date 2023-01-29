@@ -24,17 +24,24 @@ function CashFlowReportSection(props) {
             const cashFlowData = await accountService.getCashFlowData(userService.getAccountDetails().accountId);
                  const finalCashFlowData = {};
                  finalCashFlowData["lifetime"] = util.getWithCurrency(cashFlowData?.lifeTime[0]?.total);
+                 finalCashFlowData["lifetimeExp"] = util.getWithCurrency(cashFlowData?.lifeTimeExp[0]?.total);
                 if(cashFlowData) {
                     if(cashFlowData.weekly && cashFlowData?.weekly?.length > 0) {
                         const weeklyData = populateDataSet(cashFlowData.weekly, "Week ")
-                        console.log("weeklyData:::"+JSON.stringify(weeklyData))
                         finalCashFlowData["weekly"] = weeklyData
                     }
                     if(cashFlowData.monthly && cashFlowData?.monthly?.length > 0) {
                         const monthlyData = populateDataSet(cashFlowData.monthly, "Month ")
-                        console.log("monthlyData:::"+JSON.stringify(monthlyData))
                         finalCashFlowData["monthly"] = monthlyData
-                    }                           
+                    }            
+                    if(cashFlowData.monthlyExp && cashFlowData?.monthlyExp?.length > 0) {
+                        const monthlyData = populateDataSet(cashFlowData.monthlyExp, "Month ")
+                        finalCashFlowData["monthlyExp"] = monthlyData
+                    }  
+                    if(cashFlowData.weeklyExp && cashFlowData?.weeklyExp?.length > 0) {
+                        const weeklyExpData = populateDataSet(cashFlowData.weeklyExp, "Week ")
+                        finalCashFlowData["weeklyExp"] = weeklyExpData
+                    }                                                         
                 }
 
                 setCashFlowData(finalCashFlowData)
@@ -68,7 +75,6 @@ function CashFlowReportSection(props) {
                 const data = {label: labelPrefix+(labelPrefix == "Month "?util.getMonthFormat(dataVal.tx_period):util.getDayMonthFormat(dataVal.tx_period)), amount: util.getWithCurrency(netAmount)}
                 dataSet.push(data)
         })
-        console.log("dataSet:::"+JSON.stringify(dataSet))
         return dataSet;
     }
        
@@ -79,8 +85,7 @@ function CashFlowReportSection(props) {
                     <Box>
                         Cash Flow
                     </Box>
-                </HStack>
-                
+                </HStack>                
             </CardHeader>
             <CardBody variant="cashFlowDashboard">
                 <Stack spacing={4}>
@@ -105,11 +110,11 @@ function CashFlowReportSection(props) {
                             </Box>
                         </HStack>
                         <HStack>
-                            <InnerCardSection headerData="Overall" bodyData="$100"/>
-                            <InnerCardSection headerData="This Week" bodyData="$100"/>
-                            <InnerCardSection headerData="Last Week" bodyData="$100"/>
-                            <InnerCardSection headerData="This Month" bodyData="$100"/>
-                            <InnerCardSection headerData="Last Month" bodyData="$100"/>
+                            <InnerCardSection headerData="Overall" bodyData={cashFlowData?.lifetimeExp}/>
+                            {cashFlowData?.weeklyExp[0]?.label?<InnerCardSection headerData={cashFlowData?.weeklyExp[0]?.label} bodyData={cashFlowData?.weeklyExp[0]?.amount}/>:<></>}
+                            {cashFlowData?.weeklyExp[1]?.label?<InnerCardSection headerData={cashFlowData?.weeklyExp[1]?.label} bodyData={cashFlowData?.weeklyExp[1]?.amount}/>:<></>}
+                            {cashFlowData?.monthlyExp[0]?.label?<InnerCardSection headerData={cashFlowData?.monthlyExp[0]?.label} bodyData={cashFlowData?.monthlyExp[0]?.amount}/>:<></>}
+                            {cashFlowData?.monthlyExp[1]?.label?<InnerCardSection headerData={cashFlowData?.monthlyExp[1]?.label} bodyData={cashFlowData?.monthlyExp[1]?.amount}/>:<></>}                             
                         </HStack>
                     </Stack>
                 </Stack>

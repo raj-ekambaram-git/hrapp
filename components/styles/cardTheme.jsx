@@ -238,12 +238,12 @@ const cashFlowInnerDetails = definePartsStyle({
     borderRadius: 'lg',
     overflow: 'hidden', 
     border: "1px",
-    fontSize: "12px",
+    fontSize: "14px",
     height: "100px"
   },
   header:{
     fontSize: "13px",
-    bgColor: "white",
+    bgColor: "gray.50",
     borderBottom: "1px",
     textAlign: "center",
     height: "35px",
@@ -251,6 +251,7 @@ const cashFlowInnerDetails = definePartsStyle({
   },
   body: {
     textAlign: "center",
+    height: "20px",
   }
 })
 

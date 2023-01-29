@@ -26,7 +26,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         string_agg(distinct tranStatus||'_'||monthly_sum, ',' order by  tranStatus||'_'||monthly_sum) as total 
          from (
         SELECT date_trunc('month', tran."createdDate") AS tx_period, sum(tran.amount) as monthly_sum, tran.status as tranStatus FROM "InvoiceTransaction" as tran, "Invoice" as inv where 
-        inv."accountId" = 5
+        inv."accountId" = ${parseInt(accountId.toString())}
         and tran."invoiceId" = inv.id
         and tran.status in ('Paid','Refund', 'Cancelled') 
         GROUP BY tx_period, tran.status order by tx_period desc ) as temp_table group by tx_period order by tx_period desc`
@@ -41,11 +41,30 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         and tran.status in ('Paid','Refund', 'Cancelled') 
         GROUP BY tx_period, tran.status order by tx_period desc ) as temp_table group by tx_period order by tx_period desc`
 
+        const monthlyExp = await prisma.$queryRaw`select tx_period, string_agg(distinct tranStatus||'_'||monthly_sum, ',' order by  tranStatus||'_'||monthly_sum) as total from 
+        (select date_trunc('month', tran."createdDate") AS tx_period, sum(tran.amount) as monthly_sum, tran.status as tranStatus from "Expense" as exp, "ExpenseTransaction" tran, "Project" as prj 
+        where exp."projectId" = prj.id and prj."accountId" = ${parseInt(accountId.toString())} and prj.status in ('Open','Closed','Settled') and tran."expenseId" = exp.id and tran.status in ('Paid', 'Refund', 'Cancelled') 
+        GROUP BY tx_period, tran.status order by tx_period desc) as temp_table group by tx_period order by tx_period desc	`
+
+        const weeklyExp = await prisma.$queryRaw`select tx_period, string_agg(distinct tranStatus||'_'||weekly_sum, ',' order by  tranStatus||'_'||weekly_sum) as total from 
+        (select date_trunc('week', tran."createdDate") AS tx_period, sum(tran.amount) as weekly_sum, tran.status as tranStatus from "Expense" as exp, "ExpenseTransaction" tran, "Project" as prj 
+        where exp."projectId" = prj.id and prj."accountId" = ${parseInt(accountId.toString())} and prj.status in ('Open','Closed','Settled') and tran."expenseId" = exp.id and tran.status in ('Paid', 'Refund', 'Cancelled') 
+        GROUP BY tx_period, tran.status order by tx_period desc) as temp_table group by tx_period order by tx_period desc	`
+
+
         const lifeTime = await prisma.$queryRaw`select sum("paidAmount") as total from "Invoice" where "accountId" = ${parseInt(accountId.toString())} and status in ('Paid', 'PartiallyPaid')`
+
+        const lifeTimeExp = await prisma.$queryRaw`select sum("paidAmount") as total from "Expense" as exp, "Project" as prj where 
+        prj."accountId" = 5 and prj.status in ('Open','Closed','Settled') and 
+        exp."projectId" = prj.id and 
+        exp.status in ('Paid', 'PartiallyPaid')`
         
         cashFlowData["lifeTime"] = lifeTime?lifeTime:parseFloat("0")
         cashFlowData["monthly"] = monthly?monthly:parseFloat("0")
         cashFlowData["weekly"] = weekly?weekly:parseFloat("0")
+        cashFlowData["lifeTimeExp"] = lifeTimeExp?lifeTimeExp:parseFloat("0")
+        cashFlowData["monthlyExp"] = monthlyExp?monthlyExp:parseFloat("0")
+        cashFlowData["weeklyExp"] = weeklyExp?weeklyExp:parseFloat("0")
 
         console.log("cashFlowData::"+JSON.stringify(cashFlowData))
 

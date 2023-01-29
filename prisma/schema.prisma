@@ -216,6 +216,8 @@ model Project {
 
   timesheetEntries TimesheetEntries[]
   expense          Expense[]
+
+  @@index([accountId, status])
 }
 
 model User {
@@ -318,6 +320,8 @@ model Expense {
   expenseTransaction ExpenseTransaction[]
   expenseEntries     ExpenseEntry[]
   InvoiceItem        InvoiceItem[]
+
+  @@index([projectId, status])
 }
 
 model ExpenseTransaction {
@@ -330,6 +334,9 @@ model ExpenseTransaction {
   status          ExpenseTransactionStatus
   createdDate     DateTime                 @default(now())
   lastUpdatedDate DateTime                 @updatedAt
+
+  @@index([expenseId, id, status, createdDate])
+  @@index([expenseId,id, status])
 }
 
 model ExpenseEntry {
