@@ -16,7 +16,7 @@ function WelcomeSection(props) {
             <CardHeader>
                 <HStack>
                     <Box>
-                        Welcome
+                        Welcome Back
                     </Box>
                     <Box fontWeight="500">
                         {userService.userValue?.firstName} {userService.userValue?.lastName} !
