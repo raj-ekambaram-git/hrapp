@@ -127,7 +127,7 @@ const Slideopen = (props) => {
             </Tooltip>                                              
           </>):""}        
           {props.allowedModule?.includes("cost")?(<>
-            <Tooltip label="Cost" placement='right' borderRadius="6px" padding="10px"  fontWeight={600} color={tooltip_style.color} hasArrow  backgroundColor={tooltip_style.bgColor}>
+            <Tooltip label="Manage Cost" placement='right' borderRadius="6px" padding="10px"  fontWeight={600} color={tooltip_style.color} hasArrow  backgroundColor={tooltip_style.bgColor}>
               <Link href={`/account/user/cost`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
                 <div>
                   <AiFillDollarCircle  className={styles.icons1}/>

@@ -91,6 +91,13 @@ const Slideclose = (props) => {
             </Box>
           </Link>           
         </>):""}        
+        {props.allowedModule?.includes("cost")?(<>
+          <Link href={`/account/user/cost`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
+            <Box padding="8px">
+              Manage Cost
+            </Box>
+          </Link>           
+        </>):""}            
         {props.allowedModule?.includes("reports")?(<>
           <Link href={`/reports/dashboard`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
             <Box padding="8px">
