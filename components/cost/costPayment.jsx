@@ -35,6 +35,7 @@ import { setCostItemList, setCostTotal, setSelectedCostTSEId } from '../../store
 import { CostItemList } from './costItemList';
 import { ErrorMessage } from '../../constants/errorMessage';
 import { useRouter } from 'next/router';
+import ExpenseEntryPayment from '../expense/payment/expenseEntryPayment';
   
 const CostPayment = (props) => {
     const [size, setSize] = useState('');
@@ -45,6 +46,7 @@ const CostPayment = (props) => {
     const router = useRouter();
 
     const [isAddMode, setAddMode] = useState(true);
+    const [cost, setCost] = useState();
     const [costProjectId, setCostProjectId] = useState();
     const [costName, setCostName] = useState();
     const [costDescription, setCostDescription] = useState(EMPTY_STRING);
@@ -85,6 +87,8 @@ const CostPayment = (props) => {
                 setCostProjectName(expenseResponse.project?.name)
                 setCostVendorName(expenseResponse.project?.vendor?.name)
                 populateSelectedTimesheetIds()
+                console.log("expenseResponse::"+JSON.stringify(expenseResponse))
+                setCost(expenseResponse)
         }
     }
 
@@ -249,6 +253,9 @@ const CostPayment = (props) => {
                 m={1}
                 >{isAddMode?"Add Cost": "Edit"}
             </Button>
+            {(props.costData?.status === ExpenseStatus.Approved || props.costData?.status === ExpenseStatus.Invoiced)?<>
+              <ExpenseEntryPayment expense={props.costData}/>
+            </>:<></>}
   
             <Drawer onClose={onClose} isOpen={isOpen} size={size}>
                   <DrawerOverlay />
@@ -299,7 +306,15 @@ const CostPayment = (props) => {
                                             <Box>
                                                 {costProjectName}
                                             </Box>
-                                        </HStack>                                        
+                                        </HStack>      
+                                        <HStack>
+                                            <Box>
+                                                Status
+                                            </Box>
+                                            <Box>
+                                                {props.costData.status}
+                                            </Box>
+                                        </HStack>                                    
                                     </Stack>
                                 </>}               
                                 {costProjectId?
@@ -320,17 +335,20 @@ const CostPayment = (props) => {
                                         <Box>
                                             Cost Total: {addedCostTotal}
                                         </Box>     
-                                        {costItemList && costItemList.length>0?
+                                        {(costItemList && costItemList.length>0)?
                                             <>
                                                 <Box>
                                                     <CostItemList costItemList={costItemList}/>
                                                 </Box>    
-                                                <Box>
+                                                {(isAddMode || (props.costData?.status != ExpenseStatus.Paid && props.costData?.status != ExpenseStatus.PartiallyPaid))? <>
+                                                  <Box>
                                                     <Button size="xs" bgColor="header_actions" 
                                                         onClick={() => handleCostSubmit()}
                                                         >{isAddMode?"Add":"Update"} Cost
                                                     </Button>                                                    
-                                                </Box>
+                                                  </Box>
+
+                                                </>:<></>}
                                             </>
                                         :<></>}                       
                                     </Stack>

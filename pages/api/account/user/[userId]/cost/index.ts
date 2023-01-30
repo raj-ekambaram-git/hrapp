@@ -51,7 +51,8 @@ console.log("userId ID::"+userId+"---PAYMENT AccountioD::"+accountId)
                 }
               }
             }
-          }
+          },
+          expenseEntries: true
         }
       });
       res.status(200).json(costs);

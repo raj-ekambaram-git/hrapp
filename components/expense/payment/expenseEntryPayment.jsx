@@ -82,7 +82,7 @@ import { util } from "../../../helpers/util";
                 onClick={() => handleClick("xl")}
                 key="xl"
                 m={1}
-                >{`Add Payment`}
+                >{`Pay`}
             </Button>
             <Drawer onClose={onClose} isOpen={isOpen} size={size}>
                 <DrawerOverlay />
