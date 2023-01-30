@@ -84,9 +84,20 @@ const CostPayment = (props) => {
                 setCostProjectId(expenseResponse.projectId)
                 setCostProjectName(expenseResponse.project?.name)
                 setCostVendorName(expenseResponse.project?.vendor?.name)
+                populateSelectedTimesheetIds()
         }
     }
 
+
+    const populateSelectedTimesheetIds = () => {
+        const selectedTSEIds = costItemList.map((costItem) => {
+            console.log("costItem:::"+costItem.notes)
+            return parseInt(costItem.notes.split("_")[0]);
+        })
+        console.log("selectedTSEIds::"+selectedTSEIds)
+        dispatch(setSelectedCostTSEId(selectedTSEIds))    
+        
+    }
 
     const handleProjectSelection = async(selectedProjectId) => {
         setCostProjectId(selectedProjectId)
