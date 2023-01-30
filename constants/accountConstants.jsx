@@ -353,7 +353,42 @@ export const TIMESHEET_VALIDATION_SCHEMA = Yup.object().shape({
 });    
 
 export const AccountConstants = {
-
+  COST_LIST_TABLE_META: [
+    {
+      label: "ID",
+      accessor: "id"
+    },
+    {
+      label: "Name",
+      accessor: "name"
+    },    
+    {
+      label: "Email",
+      accessor: "email"
+    },
+    {
+      label: "EIN",
+      accessor: "ein"
+    },
+    {
+      label: "Created Date",
+      accessor: "createdDate"
+    },    
+    {
+      label: "Update Date",
+      accessor: "lastUpdateDate"
+    },        
+    {
+      label: "",
+      accessor: "detailAction",
+      disableSearch: true
+    },
+    {
+      label: "Status",
+      accessor: "status",
+      format: (value) => (value ? <Badge color={`${value === "Active"? "paid_status": value === "Inactive"? "pending_status": "pending_status"}`}>{value}</Badge> : '✖️')
+    }               
+  ],
   ACCOUNT_LIST_TABLE_META: [
     {
       label: "ID",
