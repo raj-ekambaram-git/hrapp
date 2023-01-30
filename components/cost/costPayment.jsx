@@ -75,6 +75,7 @@ const CostPayment = (props) => {
               && (props && !props.isAddMode)) { // This is for EDIT 
                 const expenseResponse = await expenseService.getExpenseDetails(costId, userService.getAccountDetails().accountId);
                 dispatch(setCostItemList(expenseResponse.expenseEntries))
+                dispatch(setCostTotal(expenseResponse.total))
                 delete expenseResponse["expenseEntries"]
                 setAddedCostTotal(expenseResponse.total)
                 setCostName(expenseResponse.name)
