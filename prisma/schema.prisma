@@ -177,7 +177,7 @@ model InvoiceTransaction {
   status          InvoiceTransactionStatus
   createdDate     DateTime                 @default(now())
   lastUpdatedDate DateTime                 @updatedAt
-  
+
   @@index([invoiceId, status])
   @@index([lastUpdatedDate, status])
 }
@@ -304,6 +304,7 @@ model Timesheet {
 model Expense {
   id                 Int                  @id @default(autoincrement())
   name               String
+  category           ExpenseCategory      @default(General)
   description        String?
   billable           Boolean?             @default(false)
   total              Decimal              @default(0)
@@ -337,7 +338,7 @@ model ExpenseTransaction {
   lastUpdatedDate DateTime                 @updatedAt
 
   @@index([expenseId, id, status, createdDate])
-  @@index([expenseId,id, status])
+  @@index([expenseId, id, status])
 }
 
 model ExpenseEntry {
@@ -488,16 +489,16 @@ model AccountConfig {
 }
 
 model Contact {
-  id        Int           @id @default(autoincrement())
-  firstName String
-  lastName  String
-  email     String
-  phone     String
-  account   Account       @relation(fields: [accountId], references: [id])
-  accountId Int           @default(0)
-  address   Address[]
-  receiveEmail  Boolean @default(false)
-  status    ContactStatus
+  id           Int           @id @default(autoincrement())
+  firstName    String
+  lastName     String
+  email        String
+  phone        String
+  account      Account       @relation(fields: [accountId], references: [id])
+  accountId    Int           @default(0)
+  address      Address[]
+  receiveEmail Boolean       @default(false)
+  status       ContactStatus
 }
 
 model ContactAssociation {
@@ -826,4 +827,9 @@ enum ConfigInputType {
   DropDown
   Checkbox
   CheckboxMultiSelect
+}
+
+enum ExpenseCategory {
+  General
+  Cost
 }
