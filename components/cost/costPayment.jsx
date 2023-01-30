@@ -250,17 +250,13 @@ const CostPayment = (props) => {
       
     return (
         <div>
-        <Flex marginBottom="1rem" borderRadius="lg" alignSelf="center">
+        <Flex borderRadius="lg" alignSelf="center">
             <Button size="xs" bgColor="header_actions" 
                 onClick={() => handleAddEditCost("xxl")}
                 key="xl"
                 m={1}
                 >{isAddMode?"Add Cost": "Edit"}
             </Button>
-            {!isAddMode?<>
-              <ExpenseEntryPayment expense={props.costData}/>
-            </>:<></>}
-  
             <Drawer onClose={onClose} isOpen={isOpen} size={size}>
                   <DrawerOverlay />
                       <DrawerContent>

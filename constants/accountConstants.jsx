@@ -402,6 +402,12 @@ export const AccountConstants = {
       disableSearch: true
     },
     {
+      label: "",
+      accessor: "payAction",
+      disableSearch: true,
+      disableSort: true
+    },
+    {
       label: "Status",
       accessor: "status",
       format: (value) => (value ? <Badge color={`${(value === ExpenseStatus.Submitted || value === ExpenseStatus.Approved || value === ExpenseStatus.Invoiced || value === ExpenseStatus.Paid || value === ExpenseStatus.PartiallyPaid)? "paid_status": "pending_status"}`}>{value}</Badge> : '✖️')
