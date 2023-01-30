@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import { ExpenseStatus } from "@prisma/client";
+import { ExpenseCategory, ExpenseStatus } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next"
 import prisma from "../../../../../lib/prisma";
 
@@ -23,6 +23,9 @@ console.log("userId ID::"+userId+"---AccountioD::"+accountId)
             },
             status: {
               not: ExpenseStatus.MarkForDelete
+            },
+            category: {
+              not: ExpenseCategory.Cost
             }
         },
         orderBy: {
@@ -46,7 +49,10 @@ console.log("userId ID::"+userId+"---AccountioD::"+accountId)
             },
             status: {
               not: ExpenseStatus.MarkForDelete
-            }
+            },
+            category: {
+              not: ExpenseCategory.Cost
+            },
         },
         orderBy: {
           lastUpdateDate: "desc"

@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import { ExpenseStatus } from "@prisma/client";
+import { ExpenseCategory, ExpenseStatus } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next"
 import { EMPTY_STRING, EXPENSE_STATUS, TIMESHEET_STATUS } from "../../../../../constants/accountConstants";
 import prisma from "../../../../../lib/prisma";
@@ -55,6 +55,9 @@ console.log("projectId ID::"+projectId+"---AccountioD::"+accountId+"--status::"+
             status: {
               in: whereStatusValue,
             },
+            category: {
+              not: ExpenseCategory.Cost
+            },
             project: {
               accountId: {
                 equals: parseInt(accountId.toString())
@@ -80,7 +83,10 @@ console.log("projectId ID::"+projectId+"---AccountioD::"+accountId+"--status::"+
               accountId: {
                 equals: parseInt(accountId.toString())
               }
-            }
+            },
+            category: {
+              not: ExpenseCategory.Cost
+            },
         },
         orderBy: {
           id: "desc"

@@ -54,8 +54,6 @@ console.log("userId ID::"+userId+"---PAYMENT AccountioD::"+accountId)
           }
         }
       });
-
-      console.log("costscosts::"+JSON.stringify(costs))
       res.status(200).json(costs);
     } else if (accountId != "" && accountId != undefined && userId == "NaN"){
       const expenses = await prisma.expense.findMany({
