@@ -91,10 +91,8 @@ const CostPayment = (props) => {
 
     const populateSelectedTimesheetIds = () => {
         const selectedTSEIds = costItemList.map((costItem) => {
-            console.log("costItem:::"+costItem.notes)
             return parseInt(costItem.notes.split("_")[0]);
         })
-        console.log("selectedTSEIds::"+selectedTSEIds)
         dispatch(setSelectedCostTSEId(selectedTSEIds))    
         
     }
@@ -207,7 +205,7 @@ const CostPayment = (props) => {
               status: status,
               userId: parseInt(userService.userValue.id),
             }
-            const responseData = await expenseService.updateExpense(expenseRequest, costItemList);
+            const responseData = await expenseService.updateExpense(expenseRequest, costItemList, true);
             if(!responseData.error) {
               toast({
                 title: 'New Expense.',

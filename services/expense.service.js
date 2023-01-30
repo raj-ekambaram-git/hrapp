@@ -6,6 +6,7 @@ import { CommonConstants, EmailConstants, EMPTY_STRING, ExpenseConstants } from 
 import { util } from '../helpers/util';
 import { projectService } from './project.service';
 import { ExpenseStatus } from '@prisma/client';
+import { timesheetService } from './timesheet.service';
 
 const { publicRuntimeConfig } = getConfig();
 const baseUrl = `${publicRuntimeConfig.apiUrl}`;
@@ -205,14 +206,22 @@ async function handleExpenseApproval(expenseId, status, expenseNote, approvedBy)
     });
 }
 
-function updateExpense(expense, expenseEntries) {
+function updateExpense(expense, expenseEntries, markTimesheetEntrySettled) {
 
     return fetchWrapper.put(`${baseUrl}/expense/`+expense.id, {
           expense,
           expenseEntries
         }
     )
-    .then(expense => {
+    .then(async expense => {
+      if(markTimesheetEntrySettled) {
+        const selectedTSEIds = expenseEntries.map((costItem) => {
+          return parseInt(costItem.notes.split("_")[0]);          
+        })
+        const data = {settled: true};
+        const udpateTSEntries = await timesheetService.updateTimesheetEntries(selectedTSEIds, data);        
+        console.log("selectedTSEIdsselectedTSEIds::"+udpateTSEntries)
+      }
       return expense;
     })
     .catch(err => {
