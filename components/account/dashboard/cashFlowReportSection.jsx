@@ -44,6 +44,7 @@ function CashFlowReportSection(props) {
                     }                                                         
                 }
 
+                console.log("finalCashFlowData::::"+JSON.stringify(finalCashFlowData))
                 setCashFlowData(finalCashFlowData)
         
 
@@ -99,10 +100,10 @@ function CashFlowReportSection(props) {
                                 </HStack>
                                 <HStack>
                                     {cashFlowData?.lifetime?<InnerCardSection headerData="Overall" bodyData={cashFlowData?.lifetime} fColor="debit_amount"/>:<></>}
-                                    {cashFlowData?.weekly[0]?.label?<InnerCardSection headerData={cashFlowData?.weekly[0]?.label} bodyData={util.getWithCurrency(cashFlowData?.weekly[0]?.amount)} fColor={cashFlowData?.weekly[0]?.amount<cashFlowData?.weekly[1]?.amount?"credit_amount":"debit_amount"}/>:<></>}
-                                    {cashFlowData?.weekly[1]?.label?<InnerCardSection headerData={cashFlowData?.weekly[1]?.label} bodyData={util.getWithCurrency(cashFlowData?.weekly[1]?.amount)}/>:<></>}
-                                    {cashFlowData?.monthly[0]?.label?<InnerCardSection headerData={cashFlowData?.monthly[0]?.label} bodyData={util.getWithCurrency(cashFlowData?.monthly[0]?.amount)} fColor={cashFlowData?.monthly[0]?.amount<cashFlowData?.monthly[1]?.amount?"credit_amount":"debit_amount"}/>:<></>}
-                                    {cashFlowData?.monthly[1]?.label?<InnerCardSection headerData={cashFlowData?.monthly[1]?.label} bodyData={util.getWithCurrency(cashFlowData?.monthly[1]?.amount)}/>:<></>}                             
+                                    {cashFlowData?.weekly && cashFlowData?.weekly[0]?.label?<InnerCardSection headerData={cashFlowData?.weekly[0]?.label} bodyData={util.getWithCurrency(cashFlowData?.weekly[0]?.amount)} fColor={cashFlowData?.weekly[0]?.amount<cashFlowData?.weekly[1]?.amount?"credit_amount":"debit_amount"}/>:<></>}
+                                    {cashFlowData?.weekly && cashFlowData?.weekly[1]?.label?<InnerCardSection headerData={cashFlowData?.weekly[1]?.label} bodyData={util.getWithCurrency(cashFlowData?.weekly[1]?.amount)}/>:<></>}
+                                    {cashFlowData?.weekly && cashFlowData?.monthly[0]?.label?<InnerCardSection headerData={cashFlowData?.monthly[0]?.label} bodyData={util.getWithCurrency(cashFlowData?.monthly[0]?.amount)} fColor={cashFlowData?.monthly[0]?.amount<cashFlowData?.monthly[1]?.amount?"credit_amount":"debit_amount"}/>:<></>}
+                                    {cashFlowData?.weekly && cashFlowData?.monthly[1]?.label?<InnerCardSection headerData={cashFlowData?.monthly[1]?.label} bodyData={util.getWithCurrency(cashFlowData?.monthly[1]?.amount)}/>:<></>}                             
                                 </HStack>
                             </Stack>
                             <Stack>
@@ -113,10 +114,10 @@ function CashFlowReportSection(props) {
                                 </HStack>
                                 <HStack>
                                     <InnerCardSection headerData="Overall" bodyData={cashFlowData?.lifetimeExp}/>
-                                    {cashFlowData?.weeklyExp[0]?.label?<InnerCardSection headerData={cashFlowData?.weeklyExp[0]?.label} bodyData={util.getWithCurrency(cashFlowData?.weeklyExp[0]?.amount)}/>:<></>}
-                                    {cashFlowData?.weeklyExp[1]?.label?<InnerCardSection headerData={cashFlowData?.weeklyExp[1]?.label} bodyData={util.getWithCurrency(cashFlowData?.weeklyExp[1]?.amount)}/>:<></>}
-                                    {cashFlowData?.monthlyExp[0]?.label?<InnerCardSection headerData={cashFlowData?.monthlyExp[0]?.label} bodyData={util.getWithCurrency(cashFlowData?.monthlyExp[0]?.amount)}/>:<></>}
-                                    {cashFlowData?.monthlyExp[1]?.label?<InnerCardSection headerData={cashFlowData?.monthlyExp[1]?.label} bodyData={util.getWithCurrency(cashFlowData?.monthlyExp[1]?.amount)}/>:<></>}                             
+                                    {cashFlowData?.weeklyExp && cashFlowData?.weeklyExp[0]?.label?<InnerCardSection headerData={cashFlowData?.weeklyExp[0]?.label} bodyData={util.getWithCurrency(cashFlowData?.weeklyExp[0]?.amount)}/>:<></>}
+                                    {cashFlowData?.weeklyExp && cashFlowData?.weeklyExp[1]?.label?<InnerCardSection headerData={cashFlowData?.weeklyExp[1]?.label} bodyData={util.getWithCurrency(cashFlowData?.weeklyExp[1]?.amount)}/>:<></>}
+                                    {cashFlowData?.weeklyExp && cashFlowData?.monthlyExp[0]?.label?<InnerCardSection headerData={cashFlowData?.monthlyExp[0]?.label} bodyData={util.getWithCurrency(cashFlowData?.monthlyExp[0]?.amount)}/>:<></>}
+                                    {cashFlowData?.weeklyExp && cashFlowData?.monthlyExp[1]?.label?<InnerCardSection headerData={cashFlowData?.monthlyExp[1]?.label} bodyData={util.getWithCurrency(cashFlowData?.monthlyExp[1]?.amount)}/>:<></>}                             
                                 </HStack>
                             </Stack>
                         </Stack>

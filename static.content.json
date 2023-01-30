@@ -2,7 +2,14 @@
     "title": "boNeeds  with Next.js",
     "index": {
       "title": "Index Page",
-      "content": "<p>Some <strong>index ssdd</strong> content...</p>"
+      "content": {
+        "heroSection": {
+          "heading": "Take back office to next level",
+          "section2": "",
+          "section3": "",
+          "section4": ""
+        }  
+      }
     },
     "pages": [
       {

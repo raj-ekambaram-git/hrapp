@@ -1,6 +1,6 @@
 import { Flex, Heading, Stack } from '@chakra-ui/react';
 import Head from 'next/head';
-import content from '../frontaid.content.json';
+import content from '../static.content.json';
 
 export default function Page({page}) {
   return (

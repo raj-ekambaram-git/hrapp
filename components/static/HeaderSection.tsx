@@ -27,7 +27,7 @@ import { GrLogin } from 'react-icons/gr'
 const navLinks = [
   { name: 'Home', link: '/' },
   { name: 'Features', link: '#features' },
-  { name: 'Pricing', link: '#pricing' },
+  // { name: 'Pricing', link: '#pricing' },
 ]
 
 const DesktopSidebarContents = ({ name }: any) => {

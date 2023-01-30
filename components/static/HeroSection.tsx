@@ -7,7 +7,8 @@ import {
     VStack,
   } from "@chakra-ui/react";
   import { FunctionComponent } from "react";
-  
+  import content from '../../static.content.json';
+
   interface HeroSectionProps {}
   
   export const HeroSection: FunctionComponent<HeroSectionProps> = () => {
@@ -17,7 +18,7 @@ import {
           <VStack>
             <Container maxW="container.md" textAlign="center">
               <Heading size="2xl" mb={4} color="gray.700">
-                You don't have to chase your clients around to get paid
+                
               </Heading>
   
               <Text fontSize="xl" color="gray.500">

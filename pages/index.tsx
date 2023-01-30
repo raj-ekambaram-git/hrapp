@@ -8,7 +8,7 @@ import { HighlightsSection } from '../components/static/HighlightsSection';
 import { Layout } from '../components/static/Layout';
 import { PricingSection } from '../components/static/PricingSection';
 import { SocialMediaSection } from '../components/static/SocialMediaSection';
-import content from '../frontaid.content.json';
+import content from '../static.content.json';
 
 
 export default function Index() {
