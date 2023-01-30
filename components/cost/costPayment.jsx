@@ -187,16 +187,16 @@ const CostPayment = (props) => {
         try {
     
             const expenseRequest = {
-              id: props.data.expenseId,
-              projectId: parseInt(expenseHeader.projectId.toString()),
-              name: expenseHeader.name,
-              description: expenseHeader.description,
-              billable: expenseHeader.billable,
-              total: expenseTotal,
+              id: props.costId,
+              projectId: parseInt(costProjectId.toString()),
+              name: costName,
+              description: costDescription,
+              billable: true,
+              total: addedCostTotal,
               status: status,
               userId: parseInt(userService.userValue.id),
             }
-            const responseData = await expenseService.updateExpense(expenseRequest, expenseEntries);
+            const responseData = await expenseService.updateExpense(expenseRequest, costItemList);
             if(!responseData.error) {
               toast({
                 title: 'New Expense.',
@@ -206,7 +206,7 @@ const CostPayment = (props) => {
                 duration: 3000,
                 isClosable: true,
               })
-              router.push("/account/user/expenses");
+              router.push("/account/user/cost");
               
             }else {
               toast({
