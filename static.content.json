@@ -12,7 +12,44 @@
             "label": "Start for free"
           },
           "heading3": "Let you focus on your business than managing vendors, users, projects, invoice manually."
-        }  
+        },
+        "featuresSection": [
+          {
+            "title": "Detailed Reporting",
+            "description":
+              "Place to get all the detailed reporting about revenue, profit, performance by account, vendor, project and by resource.",
+            "image": "boNeeds/detailedReport.jpg"
+          },
+          {
+            "title": "Manage Vendors",
+            "description":
+              "Know when and how your projects are going so you can stay on top of all the dates and its revenue.",
+            "image":
+              "boNeeds/manageVendors.jpg"
+          },
+          {
+            "title": "Manage projects",
+            "description":
+              "You don't have to hunt your email inbox to find that one conversation. Every task, project, and vendor information is just a click away.",
+            "image":
+              "boNeeds/manageProjects.jpg"
+          },
+          {
+            "title": "Manage invoices",
+            "description":
+              "You don't have to deal with multiple portals or paper traces to manage invoices and payment, can do everything in one place without going out of page.",
+            "image":
+              "boNeeds/manageInvoices.jpg"
+          },
+          {
+            "title": "Time and Expense entry",
+            "description":
+              "Manage your and your team time and expenses, Enable workflow to approve your expenses and track the payments.",
+            "image":
+              "boNeeds/manageTime.png"
+          }            
+
+        ]  
       }
     },
     "pages": [
