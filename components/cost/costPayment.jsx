@@ -26,7 +26,7 @@ import { COST_CALL_TYPE, EMPTY_STRING, EXPENSE_CALL_TYPE, INVOICE_CALL_TYPE, Pro
 import { ShowInlineErrorMessage } from '../common/showInlineErrorMessage';
 import { accountService, expenseService, projectService, userService } from '../../services';
 import ProjectTimesheets from '../project/detail/projectTimesheets';
-import { ExpenseStatus, TimesheetStatus } from '@prisma/client';
+import { ExpenseCategory, ExpenseStatus, ExpenseType, TimesheetStatus } from '@prisma/client';
 import { useRef } from 'react';
 import { CustomTable } from '../customTable/Table';
 import { util } from '../../helpers';
@@ -34,6 +34,7 @@ import ProjectTimesheeEntrySection from '../project/detail/projectTimesheeEntryS
 import { setCostItemList, setCostTotal, setSelectedCostTSEId } from '../../store/modules/Cost/actions';
 import { CostItemList } from './costItemList';
 import { ErrorMessage } from '../../constants/errorMessage';
+import { useRouter } from 'next/router';
   
 const CostPayment = (props) => {
     const [size, setSize] = useState('');
@@ -41,6 +42,8 @@ const CostPayment = (props) => {
     const {data} = props;
     const dispatch = useDispatch();
     const toast = useToast();
+    const router = useRouter();
+
     const [isAddMode, setAddMode] = useState(true);
     const [costProjectId, setCostProjectId] = useState();
     const [costName, setCostName] = useState();
@@ -109,6 +112,7 @@ const CostPayment = (props) => {
     
             const expenseRequest = {
               projectId: parseInt(costProjectId),
+              category: ExpenseCategory.Cost,
               name: costName,
               description: costDescription,
               billable: true,
@@ -129,7 +133,7 @@ const CostPayment = (props) => {
                 duration: 3000,
                 isClosable: true,
               })
-              router.push("/account/user/expenses");
+              router.push("/account/user/cost");
               
             }else {
               toast({
