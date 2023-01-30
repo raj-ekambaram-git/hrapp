@@ -246,7 +246,8 @@ const WeeklyTimesheetEntry = (props) => {
                 break;
             case "projectId":
                 timeEntryRecord.projectId = parseInt(inputValue);
-                timeEntryRecord.unitPrice = parseInt(ev.target.options.item(ev.target.selectedIndex).getAttribute("data-unitprice"));
+                timeEntryRecord.unitPrice = parseFloat(ev.target.options.item(ev.target.selectedIndex).getAttribute("data-unitprice"));
+                timeEntryRecord.cost = parseFloat(ev.target.options.item(ev.target.selectedIndex).getAttribute("data-cost"));
                 timeEntryRecord.notesRequired = ev.target.options.item(ev.target.selectedIndex).getAttribute("data-dailyNotesRequired")==="true"?true:false
                 timeEntryRecord.billable = ev.target.options.item(ev.target.selectedIndex).getAttribute("data-billable")==="true"?true:false
                 timeEntryRecord.projectName = ev.target.options.item(ev.target.selectedIndex).getAttribute("data-projectName")
@@ -372,6 +373,7 @@ const WeeklyTimesheetEntry = (props) => {
                                             {userProjectList?.map((project) => (
                                                 {...project.project?.status === ProjectStatus.Open?(<>
                                                     <option value={project.projectId} data-unitprice={project.unitPrice} 
+                                                    data-cost={project.cost} 
                                                     data-dailyNotesRequired={project.project?.timesheetNotesRequired} 
                                                     data-billable={project.billable} 
                                                     data-projectName={project.project?.name} >{project.project?.name} - {project.project?.referenceCode} - {project.billable?"Billable":"Non-Billable"} </option>

@@ -2,7 +2,8 @@ import { ActionTypes } from "./constants";
 
 const initialState = {
     accountUsers: [],
-    selectedAccountId: null
+    selectedAccountId: null,
+    accountVendors: []
 };
 
 const accountReducer = (state = initialState, {type, payload}) => {
@@ -30,6 +31,17 @@ const accountReducer = (state = initialState, {type, payload}) => {
         newState.selectedAccountId = payload;
     } else if(type === ActionTypes.RESET_SELECTED_ACCOUNT_ID) {
         newState.selectedAccountId = null;
+    } else if(type === ActionTypes.SET_VENDORS_BY_ACCOUNT) {
+        const newVendorsByAccount = [...newState.accountVendors]
+        if(Array.isArray(payload)) {
+            //Edit Condition
+            newState.accountVendors = payload;
+        }else {
+            //Add New Condtion or udpate
+            newVendorsByAccount.push(payload);
+            newState.accountVendors = newVendorsByAccount;
+        }
+        
     } 
 
     console.log("accountReducer:::New State:::Before Return:::"+JSON.stringify(newState));

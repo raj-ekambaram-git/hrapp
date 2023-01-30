@@ -22,6 +22,7 @@ export const PROJECT_TYPE_STAFFING = 'Staffing';
 export const DEFAULT_NOTES = 'DEFAULT NOTES';
 export const PROJECT_CALL_TYPE = 'PROJECT';
 export const INVOICE_CALL_TYPE = 'INVOICE';
+export const COST_CALL_TYPE = 'COST';
 export const EXPENSE_CALL_TYPE = 'EXPENSE';
 
 

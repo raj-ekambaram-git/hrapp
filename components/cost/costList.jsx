@@ -12,6 +12,7 @@ import { CustomTable } from "../customTable/Table";
 import { ExpenseStatus } from "@prisma/client";
 import { DeleteIcon } from "@chakra-ui/icons";
 import { util } from "../../helpers";
+import CostPayment from "./costPayment";
 
 
 const CostList = (props) => {
@@ -83,9 +84,7 @@ const CostList = (props) => {
               <Flex marginBottom="1rem">
                 <HStack>
                   <Box>
-                    <Button size="xs" bgColor="header_actions">
-                      Add New
-                    </Button>
+                    <CostPayment isAddMode={true}/>
                   </Box>
                 </HStack>
               </Flex>

@@ -1,148 +1,151 @@
 
 import {
     Box,
-    Heading,
-    Accordion,
-    AccordionItem,
-    AccordionButton,
-    AccordionPanel,
-    TableCaption,
-    Table,
-    Thead,
-    Tr,
-    Th,
-    Tbody,
-    Card,
-    CardHeader,
-    HStack,
-    CardBody,
     Stack,
-    StackDivider,
-    Badge,
-    AccordionIcon,
-    Text,
-    TableContainer
+    Flex,
+    Button,
+    useDisclosure,
+    useToast,
+    Drawer,
+    DrawerContent,
+    DrawerOverlay,
+    DrawerCloseButton,
+    DrawerHeader,
+    DrawerBody,
+    FormControl,
+    FormLabel,
+    Select,
+    Checkbox,
+    HStack
   } from '@chakra-ui/react';
-import { useSelector } from 'react-redux';
-import { ExpenseConstants } from '../../../constants';
-import { util } from '../../../helpers/util';
-import ExpenseEntryPayment from './expenseEntryPayment';
-
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { COST_CALL_TYPE, EMPTY_STRING, EXPENSE_CALL_TYPE, INVOICE_CALL_TYPE, ProjectConstants, TIMESHEET_STATUS } from '../../constants';
+import { ShowInlineErrorMessage } from '../common/showInlineErrorMessage';
+import { accountService, projectService, userService } from '../../services';
+import ProjectTimesheets from '../project/detail/projectTimesheets';
+import { TimesheetStatus } from '@prisma/client';
+import { useRef } from 'react';
+import { CustomTable } from '../customTable/Table';
+import { util } from '../../helpers';
+import ProjectTimesheeEntrySection from '../project/detail/projectTimesheeEntrySection';
+import { setCostItemList, setCostTotal, setSelectedCostTSEId } from '../../store/modules/Cost/actions';
+import { CostItemList } from './costItemList';
   
 const CostPayment = (props) => {
-    
-    const pendingExpensePaymentList = useSelector(state => state.expense.paymentExpenses);
+    const [size, setSize] = useState('');
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const {data} = props;
+    const dispatch = useDispatch();
+    const toast = useToast();
+    const [isAddMode, setAddMode] = useState(true);
+    const [costProjectId, setCostProjectId] = useState();
+    const [addedCostTotal, setAddedCostTotal] = useState();
+    const [showErrorMessage, setShowErrorMessage] = useState(EMPTY_STRING);
+    const [accountVendorList, setAccountVendorList] = useState([]);
+    const [projectList, setProjectList] = useState([]);
+    const cstTotal = useSelector(state => state.cost.costTotal);
+    const costItemList = useSelector(state => state.cost.costItemList);
 
-    console.log("pendingExpensePaymentList:::"+JSON.stringify(pendingExpensePaymentList))
+    console.log("PROPPPSS:"+JSON.stringify(props))
+
+    useEffect(() => {
+        setShowErrorMessage(EMPTY_STRING);
+        getVendorList()
+        setAddedCostTotal(cstTotal)    
+        if(props && !props.isAddMode) {
+            setAddMode(false);
+        }    
+    }, [cstTotal]);
+
+
+
+    const handleProjectSelection = async(selectedProjectId) => {
+        setCostProjectId(selectedProjectId)
+    }
+    
+    const getVendorList = async() => {
+        const vendorList = await accountService.getVendorList(userService.getAccountDetails().accountId);
+        setAccountVendorList(vendorList)
+    }
+
+    function handleAddEditCost(newSize) {
+        setSize(newSize);
+        onOpen();
+        dispatch(setCostTotal(0));
+        dispatch(setCostItemList([]));
+        dispatch(setSelectedCostTSEId([]));
+
+    }
+
+    async function handleVendorSelection(selectedVendorObj) {
+        const projectListResponse = await accountService.getProjectsByVendor(selectedVendorObj, userService.getAccountDetails().accountId);
+        setProjectList(projectListResponse);
+    } 
 
     return (
         <div>
-             <Card>
-                <CardHeader>
-                    <HStack spacing="50rem">
-                    <Box>
-                        <Heading size='xs'>Projects</Heading>
-                    </Box>
-                    </HStack>
-                </CardHeader>
-
-                <CardBody>
-                  <Stack divider={<StackDivider />} spacing='1'>
-                        <Accordion defaultIndex={[0]} variant="mainPage">
-                        {pendingExpensePaymentList?.map((expense) => (
-                            <AccordionItem marginBottom="1rem" border="1px" width="80%">
-                                <h2>
-                                    <AccordionButton bgColor="table_tile">
-                                        <Box as="span" flex='1' textAlign='left'>
-                                            <Heading size='xs' textTransform='uppercase'>
-                                                {expense.project.name} -- {expense.project.referenceCode}
-                                            </Heading>
-                                        </Box>
-                                        <AccordionIcon />
-                                    </AccordionButton>
-                                </h2>
-                                <AccordionPanel pb={4}>
-                                    <TableContainer marginTop="1rem">
-                                        <Table variant="tableInsideAccoridion">
-                                            <TableCaption></TableCaption>
-                                            <Thead>
-                                                <Tr bgColor="table_tile">
-                                                    <Th>
-                                                        Resource
-                                                    </Th>
-                                                    <Th>
-                                                        Expense
-                                                    </Th>      
-                                                    <Th>
-                                                        Total
-                                                    </Th>                                                                
-                                                    <Th>
-                                                        Paid
-                                                    </Th>                                                                
-                                                    <Th>
-                                                        
-                                                    </Th>                                                                
-                                                    <Th>
-                                                        Status
-                                                    </Th>
-                                                    <Th>
-                                                        Approved 
-                                                    </Th>                                                    
-                                                </Tr>   
-                                            </Thead>                
-                                            <Tbody>
-                                                {expense.project.expense?.map((expenseEntry) => (
-                                                    <Tr>
-                                                        {(expenseEntry.status == ExpenseConstants.EXPENSE_STATUS.Approved ||
-                                                            expenseEntry.status == ExpenseConstants.EXPENSE_STATUS.PartiallyPaid) ? (
-                                                            <>
-                                                                <Th>
-                                                                    {expenseEntry.user.firstName} {expenseEntry.user.lastName}
-                                                                </Th>
-                                                                <Th>
-                                                                    {expenseEntry.name}
-                                                                </Th>
-                                                                <Th>
-                                                                    $ {expenseEntry.total}
-                                                                </Th>
-                                                                <Th>
-                                                                    $ {expenseEntry.paidAmount}
-                                                                </Th>
-                                                                <Th>
-                                                                    <ExpenseEntryPayment expense={expenseEntry}/>
-                                                                </Th> 
-                                                                <Th>
-                                                                    <Badge color={`${
-                                                                            expenseEntry.status === "Approved"
-                                                                            ? "timesheet.approved_status"
-                                                                            : (expenseEntry.status === "Submitted" || expenseEntry.status === "Saved")
-                                                                            ? "timesheet.approved_status"
-                                                                            : "timesheet.pending_status"
-                                                                        }`}>{expenseEntry.status}
-                                                                    </Badge>                                                                    
-                                                                </Th>     
-                                                                <Th>
-                                                                    By <Text fontWeight="bold" color= "bold_text">{expenseEntry.approvedBy?.firstName}</Text> on <Text fontWeight="bold" color= "bold_text">{util.getFormattedDate(expenseEntry.approvedDate)}</Text>
-                                                                </Th>                                                                                                                      
-                                                            </>
-                                                        ) : (
-                                                            <>
-                                                            </>
-                                                        )}
-
-                                                    </Tr>
-                                                ))}
-                                            </Tbody>    
-                                        </Table>  
-                                </TableContainer>                                
-                                </AccordionPanel>
-                            </AccordionItem>
-                        ))}
-                    </Accordion>                    
-                  </Stack>
-                </CardBody>
-            </Card>
-        </div>
+        <Flex marginBottom="1rem" borderRadius="lg" alignSelf="center">
+            <Button size="xs" bgColor="header_actions" 
+                onClick={() => handleAddEditCost("xxl")}
+                key="xl"
+                m={1}
+                >{`Add/Edit Cost`}
+            </Button>
+  
+            <Drawer onClose={onClose} isOpen={isOpen} size={size}>
+                  <DrawerOverlay />
+                      <DrawerContent>
+                          <DrawerCloseButton />
+                          <DrawerHeader>
+                            {isAddMode?"Add":"Update"} Cost                              
+                          </DrawerHeader>
+                          <DrawerBody>
+                            <Stack spacing={8}>
+                              <Box>
+                                <Box>
+                                  <ShowInlineErrorMessage showErrorMessage={showErrorMessage}/>
+                                </Box>                          
+                                <FormControl isRequired>
+                                    <FormLabel>Vendor</FormLabel>
+                                    <Select width="50%" onChange={(ev) => handleVendorSelection(ev.target.value)}>
+                                        <option value="">Select an Vendor</option>
+                                        {accountVendorList?.map((vendor) => (
+                                        <option value={vendor.id}>{vendor.name}</option>
+                                        ))}
+                                    </Select>
+                                </FormControl>    
+                                <FormControl isRequired>
+                                    <FormLabel>Project</FormLabel>
+                                    <Select width="50%" onChange={(ev) => handleProjectSelection(ev.target.value)}>
+                                        <option value="">Select Project</option>
+                                        {projectList?.map((project) => (
+                                        <option value={project.id}>{project.name} -- {project.referenceCode}</option>
+                                        ))}
+                                    </Select>
+                                </FormControl>    
+                                {costProjectId?
+                                    <Stack>
+                                        <Box marginTop={5}><ProjectTimesheets data={{projectId: costProjectId, callType: COST_CALL_TYPE}}/></Box>
+                                        <Box>
+                                            Cost Total: {addedCostTotal}
+                                        </Box>     
+                                        {costItemList && costItemList.length>0?
+                                            <Box>
+                                                <CostItemList costItemList={costItemList}/>
+                                            </Box>    
+                                        :<></>}                       
+                                    </Stack>
+                                :<></>}
+                              </Box>                               
+                            </Stack>
+                          </DrawerBody>
+                      </DrawerContent>
+             </Drawer>
+          </Flex>
+  
+      </div>
+  
     );
 };
 
