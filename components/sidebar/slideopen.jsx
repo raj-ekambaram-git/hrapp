@@ -12,6 +12,7 @@ import { Tooltip } from '@chakra-ui/react'
 import Link from "next/link";
 import { GrConfigure } from 'react-icons/gr';
 import { BsFillFileEarmarkBarGraphFill } from 'react-icons/bs';
+import { AiFillDollarCircle } from 'react-icons/ai';
 
 
 
@@ -125,11 +126,11 @@ const Slideopen = (props) => {
               </Link>   
             </Tooltip>                                              
           </>):""}        
-          {props.allowedModule?.includes("expense_payments")?(<>
+          {props.allowedModule?.includes("cost")?(<>
             <Tooltip label="Cost" placement='right' borderRadius="6px" padding="10px"  fontWeight={600} color={tooltip_style.color} hasArrow  backgroundColor={tooltip_style.bgColor}>
               <Link href={`/account/user/cost`} styles={({isActive}) => (isActive ? navbaractive: navbarnotactive)}>  
                 <div>
-                  <MdPayments  className={styles.icons1}/>
+                  <AiFillDollarCircle  className={styles.icons1}/>
                 </div>
               </Link>   
             </Tooltip>                                              
