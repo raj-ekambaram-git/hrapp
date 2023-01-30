@@ -253,7 +253,7 @@ const CostPayment = (props) => {
                 m={1}
                 >{isAddMode?"Add Cost": "Edit"}
             </Button>
-            {(props.costData?.status === ExpenseStatus.Approved || props.costData?.status === ExpenseStatus.Invoiced)?<>
+            {!isAddMode?<>
               <ExpenseEntryPayment expense={props.costData}/>
             </>:<></>}
   
