@@ -49,7 +49,7 @@ export default function Index() {
           <title>{content.title}</title>
         </Head>
         <Layout>
-          <Box bg="gray.50" width="100%">
+          <Box bg="gray.50" width="1900">
             <HeroSection />
           </Box>
           <Container maxW="container.xl">
