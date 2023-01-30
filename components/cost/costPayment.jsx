@@ -59,13 +59,14 @@ const CostPayment = (props) => {
     const costItemList = useSelector(state => state.cost.costItemList);
 
     useEffect(() => {
-        setShowErrorMessage(EMPTY_STRING);
-        getVendorList()
+        setShowErrorMessage(EMPTY_STRING);        
         setAddedCostTotal(cstTotal)    
-        if(props && !props.isAddMode && props.costId) {
+        if(props && !props.isAddMode && props.costId) {            
             setAddMode(false);
-            getCostDetails(props.costId)
-        }    
+            // getCostDetails(props.costId)
+        } else {
+            getVendorList()
+        }
     }, [cstTotal]);
 
 
@@ -98,9 +99,13 @@ const CostPayment = (props) => {
     function handleAddEditCost(newSize) {
         setSize(newSize);
         onOpen();
-        dispatch(setCostTotal(0));
-        dispatch(setCostItemList([]));
-        dispatch(setSelectedCostTSEId([]));
+        if(isAddMode) {
+            dispatch(setCostTotal(0));
+            dispatch(setCostItemList([]));
+            dispatch(setSelectedCostTSEId([]));    
+        } else {
+            getCostDetails(props.costId)
+        }
 
     }
 
