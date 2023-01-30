@@ -112,13 +112,17 @@ const ProjectTimesheets = (props) => {
           setEnableAddTimeSheetEntry(true);
         }
         const addedTimesheetInvoiceItem = {
-          timesheetEntryId: parseInt(e.target.value),
           type: ExpenseType.Resource_Cost,
           billable: true,
           expenseDate: new Date(),
           amount: (parseFloat(selectedTimesheetEntry.cost)*parseInt(selectedTSQuantity)),
           status: ExpenseStatus.Approved,
-          notes: selectedTimesheetEntry.timesheet?.user?.id+"--"+selectedTimesheetEntry.timesheet?.user?.firstName+"--"+selectedTimesheetEntry.timesheet?.user?.lastName+"--"+selectedTimesheetEntry.timesheet?.name
+          notes: parseInt(e.target.value)+"_User ID: "+selectedTimesheetEntry.timesheet?.user?.id
+                    +"_Resource Name: "+selectedTimesheetEntry.timesheet?.user?.firstName+" "+selectedTimesheetEntry.timesheet?.user?.lastName
+                    +"_Timesheet: "+selectedTimesheetEntry.timesheet?.name
+                    +"_Hours: "+selectedTSQuantity
+                    +"_Start: "+new Date(selectedTimesheetEntry.entries?.day1.date)
+                    +"_End: "+new Date(selectedTimesheetEntry.entries?.day7?.date)
         };
 
           dispatch(setCostItemList(addedTimesheetInvoiceItem));

@@ -1,14 +1,16 @@
 export { CostItemList };
   import { DeleteIcon } from '@chakra-ui/icons';
 import {
-    Flex,
-    Heading,
+    Stack,
     Table,
     Tr,
     Th,
     TableContainer,
     Tbody,
-    Thead
+    Thead,
+    HStack,
+    Box,
+    Td
   } from '@chakra-ui/react'
 import { useDispatch, useSelector } from 'react-redux';
 import { util } from '../../helpers';
@@ -32,7 +34,7 @@ function CostItemList(props) {
     return (
         <>
         <TableContainer>
-          <Table>
+          <Table variant="sortTable">
             <Thead>
               <Tr>
                 <Th>
@@ -53,7 +55,7 @@ function CostItemList(props) {
             {props.costItemList?.map((costItem, index) => (
                 <Tr>
                   <Th>
-                    <DeleteIcon onClick={() => deleteCostItem(index,costItem.timesheetEntryId, costItem.amount)}/>
+                    <DeleteIcon onClick={() => deleteCostItem(index,costItem.notes.split("_")[0], costItem.amount)}/>
                   </Th>
                   <Th>
                     {costItem.type}
@@ -62,7 +64,18 @@ function CostItemList(props) {
                     {util.getWithCurrency(costItem.amount)}
                   </Th>
                   <Th>
-                    {costItem.notes}
+                    <Td>
+                      {costItem.notes.split("_")?.map((note, index) => (
+                        <HStack>
+                          <Box textAlign="right">
+                            {note.split(":")[0]} <br/>
+                          </Box>
+                          <Box textAlign="right">
+                          {note.split(":")[1]} <br/>
+                          </Box>                        
+                        </HStack>
+                      ))}                                                                        
+                    </Td>     
                   </Th>
 
                 </Tr>
