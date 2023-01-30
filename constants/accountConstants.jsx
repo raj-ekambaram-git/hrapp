@@ -399,7 +399,8 @@ export const AccountConstants = {
     {
       label: "",
       accessor: "detailAction",
-      disableSearch: true
+      disableSearch: true,
+      disableSort: true
     },
     {
       label: "",

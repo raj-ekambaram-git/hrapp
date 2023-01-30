@@ -70,10 +70,9 @@ const sortTable = definePartsStyle({
     fontSize: "12px",
     paddingTop: '2px',
     paddingBottom: '6px',
-    columnWidth: "60px",
+    columnWidth: "300px",
     wordWrap: "break-word",
-    textTransform: "none",  
-    
+    textTransform: "none",      
   }
 
 })
