@@ -18,7 +18,11 @@ import {
     Checkbox,
     HStack,
     Input,
-    Textarea
+    Textarea,
+    Card,
+    CardBody,
+    Text,
+    Badge
   } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -290,32 +294,29 @@ const CostPayment = (props) => {
                                         </Select>
                                     </FormControl>    
                                 </>:<>
-                                    <Stack spacing={2}>
-                                        <HStack>
-                                            <Box>
-                                                Vendor
-                                            </Box>
-                                            <Box>
-                                                {costVendorName}
-                                            </Box>
-                                        </HStack>
-                                        <HStack>
-                                            <Box>
-                                                Project
-                                            </Box>
-                                            <Box>
-                                                {costProjectName}
-                                            </Box>
-                                        </HStack>      
-                                        <HStack>
-                                            <Box>
-                                                Status
-                                            </Box>
-                                            <Box>
-                                                {props.costData.status}
-                                            </Box>
-                                        </HStack>                                    
-                                    </Stack>
+                                      <Stack spacing={2} marginBottom={6} fontSize="15px">
+                                          <HStack marginBottom={3}>
+                                              <Box textAlign="right">
+                                                  Vendor:
+                                              </Box>
+                                              <Box textAlign="left" fontWeight="600">
+                                                  {costVendorName}
+                                              </Box>
+                                          </HStack>
+                                          <HStack marginBottom={3}>
+                                              <Box textAlign="right">
+                                                  Project:
+                                              </Box>
+                                              <Box textAlign="left" fontWeight="600">
+                                                  {costProjectName}
+                                              </Box>
+                                          </HStack>      
+                                          <HStack marginTop="50px">
+                                              <Box>
+                                                <Badge color={(props.costData?.status === ExpenseStatus.Approved || props.costData?.status === ExpenseStatus.PartiallyPaid || props.costData?.status === ExpenseStatus.Paid)?"paid_status":"pending_status"}>{props.costData?.status}</Badge>
+                                              </Box>                                              
+                                          </HStack>                                    
+                                      </Stack>
                                 </>}               
                                 {costProjectId?
                                     <Stack spacing={3}>
@@ -332,8 +333,12 @@ const CostPayment = (props) => {
                                             </FormControl>    
                                         </Box>   
                                         <Box marginTop={5}><ProjectTimesheets data={{projectId: costProjectId, callType: COST_CALL_TYPE}}/></Box>
-                                        <Box>
-                                            Cost Total: {addedCostTotal}
+                                        <Box fontSize="15px">
+                                            <HStack>
+                                              <Text>Cost Total: </Text>
+                                              <Text fontWeight="600">{util.getWithCurrency(addedCostTotal)}</Text>
+                                            </HStack>
+                                            
                                         </Box>     
                                         {(costItemList && costItemList.length>0)?
                                             <>
