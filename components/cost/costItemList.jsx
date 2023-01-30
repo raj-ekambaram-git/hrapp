@@ -66,14 +66,9 @@ function CostItemList(props) {
                   <Th>
                     <Td>
                       {costItem.notes.split("_")?.map((note, index) => (
-                        <HStack>
-                          <Box textAlign="right">
-                            {note.split(":")[0]} <br/>
-                          </Box>
-                          <Box textAlign="right">
-                          {note.split(":")[1]} <br/>
-                          </Box>                        
-                        </HStack>
+                        <>
+                        {note}
+                        </>
                       ))}                                                                        
                     </Td>     
                   </Th>

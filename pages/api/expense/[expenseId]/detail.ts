@@ -38,6 +38,17 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
               lastUpdateDate: true,
               attachments: true
             }
+          },
+          project: {
+            select: {
+              name: true,
+              vendor: {
+                select: {
+                  name: true,
+                  id: true  
+                }
+              }
+            }
           }
         }
       })

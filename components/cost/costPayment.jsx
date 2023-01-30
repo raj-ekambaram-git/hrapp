@@ -49,6 +49,8 @@ const CostPayment = (props) => {
     const [costName, setCostName] = useState();
     const [costDescription, setCostDescription] = useState(EMPTY_STRING);
     const [costVendorId, setCostVendorId] = useState();
+    const [costVendorName, setCostVendorName] = useState();
+    const [costProjectName, setCostProjectName] = useState();
     const [addedCostTotal, setAddedCostTotal] = useState();
     const [showErrorMessage, setShowErrorMessage] = useState(EMPTY_STRING);
     const [accountVendorList, setAccountVendorList] = useState([]);
@@ -60,11 +62,28 @@ const CostPayment = (props) => {
         setShowErrorMessage(EMPTY_STRING);
         getVendorList()
         setAddedCostTotal(cstTotal)    
-        if(props && !props.isAddMode) {
+        if(props && !props.isAddMode && props.costId) {
             setAddMode(false);
+            getCostDetails(props.costId)
         }    
     }, [cstTotal]);
 
+
+    const getCostDetails = async (costId) => {
+        if((userService.isAccountAdmin() || userService.isSuperAdmin() || userService.isTimesheetEntryUser() || userService.isManager()) 
+              && (props && !props.isAddMode)) { // This is for EDIT 
+                const expenseResponse = await expenseService.getExpenseDetails(costId, userService.getAccountDetails().accountId);
+                dispatch(setCostItemList(expenseResponse.expenseEntries))
+                delete expenseResponse["expenseEntries"]
+                setAddedCostTotal(expenseResponse.total)
+                setCostName(expenseResponse.name)
+                setCostDescription(expenseResponse.description)
+                setCostVendorId(expenseResponse.project?.vendorId)
+                setCostProjectId(expenseResponse.projectId)
+                setCostProjectName(expenseResponse.project?.name)
+                setCostVendorName(expenseResponse.project?.vendor?.name)
+        }
+    }
 
 
     const handleProjectSelection = async(selectedProjectId) => {
@@ -126,8 +145,8 @@ const CostPayment = (props) => {
             const responseData = await expenseService.createExpense(expenseRequest);
             if(!responseData.error) {
               toast({
-                title: 'New Expense.',
-                description: 'Successfully added new expense.',
+                title: 'New Cost.',
+                description: 'Successfully added new cost.',
                 status: 'success',
                 position: 'top',
                 duration: 3000,
@@ -137,8 +156,8 @@ const CostPayment = (props) => {
               
             }else {
               toast({
-                title: 'Expense Error.',
-                description: 'Not able to create expense, plrease try again or contact administrator. Please make sure all the fields are entered, Details:'+responseData.errorMessage,
+                title: 'Cost Error.',
+                description: 'Not able to create cost, plrease try again or contact administrator. Please make sure all the fields are entered, Details:'+responseData.errorMessage,
                 status: 'error',
                 position: 'top',
                 duration: 6000,
@@ -148,8 +167,8 @@ const CostPayment = (props) => {
         } catch (error) {
           console.log("ERRRROORRRR:"+error)
           toast({
-            title: 'Expense Error.',
-            description: 'Not able to create expense, plrease try again or contact administrator. Details:'+error,
+            title: 'Cost Error.',
+            description: 'Not able to create cost, plrease try again or contact administrator. Details:'+error,
             status: 'error',
             position: 'top',
             duration: 6000,
@@ -213,7 +232,7 @@ const CostPayment = (props) => {
                 onClick={() => handleAddEditCost("xxl")}
                 key="xl"
                 m={1}
-                >{`Add/Edit Cost`}
+                >{isAddMode?"Add Cost": "Edit"}
             </Button>
   
             <Drawer onClose={onClose} isOpen={isOpen} size={size}>
@@ -228,25 +247,46 @@ const CostPayment = (props) => {
                               <Box>
                                 <Box>
                                   <ShowInlineErrorMessage showErrorMessage={showErrorMessage}/>
-                                </Box>                          
-                                <FormControl isRequired>
-                                    <FormLabel>Vendor</FormLabel>
-                                    <Select width="50%" onChange={(ev) => handleVendorSelection(ev.target.value)} value={costVendorId}>
-                                        <option value="">Select an Vendor</option>
-                                        {accountVendorList?.map((vendor) => (
-                                        <option value={vendor.id}>{vendor.name}</option>
-                                        ))}
-                                    </Select>
-                                </FormControl>    
-                                <FormControl isRequired>
-                                    <FormLabel>Project</FormLabel>
-                                    <Select width="50%" onChange={(ev) => handleProjectSelection(ev.target.value)} value={costProjectId}>
-                                        <option value="">Select Project</option>
-                                        {projectList?.map((project) => (
-                                        <option value={project.id}>{project.name} -- {project.referenceCode}</option>
-                                        ))}
-                                    </Select>
-                                </FormControl>    
+                                </Box>           
+                                {isAddMode?<>
+                                    <FormControl isRequired>
+                                        <FormLabel>Vendor</FormLabel>
+                                        <Select width="50%" onChange={(ev) => handleVendorSelection(ev.target.value)} value={costVendorId}>
+                                            <option value="">Select an Vendor</option>
+                                            {accountVendorList?.map((vendor) => (
+                                            <option value={vendor.id}>{vendor.name}</option>
+                                            ))}
+                                        </Select>
+                                    </FormControl>    
+                                    <FormControl isRequired>
+                                        <FormLabel>Project</FormLabel>
+                                        <Select width="50%" onChange={(ev) => handleProjectSelection(ev.target.value)} value={costProjectId}>
+                                            <option value="">Select Project</option>
+                                            {projectList?.map((project) => (
+                                            <option value={project.id}>{project.name} -- {project.referenceCode}</option>
+                                            ))}
+                                        </Select>
+                                    </FormControl>    
+                                </>:<>
+                                    <Stack spacing={2}>
+                                        <HStack>
+                                            <Box>
+                                                Vendor
+                                            </Box>
+                                            <Box>
+                                                {costVendorName}
+                                            </Box>
+                                        </HStack>
+                                        <HStack>
+                                            <Box>
+                                                Project
+                                            </Box>
+                                            <Box>
+                                                {costProjectName}
+                                            </Box>
+                                        </HStack>                                        
+                                    </Stack>
+                                </>}               
                                 {costProjectId?
                                     <Stack spacing={3}>
                                         <Box maxWidth="25%">
