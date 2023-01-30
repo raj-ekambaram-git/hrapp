@@ -9,6 +9,7 @@ export const ErrorMessage = {
   COMMENTS_REQUIRED: "Commers are required.",
   DAILY_NOTES_REQUIRED: "Daily notes are required for the selected project.",
   REPLY_REQUIRED: "Reply required.",
+  COST_NAME_REQUIRED: "Please enter cost name to continue.",
   ERROR_UPLOADING: "Error uploading, please try again.",
   TIMESHEET_HOURS_ENTRY_ERROR: "Total hours for a day across multiple projects cannot be greater than 24. Please adjust accordingly.",
   VALUE_REQUIRED: "Value required, please enter.",

@@ -16,21 +16,24 @@ import {
     FormLabel,
     Select,
     Checkbox,
-    HStack
+    HStack,
+    Input,
+    Textarea
   } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { COST_CALL_TYPE, EMPTY_STRING, EXPENSE_CALL_TYPE, INVOICE_CALL_TYPE, ProjectConstants, TIMESHEET_STATUS } from '../../constants';
 import { ShowInlineErrorMessage } from '../common/showInlineErrorMessage';
-import { accountService, projectService, userService } from '../../services';
+import { accountService, expenseService, projectService, userService } from '../../services';
 import ProjectTimesheets from '../project/detail/projectTimesheets';
-import { TimesheetStatus } from '@prisma/client';
+import { ExpenseStatus, TimesheetStatus } from '@prisma/client';
 import { useRef } from 'react';
 import { CustomTable } from '../customTable/Table';
 import { util } from '../../helpers';
 import ProjectTimesheeEntrySection from '../project/detail/projectTimesheeEntrySection';
 import { setCostItemList, setCostTotal, setSelectedCostTSEId } from '../../store/modules/Cost/actions';
 import { CostItemList } from './costItemList';
+import { ErrorMessage } from '../../constants/errorMessage';
   
 const CostPayment = (props) => {
     const [size, setSize] = useState('');
@@ -40,14 +43,15 @@ const CostPayment = (props) => {
     const toast = useToast();
     const [isAddMode, setAddMode] = useState(true);
     const [costProjectId, setCostProjectId] = useState();
+    const [costName, setCostName] = useState();
+    const [costDescription, setCostDescription] = useState(EMPTY_STRING);
+    const [costVendorId, setCostVendorId] = useState();
     const [addedCostTotal, setAddedCostTotal] = useState();
     const [showErrorMessage, setShowErrorMessage] = useState(EMPTY_STRING);
     const [accountVendorList, setAccountVendorList] = useState([]);
     const [projectList, setProjectList] = useState([]);
     const cstTotal = useSelector(state => state.cost.costTotal);
     const costItemList = useSelector(state => state.cost.costItemList);
-
-    console.log("PROPPPSS:"+JSON.stringify(props))
 
     useEffect(() => {
         setShowErrorMessage(EMPTY_STRING);
@@ -83,6 +87,121 @@ const CostPayment = (props) => {
         setProjectList(projectListResponse);
     } 
 
+    const handleCostSubmit = async () => {
+        if(costName == undefined || costName === '') {
+            toast({
+                title: 'Cost Error.',
+                description: 'Please enter cost name to continue.',
+                status: 'error',
+                position: 'top',
+                duration: 6000,
+                isClosable: true,
+              })
+            return;
+        }
+        return isAddMode
+        ? createExpense(ExpenseStatus.Approved)
+        : updateExpense(ExpenseStatus.Approved);
+    }
+    
+      const createExpense = async (status) => {
+        try {
+    
+            const expenseRequest = {
+              projectId: parseInt(costProjectId),
+              name: costName,
+              description: costDescription,
+              billable: true,
+              total: addedCostTotal,
+              status: status,
+              userId: parseInt(userService.userValue.id),
+              expenseEntries: {
+                create: costItemList
+              },
+            }
+            const responseData = await expenseService.createExpense(expenseRequest);
+            if(!responseData.error) {
+              toast({
+                title: 'New Expense.',
+                description: 'Successfully added new expense.',
+                status: 'success',
+                position: 'top',
+                duration: 3000,
+                isClosable: true,
+              })
+              router.push("/account/user/expenses");
+              
+            }else {
+              toast({
+                title: 'Expense Error.',
+                description: 'Not able to create expense, plrease try again or contact administrator. Please make sure all the fields are entered, Details:'+responseData.errorMessage,
+                status: 'error',
+                position: 'top',
+                duration: 6000,
+                isClosable: true,
+              })
+            }
+        } catch (error) {
+          console.log("ERRRROORRRR:"+error)
+          toast({
+            title: 'Expense Error.',
+            description: 'Not able to create expense, plrease try again or contact administrator. Details:'+error,
+            status: 'error',
+            position: 'top',
+            duration: 6000,
+            isClosable: true,
+          })
+        }
+      };
+    
+      const updateExpense = async (status) => {
+        try {
+    
+            const expenseRequest = {
+              id: props.data.expenseId,
+              projectId: parseInt(expenseHeader.projectId.toString()),
+              name: expenseHeader.name,
+              description: expenseHeader.description,
+              billable: expenseHeader.billable,
+              total: expenseTotal,
+              status: status,
+              userId: parseInt(userService.userValue.id),
+            }
+            const responseData = await expenseService.updateExpense(expenseRequest, expenseEntries);
+            if(!responseData.error) {
+              toast({
+                title: 'New Expense.',
+                description: 'Successfully added new expense.',
+                status: 'success',
+                position: 'top',
+                duration: 3000,
+                isClosable: true,
+              })
+              router.push("/account/user/expenses");
+              
+            }else {
+              toast({
+                title: 'Expense Error.',
+                description: 'Not able to create expense, plrease try again or contact administrator. Please make sure all the fields are entered, Details:'+responseData.errorMessage,
+                status: 'error',
+                position: 'top',
+                duration: 6000,
+                isClosable: true,
+              })
+            }
+        } catch (error) {
+          console.log("ERRRROORRRR:"+error)
+          toast({
+            title: 'Expense Error.',
+            description: 'Not able to create expense, plrease try again or contact administrator. Details:'+error,
+            status: 'error',
+            position: 'top',
+            duration: 6000,
+            isClosable: true,
+          })
+        }
+      };
+      
     return (
         <div>
         <Flex marginBottom="1rem" borderRadius="lg" alignSelf="center">
@@ -108,7 +227,7 @@ const CostPayment = (props) => {
                                 </Box>                          
                                 <FormControl isRequired>
                                     <FormLabel>Vendor</FormLabel>
-                                    <Select width="50%" onChange={(ev) => handleVendorSelection(ev.target.value)}>
+                                    <Select width="50%" onChange={(ev) => handleVendorSelection(ev.target.value)} value={costVendorId}>
                                         <option value="">Select an Vendor</option>
                                         {accountVendorList?.map((vendor) => (
                                         <option value={vendor.id}>{vendor.name}</option>
@@ -117,7 +236,7 @@ const CostPayment = (props) => {
                                 </FormControl>    
                                 <FormControl isRequired>
                                     <FormLabel>Project</FormLabel>
-                                    <Select width="50%" onChange={(ev) => handleProjectSelection(ev.target.value)}>
+                                    <Select width="50%" onChange={(ev) => handleProjectSelection(ev.target.value)} value={costProjectId}>
                                         <option value="">Select Project</option>
                                         {projectList?.map((project) => (
                                         <option value={project.id}>{project.name} -- {project.referenceCode}</option>
@@ -125,15 +244,35 @@ const CostPayment = (props) => {
                                     </Select>
                                 </FormControl>    
                                 {costProjectId?
-                                    <Stack>
+                                    <Stack spacing={3}>
+                                        <Box maxWidth="25%">
+                                            <FormControl isRequired>
+                                                <FormLabel>Cost Name</FormLabel>
+                                                <Input type="text" id="costName"  value={costName} onChange={(ev) => setCostName(ev.target.value)}/>
+                                            </FormControl>      
+                                        </Box>          
+                                        <Box>
+                                            <FormControl>
+                                                <FormLabel>Cost Description</FormLabel>
+                                                <Textarea type="text" id="costDescription" value={costDescription} onChange={(ev) => setCostDescription(ev.target.value)}/>
+                                            </FormControl>    
+                                        </Box>   
                                         <Box marginTop={5}><ProjectTimesheets data={{projectId: costProjectId, callType: COST_CALL_TYPE}}/></Box>
                                         <Box>
                                             Cost Total: {addedCostTotal}
                                         </Box>     
                                         {costItemList && costItemList.length>0?
-                                            <Box>
-                                                <CostItemList costItemList={costItemList}/>
-                                            </Box>    
+                                            <>
+                                                <Box>
+                                                    <CostItemList costItemList={costItemList}/>
+                                                </Box>    
+                                                <Box>
+                                                    <Button size="xs" bgColor="header_actions" 
+                                                        onClick={() => handleCostSubmit()}
+                                                        >{isAddMode?"Add":"Update"} Cost
+                                                    </Button>                                                    
+                                                </Box>
+                                            </>
                                         :<></>}                       
                                     </Stack>
                                 :<></>}

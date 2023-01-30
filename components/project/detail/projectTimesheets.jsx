@@ -112,6 +112,7 @@ const ProjectTimesheets = (props) => {
           setEnableAddTimeSheetEntry(true);
         }
         const addedTimesheetInvoiceItem = {
+          timesheetEntryId: parseInt(e.target.value),
           type: ExpenseType.Resource_Cost,
           billable: true,
           expenseDate: new Date(),

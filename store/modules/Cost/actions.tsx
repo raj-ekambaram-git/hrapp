@@ -51,3 +51,10 @@ export const removeTSFromSelectedCost = (tseId) => {
         payload: tseId
     }
 }
+
+export const removeItemFromCostItemList = (removeIndex) => {
+    return {
+        type: ActionTypes.REMOVE_ITEM_COST_ITEM_LIST,
+        payload: removeIndex
+    }
+}

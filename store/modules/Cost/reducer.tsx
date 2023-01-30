@@ -50,6 +50,10 @@ const costReducer = (state = initialState, {type, payload}) => {
         const teseToRemoveIndex = newSelectedCostTSEId.findIndex(x => x === parseInt(payload));
         newSelectedCostTSEId.splice(teseToRemoveIndex, 1);
         newState.selectedCostTSEId = newSelectedCostTSEId;
+    } else if( type === ActionTypes.REMOVE_ITEM_COST_ITEM_LIST) {
+        const newCostList = [...newState.costItemList]
+        newCostList.splice(payload, 1);
+        newState.costItemList = newCostList;
     }
 
     return newState;
