@@ -47,8 +47,15 @@ function CostItemList(props) {
                   Amount
                 </Th>
                 <Th>
-                  Notes
+                  Resource
                 </Th>
+                <Th>
+                  Hours
+                </Th>
+                <Th>
+                  Dates
+                </Th>
+
               </Tr>
             </Thead>
             <Tbody>                            
@@ -64,15 +71,14 @@ function CostItemList(props) {
                     {util.getWithCurrency(costItem.amount)}
                   </Th>
                   <Th>
-                    <Td>
-                      {costItem.notes.split("_")?.map((note, index) => (
-                        <>
-                        {note}
-                        </>
-                      ))}                                                                        
-                    </Td>     
+                      {costItem.notes.split("_")[2]?.split(":")[1]}                                                                       
                   </Th>
-
+                  <Th>
+                      {costItem.notes.split("_")[4]?.split(":")[1]}                                                                       
+                  </Th>
+                  <Th>
+                      {util.getFormattedDate(costItem.notes.split("_")[5]?.split(":")[1])} - {util.getFormattedDate(costItem.notes.split("_")[6]?.split(":")[1])}                                                                                                                                          
+                  </Th>                  
                 </Tr>
               ))}                                        
 
