@@ -4,10 +4,13 @@
       "title": "Index Page",
       "content": {
         "heroSection": {
-          "heading": "Take back office to next level",
-          "section2": "",
-          "section3": "",
-          "section4": ""
+          "heading1": "Take back office to next level",
+          "heading2": "boNeeds is the backbone of any business, playing an integral role in a business’ ability to operate, grow & develop.",
+          "cta": {
+            "url": "/login",
+            "label": "Start for free"
+          },
+          "heading3": "Let you focus on your business than managing vendors, users, projects, invoice manually."
         }  
       }
     },

@@ -18,26 +18,25 @@ import {
           <VStack>
             <Container maxW="container.md" textAlign="center">
               <Heading size="2xl" mb={4} color="gray.700">
-                
+                {content.index.content.heroSection.heading1}
               </Heading>
   
               <Text fontSize="xl" color="gray.500">
-                Freelancers use Biller to accept payments and send invoices to
-                clients with a single click
+                {content.index.content.heroSection.heading2}
               </Text>
   
               <Button
                 mt={8}
-                colorScheme="brand"
+                colorScheme="teal"
                 onClick={() => {
-                  window.open("https://launchman.cc", "_blank");
+                  window.open(content.index.content.heroSection.cta.url,);
                 }}
               >
-                I need this for $10/month →
+                {content.index.content.heroSection.cta.label}
               </Button>
   
               <Text my={2} fontSize="sm" color="gray.500">
-                102+ builders have signed up in the last 30 days
+              {content.index.content.heroSection.heading3}
               </Text>
             </Container>
           </VStack>
