@@ -27,13 +27,35 @@ console.log("userId ID::"+userId+"---PAYMENT AccountioD::"+accountId)
               equals: parseInt(accountId.toString())
             }
           },
-        
+          status: {
+            notIn: ExpenseStatus.MarkForDelete
+          }
         },
         orderBy: {
-          id: "desc"
+          lastUpdateDate: "desc"
+        },
+        include: {
+          user: {
+            select: {
+              firstName: true,
+              lastName: true
+            }
+          },
+          project: {
+            select: {
+              name: true,
+              referenceCode: true,
+              vendor: {
+                select: {
+                  name: true
+                }
+              }
+            }
+          }
         }
       });
 
+      console.log("costscosts::"+JSON.stringify(costs))
       res.status(200).json(costs);
     } else if (accountId != "" && accountId != undefined && userId == "NaN"){
       const expenses = await prisma.expense.findMany({

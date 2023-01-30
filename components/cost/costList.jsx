@@ -7,8 +7,11 @@ import { useDispatch } from "react-redux";
 import {PageMainHeader} from '../../components/common/pageMainHeader';
 import { PageNotAuthorized } from "../common/pageNotAuthorized";
 import { AccountConstants } from "../../constants";
-import { Box, Button, Flex, HStack } from "@chakra-ui/react";
+import { Box, Button, Flex, HStack, Text } from "@chakra-ui/react";
 import { CustomTable } from "../customTable/Table";
+import { ExpenseStatus } from "@prisma/client";
+import { DeleteIcon } from "@chakra-ui/icons";
+import { util } from "../../helpers";
 
 
 const CostList = (props) => {
@@ -40,10 +43,37 @@ const CostList = (props) => {
 
     const respponseData = await userService.getAllAccountCosts(userId, accountId);
     console.log("respponseData:::"+JSON.stringify(respponseData))
+    setCostList(updateCostsForDisplay(respponseData))
 
   }
   
   
+  function updateCostsForDisplay(responseData) {
+    return responseData.map((cost)=> {
+      cost.deleteAction = <><HStack spacing={6}>{(cost.status === ExpenseStatus.Saved)?(<DeleteIcon size="xs" onClick={() => handleCostDeleteSelection(cost.id)}/>):(<Box marginRight={3}></Box>)}<Box>{cost.id}</Box></HStack></>
+      cost.detailAction = <Button size="xs" bgColor="header_actions" onClick={() => handleCostDetailSelection(cost.id)}>Details</Button>
+      // invoice.status = <Badge color={`${(invoice.status === "Paid" || invoice.status === "PartiallyPaid") ? "paid_status": invoice.status === "Pending" ? "pending_status": "pending_status"}`}>{invoice.status}</Badge>
+      cost.amount = "$ "+(parseFloat(cost.total))
+      cost.balance = <Text color={(parseFloat(cost.total)-util.getZeroPriceForNull(cost.paidAmount))>0?"credit_amount":"debit_amount"}>{util.getWithCurrency((parseFloat(cost.total)-util.getZeroPriceForNull(cost.paidAmount)))}</Text>
+      cost.paidAmount = "$ "+(util.getZeroPriceForNull(cost.paidAmount))
+      cost.createdDate = util.getFormattedDate(cost.createdDate)
+      cost.lastUpdateDate = util.getFormattedDate(cost.lastUpdateDate)
+      cost.vendorName = cost.project?.vendor?.name
+      cost.projectName = cost.project?.name
+      cost.resource = cost.user?.firstName+" "+cost.user?.lastName
+      return cost;
+    });
+    // setInvoiceList(updatedInvoiceList)
+  }
+
+  const handleCostDeleteSelection = () => {
+
+  }
+
+  const handleCostDetailSelection = () => {
+
+  }
+
   return (
 
     <>

@@ -2,6 +2,7 @@ import * as Yup from 'yup';
 import {
   Badge,
 } from '@chakra-ui/react'
+import { ExpenseStatus } from '@prisma/client';
 
 const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
 
@@ -363,13 +364,29 @@ export const AccountConstants = {
       accessor: "name"
     },    
     {
-      label: "Email",
-      accessor: "email"
+      label: "Project",
+      accessor: "projectName"
+    },    
+    {
+      label: "Vendor",
+      accessor: "vendorName"
+    },        
+    {
+      label: "Resource",
+      accessor: "resource"
     },
     {
-      label: "EIN",
-      accessor: "ein"
+      label: "Amount",
+      accessor: "amount"
     },
+    {
+      label: "Paid",
+      accessor: "paidAmount"
+    },
+    {
+      label: "Balance",
+      accessor: "balance"
+    },    
     {
       label: "Created Date",
       accessor: "createdDate"
@@ -386,7 +403,7 @@ export const AccountConstants = {
     {
       label: "Status",
       accessor: "status",
-      format: (value) => (value ? <Badge color={`${value === "Active"? "paid_status": value === "Inactive"? "pending_status": "pending_status"}`}>{value}</Badge> : '✖️')
+      format: (value) => (value ? <Badge color={`${(value === ExpenseStatus.Submitted || value === ExpenseStatus.Approved || value === ExpenseStatus.Invoiced || value === ExpenseStatus.Paid || value === ExpenseStatus.PartiallyPaid)? "paid_status": "pending_status"}`}>{value}</Badge> : '✖️')
     }               
   ],
   ACCOUNT_LIST_TABLE_META: [
