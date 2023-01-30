@@ -37,7 +37,7 @@ export default function Index() {
               </video>
             </Center>
 		      </Container>    
-          <SocialMediaSection/>    
+          {/* <SocialMediaSection/>     */}
           <VStack
               backgroundColor="white"
               w="full"
@@ -60,7 +60,7 @@ export default function Index() {
               )}
             </VStack>    
             <HighlightsSection/>
-            <PricingSection />
+            {/* <PricingSection /> */}
             {/* <FAQSection> */}
             <FooterSection/>
         </Layout>

@@ -23,9 +23,9 @@ import {
       <Container maxW="container.lg">
           <Flex py={6}>
             <Box>
-              <Text>© 2022 Biller</Text>
+              <Text>© 2023 boNeeds</Text>
 
-              <Text>Made by Sukh</Text>
+              {/* <Text>Made by Sukh</Text> */}
             </Box>
             <Spacer />
 

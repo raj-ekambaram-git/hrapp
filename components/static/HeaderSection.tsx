@@ -1,6 +1,7 @@
 import { HamburgerIcon } from '@chakra-ui/icons'
 import {
   Box,
+  Button,
   chakra,
   Container,
   Drawer,
@@ -23,6 +24,7 @@ import {
 } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { GrLogin } from 'react-icons/gr'
+import content from '../../static.content.json';
 
 const navLinks = [
   { name: 'Home', link: '/' },
@@ -63,11 +65,20 @@ const DesktopSidebarContents = ({ name }: any) => {
           })}
         </Stack>
         <Spacer />
-        <Tooltip label='Login' hasArrow arrowSize={15} placement='bottom' color="teal">
+        <Tooltip label='Login' hasArrow arrowSize={15} placement='bottom'  borderRadius="9px" padding={2}>
           <Link href="/login">  
-              <GrLogin  fontSize="27px"/>
+              Log In
           </Link>
         </Tooltip>
+        {/* <Button
+          mt={8}
+          colorScheme="teal"
+          onClick={() => {
+            window.open(content.index.content.heroSection.cta.url,);
+          }}
+        >
+          {content.index.content.heroSection.cta.label}
+        </Button> */}
 
       </Stack>
     </Container>
