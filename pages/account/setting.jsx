@@ -20,7 +20,7 @@ const AccountSetting = (props) => {
       <Stack width="page.sub_heading_width">
         <SettingHeader heading="Account Settings for" param1="Account Name"/>
         <ImportExport/>
-
+      
       </Stack>
     );
   };

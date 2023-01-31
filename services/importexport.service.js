@@ -9,8 +9,22 @@ const baseUrl = `${publicRuntimeConfig.apiUrl}`;
 
 export const importExportService = {
 
-  importTimesheetData
+  importTimesheetData,
+  getTableMetaData
 };
+
+
+function getTableMetaData(tableName, accountId) {
+  return fetchWrapper.get(`${baseUrl}/admin/app/export//${tableName}/meta?accountId=`+accountId, {})
+      .then(columnData => {
+          return columnData;
+      })  
+      .catch(err => {
+        console.log("Error Getting getTableMetaData")
+        return {errorMessage: err, error: true};
+    });
+}
+
 
 function importTimesheetData(fileData) {
   

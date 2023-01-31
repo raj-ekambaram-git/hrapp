@@ -6,6 +6,7 @@ import {
   CardBody,
 } from '@chakra-ui/react'
 import ImportData from "./importExport/importData";
+import ExportData from "./importExport/exportData";
 
 
 const ImportExport = (props) => {
@@ -30,6 +31,7 @@ const ImportExport = (props) => {
             </CardHeader>
             <CardBody>
                 <ImportData />
+                <ExportData/>
             </CardBody>
           </Card>
           

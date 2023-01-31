@@ -8,7 +8,8 @@ export const ConfigConstants = {
 
 
   CONFIG_KEYS: {
-    AllowedImports: "allowedImports"
+    AllowedImports: "allowedImports",
+    AllowedExports: "allowedExports"
   },
   CONFOG_APP_ADMIN_LIST_TABLE_META: [
     {
