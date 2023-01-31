@@ -6,6 +6,10 @@ import { util } from '../helpers/util'
 
 export const ConfigConstants = {
 
+
+  CONFIG_KEYS: {
+    AllowedImports: "allowedImports"
+  },
   CONFOG_APP_ADMIN_LIST_TABLE_META: [
     {
       label: "ID",

@@ -46,10 +46,11 @@
       "/changepassword",
       "/app/setting",
       "/app/admin/setting",
+      "/account/setting",
       "/reports/dashboard"
     ],
     "allowedAPIs": ["page1","page2"],
-    "allowedModules": ["account","user", "invoice", "timesheet","expense","setting","app_setting","expense_payments","cost","reports"]
+    "allowedModules": ["account","user", "invoice", "timesheet","expense","setting","app_setting","account_setting","expense_payments","cost","reports"]
   },
   "ACCOUNT_ADMIN": {
     "allowedPages": [
@@ -97,10 +98,11 @@
       "/login",
       "/changepassword",
       "/account/setting",
+      "/account/setting",
       "/reports/dashboard"
     ],
     "allowedAPIs": ["page1","page2"],
-    "allowedModules": ["user", "vendor", "project", "invoice", "timesheet","expense","timesheet_approval","expense_approval","setting","expense_payments","cost","reports"]
+    "allowedModules": ["user", "vendor", "project", "invoice", "timesheet","expense","timesheet_approval","expense_approval","setting","account_setting","expense_payments","cost","reports"]
   },
   "ACCOUNT_VENDOR_REP": {
     "allowedPages": [

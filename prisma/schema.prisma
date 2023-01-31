@@ -475,6 +475,11 @@ model AppConfig {
   updatedBy      Int?
   createdDate    DateTime     @default(now())
   lastUpdateDate DateTime     @default(now()) @updatedAt
+
+  @@index([key])
+  @@index([name])
+  @@index([status])
+  @@index([key, status])
 }
 
 model AccountConfig {

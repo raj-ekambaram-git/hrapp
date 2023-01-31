@@ -1,0 +1,185 @@
+import React, { useState, useEffect } from "react";
+import {
+  useDisclosure,
+  Button,
+  Drawer,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  DrawerHeader,
+  DrawerBody,
+  Stack,
+  useToast,
+  Flex,
+  Box,
+  Heading,
+  HStack,
+  Select,
+  FormControl,
+  FormLabel,
+  Input,
+} from '@chakra-ui/react';
+
+import { useDispatch, useSelector } from "react-redux";
+import { setConfigurations } from "../../../store/modules/Configuration/actions";
+import { configurationService, importExportService, userService } from "../../../services";
+import { ConfigConstants, EMPTY_STRING } from "../../../constants";
+const allowedExtensions = ["csv"];
+
+const ImportData = (props) => {
+  const [size, setSize] = useState('');
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const dispatch = useDispatch();
+  const toast = useToast();
+  const [allowedImports, setAllowedImports] = useState([]);
+  const [importObject, setImportObject] = useState();
+  const appConfigList = useSelector(state => state.configuration.allConfigurations);
+  // This state will store the parsed data
+  const [data, setData] = useState([]);        
+  // It will store the file uploaded by the user
+  const [file, setFile] = useState(EMPTY_STRING);
+
+
+  useEffect(() => {
+    if(userService.isSuperAdmin() || userService.isAccountAdmin() ) {
+      console.log("INSIDE THE USEREFFECT")
+      //Get list of allowed objects
+      // if(!appConfigList || (appConfigList && appConfigList.length === 0) ) {
+        loadAppConfig()
+      // }
+
+      console.log("appConfigList::"+JSON.stringify(appConfigList))
+      const allowedImports = appConfigList.filter((appConfig) => (appConfig.key === ConfigConstants.CONFIG_KEYS.AllowedImports));
+      console.log("allowedImports:::"+JSON.stringify(allowedImports))
+      if(allowedImports && allowedImports.length >0) {
+        setAllowedImports(allowedImports[0].value)
+      }    
+  
+    }
+  }, []);
+
+  const loadAppConfig = async() => {
+    const responseData = await configurationService.getAdminAppConfigList();
+    console.log("responseData::"+JSON.stringify(responseData))
+    dispatch(setConfigurations(responseData))
+  }
+
+  const handleImportObject = (importObject) => {
+    setImportObject(importObject.target.value)
+  }
+  function handleImport(newSize) {
+    setSize(newSize);
+    onOpen();
+  }
+
+  const handleParseAndLoad = async () => {
+         
+    if (!file){
+      toast({
+        title: 'Upload File Error.',
+        description: 'Enter a valid file.',
+        status: 'error',
+        position: 'top',
+        duration: 6000,
+        isClosable: true,
+      })
+      return;
+    };
+    console.log("filefile::"+JSON.stringify(file))
+    const responseData = await importExportService.importData(file, file.type)
+  }
+ 
+
+  const handleFileChange = (e) => {
+    console.log("handleFileChange")
+    // Check if user has entered the file
+    if (e.target.files.length) {
+        const inputFile = e.target.files[0];         
+        // Check the file extensions, if it not
+        // included in the allowed extensions
+        // we show the error
+        console.log("inputFile::"+JSON.stringify(inputFile))
+        const fileExtension = inputFile?.type.split("/")[1];
+        if (!allowedExtensions.includes(fileExtension)) {
+            toast({
+              title: 'Upload File Error.',
+              description: 'Please input a csv file.',
+              status: 'error',
+              position: 'top',
+              duration: 6000,
+              isClosable: true,
+            })
+            return;
+        }
+        // If input type is correct set the state
+        setFile(inputFile);
+    }
+};
+
+  return (
+
+    <div>
+      <Flex marginBottom="1rem" borderRadius="lg" alignSelf="center">
+            <HStack>
+                <Heading size="xs">
+                    Import bulk data using CSV
+                </Heading>
+
+                <Button size="xs" bgColor="header_actions" 
+                  onClick={() => handleImport("lg")}
+                  key="lg"
+                  m={1}
+                  >{`Import`}
+                </Button>
+              </HStack>                
+              <Drawer onClose={onClose} isOpen={isOpen} size={size}>
+                <DrawerOverlay />
+                    <DrawerContent>
+                        <DrawerCloseButton />
+                        <DrawerHeader>
+                            Import Data
+                        </DrawerHeader>
+                        <DrawerBody>
+                          <Stack marginBottom={5}>
+                            <Heading size="xs">  
+                              Supported Imports
+                            </Heading>
+                              <Box>
+                                  <Select width="50%" id="importObject" onChange={(ev) => handleImportObject(ev)}>
+                                      <option value="">Select an object</option>
+                                      {allowedImports?.map((allowedImport) => (
+                                        <option value={allowedImport}>{allowedImport}</option>
+                                      ))}
+                                </Select>
+                              </Box>
+                          </Stack>
+                          <Stack spacing={8}>
+                            {importObject?<>
+                              <Box>
+                                <FormControl isRequired>
+                                  <FormLabel>Enter CSV File</FormLabel>
+                                  <Input
+                                      onChange={handleFileChange}
+                                      id="csvInput"
+                                      name="file"
+                                      type="File"
+                                  />
+                                </FormControl>
+                              </Box>
+                              <Button  size="sm" width="30%" bgColor="button.primary.color" onClick={() => handleParseAndLoad()}>
+                                Import
+                              </Button>
+                            </>:<></>}
+                          </Stack>
+                        </DrawerBody>
+                    </DrawerContent>
+           </Drawer>
+        </Flex>
+
+    </div>
+
+
+  );
+};
+
+export default ImportData;
