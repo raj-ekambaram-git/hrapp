@@ -44,10 +44,7 @@ const ExportData = (props) => {
       // if(!appConfigList || (appConfigList && appConfigList.length === 0) ) {
         loadAppConfig()
       // }
-
-      console.log("appConfigList::"+JSON.stringify(appConfigList))
       const alllowedExports = appConfigList.filter((appConfig) => (appConfig.key === ConfigConstants.CONFIG_KEYS.AllowedImports));
-      console.log("allowedImports:::"+JSON.stringify(alllowedExports))
       if(alllowedExports && alllowedExports.length >0) {
         setAllowedExports(alllowedExports[0].value)
       }    
@@ -57,36 +54,27 @@ const ExportData = (props) => {
 
   const loadAppConfig = async() => {
     const responseData = await configurationService.getAdminAppConfigList();
-    console.log("responseData::"+JSON.stringify(responseData))
     dispatch(setConfigurations(responseData))
   }
 
   const handleExportbject = async (importObject) => {
     setExportObject(importObject.target.value)
     const metaData = await importExportService.getTableMetaData(importObject.target.value, userService.getAccountDetails().accountId)
-    console.log("METADATA:::"+JSON.stringify(metaData))
     setColumnList(metaData)
   }
 
   const handleColumnSelection = async (selectedColumn) => {
     const foreigntTable = selectedColumn.target.options.item(selectedColumn.target.selectedIndex).getAttribute("data-foreignTable")?selectedColumn.target.options.item(selectedColumn.target.selectedIndex).getAttribute("data-foreignTable"):null
-    console.log("dsdffsf foreigntTable::"+foreigntTable)
     if(foreigntTable) {
-      console.log("foreigntTable::"+foreigntTable)
       const metaData = await importExportService.getTableMetaData(foreigntTable, userService.getAccountDetails().accountId)
-      console.log("metaData::"+JSON.stringify(metaData))
     }else {
-      console.log("Straignt Column")
       const selectDataType = selectedColumn.target.options.item(selectedColumn.target.selectedIndex).getAttribute("data-dataType")?selectedColumn.target.options.item(selectedColumn.target.selectedIndex).getAttribute("data-dataType"):null
       const selectItem = {key: selectedColumn.target.value, dataType: selectDataType}
-      console.log("selectList::::"+JSON.stringify(selectList))
       if (selectList) {
-        console.log("Existing Select ::"+JSON.stringify(selectItem))
         const newSelectList = [...selectList]
         newSelectList.push(selectItem)
         setSelectList(newSelectList)
       }else {
-        console.log("NEW Select ::"+JSON.stringify(selectItem))
         setSelectList([selectItem])
       }
     }
