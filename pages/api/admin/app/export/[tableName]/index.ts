@@ -14,8 +14,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const tableName = req.query?.tableName;
     const {selectFields} = req.body;
+    
+    console.log("selectFields::"+String(selectFields))
     // const exportData = await prisma.$queryRawUnsafe(`${query};`);
-    const exportData = await prisma.$queryRaw`SELECT ${Prisma.raw(selectFields.toString())} FROM ${Prisma.raw(JSON.stringify(tableName))};`;
+    const exportData = await prisma.$queryRaw`SELECT ${Prisma.raw(String(selectFields))} FROM ${Prisma.raw(JSON.stringify(tableName))};`;
     console.log("Export Data:::"+JSON.stringify(exportData))
     res.status(200).json(exportData);
     
