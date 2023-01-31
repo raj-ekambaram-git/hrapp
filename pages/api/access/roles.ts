@@ -15,7 +15,7 @@ export default async function handler(req, res) {
 
   const fileParams = {
     Bucket: process.env.BUCKET_NAME,
-    Key: 'configurations/roles.json',
+    Key: process.env.ROLES_FILE,
   }
 
   const data = (await (s3.getObject(fileParams).promise())).Body.toString('utf-8')
