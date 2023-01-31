@@ -5,7 +5,8 @@ const baseUrl = `${publicRuntimeConfig.apiUrl}`;
 
 export const reportsService = {
 
-  getProjects
+  getProjects,
+  generatePDFReport
 };
 
 function getProjects(accountId) {
@@ -15,6 +16,20 @@ function getProjects(accountId) {
     return projects;
   }).catch(err => {
     console.log("Error Gettting getAllProjectsForAccount::"+err)
+    return {errorMessage: err, error: true};
+  });
+
+}
+
+function generatePDFReport(urlVal, accountId) {
+
+  return fetchWrapper.get(`${baseUrl}/reports/export?accountId=`+accountId, {query: {url: urlVal}}
+  )
+  .then(async exportReport => {
+    return exportReport
+  })
+  .catch(err => {
+    console.log("Error generateInvoice::"+err)
     return {errorMessage: err, error: true};
   });
 

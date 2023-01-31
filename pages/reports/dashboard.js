@@ -1,10 +1,10 @@
-import { Box, Container, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
+import { Box, Button, Container, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import AccountDashboard from "../../components/reports/accountDashboard";
 import ProjectDashboard from "../../components/reports/projectDashboard";
 import VendorDashboard from "../../components/reports/vendorDashboard";
-import { userService } from "../../services";
+import { reportsService, userService } from "../../services";
 
 
 export default function Dashboard(props) {
@@ -43,6 +43,18 @@ export default function Dashboard(props) {
 
   }
 
+  const handleExportPDF = async () => {
+    
+    const reportsBuffer = await reportsService.generatePDFReport("/reports/dashboard", userService.getAccountDetails().accountId)
+    if(!reportsBuffer.error) {
+      const blob = new Blob([reportsBuffer]);
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'invoice_.pdf';
+      link.click();
+  
+    }
+  }
   const userId = userService?.userValue?.id;
 
   const data = {
