@@ -9,14 +9,21 @@ const baseUrl = `${publicRuntimeConfig.apiUrl}`;
 
 export const importExportService = {
 
-  importData
+  importTimesheetData
 };
 
-function importData(file, type) {
-  return fetchWrapper.filePut(`${baseUrl}/admin/app/import/?accountId=`+userService.getAccountDetails().accountId, file, type)
-  .then(response => {
-      console.log("REPONSEESS")
-      return response;
+function importTimesheetData(fileData) {
+  
+  return fetchWrapper.put(`${baseUrl}/admin/app/import/timesheet?accountId=`+userService.getAccountDetails().accountId, {
+    fileData
+  })
+  .then(importedData => {
+
+    return importedData;
+  })
+  .catch(err => {
+    console.log("Error Updating Invoice::"+err)
+    return {errorMessage: err, error: true};
   });
 }
 

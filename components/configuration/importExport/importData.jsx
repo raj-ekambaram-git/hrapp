@@ -25,6 +25,7 @@ import { setConfigurations } from "../../../store/modules/Configuration/actions"
 import { configurationService, importExportService, userService } from "../../../services";
 import { ConfigConstants, EMPTY_STRING } from "../../../constants";
 const allowedExtensions = ["csv"];
+import Papa from "papaparse";
 
 const ImportData = (props) => {
   const [size, setSize] = useState('');
@@ -85,8 +86,29 @@ const ImportData = (props) => {
       })
       return;
     };
-    console.log("filefile::"+JSON.stringify(file))
-    const responseData = await importExportService.importData(file, file.type)
+    console.log("222 filefile::"+JSON.stringify(file))
+    // const responseData = await importExportService.importData(file, file.type)
+        // Initialize a reader which allows user
+        // to read any file or blob.
+        const reader = new FileReader();
+         
+        // Event listener on reader when the file
+        // loads, we parse it and set the data.
+        reader.onload = async ({ target }) => {
+            const csv = Papa.parse(target.result, { header: true });
+            const parsedData = csv?.data;
+            const columns = Object.keys(parsedData[0]);
+            console.log("parsedData:::"+JSON.stringify(parsedData))
+            console.log("columns:::"+columns)
+            setData(parsedData);
+            const responseData = await importExportService.importTimesheetData(parsedData)
+            
+        };
+        reader.readAsText(file);    
+
+        
+
+        console.log("DATTAA::"+JSON.stringify(data))
   }
  
 
