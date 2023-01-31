@@ -77,7 +77,8 @@ const ExportData = (props) => {
       console.log("metaData::"+JSON.stringify(metaData))
     }else {
       console.log("Straignt Column")
-      const selectItem = {key: selectedColumn.target.value}
+      const selectDataType = selectedColumn.target.options.item(selectedColumn.target.selectedIndex).getAttribute("data-dataType")?selectedColumn.target.options.item(selectedColumn.target.selectedIndex).getAttribute("data-dataType"):null
+      const selectItem = {key: selectedColumn.target.value, dataType: selectDataType}
       console.log("selectList::::"+JSON.stringify(selectList))
       if (selectList) {
         console.log("Existing Select ::"+JSON.stringify(selectItem))
@@ -95,6 +96,13 @@ const ExportData = (props) => {
     setSize(newSize);
     onOpen();
     setSelectList(null)
+    setColumnList(null)
+  }
+
+  const handleDeleteSelect = (removedIndex) => {
+    const newSelectList = [...selectList]
+    newSelectList.splice(removedIndex, 1);
+    setSelectList(newSelectList)
   }
 
 
@@ -121,10 +129,11 @@ const ExportData = (props) => {
                             Export Data
                         </DrawerHeader>
                         <DrawerBody>
-                          <Stack marginBottom={5}>
-                            <Heading size="xs">  
-                              Supported Exports
-                            </Heading>
+                          <Stack spacing={7}>
+                            <Stack>
+                              <Heading size="xs">  
+                                Supported Exports
+                              </Heading>
                               <Box>
                                   <Select width="50%" id="importObject" onChange={(ev) => handleExportbject(ev)}>
                                       <option value="">Select an object</option>
@@ -133,22 +142,40 @@ const ExportData = (props) => {
                                       ))}
                                   </Select>
                               </Box>
-                              {columnList?<>
+                            </Stack>
+                            {columnList?<>
+                              <Stack>
+                                <Heading size="xs">  
+                                  Data to fetch
+                                </Heading>
                                 <Box>
                                   <Select width="50%" id="columnSelect" onChange={(ev) => handleColumnSelection(ev)}>
                                       <option value="">Select</option>
                                       {columnList?.map((column) => (
                                         <option value={column.column_name} 
-                                          data-foreignTable={column.foreign_table_name} >{column.foreign_table_name?column.foreign_table_name:column.column_name}</option>
+                                          data-foreignTable={column.foreign_table_name}
+                                          data-dataType={column.data_type} >{column.foreign_table_name?column.foreign_table_name:column.column_name}</option>
                                       ))}
                                   </Select>
-                                </Box>           
+                                </Box>    
+                                </Stack>      
+                                <Stack>
                                 <Box>
-                                  {selectList?.map((selectQuery, index) => 
-                                      <SelectQuerySection selectQuery={selectQuery} indexVal={index}/>
-                                  )}
-                                </Box>                   
-                              </>:<></>}
+                                  {selectList?<>
+                                    <Stack spacing={4}>
+                                      <Heading size="xs">  
+                                        Selected Fields
+                                      </Heading>        
+                                      <HStack>                            
+                                        {selectList?.map((selectQuery, index) => 
+                                            <SelectQuerySection selectQuery={selectQuery} indexVal={index} handleDeleteSelect={handleDeleteSelect}/>
+                                        )}
+                                      </HStack>
+                                    </Stack>
+                                  </>:<></>}
+                                </Box>
+                                </Stack>                                                  
+                            </>:<></>}
                           </Stack>
                         </DrawerBody>
                     </DrawerContent>
