@@ -10,12 +10,25 @@ const baseUrl = `${publicRuntimeConfig.apiUrl}`;
 export const importExportService = {
 
   importTimesheetData,
-  getTableMetaData
+  getTableMetaData,
+  exportData
 };
 
+function exportData(tableName, selectFields, accountId) {
+  return fetchWrapper.post(`${baseUrl}/admin/app/export/${tableName}?accountId=`+accountId, {
+        selectFields
+      })
+      .then(columnData => {
+          return columnData;
+      })  
+      .catch(err => {
+        console.log("Error Getting getTableMetaData")
+        return {errorMessage: err, error: true};
+    });
+}
 
 function getTableMetaData(tableName, accountId) {
-  return fetchWrapper.get(`${baseUrl}/admin/app/export//${tableName}/meta?accountId=`+accountId, {})
+  return fetchWrapper.get(`${baseUrl}/admin/app/export/${tableName}/meta?accountId=`+accountId, {})
       .then(columnData => {
           return columnData;
       })  

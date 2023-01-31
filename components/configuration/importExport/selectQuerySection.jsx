@@ -16,7 +16,7 @@ function SelectQuerySection(props) {
             <Flex>
                 <Badge marginRight={2}>
                         <HStack>
-                            <Text marginRight={1}>{props.selectQuery.key}</Text><SmallCloseIcon onClick={() => props.handleDeleteSelect(props.indexVal)}/>
+                            <Text marginRight={1}>{props.selectQuery}</Text><SmallCloseIcon onClick={() => props.handleDeleteSelect(props.indexVal)}/>
                         </HStack>
                 </Badge>                        
             </Flex>

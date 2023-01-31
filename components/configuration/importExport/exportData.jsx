@@ -69,7 +69,7 @@ const ExportData = (props) => {
       const metaData = await importExportService.getTableMetaData(foreigntTable, userService.getAccountDetails().accountId)
     }else {
       const selectDataType = selectedColumn.target.options.item(selectedColumn.target.selectedIndex).getAttribute("data-dataType")?selectedColumn.target.options.item(selectedColumn.target.selectedIndex).getAttribute("data-dataType"):null
-      const selectItem = {key: selectedColumn.target.value, dataType: selectDataType}
+      const selectItem = selectedColumn.target.value
       if (selectList) {
         const newSelectList = [...selectList]
         newSelectList.push(selectItem)
@@ -85,6 +85,11 @@ const ExportData = (props) => {
     onOpen();
     setSelectList(null)
     setColumnList(null)
+  }
+
+  const handleExportData = async () => {
+    const responseData = await importExportService.exportData(exportObject, selectList, userService.getAccountDetails().accountId)
+    console.log("responseData::"+JSON.stringify(responseData))
   }
 
   const handleDeleteSelect = (removedIndex) => {
@@ -147,22 +152,22 @@ const ExportData = (props) => {
                                   </Select>
                                 </Box>    
                                 </Stack>      
-                                <Stack>
-                                <Box>
-                                  {selectList?<>
-                                    <Stack spacing={4}>
-                                      <Heading size="xs">  
-                                        Selected Fields
-                                      </Heading>        
-                                      <HStack>                            
-                                        {selectList?.map((selectQuery, index) => 
-                                            <SelectQuerySection selectQuery={selectQuery} indexVal={index} handleDeleteSelect={handleDeleteSelect}/>
-                                        )}
-                                      </HStack>
-                                    </Stack>
-                                  </>:<></>}
-                                </Box>
-                                </Stack>                                                  
+                                {selectList && selectList.length>0?<>
+                                  <Stack spacing={4}>
+                                    <Heading size="xs">  
+                                      Selected Fields
+                                    </Heading>        
+                                    <HStack>                            
+                                      {selectList?.map((selectQuery, index) => 
+                                          <SelectQuerySection selectQuery={selectQuery} indexVal={index} handleDeleteSelect={handleDeleteSelect}/>
+                                      )}
+                                    </HStack>
+                                  </Stack>
+                                  <Button size="xs" width="25%" bgColor="header_actions" 
+                                    onClick={() => handleExportData()}
+                                    >{`Export`}
+                                  </Button>                                  
+                                </>:<></>}
                             </>:<></>}
                           </Stack>
                         </DrawerBody>
