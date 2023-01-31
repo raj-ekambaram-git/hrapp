@@ -24,8 +24,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { setConfigurations } from "../../../store/modules/Configuration/actions";
 import { configurationService, importExportService, userService } from "../../../services";
 import { ConfigConstants, EMPTY_STRING } from "../../../constants";
-const allowedExtensions = ["csv"];
-import Papa from "papaparse";
+import { SelectQuerySection } from "./selectQuerySection";
+
 
 const ExportData = (props) => {
   const [size, setSize] = useState('');
@@ -76,13 +76,25 @@ const ExportData = (props) => {
       const metaData = await importExportService.getTableMetaData(foreigntTable, userService.getAccountDetails().accountId)
       console.log("metaData::"+JSON.stringify(metaData))
     }else {
-
+      console.log("Straignt Column")
+      const selectItem = {key: selectedColumn.target.value}
+      console.log("selectList::::"+JSON.stringify(selectList))
+      if (selectList) {
+        console.log("Existing Select ::"+JSON.stringify(selectItem))
+        const newSelectList = [...selectList]
+        newSelectList.push(selectItem)
+        setSelectList(newSelectList)
+      }else {
+        console.log("NEW Select ::"+JSON.stringify(selectItem))
+        setSelectList([selectItem])
+      }
     }
   }
 
   function hanldeExport(newSize) {
     setSize(newSize);
     onOpen();
+    setSelectList(null)
   }
 
 
@@ -130,7 +142,12 @@ const ExportData = (props) => {
                                           data-foreignTable={column.foreign_table_name} >{column.foreign_table_name?column.foreign_table_name:column.column_name}</option>
                                       ))}
                                   </Select>
-                                </Box>                              
+                                </Box>           
+                                <Box>
+                                  {selectList?.map((selectQuery, index) => 
+                                      <SelectQuerySection selectQuery={selectQuery} indexVal={index}/>
+                                  )}
+                                </Box>                   
                               </>:<></>}
                           </Stack>
                         </DrawerBody>
