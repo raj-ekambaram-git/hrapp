@@ -190,15 +190,15 @@ const UserAddEdit = (props) => {
             timeSheetEnabled: userResonse.isTimeSheetEnabled,
             userStatus: userResonse.status,
             cost: userResonse.cost,
-            addressId: userResonse.address[0].id,
-            addressName: userResonse.address[0].addressName,
-            address1: userResonse.address[0].address1,
-            address2: userResonse.address[0].address2,
-            address3: userResonse.address[0].address3,
-            city: userResonse.address[0].city,
-            state: userResonse.address[0].state,
-            zipCode: userResonse.address[0].zipCode,
-            country: userResonse.address[0].country
+            addressId: userResonse.address && userResonse.address.length>0?userResonse.address[0].id:null,
+            addressName: userResonse.address && userResonse.address.length>0?userResonse.address[0].addressName:null,
+            address1: userResonse.address && userResonse.address.length>0?userResonse.address[0].address1:null,
+            address2: userResonse.address && userResonse.address.length>0?userResonse.address[0].address2:null,
+            address3: userResonse.address && userResonse.address.length>0?userResonse.address[0].address3:null,
+            city: userResonse.address && userResonse.address.length>0?userResonse.address[0].city:null,
+            state: userResonse.address && userResonse.address.length>0?userResonse.address[0].state:null,
+            zipCode: userResonse.address && userResonse.address.length>0?userResonse.address[0].zipCode:null,
+            country: userResonse.address && userResonse.address.length>0?userResonse.address[0].country:null
         };
         setUser(userData);
         console.log("userResonse.userRole::"+JSON.stringify(userResonse.userRole))
