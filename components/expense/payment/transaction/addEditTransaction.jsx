@@ -106,7 +106,7 @@ const AddEditTransaction = (props) => {
                 >
                     <PopoverTrigger>
                         <Button
-                            bgColor="button.primary.color"
+                            size="xs" bgColor="header_actions" 
                             onClick={onToggle}
                             key="xl"
                             m={1}

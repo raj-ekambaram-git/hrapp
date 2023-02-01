@@ -109,7 +109,7 @@ const ProjectExpensesPayment = (props) => {
                                                                     $ {expenseEntry.paidAmount}
                                                                 </Th>
                                                                 <Th>
-                                                                    <ExpenseEntryPayment expense={expenseEntry}/>
+                                                                    <ExpenseEntryPayment expense={expenseEntry} isCost={false}/>
                                                                 </Th> 
                                                                 <Th>
                                                                     <Badge color={`${

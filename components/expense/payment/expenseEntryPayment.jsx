@@ -8,23 +8,18 @@ import {
     useDisclosure,
     Button,
     DrawerBody,
-    Heading,
-    HStack,
     Box,
-    Textarea,
     Stack,
   } from '@chakra-ui/react';
 import { DEFAULT_NOTES, EMPTY_STRING,} from "../../../constants/accountConstants";
 import { useDispatch } from "react-redux";
 import { ShowInlineErrorMessage } from "../../common/showInlineErrorMessage";
 import { ExpenseConstants, NotesConstants } from "../../../constants";
-import NotesHistory from "../../notes/notesHistory";
 import { setNotesType } from "../../../store/modules/Notes/actions";
 import { fetchExpensesForApproval, setExpensePaidAmount } from "../../../store/modules/Expense/actions";
 import { CustomTable } from "../../customTable/Table";
 import { expenseService, userService } from "../../../services";
 import ExpenseTransactions from "./transaction/expenseTransactions";
-import { util } from "../../../helpers/util";
 
 
 
@@ -89,7 +84,11 @@ import { util } from "../../../helpers/util";
                 <DrawerContent>
                 <DrawerCloseButton />
                 <DrawerHeader>
-                    Expense {expense?.name} of {expense?.user?.firstName} {expense?.user?.lastName}
+                    {props.isCost?<>
+                        Manage Cost
+                    </>:<>
+                        Expense {expense?.name} of {expense?.user?.firstName} {expense?.user?.lastName}                    
+                    </>}                    
                 </DrawerHeader>                    
                 <DrawerBody>
                     <ShowInlineErrorMessage showErrorMessage={showErrorMessage}/>

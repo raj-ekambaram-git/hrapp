@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 
 import { userService } from "../../services";
 import {
+  Box,
   Flex,
   Heading,
 } from '@chakra-ui/react'
@@ -40,14 +41,14 @@ const TimesheetApprovalList = (props) => {
 
     <div>
       {isPageAuthprized ? (
-        <div>
+          <Box width="page.sub_heading_width">
               {isManager ? (
                 <PageMainHeader heading="Timesheets to Approve"/>
               ) : (
                 <PageMainHeader heading="Timesheets"/>
               )}
               <ProjectTimesheets/>
-          </div>
+          </Box>
       ) : (
         <> 
         <PageNotAuthorized/>

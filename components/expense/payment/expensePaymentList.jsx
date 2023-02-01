@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { fetchExpensesForPayment } from "../../../store/modules/Expense/actions";
 import {PageMainHeader} from '../../common/pageMainHeader';
 import ProjectExpensesPayment from "./projectExpensesPayment";
+import { Box } from "@chakra-ui/react";
 
 const ExpensePaymentList = (props) => {
   const router = useRouter();
@@ -36,14 +37,14 @@ const ExpensePaymentList = (props) => {
 
     <div>
       {isPageAuthprized ? (
-        <div>
+          <Box width="page.sub_heading_width">
               {isManager ? (
                 <PageMainHeader heading="Expenses to Pay"/>
               ) : (
                 <PageMainHeader heading="Expenses"/>
               )}
               <ProjectExpensesPayment/>
-          </div>
+          </Box>
       ) : (
         <> 
         <PageNotAuthorized/>
