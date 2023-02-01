@@ -68,9 +68,9 @@ const ProjectAddEdit = (props) => {
 
   const handlePhoneInput = (e) => {
     // this is where we'll call the phoneNumberFormatter function
-    const formattedPhoneNumber = util.formatPhoneNumber(e.target.value);
+    const formattedPhoneNumber = util.formatPhoneNumber(e);
     // we'll set the input value using our setInputValue
-    setValue(accountPhone, formattedPhoneNumber);
+    setValue("contactPhone", formattedPhoneNumber);
     // setAccountPhone(formattedPhoneNumber);
   };
   //Account Validation END
@@ -434,7 +434,7 @@ const ProjectAddEdit = (props) => {
                       <Box>
                         <FormControl isRequired>
                           <FormLabel>Project Contact Phone</FormLabel>
-                          <Input type="text" {...register('contactPhone')}  id="contactPhone"   />
+                          <Input type="text" {...register('contactPhone')}  id="contactPhone"  onChange={(ev) => handlePhoneInput(ev.target.value)} />
                         </FormControl>     
                       </Box>
                     </HStack>
