@@ -57,9 +57,11 @@ const UserAccountDetailSection = (props) => {
                                 Vendor Name
                             </Th>
                             <Th>
-                                <Text pt='table_display_value' fontSize='table_display_value'>
-                                    {user.userVendorName}
-                                </Text>
+                                {user.userVendors?.map((vendor) =>
+                                    <Text pt='table_display_value' fontSize='table_display_value'>
+                                       {vendor.vendor?.name}
+                                    </Text>                            
+                                )}
                             </Th>
                         </Tr>                                                                                           
                         </Tbody>

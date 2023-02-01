@@ -32,6 +32,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
               }
             },
           }
+        },
+        vendorUsers:{
+          select: {
+            vendor: {
+              select: {
+                name: true
+              }
+            }
+          }
         }
       }
     })

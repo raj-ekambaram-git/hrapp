@@ -75,7 +75,8 @@ const UserDetail = (props) => {
         city: userResonse.address[0]?.city,
         state: userResonse.address[0]?.state,
         zipCode: userResonse.address[0]?.zipCode,
-        country: userResonse.address[0]?.country
+        country: userResonse.address[0]?.country,
+        userVendors: userResonse.vendorUsers,
     };
     setUser(userData);
 
