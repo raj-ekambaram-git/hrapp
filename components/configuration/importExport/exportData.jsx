@@ -188,15 +188,15 @@ const ExportData = (props) => {
                                     </HStack>
                                   </Stack>
                                   
-                                  <Stack>
+                                  <Stack spacing={4}>
                                     <Heading size="xs">  
                                         Filter By
                                       </Heading>        
-                                      <HStack>                            
+                                      <Stack spacing={4}>                            
                                         {filterByList?.map((filterBy, index) => 
                                             <FilterBySection filterBy={filterBy} indexVal={index} handleDeleteFilterBy={handleDeleteFilterBy}/>
                                         )}
-                                      </HStack>                                      
+                                      </Stack>                                      
                                       <Select width="50%" id="columnSelect" onChange={(ev) => handleFilterBy(ev)}>
                                           <option value="">Select</option>
                                           {columnList?.map((column) => (
