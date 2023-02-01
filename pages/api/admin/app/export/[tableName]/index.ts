@@ -51,16 +51,16 @@ const getWhereCluase = (filterByList) => {
   filterByList.map((filterBy, index) => {
     if(index === 0) {
       if(filterBy.dataType === "text" || filterBy.dataType === "USER-DEFINED") {
-        whereClause = " WHERE "+filterBy.key+filterBy.operator+"'"+filterBy.value+"'";
+        whereClause = " WHERE "+filterBy.key+" "+filterBy.operator+"'"+filterBy.value+"'";
       }else {
-        whereClause = " WHERE "+filterBy.key+filterBy.operator+filterBy.value;
+        whereClause = " WHERE "+filterBy.key+" "+filterBy.operator+filterBy.value;
       }
       
     }else {
       if(filterBy.dataType === "text" || filterBy.dataType === "USER-DEFINED") {
-        whereClause = whereClause+ " AND "+filterBy.key+filterBy.operator+"'"+filterBy.value+"'";
+        whereClause = whereClause+ " AND "+" "+filterBy.key+filterBy.operator+"'"+filterBy.value+"'";
       }else {
-        whereClause = whereClause+ " AND "+filterBy.key+filterBy.operator+filterBy.value;
+        whereClause = whereClause+ " AND "+" "+filterBy.key+filterBy.operator+filterBy.value;
       }
     }
   })
