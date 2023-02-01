@@ -32,6 +32,7 @@ const ExportData = (props) => {
   const toast = useToast();
   const [allowedExports, setAllowedExports] = useState([]);
   const [columnList, setColumnList] = useState();
+  const [childColumnList, setChildColumnList] = useState();
   const [selectList, setSelectList] = useState();
   const [filterByList, setFilterByList] = useState();
   const [exportObject, setExportObject] = useState();
@@ -68,6 +69,7 @@ const ExportData = (props) => {
     const foreigntTable = selectedColumn.target.options.item(selectedColumn.target.selectedIndex).getAttribute("data-foreignTable")?selectedColumn.target.options.item(selectedColumn.target.selectedIndex).getAttribute("data-foreignTable"):null
     if(foreigntTable) {
       const metaData = await importExportService.getTableMetaData(foreigntTable, userService.getAccountDetails().accountId)
+      setChildColumnList(metaData)
     }else {
       const selectDataType = selectedColumn.target.options.item(selectedColumn.target.selectedIndex).getAttribute("data-dataType")?selectedColumn.target.options.item(selectedColumn.target.selectedIndex).getAttribute("data-dataType"):null
       const selectItem = exportObject.toLowerCase()+"."+selectedColumn.target.value
@@ -88,6 +90,7 @@ const ExportData = (props) => {
     setSelectList(null)
     setColumnList(null)
     setFilterByList(null)
+    setChildColumnList(null)
   }
 
   const handleExportData = async () => {
@@ -182,14 +185,26 @@ const ExportData = (props) => {
                                   Data to fetch
                                 </Heading>
                                 <Box>
-                                  <Select width="50%" id="columnSelect" onChange={(ev) => handleColumnSelection(ev)}>
-                                      <option value="">Select</option>
-                                      {columnList?.map((column) => (
-                                        <option value={column.column_name} 
-                                          data-foreignTable={column.foreign_table_name}
-                                          data-dataType={column.data_type} >{column.foreign_table_name?column.foreign_table_name:column.column_name}</option>
-                                      ))}
-                                  </Select>
+                                  <HStack>
+                                    <Select width="50%" id="columnSelect" onChange={(ev) => handleColumnSelection(ev)}>
+                                        <option value="">Select</option>
+                                        {columnList?.map((column) => (
+                                          <option value={column.column_name} 
+                                            data-foreignTable={column.foreign_table_name}
+                                            data-dataType={column.data_type} >{column.foreign_table_name?column.foreign_table_name:column.column_name}</option>
+                                        ))}
+                                    </Select>
+                                    {childColumnList && childColumnList.length>0?<>
+                                      <Select width="50%" id="columnSelect" onChange={(ev) => handleColumnSelection(ev)}>
+                                          <option value="">Select</option>
+                                          {childColumnList?.map((column) => (
+                                            <option value={column.column_name} 
+                                              data-foreignTable={column.foreign_table_name}
+                                              data-dataType={column.data_type} >{column.foreign_table_name?column.foreign_table_name:column.column_name}</option>
+                                          ))}
+                                      </Select>
+                                  </>:<></>}
+                                  </HStack>
                                 </Box>    
                                 </Stack>      
                                 {selectList && selectList.length>0?<>
