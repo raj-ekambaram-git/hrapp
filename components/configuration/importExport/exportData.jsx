@@ -43,7 +43,7 @@ const ExportData = (props) => {
       // if(!appConfigList || (appConfigList && appConfigList.length === 0) ) {
         loadAppConfig()
       // }
-      const alllowedExports = appConfigList.filter((appConfig) => (appConfig.key === ConfigConstants.CONFIG_KEYS.AllowedImports));
+      const alllowedExports = appConfigList.filter((appConfig) => (appConfig.key === ConfigConstants.CONFIG_KEYS.AllowedExports));
       if(alllowedExports && alllowedExports.length >0) {
         setAllowedExports(alllowedExports[0].value)
       }    
@@ -88,7 +88,7 @@ const ExportData = (props) => {
   }
 
   const handleExportData = async () => {
-    const responseData = await importExportService.exportData(exportObject, selectList, userService.getAccountDetails().accountId)
+    const responseData = await importExportService.exportData(exportObject, selectList, filterByList, userService.getAccountDetails().accountId)
     console.log("responseData::"+JSON.stringify(responseData))
   }
   

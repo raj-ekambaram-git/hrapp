@@ -14,9 +14,10 @@ export const importExportService = {
   exportData
 };
 
-function exportData(tableName, selectFields, accountId) {
+function exportData(tableName, selectFields, filterByList, accountId) {
   return fetchWrapper.post(`${baseUrl}/admin/app/export/${tableName}?accountId=`+accountId, {
-        selectFields
+        selectFields,
+        filterByList
       })
       .then(columnData => {
           return columnData;
