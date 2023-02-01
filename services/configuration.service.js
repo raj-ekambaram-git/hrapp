@@ -13,8 +13,23 @@ export const configurationService = {
   createConfigAdminLookup,
   createAppConfigAdmin,
   updateAppConfigAdmin,
-  getAppConfig
+  getAppConfig,
+  verifyCaptcha
 };
+
+function verifyCaptcha(token) {
+    return fetchWrapper.post(`${baseUrl}/token/verify`, {
+      token
+    })
+    .then(recaptchaJson => {
+      return recaptchaJson;
+    })        
+    .catch(err => {
+      console.log("Error Creating verifyCaptcha"+err)
+      return {errorMessage: err, error: true};
+    });
+}
+
 
 function getAppConfig(appConfigId) {
   return fetchWrapper.get(`${baseUrl}/admin/app/config/`+appConfigId+'/detail?accountId='+userService.getAccountDetails().accountId, {

@@ -2,7 +2,6 @@ import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
-import cookie from 'js-cookie'
 import { Layout } from '../components/static/Layout';
 import { userService, alertService } from 'services';
 import {

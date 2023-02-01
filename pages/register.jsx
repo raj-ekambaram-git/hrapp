@@ -3,9 +3,8 @@ import { useRouter } from "next/router";
 import { Layout } from '../components/static/Layout';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { accountService, userService } from "../services";
-import {MODE_ADD, ACCOUNT_VALIDATION_SCHEMA, REGISTRATION_VALIDATION_SCHEMA} from "../constants/accountConstants";
-import {US_STATES} from "../constants/commonConstants";
+import { accountService, configurationService } from "../services";
+import {MODE_ADD, REGISTRATION_VALIDATION_SCHEMA} from "../constants/accountConstants";
 import {
   HStack,
   Button,
@@ -24,50 +23,32 @@ import {
   useToast
 } from '@chakra-ui/react'
 import { PageMainHeader } from "../components/common/pageMainHeader";
-import { PageNotAuthorized } from "../components/common/pageNotAuthorized";
 import { util } from "../helpers/util";
 import Head from "next/head";
 import { FooterSection } from "../components/static/FooterSection";
-import { ErrorMessage } from "../constants/errorMessage";
+import Script from "next/script";
+const SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITEKEY;
 
 const Register = (props) => {
   const router = useRouter();
   const toast = useToast();
   const accountName = useRef("");
   const accountDescription = useRef("");
-  // const addressName = useRef("");
-  // const address1 = useRef("");
-  // const address2 = useRef("");
-  // const address3 = useRef("");
-  // const city = useRef("");
-  // const country = useRef("");
-  // const state = useRef("");
-  // const zipCode = useRef("");
   const accountEIN = useRef("");
   const accountEmail = useRef("");
   const [accountPhone, setAccountPhone] = useState("");
   const [isAddMode, setAddMode] = useState(true);
 
-  //Check if the mode is ADD or EDIT
-
-  //Account Validation START
   const formOptions = { resolver: yupResolver(REGISTRATION_VALIDATION_SCHEMA) };
   const { register, handleSubmit, setValue, reset, formState } = useForm();
   const { errors } = formState;
 
   
   const handlePhoneInput = (e) => {
-    // this is where we'll call the phoneNumberFormatter function
     const formattedPhoneNumber = util.formatPhoneNumber(e);
-    // we'll set the input value using our setInputValue
     setValue("accountPhone", formattedPhoneNumber);
-    // setAccountPhone(formattedPhoneNumber);
   };
-  //Account Validation END
 
-
-
-  //Get Account Details only if its EditMode
   useEffect(() => {
     if(props && props.data && props.data.mode != MODE_ADD) {
       setAddMode(false);
@@ -75,20 +56,28 @@ const Register = (props) => {
   }, []);
   
   function onSubmit(data) {
-    createAccount(data)
-      // if(data.userPassword && data.userConfirmPassword && data.userPassword === data.userConfirmPassword) {
-      //   createAccount(data)
-      // }else {
-      //   toast({
-      //     title: 'Add account error.',
-      //     description: ErrorMessage.PASSWORD_CONFIRM_SAME,
-      //     status: 'error',
-      //     position: 'top',
-      //     duration: 6000,
-      //     isClosable: true,
-      //   })      
-      // }
-      
+    window.grecaptcha.ready(() => {
+      window.grecaptcha
+        .execute(SITE_KEY, { action: "submit" })
+        .then(async (token) => {
+          console.log("token:::"+token)
+          const responseData = await configurationService.verifyCaptcha(token)
+          console.log("responseData:::"+JSON.stringify(responseData))
+          if(responseData.error) {
+            toast({
+              title: 'Add account error.',
+              description: data.errorMessage,
+              status: 'error',
+              position: 'top',
+              duration: 6000,
+              isClosable: true,
+            })       
+          }else {
+            console.log("responseData::::"+JSON.stringify(responseData))
+            createAccount(data)
+          }
+        })      
+    });      
   }
 
   // Create Account 
@@ -131,11 +120,14 @@ const Register = (props) => {
   };
 
 
+
   return (
     <>
         <Head>
           <title>Registration Page</title>
         </Head>
+        <Script
+        src={`https://www.google.com/recaptcha/api.js?render=6LeyNkUkAAAAAI6nmbpszuLJVBSVt9KP3ga0R6Db`}/>
         <Layout>
           <Box bg="gray.50" width="1900">
               <PageMainHeader heading="Register New Account"/>          
@@ -197,20 +189,6 @@ const Register = (props) => {
                               </FormControl>     
                             </Box>                                                                  
                             </HStack>
-                            {/* <HStack>
-                              <Box>
-                                <FormControl isRequired>
-                                  <FormLabel>Passowrd</FormLabel>
-                                  <Input type="password" id="userPassword"   {...register('userPassword')}/>
-                                </FormControl>     
-                              </Box>  
-                              <Box>
-                                <FormControl isRequired>
-                                  <FormLabel>Confirm Passowrd</FormLabel>
-                                  <Input type="password" id="userConfirmPassword"   {...register('userConfirmPassword')}/>
-                                </FormControl>     
-                              </Box>  
-                            </HStack> */}
                             <HStack>
                               <Box>
                                 <FormControl isRequired>
@@ -222,71 +200,6 @@ const Register = (props) => {
                           </Stack>
                         </CardBody>
                       </Card>
-
-                      {/* <Card>
-                        <CardHeader>
-                          <Heading size='xs'>Account Addreses</Heading>
-                        </CardHeader>
-
-                        <CardBody>
-                          <Stack maxWidth="page.single_input" spacing="1rem">
-                              <FormControl isRequired>
-                                <FormLabel>Address Name</FormLabel>
-                                <Input type="text" id="addressName"   {...register('addressName')} />
-                              </FormControl>                         
-                              <FormControl isRequired>
-                                <FormLabel>Address1</FormLabel>
-                                <Input type="text" id="address1"   {...register('address1')} />
-                              </FormControl>    
-                              <HStack>
-                                <FormControl>
-                                  <FormLabel>Address2</FormLabel>
-                                  <Input type="text" id="address2"   {...register('address2')} />
-                                </FormControl>     
-                                <FormControl>
-                                  <FormLabel>Address3</FormLabel>
-                                  <Input type="text" id="address3"   {...register('address3')} />
-                                </FormControl>     
-                              </HStack>
-                            <HStack>
-                              <Box>
-                                <FormControl isRequired>
-                                  <FormLabel>City</FormLabel>
-                                  <Input type="text" id="city"   {...register('city')} />
-                                </FormControl>     
-                              </Box>
-                              <Box>
-                                <FormControl isRequired>
-                                  <FormLabel>State</FormLabel>
-                                  <Select id="state" {...register('state')} >
-                                    <option value="">State</option>
-                                    {US_STATES?.map((state) => (
-                                        <option value={state.id}>{state.name}</option>
-                                        ))}
-                                  </Select>
-                                </FormControl>     
-                              </Box>
-                              </HStack>
-                              <HStack>
-                              <Box>
-                                <FormControl isRequired>
-                                  <FormLabel>ZipCode</FormLabel>
-                                  <Input type="text" id="zipCode"   {...register('zipCode')} />
-                                </FormControl>     
-                              </Box>
-                              <Box>
-                                <FormControl isRequired>
-                                  <FormLabel>Country</FormLabel>
-                                  <Select id="country" {...register('country')} >
-                                    <option value="USA">USA</option>
-                                  </Select>
-
-                                </FormControl>     
-                              </Box>                                                                        
-                            </HStack>
-                          </Stack>
-                        </CardBody>
-                      </Card> */}
                       <Flex>
                         <HStack>
                           <Box>
@@ -295,9 +208,10 @@ const Register = (props) => {
                             </Button>
                           </Box>
                           <Box>
-                            <Button size="xs" bgColor="header_actions"  type="submit">
+                            <Button size="xs" disabled={formState.isSubmitting} bgColor="header_actions"  type="submit" className="g-recaptcha" data-sitekey="reCAPTCHA_site_key"  >
+                                {formState.isSubmitting && <span className="spinner-border spinner-border-sm mr-1"></span>}
                               Register
-                            </Button>
+                            </Button>                       
                           </Box>
                         </HStack>
                       </Flex>                   
