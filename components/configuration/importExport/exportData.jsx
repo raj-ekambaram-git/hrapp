@@ -35,6 +35,7 @@ const ExportData = (props) => {
   const [allowedExports, setAllowedExports] = useState([]);
   const [columnList, setColumnList] = useState();
   const [selectList, setSelectList] = useState();
+  const [whereList, setWhereList] = useState();
   const [exportObject, setExportObject] = useState();
   const appConfigList = useSelector(state => state.configuration.allConfigurations);
 
@@ -163,6 +164,22 @@ const ExportData = (props) => {
                                       )}
                                     </HStack>
                                   </Stack>
+                                  
+                                  <Stack>
+                                    <Heading size="xs">  
+                                        Filter By
+                                      </Heading>        
+                                      <Select width="50%" id="columnSelect" onChange={(ev) => handleColumnSelection(ev)}>
+                                          <option value="">Select</option>
+                                          {columnList?.map((column) => (
+                                            column.indexName?<>
+                                                <option value={column.column_name} 
+                                                    data-foreignTable={column.foreign_table_name}
+                                                    data-dataType={column.data_type} >{column.foreign_table_name?column.foreign_table_name:column.column_name}</option>
+                                              </>:<></>
+                                          ))}
+                                      </Select>
+                              </Stack>
                                   <Button size="xs" width="25%" bgColor="header_actions" 
                                     onClick={() => handleExportData()}
                                     >{`Export`}
