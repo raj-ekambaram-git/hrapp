@@ -24,4 +24,6 @@ export const ErrorMessage = {
   INVALID_LOGON_CREDENTIALS: 'Invalid credentials. Please try again or reset password.',
   USER_NOT_ACTIVE: 'User is not active/approved, please contact administrator to unlock it.',
   ACCOUNT_NOT_ACTIVE: 'Account is not active/approved, please contact administrator to unlock it.',
+  PASSWORD_CONFIRM_SAME: "Please enter password and confirm password and it matches.",
+  ERROR_ADDING_NEW_ACCOUNT: "Error whild adding new account, Please try again or contact administrator.",
 }

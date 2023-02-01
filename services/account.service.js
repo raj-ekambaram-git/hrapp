@@ -3,6 +3,7 @@ import Router from 'next/router';
 
 import { fetchWrapper } from 'helpers';
 import { userService } from './user.service';
+import { AccountStatus, Role, UserStatus, UserType } from '@prisma/client';
 
 const { publicRuntimeConfig } = getConfig();
 const baseUrl = `${publicRuntimeConfig.apiUrl}`;
@@ -26,7 +27,8 @@ export const accountService = {
     updateAccount,
     getAccountReportData,
     getCashFlowData,
-    getInvoiceReportData
+    getInvoiceReportData,
+    registerAccount
 };
 
 function getInvoiceReportData(accountId) {
@@ -104,7 +106,59 @@ function updateAccount(accountId, formData, addressId) {
    });
 }
 
-function createAccount(formData) {
+function registerAccount(formData) {
+    return fetchWrapper.post(`${baseUrl}/authenticate/register`, {
+            name: formData.accountName,
+            description: formData.accountDescription,
+            address: {
+                create: [
+                    {
+                    type: "A",
+                    primary: true,
+                    addressName: formData.addressName,
+                    address1: formData.address1,
+                    address2: formData.address2,
+                    address3: formData.address3,
+                    city: formData.city,
+                    state: formData.state,
+                    zipCode: formData.zipCode,
+                    country: formData.country,
+                    status: "A"
+                    }
+                ]
+            },
+            user: {
+                create: [
+                    {
+                        firstName: formData.accountUserFirstName,
+                        lastName: formData.accountUserLastName,
+                        email: formData.accountEmail,
+                        type: UserType.Employee,
+                        userRole: [Role.ACCOUNT_ADMIN],
+                        password: formData.userPassword,
+                        phone: formData.accountPhone,
+                        cost: "99",
+                        status: UserStatus.Approved,
+                    }
+                ]
+            },            
+            ein: formData.accountEIN?formData.accountEIN:"21-11111111",
+            email: formData.accountEmail,
+            status: AccountStatus.Approved,
+            phone: formData.accountPhone
+        }
+    )
+    .then(async account => {
+  
+        return account;
+    })        
+    .catch(err => {
+      console.log("Error Creating Acount"+err)
+      return {errorMessage: err, error: true};
+    });
+  }
+
+  function createAccount(formData) {
     return fetchWrapper.post(`${baseUrl}/account/create`, {
             name: formData.accountName,
             description: formData.accountDescription,

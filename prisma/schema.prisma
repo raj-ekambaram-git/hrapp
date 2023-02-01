@@ -43,6 +43,7 @@ model Address {
 
 model Account {
   id             Int             @id @default(autoincrement())
+  type           AccountType     @default(Trial)
   name           String
   description    String
   ein            String          @unique
@@ -85,7 +86,6 @@ model Vendor {
   accountContactPhone String?
   lastUpdateDate      DateTime      @updatedAt
   invoice             Invoice[]
-  user                User[]        @relation("UserVendor")
   project             Project[]
   vendorUsers         VendorUsers[]
 }
@@ -231,8 +231,6 @@ model User {
   phone              String             @default("111-111-1111")
   account            Account?           @relation("UserAccount", fields: [accountId], references: [id])
   accountId          Int?               @default(0)
-  vendor             Vendor?            @relation("UserVendor", fields: [vendorId], references: [id])
-  vendorId           Int?               @default(0)
   isTimeSheetEnabled Boolean            @default(false)
   address            Address[]
   userAttributes     UserAttributes[]
@@ -841,4 +839,9 @@ enum ConfigInputType {
 enum ExpenseCategory {
   General
   Cost
+}
+
+enum AccountType {
+  Trial
+  Full
 }

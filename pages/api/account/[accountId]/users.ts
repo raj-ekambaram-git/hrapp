@@ -69,7 +69,6 @@ console.log("Vendor ID::"+vendorId+"---AccountioD::"+accountId)
           lastUpdateDate: "desc"
         },
         include: {
-          vendor: true,
           account: true
         }
 

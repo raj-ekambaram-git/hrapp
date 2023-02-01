@@ -29,6 +29,26 @@ export const EXPENSE_CALL_TYPE = 'EXPENSE';
 
 export const TIMESHEET_ENTRY_DEFAULT = {projectId: "", status: "", entries: {day1: {hours: "", error: false, date: "", note: ""}, day2: {hours: "", error: false, date: "", note: ""},day3: {hours: "", error: false, date: "", note: ""},day4: {hours: "", error: false, date: "", note: ""},day5: {hours: "", error: false, date: "", note: ""},day6: {hours: "", error: false, date: "", note: ""},day7: {hours: "", error: false,date: "", note: ""}}};
 
+//Register
+export const REGISTRATION_VALIDATION_SCHEMA = Yup.object().shape({
+  accountName: Yup.string().required('Account Name is required'),
+  accountDescription: Yup.string().required('Account Description is required'),
+  addressName: Yup.string().required('Account Name is required'),
+  address1: Yup.string().required('Account Address1 is required'),
+  city: Yup.string().required('Account City is required'),
+  state: Yup.string().required('Account State is required'),
+  zipCode: Yup.string().required('Account ZipCode is required'),
+  country: Yup.string().required('Account Country is required'),
+  accountEmail: Yup.string().required('Account Email is required'),
+  accountPhone: Yup.string().matches(phoneRegExp, 'Phone number is not valid'),
+  userPassword: Yup.string().required('User Password is required'),
+  userConfirmPassword: Yup.string().required('User Password is required'),  
+  accountUserLastName: Yup.string().required('Last Name is required'),  
+  accountUserFirstName: Yup.string().required('First Name is required'),  
+  
+  
+});
+
 //Account Form Validation
 export const ACCOUNT_VALIDATION_SCHEMA = Yup.object().shape({
     accountName: Yup.string().required('Account Name is required'),

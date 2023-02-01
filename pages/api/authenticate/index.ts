@@ -73,7 +73,7 @@ async function hasAccess(result, res, user) {
       res.status(400).json({ message: ErrorMessage.USER_NOT_ACTIVE });
     }
 
-    if(user.account?.status != AccountStatus.Active && user.account?.status != AccountStatus.Active) {
+    if(user.account?.status != AccountStatus.Active && user.account?.status != AccountStatus.Approved) {
       res.status(400).json({ message: ErrorMessage.ACCOUNT_NOT_ACTIVE });
     }
     //Update the last sign in time stamp

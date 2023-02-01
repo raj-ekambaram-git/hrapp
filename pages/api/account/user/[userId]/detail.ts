@@ -21,11 +21,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             name: true
           }
         },
-        vendor: {
-          select: {
-            name: true
-          }
-        },
         projectResource: {
           select: {
             id: true,
