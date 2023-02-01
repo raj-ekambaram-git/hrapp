@@ -68,6 +68,7 @@ const ExportData = (props) => {
   }
 
   const handleColumnSelection = async (selectedColumn) => {
+    console.log("selectedColumn.target.value::"+selectedColumn.target.value)
     const foreigntTable = selectedColumn.target.options.item(selectedColumn.target.selectedIndex).getAttribute("data-foreignTable")?selectedColumn.target.options.item(selectedColumn.target.selectedIndex).getAttribute("data-foreignTable"):null
     const selectDataType = selectedColumn.target.options.item(selectedColumn.target.selectedIndex).getAttribute("data-dataType")?selectedColumn.target.options.item(selectedColumn.target.selectedIndex).getAttribute("data-dataType"):null
     const tableName = selectedColumn.target.options.item(selectedColumn.target.selectedIndex).getAttribute("data-tableName")?selectedColumn.target.options.item(selectedColumn.target.selectedIndex).getAttribute("data-tableName"):null
@@ -76,7 +77,7 @@ const ExportData = (props) => {
       console.log("metaDatametaData::"+JSON.stringify(metaData))
       setChildColumnList(metaData)      
       console.log("parentObjName::"+parentObjName+"*****tableNameLL"+tableName+"****foreigntTable:::"+foreigntTable)
-      const joinItem = parentObjName.toLowerCase()+"."+selectedColumn.target.value+"="+foreigntTable.toLowerCase()+".id"
+      const joinItem = tableName.toLowerCase()+"."+selectedColumn.target.value+"="+foreigntTable.toLowerCase()+".id"
       if(joins) {
         const nweJoins = [...joins]
         nweJoins.push(joinItem)
