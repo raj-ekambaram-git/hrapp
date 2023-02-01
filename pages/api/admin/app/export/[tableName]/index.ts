@@ -47,9 +47,18 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 };
 
 const getFromTable = (fromTable) => {
-  const tableName = "\""+fromTable+"\" as "+fromTable?.toString().toLowerCase()
-  console.log("tableName:::"+tableName)
-  return tableName;
+  console.log("tableName:::"+JSON.stringify(fromTable))
+  const quotedAndCommaSeparated = fromTable.map((tableName) => {
+    return "\""+tableName+"\" as "+tableName?.toString().toLowerCase()
+    // console.log("selectField:::"+tableName.split(".")[0]+"******"+tableName.split(".")[1])
+    // return tableName.split(".")[0]+"."+"\""+tableName.split(".")[1]+"\""
+  })
+
+  console.log("getFromTable::::quotedAndCommaSeparated::"+quotedAndCommaSeparated)
+
+  // const tableName = "\""+fromTable+"\" as "+fromTable?.toString().toLowerCase()
+  // console.log("tableName:::"+tableName)
+  return quotedAndCommaSeparated;
 }
 
 const getSelectFields = (selectFields) => {

@@ -14,11 +14,12 @@ export const importExportService = {
   exportData
 };
 
-function exportData(tableName, selectFields, filterByList, accountId) {
+function exportData(tableName, selectFields, filterByList, joins, accountId) {
   return fetchWrapper.post(`${baseUrl}/admin/app/export/data?accountId=`+accountId, {
         selectFields,
         filterByList,
-        tableName
+        tableName,
+        joins
       })
       .then(columnData => {
           return columnData;

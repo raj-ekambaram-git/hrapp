@@ -37,6 +37,7 @@ const ExportData = (props) => {
   const [filterByList, setFilterByList] = useState();
   const [exportObject, setExportObject] = useState();
   const [joins, setJoins] = useState();
+  const [tableNames, setTableNames] = useState();
   const [parentObjName, setParentObjName] = useState();  
   const appConfigList = useSelector(state => state.configuration.allConfigurations);
 
@@ -73,17 +74,18 @@ const ExportData = (props) => {
     if(foreigntTable) {
       const metaData = await importExportService.getTableMetaData(foreigntTable, userService.getAccountDetails().accountId)
       console.log("metaDatametaData::"+JSON.stringify(metaData))
-      setChildColumnList(metaData)
+      setChildColumnList(metaData)      
       const joinItem = parentObjName.toLowerCase()+"."+selectedColumn.target.value+"="+tableName.toLowerCase()+"."+selectedColumn.target.value
       if(joins) {
         const nweJoins = [...joins]
         nweJoins.push(joinItem)
-        setJoins(newSelectList)
+        setJoins(nweJoins)
       }else {
         setJoins([joinItem])
       }
+
     }else {
-      const selectItem = tableName.toLowerCase()+"."+selectedColumn.target.value
+      const selectItem = tableName.toLowerCase()+"."+selectedColumn.target.value      
       setParentObjName(tableName)
       // const selectItem = selectedColumn.target.value
       if (selectList) {
@@ -93,6 +95,17 @@ const ExportData = (props) => {
       }else {
         setSelectList([selectItem])
       }
+    }
+
+    if(tableNames && !tableNames.includes(tableName)) {
+      console.log("tableName 222::"+tableName)
+      const newTableNames = [...tableNames]
+      newTableNames.push(tableName)
+      setTableNames(newTableNames)
+
+    }else {
+      console.log("tableName 111::"+tableName)
+      setTableNames([tableName])
     }
 
   }
@@ -108,7 +121,8 @@ const ExportData = (props) => {
 
   const handleExportData = async () => {
     console.log("JOINSSS ::"+JSON.stringify(joins))
-    const responseData = await importExportService.exportData(exportObject, selectList, filterByList, userService.getAccountDetails().accountId)
+    console.log("tableNames ::"+JSON.stringify(tableNames))
+    const responseData = await importExportService.exportData(tableNames, selectList, filterByList, joins, userService.getAccountDetails().accountId)
     console.log("responseData::"+JSON.stringify(responseData))
   }
   
