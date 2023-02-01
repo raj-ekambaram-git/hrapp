@@ -75,7 +75,8 @@ const ExportData = (props) => {
       const metaData = await importExportService.getTableMetaData(foreigntTable, userService.getAccountDetails().accountId)
       console.log("metaDatametaData::"+JSON.stringify(metaData))
       setChildColumnList(metaData)      
-      const joinItem = parentObjName.toLowerCase()+"."+selectedColumn.target.value+"="+tableName.toLowerCase()+"."+selectedColumn.target.value
+      console.log("parentObjName::"+parentObjName+"*****tableNameLL"+tableName+"****foreigntTable:::"+foreigntTable)
+      const joinItem = parentObjName.toLowerCase()+"."+selectedColumn.target.value+"="+foreigntTable.toLowerCase()+".id"
       if(joins) {
         const nweJoins = [...joins]
         nweJoins.push(joinItem)
@@ -115,6 +116,8 @@ const ExportData = (props) => {
     setColumnList(null)
     setFilterByList(null)
     setChildColumnList(null)
+    setParentObjName(null)
+    setJoins(null)
   }
 
   const handleExportData = async () => {
