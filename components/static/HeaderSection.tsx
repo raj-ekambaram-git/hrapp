@@ -12,6 +12,7 @@ import {
   DrawerOverlay,
   Flex,
   Heading,
+  HStack,
   IconButton,
   Image,
   Link,
@@ -65,11 +66,21 @@ const DesktopSidebarContents = ({ name }: any) => {
           })}
         </Stack>
         <Spacer />
-        <Tooltip label='Login' hasArrow arrowSize={15} placement='bottom'  borderRadius="9px" padding={2}>
-          <Link href="/login">  
-              Log In
-          </Link>
-        </Tooltip>
+        <HStack spacing={9}>
+          <Tooltip label='Login' hasArrow arrowSize={15} placement='bottom'  borderRadius="9px" padding={2}>
+            <Link href="/login">  
+                Log In
+            </Link>
+          </Tooltip>
+          <Button
+            size="xs"
+            mt={8}
+            colorScheme="teal"
+            onClick={() => router.push("/register")}
+          >
+            Start for free
+          </Button>
+        </HStack>
         {/* <Button
           mt={8}
           colorScheme="teal"
