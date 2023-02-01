@@ -4,7 +4,9 @@ import {
 } from '@chakra-ui/react'
 import { ExpenseStatus } from '@prisma/client';
 
-const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
+// const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
+const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+
 
 export const POST_METHOD = 'POST';
 
@@ -40,7 +42,10 @@ export const REGISTRATION_VALIDATION_SCHEMA = Yup.object().shape({
   // zipCode: Yup.string().required('Account ZipCode is required'),
   // country: Yup.string().required('Account Country is required'),
   accountEmail: Yup.string().required('Account Email is required'),
-  accountPhone: Yup.string().matches(phoneRegExp, 'Phone number is not valid'),
+  // accountPhone: Yup.string().matches(phoneRegExp, 'Phone number is not valid'),
+  accountPhone: Yup.string()
+                  .matches(phoneRegExp, "Phone number is not valid")
+                  .required('Phone number is not valid'),
   userPassword: Yup.string().required('User Password is required'),
   userConfirmPassword: Yup.string().required('User Password is required'),  
   accountUserLastName: Yup.string().required('Last Name is required'),  
@@ -77,7 +82,9 @@ export const ACCOUNT_VALIDATION_SCHEMA = Yup.object().shape({
     zipCode: Yup.string().required('Account ZipCode is required'),
     country: Yup.string().required('Account Country is required'),
     userEmail: Yup.string().required('User Email is required'),
-    userPhone: Yup.string().matches(phoneRegExp, 'Phone number is not valid'),
+    userPhone: Yup.string()
+                .matches(phoneRegExp, "Phone number is not valid")
+                .required('Phone number is not valid'),
     userAccountId: Yup.string().required('User Account is required'),
     // userPassword: Yup.string().required('User Password is required'),
     timeSheetEnabled: Yup.string().required('TimeSheet is required'),

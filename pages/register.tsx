@@ -52,17 +52,15 @@ const Register = (props) => {
 
   //Account Validation START
   const formOptions = { resolver: yupResolver(REGISTRATION_VALIDATION_SCHEMA) };
-
-  // get functions to build form with useForm() hook
-  const { register, handleSubmit, setValue, formState } = useForm();
+  const { register, handleSubmit, setValue, reset, formState } = useForm();
   const { errors } = formState;
 
-
+  
   const handlePhoneInput = (e) => {
     // this is where we'll call the phoneNumberFormatter function
-    const formattedPhoneNumber = util.formatPhoneNumber(e.target.value);
+    const formattedPhoneNumber = util.formatPhoneNumber(e);
     // we'll set the input value using our setInputValue
-    setValue(accountPhone, formattedPhoneNumber);
+    setValue("accountPhone", formattedPhoneNumber);
     // setAccountPhone(formattedPhoneNumber);
   };
   //Account Validation END
@@ -181,13 +179,13 @@ const Register = (props) => {
                             <Box>
                               <FormControl isRequired>
                                   <FormLabel>First Name</FormLabel>
-                                  <Input type="tel" id="accountUserFirstName"   {...register('accountUserFirstName')}  />
+                                  <Input type="text" id="accountUserFirstName"   {...register('accountUserFirstName')}  />
                                 </FormControl>      
                             </Box>  
                             <Box>
                               <FormControl isRequired>
                                   <FormLabel>Last Name</FormLabel>
-                                  <Input type="tel" id="accountUserLastName"   {...register('accountUserLastName')}  />
+                                  <Input type="text" id="accountUserLastName"   {...register('accountUserLastName')}  />
                                 </FormControl>      
                             </Box>  
                           </HStack>                          
@@ -217,7 +215,7 @@ const Register = (props) => {
                               <Box>
                                 <FormControl isRequired>
                                     <FormLabel>Account Phone</FormLabel>
-                                    <Input type="tel" id="accountPhone"   {...register('accountPhone')}  />
+                                    <Input type="tel" id="accountPhone"   {...register('accountPhone')}  onChange={(ev) => handlePhoneInput(ev.target.value)}/>
                                   </FormControl>      
                               </Box>  
                             </HStack>
