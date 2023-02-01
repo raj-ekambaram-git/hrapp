@@ -84,6 +84,7 @@ const ExportData = (props) => {
     onOpen();
     setSelectList(null)
     setColumnList(null)
+    setFilterByList(null)
   }
 
   const handleExportData = async () => {
@@ -122,6 +123,18 @@ const ExportData = (props) => {
 
   }
 
+  const handleFIlterByInput = (filterByVal, indexVal, key) => {
+    
+    const newFilterByList = [...filterByList]
+    if(key === "operator") {
+      newFilterByList[indexVal]["operator"] = filterByVal
+    }else if (key === "value") {
+      newFilterByList[indexVal]["value"] = filterByVal
+    }
+    
+    setFilterByList(newFilterByList)
+
+  }
 
   return (
     <div>
@@ -194,7 +207,7 @@ const ExportData = (props) => {
                                       </Heading>        
                                       <Stack spacing={4}>                            
                                         {filterByList?.map((filterBy, index) => 
-                                            <FilterBySection filterBy={filterBy} indexVal={index} handleDeleteFilterBy={handleDeleteFilterBy}/>
+                                            <FilterBySection filterBy={filterBy} indexVal={index} handleDeleteFilterBy={handleDeleteFilterBy} handleFIlterByInput={handleFIlterByInput}/>
                                         )}
                                       </Stack>                                      
                                       <Select width="50%" id="columnSelect" onChange={(ev) => handleFilterBy(ev)}>
