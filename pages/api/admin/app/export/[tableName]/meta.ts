@@ -14,7 +14,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const tableName = req.query?.tableName;
     const accountId = req.query?.accountId;
     const columNames = await prisma.$queryRaw`
-    select colns.column_name, colns.data_type, constr.foreign_table_name, pgi.indexname from information_schema.columns as colns
+    select colns.column_name, colns.data_type, constr.foreign_table_name, pgi.indexname, colns.table_name from information_schema.columns as colns
       LEFT OUTER JOIN (SELECT
         tc.table_schema, 
         tc.constraint_name, 

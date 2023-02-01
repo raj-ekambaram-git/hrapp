@@ -46,6 +46,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
 const getFromTable = (fromTable) => {
   const tableName = "\""+fromTable+"\" as "+fromTable?.toString().toLowerCase()
+  console.log("tableName:::"+tableName)
   return tableName;
 }
 

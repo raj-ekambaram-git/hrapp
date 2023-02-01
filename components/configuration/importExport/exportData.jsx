@@ -67,12 +67,14 @@ const ExportData = (props) => {
 
   const handleColumnSelection = async (selectedColumn) => {
     const foreigntTable = selectedColumn.target.options.item(selectedColumn.target.selectedIndex).getAttribute("data-foreignTable")?selectedColumn.target.options.item(selectedColumn.target.selectedIndex).getAttribute("data-foreignTable"):null
+    const selectDataType = selectedColumn.target.options.item(selectedColumn.target.selectedIndex).getAttribute("data-dataType")?selectedColumn.target.options.item(selectedColumn.target.selectedIndex).getAttribute("data-dataType"):null
+    const tableName = selectedColumn.target.options.item(selectedColumn.target.selectedIndex).getAttribute("data-tableName")?selectedColumn.target.options.item(selectedColumn.target.selectedIndex).getAttribute("data-tableName"):null
     if(foreigntTable) {
       const metaData = await importExportService.getTableMetaData(foreigntTable, userService.getAccountDetails().accountId)
+      console.log("metaDatametaData::"+JSON.stringify(metaData))
       setChildColumnList(metaData)
     }else {
-      const selectDataType = selectedColumn.target.options.item(selectedColumn.target.selectedIndex).getAttribute("data-dataType")?selectedColumn.target.options.item(selectedColumn.target.selectedIndex).getAttribute("data-dataType"):null
-      const selectItem = exportObject.toLowerCase()+"."+selectedColumn.target.value
+      const selectItem = tableName.toLowerCase()+"."+selectedColumn.target.value
       // const selectItem = selectedColumn.target.value
       if (selectList) {
         const newSelectList = [...selectList]
@@ -82,6 +84,7 @@ const ExportData = (props) => {
         setSelectList([selectItem])
       }
     }
+
   }
 
   function hanldeExport(newSize) {
@@ -191,6 +194,7 @@ const ExportData = (props) => {
                                         {columnList?.map((column) => (
                                           <option value={column.column_name} 
                                             data-foreignTable={column.foreign_table_name}
+                                            data-tableName={column.table_name}
                                             data-dataType={column.data_type} >{column.foreign_table_name?column.foreign_table_name:column.column_name}</option>
                                         ))}
                                     </Select>
@@ -200,6 +204,7 @@ const ExportData = (props) => {
                                           {childColumnList?.map((column) => (
                                             <option value={column.column_name} 
                                               data-foreignTable={column.foreign_table_name}
+                                              data-tableName={column.table_name}
                                               data-dataType={column.data_type} >{column.foreign_table_name?column.foreign_table_name:column.column_name}</option>
                                           ))}
                                       </Select>
