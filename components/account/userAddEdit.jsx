@@ -87,9 +87,9 @@ const UserAddEdit = (props) => {
 
   const handlePhoneInput = (e) => {
     // this is where we'll call the phoneNumberFormatter function
-    const formattedPhoneNumber = util.formatPhoneNumber(e.target.value);
+    const formattedPhoneNumber = util.formatPhoneNumber(e);
     // we'll set the input value using our setInputValue
-    setValue(accountPhone, formattedPhoneNumber);
+    setValue("userPhone", formattedPhoneNumber);
     // setAccountPhone(formattedPhoneNumber);
   };
   //Account Validation END
@@ -369,7 +369,7 @@ const UserAddEdit = (props) => {
                         <Box>
                           <FormControl isRequired>
                               <FormLabel>User Phone</FormLabel>
-                              <Input type="tel" id="userPhone"   {...register('userPhone')} />
+                              <Input type="tel" id="userPhone"   {...register('userPhone')}  onChange={(ev) => handlePhoneInput(ev.target.value)}/>
                             </FormControl>      
                         </Box>   
                         <Box>

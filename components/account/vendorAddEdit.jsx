@@ -69,11 +69,12 @@ const VendorEdit = (props) => {
   const { errors } = formState;
 
 
-  const handlePhoneInput = (e) => {
+  const handlePhoneInput = (e, fieldName) => {
+    console.log("fieldName::"+fieldName)
     // this is where we'll call the phoneNumberFormatter function
-    const formattedPhoneNumber = util.formatPhoneNumber(e.target.value);
+    const formattedPhoneNumber = util.formatPhoneNumber(e);
     // we'll set the input value using our setInputValue
-    setValue(accountPhone, formattedPhoneNumber);
+    setValue(fieldName, formattedPhoneNumber);
     // setAccountPhone(formattedPhoneNumber);
   };
   //Account Validation END
@@ -302,7 +303,7 @@ const VendorEdit = (props) => {
                         </FormControl>     
                         <FormControl isRequired>
                             <FormLabel>Account Phone</FormLabel>
-                            <Input type="tel" id="phone"   {...register('phone')}  />
+                            <Input type="tel" id="phone"   {...register('phone')}  onChange={(ev) => handlePhoneInput(ev.target.value, "phone")}/>
                           </FormControl>      
                       </HStack>
                     </Stack>
@@ -388,7 +389,7 @@ const VendorEdit = (props) => {
                         <Box>
                           <FormControl isRequired>
                               <FormLabel>Account ContactPhone</FormLabel>
-                              <Input type="tel" id="accountContactPhone"   {...register('accountContactPhone')}  />
+                              <Input type="tel" id="accountContactPhone"   {...register('accountContactPhone')}  onChange={(ev) => handlePhoneInput(ev.target.value, "accountContactPhone")}/>
                             </FormControl>      
                         </Box>                                                                    
                         </HStack>
