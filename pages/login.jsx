@@ -55,8 +55,8 @@ function Login() {
                 const responseData = await configurationService.verifyCaptcha(token)
                 if(responseData.error) {
                   toast({
-                    title: 'Add account error.',
-                    description: data.errorMessage,
+                    title: 'Login Error.',
+                    description: responseData.errorMessage,
                     status: 'error',
                     position: 'top',
                     duration: 6000,

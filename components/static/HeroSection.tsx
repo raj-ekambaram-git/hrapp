@@ -15,7 +15,7 @@ import {
   
   export const HeroSection: FunctionComponent<HeroSectionProps> = () => {
     return (
-      <Container maxW="container.2xl">
+      <Container maxW="container.xl">
         <Center p={4} minHeight="70vh">
           <VStack>
             <Container maxW="container.2xl" textAlign="center">
