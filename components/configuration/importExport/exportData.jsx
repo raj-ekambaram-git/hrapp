@@ -15,9 +15,6 @@ import {
   Heading,
   HStack,
   Select,
-  FormControl,
-  FormLabel,
-  Input,
 } from '@chakra-ui/react';
 
 import { useDispatch, useSelector } from "react-redux";
@@ -25,6 +22,7 @@ import { setConfigurations } from "../../../store/modules/Configuration/actions"
 import { configurationService, importExportService, userService } from "../../../services";
 import { ConfigConstants, EMPTY_STRING } from "../../../constants";
 import { SelectQuerySection } from "./selectQuerySection";
+import { FilterBySection } from "./filterBySection";
 
 
 const ExportData = (props) => {
@@ -35,7 +33,7 @@ const ExportData = (props) => {
   const [allowedExports, setAllowedExports] = useState([]);
   const [columnList, setColumnList] = useState();
   const [selectList, setSelectList] = useState();
-  const [whereList, setWhereList] = useState();
+  const [filterByList, setFilterByList] = useState();
   const [exportObject, setExportObject] = useState();
   const appConfigList = useSelector(state => state.configuration.allConfigurations);
 
@@ -92,11 +90,36 @@ const ExportData = (props) => {
     const responseData = await importExportService.exportData(exportObject, selectList, userService.getAccountDetails().accountId)
     console.log("responseData::"+JSON.stringify(responseData))
   }
-
+  
   const handleDeleteSelect = (removedIndex) => {
     const newSelectList = [...selectList]
     newSelectList.splice(removedIndex, 1);
     setSelectList(newSelectList)
+  }
+
+  const handleDeleteFilterBy = (removedIndex) => {
+    const newFilterByList = [...filterByList]
+    newFilterByList.splice(removedIndex, 1);
+    setFilterByList(newFilterByList)
+  }
+
+
+  const handleFilterBy = async (selectedFilter)=> {
+    const foreigntTable = selectedFilter.target.options.item(selectedFilter.target.selectedIndex).getAttribute("data-foreignTable")?selectedFilter.target.options.item(selectedFilter.target.selectedIndex).getAttribute("data-foreignTable"):null
+    if(foreigntTable) {
+      const metaData = await importExportService.getTableMetaData(foreigntTable, userService.getAccountDetails().accountId)
+    }else {
+      const selectDataType = selectedFilter.target.options.item(selectedFilter.target.selectedIndex).getAttribute("data-dataType")?selectedFilter.target.options.item(selectedFilter.target.selectedIndex).getAttribute("data-dataType"):null
+      const selectItem = {key: selectedFilter.target.value, dataType: selectDataType}
+      if (filterByList) {
+        const newFilterByList = [...filterByList]
+        newFilterByList.push(selectItem)
+        setFilterByList(newFilterByList)
+      }else {
+        setFilterByList([selectItem])
+      }
+    }
+
   }
 
 
@@ -169,14 +192,22 @@ const ExportData = (props) => {
                                     <Heading size="xs">  
                                         Filter By
                                       </Heading>        
-                                      <Select width="50%" id="columnSelect" onChange={(ev) => handleColumnSelection(ev)}>
+                                      <HStack>                            
+                                        {filterByList?.map((filterBy, index) => 
+                                            <FilterBySection filterBy={filterBy} indexVal={index} handleDeleteFilterBy={handleDeleteFilterBy}/>
+                                        )}
+                                      </HStack>                                      
+                                      <Select width="50%" id="columnSelect" onChange={(ev) => handleFilterBy(ev)}>
                                           <option value="">Select</option>
                                           {columnList?.map((column) => (
-                                            column.indexName?<>
                                                 <option value={column.column_name} 
-                                                    data-foreignTable={column.foreign_table_name}
-                                                    data-dataType={column.data_type} >{column.foreign_table_name?column.foreign_table_name:column.column_name}</option>
-                                              </>:<></>
+                                                data-foreignTable={column.foreign_table_name}
+                                                data-dataType={column.data_type} >{column.foreign_table_name?column.foreign_table_name:column.column_name}</option>
+                                            // column.indexName?<>
+                                            //     <option value={column.column_name} 
+                                            //         data-foreignTable={column.foreign_table_name}
+                                            //         data-dataType={column.data_type} >{column.foreign_table_name?column.foreign_table_name:column.column_name}</option>
+                                            //   </>:<></>
                                           ))}
                                       </Select>
                               </Stack>
