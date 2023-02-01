@@ -77,18 +77,19 @@ const Register = (props) => {
   }, []);
   
   function onSubmit(data) {
-      if(data.userPassword && data.userConfirmPassword && data.userPassword === data.userConfirmPassword) {
-        createAccount(data)
-      }else {
-        toast({
-          title: 'Add account error.',
-          description: ErrorMessage.PASSWORD_CONFIRM_SAME,
-          status: 'error',
-          position: 'top',
-          duration: 6000,
-          isClosable: true,
-        })      
-      }
+    createAccount(data)
+      // if(data.userPassword && data.userConfirmPassword && data.userPassword === data.userConfirmPassword) {
+      //   createAccount(data)
+      // }else {
+      //   toast({
+      //     title: 'Add account error.',
+      //     description: ErrorMessage.PASSWORD_CONFIRM_SAME,
+      //     status: 'error',
+      //     position: 'top',
+      //     duration: 6000,
+      //     isClosable: true,
+      //   })      
+      // }
       
   }
 
@@ -116,7 +117,7 @@ const Register = (props) => {
             duration: 3000,
             isClosable: true,
           })    
-          router.push("/accounts");  
+          router.push("/login");  
         }
       
     } catch (error) {
@@ -198,7 +199,7 @@ const Register = (props) => {
                               </FormControl>     
                             </Box>                                                                  
                             </HStack>
-                            <HStack>
+                            {/* <HStack>
                               <Box>
                                 <FormControl isRequired>
                                   <FormLabel>Passowrd</FormLabel>
@@ -211,7 +212,7 @@ const Register = (props) => {
                                   <Input type="password" id="userConfirmPassword"   {...register('userConfirmPassword')}/>
                                 </FormControl>     
                               </Box>  
-                            </HStack>
+                            </HStack> */}
                             <HStack>
                               <Box>
                                 <FormControl isRequired>

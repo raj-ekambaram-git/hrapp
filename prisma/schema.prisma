@@ -46,7 +46,7 @@ model Account {
   type           AccountType     @default(Trial)
   name           String
   description    String
-  ein            String          @unique
+  ein            String?         @unique
   bankId         Int?
   email          String
   phone          String          @default("111-111-1111")

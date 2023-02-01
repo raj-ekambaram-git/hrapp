@@ -127,7 +127,7 @@ function updateUser(userId, formData, addressId, userRole) {
         phone: formData.userPhone,
         cost: formData.cost,
         accountId: parseInt(formData.userAccountId),
-        vendorId: parseInt(formData.userVendorId),
+        // vendorId: parseInt(formData.userVendorId),
         isTimeSheetEnabled: formData.timeSheetEnabled == "true" ? true : false,
         status: formData.userStatus
       }
@@ -170,7 +170,7 @@ function createUser(formData, userRoles) {
         phone: formData.userPhone,
         cost: formData.cost,
         accountId: parseInt(formData.userAccountId),
-        vendorId: parseInt(formData.userVendorId),
+        // vendorId: parseInt(formData.userVendorId),
         isTimeSheetEnabled: formData.timeSheetEnabled == "true" ? true : false,
         status: formData.userStatus,
         password: "defaultPassword"

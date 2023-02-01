@@ -10,6 +10,6 @@ export const EmailConstants = {
         newExpenseSubmitted: "d-e1efbef1e6da42d19f831ea9f15a3341",
         approvedExpenseSubmitted: "d-533af75f2ba94ead8e389bdc5f38a129",
         rejectedExpenseSubmitted: "d-3578f98e3dcb43ccabfd9b131d53744c",
-
+        newUserCreated: "d-dd1b9ca4a1674ab5857f85efc329dc46",        
     }
 }

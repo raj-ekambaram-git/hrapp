@@ -354,16 +354,16 @@ const UserAddEdit = (props) => {
                       <HStack spacing="10rem">
                         <Box>
                           <FormControl isRequired>
-                            <FormLabel>Emaail/UserId</FormLabel>
+                            <FormLabel>Email / Logon ID</FormLabel>
                             <Input type="text" id="userEmail"   {...register('userEmail')}/>
                           </FormControl>     
                         </Box>    
-                        <Box>
+                        {/* <Box>
                           <FormControl isRequired>
                             <FormLabel>User Passowrd</FormLabel>
                             <Input type="password" id="userPassword"   {...register('userPassword')}/>
                           </FormControl>     
-                        </Box>  
+                        </Box>   */}
                       </HStack> 
                       <HStack spacing="10rem">
                         <Box>

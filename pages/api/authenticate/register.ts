@@ -2,6 +2,7 @@
 
 import { NextApiRequest, NextApiResponse } from "next"
 import { CommonConstants, EmailConstants } from "../../../constants";
+import { util } from "../../../helpers/util";
 import prisma from "../../../lib/prisma";
 import { emailService, userService } from "../../../services";
 
@@ -13,6 +14,21 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const account = req.body;
     
+    const tempPassword = util.getTempPassword();
+    const passwordHash = util.getPasswordHash(tempPassword);
+
+    //Handle Password here
+    if(account.user && account.user?.create && account.user?.create.length >0) {
+
+      const createUserData = account.user?.create.map((usr) => {
+        usr.password = passwordHash.passwordHash
+        usr.passwordSalt = passwordHash.passwordSalt
+        usr.passwordExpired = true
+        usr.passwordRetries = 5
+        return usr
+      })
+    }
+
     const savedAccount = await prisma.account.create({
       data: account,
       include: {
@@ -24,8 +40,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         }
       }
     });
+
     if(savedAccount) {
-      const emailResponse = emailService.sendEmail(getNewAccountEmailRequest(savedAccount));
+      const newSavedAccountForEmail = {...savedAccount}
+      newSavedAccountForEmail["tempPassword"] = tempPassword
+      const emailResponse = emailService.sendEmail(getNewAccountEmailRequest(newSavedAccountForEmail));
     }
     res.status(200).json(savedAccount);
   } catch (error) {

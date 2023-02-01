@@ -79,7 +79,7 @@ export const ACCOUNT_VALIDATION_SCHEMA = Yup.object().shape({
     userEmail: Yup.string().required('User Email is required'),
     userPhone: Yup.string().matches(phoneRegExp, 'Phone number is not valid'),
     userAccountId: Yup.string().required('User Account is required'),
-    userPassword: Yup.string().required('User Password is required'),
+    // userPassword: Yup.string().required('User Password is required'),
     timeSheetEnabled: Yup.string().required('TimeSheet is required'),
     userType: Yup.string().required('Type is required'),
 
