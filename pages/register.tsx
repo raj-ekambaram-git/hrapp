@@ -101,8 +101,8 @@ const Register = (props) => {
 
         if(data.error) {
           toast({
-            title: '1111 Add account error.',
-            description: ErrorMessage.ERROR_ADDING_NEW_ACCOUNT,
+            title: 'Add account error.',
+            description: data.errorMessage,
             status: 'error',
             position: 'top',
             duration: 6000,
@@ -122,8 +122,8 @@ const Register = (props) => {
       
     } catch (error) {
       toast({
-        title: ' 222 Add account error.',
-        description: ErrorMessage.ERROR_ADDING_NEW_ACCOUNT+"Details: "+error,
+        title: ' Add account error.',
+        description: "Details: "+error,
         status: 'error',
         position: 'top',
         duration: 6000,

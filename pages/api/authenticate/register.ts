@@ -2,6 +2,7 @@
 
 import { NextApiRequest, NextApiResponse } from "next"
 import { CommonConstants, EmailConstants } from "../../../constants";
+import { ErrorMessage } from "../../../constants/errorMessage";
 import { util } from "../../../helpers/util";
 import prisma from "../../../lib/prisma";
 import { emailService, userService } from "../../../services";
@@ -48,8 +49,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     }
     res.status(200).json(savedAccount);
   } catch (error) {
-    console.log(error)
-    res.status(400).json({ message: 'Something went wrong while saving account' })
+    console.log("error:::"+JSON.stringify(error))
+    if(error.code === "P2002" && error?.meta?.target && error?.meta?.target[0] === "email") {
+      res.status(400).json({ message: ErrorMessage.USER_ALREADY_EXISTS })  
+    }else {
+      res.status(400).json({ message: 'Something went wrong while saving account' })
+    }
+    
   }
 }
 

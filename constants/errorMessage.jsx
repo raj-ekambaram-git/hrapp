@@ -26,4 +26,5 @@ export const ErrorMessage = {
   ACCOUNT_NOT_ACTIVE: 'Account is not active/approved, please contact administrator to unlock it.',
   PASSWORD_CONFIRM_SAME: "Please enter password and confirm password and it matches.",
   ERROR_ADDING_NEW_ACCOUNT: "Error whild adding new account, Please try again or contact administrator.",
+  USER_ALREADY_EXISTS: "Email ID already exists in our system, please try to login in or try to reset the password.",
 }
