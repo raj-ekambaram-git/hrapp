@@ -23,6 +23,10 @@ import { useDispatch } from 'react-redux';
 import {setSelectedAccountId} from '../store/modules/Account/actions'
 import {setLoggedInUser} from '../store/modules/User/actions'
 import Head from 'next/head';
+import Script from "next/script";
+import { configurationService } from '../services';
+const SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITEKEY;
+
 
 export default Login;
 
@@ -44,33 +48,47 @@ function Login() {
     const { errors } = formState;
 
     function onSubmit({ username, password }) {
-        return userService.login(username, password)
-            .then(user => {
-                console.log("USER AFTER LOGIN ::"+JSON.stringify(user))
-                if(user.passwordExpired) {
-                    dispatch(setLoggedInUser(user))
-                    // cookie.set('user', JSON.stringify(user), { expires: 1 })
-                    console.log("Inside the password expired")
-                    // Forward to Change Password Page now as passsword is expired
-                    router.push("/changepassword/");
-                }else {
-                    dispatch(setSelectedAccountId(user.accountId))
-                    dispatch(setLoggedInUser(user))
-                    // get return url from query parameters or default to '/'
-                    const returnUrl = router.query.returnUrl || '/account/dashboard';
-                    router.push(returnUrl);
-                }
-            })
-            .catch(err => {
-                toast({
-                    title: 'Login Error.',
-                    description: 'Details:'+err,
+        window.grecaptcha.ready(() => {
+            window.grecaptcha
+              .execute(SITE_KEY, { action: "submit" })
+              .then(async (token) => {
+                const responseData = await configurationService.verifyCaptcha(token)
+                if(responseData.error) {
+                  toast({
+                    title: 'Add account error.',
+                    description: data.errorMessage,
                     status: 'error',
                     position: 'top',
                     duration: 6000,
                     isClosable: true,
-                  })
-              });            
+                  })       
+                }else {
+                  return userService.login(username, password)
+                        .then(user => {
+                            if(user.passwordExpired) {
+                                dispatch(setLoggedInUser(user))
+                                router.push("/changepassword/");
+                            }else {
+                                dispatch(setSelectedAccountId(user.accountId))
+                                dispatch(setLoggedInUser(user))
+                                const returnUrl = router.query.returnUrl || '/account/dashboard';
+                                router.push(returnUrl);
+                            }
+                        })
+                        .catch(err => {
+                            toast({
+                                title: 'Login Error.',
+                                description: 'Details:'+err,
+                                status: 'error',
+                                position: 'top',
+                                duration: 6000,
+                                isClosable: true,
+                                })
+                        });     
+                }
+              })      
+          });             
+              
 
     }
 
@@ -80,6 +98,8 @@ function Login() {
             <Head>
             <title>Registration Page</title>
             </Head>
+            <Script
+                src={`https://www.google.com/recaptcha/api.js?render=${SITE_KEY}`}/>
             <Layout>
                 <Box bg="gray.50" width="1900">
                     <Box width="page.login_width">

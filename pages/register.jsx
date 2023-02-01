@@ -14,7 +14,6 @@ import {
   FormControl,
   FormLabel,
   Input,
-  Select,
   Stack,
   Card,
   CardHeader,
@@ -60,9 +59,7 @@ const Register = (props) => {
       window.grecaptcha
         .execute(SITE_KEY, { action: "submit" })
         .then(async (token) => {
-          console.log("token:::"+token)
           const responseData = await configurationService.verifyCaptcha(token)
-          console.log("responseData:::"+JSON.stringify(responseData))
           if(responseData.error) {
             toast({
               title: 'Add account error.',
@@ -73,7 +70,6 @@ const Register = (props) => {
               isClosable: true,
             })       
           }else {
-            console.log("responseData::::"+JSON.stringify(responseData))
             createAccount(data)
           }
         })      
@@ -83,7 +79,6 @@ const Register = (props) => {
   // Create Account 
   const createAccount = async (formData) => {
     try {
-      console.log("formData::"+JSON.stringify(formData))
         const data = await accountService.registerAccount(formData);
 
         if(data.error) {
