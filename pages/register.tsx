@@ -35,14 +35,14 @@ const Register = (props) => {
   const toast = useToast();
   const accountName = useRef("");
   const accountDescription = useRef("");
-  const addressName = useRef("");
-  const address1 = useRef("");
-  const address2 = useRef("");
-  const address3 = useRef("");
-  const city = useRef("");
-  const country = useRef("");
-  const state = useRef("");
-  const zipCode = useRef("");
+  // const addressName = useRef("");
+  // const address1 = useRef("");
+  // const address2 = useRef("");
+  // const address3 = useRef("");
+  // const city = useRef("");
+  // const country = useRef("");
+  // const state = useRef("");
+  // const zipCode = useRef("");
   const accountEIN = useRef("");
   const accountEmail = useRef("");
   const [accountPhone, setAccountPhone] = useState("");
@@ -224,7 +224,7 @@ const Register = (props) => {
                         </CardBody>
                       </Card>
 
-                      <Card>
+                      {/* <Card>
                         <CardHeader>
                           <Heading size='xs'>Account Addreses</Heading>
                         </CardHeader>
@@ -287,7 +287,7 @@ const Register = (props) => {
                             </HStack>
                           </Stack>
                         </CardBody>
-                      </Card>
+                      </Card> */}
                       <Flex>
                         <HStack>
                           <Box>

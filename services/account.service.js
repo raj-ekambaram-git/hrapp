@@ -110,23 +110,23 @@ function registerAccount(formData) {
     return fetchWrapper.post(`${baseUrl}/authenticate/register`, {
             name: formData.accountName,
             description: formData.accountDescription,
-            address: {
-                create: [
-                    {
-                    type: "A",
-                    primary: true,
-                    addressName: formData.addressName,
-                    address1: formData.address1,
-                    address2: formData.address2,
-                    address3: formData.address3,
-                    city: formData.city,
-                    state: formData.state,
-                    zipCode: formData.zipCode,
-                    country: formData.country,
-                    status: "A"
-                    }
-                ]
-            },
+            // address: {
+            //     create: [
+            //         {
+            //         type: "A",
+            //         primary: true,
+            //         addressName: formData.addressName,
+            //         address1: formData.address1,
+            //         address2: formData.address2,
+            //         address3: formData.address3,
+            //         city: formData.city,
+            //         state: formData.state,
+            //         zipCode: formData.zipCode,
+            //         country: formData.country,
+            //         status: "A"
+            //         }
+            //     ]
+            // },
             user: {
                 create: [
                     {

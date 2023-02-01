@@ -59,15 +59,15 @@ const AccountDetail = (props) => {
                 email: accountResponse.email,
                 status: accountResponse.status,
                 phone: accountResponse.phone,
-                addressId: accountResponse.address[0].id,
-                addressName: accountResponse.address[0].addressName,
-                address1: accountResponse.address[0].address1,
-                address2: accountResponse.address[0].address2,
-                address3: accountResponse.address[0].address3,
-                city: accountResponse.address[0].city,
-                state: accountResponse.address[0].state,
-                zipCode: accountResponse.address[0].zipCode,
-                country: accountResponse.address[0].country
+                addressId: accountResponse.address&&accountResponse.address.length>0?accountResponse.address[0].id:null,
+                addressName: accountResponse.address&&accountResponse.address.length>0?accountResponse.address[0].addressName:null,
+                address1: accountResponse.address&&accountResponse.address.length>0?accountResponse.address[0].address1:null,
+                address2: accountResponse.address&&accountResponse.address.length>0?accountResponse.address[0].address2:null,
+                address3: accountResponse.address&&accountResponse.address.length>0?accountResponse.address[0].address3:null,
+                city: accountResponse.address&&accountResponse.address.length>0?accountResponse.address[0].city:null,
+                state: accountResponse.address&&accountResponse.address.length>0?accountResponse.address[0].state:null,
+                zipCode: accountResponse.address&&accountResponse.address.length>0?accountResponse.address[0].zipCode:null,
+                country: accountResponse.address&&accountResponse.address.length>0?accountResponse.address[0].country:null
             };
   
             setAccount(accountData)
