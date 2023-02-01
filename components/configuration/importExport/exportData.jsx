@@ -35,6 +35,7 @@ const ExportData = (props) => {
   const [selectList, setSelectList] = useState();
   const [filterByList, setFilterByList] = useState();
   const [exportObject, setExportObject] = useState();
+  const [parentObjName, setParentObjName] = useState();  
   const appConfigList = useSelector(state => state.configuration.allConfigurations);
 
   useEffect(() => {
@@ -57,7 +58,8 @@ const ExportData = (props) => {
   }
 
   const handleExportbject = async (importObject) => {
-    setExportObject(importObject.target.value)
+    setExportObject(importObject?.target?.value)
+    setParentObjName(importObject?.target?.value.toLowerCase())
     const metaData = await importExportService.getTableMetaData(importObject.target.value, userService.getAccountDetails().accountId)
     setColumnList(metaData)
   }
@@ -68,7 +70,8 @@ const ExportData = (props) => {
       const metaData = await importExportService.getTableMetaData(foreigntTable, userService.getAccountDetails().accountId)
     }else {
       const selectDataType = selectedColumn.target.options.item(selectedColumn.target.selectedIndex).getAttribute("data-dataType")?selectedColumn.target.options.item(selectedColumn.target.selectedIndex).getAttribute("data-dataType"):null
-      const selectItem = selectedColumn.target.value
+      const selectItem = exportObject.toLowerCase()+"."+selectedColumn.target.value
+      // const selectItem = selectedColumn.target.value
       if (selectList) {
         const newSelectList = [...selectList]
         newSelectList.push(selectItem)

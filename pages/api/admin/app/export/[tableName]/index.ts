@@ -13,26 +13,23 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   try {
-    const tableName = req.query?.tableName;
+    // const tableName = req.query?.tableName
+    const tableName = "\""+req.query?.tableName+"\" as "+req.query?.tableName?.toString().toLowerCase()
     const {selectFields} = req.body;
     const {filterByList} = req.body;
-    console.log("FIIIII :::"+JSON.stringify(filterByList))
     
     
-    let whereClause = getWhereCluase(filterByList);
+    let whereClause = getWhereClause(filterByList);
+    let selectFieldValue = getSelectFields(selectFields);
 
-    console.log("whereClause:::"+whereClause)
-
-    let quotedAndCommaSeparated = "\"" + selectFields.join("\",\"") + "\"";
     // const exportData = await prisma.$queryRawUnsafe(`${query};`);
     if(whereClause && whereClause != EMPTY_STRING) {
-      console.log("Where Clause")
-      const exportData = await prisma.$queryRaw`SELECT ${Prisma.raw(String(quotedAndCommaSeparated))} FROM ${Prisma.raw(JSON.stringify(tableName))} ${Prisma.raw(String(whereClause))};`;
+      const exportData = await prisma.$queryRaw`SELECT ${Prisma.raw(String(selectFieldValue))} FROM ${Prisma.raw(tableName)}  ${Prisma.raw(String(whereClause))};`;
       console.log("Where Export Data:::"+JSON.stringify(exportData))
       res.status(200).json(exportData);
   
     }else {
-      const exportData = await prisma.$queryRaw`SELECT ${Prisma.raw(String(quotedAndCommaSeparated))} FROM ${Prisma.raw(JSON.stringify(tableName))};`;
+      const exportData = await prisma.$queryRaw`SELECT ${Prisma.raw(String(selectFieldValue))} FROM ${Prisma.raw(JSON.stringify(tableName))};`;
       console.log("Export Data:::"+JSON.stringify(exportData))
       res.status(200).json(exportData);
   
@@ -46,7 +43,21 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
 };
 
-const getWhereCluase = (filterByList) => {
+const getSelectFields = (selectFields) => {
+  const quotedAndCommaSeparated = selectFields.map((selectField) => {
+    console.log("selectField:::"+selectField.split(".")[0]+"******"+selectField.split(".")[1])
+    return selectField.split(".")[0]+"."+"\""+selectField.split(".")[1]+"\""
+  })
+
+  // let quotedAndCommaSeparated = "\"" + selectFields.join("\",\"") + "\"";
+
+  console.log("quotedAndCommaSeparated::::"+quotedAndCommaSeparated)
+
+  return quotedAndCommaSeparated;
+
+}
+
+const getWhereClause = (filterByList) => {
   let whereClause = EMPTY_STRING;
   filterByList.map((filterBy, index) => {
     if(index === 0) {
