@@ -98,13 +98,11 @@ const ExportData = (props) => {
     }
 
     if(tableNames && !tableNames.includes(tableName)) {
-      console.log("tableName 222::"+tableName)
       const newTableNames = [...tableNames]
       newTableNames.push(tableName)
       setTableNames(newTableNames)
 
     }else {
-      console.log("tableName 111::"+tableName)
       setTableNames([tableName])
     }
 
@@ -141,11 +139,12 @@ const ExportData = (props) => {
 
   const handleFilterBy = async (selectedFilter)=> {
     const foreigntTable = selectedFilter.target.options.item(selectedFilter.target.selectedIndex).getAttribute("data-foreignTable")?selectedFilter.target.options.item(selectedFilter.target.selectedIndex).getAttribute("data-foreignTable"):null
+    const tableName = selectedFilter.target.options.item(selectedFilter.target.selectedIndex).getAttribute("data-tableName")?selectedFilter.target.options.item(selectedFilter.target.selectedIndex).getAttribute("data-tableName"):null
     if(foreigntTable) {
       const metaData = await importExportService.getTableMetaData(foreigntTable, userService.getAccountDetails().accountId)
     }else {
       const selectDataType = selectedFilter.target.options.item(selectedFilter.target.selectedIndex).getAttribute("data-dataType")?selectedFilter.target.options.item(selectedFilter.target.selectedIndex).getAttribute("data-dataType"):null
-      const selectItem = {key: selectedFilter.target.value, dataType: selectDataType}
+      const selectItem = {key: tableName.toLowerCase()+"."+selectedFilter.target.value, dataType: selectDataType}
       if (filterByList) {
         const newFilterByList = [...filterByList]
         newFilterByList.push(selectItem)
@@ -263,6 +262,7 @@ const ExportData = (props) => {
                                           {columnList?.map((column) => (
                                                 <option value={column.column_name} 
                                                 data-foreignTable={column.foreign_table_name}
+                                                data-tableName={column.table_name}
                                                 data-dataType={column.data_type} >{column.foreign_table_name?column.foreign_table_name:column.column_name}</option>
                                             // column.indexName?<>
                                             //     <option value={column.column_name} 
