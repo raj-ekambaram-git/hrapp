@@ -14,7 +14,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   try {
     // const tableName = req.query?.tableName
-    const tableName = "\""+req.query?.tableName+"\" as "+req.query?.tableName?.toString().toLowerCase()
+    // const tableName = "\""+req.query?.tableName+"\" as "+req.query?.tableName?.toString().toLowerCase()
+    const tableName = getFromTable(req.query?.tableName)
     const {selectFields} = req.body;
     const {filterByList} = req.body;
     
@@ -42,6 +43,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(400).json({ message: err });
   }
 };
+
+const getFromTable = (fromTable) => {
+  const tableName = "\""+fromTable+"\" as "+fromTable?.toString().toLowerCase()
+  return tableName;
+}
 
 const getSelectFields = (selectFields) => {
   const quotedAndCommaSeparated = selectFields.map((selectField) => {
