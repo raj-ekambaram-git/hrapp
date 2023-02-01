@@ -15,22 +15,24 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     // const tableName = req.query?.tableName
     // const tableName = "\""+req.query?.tableName+"\" as "+req.query?.tableName?.toString().toLowerCase()
-    const tableName = getFromTable(req.query?.tableName)
+    // const tableName = getFromTable(req.query?.tableName)
+    
+    const {tableName} = req.body;
     const {selectFields} = req.body;
     const {filterByList} = req.body;
     
-    
+    let tableNames =  getFromTable(tableName)
     let whereClause = getWhereClause(filterByList);
     let selectFieldValue = getSelectFields(selectFields);
 
     // const exportData = await prisma.$queryRawUnsafe(`${query};`);
     if(whereClause && whereClause != EMPTY_STRING) {
-      const exportData = await prisma.$queryRaw`SELECT ${Prisma.raw(String(selectFieldValue))} FROM ${Prisma.raw(tableName)}  ${Prisma.raw(String(whereClause))};`;
+      const exportData = await prisma.$queryRaw`SELECT ${Prisma.raw(String(selectFieldValue))} FROM ${Prisma.raw(tableNames)}  ${Prisma.raw(String(whereClause))};`;
       console.log("Where Export Data:::"+JSON.stringify(exportData))
       res.status(200).json(exportData);
   
     }else {
-      const exportData = await prisma.$queryRaw`SELECT ${Prisma.raw(String(selectFieldValue))} FROM ${Prisma.raw(JSON.stringify(tableName))};`;
+      const exportData = await prisma.$queryRaw`SELECT ${Prisma.raw(String(selectFieldValue))} FROM ${Prisma.raw(JSON.stringify(tableNames))};`;
       console.log("Export Data:::"+JSON.stringify(exportData))
       res.status(200).json(exportData);
   
