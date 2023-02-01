@@ -37,8 +37,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       }
     });
 
-    console.log("USER RESPONSE :::"+JSON.stringify(user))
-
     if(user != undefined) {
       //check if the password matches
         bcrypt.compare(loginData.password, user.password, function(err, result) {  // Compare
