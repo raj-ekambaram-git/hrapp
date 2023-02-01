@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 import getConfig from 'next/config';
 import { NextApiRequest, NextApiResponse } from "next"
 import prisma from "../../../lib/prisma";
+import { UserStatus } from '@prisma/client';
 
 
 
@@ -59,7 +60,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
 
 async function hasAccess(result, res, user) {
-  if (result) {
+  if (result && (user.status === UserStatus.Active || user.status === UserStatus.Approved)) {
     // insert login code here
     console.log("Access Granted!");
     //Update the last sign in time stamp
