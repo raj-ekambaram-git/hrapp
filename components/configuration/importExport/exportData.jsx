@@ -63,6 +63,7 @@ const ExportData = (props) => {
   const handleExportbject = async (importObject) => {
     setExportObject(importObject?.target?.value)
     setParentObjName(importObject?.target?.value.toLowerCase())
+    setTableNames([importObject?.target?.value])
     const metaData = await importExportService.getTableMetaData(importObject.target.value, userService.getAccountDetails().accountId)
     setColumnList(metaData)
   }
@@ -77,7 +78,7 @@ const ExportData = (props) => {
       console.log("metaDatametaData::"+JSON.stringify(metaData))
       setChildColumnList(metaData)      
       console.log("parentObjName::"+parentObjName+"*****tableNameLL"+tableName+"****foreigntTable:::"+foreigntTable)
-      const joinItem = tableName.toLowerCase()+"."+selectedColumn.target.value+"="+foreigntTable.toLowerCase()+".id"
+      const joinItem = (tableName.toLowerCase()==="user"?"usr":tableName.toLowerCase())+"."+selectedColumn.target.value+"="+(foreigntTable.toLowerCase()==="user"?"usr":foreigntTable.toLowerCase())+".id"
       if(joins) {
         const nweJoins = [...joins]
         nweJoins.push(joinItem)
@@ -87,7 +88,7 @@ const ExportData = (props) => {
       }
 
     }else {
-      const selectItem = tableName.toLowerCase()+"."+selectedColumn.target.value      
+      const selectItem = (tableName.toLowerCase()==="user"?"usr":tableName.toLowerCase())+"."+selectedColumn.target.value      
       setParentObjName(tableName)
       // const selectItem = selectedColumn.target.value
       if (selectList) {
@@ -99,15 +100,21 @@ const ExportData = (props) => {
       }
     }
 
+    console.log("tableName:::"+"*****foreigntTable::"+foreigntTable+"****tableNames:::"+tableNames)
     if(tableNames && !tableNames.includes(tableName)) {
+      console.log("tableNames:::"+tableNames)
       const newTableNames = [...tableNames]
       newTableNames.push(tableName)
       setTableNames(newTableNames)
-
-    }else {
-      setTableNames([tableName])
     }
 
+    if(foreigntTable && tableNames && !tableNames.includes(foreigntTable)) {
+      console.log("foreigntTable:::tableNames:::"+tableNames)
+      const newTableNames = [...tableNames]
+      newTableNames.push(foreigntTable)
+      setTableNames(newTableNames)
+    }
+    
   }
 
   function hanldeExport(newSize) {
@@ -119,6 +126,7 @@ const ExportData = (props) => {
     setChildColumnList(null)
     setParentObjName(null)
     setJoins(null)
+    setTableNames(null)
   }
 
   const handleExportData = async () => {
@@ -148,7 +156,7 @@ const ExportData = (props) => {
       const metaData = await importExportService.getTableMetaData(foreigntTable, userService.getAccountDetails().accountId)
     }else {
       const selectDataType = selectedFilter.target.options.item(selectedFilter.target.selectedIndex).getAttribute("data-dataType")?selectedFilter.target.options.item(selectedFilter.target.selectedIndex).getAttribute("data-dataType"):null
-      const selectItem = {key: tableName.toLowerCase()+"."+selectedFilter.target.value, dataType: selectDataType}
+      const selectItem = {key: (tableName.toLowerCase()==="user"?"usr":tableName.toLowerCase())+"."+selectedFilter.target.value, dataType: selectDataType}
       if (filterByList) {
         const newFilterByList = [...filterByList]
         newFilterByList.push(selectItem)

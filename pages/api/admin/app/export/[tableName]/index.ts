@@ -28,11 +28,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     // const exportData = await prisma.$queryRawUnsafe(`${query};`);
     if(whereClause && whereClause != EMPTY_STRING) {
+      console.log("BEFORE CALLING EXPORT 1111::selectFieldValue::"+selectFieldValue+"*****tableNames:::"+tableNames+"***whereClause::"+whereClause)
       const exportData = await prisma.$queryRaw`SELECT ${Prisma.raw(String(selectFieldValue))} FROM ${Prisma.raw(tableNames)}  ${Prisma.raw(String(whereClause))};`;
       console.log("Where Export Data:::"+JSON.stringify(exportData))
       res.status(200).json(exportData);
   
     }else {
+      console.log("BEFORE CALLING EXPORT 222222::selectFieldValue::"+selectFieldValue+"*****tableNames:::"+tableNames+"***whereClause::"+whereClause)
       const exportData = await prisma.$queryRaw`SELECT ${Prisma.raw(String(selectFieldValue))} FROM ${Prisma.raw(JSON.stringify(tableNames))};`;
       console.log("Export Data:::"+JSON.stringify(exportData))
       res.status(200).json(exportData);
@@ -50,7 +52,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 const getFromTable = (fromTable) => {
   console.log("tableName:::"+JSON.stringify(fromTable))
   const quotedAndCommaSeparated = fromTable.map((tableName) => {
-    return "\""+tableName+"\" as "+tableName?.toString().toLowerCase()
+    console.log("INSIDDEE::"+tableName)
+
+    return "\""+tableName+"\" as "+(tableName?.toString().toLowerCase() === "user"?"usr":tableName?.toString().toLowerCase())
     // console.log("selectField:::"+tableName.split(".")[0]+"******"+tableName.split(".")[1])
     // return tableName.split(".")[0]+"."+"\""+tableName.split(".")[1]+"\""
   })
