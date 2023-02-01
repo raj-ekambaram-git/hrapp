@@ -3,7 +3,8 @@ const bcrypt = require('bcryptjs');
 import getConfig from 'next/config';
 import { NextApiRequest, NextApiResponse } from "next"
 import prisma from "../../../lib/prisma";
-import { UserStatus } from '@prisma/client';
+import { AccountStatus, UserStatus } from '@prisma/client';
+import { ErrorMessage } from '../../../constants/errorMessage';
 
 
 
@@ -26,6 +27,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const user = await prisma.user.findUnique({
       where: {
         email: loginData.username,
+      },
+      include: {
+        account: {
+          select: {
+            status: true
+          }
+        }
       }
     });
 
@@ -60,9 +68,16 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
 
 async function hasAccess(result, res, user) {
-  if (result && (user.status === UserStatus.Active || user.status === UserStatus.Approved)) {
+  if (result) {
     // insert login code here
     console.log("Access Granted!");
+    if(user.status != UserStatus.Active && user.status != UserStatus.Approved) {
+      res.status(400).json({ message: ErrorMessage.USER_NOT_ACTIVE });
+    }
+
+    if(user.account?.status != AccountStatus.Active && user.account?.status != AccountStatus.Active) {
+      res.status(400).json({ message: ErrorMessage.ACCOUNT_NOT_ACTIVE });
+    }
     //Update the last sign in time stamp
     const savedUser = await prisma.user.update({
       where: {
@@ -91,6 +106,6 @@ async function hasAccess(result, res, user) {
   else {
     // insert access denied code here
     console.log("Access Denied!");
-    res.status(400).json({ message: 'Invalid credentials. Please try again or reset password.' });
+    res.status(400).json({ message: ErrorMessage.INVALID_LOGON_CREDENTIALS });
   }
 }

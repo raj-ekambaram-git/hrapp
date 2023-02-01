@@ -63,7 +63,7 @@ function Login() {
             .catch(err => {
                 toast({
                     title: 'Login Error.',
-                    description: 'Pleae enter correct credentials to login or reset the password. Details:'+err,
+                    description: 'Details:'+err,
                     status: 'error',
                     position: 'top',
                     duration: 6000,

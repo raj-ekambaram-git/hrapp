@@ -21,4 +21,7 @@ export const ErrorMessage = {
   TIMESHEET_PROJECT_BUDGET_ERROR_3: " hours. Please contact project administrator or adjust your hours accordingly.",
   SELECT_PROJECT_BEFORE_EXPENSE_ENTRY: "Please select a project before selecting an expense entry.",
   SELECT_RESOURCE_COST_ERROR: "Not able to add this expense type now.",
+  INVALID_LOGON_CREDENTIALS: 'Invalid credentials. Please try again or reset password.',
+  USER_NOT_ACTIVE: 'User is not active/approved, please contact administrator to unlock it.',
+  ACCOUNT_NOT_ACTIVE: 'Account is not active/approved, please contact administrator to unlock it.',
 }

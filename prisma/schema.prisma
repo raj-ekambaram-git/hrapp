@@ -596,6 +596,7 @@ enum AccountStatus {
   Active
   Inactive
   Fraud
+  Approved
   MarkForDelete
 }
 
