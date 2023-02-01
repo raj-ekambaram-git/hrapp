@@ -20,9 +20,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const {tableName} = req.body;
     const {selectFields} = req.body;
     const {filterByList} = req.body;
+    const {joinsList} = req.body;
     
     let tableNames =  getFromTable(tableName)
-    let whereClause = getWhereClause(filterByList);
+    let whereClause = getWhereClause(filterByList, joinsList);
     let selectFieldValue = getSelectFields(selectFields);
 
     // const exportData = await prisma.$queryRawUnsafe(`${query};`);
@@ -75,23 +76,43 @@ const getSelectFields = (selectFields) => {
 
 }
 
-const getWhereClause = (filterByList) => {
+const getWhereClause = (filterByList, joinsList) => {
   let whereClause = EMPTY_STRING;
   filterByList.map((filterBy, index) => {
     if(index === 0) {
       if(filterBy.dataType === "text" || filterBy.dataType === "USER-DEFINED") {
-        whereClause = " WHERE "+filterBy.key+" "+filterBy.operator+"'"+filterBy.value+"'";
+        whereClause = " WHERE "+filterBy.key?.split(".")[0]+".\""+filterBy.key?.split(".")[1]+"\""+filterBy.operator+"'"+filterBy.value+"'";
       }else {
-        whereClause = " WHERE "+filterBy.key+" "+filterBy.operator+filterBy.value;
+        whereClause = " WHERE "+filterBy.key?.split(".")[0]+".\""+filterBy.key?.split(".")[1]+"\""+filterBy.operator+filterBy.value;
       }
       
     }else {
       if(filterBy.dataType === "text" || filterBy.dataType === "USER-DEFINED") {
-        whereClause = whereClause+ " AND "+" "+filterBy.key+filterBy.operator+"'"+filterBy.value+"'";
+        whereClause = whereClause+ " AND "+filterBy.key?.split(".")[0]+".\""+filterBy.key?.split(".")[1]+"\""+filterBy.operator+"'"+filterBy.value+"'";
       }else {
-        whereClause = whereClause+ " AND "+" "+filterBy.key+filterBy.operator+filterBy.value;
+        whereClause = whereClause+ " AND "+filterBy.key?.split(".")[0]+".\""+filterBy.key?.split(".")[1]+"\""+filterBy.operator+filterBy.value;
       }
     }
   })
+
+  console.log("joinsListjoinsList::"+joinsList)
+
+  joinsList.map((joins, index) => {
+    const leftSide = joins.split("=")[0]?.split(".")[0]+"."+"\""+joins.split("=")[0]?.split(".")[1]+"\""
+    const rigthSide = joins.split("=")[1]?.split(".")[0]+"."+"\""+joins.split("=")[1]?.split(".")[1]+"\""
+
+    if(index === 0 && whereClause === EMPTY_STRING) {      
+      whereClause = " WHERE "+leftSide+"="+rigthSide;
+    }else {
+      whereClause = whereClause+ " AND "+" "+leftSide+"="+rigthSide;
+    }
+  })
+  console.log("WHERE CLAUSE::"+whereClause)
+  // joinsList.map((join, index) => {
+  //   if(index === 0 && whereClause === EMPTY_STRING) {
+  //   }else {
+
+  //   }
+  // })
   return whereClause;
 }
