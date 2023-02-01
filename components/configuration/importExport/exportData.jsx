@@ -68,8 +68,11 @@ const ExportData = (props) => {
     setColumnList(metaData)
   }
 
-  const handleColumnSelection = async (selectedColumn) => {
+  const handleColumnSelection = async (selectedColumn, isPrimary) => {
     console.log("selectedColumn.target.value::"+selectedColumn.target.value)
+    if(isPrimary) {
+      setChildColumnList(null)
+    }
     const foreigntTable = selectedColumn.target.options.item(selectedColumn.target.selectedIndex).getAttribute("data-foreignTable")?selectedColumn.target.options.item(selectedColumn.target.selectedIndex).getAttribute("data-foreignTable"):null
     const selectDataType = selectedColumn.target.options.item(selectedColumn.target.selectedIndex).getAttribute("data-dataType")?selectedColumn.target.options.item(selectedColumn.target.selectedIndex).getAttribute("data-dataType"):null
     const tableName = selectedColumn.target.options.item(selectedColumn.target.selectedIndex).getAttribute("data-tableName")?selectedColumn.target.options.item(selectedColumn.target.selectedIndex).getAttribute("data-tableName"):null
@@ -225,7 +228,7 @@ const ExportData = (props) => {
                                 </Heading>
                                 <Box>
                                   <HStack>
-                                    <Select width="50%" id="columnSelect" onChange={(ev) => handleColumnSelection(ev)}>
+                                    <Select width="50%" id="columnSelect" onChange={(ev) => handleColumnSelection(ev, true)}>
                                         <option value="">Select</option>
                                         {columnList?.map((column) => (
                                           <option value={column.column_name} 
@@ -235,7 +238,7 @@ const ExportData = (props) => {
                                         ))}
                                     </Select>
                                     {childColumnList && childColumnList.length>0?<>
-                                      <Select width="50%" id="columnSelect" onChange={(ev) => handleColumnSelection(ev)}>
+                                      <Select width="50%" id="columnSelect" onChange={(ev) => handleColumnSelection(ev, false)}>
                                           <option value="">Select</option>
                                           {childColumnList?.map((column) => (
                                             <option value={column.column_name} 
