@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import cookie from 'js-cookie'
-import { Layout } from 'components/account';
+import { Layout } from '../components/static/Layout';
 import { userService, alertService } from 'services';
 import {
     Card,
@@ -15,13 +15,15 @@ import {
     StackDivider,
     HStack,
     Button,
-    useToast
+    useToast,
+    Box
   
   } from '@chakra-ui/react';
 import UserResetPassword from '../components/user/userResetPassword';
 import { useDispatch } from 'react-redux';
 import {setSelectedAccountId} from '../store/modules/Account/actions'
 import {setLoggedInUser} from '../store/modules/User/actions'
+import Head from 'next/head';
 
 export default Login;
 
@@ -74,49 +76,57 @@ function Login() {
     }
 
     return (
-        <Layout>
+        <>
 
-            <Card>
-                <CardHeader bgColor="heading">
-                    <Flex
-                        as="nav"
-                        align="center"
-                        justify="space-between"
-                        wrap="wrap"
-                        bg="heading"
-                        color="white"
-                        width="page.heading_width"
-                        borderRadius='9px'
-                    >
-                    <Heading size='md'>Login</Heading>
-                    </Flex>                        
-                </CardHeader>
+            <Head>
+            <title>Registration Page</title>
+            </Head>
+            <Layout>
+                <Box bg="gray.50" width="1900">
+                    <Box width="page.login_width">
+                        <Card>
+                            <CardHeader bgColor="heading">
+                                <Flex
+                                    as="nav"
+                                    align="center"
+                                    justify="space-between"
+                                    wrap="wrap"
+                                    bg="heading"
+                                    color="white"
+                                    width="page.heading_width"
+                                    borderRadius='9px'
+                                >
+                                <Heading size='md'>Login</Heading>
+                                </Flex>                        
+                            </CardHeader>
 
-                <CardBody>
-                <Stack divider={<StackDivider />} spacing='1'>
-                    <form onSubmit={handleSubmit(onSubmit)}>
-                        <div className="form-group">
-                            <label>Username</label>
-                            <input name="username" type="text" {...register('username')} className={`form-control ${errors.username ? 'is-invalid' : ''}`} />
-                            <div className="invalid-feedback">{errors.username?.message}</div>
-                        </div>
-                        <div className="form-group">
-                            <label>Password</label>
-                            <input name="password" type="password" {...register('password')} className={`form-control ${errors.password ? 'is-invalid' : ''}`} />
-                            <div className="invalid-feedback">{errors.password?.message}</div>
-                        </div>
-                        <HStack spacing={4}>
-                            <Button type="submit" disabled={formState.isSubmitting} width="button.login.widht" bgColor="button.primary.color">
-                                {formState.isSubmitting && <span className="spinner-border spinner-border-sm mr-1"></span>}
-                                Login
-                            </Button>
-                            <UserResetPassword/>
-                        </HStack>
-                    </form>
-                </Stack>
-                </CardBody>
-            </Card>                
-
-        </Layout>
+                            <CardBody>
+                                <Stack divider={<StackDivider />} spacing='1'>
+                                    <form onSubmit={handleSubmit(onSubmit)}>
+                                        <div className="form-group">
+                                            <label>Username</label>
+                                            <input name="username" type="text" {...register('username')} className={`form-control ${errors.username ? 'is-invalid' : ''}`} />
+                                            <div className="invalid-feedback">{errors.username?.message}</div>
+                                        </div>
+                                        <div className="form-group">
+                                            <label>Password</label>
+                                            <input name="password" type="password" {...register('password')} className={`form-control ${errors.password ? 'is-invalid' : ''}`} />
+                                            <div className="invalid-feedback">{errors.password?.message}</div>
+                                        </div>
+                                        <HStack spacing={4}>
+                                            <Button type="submit" disabled={formState.isSubmitting} width="button.login.widht" bgColor="button.primary.color">
+                                                {formState.isSubmitting && <span className="spinner-border spinner-border-sm mr-1"></span>}
+                                                Login
+                                            </Button>
+                                            <UserResetPassword/>
+                                        </HStack>
+                                    </form>
+                                </Stack>
+                            </CardBody>
+                        </Card>                
+                    </Box>
+                </Box>
+            </Layout>
+        </>
     );
 }

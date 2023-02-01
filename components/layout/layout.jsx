@@ -7,8 +7,8 @@ const Layout = (props) => {
 
   return (
     <Fragment>
-      <Slidebar authorized={props.data.authorized} allowedModules={props.data.allowedModules}>
-      {props.data.authorized ? (
+      <Slidebar authorized={props.data?.authorized} allowedModules={props.data?.allowedModules}>
+      {props.data?.authorized ? (
         <>
         {props.data.hasAccess?(<>
           <div>{props.children}</div>

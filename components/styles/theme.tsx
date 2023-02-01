@@ -120,6 +120,7 @@ const theme = extendTheme({
     page: {
       heading_width: "100%",
       sub_heading_width: "1000px",
+      login_width: "700px",
       single_input: "40%",
       sub_accordion_width: "100%"
     },
