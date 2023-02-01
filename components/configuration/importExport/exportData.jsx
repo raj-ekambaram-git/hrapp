@@ -108,8 +108,8 @@ const ExportData = (props) => {
                 </Heading>
 
                 <Button size="xs" bgColor="header_actions" 
-                  onClick={() => hanldeExport("lg")}
-                  key="lg"
+                  onClick={() => hanldeExport("xl")}
+                  key="xl"
                   m={1}
                   >{`Export`}
                 </Button>

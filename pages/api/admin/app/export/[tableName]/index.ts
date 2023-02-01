@@ -15,8 +15,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const tableName = req.query?.tableName;
     const {selectFields} = req.body;
     var quotedAndCommaSeparated = "\"" + selectFields.join("\",\"") + "\"";
-    console.log("quotedAndCommaSeparated:::"+quotedAndCommaSeparated)
-    console.log("selectFields::"+String(quotedAndCommaSeparated))
     // const exportData = await prisma.$queryRawUnsafe(`${query};`);
     const exportData = await prisma.$queryRaw`SELECT ${Prisma.raw(String(quotedAndCommaSeparated))} FROM ${Prisma.raw(JSON.stringify(tableName))};`;
     // const exportData = await prisma.$queryRaw`SELECT "createdDate" FROM ${Prisma.raw(JSON.stringify(tableName))};`;
