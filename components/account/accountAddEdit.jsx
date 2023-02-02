@@ -87,26 +87,27 @@ const AccountAddEdit = (props) => {
           const accountData =  {
               id: accountResponse.id.toString(),
               accountName: accountResponse.name,
+              accountType: accountResponse.type,
               accountDescription: accountResponse.description,
               accountEIN: accountResponse.ein,
               accountEmail: accountResponse.email,
               accountStatus: accountResponse.status,
               accountPhone: accountResponse.phone,
-              addressName: accountResponse.address[0].addressName,
-              addressId: accountResponse.address[0].id,
-              address1: accountResponse.address[0].address1,
-              address2: accountResponse.address[0].address2,
-              address3: accountResponse.address[0].address3,
-              city: accountResponse.address[0].city,
-              state: accountResponse.address[0].state,
-              zipCode: accountResponse.address[0].zipCode,
-              country: accountResponse.address[0].country
+              addressName: accountResponse.address&& accountResponse.address.length>0?accountResponse.address[0].addressName:null,
+              addressId: accountResponse.address&& accountResponse.address.length>0?accountResponse.address[0].id:null,
+              address1: accountResponse.address&& accountResponse.address.length>0?accountResponse.address[0].address1:null,
+              address2: accountResponse.address&& accountResponse.address.length>0?accountResponse.address[0].address2:null,
+              address3: accountResponse.address&& accountResponse.address.length>0?accountResponse.address[0].address3:null,
+              city: accountResponse.address&& accountResponse.address.length>0?accountResponse.address[0].city:null,
+              state: accountResponse.address&& accountResponse.address.length>0?accountResponse.address[0].state:null,
+              zipCode: accountResponse.address&& accountResponse.address.length>0?accountResponse.address[0].zipCode:null,
+              country: accountResponse.address&& accountResponse.address.length>0?accountResponse.address[0].country:null
           };
   
           setAccount(accountData);
   
           // get user and set form fields
-              const fields = ['accountName', "accountDescription", "accountStatus", "accountEIN","accountEmail","accountPhone", "addressName","address1", "address2", "address3","city","state","zipCode","accountPhone"];
+              const fields = ['accountName', "accountDescription", "accountType", "accountStatus", "accountEIN","accountEmail","accountPhone", "addressName","address1", "address2", "address3","city","state","zipCode","accountPhone"];
               fields.forEach(field => setValue(field, accountData[field]));
       }
   
@@ -224,29 +225,38 @@ const AccountAddEdit = (props) => {
                 <CardBody>
                   <Stack>
                         <FormControl isRequired>
-                          <FormLabel>Account Name</FormLabel>
+                          <FormLabel>Name</FormLabel>
                           <Input type="text" {...register('accountName')}  id="accountName"   maxWidth="page.single_input"/>
                         </FormControl>     
                         <FormControl isRequired>
-                            <FormLabel>Account Descirption</FormLabel>
+                            <FormLabel>Descirption</FormLabel>
                             <Input type="text" id="accountDescription" {...register('accountDescription')}   maxWidth="page.single_input"/>
                         </FormControl>   
                         <HStack spacing="15rem">
                           <Box>
                           <FormControl isRequired>
-                            <FormLabel>Account EIN</FormLabel>
+                            <FormLabel>EIN</FormLabel>
                             <Input type="text" id="accountEIN"   {...register('accountEIN')} />
                           </FormControl>  
                           </Box>
                           <Box>
-                          <FormControl isRequired>
-                            <FormLabel>Account Status</FormLabel>
-                            <Select id="accountStatus" {...register('accountStatus')} >
-                                <option value="Active">Active</option>
-                                <option value="Inactive">Inactive</option>
-                            </Select>
-                          </FormControl>     
+                            <FormControl isRequired>
+                              <FormLabel>Status</FormLabel>
+                              <Select id="accountStatus" {...register('accountStatus')} >
+                                  <option value="Active">Active</option>
+                                  <option value="Inactive">Inactive</option>
+                              </Select>
+                            </FormControl>     
                           </Box>
+                          <Box>
+                            <FormControl isRequired>
+                              <FormLabel>Type</FormLabel>
+                              <Select id="accountType" {...register('accountType')} >
+                                  <option value="Trial">Trial</option>
+                                  <option value="Full">Full</option>
+                              </Select>
+                            </FormControl>     
+                          </Box>                          
                         </HStack>   
                   </Stack>
                 </CardBody>

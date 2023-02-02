@@ -73,6 +73,7 @@ function updateAccount(accountId, formData, addressId) {
         ein: formData.accountEIN,
         email: formData.accountEmail,
         status: formData.accountStatus,
+        type: formData.accountType,
         phone: formData.accountPhone,
         updatedById: userService.userValue.id,
         address: {
@@ -182,6 +183,7 @@ function registerAccount(formData) {
             ein: formData.accountEIN,
             email: formData.accountEmail,
             status: formData.accountStatus,
+            type: formData.accountType,
             phone: formData.accountPhone,
             updatedById: userService.userValue.id,
         }
