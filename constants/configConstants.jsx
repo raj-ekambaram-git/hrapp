@@ -110,6 +110,10 @@ export const ConfigConstants = {
         accessor: "name"
       },    
       {
+        label: "File Prefix",
+        accessor: "fileName"
+      },      
+      {
         label: "File Type",
         accessor: "fileType"
       },

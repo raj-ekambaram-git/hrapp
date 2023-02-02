@@ -528,9 +528,10 @@ model ExportTemplate {
   id             Int                  @id @default(autoincrement())
   type           ExportTemplateType
   name           String
+  fileName       String               @default("fileName")
   account        Account?             @relation(fields: [accountId], references: [id])
   accountId      Int?                 @default(0)
-  templateName   String?
+  template       String?
   queryMeta      Json
   fileType       ExportFileType?
   status         ExportTemplateStatus

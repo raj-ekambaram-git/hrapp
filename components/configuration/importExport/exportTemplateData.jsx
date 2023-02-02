@@ -68,7 +68,7 @@ function ExportTemplateData() {
         const blob = new Blob([data]);
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
-        link.download = "fileNamePrefix"+util.getFormattedDateWithTime(new Date())+templateToExport[0].fileType;
+        link.download = templateToExport[0]?.fileName+util.getFormattedDateWithTime(new Date())+templateToExport[0].fileType;
         link.click();
     
       } else {

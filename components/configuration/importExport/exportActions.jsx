@@ -18,12 +18,13 @@ const ExportActions = (props) => {
     const router = useRouter();
     const toast = useToast();
     const [fileType, setFileType] = useState();
+    const [fileName, setFileName] = useState();
     const [exportName, setExportName] = useState();
     const [showSaveExport, setShowSaveExport] = useState(false);
   
     const handleSaveAsTemplate = () => {
-      if(exportName && exportName != EMPTY_STRING && fileType && fileType != EMPTY_STRING) {
-        props.handleSaveAsTemplate(exportName, fileType)
+      if(exportName && exportName != EMPTY_STRING && fileType && fileType != EMPTY_STRING && fileName && fileName != EMPTY_STRING) {
+        props.handleSaveAsTemplate(exportName, fileType, fileName)
       }else {
         toast({
           title: 'Save as Template error.',
@@ -46,9 +47,13 @@ const ExportActions = (props) => {
       <Stack spacing={7}>
            {showSaveExport?<>
               <HStack spacing={2}>
-                <FormControl isRequired width="40%">
+                  <FormControl isRequired width="40%">
                     <FormLabel>Name</FormLabel>
                     <Input type="text"  value={exportName} onChange={(ev) =>setExportName(ev.target.value)}/>
+                  </FormControl>          
+                  <FormControl isRequired width="40%">
+                    <FormLabel>File Name</FormLabel>
+                    <Input type="text"  value={fileName} onChange={(ev) =>setFileName(ev.target.value)}/>
                   </FormControl>          
                   <FormControl isRequired>
                     <FormLabel>File Type</FormLabel>

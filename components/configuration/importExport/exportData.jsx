@@ -123,11 +123,12 @@ const ExportData = (props) => {
     }
   }
 
-  const handleSaveAsTemplate = async (exportName, fileType) => {
+  const handleSaveAsTemplate = async (exportName, fileType, fileName) => {
     if(tableNames && tableNames.length>0 && selectList && selectList.length>0 && filterByList && filterByList.length>0) {
       const requestData = {
         type: ExportTemplateType.User,
         name: exportName,
+        fileName: fileName,
         accountId: userService.getAccountDetails().accountId,
         queryMeta: {
           tableNames: tableNames,
