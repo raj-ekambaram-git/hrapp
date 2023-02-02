@@ -15,7 +15,7 @@ import {
   Heading,
   HStack,
   Select,
-  Input,
+
 } from '@chakra-ui/react';
 
 import { useDispatch, useSelector } from "react-redux";
@@ -26,7 +26,8 @@ import { SelectQuerySection } from "./selectQuerySection";
 import { FilterBySection } from "./filterBySection";
 import ExportActions from "./exportActions";
 import { ExportTemplateStatus, ExportTemplateType, ExportType } from "@prisma/client";
-
+import Papa from "papaparse";
+import { util } from "../../../helpers/util";
 
 const ExportData = (props) => {
   const [size, setSize] = useState('');
@@ -93,6 +94,18 @@ const ExportData = (props) => {
     if(tableNames && tableNames.length>0 && selectList && selectList.length>0 && filterByList && filterByList.length>0) {
       const responseData = await importExportService.exportData(tableNames, selectList, filterByList, joins, userService.getAccountDetails().accountId)
       console.log("responseData::"+JSON.stringify(responseData))  
+      const data = Papa.unparse(responseData);
+      console.log("ParsedData :::"+data);
+      if(!data.error) {
+        const blob = new Blob([data]);
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = exportObject+util.getFormattedDateWithTime(new Date())+".csv";
+        link.click();
+    
+      }
+  
+      
     } else {
       toast({
         title: 'Export Error.',
