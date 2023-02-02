@@ -35,6 +35,7 @@ const ExportData = (props) => {
   const [childColumnList, setChildColumnList] = useState();
   const [selectList, setSelectList] = useState();
   const [filterByList, setFilterByList] = useState();
+  const [childFilterByList, setChildFilterByList] = useState();
   const [exportObject, setExportObject] = useState();
   const [joins, setJoins] = useState();
   const [tableNames, setTableNames] = useState();
@@ -130,6 +131,7 @@ const ExportData = (props) => {
     setParentObjName(null)
     setJoins(null)
     setTableNames(null)
+    setChildFilterByList(null)
   }
 
   const handleExportData = async () => {
@@ -152,13 +154,26 @@ const ExportData = (props) => {
   }
 
 
-  const handleFilterBy = async (selectedFilter)=> {
+  const handleFilterBy = async (selectedFilter, isPrimary)=> {
+    if(isPrimary) {
+      setChildFilterByList(null)
+    }
     const foreigntTable = selectedFilter.target.options.item(selectedFilter.target.selectedIndex).getAttribute("data-foreignTable")?selectedFilter.target.options.item(selectedFilter.target.selectedIndex).getAttribute("data-foreignTable"):null
+    const selectDataType = selectedFilter.target.options.item(selectedFilter.target.selectedIndex).getAttribute("data-dataType")?selectedFilter.target.options.item(selectedFilter.target.selectedIndex).getAttribute("data-dataType"):null
     const tableName = selectedFilter.target.options.item(selectedFilter.target.selectedIndex).getAttribute("data-tableName")?selectedFilter.target.options.item(selectedFilter.target.selectedIndex).getAttribute("data-tableName"):null
     if(foreigntTable) {
       const metaData = await importExportService.getTableMetaData(foreigntTable, userService.getAccountDetails().accountId)
+      setChildFilterByList(metaData)    
+      const joinItem = (tableName.toLowerCase()==="user"?"usr":tableName.toLowerCase())+"."+selectedFilter.target.value+"="+(foreigntTable.toLowerCase()==="user"?"usr":foreigntTable.toLowerCase())+".id"
+      if(joins) {
+        const nweJoins = [...joins]
+        nweJoins.push(joinItem)
+        setJoins(nweJoins)
+      }else {
+        setJoins([joinItem])
+      }        
     }else {
-      const selectDataType = selectedFilter.target.options.item(selectedFilter.target.selectedIndex).getAttribute("data-dataType")?selectedFilter.target.options.item(selectedFilter.target.selectedIndex).getAttribute("data-dataType"):null
+      // const selectDataType = selectedFilter.target.options.item(selectedFilter.target.selectedIndex).getAttribute("data-dataType")?selectedFilter.target.options.item(selectedFilter.target.selectedIndex).getAttribute("data-dataType"):null
       const selectItem = {key: (tableName.toLowerCase()==="user"?"usr":tableName.toLowerCase())+"."+selectedFilter.target.value, dataType: selectDataType}
       if (filterByList) {
         const newFilterByList = [...filterByList]
@@ -167,6 +182,21 @@ const ExportData = (props) => {
       }else {
         setFilterByList([selectItem])
       }
+    }
+
+    console.log("tableName:::"+"*****foreigntTable::"+foreigntTable+"****tableNames:::"+tableNames)
+    if(tableNames && !tableNames.includes(tableName)) {
+      console.log("tableNames:::"+tableNames)
+      const newTableNames = [...tableNames]
+      newTableNames.push(tableName)
+      setTableNames(newTableNames)
+    }
+
+    if(foreigntTable && tableNames && !tableNames.includes(foreigntTable)) {
+      console.log("foreigntTable:::tableNames:::"+tableNames)
+      const newTableNames = [...tableNames]
+      newTableNames.push(foreigntTable)
+      setTableNames(newTableNames)
     }
 
   }
@@ -272,7 +302,7 @@ const ExportData = (props) => {
                                             <FilterBySection filterBy={filterBy} indexVal={index} handleDeleteFilterBy={handleDeleteFilterBy} handleFIlterByInput={handleFIlterByInput}/>
                                         )}
                                       </Stack>                                      
-                                      <Select width="50%" id="columnSelect" onChange={(ev) => handleFilterBy(ev)}>
+                                      <Select width="50%" id="columnSelect" onChange={(ev) => handleFilterBy(ev, true)}>
                                           <option value="">Select</option>
                                           {columnList?.map((column) => (
                                                 <option value={column.column_name} 
@@ -286,6 +316,17 @@ const ExportData = (props) => {
                                             //   </>:<></>
                                           ))}
                                       </Select>
+                                      {childFilterByList && childFilterByList.length>0?<>
+                                      <Select width="50%" id="columnFilterBySelect" onChange={(ev) => handleFilterBy(ev, false)}>
+                                          <option value="">Select</option>
+                                          {childFilterByList?.map((column) => (
+                                            <option value={column.column_name} 
+                                              data-foreignTable={column.foreign_table_name}
+                                              data-tableName={column.table_name}
+                                              data-dataType={column.data_type} >{column.foreign_table_name?column.foreign_table_name:column.column_name}</option>
+                                          ))}
+                                      </Select>
+                                  </>:<></>}                                      
                               </Stack>
                                   <Button size="xs" width="25%" bgColor="header_actions" 
                                     onClick={() => handleExportData()}

@@ -101,7 +101,7 @@ const getWhereClause = (filterByList, joinsList) => {
 
   console.log("joinsListjoinsList::"+joinsList)
 
-  joinsList.map((joins, index) => {
+  joinsList?.map((joins, index) => {
     const leftSide = joins.split("=")[0]?.split(".")[0]+"."+"\""+joins.split("=")[0]?.split(".")[1]+"\""
     const rigthSide = joins.split("=")[1]?.split(".")[0]+"."+"\""+joins.split("=")[1]?.split(".")[1]+"\""
 
