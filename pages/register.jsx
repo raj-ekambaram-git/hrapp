@@ -23,7 +23,6 @@ import {
   Center,
   Container
 } from '@chakra-ui/react'
-import { PageMainHeader } from "../components/common/pageMainHeader";
 import { util } from "../helpers/util";
 import Head from "next/head";
 import { FooterSection } from "../components/static/FooterSection";
