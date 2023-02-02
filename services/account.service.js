@@ -4,6 +4,7 @@ import Router from 'next/router';
 import { fetchWrapper } from 'helpers';
 import { userService } from './user.service';
 import { AccountStatus, Role, UserStatus, UserType } from '@prisma/client';
+import { EMPTY_STRING } from '../constants';
 
 const { publicRuntimeConfig } = getConfig();
 const baseUrl = `${publicRuntimeConfig.apiUrl}`;
@@ -76,7 +77,7 @@ function updateAccount(accountId, formData, addressId) {
         type: formData.accountType,
         phone: formData.accountPhone,
         updatedById: userService.userValue.id,
-        address: {
+        address: addressId&&addressId!=EMPTY_STRING?{
           update: {
             where: {
               id: addressId,
@@ -93,8 +94,23 @@ function updateAccount(accountId, formData, addressId) {
               country: formData.country,
               status: "A"
             }
-          }
-          
+          }          
+        }:{
+            create: [
+                {
+                type: "A",
+                primary: true,
+                addressName: formData.addressName,
+                address1: formData.address1,
+                address2: formData.address2,
+                address3: formData.address3,
+                city: formData.city,
+                state: formData.state,
+                zipCode: formData.zipCode,
+                country: formData.country,
+                status: "A"
+                }
+            ]
         }
       }
   )
