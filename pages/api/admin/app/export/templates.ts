@@ -1,3 +1,4 @@
+import { ExportTemplateType } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
 import { EMPTY_STRING } from "../../../../../constants";
 import prisma from "../../../../../lib/prisma";
@@ -18,9 +19,19 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     if(accountId && accountId != EMPTY_STRING) {
       const savedTemplates = await prisma.exportTemplate.findMany({
         where: {
-          accountId: {
-            in: [parseInt(accountId.toString()),1]
-          }
+          OR: [
+            {
+              type: {
+                equals: ExportTemplateType.System,              
+              }
+            },            
+           {
+            accountId: {
+              equals: parseInt(accountId.toString())
+            }
+           }
+          ],
+          
         }
       });
       res.status(200).json(savedTemplates);
