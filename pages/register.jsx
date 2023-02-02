@@ -126,7 +126,7 @@ const Register = (props) => {
         <Script
         src={`https://www.google.com/recaptcha/api.js?render=6LeyNkUkAAAAAI6nmbpszuLJVBSVt9KP3ga0R6Db`}/>
         <Layout>
-          <Center w="full" minH={["80vh", "90vh"]} maxH={["30px", "90vh"]}>
+          <Center w="full" minH={["80vh", "90vh"]}>
             <Container maxW="container.xl" rounded="lg">
                 <Stack
                     spacing={[4, 8]}
@@ -238,10 +238,9 @@ const Register = (props) => {
                         </Stack>
                       </form>          
                     </Box>
-                    </Stack>
-                    </Container>
-                </Center>
-              
+                  </Stack>
+              </Container>
+            </Center>              
             <FooterSection/>          
           </Layout>
     </>

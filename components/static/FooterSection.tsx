@@ -21,7 +21,7 @@ import {
   
   export const FooterSection: FunctionComponent<FooterSectionProps> = () => {
     return (
-      <Center w="full" minH={[null, "90vh"]} maxH={["30px", "90vh"]}>
+      <Center w="full" maxH={["30px", "90vh"]}>
         <Container maxW="container.xl" rounded="lg">
         <Stack
             spacing={[4, 16]}
