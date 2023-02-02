@@ -9,6 +9,7 @@ import {
     LinkBox,
     LinkOverlayProps,
     Spacer,
+    Stack,
     Text,
     VStack,
     Wrap,
@@ -20,22 +21,19 @@ import {
   
   export const FooterSection: FunctionComponent<FooterSectionProps> = () => {
     return (
-      <Center w="full" minH={[null, "90vh"]}>
-        <Container maxW="container.lg">
-          <Flex py={6}>
-            <Box>
-              <Text alignContent="center">© 2023 boNeeds</Text>
-
-              {/* <Text>Made by Sukh</Text> */}
+      <Center w="full" minH={[null, "90vh"]} maxH={["30px", "90vh"]}>
+        <Container maxW="container.xl" rounded="lg">
+        <Stack
+            spacing={[4, 16]}
+            alignItems="center"
+            direction={["column", null]}
+            w="full"
+            h="full"
+          >
+            <Box rounded="lg">
+              <Text>© 2023 boNeeds</Text>
             </Box>
-            <Spacer />
-
-            {/* <LinkBox
-              <LinkOverlayProps href="https://twitter.com/@thisissukh_" isExternal>
-                <Image src="twitter.svg" alt="Twitter logo"></Image>
-              </LinkOverlay>
-            </LinkBox> */}
-          </Flex>
+          </Stack>          
         </Container>
       </Center>
     );

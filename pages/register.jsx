@@ -20,7 +20,8 @@ import {
   CardBody,
   StackDivider,
   useToast,
-  Center
+  Center,
+  Container
 } from '@chakra-ui/react'
 import { PageMainHeader } from "../components/common/pageMainHeader";
 import { util } from "../helpers/util";
@@ -125,9 +126,36 @@ const Register = (props) => {
         <Script
         src={`https://www.google.com/recaptcha/api.js?render=6LeyNkUkAAAAAI6nmbpszuLJVBSVt9KP3ga0R6Db`}/>
         <Layout>
-            <Center w={["400px", "full"]} minH={[null, "90vh"]}>
-              <Box bg="gray.50" width={["300", "1600"]}>
-                  <PageMainHeader heading="Register New Account"/>    
+        <Center w="full" minH={[null, "90vh"]} maxH={["30px", "90vh"]}>
+           <Container maxW="container.xl" rounded="lg">
+              <Stack
+                  spacing={[4, 16]}
+                  alignItems="center"
+                  direction={["column", null]}
+                  w="full"
+                  h="full"
+                >
+                  <Flex
+                    as="nav"
+                    align="center"
+                    justify="space-between"
+                    wrap="wrap"
+                    padding="page.heading"
+                    bg="heading"
+                    color="white"
+                    marginBottom="page.heading_marginBottom"
+                    width={[null,"page.heading_width"]}
+                    borderRadius='9px'
+                    >
+                    <Heading size='md'>Register for an Account</Heading>
+                    <HStack spacing={2}>
+                      <Box>
+                        <Button size="xs" colorScheme="yellow" onClick={() => router.back()}>
+                          Go Back
+                        </Button>
+                      </Box>
+                    </HStack>                                   
+                  </Flex>  
                   <Box marginBottom={4} fontSize="13px" color="gray.500">
                     "Start your free trial with all the features enabled for a month.
                   </Box>
@@ -218,8 +246,10 @@ const Register = (props) => {
                       </Stack>
                     </form>          
                   </Box>
-                </Box>
+                  </Stack>
+                  </Container>
               </Center>
+              
             <FooterSection/>          
           </Layout>
     </>
