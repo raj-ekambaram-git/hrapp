@@ -20,10 +20,11 @@ import {
   
   export const FooterSection: FunctionComponent<FooterSectionProps> = () => {
     return (
-      <Container maxW="container.lg">
+      <Center w="full" minH={[null, "90vh"]}>
+        <Container maxW="container.lg">
           <Flex py={6}>
             <Box>
-              <Text>© 2023 boNeeds</Text>
+              <Text alignContent="center">© 2023 boNeeds</Text>
 
               {/* <Text>Made by Sukh</Text> */}
             </Box>
@@ -36,5 +37,6 @@ import {
             </LinkBox> */}
           </Flex>
         </Container>
+      </Center>
     );
   };

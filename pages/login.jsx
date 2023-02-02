@@ -15,8 +15,8 @@ import {
     HStack,
     Button,
     useToast,
-    Box
-  
+    Box,
+    Center
   } from '@chakra-ui/react';
 import UserResetPassword from '../components/user/userResetPassword';
 import { useDispatch } from 'react-redux';
@@ -101,50 +101,52 @@ function Login() {
             <Script
                 src={`https://www.google.com/recaptcha/api.js?render=${SITE_KEY}`}/>
             <Layout>
-                <Box bg="gray.50" width="1900">
-                    <Box width="page.login_width">
-                        <Card>
-                            <CardHeader bgColor="heading">
-                                <Flex
-                                    as="nav"
-                                    align="center"
-                                    justify="space-between"
-                                    wrap="wrap"
-                                    bg="heading"
-                                    color="white"
-                                    width="page.heading_width"
-                                    borderRadius='9px'
-                                >
-                                <Heading size='md'>Login</Heading>
-                                </Flex>                        
-                            </CardHeader>
+                <Center w={[, "full"]} minH={["60vh", "90vh"]}>
+                    <Box bg="gray.50" width={["300", "1600"]}>
+                        <Box width="page.login_width">
+                            <Card>
+                                <CardHeader bgColor="heading">
+                                    <Flex
+                                        as="nav"
+                                        align="center"
+                                        justify="space-between"
+                                        wrap="wrap"
+                                        bg="heading"
+                                        color="white"
+                                        width="page.heading_width"
+                                        borderRadius='9px'
+                                    >
+                                    <Heading size='md'>Login</Heading>
+                                    </Flex>                        
+                                </CardHeader>
 
-                            <CardBody>
-                                <Stack divider={<StackDivider />} spacing='1'>
-                                    <form onSubmit={handleSubmit(onSubmit)}>
-                                        <div className="form-group">
-                                            <label>Username</label>
-                                            <input name="username" type="text" {...register('username')} className={`form-control ${errors.username ? 'is-invalid' : ''}`} />
-                                            <div className="invalid-feedback">{errors.username?.message}</div>
-                                        </div>
-                                        <div className="form-group">
-                                            <label>Password</label>
-                                            <input name="password" type="password" {...register('password')} className={`form-control ${errors.password ? 'is-invalid' : ''}`} />
-                                            <div className="invalid-feedback">{errors.password?.message}</div>
-                                        </div>
-                                        <HStack spacing={4}>
-                                            <Button type="submit" disabled={formState.isSubmitting} width="button.login.widht" bgColor="button.primary.color">
-                                                {formState.isSubmitting && <span className="spinner-border spinner-border-sm mr-1"></span>}
-                                                Login
-                                            </Button>
-                                            <UserResetPassword/>
-                                        </HStack>
-                                    </form>
-                                </Stack>
-                            </CardBody>
-                        </Card>                
+                                <CardBody>
+                                    <Stack divider={<StackDivider />} spacing='1'>
+                                        <form onSubmit={handleSubmit(onSubmit)}>
+                                            <div className="form-group">
+                                                <label>Username</label>
+                                                <input name="username" type="text" {...register('username')} className={`form-control ${errors.username ? 'is-invalid' : ''}`} />
+                                                <div className="invalid-feedback">{errors.username?.message}</div>
+                                            </div>
+                                            <div className="form-group">
+                                                <label>Password</label>
+                                                <input name="password" type="password" {...register('password')} className={`form-control ${errors.password ? 'is-invalid' : ''}`} />
+                                                <div className="invalid-feedback">{errors.password?.message}</div>
+                                            </div>
+                                            <HStack spacing={4}>
+                                                <Button type="submit" disabled={formState.isSubmitting} width="button.login.widht" bgColor="button.primary.color">
+                                                    {formState.isSubmitting && <span className="spinner-border spinner-border-sm mr-1"></span>}
+                                                    Login
+                                                </Button>
+                                                <UserResetPassword/>
+                                            </HStack>
+                                        </form>
+                                    </Stack>
+                                </CardBody>
+                            </Card>                
+                        </Box>
                     </Box>
-                </Box>
+                </Center>
             </Layout>
         </>
     );

@@ -19,7 +19,8 @@ import {
   CardHeader,
   CardBody,
   StackDivider,
-  useToast
+  useToast,
+  Center
 } from '@chakra-ui/react'
 import { PageMainHeader } from "../components/common/pageMainHeader";
 import { util } from "../helpers/util";
@@ -124,100 +125,102 @@ const Register = (props) => {
         <Script
         src={`https://www.google.com/recaptcha/api.js?render=6LeyNkUkAAAAAI6nmbpszuLJVBSVt9KP3ga0R6Db`}/>
         <Layout>
-          <Box bg="gray.50" width="1900">
-              <PageMainHeader heading="Register New Account"/>    
-              <Box marginBottom={4} fontSize="13px" color="gray.500">
-                "Start your free trial with all the features enabled for a month.
-              </Box>
-              <Box width="page.sub_heading_width">
-                <form onSubmit={handleSubmit(onSubmit)}>
-                  <Stack spacing={4}>
-                    <Card>
-                      <CardHeader>
-                        <Heading size='xs'>Account Details</Heading>
-                      </CardHeader>
+            <Center w={["400px", "full"]} minH={[null, "90vh"]}>
+              <Box bg="gray.50" width={["300", "1600"]}>
+                  <PageMainHeader heading="Register New Account"/>    
+                  <Box marginBottom={4} fontSize="13px" color="gray.500">
+                    "Start your free trial with all the features enabled for a month.
+                  </Box>
+                  <Box width="page.sub_heading_width">
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                      <Stack spacing={4}>
+                        <Card>
+                          <CardHeader>
+                            <Heading size='xs'>Account Details</Heading>
+                          </CardHeader>
 
-                      <CardBody>
-                        <Stack>
-                              <FormControl isRequired>
-                                <FormLabel>Account Name</FormLabel>
-                                <Input type="text" {...register('accountName')}  id="accountName"   maxWidth="page.single_input"/>
-                              </FormControl>     
-                              <FormControl isRequired>
-                                  <FormLabel>Account Descirption</FormLabel>
-                                  <Input type="text" id="accountDescription" {...register('accountDescription')}   maxWidth="page.single_input"/>
-                              </FormControl>   
-                              <HStack spacing="15rem">
+                          <CardBody>
+                            <Stack>
+                                  <FormControl isRequired>
+                                    <FormLabel>Account Name</FormLabel>
+                                    <Input type="text" {...register('accountName')}  id="accountName"   maxWidth="page.single_input"/>
+                                  </FormControl>     
+                                  <FormControl isRequired>
+                                      <FormLabel>Account Descirption</FormLabel>
+                                      <Input type="text" id="accountDescription" {...register('accountDescription')}   maxWidth="page.single_input"/>
+                                  </FormControl>   
+                                  <HStack spacing="15rem">
+                                    <Box>
+                                      <FormControl>
+                                        <FormLabel>Account EIN</FormLabel>
+                                        <Input type="text" id="accountEIN"   {...register('accountEIN')} />
+                                      </FormControl>  
+                                    </Box>
+                                  </HStack>   
+                            </Stack>
+                          </CardBody>
+                        </Card>              
+                        <Card>
+                          <CardHeader>
+                            <Heading size='xs'>Account Contact</Heading>
+                          </CardHeader>
+
+                          <CardBody>
+                            <Stack divider={<StackDivider />} spacing='4'>
+                              <HStack>
                                 <Box>
-                                  <FormControl>
-                                    <FormLabel>Account EIN</FormLabel>
-                                    <Input type="text" id="accountEIN"   {...register('accountEIN')} />
-                                  </FormControl>  
-                                </Box>
-                              </HStack>   
-                        </Stack>
-                      </CardBody>
-                    </Card>              
-                    <Card>
-                      <CardHeader>
-                        <Heading size='xs'>Account Contact</Heading>
-                      </CardHeader>
-
-                      <CardBody>
-                        <Stack divider={<StackDivider />} spacing='4'>
-                          <HStack>
-                            <Box>
-                              <FormControl isRequired>
-                                  <FormLabel>First Name</FormLabel>
-                                  <Input type="text" id="accountUserFirstName"   {...register('accountUserFirstName')}  />
-                                </FormControl>      
-                            </Box>  
-                            <Box>
-                              <FormControl isRequired>
-                                  <FormLabel>Last Name</FormLabel>
-                                  <Input type="text" id="accountUserLastName"   {...register('accountUserLastName')}  />
-                                </FormControl>      
-                            </Box>  
-                          </HStack>                          
-                          <HStack spacing="10rem">
-                            <Box>
-                              <FormControl isRequired>
-                                <FormLabel>Email (Logon ID)</FormLabel>
-                                <Input type="email" id="accountEmail"   {...register('accountEmail')}  />
-                              </FormControl>     
-                            </Box>                                                                  
-                            </HStack>
+                                  <FormControl isRequired>
+                                      <FormLabel>First Name</FormLabel>
+                                      <Input type="text" id="accountUserFirstName"   {...register('accountUserFirstName')}  />
+                                    </FormControl>      
+                                </Box>  
+                                <Box>
+                                  <FormControl isRequired>
+                                      <FormLabel>Last Name</FormLabel>
+                                      <Input type="text" id="accountUserLastName"   {...register('accountUserLastName')}  />
+                                    </FormControl>      
+                                </Box>  
+                              </HStack>                          
+                              <HStack spacing="10rem">
+                                <Box>
+                                  <FormControl isRequired>
+                                    <FormLabel>Email (Logon ID)</FormLabel>
+                                    <Input type="email" id="accountEmail"   {...register('accountEmail')}  />
+                                  </FormControl>     
+                                </Box>                                                                  
+                                </HStack>
+                                <HStack>
+                                  <Box>
+                                    <FormControl isRequired>
+                                        <FormLabel>Account Phone</FormLabel>
+                                        <Input type="tel" id="accountPhone"   {...register('accountPhone')}  onChange={(ev) => handlePhoneInput(ev.target.value)}/>
+                                      </FormControl>      
+                                  </Box>  
+                                </HStack>
+                              </Stack>
+                            </CardBody>
+                          </Card>
+                          <Flex>
                             <HStack>
                               <Box>
-                                <FormControl isRequired>
-                                    <FormLabel>Account Phone</FormLabel>
-                                    <Input type="tel" id="accountPhone"   {...register('accountPhone')}  onChange={(ev) => handlePhoneInput(ev.target.value)}/>
-                                  </FormControl>      
-                              </Box>  
+                                <Button size="xs" colorScheme="yellow" onClick={() => router.back()}>
+                                  Cancel
+                                </Button>
+                              </Box>
+                              <Box>
+                                <Button size="xs" disabled={formState.isSubmitting} bgColor="header_actions"  type="submit" className="g-recaptcha" data-sitekey="reCAPTCHA_site_key"  >
+                                    {formState.isSubmitting && <span className="spinner-border spinner-border-sm mr-1"></span>}
+                                  Register
+                                </Button>                       
+                              </Box>
                             </HStack>
-                          </Stack>
-                        </CardBody>
-                      </Card>
-                      <Flex>
-                        <HStack>
-                          <Box>
-                            <Button size="xs" colorScheme="yellow" onClick={() => router.back()}>
-                              Cancel
-                            </Button>
-                          </Box>
-                          <Box>
-                            <Button size="xs" disabled={formState.isSubmitting} bgColor="header_actions"  type="submit" className="g-recaptcha" data-sitekey="reCAPTCHA_site_key"  >
-                                {formState.isSubmitting && <span className="spinner-border spinner-border-sm mr-1"></span>}
-                              Register
-                            </Button>                       
-                          </Box>
-                        </HStack>
-                      </Flex>                   
-                  </Stack>
-                </form>          
-              </Box>
-            </Box>
-            <FooterSection/>
+                          </Flex>                   
+                      </Stack>
+                    </form>          
+                  </Box>
+                </Box>
+              </Center>
+            <FooterSection/>          
           </Layout>
     </>
 
