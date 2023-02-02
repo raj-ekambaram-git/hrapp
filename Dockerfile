@@ -8,7 +8,7 @@ COPY . /app
 
 # RUN apt-get install -y libgbm-dev
 
-RUN npm install && NODE_ENV=awsdev npm run build
+RUN npm install && NODE_ENV=npm run build
 
 EXPOSE 3000
 CMD [ "npm", "start" ]
