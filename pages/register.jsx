@@ -126,129 +126,121 @@ const Register = (props) => {
         <Script
         src={`https://www.google.com/recaptcha/api.js?render=6LeyNkUkAAAAAI6nmbpszuLJVBSVt9KP3ga0R6Db`}/>
         <Layout>
-        <Center w="full" minH={[null, "90vh"]} maxH={["30px", "90vh"]}>
-           <Container maxW="container.xl" rounded="lg">
-              <Stack
-                  spacing={[4, 16]}
-                  alignItems="center"
-                  direction={["column", null]}
-                  w="full"
-                  h="full"
-                >
-                  <Flex
-                    as="nav"
-                    align="center"
-                    justify="space-between"
-                    wrap="wrap"
-                    padding="page.heading"
-                    bg="heading"
-                    color="white"
-                    marginBottom="page.heading_marginBottom"
-                    width={[null,"page.heading_width"]}
-                    borderRadius='9px'
-                    >
-                    <Heading size='md'>Register for an Account</Heading>
-                    <HStack spacing={2}>
-                      <Box>
-                        <Button size="xs" colorScheme="yellow" onClick={() => router.back()}>
-                          Go Back
-                        </Button>
-                      </Box>
-                    </HStack>                                   
-                  </Flex>  
-                  <Box marginBottom={4} fontSize="13px" color="gray.500">
-                    "Start your free trial with all the features enabled for a month.
-                  </Box>
-                  <Box width="page.sub_heading_width">
-                    <form onSubmit={handleSubmit(onSubmit)}>
-                      <Stack spacing={4}>
-                        <Card>
-                          <CardHeader>
-                            <Heading size='xs'>Account Details</Heading>
-                          </CardHeader>
+          <Center w="full" minH={["80vh", "90vh"]} maxH={["30px", "90vh"]}>
+            <Container maxW="container.xl" rounded="lg">
+                <Stack
+                    spacing={[4, 8]}
+                    alignItems="center"
+                    direction={["column", null]}
+                    w=""
+                    h="full"
+                  >
+                    <Flex
+                      as="nav"
+                      align="center"
+                      justify="space-between"
+                      wrap="wrap"
+                      padding="page.heading"
+                      bg="heading"
+                      color="white"
+                      width={["370px","page.register_width"]}
+                      borderRadius='9px'
+                      >
+                      <Heading size='md'>Register for an Account</Heading>
+                    </Flex>  
+                    <Box marginBottom={4} fontSize="13px" color="gray.500" alignSelf="left">
+                      "Start your free trial with all the features enabled for a month.
+                    </Box>
+                    <Box width={[null, "page.sub_heading_width"]}>
+                      <form onSubmit={handleSubmit(onSubmit)}>
+                        <Stack spacing={4}>
+                          <Card>
+                            <CardHeader>
+                              <Heading size='xs'>Account Details</Heading>
+                            </CardHeader>
 
-                          <CardBody>
-                            <Stack>
-                                  <FormControl isRequired>
-                                    <FormLabel>Account Name</FormLabel>
-                                    <Input type="text" {...register('accountName')}  id="accountName"   maxWidth="page.single_input"/>
-                                  </FormControl>     
-                                  <FormControl isRequired>
-                                      <FormLabel>Account Descirption</FormLabel>
-                                      <Input type="text" id="accountDescription" {...register('accountDescription')}   maxWidth="page.single_input"/>
-                                  </FormControl>   
-                                  <HStack spacing="15rem">
-                                    <Box>
-                                      <FormControl>
-                                        <FormLabel>Account EIN</FormLabel>
-                                        <Input type="text" id="accountEIN"   {...register('accountEIN')} />
-                                      </FormControl>  
-                                    </Box>
-                                  </HStack>   
-                            </Stack>
-                          </CardBody>
-                        </Card>              
-                        <Card>
-                          <CardHeader>
-                            <Heading size='xs'>Account Contact</Heading>
-                          </CardHeader>
+                            <CardBody>
+                              <Stack>
+                                    <FormControl isRequired>
+                                      <FormLabel>Account Name</FormLabel>
+                                      <Input type="text" {...register('accountName')}  id="accountName"   maxWidth="page.single_input"/>
+                                    </FormControl>     
+                                    <FormControl isRequired>
+                                        <FormLabel>Account Descirption</FormLabel>
+                                        <Input type="text" id="accountDescription" {...register('accountDescription')}   maxWidth="page.single_input"/>
+                                    </FormControl>   
+                                    <HStack spacing="15rem">
+                                      <Box>
+                                        <FormControl>
+                                          <FormLabel>Account EIN</FormLabel>
+                                          <Input type="text" id="accountEIN"   {...register('accountEIN')} />
+                                        </FormControl>  
+                                      </Box>
+                                    </HStack>   
+                              </Stack>
+                            </CardBody>
+                          </Card>              
+                          <Card>
+                            <CardHeader>
+                              <Heading size='xs'>Account Contact</Heading>
+                            </CardHeader>
 
-                          <CardBody>
-                            <Stack divider={<StackDivider />} spacing='4'>
-                              <HStack>
-                                <Box>
-                                  <FormControl isRequired>
-                                      <FormLabel>First Name</FormLabel>
-                                      <Input type="text" id="accountUserFirstName"   {...register('accountUserFirstName')}  />
-                                    </FormControl>      
-                                </Box>  
-                                <Box>
-                                  <FormControl isRequired>
-                                      <FormLabel>Last Name</FormLabel>
-                                      <Input type="text" id="accountUserLastName"   {...register('accountUserLastName')}  />
-                                    </FormControl>      
-                                </Box>  
-                              </HStack>                          
-                              <HStack spacing="10rem">
-                                <Box>
-                                  <FormControl isRequired>
-                                    <FormLabel>Email (Logon ID)</FormLabel>
-                                    <Input type="email" id="accountEmail"   {...register('accountEmail')}  />
-                                  </FormControl>     
-                                </Box>                                                                  
-                                </HStack>
+                            <CardBody>
+                              <Stack divider={<StackDivider />} spacing='4'>
                                 <HStack>
                                   <Box>
                                     <FormControl isRequired>
-                                        <FormLabel>Account Phone</FormLabel>
-                                        <Input type="tel" id="accountPhone"   {...register('accountPhone')}  onChange={(ev) => handlePhoneInput(ev.target.value)}/>
+                                        <FormLabel>First Name</FormLabel>
+                                        <Input type="text" id="accountUserFirstName"   {...register('accountUserFirstName')}  />
                                       </FormControl>      
                                   </Box>  
-                                </HStack>
-                              </Stack>
-                            </CardBody>
-                          </Card>
-                          <Flex>
-                            <HStack>
-                              <Box>
-                                <Button size="xs" colorScheme="yellow" onClick={() => router.back()}>
-                                  Cancel
-                                </Button>
-                              </Box>
-                              <Box>
-                                <Button size="xs" disabled={formState.isSubmitting} bgColor="header_actions"  type="submit" className="g-recaptcha" data-sitekey="reCAPTCHA_site_key"  >
-                                    {formState.isSubmitting && <span className="spinner-border spinner-border-sm mr-1"></span>}
-                                  Register
-                                </Button>                       
-                              </Box>
-                            </HStack>
-                          </Flex>                   
-                      </Stack>
-                    </form>          
-                  </Box>
-                  </Stack>
-                  </Container>
-              </Center>
+                                  <Box>
+                                    <FormControl isRequired>
+                                        <FormLabel>Last Name</FormLabel>
+                                        <Input type="text" id="accountUserLastName"   {...register('accountUserLastName')}  />
+                                      </FormControl>      
+                                  </Box>  
+                                </HStack>                          
+                                <HStack spacing="10rem">
+                                  <Box>
+                                    <FormControl isRequired>
+                                      <FormLabel>Email (Logon ID)</FormLabel>
+                                      <Input type="email" id="accountEmail"   {...register('accountEmail')}  />
+                                    </FormControl>     
+                                  </Box>                                                                  
+                                  </HStack>
+                                  <HStack>
+                                    <Box>
+                                      <FormControl isRequired>
+                                          <FormLabel>Account Phone</FormLabel>
+                                          <Input type="tel" id="accountPhone"   {...register('accountPhone')}  onChange={(ev) => handlePhoneInput(ev.target.value)}/>
+                                        </FormControl>      
+                                    </Box>  
+                                  </HStack>
+                                </Stack>
+                              </CardBody>
+                            </Card>
+                            <Flex>
+                              <HStack>
+                                <Box>
+                                  <Button size="xs" colorScheme="yellow" onClick={() => router.back()}>
+                                    Cancel
+                                  </Button>
+                                </Box>
+                                <Box>
+                                  <Button size="xs" disabled={formState.isSubmitting} bgColor="header_actions"  type="submit" className="g-recaptcha" data-sitekey="reCAPTCHA_site_key"  >
+                                      {formState.isSubmitting && <span className="spinner-border spinner-border-sm mr-1"></span>}
+                                    Register
+                                  </Button>                       
+                                </Box>
+                              </HStack>
+                            </Flex>                   
+                        </Stack>
+                      </form>          
+                    </Box>
+                    </Stack>
+                    </Container>
+                </Center>
               
             <FooterSection/>          
           </Layout>
