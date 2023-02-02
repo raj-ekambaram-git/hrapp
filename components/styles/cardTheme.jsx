@@ -217,7 +217,7 @@ const dashboardWelcome = definePartsStyle({
     overflow: 'hidden', 
     border: "1px",
     fontSize: "14px",
-    height: "225px"
+    height: "250px"
   },
   header:{
     fontSize: "16px",
@@ -234,7 +234,7 @@ const helpDashboard = definePartsStyle({
     overflow: 'hidden', 
     border: "1px",
     fontSize: "14px",
-    height: "225px"
+    height: "250px"
   },
   header:{
     fontSize: "16px",
