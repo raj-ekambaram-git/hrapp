@@ -18,7 +18,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         address: true,
         account: {
           select: {
-            name: true
+            name: true,
+            type: true
           }
         },
         projectResource: {
