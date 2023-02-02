@@ -55,7 +55,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         const lifeTime = await prisma.$queryRaw`select sum("paidAmount") as total from "Invoice" where "accountId" = ${parseInt(accountId.toString())} and status in ('Paid', 'PartiallyPaid')`
 
         const lifeTimeExp = await prisma.$queryRaw`select sum("paidAmount") as total from "Expense" as exp, "Project" as prj where 
-        prj."accountId" = 5 and prj.status in ('Open','Closed','Settled') and 
+        prj."accountId" = ${parseInt(accountId.toString())} and prj.status in ('Open','Closed','Settled') and 
         exp."projectId" = prj.id and 
         exp.status in ('Paid', 'PartiallyPaid')`
         
