@@ -140,7 +140,6 @@ function updateUser(userId, formData, addressId, userRole) {
         },
         userRole: userRole,  
         email: formData.userEmail.toLowerCase(),
-        password: formData.userPassword,
         phone: formData.userPhone,
         cost: formData.cost,
         accountId: parseInt(formData.userAccountId),
