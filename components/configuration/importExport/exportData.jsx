@@ -89,20 +89,25 @@ const ExportData = (props) => {
   }
 
   const handleExportData = async () => {
-    console.log("JOINSSS ::"+JSON.stringify(joins))
-    console.log("tableNames ::"+JSON.stringify(tableNames))
     if(tableNames && tableNames.length>0 && selectList && selectList.length>0 && filterByList && filterByList.length>0) {
       const responseData = await importExportService.exportData(tableNames, selectList, filterByList, joins, userService.getAccountDetails().accountId)
-      console.log("responseData::"+JSON.stringify(responseData))  
       const data = Papa.unparse(responseData);
-      console.log("ParsedData :::"+data);
-      if(!data.error) {
+      if(!data.error && data) {
         const blob = new Blob([data]);
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
         link.download = exportObject+util.getFormattedDateWithTime(new Date())+".csv";
         link.click();
     
+      }else {
+        toast({
+          title: 'Export Data.',
+          description: 'No data to export for your selection, please update.',
+          status: 'success',
+          position: 'top',
+          duration: 3000,
+          isClosable: true,
+        })
       }
   
       
@@ -119,8 +124,6 @@ const ExportData = (props) => {
   }
 
   const handleSaveAsTemplate = async (exportName, fileType) => {
-    console.log("JOINSSS ::"+JSON.stringify(joins))
-    console.log("tableNames ::"+JSON.stringify(tableNames))
     if(tableNames && tableNames.length>0 && selectList && selectList.length>0 && filterByList && filterByList.length>0) {
       const requestData = {
         type: ExportTemplateType.User,
@@ -136,7 +139,26 @@ const ExportData = (props) => {
         status: ExportTemplateStatus.Active
       }
         const responseData = await importExportService.saveExportAsTeplate(requestData)
-        console.log("responseData::"+JSON.stringify(responseData))
+        if(responseData.error) {
+          toast({
+            title: 'Export Error.',
+            description: 'Error saving the export template, please try again or contact administrator..',
+            status: 'error',
+            position: 'top',
+            duration: 6000,
+            isClosable: true,
+          })
+        }else {
+          toast({
+            title: 'New Export Template.',
+            description: 'Successfully added new export template.',
+            status: 'success',
+            position: 'top',
+            duration: 3000,
+            isClosable: true,
+          })
+          onClose()
+        }
     } else {
       toast({
         title: 'Export Error.',
@@ -248,7 +270,7 @@ const ExportData = (props) => {
       <Flex marginBottom="1rem" borderRadius="lg" alignSelf="center">
             <HStack>
                 <Heading size="xs">
-                    Export Data
+                    Export data now or save the template for future exports
                 </Heading>
 
                 <Button size="xs" bgColor="header_actions" 

@@ -12,8 +12,21 @@ export const importExportService = {
   importTimesheetData,
   getTableMetaData,
   exportData,
-  saveExportAsTeplate
+  saveExportAsTeplate,
+  getSavedExportTemplates
 };
+
+function getSavedExportTemplates(accountId) {
+  return fetchWrapper.get(`${baseUrl}/admin/app/export/templates?accountId=`+accountId, {})
+      .then(columnData => {
+          return columnData;
+      })  
+      .catch(err => {
+        console.log("Error Getting getSavedExportTemplates")
+        return {errorMessage: err, error: true};
+    });
+}
+
 
 function saveExportAsTeplate(templateReqestData) {
   return fetchWrapper.post(`${baseUrl}/admin/app/export/template`, {
