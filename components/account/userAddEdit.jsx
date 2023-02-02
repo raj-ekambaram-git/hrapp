@@ -48,7 +48,6 @@ const UserAddEdit = (props) => {
   const lastName = useRef("");
   const userStatus = useRef("");
   const userEmail = useRef("");
-  const userPassword = useRef("");
   const userType = useRef("");
   const timeSheetEnabled = useRef("");
   const userPhone = useRef("");
