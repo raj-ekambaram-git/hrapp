@@ -42,26 +42,16 @@ const ImportData = (props) => {
 
 
   useEffect(() => {
-    if(userService.isSuperAdmin() || userService.isAccountAdmin() ) {
-      console.log("INSIDE THE USEREFFECT")
-      //Get list of allowed objects
-      // if(!appConfigList || (appConfigList && appConfigList.length === 0) ) {
-        loadAppConfig()
-      // }
-
-      console.log("appConfigList::"+JSON.stringify(appConfigList))
-      const allowedImports = appConfigList.filter((appConfig) => (appConfig.key === ConfigConstants.CONFIG_KEYS.AllowedImports));
-      console.log("allowedImports:::"+JSON.stringify(allowedImports))
-      if(allowedImports && allowedImports.length >0) {
-        setAllowedImports(allowedImports[0].value)
-      }    
-  
-    }
   }, []);
 
   const loadAppConfig = async() => {
     const responseData = await configurationService.getAdminAppConfigList();
-    console.log("responseData::"+JSON.stringify(responseData))
+    if(responseData) {
+      const allowedImports = responseData.filter((appConfig) => (appConfig.key === ConfigConstants.CONFIG_KEYS.AllowedImports));
+      if(allowedImports && allowedImports.length >0) {
+        setAllowedImports(allowedImports[0].value)
+      }    
+    }
     dispatch(setConfigurations(responseData))
   }
 
@@ -69,6 +59,18 @@ const ImportData = (props) => {
     setImportObject(importObject.target.value)
   }
   function handleImport(newSize) {
+    if(userService.isSuperAdmin() || userService.isAccountAdmin() ) {
+      if(!appConfigList || (appConfigList && appConfigList.length==0)) {
+        loadAppConfig() 
+      } 
+      const allowedImports = appConfigList.filter((appConfig) => (appConfig.key === ConfigConstants.CONFIG_KEYS.AllowedImports));
+      if(allowedImports && allowedImports.length >0) {
+        setAllowedImports(allowedImports[0].value)
+      }     
+ 
+    }    
+
+
     setSize(newSize);
     onOpen();
   }

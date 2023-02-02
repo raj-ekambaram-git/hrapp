@@ -18,7 +18,7 @@ const AccountSetting = (props) => {
 
     return (      
 
-      <Tabs variant='soft-rounded' colorScheme='teal' size="sm" >
+      <Tabs variant='soft-rounded' colorScheme='teal' size="sm" isLazy>
         <TabList marginBottom={6}>
           <Tab border="1px" marginRight={4}>User</Tab>
           <Tab border="1px" marginRight={4}>Import/Export</Tab>

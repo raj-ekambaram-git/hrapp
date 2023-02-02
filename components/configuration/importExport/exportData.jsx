@@ -49,21 +49,16 @@ const ExportData = (props) => {
   const SELECT_TYPE = "selectBy";
 
   useEffect(() => {
-    if(userService.isSuperAdmin() || userService.isAccountAdmin() ) {
-      //Get list of allowed objects
-      // if(!appConfigList || (appConfigList && appConfigList.length === 0) ) {
-        loadAppConfig()
-      // }
-      const alllowedExports = appConfigList.filter((appConfig) => (appConfig.key === ConfigConstants.CONFIG_KEYS.AllowedExports));
-      if(alllowedExports && alllowedExports.length >0) {
-        setAllowedExports(alllowedExports[0].value)
-      }    
-  
-    }
   }, []);
 
   const loadAppConfig = async() => {
     const responseData = await configurationService.getAdminAppConfigList();
+    if(responseData) {
+      const alllowedExports = responseData.filter((appConfig) => (appConfig.key === ConfigConstants.CONFIG_KEYS.AllowedExports));
+      if(alllowedExports && alllowedExports.length >0) {
+        setAllowedExports(alllowedExports[0].value)
+      }     
+    }
     dispatch(setConfigurations(responseData))
   }
 
@@ -76,6 +71,16 @@ const ExportData = (props) => {
   }
 
   function hanldeExport(newSize) {
+    if(userService.isSuperAdmin() || userService.isAccountAdmin() ) {
+      if(!appConfigList || (appConfigList && appConfigList.length==0)) {
+        loadAppConfig() 
+      } 
+      const alllowedExports = appConfigList.filter((appConfig) => (appConfig.key === ConfigConstants.CONFIG_KEYS.AllowedExports));
+      if(alllowedExports && alllowedExports.length >0) {
+        setAllowedExports(alllowedExports[0].value)
+      }    
+  
+    }    
     setSize(newSize);
     onOpen();
     setSelectList(null)
