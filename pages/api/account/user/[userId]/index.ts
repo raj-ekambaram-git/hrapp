@@ -20,7 +20,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       user.password = passwordHash;
 
       console.log("passwordHash:::"+passwordHash);
-
+    }
       const savedUser = await prisma.user.update({
         where: {
           id: user.id,
@@ -29,7 +29,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       });
       res.status(200).json(savedUser);
   
-    }
+    
   } catch (error) {
     console.log(error)
     res.status(400).json({ message: 'Something went wrong while updating' })

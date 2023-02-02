@@ -93,13 +93,13 @@ function getExpensesByUser(userId, accountId) {
  }
 
 function updateUser(userId, formData, addressId, userRole) {
-
+    console.log("FORM DATA::"+JSON.stringify(formData)+"******Address ID::"+addressId+"-----")
     return fetchWrapper.put(`${baseUrl}/account/user/`+userId, {
         id: parseInt(userId),
         firstName: formData.firstName,
         lastName: formData.lastName,
         type: formData.userType,
-        address: {
+        address: addressId&addressId!=EMPTY_STRING?{
           update: {
             where: {
               id: addressId,
@@ -120,6 +120,23 @@ function updateUser(userId, formData, addressId, userRole) {
               status: "A"
             }
           }
+        }:{
+            create: [
+                {
+                type: "U",
+                addressName: formData.addressName,
+                address1: formData.address1,
+                address2: formData.address2,
+                address3: formData.address3,
+                accountId: parseInt(formData.userAccountId),
+                vendorId: parseInt(formData.userVendorId),
+                city: formData.city,
+                state: formData.state,
+                zipCode: formData.zipCode,
+                country: formData.country,
+                status: "A"
+                }
+            ]
         },
         userRole: userRole,  
         email: formData.userEmail.toLowerCase(),
