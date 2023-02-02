@@ -15,6 +15,7 @@ import {
   Heading,
   HStack,
   Select,
+  Input,
 } from '@chakra-ui/react';
 
 import { useDispatch, useSelector } from "react-redux";
@@ -23,6 +24,8 @@ import { configurationService, importExportService, userService } from "../../..
 import { ConfigConstants, EMPTY_STRING } from "../../../constants";
 import { SelectQuerySection } from "./selectQuerySection";
 import { FilterBySection } from "./filterBySection";
+import ExportActions from "./exportActions";
+import { ExportTemplateStatus, ExportTemplateType, ExportType } from "@prisma/client";
 
 
 const ExportData = (props) => {
@@ -87,8 +90,51 @@ const ExportData = (props) => {
   const handleExportData = async () => {
     console.log("JOINSSS ::"+JSON.stringify(joins))
     console.log("tableNames ::"+JSON.stringify(tableNames))
-    const responseData = await importExportService.exportData(tableNames, selectList, filterByList, joins, userService.getAccountDetails().accountId)
-    console.log("responseData::"+JSON.stringify(responseData))
+    if(tableNames && tableNames.length>0 && selectList && selectList.length>0 && filterByList && filterByList.length>0) {
+      const responseData = await importExportService.exportData(tableNames, selectList, filterByList, joins, userService.getAccountDetails().accountId)
+      console.log("responseData::"+JSON.stringify(responseData))  
+    } else {
+      toast({
+        title: 'Export Error.',
+        description: 'Please select at least ONE select and filter by fields',
+        status: 'error',
+        position: 'top',
+        duration: 6000,
+        isClosable: true,
+      })
+    }
+  }
+
+  const handleSaveAsTemplate = async (exportName, fileType) => {
+    console.log("JOINSSS ::"+JSON.stringify(joins))
+    console.log("tableNames ::"+JSON.stringify(tableNames))
+    if(tableNames && tableNames.length>0 && selectList && selectList.length>0 && filterByList && filterByList.length>0) {
+      const requestData = {
+        type: ExportTemplateType.User,
+        name: exportName,
+        accountId: userService.getAccountDetails().accountId,
+        queryMeta: {
+          tableNames: tableNames,
+          selectList: selectList,
+          filterByList: filterByList,
+          joins: joins
+        },
+        fileType: fileType,
+        status: ExportTemplateStatus.Active
+      }
+        const responseData = await importExportService.saveExportAsTeplate(requestData)
+        console.log("responseData::"+JSON.stringify(responseData))
+    } else {
+      toast({
+        title: 'Export Error.',
+        description: 'Please select at least ONE select and filter by field.',
+        status: 'error',
+        position: 'top',
+        duration: 6000,
+        isClosable: true,
+      })
+    }
+    
   }
   
   const handleDeleteSelect = (removedIndex) => {
@@ -300,10 +346,7 @@ const ExportData = (props) => {
                                           </>:<></>}     
                                       </HStack>                                                                   
                               </Stack>
-                                  <Button size="xs" width="25%" bgColor="header_actions" 
-                                    onClick={() => handleExportData()}
-                                    >{`Export`}
-                                  </Button>                                  
+                              <ExportActions handleExportData={handleExportData} handleSaveAsTemplate={handleSaveAsTemplate}/>
                                 </>:<></>}
                             </>:<></>}
                           </Stack>

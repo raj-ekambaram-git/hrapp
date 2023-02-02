@@ -11,15 +11,31 @@ export const importExportService = {
 
   importTimesheetData,
   getTableMetaData,
-  exportData
+  exportData,
+  saveExportAsTeplate
 };
 
+function saveExportAsTeplate(templateReqestData) {
+  return fetchWrapper.post(`${baseUrl}/admin/app/export/template`, {
+        templateReqestData
+      })
+      .then(exportTemplate => {
+          return exportTemplate;
+      })  
+      .catch(err => {
+        console.log("Error Getting getTableMetaData")
+        return {errorMessage: err, error: true};
+    });
+}
+
+
 function exportData(tableName, selectFields, filterByList, joinsList, accountId) {
-  return fetchWrapper.post(`${baseUrl}/admin/app/export/data?accountId=`+accountId, {
+  return fetchWrapper.post(`${baseUrl}/admin/app/export/data`, {
         selectFields,
         filterByList,
         tableName,
-        joinsList
+        joinsList,
+        accountId
       })
       .then(columnData => {
           return columnData;
