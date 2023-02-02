@@ -130,7 +130,7 @@ function getTotalHours(entries) {
 
 function getMonthFormat(dateTime) {
   if(dateTime != undefined && dateTime != EMPTY_STRING) {
-    return new Date(new Date(dateTime?.toString()).toLocaleDateString( "en-US", { timeZone: "UTC" })).toLocaleString('default', { month: 'long' });
+    return new Date(new Date(dateTime?.toString()).toLocaleDateString( "en-US", { timeZone: "America/New_York" })).toLocaleString('default', { month: 'long' });
     // return new Date(new Date(dateTime?.toString())).toLocaleString('default', { month: 'long' });
   }else {
     return EMPTY_STRING;
@@ -149,7 +149,7 @@ function getDayMonthFormat(dateTime) {
 
 function getFormattedDate(dateTime) {
   if(dateTime != undefined && dateTime != EMPTY_STRING) {
-    return (new Date(dateTime?.toString()).toLocaleDateString( "en-US", { timeZone: "UTC" }) );
+    return (new Date(dateTime?.toString()).toLocaleDateString( "en-US", { timeZone: "America/New_York" }) );
   }else {
     return EMPTY_STRING;
   }
@@ -157,7 +157,7 @@ function getFormattedDate(dateTime) {
 }
 function getFormattedDateWithTime(dateTime) {
   if(dateTime != undefined && dateTime != EMPTY_STRING) {
-    return (new Date(dateTime?.toString()).toLocaleString( "en-US", { timeZone: "UTC" }) );
+    return (new Date(dateTime?.toString()).toLocaleString( "en-US", { timeZone: "America/New_York" }) );
   }else {
     return EMPTY_STRING;
   }

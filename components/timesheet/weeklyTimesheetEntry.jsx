@@ -83,8 +83,8 @@ const WeeklyTimesheetEntry = (props) => {
                 }
 
                 setTimesheetStartDate(timesheetResponse.startDate);
-                setNextWeekStart(util.getNextWeekStartDateString(new Date(timesheetResponse.startDate.toString()).toLocaleDateString( "en-US", { timeZone: "UTC" } ) ));
-                setPreviousWeekStart(util.getPrevioustWeekStartDateString(new Date(timesheetResponse.startDate.toString()).toLocaleDateString( "en-US", { timeZone: "UTC" } ) ));
+                setNextWeekStart(util.getNextWeekStartDateString(new Date(timesheetResponse.startDate.toString()).toLocaleDateString( "en-US", { timeZone: "America/New_York" } ) ));
+                setPreviousWeekStart(util.getPrevioustWeekStartDateString(new Date(timesheetResponse.startDate.toString()).toLocaleDateString( "en-US", { timeZone: "America/New_York" } ) ));
 
                 //Condition to ebale the update buttong based on the status and mode
         }else if((userService.isAccountAdmin() || userService.isSuperAdmin() || userService.isTimesheetEntryUser() || userService.isManager()) 
