@@ -1,4 +1,4 @@
-import { Box, VStack } from "@chakra-ui/react";
+import { Box, Stack, VStack } from "@chakra-ui/react";
 import { FunctionComponent } from "react";
 import { Header } from "./HeaderSection";
 
@@ -11,10 +11,15 @@ export const Layout: FunctionComponent<LayoutProps> = ({
 }: LayoutProps) => {
   return (
     <Box bg="gray.50">
-      <VStack spacing={10} w="1800px" align="center">
+      <Stack
+        justify="space-between"
+        p={[0, 4]}
+        w={['full', '1800px']}
+        direction={['column']}
+      >
         <Header name="boNeeds" />
         {children}
-      </VStack>
+      </Stack>
     </Box>
   );
 };

@@ -27,9 +27,15 @@ export default function Index() {
           <title>{content.title}</title>
         </Head>
         <Layout>
-          <Box bg="gray.50" width="1900">
+           <VStack
+              backgroundColor="white"
+              w="full"
+              id="features"
+              spacing={16}
+              py={[16, 0]}
+            >
             <HeroSection />
-          </Box>
+          </VStack>
           <Container maxW="container.xl">
             <Center p={[0, 10]}>
               <video playsInline autoPlay muted poster="/image.png" loop>

@@ -16,8 +16,6 @@ import {
   IconButton,
   Image,
   Link,
-  LinkBox,
-  LinkOverlay,
   Spacer,
   Stack,
   Tooltip,
