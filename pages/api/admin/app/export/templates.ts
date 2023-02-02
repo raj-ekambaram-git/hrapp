@@ -19,7 +19,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       const savedTemplates = await prisma.exportTemplate.findMany({
         where: {
           accountId: {
-            equals: parseInt(accountId.toString())
+            in: [parseInt(accountId.toString()),1]
           }
         }
       });
