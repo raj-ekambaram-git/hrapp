@@ -99,7 +99,7 @@ function updateUser(userId, formData, addressId, userRole) {
         firstName: formData.firstName,
         lastName: formData.lastName,
         type: formData.userType,
-        address: addressId&addressId!=EMPTY_STRING?{
+        address: addressId&&addressId!=EMPTY_STRING?{
           update: {
             where: {
               id: addressId,
