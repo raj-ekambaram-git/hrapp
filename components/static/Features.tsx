@@ -37,8 +37,8 @@ import {
             <Box rounded="lg">
               <Image
                 src={image}
-                width={684}
-                height={433}
+                width={[400, 684]}
+                height={[200, 400]}
                 alt={`Feature: ${title}`}
               />
             </Box>
