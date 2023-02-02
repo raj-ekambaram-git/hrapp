@@ -44,7 +44,7 @@ const AccountDetailSection = (props) => {
                         <Tbody>
                         <Tr >
                             <Th bgColor="table_tile" width="project.details.column1">
-                                Account ID
+                                 ID
                             </Th>
                             <Th>
                                 <Text pt='table_display_value' fontSize='table_display_value'>
@@ -54,7 +54,7 @@ const AccountDetailSection = (props) => {
                         </Tr>
                         <Tr >
                             <Th bgColor="table_tile">
-                                Account Name
+                                 Name
                             </Th>
                             <Th>
                                 <Text pt='table_display_value' fontSize='table_display_value'>
@@ -64,7 +64,7 @@ const AccountDetailSection = (props) => {
                         </Tr>
                         <Tr >
                             <Th bgColor="table_tile">
-                                Account Description
+                                 Description
                             </Th>
                             <Th>
                                 <Text pt='table_display_value' fontSize='table_display_value'>
@@ -72,6 +72,16 @@ const AccountDetailSection = (props) => {
                                 </Text>
                             </Th>
                         </Tr>                                                                                               
+                        <Tr >
+                            <Th bgColor="table_tile">
+                                 Type
+                            </Th>
+                            <Th>
+                                <Text pt='table_display_value' fontSize='table_display_value'>
+                                    {account.type}
+                                </Text>
+                            </Th>
+                        </Tr>                           
                         </Tbody>
                     </Table>
                 </TableContainer>    

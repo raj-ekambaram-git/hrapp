@@ -56,6 +56,7 @@ const AccountDetail = (props) => {
                 name: accountResponse.name,
                 description: accountResponse.description,
                 ein: accountResponse.ein,
+                type: accountResponse.type,
                 email: accountResponse.email,
                 status: accountResponse.status,
                 phone: accountResponse.phone,
