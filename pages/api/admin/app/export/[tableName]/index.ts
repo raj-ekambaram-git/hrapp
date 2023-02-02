@@ -69,7 +69,7 @@ const getFromTable = (fromTable) => {
 const getSelectFields = (selectFields) => {
   const quotedAndCommaSeparated = selectFields.map((selectField) => {
     console.log("selectField:::"+selectField.split(".")[0]+"******"+selectField.split(".")[1])
-    return selectField.split(".")[0]+"."+"\""+selectField.split(".")[1]+"\""
+    return selectField.split(".")[0]+"."+"\""+selectField.split(".")[1]+"\""+" as "+selectField.split(".")[0]+selectField.split(".")[1]
   })
 
   // let quotedAndCommaSeparated = "\"" + selectFields.join("\",\"") + "\"";

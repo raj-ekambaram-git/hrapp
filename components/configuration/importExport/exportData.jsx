@@ -144,7 +144,7 @@ const ExportData = (props) => {
           setFilterByList([selectItem])
         }  
       }else {
-        const selectItem = (tableName.toLowerCase()==="user"?"usr":tableName.toLowerCase())+"."+selectedFilter.target.value      
+        const selectItem = (tableName.toLowerCase()==="user"?"usr":tableName.toLowerCase())+"."+selectedFilter.target.value
         setParentObjName(tableName)
         // const selectItem = selectedColumn.target.value
         if (selectList) {
