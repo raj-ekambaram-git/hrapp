@@ -125,7 +125,10 @@ const Register = (props) => {
         src={`https://www.google.com/recaptcha/api.js?render=6LeyNkUkAAAAAI6nmbpszuLJVBSVt9KP3ga0R6Db`}/>
         <Layout>
           <Box bg="gray.50" width="1900">
-              <PageMainHeader heading="Register New Account"/>          
+              <PageMainHeader heading="Register New Account"/>    
+              <Box marginBottom={4} fontSize="13px" color="gray.500">
+                "Start your free trial with all the features enabled for a month.
+              </Box>
               <Box width="page.sub_heading_width">
                 <form onSubmit={handleSubmit(onSubmit)}>
                   <Stack spacing={4}>
