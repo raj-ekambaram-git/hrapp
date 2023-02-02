@@ -30,7 +30,7 @@ export default function Index() {
            <VStack
               backgroundColor="white"
               w="full"
-              id="features"
+              id="hero"
               spacing={16}
               py={[16, 0]}
             >
@@ -65,10 +65,28 @@ export default function Index() {
                 }
               )}
             </VStack>    
-            <HighlightsSection/>
+            <VStack
+              backgroundColor="white"
+              w="full"
+              id="highlight"
+              spacing={16}
+              py={[16, 0]}
+            >
+              <HighlightsSection/>
+            </VStack>            
+            
             {/* <PricingSection /> */}
             {/* <FAQSection> */}
-            <FooterSection/>
+            <VStack
+              backgroundColor="white"
+              w="full"
+              id="footer"
+              spacing={16}
+              py={[16, 0]}
+            >
+              <FooterSection/>
+            </VStack>               
+            
         </Layout>
       </>
   );
