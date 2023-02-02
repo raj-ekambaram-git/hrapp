@@ -24,22 +24,29 @@ import {
   useToast
 } from '@chakra-ui/react';
 import { importExportService, userService } from "../../../services";
-import { EMPTY_STRING } from "../../../constants";
+import { ConfigConstants, EMPTY_STRING } from "../../../constants";
 import { ExportTemplateStatus } from "@prisma/client";
 import Papa from "papaparse";
 import { util } from "../../../helpers/util";
+import { CustomTable } from "../../customTable/Table";
 
 function ExportTemplateData() {
   const toast = useToast();
   const [size, setSize] = useState(EMPTY_STRING);
   const [exportTemplates, setExportTemplates] = useState();
   const { isOpen, onOpen, onClose } = useDisclosure();
-
+  const EXPORT_TEMPLATES_TABLE_COLUMNS = React.useMemo(() => ConfigConstants.EXPORT_TEMPLATE_LIST_META)
 
 
   async function handleExportTemplateData(newSize) {
     const responseData = await importExportService.getSavedExportTemplates(userService.getAccountDetails().accountId)
-    setExportTemplates(responseData)
+    if(responseData != undefined && responseData != EMPTY_STRING) {
+      const updatedExportTemplates =  responseData.map((exportTemplate, index)=> {
+        exportTemplate.exportAction =  exportTemplate.status === ExportTemplateStatus.Active?<><Button onClick={() => handleExportNow(exportTemplate.id)} size="xs"  bgColor="header_actions">Export</Button></>:<></>
+        return exportTemplate;   
+      });
+      setExportTemplates(responseData)
+    }
     setSize(newSize);
     onOpen();
   }
@@ -110,51 +117,7 @@ function ExportTemplateData() {
                             <DrawerBody>
                               <Stack spacing={8}>
                                 <Box border="box_border">
-                                  <TableContainer>
-                                    <Table variant="sortTable">
-                                    <Thead>
-                                        <Tr bgColor="table_tile">
-                                          <Th>
-                                            Name
-                                          </Th>                  
-                                          <Th>
-                                            File Type
-                                          </Th>    
-                                          <Th>
-                                            Status
-                                          </Th>           
-                                          <Th>
-                                            
-                                          </Th>                                                                                                                                                  
-                                        </Tr>
-                                      </Thead>
-                                      <Tbody> 
-                                      {exportTemplates?.map((exportTemplate, index) => (
-                                        <Tr>
-                                          <Th>
-                                            {exportTemplate.name}
-                                          </Th>           
-                                          <Th>
-                                            {exportTemplate.fileType}
-                                          </Th>   
-                                          <Th>
-                                            
-                                            <Badge color={exportTemplate.status===ExportTemplateStatus.Active?"paid_status":"pending_status"}>
-                                              {exportTemplate.status}
-                                            </Badge>
-                                          </Th>   
-                                          <Th>
-                                            {exportTemplate.status === ExportTemplateStatus.Active?<>
-                                              <Button onClick={() => handleExportNow(exportTemplate.id)} size="xs"  bgColor="header_actions">
-                                                Export
-                                              </Button>                                              
-                                            </>:<></>}
-                                          </Th>                                                                                                                                                            
-                                        </Tr>
-                                      ))}                                    
-                                      </Tbody>
-                                    </Table>
-                                  </TableContainer>      
+                                  <CustomTable  variant="sortTable" columns={EXPORT_TEMPLATES_TABLE_COLUMNS} rows={exportTemplates} />
                                 </Box>                                                  
                               </Stack>                             
                             </DrawerBody>

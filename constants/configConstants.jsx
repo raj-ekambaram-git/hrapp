@@ -3,6 +3,7 @@ import {
   Badge,
 } from '@chakra-ui/react'
 import { util } from '../helpers/util'
+import { ExportTemplateStatus } from "@prisma/client";
 
 export const ConfigConstants = {
 
@@ -98,6 +99,33 @@ export const ConfigConstants = {
       inputTypeName: "Checkbox Multi Select"
     },
 
-  ]
+  ],
+  EXPORT_TEMPLATE_LIST_META: [
+      {
+        label: "ID",
+        accessor: "id"
+      },
+      {
+        label: "Name",
+        accessor: "name"
+      },    
+      {
+        label: "File Type",
+        accessor: "fileType"
+      },
+      {
+        label: "Status",
+        accessor: "status",
+        format: (value) => (value ? <Badge color={value==ExportTemplateStatus.Active?"paid_status":"pending_status"}>{value}</Badge> : 'N/A')
+        
+      },
+      {
+        label: "",
+        accessor: 'exportAction',
+        disableSearch: true,
+        disableSort: true
+      },
+     
+    ]
 
 }
