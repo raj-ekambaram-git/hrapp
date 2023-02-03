@@ -17,16 +17,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const user = req.body;
 
-    console.log(" URRLL::::"+req.headers.host)
-
     if(user.email != undefined ) {
       //Generate Password 
       const tempPassword = util.getTempPassword();
-
-      console.log("tempPassword::::"+tempPassword);
       const passwordHash = util.getPasswordHash(tempPassword);
 
-      const passwordToken = jwt.sign({ sub: tempPassword}, serverRuntimeConfig.secret, { expiresIn: '2m' }); // TODO: Expiration dates from Config Values
+      const passwordToken = jwt.sign({ sub: tempPassword}, serverRuntimeConfig.secret, { expiresIn: '30m' }); // TODO: Expiration dates from Config Values
 
       const savedUser = await prisma.user.update({
         where: {
@@ -37,9 +33,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   
       if(savedUser) {
         //Send Reset Password Email now
-        
-        const emailResponse = emailService.sendEmail(getTempPasswordEmailRequest(savedUser, "http://localhost:3000/changepassword?userId="+savedUser.id+"&maskedTempPassword="+passwordToken));
-        console.log("Email Response :::"+emailResponse)
+        const emailResponse = emailService.sendEmail(getTempPasswordEmailRequest(savedUser, req.headers.referer.split("login")[0]+"changepassword?userId="+savedUser.id+"&maskedTempPassword="+passwordToken));
       }
       res.status(200).json(savedUser);
     
