@@ -209,10 +209,9 @@ const projectProgress = definePartsStyle({
     width: "50%",
     border: "1px",
     borderRadius: "5px",    
-    
   },
   body: {
-    fontSize: "12px"
+    fontSize: "12px",    
   },
   header: {
     fontWeight: "600"
