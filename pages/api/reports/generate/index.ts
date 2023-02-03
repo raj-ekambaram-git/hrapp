@@ -15,11 +15,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   try {
 
-    console.log("GENERATE:::"+JSON.stringify(req.body))
-    const documentData = req.body;
-    const templateName = req.body;
-    const templateCSS = req.body;
+    console.log("REPORTS GENERATE:::"+JSON.stringify(req.body))
+    const {documentData} = req.body;
+    const {templateName} = req.body;
+    const {templateCSS} = req.body;
     console.log("documentData::"+JSON.stringify(documentData))
+    console.log("templateName::"+JSON.stringify(templateName))
+    console.log("templateCSS::"+JSON.stringify(templateCSS))
     //Now make the generate/detail call to get the latest invoice details for the file getting generated
 
     // read our invoice-template.html file using node fs module
@@ -39,7 +41,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     // set our compiled html template as the pages content
     // then waitUntil the network is idle to make sure the content has been loaded
     await page.setContent(html, { waitUntil: 'networkidle0' });
-    await page.addStyleTag({ path: templateCSS })
+    if(templateCSS) {
+      await page.addStyleTag({ path: templateCSS })
+    }
+    
 
     // convert the page to pdf with the .pdf() method
     const pdf = await page.pdf({ format: 'A4', printBackground: true });

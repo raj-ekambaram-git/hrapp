@@ -7,7 +7,11 @@ import { ExportTemplateStatus, ExportTemplateType } from "@prisma/client";
 
 export const ConfigConstants = {
 
-
+  AVAILABLE_REPORTS: {
+    ProjectReport: "ProjectReport",
+    VendorReport: "VendorReport",
+    AccountReport: "AccountReport"
+  },
   CONFIG_KEYS: {
     AllowedImports: "allowedImports",
     AllowedExports: "allowedExports"

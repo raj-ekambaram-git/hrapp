@@ -19,6 +19,7 @@ import {
   Input
 } from '@chakra-ui/react';
 import { EMPTY_STRING } from "../../../constants";
+import { importExportService, userService } from "../../../services";
 
 function ExportSystemTemplateData(props) {
   const toast = useToast();
@@ -34,8 +35,23 @@ function ExportSystemTemplateData(props) {
 
   }
 
-  const handleSystemExportNow = () => {
-
+  const handleSystemExportNow = async () => {
+      const systemExportRequest = {
+        reportType: props.exportTemplateMeta?.queryMeta?.type,
+        templateName: props.exportTemplateMeta?.template,
+        templateCSS: props.exportTemplateMeta?.queryMeta?.templateCSS,
+        projectId: parseInt("3")
+      }
+      const responseData = await importExportService.exportSystemReport(systemExportRequest, userService.getAccountDetails().accountId);
+      console.log("responseData:::"+JSON.stringify(responseData))
+      if(!responseData.error) {
+        const blob = new Blob([responseData]);
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'projectreport.pdf';
+        link.click();
+    
+      }
   }
     return (
       <div>

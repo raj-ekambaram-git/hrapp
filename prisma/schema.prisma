@@ -55,6 +55,7 @@ model Account {
   updatedById    Int?             @default(1)
   createdDate    DateTime         @default(now())
   lastUpdateDate DateTime         @updatedAt
+  logoPath       String?
   address        Address[]
   invoice        Invoice[]
   vendor         Vendor[]

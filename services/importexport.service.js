@@ -3,6 +3,7 @@ import getConfig from 'next/config';
 
 import { fetchWrapper } from 'helpers';
 import { userService } from './user.service';
+import { ConfigConstants } from '../constants';
 
 const { publicRuntimeConfig } = getConfig();
 const baseUrl = `${publicRuntimeConfig.apiUrl}`;
@@ -13,8 +14,51 @@ export const importExportService = {
   getTableMetaData,
   exportData,
   saveExportAsTeplate,
-  getSavedExportTemplates
+  getSavedExportTemplates,
+  generateReport,
+  exportSystemReport
 };
+
+function exportSystemReport(inputData, accountId) {
+
+  console.log("inputData:::"+JSON.stringify(inputData))
+  if(inputData.reportType===ConfigConstants.AVAILABLE_REPORTS.ProjectReport) {
+    console.log("ProjectReport::")
+    return fetchWrapper.get(`${baseUrl}/reports/project/`+inputData.projectId+'/detail?accountId='+accountId, {}
+    )
+    .then(async projectData => {
+      console.log("projectData:::"+JSON.stringify(projectData))
+      return generateReport(projectData, inputData.templateName, inputData.templateCSS)
+    })
+    .catch(err => {
+      console.log("Error generateInvoice::"+err)
+      return {errorMessage: err, error: true};
+    });
+  }
+
+
+}
+
+async function generateReport(inputData, templateName, templateCSS) {
+  const reportInputData = {
+    documentData: inputData,
+    templateName: templateName,
+    templateCSS: templateCSS
+  }
+  console.log("reportInputData:::"+JSON.stringify(reportInputData))
+  const authHeader = JSON.stringify(fetchWrapper.authHeader(`${baseUrl}/reports/generate`));
+  const data = await fetch(`${baseUrl}/reports/generate/`, {
+    method: 'POST',
+    body: JSON.stringify(reportInputData),
+    headers: { 'Content-Type': 'application/json', 'Authorization': authHeader},
+  });
+  // convert the response into an array Buffer
+  if(data.arrayBuffer) {
+    return data.arrayBuffer();
+  }else {
+    return {errorMessage: "Error generateInvoice", error: true};
+  }
+}
 
 function getSavedExportTemplates(accountId) {
   return fetchWrapper.get(`${baseUrl}/admin/app/export/templates?accountId=`+accountId, {})
