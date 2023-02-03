@@ -6,6 +6,10 @@ import { util } from "../../../../helpers/util";
 import prisma from "../../../../lib/prisma";
 import { emailService } from "../../../../services";
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+import getConfig from 'next/config';
+const { serverRuntimeConfig } = getConfig();
+
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method !== 'POST') {
@@ -49,7 +53,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
       if(savedUser) {
         const newSavedUserForEmail = {...savedUser}
-        newSavedUserForEmail["tempPassword"] = tempPassword
+        console.log("req.headers.referer::"+req.headers.referer)
+        const passwordToken = jwt.sign({ sub: tempPassword}, serverRuntimeConfig.secret, { expiresIn: '30m' }); // TODO: Expiration dates from Config Values
+
+        newSavedUserForEmail["tempPassword"] = req.headers.referer.split("account")[0]+"changepassword?userId="+savedUser.id+"&maskedTempPassword="+passwordToken
         const emailResponse = emailService.sendEmail(getNewUserEmailRequest(newSavedUserForEmail));
       }
 
