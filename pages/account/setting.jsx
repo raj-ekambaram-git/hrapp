@@ -2,8 +2,9 @@ import { Stack, Tabs, TabList, Tab, TabPanel, TabPanels } from "@chakra-ui/react
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import ImportExport from "../../components/configuration/importExport";
-import SettingHeader from "../../components/configuration/settingHeader";
+import UserSetting from "../../components/configuration/user/userSetting";
 import { userService } from "../../services";
+
 
 
 const AccountSetting = (props) => {
@@ -25,7 +26,9 @@ const AccountSetting = (props) => {
         </TabList>
         <TabPanels>
           <TabPanel>
-              Still Building it...
+            <Stack width="page.sub_heading_width">
+              <UserSetting />
+            </Stack>
           </TabPanel>
           <TabPanel>
             <Stack width="page.sub_heading_width">

@@ -29,8 +29,27 @@ export const accountService = {
     getAccountReportData,
     getCashFlowData,
     getInvoiceReportData,
-    registerAccount
+    registerAccount,
+    updateLogo
 };
+
+
+function updateLogo(accountId, logoPath ) {
+
+    return fetchWrapper.put(`${baseUrl}/account/`+accountId, {
+        id: parseInt(accountId),
+        logoPath: logoPath
+
+      }
+  )
+  .then(project => {
+    return project;
+  })
+  .catch(err => {
+    console.log("Error Updating Project::"+err)
+    return {errorMessage: err, error: true};
+   });
+}
 
 function getInvoiceReportData(accountId) {
     return fetchWrapper.get(`${baseUrl}/reports/account/`+accountId+'/invoice', {})

@@ -188,6 +188,23 @@ const settingCard = definePartsStyle({
   
 
 })
+
+const userSettingCard = definePartsStyle({
+  container: {
+    width: "100%",
+    border: "1px",
+    borderRadius: "5px",    
+    
+  },
+  body: {
+    fontSize: "12px"
+  },
+  header: {
+    fontWeight: "600"
+  }
+  
+
+})
   
 const baseStyle = definePartsStyle({
   // define the part you're going to style
@@ -308,4 +325,4 @@ const sizes = definePartsStyle({
   },
 })
 
-export const cardTheme = defineMultiStyleConfig({ baseStyle, sizes, variants: {settingCard, costSummary, invoiceReportDashboard, cashFlowInnerDetails, cashFlowDashboard, helpDashboard, dashboardWelcome,projectUsersFinancialSummary, reportByUsers, projectReportsHeader, comment, replies, replyDetails, document, timesheetDailyNotes, projectFinancialSummary} })
+export const cardTheme = defineMultiStyleConfig({ baseStyle, sizes, variants: {userSettingCard, settingCard, costSummary, invoiceReportDashboard, cashFlowInnerDetails, cashFlowDashboard, helpDashboard, dashboardWelcome,projectUsersFinancialSummary, reportByUsers, projectReportsHeader, comment, replies, replyDetails, document, timesheetDailyNotes, projectFinancialSummary} })

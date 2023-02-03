@@ -19,7 +19,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         account: {
           select: {
             name: true,
-            type: true
+            type: true,
+            logoPath: true
           }
         },
         projectResource: {
