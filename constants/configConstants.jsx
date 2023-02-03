@@ -3,7 +3,7 @@ import {
   Badge,
 } from '@chakra-ui/react'
 import { util } from '../helpers/util'
-import { ExportTemplateStatus } from "@prisma/client";
+import { ExportTemplateStatus, ExportTemplateType } from "@prisma/client";
 
 export const ConfigConstants = {
 
@@ -109,6 +109,11 @@ export const ConfigConstants = {
         label: "Name",
         accessor: "name"
       },    
+      {
+        label: "Type",
+        accessor: "type",
+        format: (value) => (value ? <Badge color={value==ExportTemplateType.User?"paid_status":"pending_status"}>{value}</Badge> : 'N/A')
+      },      
       {
         label: "File Prefix",
         accessor: "fileName"

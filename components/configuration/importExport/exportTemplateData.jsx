@@ -3,11 +3,7 @@ import React, { useState, useEffect } from "react";
 import {
   useDisclosure,
   Button,
-  Table,
-  Thead,
-  Tbody,
   Box,
-  TableContainer,
   Drawer,
   DrawerOverlay,
   DrawerContent,
@@ -15,20 +11,19 @@ import {
   DrawerHeader,
   DrawerBody,
   Stack,
-  Th,
-  Tr,
   Flex,
   Heading,
   HStack,
-  Badge,
   useToast
 } from '@chakra-ui/react';
 import { importExportService, userService } from "../../../services";
 import { ConfigConstants, EMPTY_STRING } from "../../../constants";
-import { ExportTemplateStatus } from "@prisma/client";
+import { ExportTemplateStatus, ExportTemplateType } from "@prisma/client";
 import Papa from "papaparse";
 import { util } from "../../../helpers/util";
 import { CustomTable } from "../../customTable/Table";
+import { ExportSystemTemplateData } from "./exportSystemTemplateData";
+
 
 function ExportTemplateData() {
   const toast = useToast();
@@ -42,13 +37,19 @@ function ExportTemplateData() {
     const responseData = await importExportService.getSavedExportTemplates(userService.getAccountDetails().accountId)
     if(responseData != undefined && responseData != EMPTY_STRING) {
       const updatedExportTemplates =  responseData.map((exportTemplate, index)=> {
-        exportTemplate.exportAction =  exportTemplate.status === ExportTemplateStatus.Active?<><Button onClick={() => handleExportNow(exportTemplate.id)} size="xs"  bgColor="header_actions">Export</Button></>:<></>
+        exportTemplate.type === ExportTemplateType.System?
+          exportTemplate.exportAction =  exportTemplate.status === ExportTemplateStatus.Active?<><ExportSystemTemplateData handleSystemExportNow={handleSystemExportNow} exportTemplateMeta={exportTemplate}/></>:<></>          
+          : exportTemplate.exportAction =  exportTemplate.status === ExportTemplateStatus.Active?<><Button onClick={() => handleExportNow(exportTemplate.id)} size="xs"  bgColor="header_actions">Export</Button></>:<></>
         return exportTemplate;   
       });
       setExportTemplates(responseData)
     }
     setSize(newSize);
     onOpen();
+  }
+
+  const handleSystemExportNow = async () => {
+
   }
 
   const handleExportNow = async (templateId) => {
@@ -101,27 +102,27 @@ function ExportTemplateData() {
                     Export Data from saved templates
                 </Heading>
                 <Button size="xs" bgColor="header_actions" 
-                    onClick={() => handleExportTemplateData("xl")}
-                    key="xl"
+                    onClick={() => handleExportTemplateData("xxl")}
+                    key="xxl"
                     m={1}
                     >{`Export Data`}
                 </Button>
               </HStack>
               <Drawer onClose={onClose} isOpen={isOpen} size={size}>
                     <DrawerOverlay />
-                        <DrawerContent>
-                            <DrawerCloseButton />
-                            <DrawerHeader>
-                                Export data from saved templates
-                            </DrawerHeader>
-                            <DrawerBody>
-                              <Stack spacing={8}>
-                                <Box border="box_border">
-                                  <CustomTable  variant="sortTable" columns={EXPORT_TEMPLATES_TABLE_COLUMNS} rows={exportTemplates} />
-                                </Box>                                                  
-                              </Stack>                             
-                            </DrawerBody>
-                        </DrawerContent>
+                    <DrawerContent>
+                        <DrawerCloseButton />
+                        <DrawerHeader>
+                            Export data from saved templates
+                        </DrawerHeader>
+                        <DrawerBody>
+                          <Stack spacing={8}>
+                            <Box border="box_border">
+                              <CustomTable  variant="sortTable" columns={EXPORT_TEMPLATES_TABLE_COLUMNS} rows={exportTemplates} />
+                            </Box>                                                  
+                          </Stack>                             
+                        </DrawerBody>
+                    </DrawerContent>
               </Drawer>
             </Flex>
 
