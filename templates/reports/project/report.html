@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,6 +25,25 @@
       color: #555;
     }
     
+    .chartrow {
+      margin-left:-5px;
+      margin-right:-5px;
+      display: inline-block;
+    }
+      
+    .chartcolumn {
+      float: left;
+      width: 50%;
+      padding: 5px;
+    }
+    
+    /* Clearfix (clear floats) */
+    .chartrow::after {
+      content: "";
+      clear: both;
+      display: table;
+    }
+
     .project-box table {
       width: 100%;
       line-height: inherit;
@@ -94,6 +114,10 @@
       color: black;
     }
     
+    .chart_container {      
+      padding: 40px;
+      display: inherit;
+    }
     .project-details {
       background-color: #319795;
       font-weight: bolder;
@@ -153,9 +177,9 @@
                     fill="#58CAEA" />
                 </svg>
               </td>
-
+              
               <td class="project-details">
-                <div>ID: {{id}}</div>
+                <div>NEE ID: {{id}}</div>
                 <div>Name: {{name}}</div>
                 <div>Reference Code: {{referenceCode}}</div>
                 <!-- <div>project #: {{id}}</div>
@@ -167,9 +191,84 @@
           </table>
         </td>
       </tr>
-
-
     </table>
+    <div widht="">
+    <table border="1px" style="width:30%;max-width:700px">
+      <thead>
+        <tr>
+          <th colspan="2" align="center">
+            Financial Summary
+          </th>
+        </tr>
+        <tr>
+          <th align="right" width="50%" >
+             Data 1:
+          </th>
+          <th align="left" width="50%">
+            $30
+         </th>
+
+        </tr>        
+      </thead>
+    </table>
+    <div class="chart_container">
+      <canvas id="budget" style="width:30%;max-width:700px"></canvas>
+    </div>    
+    <div class="chart_container">
+        <canvas id="invoice" style="width:30%;max-width:700px"></canvas>
+    </div>    
+
+    </div>
+ 
+    
+    <script>      
+      const budget = "{{ budget }}"
+      const usedBudget = "{{ usedBudget }}"
+      const miscBudget = "{{ miscBudget }}"
+      const usedMiscBudget = "{{ usedMiscBudget }}"
+
+      var xValues = ["Used $"+usedBudget, "Rem $"+(parseFloat(budget)-parseFloat(usedBudget))];
+      var yValues = [parseFloat(usedBudget), (parseFloat(budget)-parseFloat(usedBudget))];
+      var barColors = [
+      "#b91d47",
+      "#00aba9",
+      "#2b5797",
+      "#e8c3b9",
+      "#1e7145"
+    ];
+    new Chart("budget", {
+      type: "doughnut",
+      data: {
+        labels: xValues,
+        datasets: [{
+          backgroundColor: barColors,
+          data: yValues
+        }]
+      },
+      options: {
+        title: {
+          display: true,
+          text: "Budget"
+        }        
+      }
+    });
+    new Chart("invoice", {
+      type: "doughnut",
+      data: {
+        labels: xValues,
+        datasets: [{
+          backgroundColor: barColors,
+          data: yValues
+        }]
+      },
+      options: {
+        title: {
+          display: true,
+          text: "Invoice"
+        }        
+      }
+    });
+    </script>    
     <div class="footer">
       <div></div>
       
