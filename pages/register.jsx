@@ -56,6 +56,19 @@ const Register = (props) => {
   }, []);
   
   function onSubmit(data) {
+
+    if(data.confirmPassword !== data.password) {
+      toast({
+        title: 'Add account error.',
+        description: 'Please make sure you enter password with right combination and matches with confirm password.',
+        status: 'error',
+        position: 'top',
+        duration: 6000,
+        isClosable: true,
+      })    
+      return;
+    }
+
     window.grecaptcha.ready(() => {
       window.grecaptcha
         .execute(SITE_KEY, { action: "submit" })
@@ -208,6 +221,20 @@ const Register = (props) => {
                                     </FormControl>     
                                   </Box>                                                                  
                                   </HStack>
+                                  <HStack>
+                                    <Box>
+                                      <FormControl isRequired>
+                                          <FormLabel>Password</FormLabel>
+                                          <Input type="password" id="password"   {...register('password')} />
+                                        </FormControl>      
+                                    </Box>  
+                                    <Box>
+                                      <FormControl isRequired>
+                                          <FormLabel>Confirm Password</FormLabel>
+                                          <Input type="password" id="confirmPassword"   {...register('confirmPassword')} />
+                                        </FormControl>      
+                                    </Box>                                     
+                                  </HStack>                                  
                                   <HStack>
                                     <Box>
                                       <FormControl isRequired>
