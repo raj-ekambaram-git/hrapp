@@ -19,6 +19,7 @@ import {
   } from '@chakra-ui/react';
 import { EMPTY_STRING } from '../constants/accountConstants';
 import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
 
 
 export default ChangePassword;
@@ -26,22 +27,28 @@ export default ChangePassword;
 function ChangePassword(props) {
     const router = useRouter();
     const toast = useToast()
+    const [userValId, setUserValId] = useState();
+    const [showOldPassword, setShowOldPassword] = useState(true);
+    const [passwordHashed, setPasswordHashed] = useState(false);
+
     const userId = useSelector(state => state?.user?.loggedInUser?.id);
-    // const userId = userService.userValue.id;
+    const { query } = router
 
-    // if(userId === undefined || userId=== EMPTY_STRING) {
-    //     router.push({
-    //         pathname: '/account/login'
-    //     });
-    // }
+    useEffect(() => {
+        if(query && query.userId && query.maskedTempPassword){
+            setUserValId(query.userId)
+            setValue("oldPassword", query.maskedTempPassword)
+            setPasswordHashed(true)
+            setShowOldPassword(false)
+        }
 
-    // const userId = router.query.userId;
-    // if(router.query.userId === undefined || router.query.userId === EMPTY_STRING) {
-    //     router.push({
-    //         pathname: '/account/login'
-    //     });
-    // }
-    // form validation rules 
+        if(userId) {
+            setUserValId(userId)
+        }
+        
+    }, [query, userId]);
+
+
     const validationSchema = Yup.object().shape({
         oldPassword: Yup.string().required('Old Password is required'),
         newPassword: Yup.string().required('New Password is required')
@@ -49,13 +56,13 @@ function ChangePassword(props) {
     const formOptions = { resolver: yupResolver(validationSchema) };
 
     // get functions to build form with useForm() hook
-    const { register, handleSubmit, formState } = useForm(formOptions);
+    const { register, handleSubmit, formState, setValue } = useForm(formOptions);
     const { errors } = formState;
 
     async function onSubmit({ oldPassword, newPassword }) {
 
         if(util.isStrongPassword(newPassword)) {
-            const changePasswordResponse = await userService.changePassword(userId, oldPassword, newPassword);
+            const changePasswordResponse = await userService.changePassword(userValId, oldPassword, newPassword, passwordHashed);
             if(changePasswordResponse != undefined && changePasswordResponse.error) {
               toast({
                 title: 'Change Password Erropr.',
@@ -107,11 +114,13 @@ function ChangePassword(props) {
                 <CardBody>
                 <Stack divider={<StackDivider />} spacing='1'>
                     <form onSubmit={handleSubmit(onSubmit)}>
-                        <div className="form-group">
-                            <label>Old Password</label>
-                            <input name="oldPassword" type="password" {...register('oldPassword')} className={`form-control ${errors.oldPassword ? 'is-invalid' : ''}`} />
-                            <div className="invalid-feedback">{errors.oldPassword?.message}</div>
-                        </div>
+                        {showOldPassword?<>
+                            <div className="form-group">
+                                <label>Old Password</label>
+                                <input name="oldPassword" type="password" {...register('oldPassword')} className={`form-control ${errors.oldPassword ? 'is-invalid' : ''}`} />
+                                <div className="invalid-feedback">{errors.oldPassword?.message}</div>
+                            </div>                        
+                        </>:<></>}
                         <div className="form-group">
                             <label>New Password</label>
                             <input name="newPassword" type="password" {...register('newPassword')} className={`form-control ${errors.newPassword ? 'is-invalid' : ''}`} />

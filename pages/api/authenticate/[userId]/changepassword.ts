@@ -4,6 +4,7 @@ import { NextApiRequest, NextApiResponse } from "next"
 const bcrypt = require('bcryptjs');
 import prisma from "../../../../lib/prisma";
 import {util} from '../../../../helpers/util';
+import jwtDecode from 'jwt-decode';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method !== 'POST') {
@@ -21,8 +22,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         }
       });
 
+      let oldPassword = user.oldPassword;
+      if(user.isPasswordHashed) {
+        const decryptedValue = jwtDecode(oldPassword);
+        const clientIdSecretPassword = decryptedValue['sub'];
+        oldPassword = clientIdSecretPassword;
+      }
+
       if(userRecord != undefined) {
-        bcrypt.compare(user.oldPassword, userRecord.password, function(err, result) {  // Compare
+        bcrypt.compare(oldPassword, userRecord.password, function(err, result) {  // Compare
           // if passwords match
           if (result) {
                 console.log("It matches!")

@@ -433,8 +433,8 @@ function login(username, password) {
         });
 }
 
-function changePassword(userId,oldPassword, newPassword) {
-    return fetchWrapper.post(`${baseUrl}/authenticate/`+userId+'/changepassword', { userId, oldPassword, newPassword })
+function changePassword(userId,oldPassword, newPassword, isPasswordHashed) {
+    return fetchWrapper.post(`${baseUrl}/authenticate/`+userId+'/changepassword', { userId, oldPassword, newPassword, isPasswordHashed })
         .then(user => {
             return user;
         })
