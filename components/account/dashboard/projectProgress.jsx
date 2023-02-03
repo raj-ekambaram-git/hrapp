@@ -13,7 +13,8 @@ import {userService} from '../../../services'
 function ProjectProgress(props) {
 
     const router = useRouter();
-    const [prpjectProgressData, setPrpjectProgressData] = useState();
+    const [prpjectProgressData, setPrpjectProgressData] = useState(true);
+
     useEffect(() => {
         getProjectProgressData()
       }, []);
@@ -21,7 +22,7 @@ function ProjectProgress(props) {
       const getProjectProgressData = async () => {
             const projectProgressData = await userService.getProjectProgressData(userService.userValue?.id, userService.getAccountDetails().accountId);
             if(projectProgressData && projectProgressData.length > 0) {
-                setPrpjectProgressData(projectProgressData)
+                // setPrpjectProgressData(projectProgressData)
                 removeChart();
 
                 const projectDataSet = [];
@@ -45,7 +46,6 @@ function ProjectProgress(props) {
                         datasets: projectDataSet
                       },
                       options: {
-                        maintainAspectRatio: false,
                         elements: {
                             bar: {
                                 borderWidth: "500px",
@@ -59,6 +59,7 @@ function ProjectProgress(props) {
                     }
                   );
             }else {
+                setPrpjectProgressData(false)
                 removeChart()
             }
 
@@ -72,7 +73,8 @@ function ProjectProgress(props) {
       }
 
     return (
-        <>          
+        <>         
+            {prpjectProgressData?<>
                 <Card variant="projectProgress">
                     <CardHeader>
                         All your assigned project progress
@@ -82,8 +84,8 @@ function ProjectProgress(props) {
                         <canvas id="projectProgress1" height="100px"></canvas>
                     </Box>                             
                     </CardBody>
-                </Card>            
+                </Card>               
+            </>:<></>} 
         </>
-
     );
 }
