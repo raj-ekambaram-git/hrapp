@@ -49,8 +49,17 @@ export const userService = {
     getExpenseApprovalByUser,
     getExpensePaymentByUser,
     getApprovalData,
-    getAllAccountCosts
+    getAllAccountCosts,
+    getProjectProgressData
 };
+
+function getProjectProgressData(userId, accountId) {
+    return fetchWrapper.get(`${baseUrl}/account/user/`+userId+'/project/progress?accountId='+accountId, {})
+    .then(projectProgress => {
+        return projectProgress;
+    });
+ }
+ 
 
 function getAllAccountCosts(userId, accountId) {
     return fetchWrapper.get(`${baseUrl}/account/user/`+userId+'/cost?accountId='+accountId, {})
