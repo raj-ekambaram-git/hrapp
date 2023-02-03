@@ -5,14 +5,11 @@ import {
     Card,
     CardBody,
     CardHeader,
-    HStack,
-    Stack,
   } from '@chakra-ui/react'
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { util } from '../../../helpers/util';
 import {userService} from '../../../services'
-import {horizontalBarChart} from '../../../components/common/charts/horizontalBarChart'
+
 function ProjectProgress(props) {
 
     const router = useRouter();
@@ -23,36 +20,29 @@ function ProjectProgress(props) {
     
       const getProjectProgressData = async () => {
             const projectProgressData = await userService.getProjectProgressData(userService.userValue.id, userService.getAccountDetails().accountId);
-            console.log("projectProgressData:::"+JSON.stringify(projectProgressData))
             if(projectProgressData && projectProgressData.length > 0) {
                 setPrpjectProgressData(projectProgressData)
                 removeChart();
 
-                const chart =  new Chart(
-                    document.getElementById("projectProgress"),
+                const projectDataSet = [];
+                projectProgressData.map((projectData) => {
+                    const projectRecord = {
+                        label: projectData.project?.name,
+                        data: [(parseFloat(projectData.usedBudget)*100)/parseFloat(projectData.budgetAllocated), 100],
+                        barThickness: 15,
+                        categoryPercentage: 5
+                    }
+                    projectDataSet.push(projectRecord)
+                })
+
+
+                new Chart(
+                    document.getElementById("projectProgress1").getContext("2d"),
                     {
                       type: 'bar',
-                      data: {
+                      data: { 
                         labels: ["Projects"],
-                        datasets: [
-                            {
-                                label: "Project 1",
-                                data: [75],
-                                backgroundColor: '#3d4ca6',
-                                borderColor: 'transparent',
-                                barThickness: 15,
-                                categoryPercentage: 5
-                            }, 
-                            {
-                                label: "Project 2",
-                                data: [40],
-                                backgroundColor: 'red',
-                                borderColor: 'transparent',
-                                barThickness: 15,          
-                                categoryPercentage: 5                      
-                            },                             
-                                                                     
-                        ]
+                        datasets: projectDataSet
                       },
                       options: {
                         maintainAspectRatio: false,
@@ -75,26 +65,24 @@ function ProjectProgress(props) {
       }
 
       const removeChart = () => {
-        let chartStatus = Chart.getChart("projectProgress"); // <canvas> id
+        let chartStatus = Chart.getChart("projectProgress1"); // <canvas> id
         if (chartStatus != undefined) {
           chartStatus.destroy();
         }
       }
 
     return (
-        <>
-            {prpjectProgressData?<>
+        <>          
                 <Card variant="projectProgress">
                     <CardHeader>
                         All your assigned project progress
                     </CardHeader>
                     <CardBody>
                     <Box>
-                        <canvas id="projectProgress" height="100px"></canvas>
+                        <canvas id="projectProgress1" height="100px"></canvas>
                     </Box>                             
                     </CardBody>
-                </Card>
-            </>:<></>}
+                </Card>            
         </>
 
     );
