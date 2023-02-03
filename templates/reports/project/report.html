@@ -11,7 +11,7 @@
       margin-top: 5rem;
     }
     
-    .invoice-box {
+    .project-box {
       width: 800px;
       max-width: 800px;
       margin: auto;
@@ -24,27 +24,27 @@
       color: #555;
     }
     
-    .invoice-box table {
+    .project-box table {
       width: 100%;
       line-height: inherit;
       text-align: left;
       padding-bottom: 30px;
     }
     
-    .invoice-box table td {
+    .project-box table td {
       padding: 5px;
       vertical-align: top;
     }
     
-    .invoice-box table tr td:nth-child(2) {
+    .project-box table tr td:nth-child(2) {
       text-align: right;
     }
     
-    .invoice-box table tr.top table td {
+    .project-box table tr.top table td {
       padding-bottom: 20px;
     }
     
-    .invoice-box table tr.top table td.title {
+    .project-box table tr.top table td.title {
       font-size: 45px;
       line-height: 45px;
       color: #333;
@@ -52,52 +52,52 @@
       background-color: #e4eaee;
     }
     
-    .invoice-box table tr.information table td {
+    .project-box table tr.information table td {
       padding-bottom: 40px;
       font-weight: bold;
     }
     
-    .invoice-box table tr.heading td {
+    .project-box table tr.heading td {
       background: #eee;
       border-bottom: 1px solid #ddd;
       font-weight: bolder;
       text-align: left;
     }
     
-    .invoice-box table tr.details td {
+    .project-box table tr.details td {
       padding-bottom: 15px;
     }
-    .invoice-box table tr.details_odd td {
+    .project-box table tr.details_odd td {
       padding-bottom: 15px;
     }
-    .invoice-box table tr.details_even td {
+    .project-box table tr.details_even td {
       padding-bottom: 15px;
       background-color: #E6FFFA;
     }
     
-    .invoice-box table tr.item td {
+    .project-box table tr.item td {
       border-bottom: 1px solid #eee;
     }
     
-    .invoice-box table tr.item.last td {
+    .project-box table tr.item.last td {
       border-bottom: none;
     }
     
-    .invoice-box table tr.total {
+    .project-box table tr.total {
       border-top: 2px solid;
       width: 100%;
       font-weight: bold;
     }
-    .invoice-box table tr.total td:nth-child(3) {
+    .project-box table tr.total td:nth-child(3) {
       background-color: #319795;
       font-weight: bolder;
       color: black;
     }
     
-    .invoice-details {
+    .project-details {
       background-color: #319795;
       font-weight: bolder;
-      color: black;
+      color: white;
     }
     
     .footer {
@@ -109,13 +109,13 @@
     
     
     @media only screen and (max-width: 600px) {
-      .invoice-box table tr.top table td {
+      .project-box table tr.top table td {
         width: 100%;
         display: block;
         text-align: center;
       }
     
-      .invoice-box table tr.information table td {
+      .project-box table tr.information table td {
         width: 100%;
         display: block;
         text-align: center;
@@ -139,7 +139,7 @@
 </head>
 
 <body>
-  <div class="invoice-box">
+  <div class="project-box">
     <table cellpadding="0" cellspacing="0">
       <tr class="top" width="100%">
         <td colspan="5">
@@ -154,122 +154,27 @@
                 </svg>
               </td>
 
-              <td class="invoice-details">
-                <!-- <div>Invoice #: {{id}}</div>
-                <div>Created: {{{dateFormat invoiceDate}}}</div>
+              <td class="project-details">
+                <div>ID: {{id}}</div>
+                <div>Name: {{name}}</div>
+                <div>Reference Code: {{referenceCode}}</div>
+                <!-- <div>project #: {{id}}</div>
+                <div>Created: {{{dateFormat projectDate}}}</div>
                 <div>Due: {{{dateFormat dueDte}}}</div> -->
+
               </td>
             </tr>
           </table>
         </td>
       </tr>
 
-      <!-- <tr class="information">
-        <td colspan="5">
-          <table>
-            <tr>
-              <td>
-                {{account.name}} <br>
-                {{account.email}} <br>
-                {{#each account.address}}
-                  {{address1}}<br>
-                  {{#if @address2}}
-                    {{address2}}<br>
-                  {{/if}}
-                  {{#if @address3}}
-                    {{address3}}<br>
-                  {{/if}}
-                  {{city}}, {{state}}, {{zipCode}}<br>
-                  {{county}} <br>
 
-                {{/each}}
-              </td>
-
-              <td>
-                <b>Bill To: </b><br>
-                {{vendor.name}}<br>
-                {{vendor.email}}<br>
-                {{#each vendor.address}}
-                  {{address1}}<br>
-                  {{#if @address2}}
-                    {{address2}}<br>
-                  {{/if}}
-                  {{#if @address3}}
-                    {{address3}}<br>
-                  {{/if}}
-                  {{city}}, {{state}}, {{zipCode}}<br>
-                  {{county}}
-                {{/each}}        
-                <b>Project Reference: </b>{{project.referenceCode}}       
-              </td>
-            </tr>
-          </table>
-        </td>
-      </tr>
-
-      <tr class="heading">
-        <td>
-          Services
-        </td>
-        <td>
-          Description
-        </td>
-        <td>
-          Qty
-        </td>
-        <td>
-          Rate
-        </td>
-        <td width="15%">
-          Amount
-        </td>
-      </tr>
-      {{#each invoiceItems}}
-      <tr 
-      {{#if (isOdd @index)}}
-        class="details_odd" 
-      {{else}}
-        class="details_even" 
-      {{/if}}
-      >
-          <td>
-            {{user.firstName}} {{user.lastName}} -- {{type}}
-          </td>
-          <td align="left">
-            {{type}} 
-            {{#if fromDate}}
-              {{{dateFormat fromDate}}} - {{{dateFormat toDate}}}
-            {{/if}}
-          </td>
-          <td>
-            {{quantity}}
-          </td>
-          <td>
-            $ {{unitPrice}}
-          </td>
-          <td>
-            $ {{total}}
-          </td>
-      </tr>
-      {{/each}}       
-
-      <tr class="total">
-        <td colspan="3">
-        </td>
-        <td align="right">
-          <div>Total:</div> 
-        </td>
-        <td align="left">
-          <div>${{total}}</div> 
-        </td>        
-      </tr> -->
     </table>
     <div class="footer">
       <div></div>
       
       <div class="make_payment">
         <div>
-          Make all checks payable to 
         </div>
       </div>
       <div class="thanks">
