@@ -55,13 +55,13 @@ console.log("userId ID::"+userId+"---PAYMENT AccountioD::"+accountId)
           }
         },
         where: {
-            userId: {
-              equals: parseInt(userId.toString())
-            },
+            // userId: {
+            //   equals: parseInt(userId.toString())
+            // },
             isTimesheetApprover: {
               equals: true
             },          
-            project: {
+            project: {              
               expense: {
                 some: {
                   status: {
