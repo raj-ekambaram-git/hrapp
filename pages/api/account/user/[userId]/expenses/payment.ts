@@ -16,6 +16,7 @@ console.log("userId ID::"+userId+"---PAYMENT AccountioD::"+accountId)
   
   try {
     if(userId != "" && accountId != "" && accountId != "NaN" && accountId != undefined && userId != undefined && userId != "NaN") {
+
       const projects = await prisma.projectResource.findMany({
         select: {
           project: {
@@ -65,8 +66,12 @@ console.log("userId ID::"+userId+"---PAYMENT AccountioD::"+accountId)
                 some: {
                   status: {
                     in: [ExpenseStatus.Approved, ExpenseStatus.PartiallyPaid, ExpenseStatus.Invoiced]
-                  }
-                }
+                  },
+                },
+                
+              },
+              accountId: {
+                equals: parseInt(accountId.toString())
               }
             }
             
@@ -75,6 +80,7 @@ console.log("userId ID::"+userId+"---PAYMENT AccountioD::"+accountId)
           id: "desc"
         }
       });
+
 
       res.status(200).json(projects);
     } else if (accountId != "" && accountId != undefined && userId == "NaN"){

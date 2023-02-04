@@ -21,6 +21,7 @@ function ProjectProgress(props) {
     
       const getProjectProgressData = async () => {
             const projectProgressData = await userService.getProjectProgressData(userService.userValue?.id, userService.getAccountDetails().accountId);
+            console.log("projectProgressData::"+JSON.stringify(projectProgressData))
             if(projectProgressData && projectProgressData.length > 0) {
                 // setPrpjectProgressData(projectProgressData)
                 removeChart();

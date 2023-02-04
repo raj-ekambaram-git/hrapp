@@ -25,7 +25,7 @@ function WelcomeSection(props) {
                 
             </CardHeader>
             <CardBody>
-                <Stack width="50%" marginBottom={4}>
+                <Stack width="70%" marginBottom={4}>
                     <HStack>
                         <Box  width="50%" textAlign="right" fontWeight="600">
                             Username:

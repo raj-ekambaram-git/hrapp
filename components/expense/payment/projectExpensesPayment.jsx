@@ -97,7 +97,7 @@ const ProjectExpensesPayment = (props) => {
                                                             expenseEntry.status == ExpenseConstants.EXPENSE_STATUS.PartiallyPaid) ? (
                                                             <>
                                                                 <Th>
-                                                                    {expenseEntry.user.firstName} {expenseEntry.user.lastName}
+                                                                    {expenseEntry.user.lastName} {expenseEntry.user.firstName}
                                                                 </Th>
                                                                 <Th>
                                                                     {expenseEntry.name}

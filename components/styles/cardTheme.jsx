@@ -263,7 +263,7 @@ const helpDashboard = definePartsStyle({
     overflow: 'hidden', 
     border: "1px",
     fontSize: "14px",
-    height: "250px"
+    height: "280px"
   },
   header:{
     fontSize: "16px",
