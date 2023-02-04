@@ -38,7 +38,7 @@ const Slidebar = (props) => {
                   <div className={styles.navbar}>
                     <div className={styles.navbarleftmain}>            
                       <div  onClick={handleclick} className={styles.menuicons} >
-                        <VscMenu fontSize="27px" />
+                        {/* <VscMenu fontSize="27px" /> */}
                       </div>
                         <Link href={`/account/dashboard`} >  
                           <Box display={{ base: 'none', md: 'flex' }} fontWeight="bold" alignContent="center" marginTop="10px">
@@ -77,7 +77,7 @@ const Slidebar = (props) => {
                         {state ? 
                             <div className={styles.slidingfuncbox}>
                               <div><Slideopen allowedModule={props.allowedModules}/></div>
-                              <div><Slideclose allowedModule={props.allowedModules}/></div>
+                              {/* <div><Slideclose allowedModule={props.allowedModules}/></div> */}
                             </div>
                           :
                             <div>
