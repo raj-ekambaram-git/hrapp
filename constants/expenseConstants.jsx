@@ -47,6 +47,7 @@ export const ExpenseConstants = {
   EXPENSE_STATUS: {
     'Draft': 'Draft',
     'Saved': 'Saved',
+    'Invoiced': 'Invoiced',
     'Submitted': 'Submitted',
     'Approved': 'Approved',
     'Rejected': 'Rejected',

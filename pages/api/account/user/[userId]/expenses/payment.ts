@@ -59,13 +59,12 @@ console.log("userId ID::"+userId+"---PAYMENT AccountioD::"+accountId)
             },
             isTimesheetApprover: {
               equals: true
-            },
-            billable: true,
+            },          
             project: {
               expense: {
                 some: {
                   status: {
-                    in: [ExpenseStatus.Approved, ExpenseStatus.PartiallyPaid]
+                    in: [ExpenseStatus.Approved, ExpenseStatus.PartiallyPaid, ExpenseStatus.Invoiced]
                   }
                 }
               }

@@ -93,7 +93,7 @@ const ProjectExpensesPayment = (props) => {
                                             <Tbody>
                                                 {expense.project.expense?.map((expenseEntry) => (
                                                     <Tr>
-                                                        {(expenseEntry.status == ExpenseConstants.EXPENSE_STATUS.Approved ||
+                                                        {(expenseEntry.status == ExpenseConstants.EXPENSE_STATUS.Approved || expenseEntry.status == ExpenseConstants.EXPENSE_STATUS.Invoiced ||
                                                             expenseEntry.status == ExpenseConstants.EXPENSE_STATUS.PartiallyPaid) ? (
                                                             <>
                                                                 <Th>
