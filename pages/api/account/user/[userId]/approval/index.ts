@@ -36,7 +36,8 @@ console.log("userId ID::"+userId+"---AccountioD::"+accountId)
                             },
                             select: {
                                 _count: true,
-                                id: true
+                                id: true,
+                                billable: true
                             }
                         },
                         expense: {
@@ -58,7 +59,7 @@ console.log("userId ID::"+userId+"---AccountioD::"+accountId)
         const projectEpeneList = [];
         projects.map((project) => {
           project.project?.timesheetEntries?.map((timesheetEntry) => {
-            if(project.billable) {
+            if(timesheetEntry.billable) {
               billableTimesheetCount++
             }else {
               nonBillableTimesheetCount++
