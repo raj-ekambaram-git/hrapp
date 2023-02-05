@@ -17,7 +17,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     Invoice = "Invoice",
     Project = "Project",
     User = "User",
-    Vendor = "Vendor"
+    Vendor = "Vendor",
+    Template = "Template"
   }
 
   enum DocumentStatus {
@@ -45,6 +46,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       case DocumentType.Project:
         documentTypeValue = DocumentType.Project
         break
+      case DocumentType.Template:
+        documentTypeValue = DocumentType.Template
+        break        
     }
 
     const typeId = req.query?.typeId;

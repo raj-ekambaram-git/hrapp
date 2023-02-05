@@ -9,12 +9,12 @@ import ManageDocuments from "../../document/manageDocuments";
 import { DocumentConstants } from "../../../constants";
 import { useDispatch } from "react-redux";
 import { setDocumentType } from "../../../store/modules/Document/actions";
+import { DocumentType } from "@prisma/client";
 
 
 
 const AccountDocuments = (props) => {
   const dispatch = useDispatch();
-  const [user, setUser] = useState();
 
   const [isPageAuthprized, setPageAuthorized] = useState(false);
 
@@ -24,13 +24,11 @@ const AccountDocuments = (props) => {
       setPageAuthorized(true);
     }
     const documentData = {
-      type: DocumentConstants.DOCUMENMT_TYPE.Template,
+      type: DocumentType.Template,
       typeId: parseInt(userService.getAccountDetails().accountId),
       typeName: "Account"
-    }
-    
+    }    
     dispatch(setDocumentType(documentData))
-
   }, []);
   
 

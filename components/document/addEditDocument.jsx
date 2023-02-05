@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import {
     Button,
@@ -11,13 +11,17 @@ import {
     Card,
     CardBody,
     CardFooter,
-    Divider
+    Divider,
+    FormControl,
+    FormLabel,
+    Select
   } from '@chakra-ui/react';
 import { useDispatch, useSelector } from "react-redux";
 import { ShowInlineErrorMessage } from "../common/showInlineErrorMessage";
 import { documentService, userService } from "../../services";
 import { CommonConstants, DocumentConstants, EMPTY_STRING } from "../../constants";
 import { setDocumentsByType } from "../../store/modules/Document/actions";
+import { DocumentType } from "@prisma/client";
 
 const AddEditDocument = (props) => {
     const dispatch = useDispatch();
@@ -26,10 +30,21 @@ const AddEditDocument = (props) => {
     const [name, setName] = useState(EMPTY_STRING);
     const [showErrorMessage, setShowErrorMessage] = useState(EMPTY_STRING);
     const [uploadingStatus, setUploadingStatus] = useState();
+    const [accountTemplates, setAccountTemplates] = useState();
     const [uploadedFile, setUploadedFile] = useState();
     const documentType = useSelector(state => state.document.documentType);
     const acceptedFileTypes = process.env.ALLOWED_DOCUMENT_TYPES
   
+    useEffect(() => {
+        getAccountTemplates()
+    }, []);
+
+    const getAccountTemplates = async () => {
+        const responseData = await documentService.getDocumentsByType(DocumentType.Template, userService.getAccountDetails().accountId);
+        setAccountTemplates(responseData)
+    }
+
+
     const uploadFile = async () => {
         setUploadingStatus("Uploading the file.");
         const directoryStructure = "account_"+userService.getAccountDetails().accountId+CommonConstants.backSlash
@@ -97,30 +112,71 @@ const AddEditDocument = (props) => {
         <>
         <Stack spacing={5} marginBottom={6}>
             <ShowInlineErrorMessage showErrorMessage={showErrorMessage}/>
-                <Card variant="document">
-                    <CardBody>
-                        <HStack spacing={7} marginBottom="1rem">
-                            <Box fontWeight="500"> Name</Box>
-                            <Input type="text" value={name} onChange={(e) => setName(e.target.value)} />
-                        </HStack>
-                        <HStack>
-                            <Text>Upload </Text>
-                            <Input size="xs" accept={acceptedFileTypes} type="file" onChange={(e) => selectFile(e)} width="50%"/>
-                        </HStack>
-                    </CardBody>
-                    <Divider/>
-                    <CardFooter>
-                    {file && (
-                        <HStack>
-                            <Box>Selected file: {file.name}</Box>
-                            <Button size="xs" colorScheme='red' onClick={uploadFile}>
-                                Upload!
-                            </Button>
-                        </HStack>
-                    )}
-                    {uploadingStatus && <Text>{uploadedFile} {uploadingStatus}</Text>}
-                    </CardFooter>
-                </Card>
+                <HStack>
+                    <Card variant="document">
+                        <CardBody>
+                            <HStack spacing={7} marginBottom="1rem">
+                                <Box fontWeight="500"> Name</Box>
+                                <Input type="text" value={name} onChange={(e) => setName(e.target.value)} />
+                            </HStack>
+                            <HStack>
+                                <Text>Upload </Text>
+                                <Input size="xs" accept={acceptedFileTypes} type="file" onChange={(e) => selectFile(e)} width="50%"/>
+                            </HStack>
+                        </CardBody>
+                        <Divider/>
+                        <CardFooter>
+                        {file && (
+                            <HStack>
+                                <Box>Selected file: {file.name}</Box>
+                                <Button size="xs" colorScheme='red' onClick={uploadFile}>
+                                    Upload!
+                                </Button>
+                            </HStack>
+                        )}
+                        {uploadingStatus && <Text>{uploadedFile} {uploadingStatus}</Text>}
+                        </CardFooter>
+                    </Card>
+                    <Box>
+                        OR
+                    </Box>
+                    <Card variant="document">
+                        <CardBody>
+                            <HStack spacing={7} marginBottom="1rem">
+                                <Box>
+                                <FormControl isRequired>
+                                    <FormLabel>Template</FormLabel>
+                                    <Select width="100%" id="accountTemplate" >
+                                        <option value="">Select a template</option>
+                                        {accountTemplates?.map((accountTemplate) => (
+                                        <option value={accountTemplate.id}>{accountTemplate.name}</option>
+                                        ))}
+                                </Select>
+                                </FormControl>     
+                                </Box>
+                            </HStack>
+
+                            <HStack spacing={7} marginBottom="1rem">
+                                <Box fontWeight="500"> Name</Box>
+                                <Input type="text" value={name} onChange={(e) => setName(e.target.value)} />
+                            </HStack>
+                            <HStack>
+                            </HStack>
+                        </CardBody>
+                        <Divider/>
+                        <CardFooter>
+                        {file && (
+                            <HStack>
+                                <Box>Selected file: {file.name}</Box>
+                                <Button size="xs" colorScheme='red' onClick={uploadFile}>
+                                    Upload!
+                                </Button>
+                            </HStack>
+                        )}
+                        {uploadingStatus && <Text>{uploadedFile} {uploadingStatus}</Text>}
+                        </CardFooter>
+                    </Card>                    
+                </HStack>                    
             </Stack>                    
         </>
     );
