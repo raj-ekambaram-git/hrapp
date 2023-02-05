@@ -22,6 +22,8 @@ import { CommonConstants, ConfigConstants, DocumentConstants, EMPTY_STRING } fro
 import { setDocumentsByType } from "../../store/modules/Document/actions";
 import { DocumentType } from "@prisma/client";
 import { ESignEmailTos } from "./sign/eSignEmailTos";
+import { ESignDetails } from "./sign/eSignDetails";
+
 
 const AddEditDocument = (props) => {
     const dispatch = useDispatch();
@@ -54,6 +56,10 @@ const AddEditDocument = (props) => {
         setUploadingStatus(null)
     }
 
+
+    const handleeSign = () => {
+
+    }
 
     const handleTemplateSelection = (selectedTemplateId) => {
         const inputValue = selectedTemplateId.target.value;
@@ -147,6 +153,7 @@ const AddEditDocument = (props) => {
             <ShowInlineErrorMessage showErrorMessage={showErrorMessage}/>
                     <Card variant="document">
                         <CardBody>
+                        ---{JSON.stringify(emailTo)}
                             <Stack spacing={9}>
                                 <HStack spacing={12}>
                                     <HStack spacing={7}>
@@ -174,20 +181,30 @@ const AddEditDocument = (props) => {
                                     <HStack spacing={9} marginBottom="1rem">
                                         <Box fontWeight="500"> eSignature Required?</Box>
                                         <ESignEmailTos handleDocumentSignature={handleDocumentSignature} setEmailTo={setEmailTo}/>                                      
-                                    </HStack>                                       
+                                    </HStack>  
+                                    {emailTo?<>
+                                        <ESignDetails emailTo={emailTo}/>
+                                    </>:<></>}                                     
                                 </>:<></>} 
                             </Stack>                                                                          
                         </CardBody>
-                        <CardFooter>
+                        <CardFooter>                        
                         {file && (
                             <HStack>
                                 <Box>Selected file: {file.name}</Box>
                                 <Button size="xs" colorScheme='red' onClick={uploadFile}>
-                                    Upload!
+                                    {(eSignFeatureEnabled && emailTo)?"Upload and send for eSign":"Upload!"}
                                 </Button>
                             </HStack>
                         )}
                         {uploadingStatus && <Text>{uploadedFile} {uploadingStatus}</Text>}
+                        {(eSignFeatureEnabled && emailTo && selectedTemplate)?(
+                            <HStack>
+                                <Button size="xs" colorScheme='red' onClick={handleeSign}>
+                                    Send for eSign
+                                </Button>
+                            </HStack>
+                        ):<></>}                        
                         </CardFooter>
                     </Card>                            
             </Stack>                    

@@ -57,6 +57,7 @@ function ESignEmailTos(props) {
       }
       console.log("eSignEmailDetails:::"+JSON.stringify(eSignEmailDetails))
       props.setEmailTo(eSignEmailDetails)
+      onClose()
     }else {
       toast({
         title: 'eSignature Details.',
