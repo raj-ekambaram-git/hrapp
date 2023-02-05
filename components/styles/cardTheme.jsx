@@ -55,6 +55,28 @@ const document = definePartsStyle({
 
 })
 
+const eSignDocument = definePartsStyle({
+  container: {
+    borderWidth: '1px',
+    borderRadius: 'lg',
+    overflow: 'hidden', 
+    border: "1px",
+    width: "100%"
+    
+  },
+  footer: {
+    maxH: "5px",
+    alignItems: "center",
+    fontSize: '15px',
+    fontWeight: "400",
+    bgColor: '#EDF2F7'
+  },
+  body: {
+    
+  }
+
+})
+
 const replies = definePartsStyle({
   header: {
     bgColor: '#E6FFFA',
@@ -337,4 +359,4 @@ const sizes = definePartsStyle({
   },
 })
 
-export const cardTheme = defineMultiStyleConfig({ baseStyle, sizes, variants: {projectProgress, userSettingCard, settingCard, costSummary, invoiceReportDashboard, cashFlowInnerDetails, cashFlowDashboard, helpDashboard, dashboardWelcome,projectUsersFinancialSummary, reportByUsers, projectReportsHeader, comment, replies, replyDetails, document, timesheetDailyNotes, projectFinancialSummary} })
+export const cardTheme = defineMultiStyleConfig({ baseStyle, sizes, variants: {eSignDocument,projectProgress, userSettingCard, settingCard, costSummary, invoiceReportDashboard, cashFlowInnerDetails, cashFlowDashboard, helpDashboard, dashboardWelcome,projectUsersFinancialSummary, reportByUsers, projectReportsHeader, comment, replies, replyDetails, document, timesheetDailyNotes, projectFinancialSummary} })

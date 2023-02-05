@@ -83,12 +83,12 @@ const ManageDocuments = (props) => {
     <div>
           <Button size="xs"
               bgColor="header_actions"
-              onClick={() => handleClick("lg")}
-              key="lg"
+              onClick={() => handleClick("xl")}
+              key="xl"
               m={1}
               >{`Documents`}
           </Button>      
-          <Drawer onClose={onClose} isOpen={isOpen} size="xl">
+          <Drawer onClose={onClose} isOpen={isOpen} size={size}>
                 <DrawerOverlay />
                     <DrawerContent>
                         <DrawerCloseButton />

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import {
     Button,
@@ -11,7 +11,9 @@ import {
     Card,
     CardBody,
     CardFooter,
-    Select
+    Select,
+    Checkbox,
+    useDisclosure,
   } from '@chakra-ui/react';
 import { useDispatch, useSelector } from "react-redux";
 import { ShowInlineErrorMessage } from "../common/showInlineErrorMessage";
@@ -19,6 +21,7 @@ import { documentService, userService } from "../../services";
 import { CommonConstants, ConfigConstants, DocumentConstants, EMPTY_STRING } from "../../constants";
 import { setDocumentsByType } from "../../store/modules/Document/actions";
 import { DocumentType } from "@prisma/client";
+import { ESignEmailTos } from "./sign/eSignEmailTos";
 
 const AddEditDocument = (props) => {
     const dispatch = useDispatch();
@@ -29,10 +32,12 @@ const AddEditDocument = (props) => {
     const [uploadingStatus, setUploadingStatus] = useState();
     const [accountTemplates, setAccountTemplates] = useState();
     const [eSignFeatureEnabled, setESignFeatureEnabled] = useState(false);
+    const [documentSignature, setDocumentSignature] = useState(false);
+    const [emailTos, setEmailTos] = useState();
     const [uploadedFile, setUploadedFile] = useState();
     const documentType = useSelector(state => state.document.documentType);
     const acceptedFileTypes = process.env.ALLOWED_DOCUMENT_TYPES
-  
+
     useEffect(() => {
         getAccountTemplates()
     }, []);
@@ -43,6 +48,13 @@ const AddEditDocument = (props) => {
         setESignFeatureEnabled(userService.accountFeatureEnabled(ConfigConstants.FEATURES.ESIGNATURE))
     }
 
+    const handleDocumentSignature = (documentSignatureSelected) => {
+        if(documentSignatureSelected) {
+            setDocumentSignature(true)
+        }else {
+            setDocumentSignature(false)
+        }
+    }
 
     const uploadFile = async () => {
         setUploadingStatus("Uploading the file.");
@@ -113,29 +125,35 @@ const AddEditDocument = (props) => {
             <ShowInlineErrorMessage showErrorMessage={showErrorMessage}/>
                     <Card variant="document">
                         <CardBody>
-                                <Stack spacing={9}>
-                                    <HStack spacing={12}>
-                                        <HStack spacing={7}>
-                                            <Box fontWeight="500">Upload </Box>
-                                            <Input size="xs" accept={acceptedFileTypes} type="file" onChange={(e) => selectFile(e)} width="50%"/>
-                                        </HStack>
-                                        {eSignFeatureEnabled?<>
-                                            <Box fontSize={12} fontWeight="600">
-                                                (OR)
-                                            </Box>
-                                            <Select id="accountTemplate" width="40%">
-                                                <option value="">Select a Template</option>
-                                                {accountTemplates?.map((accountTemplate) => (
-                                                <option value={accountTemplate.id}>{accountTemplate.name}</option>
-                                                ))}
-                                            </Select>
+                            <Stack spacing={9}>
+                                <HStack spacing={12}>
+                                    <HStack spacing={7}>
+                                        <Box fontWeight="500">Upload </Box>
+                                        <Input size="xs" accept={acceptedFileTypes} type="file" onChange={(e) => selectFile(e)} width="50%"/>
+                                    </HStack>
+                                    {eSignFeatureEnabled?<>
+                                        <Box fontSize={12} fontWeight="600">
+                                            (OR)
+                                        </Box>
+                                        <Select id="accountTemplate" width="40%">
+                                            <option value="">Select a Template</option>
+                                            {accountTemplates?.map((accountTemplate) => (
+                                            <option value={accountTemplate.id}>{accountTemplate.name}</option>
+                                            ))}
+                                        </Select>
 
-                                        </>:<></>}
-                                    </HStack>    
+                                    </>:<></>}
+                                </HStack>    
+                                <HStack spacing={9} marginBottom="1rem">
+                                    <Box fontWeight="500"> Name</Box>
+                                    <Input type="text" width="40%" value={name} onChange={(e) => setName(e.target.value)} />
+                                </HStack>  
+                                {eSignFeatureEnabled?<>
                                     <HStack spacing={9} marginBottom="1rem">
-                                        <Box fontWeight="500"> Name</Box>
-                                        <Input type="text" width="40%" value={name} onChange={(e) => setName(e.target.value)} />
-                                    </HStack>   
+                                        <Box fontWeight="500"> eSignature Required?</Box>
+                                        <ESignEmailTos handleDocumentSignature={handleDocumentSignature} setEmailTos={setEmailTos}/>                                      
+                                    </HStack>                                       
+                                </>:<></>} 
                             </Stack>                                                                          
                         </CardBody>
                         <CardFooter>
