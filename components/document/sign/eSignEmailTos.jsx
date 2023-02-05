@@ -16,6 +16,7 @@ import {
     CardBody,
     Card,
     CardFooter,
+    Button,
   } from '@chakra-ui/react'
 import { useRef, useState } from 'react';
 import { EMPTY_STRING } from '../../../constants';
@@ -35,6 +36,12 @@ function ESignEmailTos(props) {
       onClose()
     }
   }
+
+  const addSignatureDetails = () => {
+
+  }
+
+
     return (
         <>
           <Checkbox
@@ -73,7 +80,14 @@ function ESignEmailTos(props) {
                                     </Stack>
                                   </CardBody>
                                   <CardFooter>
-
+                                    <HStack>
+                                    <Button size="xs" colorScheme="yellow" onClick={onClose}>
+                                          Cancel
+                                      </Button>                                      
+                                      <Button size="xs" colorScheme='red' onClick={addSignatureDetails}>
+                                          Add Signature Details
+                                      </Button>
+                                    </HStack>
                                   </CardFooter>
                               </Card>
 
