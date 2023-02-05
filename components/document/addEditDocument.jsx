@@ -153,7 +153,6 @@ const AddEditDocument = (props) => {
             <ShowInlineErrorMessage showErrorMessage={showErrorMessage}/>
                     <Card variant="document">
                         <CardBody>
-                        ---{JSON.stringify(emailTo)}
                             <Stack spacing={9}>
                                 <HStack spacing={12}>
                                     <HStack spacing={7}>
