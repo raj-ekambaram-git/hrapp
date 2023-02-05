@@ -557,6 +557,7 @@ model AccoutFeatures {
   accountId      Int                  @default(0)
   feature        Feature              @relation(fields: [featureId], references: [id])
   featureId      Int                  @default(0)
+  configuration  Json?
   status         AccountFeatureStatus
   createdDate    DateTime             @default(now())
   lastUpdateDate DateTime             @default(now()) @updatedAt
