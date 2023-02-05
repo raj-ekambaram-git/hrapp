@@ -38,6 +38,12 @@ function ESignEmailTos(props) {
       onOpen()  
     } else {
       onClose()
+      props.setEmailTo(null)
+      setEmailSubject(null)
+      setRecepientName(null)
+      setRecepientEmail(null)
+      setEmailCC(null)
+      
     }
   }
 
@@ -45,6 +51,17 @@ function ESignEmailTos(props) {
     setEmailCC(emailCCValue)
   }
 
+  const handleEditeSignDetails = (newSize) => {
+    if(props.emailTo) {
+      setEmailSubject(props.emailTo.emailSubject)
+      setRecepientName(props.emailTo.recepientName)
+      setRecepientEmail(props.emailTo.recepientEmail)
+      setEmailCC(props.emailTo.emailCC)
+    }
+    setSize(newSize)
+    onOpen()  
+
+  }
 
   const addSignatureDetails = () => {
     console.log("emailSubject::"+emailSubject+"*****recepientName::"+recepientName+"****recepientEmail::"+recepientEmail+"****emailCC::"+emailCC)
@@ -73,10 +90,16 @@ function ESignEmailTos(props) {
 
     return (
         <>
+        {props.edit?<>
+          <Button size="xs" bgColor="header_actions" onClick={() => handleEditeSignDetails("lg")}>
+              Edit
+          </Button>           
+        </>:<>
           <Checkbox
-              onChange={(e) => handleDocumentSignature("lg",e.target.checked) }
-          />   
-          <Drawer onClose={onClose} isOpen={isOpen} size="lg">
+                onChange={(e) => handleDocumentSignature("lg",e.target.checked) }
+            />   
+        </>}
+          <Drawer onClose={onClose} isOpen={isOpen} size={size}>
                 <DrawerOverlay />
                     <DrawerContent>
                         <DrawerCloseButton />
@@ -90,33 +113,33 @@ function ESignEmailTos(props) {
                                         <HStack spacing={7}>
                                             <Box fontWeight="500" alignContent="right" width="25%">Email Subject </Box>
                                             <Box alignContent="left">
-                                              <Input type="text" onChange={(e) => setEmailSubject(e.target.value)} />
+                                              <Input type="text" value={emailSubject} onChange={(e) => setEmailSubject(e.target.value)} />
                                             </Box>
                                             
                                         </HStack>
                                         <HStack spacing={7}>
                                             <Box fontWeight="500" alignContent="right"  width="25%">Recepient Name </Box>
                                             <Box alignContent="left">
-                                              <Input type="text" onChange={(e) => setRecepientName(e.target.value)} />
+                                              <Input type="text" value={recepientName} onChange={(e) => setRecepientName(e.target.value)} />
                                             </Box>                                            
                                         </HStack>
                                         <HStack spacing={7}>
                                             <Box fontWeight="500" alignContent="right"  width="25%">Recepient Email </Box>
                                             <Box alignContent="left">
-                                              <Input type="email" onChange={(e) => setRecepientEmail(e.target.value)} />
+                                              <Input type="email" value={recepientEmail} onChange={(e) => setRecepientEmail(e.target.value)} />
                                             </Box>
                                         </HStack>
                                         <HStack spacing={7}>
                                             <Box fontWeight="500" alignContent="right"  width="25%">Email CC</Box>
                                             <Box alignContent="left">
-                                              <Input type="email" onChange={(e) => handleEmailCC(e.target.value)} />
+                                              <Input type="email" value={emailCC} onChange={(e) => handleEmailCC(e.target.value)} />
                                             </Box>
                                         </HStack>
                                     </Stack>
                                   </CardBody>
                                   <CardFooter>
                                     <HStack>
-                                    <Button size="xs" colorScheme="yellow" onClick={onClose}>
+                                      <Button size="xs" colorScheme="yellow" onClick={onClose}>
                                           Cancel
                                       </Button>                                      
                                       <Button size="xs" colorScheme='red' onClick={addSignatureDetails}>

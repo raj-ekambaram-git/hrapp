@@ -1,15 +1,19 @@
 export { ESignDetails };
 import { Box, Card, CardBody, HStack, Stack } from '@chakra-ui/react'
+import { ESignEmailTos } from './eSignEmailTos';
 
 function ESignDetails(props) {
     return (
         <>
           <HStack>
-              <Card variant="document">
+              <Card variant="document" width="75%">
                   <CardBody>
                       <Stack>
                           <HStack>
-                              <Box width="40%" alignContent="right">
+                          <ESignEmailTos edit={true} emailTo={props.emailTo}/>
+                          </HStack>
+                          <HStack>
+                              <Box width="25%" textAlign="right" fontWeight="600">
                                   Email Subject
                               </Box>
                               <Box alignContent="left">
@@ -17,7 +21,7 @@ function ESignDetails(props) {
                               </Box>                                                            
                           </HStack>
                           <HStack>
-                              <Box alignContent="right">
+                              <Box width="25%" textAlign="right" fontWeight="600">
                                   Recepient Name
                               </Box>
                               <Box alignContent="left">
@@ -25,7 +29,7 @@ function ESignDetails(props) {
                               </Box>                                                            
                           </HStack>
                           <HStack>
-                              <Box alignContent="right">
+                              <Box width="25%" textAlign="right" fontWeight="600">
                                   Recepient Email
                               </Box>
                               <Box alignContent="left">
@@ -33,7 +37,7 @@ function ESignDetails(props) {
                               </Box>                                                            
                           </HStack>
                           <HStack>
-                              <Box alignContent="right">
+                              <Box width="25%" textAlign="right" fontWeight="600">
                                   Email CC
                               </Box>
                               <Box alignContent="left">
