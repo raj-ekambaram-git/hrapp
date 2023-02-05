@@ -112,19 +112,30 @@ const AddEditDocument = (props) => {
         <>
         <Stack spacing={5} marginBottom={6}>
             <ShowInlineErrorMessage showErrorMessage={showErrorMessage}/>
-                <HStack>
                     <Card variant="document">
                         <CardBody>
-                            <HStack spacing={7} marginBottom="1rem">
-                                <Box fontWeight="500"> Name</Box>
-                                <Input type="text" value={name} onChange={(e) => setName(e.target.value)} />
-                            </HStack>
-                            <HStack>
-                                <Text>Upload </Text>
-                                <Input size="xs" accept={acceptedFileTypes} type="file" onChange={(e) => selectFile(e)} width="50%"/>
-                            </HStack>
+                                <Stack spacing={9}>
+                                    <HStack spacing={12}>
+                                        <HStack spacing={7}>
+                                            <Box fontWeight="500">Upload </Box>
+                                            <Input size="xs" accept={acceptedFileTypes} type="file" onChange={(e) => selectFile(e)} width="50%"/>
+                                        </HStack>
+                                        <Box fontSize={12} fontWeight="600">
+                                            (OR)
+                                        </Box>
+                                        <Select id="accountTemplate" width="40%">
+                                            <option value="">Select a Template</option>
+                                            {accountTemplates?.map((accountTemplate) => (
+                                            <option value={accountTemplate.id}>{accountTemplate.name}</option>
+                                            ))}
+                                        </Select>
+                                    </HStack>    
+                                    <HStack spacing={9} marginBottom="1rem">
+                                        <Box fontWeight="500"> Name</Box>
+                                        <Input type="text" width="40%" value={name} onChange={(e) => setName(e.target.value)} />
+                                    </HStack>   
+                            </Stack>                                                                          
                         </CardBody>
-                        <Divider/>
                         <CardFooter>
                         {file && (
                             <HStack>
@@ -136,43 +147,7 @@ const AddEditDocument = (props) => {
                         )}
                         {uploadingStatus && <Text>{uploadedFile} {uploadingStatus}</Text>}
                         </CardFooter>
-                    </Card>
-                    <Box>
-                        OR
-                    </Box>
-                    <Card variant="document">
-                        <CardBody>
-                            <HStack spacing={7} marginBottom="1rem">
-                                    <Box fontWeight="500"> Name</Box>
-                                    <Select width="100%" id="accountTemplate" >
-                                        <option value="">Select a Template</option>
-                                        {accountTemplates?.map((accountTemplate) => (
-                                        <option value={accountTemplate.id}>{accountTemplate.name}</option>
-                                        ))}
-                                </Select>
-                            </HStack>
-
-                            <HStack spacing={7} marginBottom="1rem">
-                                <Box fontWeight="500"> Name</Box>
-                                <Input type="text" value={name} onChange={(e) => setName(e.target.value)} />
-                            </HStack>
-                            <HStack>
-                            </HStack>
-                        </CardBody>
-                        <Divider/>
-                        <CardFooter>
-                        {file && (
-                            <HStack>
-                                <Box>Selected file: {file.name}</Box>
-                                <Button size="xs" colorScheme='red' onClick={uploadFile}>
-                                    Upload!
-                                </Button>
-                            </HStack>
-                        )}
-                        {uploadingStatus && <Text>{uploadedFile} {uploadingStatus}</Text>}
-                        </CardFooter>
-                    </Card>                    
-                </HStack>                    
+                    </Card>                            
             </Stack>                    
         </>
     );

@@ -39,7 +39,7 @@ const document = definePartsStyle({
     borderRadius: 'lg',
     overflow: 'hidden', 
     border: "1px",
-    width: "50%"
+    width: "100%"
     
   },
   footer: {
