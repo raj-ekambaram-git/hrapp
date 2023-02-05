@@ -7,7 +7,8 @@ export const DocumentConstants = {
         'Project': 'Project',
         'User': 'User',
         "TimesheetEntry": "TimesheetEntry",
-        "TimesheetApproval": "TimesheetApproval"
+        "TimesheetApproval": "TimesheetApproval",
+        "Template": "Template",
     },
     DOCUMENT_STATUS: {
         "Active": "Active",
