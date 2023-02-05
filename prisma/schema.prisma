@@ -393,16 +393,18 @@ model Calendar {
 }
 
 model Document {
-  id             Int            @id @default(autoincrement())
+  id             Int              @id @default(autoincrement())
   name           String
   type           DocumentType
+  category       DocumentCategory @default(Upload)
   typeId         Int
   urlPath        String
+  emailTo        String[]
   status         DocumentStatus
-  createdUser    User?          @relation(fields: [createdBy], references: [id])
+  createdUser    User?            @relation(fields: [createdBy], references: [id])
   createdBy      Int?
-  createdDate    DateTime       @default(now())
-  lastUpdateDate DateTime       @default(now()) @updatedAt
+  createdDate    DateTime         @default(now())
+  lastUpdateDate DateTime         @default(now()) @updatedAt
 
   @@index([createdBy])
   @@index([createdBy, status])
@@ -734,6 +736,7 @@ enum DocumentType {
   TimesheetApproval
   Expense
   ExpenseEntry
+  Template
 }
 
 enum NotesType {
@@ -877,4 +880,9 @@ enum ExpenseCategory {
 enum AccountType {
   Trial
   Full
+}
+
+enum DocumentCategory {
+  Upload
+  Signature
 }
