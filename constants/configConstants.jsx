@@ -6,7 +6,9 @@ import { util } from '../helpers/util'
 import { ExportTemplateStatus, ExportTemplateType } from "@prisma/client";
 
 export const ConfigConstants = {
-
+  FEATURES: {
+    ESIGNATURE: "eSignature",
+  },
   AVAILABLE_REPORTS: {
     ProjectReport: "ProjectReport",
     VendorReport: "VendorReport",

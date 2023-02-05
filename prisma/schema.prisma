@@ -64,6 +64,7 @@ model Account {
   accountConfig  AccountConfig[]
   contact        Contact[]
   exportTemplate ExportTemplate[]
+  accoutFeatures AccoutFeatures[]
 }
 
 model Vendor {
@@ -540,6 +541,39 @@ model ExportTemplate {
   status         ExportTemplateStatus
   createdDate    DateTime             @default(now())
   lastUpdateDate DateTime             @default(now()) @updatedAt
+}
+
+model Feature {
+  id             Int              @id @default(autoincrement())
+  name           String
+  description    String
+  status         FeatureStatus
+  accoutFeatures AccoutFeatures[]
+}
+
+model AccoutFeatures {
+  id             Int                  @id @default(autoincrement())
+  account        Account              @relation(fields: [accountId], references: [id])
+  accountId      Int                  @default(0)
+  feature        Feature              @relation(fields: [featureId], references: [id])
+  featureId      Int                  @default(0)
+  status         AccountFeatureStatus
+  createdDate    DateTime             @default(now())
+  lastUpdateDate DateTime             @default(now()) @updatedAt
+
+  @@unique([accountId, featureId])
+  @@index([accountId, status])
+  @@index([featureId, status])
+}
+
+enum AccountFeatureStatus {
+  Active
+  Inactive
+}
+
+enum FeatureStatus {
+  Active
+  Inactive
 }
 
 enum ExportTemplateStatus {

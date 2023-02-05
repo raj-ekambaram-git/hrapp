@@ -2,11 +2,9 @@ import { BehaviorSubject } from 'rxjs';
 import getConfig from 'next/config';
 import {UserConstants} from "../constants/userConstants";
 import jwtDecode from 'jwt-decode';
-
+import cookie from 'js-cookie'
 import { fetchWrapper } from 'helpers';
 import { EMPTY_STRING } from '../constants/accountConstants';
-import { Role } from '@prisma/client';
-import cookie from 'js-cookie'
 
 const { publicRuntimeConfig } = getConfig();
 const { serverRuntimeConfig } = getConfig();
@@ -50,8 +48,26 @@ export const userService = {
     getExpensePaymentByUser,
     getApprovalData,
     getAllAccountCosts,
-    getProjectProgressData
+    getProjectProgressData,
+    accountFeatureEnabled
 };
+
+function accountFeatureEnabled(featureName) {
+    const userCookie = cookie.get("user");
+    const userFeaturesEncrypted = JSON.parse(userCookie).features;
+    const decryptedValue = jwtDecode(userFeaturesEncrypted);        
+    if(decryptedValue && decryptedValue.sub) {
+        return decryptedValue?.sub.map((feature) => {
+            if(feature?.feature.name === featureName) {
+                return true;
+            }else {
+                return false;
+            }
+        }).includes(true)
+    }
+    return false;
+ }
+ 
 
 function getProjectProgressData(userId, accountId) {
     return fetchWrapper.get(`${baseUrl}/account/user/`+userId+'/project/progress?accountId='+accountId, {})

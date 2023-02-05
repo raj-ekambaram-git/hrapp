@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 import getConfig from 'next/config';
 import { NextApiRequest, NextApiResponse } from "next"
 import prisma from "../../../lib/prisma";
-import { AccountStatus, UserStatus } from '@prisma/client';
+import { AccountFeatureStatus, AccountStatus, FeatureStatus, UserStatus } from '@prisma/client';
 import { ErrorMessage } from '../../../constants/errorMessage';
 
 
@@ -81,12 +81,39 @@ async function hasAccess(result, res, user) {
       where: {
         id: parseInt(user.id),
       },
-      data: {passwordRetries: 5, lastSignIn: new Date()} // TODO: Get the Password retires from config value
+      data: {passwordRetries: 5, lastSignIn: new Date()}, // TODO: Get the Password retires from config value,
+      select: {
+        account: {
+          select: {            
+            accoutFeatures: {
+              where: {
+                status: {
+                  equals: AccountFeatureStatus.Active
+                },
+                feature: {
+                  status: {
+                    equals: FeatureStatus.Active
+                  },
+                }
+              },
+              select: {
+                feature: {
+                  select: {
+                    name: true
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     });
+    console.log("LOGGED ION USERRR ::"+JSON.stringify(savedUser))
 
     // // create a jwt token that is valid for 7 days
     const authToken = jwt.sign({ sub: user.email+":"+user.accountId+":"+serverRuntimeConfig.clientId+":"+user.userRole}, serverRuntimeConfig.secret, { expiresIn: '1d' }); // TODO: Expiration dates from Config Values
     const accountToken = jwt.sign({ sub: user.accountId }, serverRuntimeConfig.secret, { expiresIn: '1d' }); // TODO: Expiration dates from Config Values
+    const features = jwt.sign({ sub: savedUser.account.accoutFeatures }, serverRuntimeConfig.secret, { expiresIn: '1d' }); // TODO: Expiration dates from Config Values
     // return basic user details and token
     return res.status(200).json({
         id: user.id,
@@ -97,6 +124,7 @@ async function hasAccess(result, res, user) {
         accountId: user.accountId,
         passwordExpired: user.passwordExpired,
         lastSignIn: user.lastSignIn,
+        features,
         authToken,
         accountToken
     });

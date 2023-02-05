@@ -19,7 +19,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { ShowInlineErrorMessage } from "../common/showInlineErrorMessage";
 import { documentService, userService } from "../../services";
-import { CommonConstants, DocumentConstants, EMPTY_STRING } from "../../constants";
+import { CommonConstants, ConfigConstants, DocumentConstants, EMPTY_STRING } from "../../constants";
 import { setDocumentsByType } from "../../store/modules/Document/actions";
 import { DocumentType } from "@prisma/client";
 
@@ -120,6 +120,7 @@ const AddEditDocument = (props) => {
                                             <Box fontWeight="500">Upload </Box>
                                             <Input size="xs" accept={acceptedFileTypes} type="file" onChange={(e) => selectFile(e)} width="50%"/>
                                         </HStack>
+                                        {userService.accountFeatureEnabled(ConfigConstants.FEATURES.ESIGNATURE)?<>DDDD</>:<>EEEEE</>}
                                         <Box fontSize={12} fontWeight="600">
                                             (OR)
                                         </Box>
