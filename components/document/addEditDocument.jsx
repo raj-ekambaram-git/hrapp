@@ -31,16 +31,38 @@ const AddEditDocument = (props) => {
     const [showErrorMessage, setShowErrorMessage] = useState(EMPTY_STRING);
     const [uploadingStatus, setUploadingStatus] = useState();
     const [accountTemplates, setAccountTemplates] = useState();
+    const [selectedTemplate, setSelectedTemplate] = useState();
     const [eSignFeatureEnabled, setESignFeatureEnabled] = useState(false);
     const [documentSignature, setDocumentSignature] = useState(false);
-    const [emailTos, setEmailTos] = useState();
+    const [emailTo, setEmailTo] = useState();
     const [uploadedFile, setUploadedFile] = useState();
     const documentType = useSelector(state => state.document.documentType);
     const acceptedFileTypes = process.env.ALLOWED_DOCUMENT_TYPES
 
     useEffect(() => {
         getAccountTemplates()
+        resetValues()
     }, []);
+
+    const resetValues = () => {
+        setUploadingStatus(null)
+        setSelectedTemplate(null)
+        setName(null)
+        setEmailTo(null)
+        setShowErrorMessage(EMPTY_STRING)
+        setUploadedFile(null)
+        setUploadingStatus(null)
+    }
+
+
+    const handleTemplateSelection = (selectedTemplateId) => {
+        const inputValue = selectedTemplateId.target.value;
+        const selectedTemplatePath = selectedTemplateId.target.options.item(selectedTemplateId.target.selectedIndex).getAttribute("data-templatePath")
+        if(selectedTemplatePath) {
+            setSelectedTemplate(selectedTemplatePath)
+        }
+
+    }
 
     const getAccountTemplates = async () => {
         const responseData = await documentService.getDocumentsByType(DocumentType.Template, userService.getAccountDetails().accountId);
@@ -135,10 +157,10 @@ const AddEditDocument = (props) => {
                                         <Box fontSize={12} fontWeight="600">
                                             (OR)
                                         </Box>
-                                        <Select id="accountTemplate" width="40%">
+                                        <Select id="accountTemplate" width="40%" onChange={(ev) => handleTemplateSelection(ev)}>
                                             <option value="">Select a Template</option>
                                             {accountTemplates?.map((accountTemplate) => (
-                                            <option value={accountTemplate.id}>{accountTemplate.name}</option>
+                                            <option value={accountTemplate.id} data-templatePath={accountTemplate.urlPath} >{accountTemplate.name}</option>
                                             ))}
                                         </Select>
 
@@ -151,7 +173,7 @@ const AddEditDocument = (props) => {
                                 {eSignFeatureEnabled?<>
                                     <HStack spacing={9} marginBottom="1rem">
                                         <Box fontWeight="500"> eSignature Required?</Box>
-                                        <ESignEmailTos handleDocumentSignature={handleDocumentSignature} setEmailTos={setEmailTos}/>                                      
+                                        <ESignEmailTos handleDocumentSignature={handleDocumentSignature} setEmailTo={setEmailTo}/>                                      
                                     </HStack>                                       
                                 </>:<></>} 
                             </Stack>                                                                          
