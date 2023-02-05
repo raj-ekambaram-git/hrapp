@@ -23,6 +23,19 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       }
 
     const viewFile = await s3.getSignedUrlPromise("getObject",fileParams)
+
+    // const reader = new FileReader();
+    // reader.onloadend = () => {
+    //     // Use a regex to remove data url part
+    //     const base64String = reader.result
+    //         .replace('data:', '')
+    //         .replace(/^.+,/, '');
+
+    //     console.log(base64String);
+    //     // Logs wL2dvYWwgbW9yZ...
+    // };
+    // reader.readAsDataURL(file);
+
     res.status(200).json(viewFile)
   } catch (err) {
     console.log(err);

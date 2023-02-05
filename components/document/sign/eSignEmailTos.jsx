@@ -28,8 +28,8 @@ function ESignEmailTos(props) {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [emailSubject, setEmailSubject] = useState();
   const [recepientName, setRecepientName] = useState();
-  const [recepientEmail, setRecepientEmail] = useState();
-  const [emailCC, setEmailCC] = useState();
+  const [recepientEmail, setRecepientEmail] = useState([]);
+  const [emailCC, setEmailCC] = useState([]);
 
   const handleDocumentSignature = (newSize,isDocumentSignatureSelected) => {
     if(isDocumentSignatureSelected) {
@@ -47,8 +47,16 @@ function ESignEmailTos(props) {
     }
   }
 
-  const handleEmailCC = (emailCCValue) => {
-    setEmailCC(emailCCValue)
+  const handleEmailCC = (emailCCValue, index) => {
+    const newEmailCC = [...emailCC]
+    newEmailCC.push(emailCCValue)
+    setEmailCC(newEmailCC)
+  }
+
+  const handleRecepientEmail = (recepeintEmail, index) => {
+    const newRecepientEmail = [...recepeintEmail]
+    newRecepientEmail.push(recepeintEmail)
+    setRecepientEmail(newRecepientEmail)
   }
 
   const handleEditeSignDetails = (newSize) => {
@@ -126,13 +134,21 @@ function ESignEmailTos(props) {
                                         <HStack spacing={7}>
                                             <Box fontWeight="500" alignContent="right"  width="25%">Recepient Email </Box>
                                             <Box alignContent="left">
-                                              <Input type="email" value={recepientEmail} onChange={(e) => setRecepientEmail(e.target.value)} />
+                                              <Input type="email" onChange={(e) => handleRecepientEmail(e.target.value, 0)} />
+                                              {recepientEmail?.map((email) => {
+                                                <Input type="email" value={email} onChange={(e) => handleRecepientEmail(e.target.value, index)} />
+                                              })}
+                                              
                                             </Box>
                                         </HStack>
                                         <HStack spacing={7}>
                                             <Box fontWeight="500" alignContent="right"  width="25%">Email CC</Box>
                                             <Box alignContent="left">
-                                              <Input type="email" value={emailCC} onChange={(e) => handleEmailCC(e.target.value)} />
+                                              <Input type="email" onChange={(e) => handleEmailCC(e.target.value, 0)} />
+                                              {emailCC?.map((email, index) => {
+                                                <Input type="email" value={email} onChange={(e) => handleEmailCC(e.target.value, index)} />
+                                              })}
+                                              
                                             </Box>
                                         </HStack>
                                     </Stack>
