@@ -143,17 +143,13 @@ const AddEditDocument = (props) => {
                     <Card variant="document">
                         <CardBody>
                             <HStack spacing={7} marginBottom="1rem">
-                                <Box>
-                                <FormControl isRequired>
-                                    <FormLabel>Template</FormLabel>
+                                    <Box fontWeight="500"> Name</Box>
                                     <Select width="100%" id="accountTemplate" >
-                                        <option value="">Select a template</option>
+                                        <option value="">Select a Template</option>
                                         {accountTemplates?.map((accountTemplate) => (
                                         <option value={accountTemplate.id}>{accountTemplate.name}</option>
                                         ))}
                                 </Select>
-                                </FormControl>     
-                                </Box>
                             </HStack>
 
                             <HStack spacing={7} marginBottom="1rem">
