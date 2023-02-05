@@ -11,9 +11,6 @@ import {
     Card,
     CardBody,
     CardFooter,
-    Divider,
-    FormControl,
-    FormLabel,
     Select
   } from '@chakra-ui/react';
 import { useDispatch, useSelector } from "react-redux";
@@ -31,6 +28,7 @@ const AddEditDocument = (props) => {
     const [showErrorMessage, setShowErrorMessage] = useState(EMPTY_STRING);
     const [uploadingStatus, setUploadingStatus] = useState();
     const [accountTemplates, setAccountTemplates] = useState();
+    const [eSignFeatureEnabled, setESignFeatureEnabled] = useState(false);
     const [uploadedFile, setUploadedFile] = useState();
     const documentType = useSelector(state => state.document.documentType);
     const acceptedFileTypes = process.env.ALLOWED_DOCUMENT_TYPES
@@ -42,6 +40,7 @@ const AddEditDocument = (props) => {
     const getAccountTemplates = async () => {
         const responseData = await documentService.getDocumentsByType(DocumentType.Template, userService.getAccountDetails().accountId);
         setAccountTemplates(responseData)
+        setESignFeatureEnabled(userService.accountFeatureEnabled(ConfigConstants.FEATURES.ESIGNATURE))
     }
 
 
@@ -120,16 +119,18 @@ const AddEditDocument = (props) => {
                                             <Box fontWeight="500">Upload </Box>
                                             <Input size="xs" accept={acceptedFileTypes} type="file" onChange={(e) => selectFile(e)} width="50%"/>
                                         </HStack>
-                                        {userService.accountFeatureEnabled(ConfigConstants.FEATURES.ESIGNATURE)?<>DDDD</>:<>EEEEE</>}
-                                        <Box fontSize={12} fontWeight="600">
-                                            (OR)
-                                        </Box>
-                                        <Select id="accountTemplate" width="40%">
-                                            <option value="">Select a Template</option>
-                                            {accountTemplates?.map((accountTemplate) => (
-                                            <option value={accountTemplate.id}>{accountTemplate.name}</option>
-                                            ))}
-                                        </Select>
+                                        {eSignFeatureEnabled?<>
+                                            <Box fontSize={12} fontWeight="600">
+                                                (OR)
+                                            </Box>
+                                            <Select id="accountTemplate" width="40%">
+                                                <option value="">Select a Template</option>
+                                                {accountTemplates?.map((accountTemplate) => (
+                                                <option value={accountTemplate.id}>{accountTemplate.name}</option>
+                                                ))}
+                                            </Select>
+
+                                        </>:<></>}
                                     </HStack>    
                                     <HStack spacing={9} marginBottom="1rem">
                                         <Box fontWeight="500"> Name</Box>
