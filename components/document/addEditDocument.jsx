@@ -34,6 +34,7 @@ const AddEditDocument = (props) => {
     const [uploadingStatus, setUploadingStatus] = useState();
     const [accountTemplates, setAccountTemplates] = useState();
     const [selectedTemplate, setSelectedTemplate] = useState();
+    const [selectedTemplateId, setSelectedTemplateId] = useState();
     const [eSignFeatureEnabled, setESignFeatureEnabled] = useState(false);
     const [documentSignature, setDocumentSignature] = useState(false);
     const [emailTo, setEmailTo] = useState();
@@ -57,12 +58,20 @@ const AddEditDocument = (props) => {
     }
 
 
-    const handleeSign = () => {
-
+    const handleeSignSubmit = async() => {
+        const esignRequest = {
+            esignDetails: emailTo,
+            templatePath: selectedTemplate,
+            templateId: selectedTemplateId,
+        }
+        console.log("esignRequest:::"+JSON.stringify(esignRequest))
+        const responseData = await documentService.submiteSign(esignRequest)
+        console.log("responseData:::"+JSON.stringify(responseData))
     }
 
     const handleTemplateSelection = (selectedTemplateId) => {
         const inputValue = selectedTemplateId.target.value;
+        setSelectedTemplateId(inputValue)
         const selectedTemplatePath = selectedTemplateId.target.options.item(selectedTemplateId.target.selectedIndex).getAttribute("data-templatePath")
         if(selectedTemplatePath) {
             setSelectedTemplate(selectedTemplatePath)
@@ -199,7 +208,7 @@ const AddEditDocument = (props) => {
                         {uploadingStatus && <Text>{uploadedFile} {uploadingStatus}</Text>}
                         {(eSignFeatureEnabled && emailTo && selectedTemplate)?(
                             <HStack>
-                                <Button size="xs" colorScheme='red' onClick={handleeSign}>
+                                <Button size="xs" colorScheme='red' onClick={handleeSignSubmit}>
                                     Send for eSign
                                 </Button>
                             </HStack>

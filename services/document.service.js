@@ -14,10 +14,22 @@ export const documentService = {
     updateDocument,
     getDocumentsByType,
     viewDocument,
-    deleteDocument
+    deleteDocument,
+    submiteSign
     
 };
 
+function submiteSign(eSignSendRequest) {
+    return fetchWrapper.post(`${baseUrl}/document/esign/send`, {
+        eSignSendRequest
+    }).then(document => {
+        return document;
+    })      
+    .catch(err => {
+        console.log("Error Updating Document::"+err)
+        return {errorMessage: err, error: true};
+    });  
+}
 
 function deleteDocument(filePath) {
     return fetchWrapper.post(`${baseUrl}/document/delete`, {filePath})
