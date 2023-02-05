@@ -27,9 +27,13 @@ function ESignEmailTos(props) {
   const [emailSubject, setEmailSubject] = useState();
 
   const handleDocumentSignature = (newSize,isDocumentSignatureSelected) => {
-    props.handleDocumentSignature(isDocumentSignatureSelected)
-    setSize(newSize)
-    onOpen()
+    if(isDocumentSignatureSelected) {
+      props.handleDocumentSignature(isDocumentSignatureSelected)
+      setSize(newSize)
+      onOpen()  
+    } else {
+      onClose()
+    }
   }
     return (
         <>
