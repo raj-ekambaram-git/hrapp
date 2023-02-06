@@ -12,8 +12,6 @@ import {
     CardBody,
     CardFooter,
     Select,
-    Checkbox,
-    useDisclosure,
   } from '@chakra-ui/react';
 import { useDispatch, useSelector } from "react-redux";
 import { ShowInlineErrorMessage } from "../common/showInlineErrorMessage";
@@ -68,9 +66,7 @@ const AddEditDocument = (props) => {
             typeId: documentType.typeId,
             createdBy: userService.userValue.id
         }
-        console.log("esignRequest:::"+JSON.stringify(esignRequest))
         const responseData = await documentService.submiteSign(esignRequest)
-        console.log("responseData:::"+JSON.stringify(responseData))
     }
 
     const handleTemplateSelection = (selectedTemplateId) => {

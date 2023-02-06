@@ -6,7 +6,7 @@ function ESignDetails(props) {
     return (
         <>
           <HStack>
-              <Card variant="document" width="75%">
+              <Card variant="document" width="100%">
                   <CardBody>
                       <Stack>
                           <HStack>
@@ -32,14 +32,14 @@ function ESignDetails(props) {
                               <Box width="25%" textAlign="right" fontWeight="600">
                                   Recepient
                               </Box>
-                              <Box alignContent="left">
+                              <Box alignContent="left" width="75%">
                                   {props.emailTo?.recepientEmail?.map((recepient) => 
                                     <Stack>
                                         <HStack>
                                             <Box textAlign="right" fontWeight="600">
                                                 Name
                                             </Box>
-                                            <Box>{recepient.name}</Box>                                           
+                                            <Box width="30%">{recepient.name}</Box>                                           
                                             <Box textAlign="right" fontWeight="600">
                                                 Email
                                             </Box>
@@ -53,14 +53,14 @@ function ESignDetails(props) {
                               <Box width="25%" textAlign="right" fontWeight="600">
                                   CC
                               </Box>
-                              <Box alignContent="left">
+                              <Box alignContent="left"   width="75%">
                                   {props.emailTo?.ccEmail?.map((cc) => 
                                     <Stack>
                                         <HStack>
-                                            <Box textAlign="right" width="75%" fontWeight="600">
+                                            <Box textAlign="right"  fontWeight="600">
                                                 Name
                                             </Box>
-                                            <Box>{cc.name}</Box>                                           
+                                            <Box width="30%">{cc.name}</Box>                                           
                                             <Box textAlign="right" fontWeight="600">
                                                 Email
                                             </Box>

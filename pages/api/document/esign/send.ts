@@ -38,9 +38,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const fileType = eSignSendRequest.templatePath.split(".")[1]
     const envelopeArgs = {
         signerEmail: eSignSendRequest.esignDetails.recepientEmail,
-        signerName: eSignSendRequest.esignDetails.recepientName,
         ccEmail: eSignSendRequest.esignDetails.ccEmail,
-        ccName: "Rajapandian",
         status: "sent",
         documentName: eSignSendRequest.documentName,
         documentURL: viewFile,
@@ -226,8 +224,8 @@ const sendEnvelope = async (args) => {
     let indexVal = 0;
     args.signerEmail?.map((signer, index) => {
         let signerObj = docusign.Signer.constructFromObject({
-        email: signer,
-        name: args.signerName,
+        email: signer.email,
+        name: signer.name,
         recipientId: indexVal+1,
         routingOrder: indexVal+1,
         });
@@ -255,8 +253,8 @@ const sendEnvelope = async (args) => {
     let ccEmailArray = [];    
     args.ccEmail?.map((cc) => {
         let cc1 = new docusign.CarbonCopy();
-        cc1.email = cc;
-        cc1.name = args.ccName;
+        cc1.email = cc.email;
+        cc1.name = cc.name;
         cc1.routingOrder = indexVal+1;
         cc1.recipientId = indexVal+1;
         ccEmailArray.push(cc1)

@@ -70,7 +70,6 @@ function ESignEmailTos(props) {
 
   const handleNameCC = (nameCCValue, index) => {
         const newNameCC = [...ccEmail]
-        console.log(" newNameCC[index]::"+ JSON.stringify(newNameCC[index]))
         newNameCC[index]["name"]= nameCCValue
         setCcEmail(newNameCC)    
   }  
@@ -100,7 +99,6 @@ function ESignEmailTos(props) {
   }
 
   const handleEditeSignDetails = (newSize) => {
-    console.log("props.emailTo:::"+JSON.stringify(props.emailTo))
     if(props.emailTo) {
       setEmailSubject(props.emailTo.emailSubject)
       // setRecepientName(props.emailTo.recepientName)
