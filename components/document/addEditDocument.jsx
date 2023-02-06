@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import {Alert, Spinner } from '../../components';
 import {
     Button,
     Box,
@@ -12,6 +11,7 @@ import {
     CardBody,
     CardFooter,
     Select,
+    Spinner
   } from '@chakra-ui/react';
 import { useDispatch, useSelector } from "react-redux";
 import { ShowInlineErrorMessage } from "../common/showInlineErrorMessage";
