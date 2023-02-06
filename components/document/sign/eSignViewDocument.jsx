@@ -58,7 +58,7 @@ function ESignViewDocument(props) {
   const handleViewDocument = async(documentId) => {
     if(documentId && props.envelopeId) {
       const responseData = await documentService.getEnvelopeDocument(props.envelopeId,documentId, userService.getAccountDetails().accountId)
-      console.log("responseData::"+JSON.stringify(responseData))
+      // console.log("responseData::"+JSON.stringify(responseData))
       if(!responseData.error) {
 
       }
@@ -68,16 +68,6 @@ function ESignViewDocument(props) {
     
   }
 
-  function base64ToArrayBuffer(base64) {
-    var binaryString = window.atob(base64);
-    var binaryLen = binaryString.length;
-    var bytes = new Uint8Array(binaryLen);
-    for (var i = 0; i < binaryLen; i++) {
-        var ascii = binaryString.charCodeAt(i);
-        bytes[i] = ascii;
-    }
-    return bytes;
-  }
 
     return (
         <>
