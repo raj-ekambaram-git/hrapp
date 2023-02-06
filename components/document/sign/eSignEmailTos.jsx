@@ -202,12 +202,12 @@ function ESignEmailTos(props) {
                                             </Box>                                            
                                         </HStack> */}
                                         <HStack spacing={7}>
-                                            <Box fontWeight="500" alignContent="right"  width="25%">Recepient Email </Box>
+                                            <Box fontWeight="500" alignContent="right"  width="25%">Recepient </Box>
                                             <Box alignContent="left">
                                               {recepientEmail.map((recepient, index) => 
                                                 <HStack>
-                                                    <Input type="text" onChange={(e) => handleRecepientName(e.target.value, index)}  marginBottom={2}/>
-                                                    <Input type="email" onChange={(e) => handleRecepientEmail(e.target.value, index)}  marginBottom={2}/>
+                                                    <Input type="text" placeholder='Recepient Name' marginTop={2} onChange={(e) => handleRecepientName(e.target.value, index)}  marginBottom={2}/>
+                                                    <Input type="email" placeholder='Recepient Email' onChange={(e) => handleRecepientEmail(e.target.value, index)}  marginBottom={2}/>
                                                     {index === 0?<>
                                                       <SmallAddIcon onClick={() => handleAddExtraRow("recepientEmail")}/>
                                                     </>:<>
@@ -219,12 +219,12 @@ function ESignEmailTos(props) {
                                             </Box>
                                         </HStack>
                                         <HStack spacing={7}>
-                                            <Box fontWeight="500" alignContent="right"  width="25%">CC Email</Box>
+                                            <Box fontWeight="500" alignContent="right"  width="25%">CC</Box>
                                             <Box alignContent="left">                
                                             {ccEmail?.map((cc, index) => 
                                                   <HStack>
-                                                    <Input type="text" onChange={(e) => handleNameCC(e.target.value, index)} marginBottom={2}/> 
-                                                    <Input type="email" onChange={(e) => handleEmailCC(e.target.value, index)} marginBottom={2}/> 
+                                                    <Input type="text" placeholder='CC Name' marginTop={2} onChange={(e) => handleNameCC(e.target.value, index)} marginBottom={2}/> 
+                                                    <Input type="email" placeholder='CC Email' onChange={(e) => handleEmailCC(e.target.value, index)} marginBottom={2}/> 
                                                     {index === 0?<>
                                                       <SmallAddIcon onClick={() => handleAddExtraRow("ccEmail")}/>
                                                     </>:<>
