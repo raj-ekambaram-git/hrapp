@@ -33,7 +33,11 @@ function ESignDetails(props) {
                                   Recepient Email
                               </Box>
                               <Box alignContent="left">
-                                  {props.emailTo.recepientEmail}
+                                  {props.emailTo?.recepientEmail?.map((recepient) => 
+                                    <Stack>
+                                      <Box>{recepient}</Box>
+                                    </Stack>                                                                        
+                                  )}                                  
                               </Box>                                                            
                           </HStack>
                           <HStack>
@@ -41,7 +45,11 @@ function ESignDetails(props) {
                                   CC Email
                               </Box>
                               <Box alignContent="left">
-                                  {props.emailTo.ccEmail}
+                                  {props.emailTo?.ccEmail?.map((cc) => 
+                                    <Stack>
+                                      <Box>{cc}</Box>
+                                    </Stack>                                    
+                                  )}
                               </Box>                                                            
                           </HStack>                                                                                                                                                                        
                       </Stack>

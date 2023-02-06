@@ -66,11 +66,12 @@ function ESignEmailTos(props) {
   }
 
   const handleEditeSignDetails = (newSize) => {
+    console.log("props.emailTo:::"+JSON.stringify(props.emailTo))
     if(props.emailTo) {
       setEmailSubject(props.emailTo.emailSubject)
       setRecepientName(props.emailTo.recepientName)
       setRecepientEmail(props.emailTo.recepientEmail)
-      setCcEmail(props.emailTo.emailCC)
+      setCcEmail(props.emailTo.ccEmail)
     }
     setSize(newSize)
     onOpen()  
@@ -171,7 +172,7 @@ function ESignEmailTos(props) {
                                             <Box alignContent="left">
                                               {recepientEmail.map((recepient, index) => 
                                                 <HStack>
-                                                    <Input type="email" value={recepient.email} onChange={(e) => handleRecepientEmail(e.target.value, index)}  marginBottom={2}/>
+                                                    <Input type="email" value={recepient} onChange={(e) => handleRecepientEmail(e.target.value, index)}  marginBottom={2}/>
                                                     {index === 0?<>
                                                       <SmallAddIcon onClick={() => handleAddExtraRow("recepientEmail")}/>
                                                     </>:<>
@@ -187,7 +188,7 @@ function ESignEmailTos(props) {
                                             <Box alignContent="left">                
                                             {ccEmail?.map((cc, index) => 
                                                   <HStack>
-                                                    <Input type="email" value={cc.email} onChange={(e) => handleEmailCC(e.target.value, index)} marginBottom={2}/> 
+                                                    <Input type="email" value={cc} onChange={(e) => handleEmailCC(e.target.value, index)} marginBottom={2}/> 
                                                     {index === 0?<>
                                                       <SmallAddIcon onClick={() => handleAddExtraRow("ccEmail")}/>
                                                     </>:<>
