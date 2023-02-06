@@ -63,7 +63,10 @@ const AddEditDocument = (props) => {
             esignDetails: emailTo,
             templatePath: selectedTemplate,
             templateId: selectedTemplateId,
-            documentName: name
+            documentName: name,
+            type: documentType.type,
+            typeId: documentType.typeId,
+            createdBy: userService.userValue.id
         }
         console.log("esignRequest:::"+JSON.stringify(esignRequest))
         const responseData = await documentService.submiteSign(esignRequest)

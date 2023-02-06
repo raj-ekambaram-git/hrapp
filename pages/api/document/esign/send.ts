@@ -3,6 +3,8 @@ import S3 from "aws-sdk/clients/s3";
 const docusign = require('docusign-esign');
 const fs = require('fs');
 import axios from "axios";
+import prisma from "../../../../lib/prisma";
+import { DocumentCategory, DocumentStatus } from "@prisma/client";
 
 const s3 = new S3({
   region: process.env.ACCESS_REGION,
@@ -52,9 +54,35 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         envelopeArgs: envelopeArgs
       };
 
-      sendEnvelope(args)
+      const esignSendResult = await sendEnvelope(args)
+      console.log("esignSendResult::"+JSON.stringify(esignSendResult))
+    
+      if(esignSendResult.status == "sent") {
 
-    res.status(200).json(viewFile)
+        const savedDocuemnt = await prisma.document.create({
+          data: {
+            type: eSignSendRequest.type,
+            typeId: eSignSendRequest.typeId,
+            createdBy: eSignSendRequest.createdBy,
+            name: eSignSendRequest.documentName,
+            status: DocumentStatus.Active,
+            urlPath: esignSendResult.envelopeId,
+            category: DocumentCategory.Signature
+          },
+          include: {
+            createdUser: {
+              select: {
+                firstName: true,
+                lastName: true
+              }
+            }
+          }
+        });
+        res.status(200).json(savedDocuemnt)
+      }else {
+        res.status(400).json({ message: "Not able to send the eSignature request, please try again later or contact administrator." });
+      }  
+    
   } catch (err) {
     console.log(err);
     res.status(400).json({ message: err });
@@ -158,7 +186,7 @@ const sendEnvelope = async (args) => {
     let envelopeId = results.envelopeId;
   
     console.log(`Envelope was created. EnvelopeId ${envelopeId}`);
-    return { envelopeId: envelopeId };
+    return results;
   };
 
   /**
