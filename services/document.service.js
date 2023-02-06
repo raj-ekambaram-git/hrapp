@@ -15,9 +15,25 @@ export const documentService = {
     getDocumentsByType,
     viewDocument,
     deleteDocument,
-    submiteSign
+    submiteSign,
+    getEnvelopeAttachments,
+    getEnvelopeDocument,
     
 };
+
+function getEnvelopeAttachments(envelopeId, accountId) {
+    return fetchWrapper.get(`${baseUrl}/document/esign/envelope/${envelopeId}/attachments?accountId=`+accountId, {})
+        .then(documents => {
+            return documents;
+        });
+}
+
+function getEnvelopeDocument(envelopeId, documentId, accountId) {
+    return fetchWrapper.get(`${baseUrl}/document/esign/envelope/${envelopeId}/document/${documentId}?accountId=`+accountId, {})
+        .then(document => {
+            return document;
+        });
+}
 
 function submiteSign(eSignSendRequest) {
     return fetchWrapper.post(`${baseUrl}/document/esign/send`, {

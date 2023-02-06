@@ -28,6 +28,7 @@ import { documentService } from "../../services";
 import { DocumentConstants } from "../../constants";
 import { DocumentCategory } from "@prisma/client";
 import { util } from "../../helpers/util";
+import { ESignViewDocument } from "./sign/eSignViewDocument";
 
 
 
@@ -159,7 +160,7 @@ const ManageDocuments = (props) => {
                                         </Th>
                                         <Th>
                                           {document.category === DocumentCategory.Signature?<>
-                                            <Button size="xs" bgColor="header_actions" onClick={() => handleeSignViewDocument(document.urlPath)}>eSign</Button>
+                                            <ESignViewDocument envelopeId={document.urlPath} documentName={document.name}/>
                                           </>:<>
                                             <Button size="xs" bgColor="header_actions" onClick={() => handleViewDocument(document.urlPath)}>View/Download</Button>                                          
                                           </>}                                            

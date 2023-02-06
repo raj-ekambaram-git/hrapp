@@ -30,7 +30,7 @@ function ESignDetails(props) {
                           </HStack> */}
                           <HStack>
                               <Box width="25%" textAlign="right" fontWeight="600">
-                                  Recepient
+                                  Signer(s)
                               </Box>
                               <Box alignContent="left" width="75%">
                                   {props.emailTo?.recepientEmail?.map((recepient) => 
