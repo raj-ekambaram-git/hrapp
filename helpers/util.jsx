@@ -27,7 +27,14 @@ export const util = {
     getWithCurrency,
     getTotalBillableExpense,
     getUserRole,
+    validateEmailArray
 };
+
+function validateEmailArray(emailArray) {
+  return emailArray.map((email) => {
+    return isValidEmail(email)
+  }).includes(false)
+}
 
 function getUserRole() {
   const userCookie = cookie.get("user");

@@ -52,16 +52,16 @@ function ESignEmailTos(props) {
   const handleEmailCC = (emailCCValue, index) => {
     if(util.isValidEmail(emailCCValue)) {
       const newEmailCC = [...ccEmail]
-      newEmailCC.push(emailCCValue)
+      newEmailCC[index] = emailCCValue
       setCcEmail(newEmailCC)  
     }
   }
 
-  const handleRecepientEmail = (recepeintEmail, index) => {
-    if(util.isValidEmail(recepeintEmail)) {
-      const newRecepientEmail = [...recepeintEmail]
-      newRecepientEmail.push(recepeintEmail)
-      setRecepientEmail(newRecepientEmail)
+  const handleRecepientEmail = (recepeintEmailValue, index) => {
+    if(util.isValidEmail(recepeintEmailValue)) {
+      const newRecepeintEmail = [...recepientEmail]
+      newRecepeintEmail[index] = recepeintEmailValue
+      setRecepientEmail(newRecepeintEmail)  
     }
   }
 
@@ -108,7 +108,7 @@ function ESignEmailTos(props) {
   }
   const addSignatureDetails = () => {
     console.log("emailSubject::"+emailSubject+"*****recepientName::"+recepientName+"****recepientEmail::"+recepientEmail+"****emailCC::"+ccEmail)
-    if(emailSubject && recepientName && recepientEmail && ccEmail) {
+    if(emailSubject && recepientName && recepientEmail && ccEmail && !util.validateEmailArray(ccEmail) && !util.validateEmailArray(recepientEmail)) {
       const eSignEmailDetails = {
         emailSubject: emailSubject,
         recepientName: recepientName,
@@ -185,7 +185,7 @@ function ESignEmailTos(props) {
                                         <HStack spacing={7}>
                                             <Box fontWeight="500" alignContent="right"  width="25%">CC Email</Box>
                                             <Box alignContent="left">                
-                                            {ccEmail.map((cc, index) => 
+                                            {ccEmail?.map((cc, index) => 
                                                   <HStack>
                                                     <Input type="email" value={cc.email} onChange={(e) => handleEmailCC(e.target.value, index)} marginBottom={2}/> 
                                                     {index === 0?<>
