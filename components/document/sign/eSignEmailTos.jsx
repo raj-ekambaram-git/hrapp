@@ -30,8 +30,8 @@ function ESignEmailTos(props) {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [emailSubject, setEmailSubject] = useState();
   const [recepientName, setRecepientName] = useState();
-  const [recepientEmail, setRecepientEmail] = useState([EMPTY_STRING]);
-  const [ccEmail, setCcEmail] = useState([EMPTY_STRING]);
+  const [recepientEmail, setRecepientEmail] = useState([{}]);
+  const [ccEmail, setCcEmail] = useState([{}]);
 
   const handleDocumentSignature = (newSize,isDocumentSignatureSelected) => {
     if(isDocumentSignatureSelected) {
@@ -62,12 +62,24 @@ function ESignEmailTos(props) {
         })
       }else {
         const newEmailCC = [...ccEmail]
-        newEmailCC[index] = emailCCValue
+        newEmailCC[index]["email"]=emailCCValue
         setCcEmail(newEmailCC)    
       }
     }
   }
 
+  const handleNameCC = (nameCCValue, index) => {
+        const newNameCC = [...ccEmail]
+        console.log(" newNameCC[index]::"+ JSON.stringify(newNameCC[index]))
+        newNameCC[index]["name"]= nameCCValue
+        setCcEmail(newNameCC)    
+  }  
+
+  const handleRecepientName= (recepeintNameValue, index) => {
+    const newRecepientName = [...recepientEmail]
+    newRecepientName[index]["name"]=recepeintNameValue
+    setRecepientEmail(newRecepientName)    
+}  
   const handleRecepientEmail = (recepeintEmailValue, index) => {
     if(util.isValidEmail(recepeintEmailValue)) {
       if(recepientEmail.includes(recepeintEmailValue)) {
@@ -81,7 +93,7 @@ function ESignEmailTos(props) {
         })
       }else {
         const newRecepeintEmail = [...recepientEmail]
-        newRecepeintEmail[index] = recepeintEmailValue
+        newRecepeintEmail[index]["email"]=recepeintEmailValue
         setRecepientEmail(newRecepeintEmail)            
       }
     }
@@ -91,7 +103,7 @@ function ESignEmailTos(props) {
     console.log("props.emailTo:::"+JSON.stringify(props.emailTo))
     if(props.emailTo) {
       setEmailSubject(props.emailTo.emailSubject)
-      setRecepientName(props.emailTo.recepientName)
+      // setRecepientName(props.emailTo.recepientName)
       setRecepientEmail(props.emailTo.recepientEmail)
       setCcEmail(props.emailTo.ccEmail)
     }
@@ -118,22 +130,24 @@ function ESignEmailTos(props) {
   const handleAddExtraRow = (inputType) => {
     if(inputType === "ccEmail") {
       const newccEmail = [...ccEmail]
-      newccEmail.push(EMPTY_STRING)
+      newccEmail.push({})
       setCcEmail(newccEmail)
 
     }
     if(inputType === "recepientEmail") {
       const newRecepeintEmail = [...recepientEmail]
-      newRecepeintEmail.push(EMPTY_STRING)
+      newRecepeintEmail.push({})
       setRecepientEmail(newRecepeintEmail)
     }
 
   }
   const addSignatureDetails = () => {
-    if(emailSubject && recepientName && recepientEmail && ccEmail && !util.validateEmailArray(ccEmail) && !util.validateEmailArray(recepientEmail)) {
+
+    console.log("ccEmail::::"+JSON.stringify(ccEmail)+"*******recepientEmailLL"+JSON.stringify(recepientEmail))
+
+    if(emailSubject && recepientEmail && ccEmail && !util.validateEmailArray(ccEmail) && !util.validateEmailArray(recepientEmail)) {
       const eSignEmailDetails = {
         emailSubject: emailSubject,
-        recepientName: recepientName,
         recepientEmail: recepientEmail,
         ccEmail: ccEmail
       }
@@ -181,17 +195,18 @@ function ESignEmailTos(props) {
                                             </Box>
                                             
                                         </HStack>
-                                        <HStack spacing={7}>
+                                        {/* <HStack spacing={7}>
                                             <Box fontWeight="500" alignContent="right"  width="25%">Recepient Name </Box>
                                             <Box alignContent="left">
                                               <Input type="text" value={recepientName} onChange={(e) => setRecepientName(e.target.value)} />
                                             </Box>                                            
-                                        </HStack>
+                                        </HStack> */}
                                         <HStack spacing={7}>
                                             <Box fontWeight="500" alignContent="right"  width="25%">Recepient Email </Box>
                                             <Box alignContent="left">
                                               {recepientEmail.map((recepient, index) => 
                                                 <HStack>
+                                                    <Input type="text" onChange={(e) => handleRecepientName(e.target.value, index)}  marginBottom={2}/>
                                                     <Input type="email" onChange={(e) => handleRecepientEmail(e.target.value, index)}  marginBottom={2}/>
                                                     {index === 0?<>
                                                       <SmallAddIcon onClick={() => handleAddExtraRow("recepientEmail")}/>
@@ -208,6 +223,7 @@ function ESignEmailTos(props) {
                                             <Box alignContent="left">                
                                             {ccEmail?.map((cc, index) => 
                                                   <HStack>
+                                                    <Input type="text" onChange={(e) => handleNameCC(e.target.value, index)} marginBottom={2}/> 
                                                     <Input type="email" onChange={(e) => handleEmailCC(e.target.value, index)} marginBottom={2}/> 
                                                     {index === 0?<>
                                                       <SmallAddIcon onClick={() => handleAddExtraRow("ccEmail")}/>

@@ -20,14 +20,14 @@ function ESignDetails(props) {
                                   {props.emailTo.emailSubject}
                               </Box>                                                            
                           </HStack>
-                          <HStack>
+                          {/* <HStack>
                               <Box width="25%" textAlign="right" fontWeight="600">
                                   Recepient Name
                               </Box>
                               <Box alignContent="left">
                                   {props.emailTo.recepientName}
                               </Box>                                                            
-                          </HStack>
+                          </HStack> */}
                           <HStack>
                               <Box width="25%" textAlign="right" fontWeight="600">
                                   Recepient Email
@@ -35,7 +35,7 @@ function ESignDetails(props) {
                               <Box alignContent="left">
                                   {props.emailTo?.recepientEmail?.map((recepient) => 
                                     <Stack>
-                                      <Box>{recepient}</Box>
+                                      <Box>{recepient.email}</Box>
                                     </Stack>                                                                        
                                   )}                                  
                               </Box>                                                            
@@ -47,7 +47,7 @@ function ESignDetails(props) {
                               <Box alignContent="left">
                                   {props.emailTo?.ccEmail?.map((cc) => 
                                     <Stack>
-                                      <Box>{cc}</Box>
+                                      <Box>{cc.email}</Box>
                                     </Stack>                                    
                                   )}
                               </Box>                                                            

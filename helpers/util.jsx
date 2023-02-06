@@ -32,7 +32,12 @@ export const util = {
 
 function validateEmailArray(emailArray) {
   return emailArray.map((email) => {
-    return isValidEmail(email)
+    if(email.email) {
+      return isValidEmail(email.email)
+    }else {
+      return false
+    }
+    
   }).includes(false)
 }
 
