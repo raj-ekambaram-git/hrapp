@@ -23,6 +23,7 @@ function submiteSign(eSignSendRequest) {
     return fetchWrapper.post(`${baseUrl}/document/esign/send`, {
         eSignSendRequest
     }).then(document => {
+        console.log("document:::"+JSON.stringify(document))
         return document;
     })      
     .catch(err => {

@@ -202,7 +202,7 @@ function ESignEmailTos(props) {
                                         <HStack spacing={7}>
                                             <Box fontWeight="500" alignContent="right"  width="25%">Recepient </Box>
                                             <Box alignContent="left">
-                                              {recepientEmail.map((recepient, index) => 
+                                              {recepientEmail?.map((recepient, index) => 
                                                 <HStack>
                                                     <Input type="text" placeholder='Recepient Name' marginTop={2} onChange={(e) => handleRecepientName(e.target.value, index)}  marginBottom={2}/>
                                                     <Input type="email" placeholder='Recepient Email' onChange={(e) => handleRecepientEmail(e.target.value, index)}  marginBottom={2}/>

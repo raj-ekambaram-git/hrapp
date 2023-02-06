@@ -67,6 +67,33 @@ const AddEditDocument = (props) => {
             createdBy: userService.userValue.id
         }
         const responseData = await documentService.submiteSign(esignRequest)
+        if(responseData.error) {
+            setUploadingStatus(null);
+            toast({
+                title: 'New Document.',
+                description: 'Error adding document, please try again. Details:'+responseData.errorMessage,
+                status: 'error',
+                position: 'top',
+                duration: 6000,
+                isClosable: true,
+            })
+            return
+        }else {
+            toast({
+                title: 'New Document.',
+                description: 'Successfully added new document and sent for eSignature.',
+                status: 'success',
+                position: 'top',
+                duration: 3000,
+                isClosable: true,
+            })
+            setName(EMPTY_STRING)
+            setFile(null)
+            setShowErrorMessage(EMPTY_STRING)
+            setEmailTo(null)
+            setDocumentSignature(false)
+            dispatch(setDocumentsByType(responseData))            
+        }
     }
 
     const handleTemplateSelection = (selectedTemplateId) => {
@@ -114,30 +141,35 @@ const AddEditDocument = (props) => {
                         status: DocumentConstants.DOCUMENT_STATUS.Active,
                         createdBy: userService.userValue.id
                     }
-                    const responseData = await documentService.createDocument(documentRequest);
-                    if(responseData.error) {
-                        toast({
-                            title: 'New Document.',
-                            description: 'Error adding document, please try again. Details:'+responseData.errorMessage,
-                            status: 'error',
-                            position: 'top',
-                            duration: 6000,
-                            isClosable: true,
-                        })
-                    }else {
-                        toast({
-                            title: 'New Document.',
-                            description: 'Successfully added new document.',
-                            status: 'success',
-                            position: 'top',
-                            duration: 3000,
-                            isClosable: true,
-                        })
-                        setName(EMPTY_STRING)
-                        setFile(null)
-                        setShowErrorMessage(EMPTY_STRING)
-                        dispatch(setDocumentsByType(responseData))
-                    }
+                    if(eSignFeatureEnabled && emailTo) {
+                        setSelectedTemplate(directoryStructure+file.name)
+                        handleeSignSubmit()
+                    } else {
+                        const responseData = await documentService.createDocument(documentRequest);
+                        if(responseData.error) {
+                            toast({
+                                title: 'New Document.',
+                                description: 'Error adding document, please try again. Details:'+responseData.errorMessage,
+                                status: 'error',
+                                position: 'top',
+                                duration: 6000,
+                                isClosable: true,
+                            })
+                        }else {
+                            toast({
+                                title: 'New Document.',
+                                description: 'Successfully added new document.',
+                                status: 'success',
+                                position: 'top',
+                                duration: 3000,
+                                isClosable: true,
+                            })
+                            setName(EMPTY_STRING)
+                            setFile(null)
+                            setShowErrorMessage(EMPTY_STRING)
+                            dispatch(setDocumentsByType(responseData))
+                        }                        
+                    }                
                 
                 } else {
                     setShowErrorMessage(EMPTY_STRING)
