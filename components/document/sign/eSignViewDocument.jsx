@@ -1,5 +1,4 @@
 export { ESignViewDocument };
-  import { SmallAddIcon, SmallCloseIcon } from '@chakra-ui/icons';
 import {
     Box,
     Stack,
@@ -61,14 +60,7 @@ function ESignViewDocument(props) {
       const responseData = await documentService.getEnvelopeDocument(props.envelopeId,documentId, userService.getAccountDetails().accountId)
       console.log("responseData::"+JSON.stringify(responseData))
       if(!responseData.error) {
-            var arrrayBuffer = base64ToArrayBuffer(responseData.fileBytes); //data is the base64 encoded string
-            var blob = new Blob([arrrayBuffer], {type: responseData.mimetype});
-            // var link = window.URL.createObjectURL(blob);
-            // window.open(link,'', 'height=650,width=840');
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = responseData.docName+'.pdf';
-            link.click();    
+
       }
       // window.open(responseData);
       // console.log("HANDLE VIEW DOC::"+JSON.stringify(responseData))
