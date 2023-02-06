@@ -18,6 +18,7 @@ import {
     CardFooter,
     Button,
     CardHeader,
+    Spinner,
   } from '@chakra-ui/react'
   
 import { useRef, useState } from 'react';
@@ -36,8 +37,9 @@ function ESignViewDocument(props) {
   const handleeESignViewDocument = async (newSize) => {
     setSize(newSize)
     onOpen()  
+    setLoading(true)
     const responseData = await documentService.getEnvelopeAttachments(props.envelopeId, userService.getAccountDetails().accountId)
-    console.log("responseData::::"+JSON.stringify(responseData))
+    setLoading(false)
     if(responseData.error) {
       toast({
         title: 'View eSignature Document.',
@@ -57,7 +59,9 @@ function ESignViewDocument(props) {
 
   const handleViewDocument = async(documentId) => {
     if(documentId && props.envelopeId) {
+      setLoading(true)
       const responseData = await documentService.getEnvelopeDocument(props.envelopeId,documentId, userService.getAccountDetails().accountId)
+      setLoading(false)
       // console.log("responseData::"+JSON.stringify(responseData))
       if(!responseData.error) {
 
