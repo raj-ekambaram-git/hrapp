@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-
+import {Alert, Spinner } from '../../components';
 import {
     Button,
     Box,
@@ -35,6 +35,7 @@ const AddEditDocument = (props) => {
     const [selectedTemplateId, setSelectedTemplateId] = useState();
     const [eSignFeatureEnabled, setESignFeatureEnabled] = useState(false);
     const [documentSignature, setDocumentSignature] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [emailTo, setEmailTo] = useState();
     const [uploadedFile, setUploadedFile] = useState();
     const documentType = useSelector(state => state.document.documentType);
@@ -56,17 +57,19 @@ const AddEditDocument = (props) => {
     }
 
 
-    const handleeSignSubmit = async() => {
+    const handleeSignSubmit = async(templatePath) => {
         const esignRequest = {
             esignDetails: emailTo,
-            templatePath: selectedTemplate,
+            templatePath: selectedTemplate?selectedTemplate:templatePath,
             templateId: selectedTemplateId,
             documentName: name,
             type: documentType.type,
             typeId: documentType.typeId,
             createdBy: userService.userValue.id
         }
+        setLoading(true);
         const responseData = await documentService.submiteSign(esignRequest)
+        setLoading(false);
         if(responseData.error) {
             setUploadingStatus(null);
             toast({
@@ -143,7 +146,7 @@ const AddEditDocument = (props) => {
                     }
                     if(eSignFeatureEnabled && emailTo) {
                         setSelectedTemplate(directoryStructure+file.name)
-                        handleeSignSubmit()
+                        handleeSignSubmit(directoryStructure+file.name)
                     } else {
                         const responseData = await documentService.createDocument(documentRequest);
                         if(responseData.error) {
@@ -192,6 +195,11 @@ const AddEditDocument = (props) => {
         <>
         <Stack spacing={5} marginBottom={6}>
             <ShowInlineErrorMessage showErrorMessage={showErrorMessage}/>
+            {loading? (
+                  <>
+                  <Spinner/>
+                  </>
+                ) : (<></>)}
                     <Card variant="document">
                         <CardBody>
                             <Stack spacing={9}>
@@ -238,7 +246,7 @@ const AddEditDocument = (props) => {
                             </HStack>
                         )}
                         {uploadingStatus && <Text>{uploadedFile} {uploadingStatus}</Text>}
-                        {(eSignFeatureEnabled && emailTo && selectedTemplate)?(
+                        {(eSignFeatureEnabled && emailTo && selectedTemplate && !loading)?(
                             <HStack>
                                 <Button size="xs" colorScheme='red' onClick={handleeSignSubmit}>
                                     Send for eSign
