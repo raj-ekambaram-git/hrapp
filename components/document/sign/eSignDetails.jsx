@@ -38,7 +38,7 @@ function ESignDetails(props) {
                           </HStack>
                           <HStack>
                               <Box width="25%" textAlign="right" fontWeight="600">
-                                  Email CC
+                                  CC Email
                               </Box>
                               <Box alignContent="left">
                                   {props.emailTo.emailCC}

@@ -1,4 +1,5 @@
 export { ESignEmailTos };
+  import { SmallAddIcon, SmallCloseIcon } from '@chakra-ui/icons';
 import {
     Box,
     Stack,
@@ -18,6 +19,7 @@ import {
     CardFooter,
     Button,
   } from '@chakra-ui/react'
+  
 import { useRef, useState } from 'react';
 import { EMPTY_STRING } from '../../../constants';
 import { util } from '../../../helpers/util';
@@ -28,8 +30,8 @@ function ESignEmailTos(props) {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [emailSubject, setEmailSubject] = useState();
   const [recepientName, setRecepientName] = useState();
-  const [recepientEmail, setRecepientEmail] = useState([]);
-  const [emailCC, setEmailCC] = useState([]);
+  const [recepientEmail, setRecepientEmail] = useState([EMPTY_STRING]);
+  const [ccEmail, setCcEmail] = useState([EMPTY_STRING]);
 
   const handleDocumentSignature = (newSize,isDocumentSignatureSelected) => {
     if(isDocumentSignatureSelected) {
@@ -42,21 +44,25 @@ function ESignEmailTos(props) {
       setEmailSubject(null)
       setRecepientName(null)
       setRecepientEmail(null)
-      setEmailCC(null)
+      setCcEmail(null)
       
     }
   }
 
   const handleEmailCC = (emailCCValue, index) => {
-    const newEmailCC = [...emailCC]
-    newEmailCC.push(emailCCValue)
-    setEmailCC(newEmailCC)
+    if(util.isValidEmail(emailCCValue)) {
+      const newEmailCC = [...ccEmail]
+      newEmailCC.push(emailCCValue)
+      setCcEmail(newEmailCC)  
+    }
   }
 
   const handleRecepientEmail = (recepeintEmail, index) => {
-    const newRecepientEmail = [...recepeintEmail]
-    newRecepientEmail.push(recepeintEmail)
-    setRecepientEmail(newRecepientEmail)
+    if(util.isValidEmail(recepeintEmail)) {
+      const newRecepientEmail = [...recepeintEmail]
+      newRecepientEmail.push(recepeintEmail)
+      setRecepientEmail(newRecepientEmail)
+    }
   }
 
   const handleEditeSignDetails = (newSize) => {
@@ -64,21 +70,50 @@ function ESignEmailTos(props) {
       setEmailSubject(props.emailTo.emailSubject)
       setRecepientName(props.emailTo.recepientName)
       setRecepientEmail(props.emailTo.recepientEmail)
-      setEmailCC(props.emailTo.emailCC)
+      setCcEmail(props.emailTo.emailCC)
     }
     setSize(newSize)
     onOpen()  
 
   }
+  
 
+  const handleRemoveRow = (inputType, index) => {
+    if(inputType === "ccEmail") {
+      const newCCEmail = [...ccEmail];
+      newCCEmail.splice(index, 1);
+      setCcEmail(newCCEmail)
+    }
+    if(inputType === "recepientEmail") {
+      const newRecepientEmail = [...recepientEmail];
+      newRecepientEmail.splice(index, 1);
+      setRecepientEmail(newRecepientEmail)
+    }
+
+  }
+
+  const handleAddExtraRow = (inputType) => {
+    if(inputType === "ccEmail") {
+      const newccEmail = [...ccEmail]
+      newccEmail.push(EMPTY_STRING)
+      setCcEmail(newccEmail)
+
+    }
+    if(inputType === "recepientEmail") {
+      const newRecepeintEmail = [...recepientEmail]
+      newRecepeintEmail.push(EMPTY_STRING)
+      setRecepientEmail(newRecepeintEmail)
+    }
+
+  }
   const addSignatureDetails = () => {
-    console.log("emailSubject::"+emailSubject+"*****recepientName::"+recepientName+"****recepientEmail::"+recepientEmail+"****emailCC::"+emailCC)
-    if(emailSubject && recepientName && recepientEmail && util.isValidEmail(recepientEmail) && emailCC && util.isValidEmail(emailCC)) {
+    console.log("emailSubject::"+emailSubject+"*****recepientName::"+recepientName+"****recepientEmail::"+recepientEmail+"****emailCC::"+ccEmail)
+    if(emailSubject && recepientName && recepientEmail && ccEmail) {
       const eSignEmailDetails = {
         emailSubject: emailSubject,
         recepientName: recepientName,
         recepientEmail: recepientEmail,
-        emailCC: emailCC
+        ccEmail: ccEmail
       }
       console.log("eSignEmailDetails:::"+JSON.stringify(eSignEmailDetails))
       props.setEmailTo(eSignEmailDetails)
@@ -134,21 +169,32 @@ function ESignEmailTos(props) {
                                         <HStack spacing={7}>
                                             <Box fontWeight="500" alignContent="right"  width="25%">Recepient Email </Box>
                                             <Box alignContent="left">
-                                              <Input type="email" onChange={(e) => handleRecepientEmail(e.target.value, 0)} />
-                                              {recepientEmail?.map((email) => {
-                                                <Input type="email" value={email} onChange={(e) => handleRecepientEmail(e.target.value, index)} />
-                                              })}
-                                              
+                                              {recepientEmail.map((recepient, index) => 
+                                                <HStack>
+                                                    <Input type="email" value={recepient.email} onChange={(e) => handleRecepientEmail(e.target.value, index)}  marginBottom={2}/>
+                                                    {index === 0?<>
+                                                      <SmallAddIcon onClick={() => handleAddExtraRow("recepientEmail")}/>
+                                                    </>:<>
+                                                      <SmallCloseIcon onClick={() => handleRemoveRow("recepientEmail", index)}/>
+                                                    </>}
+                                                    
+                                                </HStack>                                                
+                                              )}                                                         
                                             </Box>
                                         </HStack>
                                         <HStack spacing={7}>
-                                            <Box fontWeight="500" alignContent="right"  width="25%">Email CC</Box>
-                                            <Box alignContent="left">
-                                              <Input type="email" onChange={(e) => handleEmailCC(e.target.value, 0)} />
-                                              {emailCC?.map((email, index) => {
-                                                <Input type="email" value={email} onChange={(e) => handleEmailCC(e.target.value, index)} />
-                                              })}
-                                              
+                                            <Box fontWeight="500" alignContent="right"  width="25%">CC Email</Box>
+                                            <Box alignContent="left">                
+                                            {ccEmail.map((cc, index) => 
+                                                  <HStack>
+                                                    <Input type="email" value={cc.email} onChange={(e) => handleEmailCC(e.target.value, index)} marginBottom={2}/> 
+                                                    {index === 0?<>
+                                                      <SmallAddIcon onClick={() => handleAddExtraRow("ccEmail")}/>
+                                                    </>:<>
+                                                      <SmallCloseIcon onClick={() => handleRemoveRow("ccEmail", index)}/>
+                                                    </>}
+                                                  </HStack> 
+                                            )}                    
                                             </Box>
                                         </HStack>
                                     </Stack>
