@@ -10,7 +10,7 @@ function ESignDetails(props) {
                   <CardBody>
                       <Stack>
                           <HStack>
-                            <ESignEmailTos edit={true} emailTo={props.emailTo}/>
+                            <ESignEmailTos edit={true} emailTo={props.emailTo} setEmailTo={props.setEmailTo}/>
                           </HStack>
                           <HStack>
                               <Box width="25%" textAlign="right" fontWeight="600">

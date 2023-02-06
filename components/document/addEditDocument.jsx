@@ -191,7 +191,7 @@ const AddEditDocument = (props) => {
                                         <ESignEmailTos handleDocumentSignature={handleDocumentSignature} setEmailTo={setEmailTo}/>                                      
                                     </HStack>  
                                     {emailTo?<>
-                                        <ESignDetails emailTo={emailTo}/>
+                                        <ESignDetails emailTo={emailTo} setEmailTo={setEmailTo}/>
                                     </>:<></>}                                     
                                 </>:<></>} 
                             </Stack>                                                                          

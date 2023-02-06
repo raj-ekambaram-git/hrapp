@@ -51,17 +51,39 @@ function ESignEmailTos(props) {
 
   const handleEmailCC = (emailCCValue, index) => {
     if(util.isValidEmail(emailCCValue)) {
-      const newEmailCC = [...ccEmail]
-      newEmailCC[index] = emailCCValue
-      setCcEmail(newEmailCC)  
+      if(ccEmail.includes(emailCCValue)) {
+        toast({
+          title: 'eSignature Error.',
+          description: 'Email CC is already added, please enter unique email.',
+          status: 'error',
+          position: 'top',
+          duration: 6000,
+          isClosable: true,
+        })
+      }else {
+        const newEmailCC = [...ccEmail]
+        newEmailCC[index] = emailCCValue
+        setCcEmail(newEmailCC)    
+      }
     }
   }
 
   const handleRecepientEmail = (recepeintEmailValue, index) => {
     if(util.isValidEmail(recepeintEmailValue)) {
-      const newRecepeintEmail = [...recepientEmail]
-      newRecepeintEmail[index] = recepeintEmailValue
-      setRecepientEmail(newRecepeintEmail)  
+      if(recepientEmail.includes(recepeintEmailValue)) {
+        toast({
+          title: 'eSignature Error.',
+          description: 'Recepient Email is already added, please enter unique email.',
+          status: 'error',
+          position: 'top',
+          duration: 6000,
+          isClosable: true,
+        })
+      }else {
+        const newRecepeintEmail = [...recepientEmail]
+        newRecepeintEmail[index] = recepeintEmailValue
+        setRecepientEmail(newRecepeintEmail)            
+      }
     }
   }
 
@@ -108,7 +130,6 @@ function ESignEmailTos(props) {
 
   }
   const addSignatureDetails = () => {
-    console.log("emailSubject::"+emailSubject+"*****recepientName::"+recepientName+"****recepientEmail::"+recepientEmail+"****emailCC::"+ccEmail)
     if(emailSubject && recepientName && recepientEmail && ccEmail && !util.validateEmailArray(ccEmail) && !util.validateEmailArray(recepientEmail)) {
       const eSignEmailDetails = {
         emailSubject: emailSubject,
@@ -116,7 +137,6 @@ function ESignEmailTos(props) {
         recepientEmail: recepientEmail,
         ccEmail: ccEmail
       }
-      console.log("eSignEmailDetails:::"+JSON.stringify(eSignEmailDetails))
       props.setEmailTo(eSignEmailDetails)
       onClose()
     }else {
@@ -172,7 +192,7 @@ function ESignEmailTos(props) {
                                             <Box alignContent="left">
                                               {recepientEmail.map((recepient, index) => 
                                                 <HStack>
-                                                    <Input type="email" value={recepient} onChange={(e) => handleRecepientEmail(e.target.value, index)}  marginBottom={2}/>
+                                                    <Input type="email" onChange={(e) => handleRecepientEmail(e.target.value, index)}  marginBottom={2}/>
                                                     {index === 0?<>
                                                       <SmallAddIcon onClick={() => handleAddExtraRow("recepientEmail")}/>
                                                     </>:<>
@@ -188,7 +208,7 @@ function ESignEmailTos(props) {
                                             <Box alignContent="left">                
                                             {ccEmail?.map((cc, index) => 
                                                   <HStack>
-                                                    <Input type="email" value={cc} onChange={(e) => handleEmailCC(e.target.value, index)} marginBottom={2}/> 
+                                                    <Input type="email" onChange={(e) => handleEmailCC(e.target.value, index)} marginBottom={2}/> 
                                                     {index === 0?<>
                                                       <SmallAddIcon onClick={() => handleAddExtraRow("ccEmail")}/>
                                                     </>:<>
