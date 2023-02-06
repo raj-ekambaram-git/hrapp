@@ -26,6 +26,8 @@ import {fetchDocumentsByType, removeDocumentByIndex} from '../../store/modules/D
 import AddEditDocument from "./addEditDocument";
 import { documentService } from "../../services";
 import { DocumentConstants } from "../../constants";
+import { DocumentCategory } from "@prisma/client";
+import { util } from "../../helpers/util";
 
 
 
@@ -83,8 +85,8 @@ const ManageDocuments = (props) => {
     <div>
           <Button size="xs"
               bgColor="header_actions"
-              onClick={() => handleClick("xl")}
-              key="xl"
+              onClick={() => handleClick("xxl")}
+              key="xxl"
               m={1}
               >{`Documents`}
           </Button>      
@@ -98,7 +100,7 @@ const ManageDocuments = (props) => {
                             <DrawerBody>
                               <Stack divider={<StackDivider />} spacing='1'>
                                 <AddEditDocument/>
-                                <Table>
+                                <Table variant="sortTable">
                                     <Thead>
                                       <Tr>
                                         <Th>
@@ -111,6 +113,9 @@ const ManageDocuments = (props) => {
                                         </Th>
                                         <Th>
                                           Status
+                                        </Th>
+                                        <Th>
+                                          Category
                                         </Th>
                                         <Th>
                                           Created On
@@ -144,13 +149,20 @@ const ManageDocuments = (props) => {
                                           }`}>{document.status}</Badge>                                          
                                         </Th>
                                         <Th>
-                                          {document.createdDate}
+                                          {document.category === DocumentCategory.Signature?"eSign":""}
+                                        </Th>
+                                        <Th>
+                                          {util.getFormattedDateWithTime(document.createdDate)}
                                         </Th>
                                         <Th>
                                             {document.createdUser?.firstName} {document.createdUser?.lastName}
                                         </Th>
                                         <Th>
-                                          <Button size="xs" bgColor="header_actions" onClick={() => handleViewDocument(document.urlPath)}>View/Download</Button>
+                                          {document.category === DocumentCategory.Signature?<>
+                                            <Button size="xs" bgColor="header_actions" onClick={() => handleeSignViewDocument(document.urlPath)}>eSign</Button>
+                                          </>:<>
+                                            <Button size="xs" bgColor="header_actions" onClick={() => handleViewDocument(document.urlPath)}>View/Download</Button>                                          
+                                          </>}                                            
                                         </Th>
                                       </Tr>
                                     ))}

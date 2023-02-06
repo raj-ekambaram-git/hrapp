@@ -5,6 +5,7 @@ const fs = require('fs');
 import axios from "axios";
 import prisma from "../../../../lib/prisma";
 import { DocumentCategory, DocumentStatus } from "@prisma/client";
+import {authenticate} from '../../../../helpers/api/eSignatureUtil'
 
 const s3 = new S3({
   region: process.env.ACCESS_REGION,
@@ -33,53 +34,58 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     const viewFile = await s3.getSignedUrlPromise("getObject",fileParams)
 
-    let accountInfo = await authenticate()
+    let accountInfo = await authenticate(SCOPES)
     console.log("accountInfo:::"+JSON.stringify(accountInfo))
-    const fileType = eSignSendRequest.templatePath.split(".")[1]
-    const envelopeArgs = {
-        signerEmail: eSignSendRequest.esignDetails.recepientEmail,
-        ccEmail: eSignSendRequest.esignDetails.ccEmail,
-        status: "sent",
-        documentName: eSignSendRequest.documentName,
-        documentURL: viewFile,
-        documentFileType: fileType,
-        emailSubject:  eSignSendRequest.esignDetails.emailSubject
-      };
-      const args = {
-        accessToken: accountInfo.accessToken,
-        basePath: accountInfo.basePath,
-        accountId: accountInfo.apiAccountId,
-        envelopeArgs: envelopeArgs
-      };
-
-      const esignSendResult = await sendEnvelope(args)
-      console.log("esignSendResult::"+JSON.stringify(esignSendResult))
-    
-      if(esignSendResult.status == "sent") {
-
-        const savedDocuemnt = await prisma.document.create({
-          data: {
-            type: eSignSendRequest.type,
-            typeId: eSignSendRequest.typeId,
-            createdBy: eSignSendRequest.createdBy,
-            name: eSignSendRequest.documentName,
-            status: DocumentStatus.Active,
-            urlPath: esignSendResult.envelopeId,
-            category: DocumentCategory.Signature
-          },
-          include: {
-            createdUser: {
-              select: {
-                firstName: true,
-                lastName: true
+    if(accountInfo.accessToken) {
+      const fileType = eSignSendRequest.templatePath.split(".")[1]
+      const envelopeArgs = {
+          signerEmail: eSignSendRequest.esignDetails.recepientEmail,
+          ccEmail: eSignSendRequest.esignDetails.ccEmail,
+          status: "sent",
+          documentName: eSignSendRequest.documentName,
+          documentURL: viewFile,
+          documentFileType: fileType,
+          emailSubject:  eSignSendRequest.esignDetails.emailSubject
+        };
+        const args = {
+          accessToken: accountInfo.accessToken,
+          basePath: accountInfo.basePath,
+          accountId: accountInfo.apiAccountId,
+          envelopeArgs: envelopeArgs
+        };
+  
+        const esignSendResult = await sendEnvelope(args)
+        console.log("esignSendResult::"+JSON.stringify(esignSendResult))
+      
+        if(esignSendResult.status == "sent") {
+  
+          const savedDocuemnt = await prisma.document.create({
+            data: {
+              type: eSignSendRequest.type,
+              typeId: eSignSendRequest.typeId,
+              createdBy: eSignSendRequest.createdBy,
+              name: eSignSendRequest.documentName,
+              status: DocumentStatus.Active,
+              urlPath: esignSendResult.envelopeId,
+              category: DocumentCategory.Signature
+            },
+            include: {
+              createdUser: {
+                select: {
+                  firstName: true,
+                  lastName: true
+                }
               }
             }
-          }
-        });
-        res.status(200).json(savedDocuemnt)
-      }else {
-        res.status(400).json({ message: "Not able to send the eSignature request, please try again later or contact administrator." });
-      }  
+          });
+          res.status(200).json(savedDocuemnt)
+        }else {
+          res.status(400).json({ message: "Not able to send the eSignature request, please try again later or contact administrator." });
+        }  
+    }else {
+      res.status(400).json({ message: "Error authenticating eSignature, please try again later or contact administrator." });
+    }
+
     
   } catch (err) {
     console.log(err);
@@ -87,76 +93,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
 };
 
-function getConsent() {
-    var urlScopes = SCOPES.join('+');
-  
-    // Construct consent URL
-    var redirectUri = process.env.ESIGN_REDIRECT_URI;
-    var consentUrl = process.env.ESIGN_REDIRECT_CONSENT_URL +
-                        `scope=${urlScopes}&client_id=`+process.env.ESIGN_CLIENT_ID+`&redirect_uri=`+process.env.BONEEDS_ESIGN_REDIRECT_URI+`}`;
-    console.log(consentUrl);
-    let consentGranted = prompt("");
-    if(consentGranted == "1"){
-      return true;
-    } else {
-      console.error("Please grant consent!");
-      process.exit();
-    }
-  }
 
-
-export const config = {
-  api: {
-    bodyParser: {
-      sizeLimit: "8mb", // Set desired value here
-    },
-  },
-};
-
-
-async function authenticate(){
-    const jwtLifeSec = 60 * 60, // requested lifetime for the JWT is 10 min
-      dsApi = new docusign.ApiClient();
-    dsApi.setOAuthBasePath(process.env.ESIGN_BASE_PATH.replace('https://', '')); // it should be domain only.
-    let rsaKey = fs.readFileSync('keys/docusign.key');
-  
-    try {
-      const results = await dsApi.requestJWTUserToken(process.env.ESIGN_CLIENT_ID,
-        process.env.ESIGN_USER_ID, SCOPES, rsaKey,
-        jwtLifeSec);
-        // console.log("RESULTS:::"+JSON.stringify(results))
-      const accessToken = results.body.access_token;
-  
-      // get user info
-      const userInfoResults = await dsApi.getUserInfo(accessToken);
-
-      console.log("userInfoResults:::"+JSON.stringify(userInfoResults))
-  
-      // use the default account
-      let userInfo = userInfoResults.accounts.find(account =>
-        account.isDefault === "true");
-  
-      return {
-        accessToken: results.body.access_token,
-        apiAccountId: userInfo.accountId,
-        basePath: `${userInfo.baseUri}/restapi`
-      };
-    } catch (e) {
-      console.log(e);
-      let body = e.response && e.response.body;
-      // Determine the source of the error
-      if (body) {
-          // The user needs to grant consent
-        if (body.error && body.error === 'consent_required') {
-          if (getConsent()){ return authenticate(); };
-        } else {
-          // Consent has been granted. Show status code for DocuSign API error
-          this._debug_log(`\nAPI problem: Status code ${e.response.status}, message body:
-          ${JSON.stringify(body, null, 4)}\n\n`);
-        }
-      }
-    }
-  }
 
   /**
  * This function does the work of creating the envelope

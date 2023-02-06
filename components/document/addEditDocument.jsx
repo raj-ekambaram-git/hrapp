@@ -18,7 +18,7 @@ import { ShowInlineErrorMessage } from "../common/showInlineErrorMessage";
 import { documentService, userService } from "../../services";
 import { CommonConstants, ConfigConstants, DocumentConstants, EMPTY_STRING } from "../../constants";
 import { setDocumentsByType } from "../../store/modules/Document/actions";
-import { DocumentType } from "@prisma/client";
+import { DocumentCategory, DocumentType } from "@prisma/client";
 import { ESignEmailTos } from "./sign/eSignEmailTos";
 import { ESignDetails } from "./sign/eSignDetails";
 
@@ -172,10 +172,10 @@ const AddEditDocument = (props) => {
                                         <Box fontSize={12} fontWeight="600">
                                             (OR)
                                         </Box>
-                                        <Select id="accountTemplate" width="40%" onChange={(ev) => handleTemplateSelection(ev)}>
+                                        <Select id="accountTemplate" width="30%" onChange={(ev) => handleTemplateSelection(ev)}>
                                             <option value="">Select a Template</option>
                                             {accountTemplates?.map((accountTemplate) => (
-                                            <option value={accountTemplate.id} data-templatePath={accountTemplate.urlPath} >{accountTemplate.name}</option>
+                                                accountTemplate.category != DocumentCategory.Signature?<option value={accountTemplate.id} data-templatePath={accountTemplate.urlPath} >{accountTemplate.name}</option>:<></>                                    
                                             ))}
                                         </Select>
 
@@ -183,7 +183,7 @@ const AddEditDocument = (props) => {
                                 </HStack>    
                                 <HStack spacing={9} marginBottom="1rem">
                                     <Box fontWeight="500"> Name</Box>
-                                    <Input type="text" width="40%" value={name} onChange={(e) => setName(e.target.value)} />
+                                    <Input type="text" width="20%" value={name} onChange={(e) => setName(e.target.value)} />
                                 </HStack>  
                                 {eSignFeatureEnabled?<>
                                     <HStack spacing={9} marginBottom="1rem">
