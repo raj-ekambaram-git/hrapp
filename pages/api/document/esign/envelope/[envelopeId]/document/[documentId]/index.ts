@@ -85,8 +85,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         var fs = require('fs');
         var path = require('path');
         // download the document pdf
-        var filename =  'testone.pdf';
-        var tempFile = path.resolve( "templates", filename);
+        var filename = accountId + '_' + envelopeId + '_' + documentId + '.pdf';
+        var tempFile = path.resolve( "tempFiles", filename);
         fs.writeFile(tempFile, new Buffer(document, 'binary'), function (err) {
           if (err) console.log('Error: ' + err);
         });
@@ -94,7 +94,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       } catch (ex) {
         console.log('Exception: ' + ex);
       } 
-            
+
       res.status(200).json({ mimetype: mimetype, docName: docName, fileBytes: document })
 
     }else {
