@@ -30,24 +30,42 @@ function ESignDetails(props) {
                           </HStack> */}
                           <HStack>
                               <Box width="25%" textAlign="right" fontWeight="600">
-                                  Recepient Email
+                                  Recepient
                               </Box>
                               <Box alignContent="left">
                                   {props.emailTo?.recepientEmail?.map((recepient) => 
                                     <Stack>
-                                      <Box>{recepient.email}</Box>
+                                        <HStack>
+                                            <Box textAlign="right" fontWeight="600">
+                                                Name
+                                            </Box>
+                                            <Box>{recepient.name}</Box>                                           
+                                            <Box textAlign="right" fontWeight="600">
+                                                Email
+                                            </Box>
+                                            <Box>{recepient.email}</Box>                                                                                
+                                        </HStack>                                      
                                     </Stack>                                                                        
                                   )}                                  
                               </Box>                                                            
                           </HStack>
                           <HStack>
                               <Box width="25%" textAlign="right" fontWeight="600">
-                                  CC Email
+                                  CC
                               </Box>
                               <Box alignContent="left">
                                   {props.emailTo?.ccEmail?.map((cc) => 
                                     <Stack>
-                                      <Box>{cc.email}</Box>
+                                        <HStack>
+                                            <Box textAlign="right" width="75%" fontWeight="600">
+                                                Name
+                                            </Box>
+                                            <Box>{cc.name}</Box>                                           
+                                            <Box textAlign="right" fontWeight="600">
+                                                Email
+                                            </Box>
+                                            <Box>{cc.email}</Box>                                                                                
+                                        </HStack>    
                                     </Stack>                                    
                                   )}
                               </Box>                                                            
