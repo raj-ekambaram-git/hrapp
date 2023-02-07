@@ -239,6 +239,7 @@ function ESignEmailTos(props) {
                                                     {index === 0?<>
                                                       <SmallAddIcon onClick={() => handleAddExtraRow("configData")}/>
                                                     </>:<>
+                                                      <SmallAddIcon onClick={() => handleAddExtraRow("configData")}/>
                                                       <SmallCloseIcon onClick={() => handleRemoveRow("configData", index)}/>
                                                     </>}
                                                     
@@ -270,6 +271,7 @@ function ESignEmailTos(props) {
                                                     {index === 0?<>
                                                       <SmallAddIcon onClick={() => handleAddExtraRow("recepientEmail")}/>
                                                     </>:<>
+                                                      <SmallAddIcon onClick={() => handleAddExtraRow("recepientEmail")}/>
                                                       <SmallCloseIcon onClick={() => handleRemoveRow("recepientEmail", index)}/>
                                                     </>}
                                                     
@@ -287,6 +289,7 @@ function ESignEmailTos(props) {
                                                     {index === 0?<>
                                                       <SmallAddIcon onClick={() => handleAddExtraRow("ccEmail")}/>
                                                     </>:<>
+                                                      <SmallAddIcon onClick={() => handleAddExtraRow("ccEmail")}/>
                                                       <SmallCloseIcon onClick={() => handleRemoveRow("ccEmail", index)}/>
                                                     </>}
                                                   </HStack> 
