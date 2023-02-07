@@ -66,7 +66,7 @@ function ESignEmailTos(props) {
         })
       }else {
         const newEmailCC = [...ccEmail]
-        newEmailCC[index]["email"]=emailCCValue
+        newEmailCC[index]["email"]=emailCCValue.toLowerCase()
         setCcEmail(newEmailCC)    
       }
     }
@@ -96,7 +96,7 @@ function ESignEmailTos(props) {
         })
       }else {
         const newRecepeintEmail = [...recepientEmail]
-        newRecepeintEmail[index]["email"]=recepeintEmailValue
+        newRecepeintEmail[index]["email"]=recepeintEmailValue.toLowerCase()
         setRecepientEmail(newRecepeintEmail)            
       }
     }
@@ -155,13 +155,14 @@ function ESignEmailTos(props) {
   }
   const addSignatureDetails = () => {
 
-    console.log("ccEmail::::"+JSON.stringify(ccEmail)+"*******recepientEmailLL"+JSON.stringify(recepientEmail))
+    console.log("ccEmail::::"+JSON.stringify(ccEmail)+"*******recepientEmailLL"+JSON.stringify(recepientEmail)+"*****Config Data:::"+JSON.stringify(configData))
 
     if(emailSubject && recepientEmail && ccEmail && !util.validateEmailArray(ccEmail) && !util.validateEmailArray(recepientEmail)) {
       const eSignEmailDetails = {
         emailSubject: emailSubject,
         recepientEmail: recepientEmail,
-        ccEmail: ccEmail
+        ccEmail: ccEmail,
+        configData: configData
       }
       props.setEmailTo(eSignEmailDetails)
       onClose()
@@ -178,7 +179,16 @@ function ESignEmailTos(props) {
   }
 
   const handleConfigEntry = (inpputType, inputValue, index) => {
-
+    const newConfigData = [...configData]
+    
+    if(inpputType === "configType") {
+      newConfigData[index]["type"]= inputValue
+    }else if (inpputType === "configKey") {
+      newConfigData[index]["key"]= "***"+inputValue+"***/"
+    } else if (inpputType === "configValue") {
+      newConfigData[index]["value"]= inputValue
+    }
+    setConfigData(newConfigData)    
   }
 
 
@@ -213,7 +223,7 @@ function ESignEmailTos(props) {
                                             </HStack>                                           
                                             <Box alignContent="left">
                                             {configData?.map((config, index) => 
-                                                <HStack>
+                                                <HStack marginBottom={3}>
                                                     <Select id="accountTemplate" width="80%" onChange={(ev) => handleConfigEntry("configType",ev.target.value, index)}>
                                                         <option value="">Select a tab</option>
                                                         {DocumentConstants.ESIGN_AVAILABLE_TABS?.map((availableTab) => (
