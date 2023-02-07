@@ -185,7 +185,8 @@ function ESignEmailTos(props) {
       newConfigData[index]["type"]= inputValue.target.value
       newConfigData[index]["valueAccepted"]=  inputValue.target.options.item(inputValue.target.selectedIndex).getAttribute("data-enableInput")==="true"?true:false
     }else if (inpputType === "configKey") {
-      newConfigData[index]["key"]= "***"+inputValue+"***/"
+      // newConfigData[index]["key"]= "***"+inputValue+"***/"
+      newConfigData[index]["key"]= inputValue
     } else if (inpputType === "configValue") {
       newConfigData[index]["value"]= inputValue
     }

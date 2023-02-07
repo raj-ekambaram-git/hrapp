@@ -1,3 +1,5 @@
+import { ESIGN_TABS_KEYS } from "../../constants";
+
 const docusign = require('docusign-esign');
 const fs = require('fs');
 
@@ -6,23 +8,181 @@ export { authenticate, populateTabsData };
 function populateTabsData(docuSign, configData){
   console.log("CONFIG DATA:::"+JSON.stringify(configData))
 
+  const signHereTabs = [];
+  const initialHereTabs = [];
+  const dateSignedTabs = [];
+  const titleTabs = [];
+  const textTabs = [];
+  const numberTabs = [];
+  const dateTabs = [];
+  const emailTabs = [];
+  const noteTabs = [];
+  const firstNameTabs = [];
+  const lastNameTabs = [];
+  const fullNameTabs = [];
+
 
   if(configData && configData.length > 0) {
     configData?.map((config) => {
-
       console.log("config::::"+JSON.stringify(config))
-      // let signHere1 = docuSign.SignHere.constructFromObject({
-      //   anchorString: "**signature_1**",
-      //   anchorYOffset: "10",
-      //   anchorUnits: "pixels",
-      //   anchorXOffset: "20",
-      // });
-      // // Tabs are set per recipient / signer
-      // let signerTabs = docuSign.Tabs.constructFromObject({
-      //   signHereTabs: [signHere1],
-      // });
-  
+      switch(config.type) {
+        case ESIGN_TABS_KEYS.signHereTabs:   
+            console.log("inside the sign ehre...")
+            let signHere = docuSign.SignHere.constructFromObject({
+              anchorString: config.key,
+              anchorYOffset: "10",
+              anchorUnits: "pixels",
+              anchorXOffset: "20",              
+            });   
+            if(signHere) {
+              signHereTabs.push(signHere)
+            }
+          break;
+        case ESIGN_TABS_KEYS.initialHereTabs:         
+            let initialHere = docuSign.InitialHere.constructFromObject({
+              anchorString: config.key,
+              anchorYOffset: "10",
+              anchorUnits: "pixels",
+              anchorXOffset: "20",
+            });   
+            if(initialHere) {
+              initialHereTabs.push(initialHere)
+            }        
+          break;
+        case ESIGN_TABS_KEYS.dateSignedTabs:       
+            let dateSigned = docuSign.DateSigned.constructFromObject({
+              anchorString: config.key,
+              anchorYOffset: "10",
+              anchorUnits: "pixels",
+              anchorXOffset: "20",
+            });   
+            if(dateSigned) {
+              dateSignedTabs.push(dateSigned)
+            }              
+
+          break;
+        case ESIGN_TABS_KEYS.titleTabs:         
+            let title = docuSign.Title.constructFromObject({
+              anchorString: config.key,
+              anchorYOffset: "10",
+              anchorUnits: "pixels",
+              anchorXOffset: "20",
+            });   
+            if(title) {
+              titleTabs.push(title)
+            }              
+
+          break;
+        case ESIGN_TABS_KEYS.textTabs:    
+            let text = docuSign.Text.constructFromObject({
+              anchorString: config.key,
+              anchorYOffset: "10",
+              anchorUnits: "pixels",
+              anchorXOffset: "20",
+              value: config.value
+            });   
+            if(text) {
+              textTabs.push(text)
+            }                             
+          break;
+        case ESIGN_TABS_KEYS.numberTabs:           
+            // let number = docuSign.Number.constructFromObject({
+            //   anchorString: config.key,
+            //   value: config.value
+            // });   
+            // if(number) {
+            //   numberTabs.push(number)
+            // }                    
+          break;
+        case ESIGN_TABS_KEYS.dateTabs:     
+            // let date = docuSign.Date.constructFromObject({
+            //   anchorString: config.key,
+            //   anchorYOffset: "10",
+            //   anchorUnits: "pixels",
+            //   anchorXOffset: "20",
+            //   value: config.value
+            // });   
+            // if(date) {
+            //   dateTabs.push(date)
+            // }                    
+          break;
+        case ESIGN_TABS_KEYS.emailTabs:    
+            let email = docuSign.Email.constructFromObject({
+              anchorString: config.key,
+              anchorYOffset: "10",
+              anchorUnits: "pixels",
+              anchorXOffset: "20",
+              value: config.value
+            });   
+            if(email) {
+              emailTabs.push(email)
+            }                     
+          break;
+        case ESIGN_TABS_KEYS.noteTabs:    
+            let note = docuSign.Note.constructFromObject({
+              anchorString: config.key,
+              anchorYOffset: "10",
+              anchorUnits: "pixels",
+              anchorXOffset: "20",
+              value: config.value
+            });   
+            if(note) {
+              noteTabs.push(note)
+            }                     
+          break;
+        case ESIGN_TABS_KEYS.firstNameTabs:  
+            let firstName = docuSign.FirstName.constructFromObject({
+              anchorString: config.key,
+              anchorYOffset: "10",
+              anchorUnits: "pixels",
+              anchorXOffset: "20",
+            });   
+            if(firstName) {
+              firstNameTabs.push(firstName)
+            }                       
+          break;
+        case ESIGN_TABS_KEYS.lastNameTabs:   
+            let lastName = docuSign.LastName.constructFromObject({
+              anchorString: config.key,
+              anchorYOffset: "10",
+              anchorUnits: "pixels",
+              anchorXOffset: "20",
+            });   
+            if(lastName) {
+              lastNameTabs.push(lastName)
+            }                      
+          break;
+        case ESIGN_TABS_KEYS.fullNameTabs:  
+            let fullName = docuSign.FullName.constructFromObject({
+              anchorString: config.key,
+              anchorYOffset: "10",
+              anchorUnits: "pixels",
+              anchorXOffset: "20",
+            });   
+            if(fullName) {
+              fullNameTabs.push(fullName)
+            }                       
+          break;
+
+      }
     })
+
+    console.log("SIGNE JHERE TABS::"+JSON.stringify(signHereTabs))
+    return docuSign.Tabs.constructFromObject({
+      signHereTabs: signHereTabs,
+      initialHereTabs: initialHereTabs,
+      dateSignedTabs: dateSignedTabs,
+      titleTabs: titleTabs,
+      textTabs: textTabs,
+      numberTabs: numberTabs,
+      dateTabs: dateTabs,
+      emailTabs: emailTabs,
+      noteTabs: noteTabs,
+      firstNameTabs: firstNameTabs,
+      lastNameTabs: lastNameTabs,
+      fullNameTabs: fullNameTabs,
+
+    });
 
   }
 }

@@ -1,3 +1,19 @@
+export const ESIGN_TABS_KEYS= {
+    signHereTabs: "signHereTabs",
+    initialHereTabs: "initialHereTabs",
+    approveTabs: "approveTabs",
+    dateSignedTabs: "dateSignedTabs",
+    titleTabs: "titleTabs",
+    textTabs: "textTabs",
+    numberTabs: "numberTabs",
+    dateTabs: "dateTabs",
+    emailTabs: "emailTabs",
+    noteTabs: "noteTabs",
+    firstNameTabs: "firstNameTabs",
+    lastNameTabs: "lastNameTabs",
+    fullNameTabs: "fullNameTabs",
+}
+
 export const DocumentConstants = {
     DOCUMENMT_TYPE: {
         "Timesheet": 'Timesheet',
@@ -18,70 +34,70 @@ export const DocumentConstants = {
     },
     ESIGN_AVAILABLE_TABS: [
         {
-            key: "signHereTabs",
+            key: ESIGN_TABS_KEYS.signHereTabs,
             displayName: "Sign Here Tab",
             valueAccepted: false
         },
         {
-            key: "initialHereTabs",
+            key: ESIGN_TABS_KEYS.initialHereTabs,
             displayName: "Initial Here Tab",
             valueAccepted: false
         },
         {
-            key: "approveTabs",
+            key: ESIGN_TABS_KEYS.approveTabs,
             displayName: "Approve Tab",
             valueAccepted: false
         },
         {
-            key: "dateSignedTabs",
+            key: ESIGN_TABS_KEYS.dateSignedTabs,
             displayName: "Date Signed Tab",
             valueAccepted: false
         },
         {
-            key: "titleTabs",
+            key: ESIGN_TABS_KEYS.titleTabs,
             displayName: "Title Tab",
             valueAccepted: false
         },
         {
-            key: "textTabs",
+            key: ESIGN_TABS_KEYS.textTabs,
             displayName: "Text Tab",
             valueAccepted: true
         },
+        // {
+        //     key: ESIGN_TABS_KEYS.numberTabs,
+        //     displayName: "Number Tab",
+        //     valueAccepted: true
+        // },
+        // {
+        //     key: ESIGN_TABS_KEYS.dateTabs,
+        //     displayName: "Date Tab",
+        //     valueAccepted: true
+        // },
         {
-            key: "numberTabs",
-            displayName: "Number Tab",
-            valueAccepted: true
-        },
-        {
-            key: "dateTabs",
-            displayName: "Date Tab",
-            valueAccepted: true
-        },
-        {
-            key: "emailTabs",
+            key: ESIGN_TABS_KEYS.emailTabs,
             displayName: "Email Tab",
             valueAccepted: true
         },
         {
-            key: "noteTabs",
+            key: ESIGN_TABS_KEYS.noteTabs,
             displayName: "Note Tab",
             valueAccepted: true
         },        
         {
-            key: "firstNameTabs",
+            key: ESIGN_TABS_KEYS.firstNameTabs,
             displayName: "First Name Tab",
             valueAccepted: false
         },
         {
-            key: "lastNameTabs",
+            key: ESIGN_TABS_KEYS.lastNameTabs,
             displayName: "Last Name Tab",
             valueAccepted: false
         },
         {
-            key: "fullNameTabs",
+            key: ESIGN_TABS_KEYS.fullNameTabs,
             displayName: "Full Name Tab",
             valueAccepted: false
         },        
-    ]
+    ],
 
 }
