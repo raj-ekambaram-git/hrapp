@@ -151,7 +151,7 @@ function registerAccount(formData) {
                     {
                         firstName: formData.accountUserFirstName,
                         lastName: formData.accountUserLastName,
-                        email: formData.accountEmail,
+                        email: formData.accountEmail.toLowerCase(),
                         type: UserType.Employee,
                         userRole: [Role.ACCOUNT_ADMIN],
                         password: formData.userPassword,
