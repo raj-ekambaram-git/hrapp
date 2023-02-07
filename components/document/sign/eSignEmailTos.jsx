@@ -1,5 +1,5 @@
 export { ESignEmailTos };
-  import { SmallAddIcon, SmallCloseIcon } from '@chakra-ui/icons';
+  import { InfoIcon, SmallAddIcon, SmallCloseIcon } from '@chakra-ui/icons';
 import {
     Box,
     Stack,
@@ -18,10 +18,12 @@ import {
     Card,
     CardFooter,
     Button,
+    Tooltip,
+    Select,
   } from '@chakra-ui/react'
-  
 import { useRef, useState } from 'react';
-import { EMPTY_STRING } from '../../../constants';
+import { DocumentConstants, EMPTY_STRING } from '../../../constants';
+import { ToolTipInfo } from '../../../constants/toolTipInfo';
 import { util } from '../../../helpers/util';
 
 function ESignEmailTos(props) {
@@ -31,6 +33,7 @@ function ESignEmailTos(props) {
   const [emailSubject, setEmailSubject] = useState();
   const [recepientName, setRecepientName] = useState();
   const [recepientEmail, setRecepientEmail] = useState([{}]);
+  const [configData, setConfigData] = useState([{}]);
   const [ccEmail, setCcEmail] = useState([{}]);
 
   const handleDocumentSignature = (newSize,isDocumentSignatureSelected) => {
@@ -45,6 +48,7 @@ function ESignEmailTos(props) {
       setRecepientName(null)
       setRecepientEmail(null)
       setCcEmail(null)
+      setConfigData(null)
       
     }
   }
@@ -103,6 +107,7 @@ function ESignEmailTos(props) {
       setEmailSubject(props.emailTo.emailSubject)
       // setRecepientName(props.emailTo.recepientName)
       setRecepientEmail(props.emailTo.recepientEmail)
+      setConfigData(props.emailTo.configData)
       setCcEmail(props.emailTo.ccEmail)
     }
     setSize(newSize)
@@ -122,7 +127,11 @@ function ESignEmailTos(props) {
       newRecepientEmail.splice(index, 1);
       setRecepientEmail(newRecepientEmail)
     }
-
+    if(inputType === "configData") {
+      const newConfigData = [...configData];
+      newConfigData.splice(index, 1);
+      setConfigData(newConfigData)
+    }
   }
 
   const handleAddExtraRow = (inputType) => {
@@ -137,6 +146,11 @@ function ESignEmailTos(props) {
       newRecepeintEmail.push({})
       setRecepientEmail(newRecepeintEmail)
     }
+    if(inputType === "configData") {
+      const newConfigData = [...configData]
+      newConfigData.push({})
+      setConfigData(newConfigData)
+    } 
 
   }
   const addSignatureDetails = () => {
@@ -163,16 +177,20 @@ function ESignEmailTos(props) {
     }
   }
 
+  const handleConfigEntry = (inpputType, inputValue, index) => {
+
+  }
+
 
     return (
         <>
         {props.edit?<>
-          <Button size="xs" bgColor="header_actions" onClick={() => handleEditeSignDetails("lg")}>
+          <Button size="xs" bgColor="header_actions" onClick={() => handleEditeSignDetails("xl")}>
               Edit
           </Button>           
         </>:<>
           <Checkbox
-                onChange={(e) => handleDocumentSignature("lg",e.target.checked) }
+                onChange={(e) => handleDocumentSignature("xl",e.target.checked) }
             />   
         </>}
           <Drawer onClose={onClose} isOpen={isOpen} size={size}>
@@ -180,14 +198,43 @@ function ESignEmailTos(props) {
                     <DrawerContent>
                         <DrawerCloseButton />
                             <DrawerHeader>
-                                Send eSignatures To
+                                Send eSignature Details
                             </DrawerHeader>
                             <DrawerBody>
                               <Card variant="eSignDocument">
                                   <CardBody>
                                     <Stack spacing={3}>     
+                                        <HStack spacing={7} marginBottom={3}>
+                                            <HStack>
+                                              <Box fontWeight="500" alignContent="right">Document Fillers </Box>
+                                              <Tooltip label={ToolTipInfo.ESIGN_DOCUMENT_FILLER} fontSize='md'>
+                                                  <InfoIcon />
+                                              </Tooltip> 
+                                            </HStack>                                           
+                                            <Box alignContent="left">
+                                            {configData?.map((config, index) => 
+                                                <HStack>
+                                                    <Select id="accountTemplate" width="80%" onChange={(ev) => handleConfigEntry("configType",ev.target.value, index)}>
+                                                        <option value="">Select a tab</option>
+                                                        {DocumentConstants.ESIGN_AVAILABLE_TABS?.map((availableTab) => (
+                                                            <option value={availableTab.key}>{availableTab.displayName}</option>
+                                                        ))}
+                                                    </Select>                                                  
+                                                    <Input type="text" placeholder='Key' marginTop={2} onChange={(e) => handleConfigEntry("configKey",e.target.value, index)}  marginBottom={2}/>
+                                                    <Input type="email" placeholder='Value' onChange={(e) => handleConfigEntry("configValue",e.target.value, index)}  marginBottom={2}/>
+                                                    {index === 0?<>
+                                                      <SmallAddIcon onClick={() => handleAddExtraRow("configData")}/>
+                                                    </>:<>
+                                                      <SmallCloseIcon onClick={() => handleRemoveRow("configData", index)}/>
+                                                    </>}
+                                                    
+                                                </HStack>                                                
+                                              )}   
+                                            </Box>
+                                            
+                                        </HStack>
                                         <HStack spacing={7}>
-                                            <Box fontWeight="500" alignContent="right" width="25%">Email Subject </Box>
+                                            <Box fontWeight="500" alignContent="right" width="18%">Email Subject </Box>
                                             <Box alignContent="left">
                                               <Input type="text" value={emailSubject} onChange={(e) => setEmailSubject(e.target.value)} />
                                             </Box>
@@ -200,12 +247,12 @@ function ESignEmailTos(props) {
                                             </Box>                                            
                                         </HStack> */}
                                         <HStack spacing={7}>
-                                            <Box fontWeight="500" alignContent="right"  width="25%">Signer(s) </Box>
+                                            <Box fontWeight="500" alignContent="right"  width="18%">Signer(s) </Box>
                                             <Box alignContent="left">
                                               {recepientEmail?.map((recepient, index) => 
                                                 <HStack>
-                                                    <Input type="text" placeholder='Recepient Name' marginTop={2} onChange={(e) => handleRecepientName(e.target.value, index)}  marginBottom={2}/>
-                                                    <Input type="email" placeholder='Recepient Email' onChange={(e) => handleRecepientEmail(e.target.value, index)}  marginBottom={2}/>
+                                                    <Input type="text" placeholder='Signer Name' marginTop={2} onChange={(e) => handleRecepientName(e.target.value, index)}  marginBottom={2}/>
+                                                    <Input type="email" placeholder='Signer Email' onChange={(e) => handleRecepientEmail(e.target.value, index)}  marginBottom={2}/>
                                                     {index === 0?<>
                                                       <SmallAddIcon onClick={() => handleAddExtraRow("recepientEmail")}/>
                                                     </>:<>
@@ -217,7 +264,7 @@ function ESignEmailTos(props) {
                                             </Box>
                                         </HStack>
                                         <HStack spacing={7}>
-                                            <Box fontWeight="500" alignContent="right"  width="25%">CC</Box>
+                                            <Box fontWeight="500" alignContent="right"  width="18%">CC</Box>
                                             <Box alignContent="left">                
                                             {ccEmail?.map((cc, index) => 
                                                   <HStack>
