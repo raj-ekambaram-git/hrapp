@@ -1,6 +1,7 @@
 
 export const documentUtil = {
   getVendorConfigData,
+  getProjectConfigData,
 };
 
 
@@ -35,6 +36,49 @@ function getVendorConfigData(vendorDetails) {
     addressStr = vendorDetails.address[0].country?addressStr+vendorDetails.address[0].country:""
 
     configData.push({"key": "***vendorAddress***", "type": "textTabs", "valueAccepted": true, "value": addressStr})  
+  }
+  
+
+  return configData;
+}
+
+
+function getProjectConfigData(projectDetails) {
+  console.log("projectDetails:::"+JSON.stringify(projectDetails))
+  const configData = []
+  //Get Vendor Name
+  if(projectDetails.name) {
+    configData.push({"key": "***projectName***", "type": "textTabs", "valueAccepted": true, "value": projectDetails.name})  
+  }
+  if(projectDetails.contactName) {
+    configData.push({"key": "***projectContactName***", "type": "textTabs", "valueAccepted": true, "value": projectDetails.contactName})  
+  }
+ 
+  if(projectDetails.contactEmail) {
+    configData.push({"key": "***projectContactEmail***", "type": "textTabs", "valueAccepted": true, "value": projectDetails.contactEmail})  
+  }
+  if(projectDetails.contactPhone) {
+    configData.push({"key": "***projectPhone***", "type": "textTabs", "valueAccepted": true, "value": projectDetails.contactPhone})  
+  }
+  if(projectDetails.vendor?.accountContactName) {
+    configData.push({"key": "***accountContactName***", "type": "textTabs", "valueAccepted": true, "value": projectDetails.vendor?.accountContactName})  
+  }
+  if(projectDetails.vendor?.accountContactEmail) {
+    configData.push({"key": "***accountContactEmail***", "type": "textTabs", "valueAccepted": true, "value": projectDetails.vendor?.accountContactEmail})  
+  }
+  if(projectDetails.vendor?.accountContactPhone) {
+    configData.push({"key": "***accountContactPhone***", "type": "textTabs", "valueAccepted": true, "value": projectDetails.vendor?.accountContactPhone})  
+  }
+  if(projectDetails.address && projectDetails.address.length > 0) {
+    let  addressStr = projectDetails.address[0].address1+ ", "
+    addressStr = projectDetails.address[0].address2?addressStr+projectDetails.address[0].address2+", ":""
+    addressStr = projectDetails.address[0].address3?addressStr+projectDetails.address[0].address3+", ":""
+    addressStr = projectDetails.address[0].city?addressStr+projectDetails.address[0].city+", ":""
+    addressStr = projectDetails.address[0].state?addressStr+projectDetails.address[0].state+", ":""
+    addressStr = projectDetails.address[0].zipCode?addressStr+projectDetails.address[0].zipCode+", ":""
+    addressStr = projectDetails.address[0].country?addressStr+projectDetails.address[0].country:""
+
+    configData.push({"key": "***projectAddress***", "type": "textTabs", "valueAccepted": true, "value": addressStr})  
   }
   
 

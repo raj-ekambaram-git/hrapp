@@ -65,11 +65,11 @@ function ESignEmailTos(props) {
         const responseData = await accountService.getVendorDetail(props.documentType.typeId, userService.getAccountDetails().accountId);
         return documentUtil.getVendorConfigData(responseData)
       } else if(props.documentType.type === DocumentConstants.DOCUMENMT_TYPE.Account) {
-        
       } else if(props.documentType.type === DocumentConstants.DOCUMENMT_TYPE.User) {
         
       } else if(props.documentType.type === DocumentConstants.DOCUMENMT_TYPE.Project) {
-        
+        const responseData = await accountService.getProjectDetail(props.documentType.typeId, userService.getAccountDetails().accountId);
+        return documentUtil.getProjectConfigData(responseData)        
       }
     }
   }
