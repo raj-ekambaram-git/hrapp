@@ -28,8 +28,8 @@ function getEnvelopeAttachments(envelopeId, accountId) {
         });
 }
 
-function getEnvelopeDocument(envelopeId, documentId, accountId) {
-    return fetchWrapper.get(`${baseUrl}/document/esign/envelope/${envelopeId}/document/${documentId}?accountId=`+accountId, {})
+function getEnvelopeDocument(envelopeId, documentId, accountId, docMetaData) {
+    return fetchWrapper.post(`${baseUrl}/document/esign/envelope/${envelopeId}/document/${documentId}?accountId=`+accountId, {docMetaData})
         .then(document => {
             return document;
         });
@@ -113,6 +113,7 @@ function getUploadURL(name, type) {
 }
 
 function uploadFile(url, file, type) {
+    console.log("URL::"+url+"*****type:::"+type+"****file::"+file)
     return fetchWrapper.filePut(url, file, type)
     .then(response => {
         console.log("REPONSEESS")

@@ -60,8 +60,52 @@ function ESignViewDocument(props) {
   const handleViewDocument = async(documentId) => {
     if(documentId && props.envelopeId) {
       setLoading(true)
-      const responseData = await documentService.getEnvelopeDocument(props.envelopeId,documentId, userService.getAccountDetails().accountId)
+
+      let docItem = envelopeeDocuments.envelopeDocuments.find(
+        (item) => item.documentId === documentId
+      )
+      let docName = docItem.name;
+      let hasPDFsuffix = docName.substr(docName.length - 4).toUpperCase() === ".PDF";
+      let pdfFile = hasPDFsuffix;
+      // Add .pdf if it's a content or summary doc and doesn't already end in .pdf
+      const fileExtension = "";
+      if (
+        (docItem.type === "content" || docItem.type === "summary") &&
+        !hasPDFsuffix
+      ) {
+        docName += ".pdf";
+        pdfFile = true;
+      }
+      if (docItem.type === 'portfolio') {
+        docName += ".pdf";
+        pdfFile = true;
+      }
+      // Add .zip as appropriate
+      if (docItem.type === "zip") {
+        docName += ".zip";
+      }
+    
+      // Return the file information
+      // See https://stackoverflow.com/a/30625085/64904
+      let mimetype;
+      if (pdfFile) {
+        mimetype = "application/pdf";
+      } else if (docItem.type === "zip") {
+        mimetype = "application/zip";
+      } else {
+        mimetype = "application/octet-stream";
+      }
+      const docMetaData = {
+        mimetype: mimetype,
+        docName: docName,
+        fileExtension: pdfFile?"pdf":docItem.type === "zip"?"zip":"other"
+
+      }
+      console.log("docMetaData:::"+JSON.stringify(docMetaData))
+      const responseData = await documentService.getEnvelopeDocument(props.envelopeId,documentId, userService.getAccountDetails().accountId, docMetaData)
       setLoading(false)
+      window.open(responseData);
+      
       // console.log("responseData::"+JSON.stringify(responseData))
       if(!responseData.error) {
 

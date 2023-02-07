@@ -2,14 +2,23 @@ import { NextApiRequest, NextApiResponse } from "next";
 const docusign = require('docusign-esign');
 import { EMPTY_STRING } from "../../../../../../../../constants";
 import { authenticate } from "../../../../../../../../helpers/api/eSignatureUtil";
+import S3 from "aws-sdk/clients/s3";
+var fs = require('fs');
+var path = require('path');
+import {fetchWrapper} from '../../../../../../../../helpers'
 
+const s3 = new S3({
+  region: process.env.ACCESS_REGION,
+  accessKeyId: process.env.ACCESS_KEY,
+  secretAccessKey: process.env.SECRET_KEY,
+});
 
 const SCOPES = [
     "signature"
 ];
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.method !== "GET") {
+  if (req.method !== "POST") {
     return res.status(405).json({ message: "Method not allowed" });
   }
 
@@ -18,7 +27,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const accountId = req.query?.accountId;
     const envelopeId = req.query?.envelopeId;
     const documentId = req.query?.documentId;
-    console.log("accountId::"+accountId+"******Enveelope ID::"+envelopeId+"****documentId::"+documentId)
+    const {docMetaData} = req.body;
+
+    console.log("accountId::"+accountId+"******Enveelope ID::"+envelopeId+"****documentId::"+documentId+"*****docMetaData::"+JSON.stringify(docMetaData))
     const accountInfo = await authenticate(SCOPES)
 
     console.log("accountInfo::"+JSON.stringify(accountInfo))
@@ -38,64 +49,27 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         null
       );
 
-      let envelopeDocuments = await envelopesApi.listDocuments(
-        accountInfo.apiAccountId,
-        envelopeId,
-        null
-      );
+      // download the document pdf
+      var filename = accountId + '_' + envelopeId + '_' + documentId +"."+ docMetaData.fileExtension;
+      // var tempFile = path.resolve( "tempFiles", filename);
+      // fs.writeFile(tempFile, new Buffer(document, 'binary'), function (err) {
+      //   if (err) console.log('Error: ' + err);
+      // });
+      // console.log('Document ' + documentId + ' from envelope ' + envelopeId + ' has been downloaded to ' + tempFile);
 
-      let docItem = envelopeDocuments.envelopeDocuments.find(
-        (item) => item.documentId === documentId
-      ),
-      docName = docItem.name,
-      hasPDFsuffix = docName.substr(docName.length - 4).toUpperCase() === ".PDF",
-      pdfFile = hasPDFsuffix;
-    // Add .pdf if it's a content or summary doc and doesn't already end in .pdf
-    if (
-      (docItem.type === "content" || docItem.type === "summary") &&
-      !hasPDFsuffix
-    ) {
-      docName += ".pdf";
-      pdfFile = true;
-    }
-    if (docItem.type === 'portfolio') {
-      docName += ".pdf";
-      pdfFile = true;
-    }
-    // Add .zip as appropriate
-    if (docItem.type === "zip") {
-      docName += ".zip";
-    }
-  
-    // Return the file information
-    // See https://stackoverflow.com/a/30625085/64904
-    let mimetype;
-    if (pdfFile) {
-      mimetype = "application/pdf";
-    } else if (docItem.type === "zip") {
-      mimetype = "application/zip";
-    } else {
-      mimetype = "application/octet-stream";
-    }
-  
-    // return { mimetype: mimetype, docName: docName, fileBytes: results };
+      //Now get the S3 URL for this file
+      const fileParams = {
+        Bucket: process.env.BUCKET_NAME,
+        Key: "temp/"+filename,
+        ContentType: docMetaData.mimetype,
+        Expires: parseInt(process.env.DOCUMENT_VIEW_EXPIRATION), // seconds
+      }
 
-      // console.log("responseData::"+JSON.stringify(document))
-      try {
-        var fs = require('fs');
-        var path = require('path');
-        // download the document pdf
-        var filename = accountId + '_' + envelopeId + '_' + documentId + '.pdf';
-        var tempFile = path.resolve( "tempFiles", filename);
-        fs.writeFile(tempFile, new Buffer(document, 'binary'), function (err) {
-          if (err) console.log('Error: ' + err);
-        });
-        console.log('Document ' + documentId + ' from envelope ' + envelopeId + ' has been downloaded to ' + tempFile);
-      } catch (ex) {
-        console.log('Exception: ' + ex);
-      } 
-
-      res.status(200).json({ mimetype: mimetype, docName: docName, fileBytes: document })
+      const uploadedFile = await s3.getSignedUrlPromise("putObject",fileParams)
+      const fileReturn = await fetchWrapper.filePut(uploadedFile, new Buffer(document, 'binary'), docMetaData.mimetype)
+      delete fileParams["ContentType"]
+      const viewFile = await s3.getSignedUrlPromise("getObject",fileParams)
+      res.status(200).json(viewFile)
 
     }else {
       res.status(400).json({ message: "Error authenticating eSignature, please try again later or contact administrator." });
