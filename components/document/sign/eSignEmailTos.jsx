@@ -51,9 +51,9 @@ function ESignEmailTos(props) {
       onClose()
       props.setEmailTo(null)
       setEmailSubject(null)
-      setRecepientName(null)
-      setRecepientEmail(null)
-      setCcEmail(null)
+      setRecepientName()
+      setRecepientEmail([{}])
+      setCcEmail([{}])
       setConfigData(null)
       
     }
@@ -288,8 +288,8 @@ function ESignEmailTos(props) {
                                             <Box alignContent="left">
                                               {recepientEmail?.map((recepient, index) => 
                                                 <HStack>
-                                                    <Input type="text" placeholder='Signer Name' marginTop={2} onChange={(e) => handleRecepientName(e.target.value, index)}  marginBottom={2}/>
-                                                    <Input type="email" placeholder='Signer Email' onChange={(e) => handleRecepientEmail(e.target.value, index)}  marginBottom={2}/>
+                                                    <Input type="text" placeholder='Signer Name' value={recepient.name} marginTop={2} onChange={(e) => handleRecepientName(e.target.value, index)}  marginBottom={2}/>
+                                                    <Input type="email" placeholder='Signer Email' value={recepient.email} onChange={(e) => handleRecepientEmail(e.target.value, index)}  marginBottom={2}/>
                                                     {index === 0?<>
                                                       <SmallAddIcon onClick={() => handleAddExtraRow("recepientEmail")}/>
                                                     </>:<>
@@ -306,8 +306,8 @@ function ESignEmailTos(props) {
                                             <Box alignContent="left">                
                                             {ccEmail?.map((cc, index) => 
                                                   <HStack>
-                                                    <Input type="text" placeholder='CC Name' marginTop={2} onChange={(e) => handleNameCC(e.target.value, index)} marginBottom={2}/> 
-                                                    <Input type="email" placeholder='CC Email' onChange={(e) => handleEmailCC(e.target.value, index)} marginBottom={2}/> 
+                                                    <Input type="text" placeholder='CC Name' marginTop={2} value={cc.name} onChange={(e) => handleNameCC(e.target.value, index)} marginBottom={2}/> 
+                                                    <Input type="email" placeholder='CC Email' value={cc.email} onChange={(e) => handleEmailCC(e.target.value, index)} marginBottom={2}/> 
                                                     {index === 0?<>
                                                       <SmallAddIcon onClick={() => handleAddExtraRow("ccEmail")}/>
                                                     </>:<>
