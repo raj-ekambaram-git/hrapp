@@ -167,20 +167,29 @@ const sendEnvelope = async (args) => {
         recipientId: indexVal+1,
         routingOrder: indexVal+1,
         });
-        signerObj.tab = populateTabsData(docusign, args.configData)
+        // signerObj.tab = populateTabsData(docusign, args.configData)
         //Get Tabs Data for Signer 
         
-      //   let signHere1 = docusign.SignHere.constructFromObject({
-      //     anchorString: "**signature_1**",
-      //     anchorYOffset: "10",
-      //     anchorUnits: "pixels",
-      //     anchorXOffset: "20",
-      //   });
-      // // Tabs are set per recipient / signer
-      // let signer1Tabs = docusign.Tabs.constructFromObject({
-      //   signHereTabs: [signHere1],
-      // });
-      // signerObj.tabs = signer1Tabs;
+        // let signHere1 = docusign.SignHere.constructFromObject({
+        //   anchorString: "Total",
+        //   anchorYOffset: "10",
+        //   anchorUnits: "pixels",
+        //   anchorXOffset: "20",
+        // });
+
+        let textHere = docusign.Text.constructFromObject({
+          anchorString: "Total",
+          anchorYOffset: "10",
+          anchorUnits: "pixels",
+          anchorXOffset: "20",
+          value: "Testing the Text"
+        });        
+      // Tabs are set per recipient / signer
+      let signer1Tabs = docusign.Tabs.constructFromObject({
+        // signHereTabs: [signHere1],    
+        textTabs: [textHere]  
+      });
+      signerObj.tabs = signer1Tabs;
 
         indexVal++
         signerEmailArray.push(signerObj)

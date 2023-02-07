@@ -182,7 +182,8 @@ function ESignEmailTos(props) {
     const newConfigData = [...configData]
     
     if(inpputType === "configType") {
-      newConfigData[index]["type"]= inputValue
+      newConfigData[index]["type"]= inputValue.target.value
+      newConfigData[index]["valueAccepted"]=  inputValue.target.options.item(inputValue.target.selectedIndex).getAttribute("data-enableInput")==="true"?true:false
     }else if (inpputType === "configKey") {
       newConfigData[index]["key"]= "***"+inputValue+"***/"
     } else if (inpputType === "configValue") {
@@ -224,14 +225,16 @@ function ESignEmailTos(props) {
                                             <Box alignContent="left">
                                             {configData?.map((config, index) => 
                                                 <HStack marginBottom={3}>
-                                                    <Select id="accountTemplate" width="80%" onChange={(ev) => handleConfigEntry("configType",ev.target.value, index)}>
+                                                    <Select id="accountTemplate" width= {config.valueAccepted?"80%":"35%"} onChange={(ev) => handleConfigEntry("configType",ev, index)}>
                                                         <option value="">Select a tab</option>
                                                         {DocumentConstants.ESIGN_AVAILABLE_TABS?.map((availableTab) => (
-                                                            <option value={availableTab.key}>{availableTab.displayName}</option>
+                                                            <option value={availableTab.key} data-enableInput={availableTab.valueAccepted} >{availableTab.displayName}</option>
                                                         ))}
-                                                    </Select>                                                  
-                                                    <Input type="text" placeholder='Key' marginTop={2} onChange={(e) => handleConfigEntry("configKey",e.target.value, index)}  marginBottom={2}/>
-                                                    <Input type="email" placeholder='Value' onChange={(e) => handleConfigEntry("configValue",e.target.value, index)}  marginBottom={2}/>
+                                                    </Select>   
+                                                      <Input type="text" placeholder='Key' width= {config.valueAccepted?"70%":""} marginTop={2} onChange={(e) => handleConfigEntry("configKey",e.target.value, index)}  marginBottom={2}/>
+                                                    {config.valueAccepted?<>                                                      
+                                                      <Input type="text" placeholder='Value' width= {config.valueAccepted?"50%":""} onChange={(e) => handleConfigEntry("configValue",e.target.value, index)}  marginBottom={2}/>
+                                                    </>:<></>}                                               
                                                     {index === 0?<>
                                                       <SmallAddIcon onClick={() => handleAddExtraRow("configData")}/>
                                                     </>:<>

@@ -19,52 +19,69 @@ export const DocumentConstants = {
     ESIGN_AVAILABLE_TABS: [
         {
             key: "signHereTabs",
-            displayName: "Sign Here Tab"
+            displayName: "Sign Here Tab",
+            valueAccepted: false
         },
         {
             key: "initialHereTabs",
-            displayName: "Initial Here Tab"
+            displayName: "Initial Here Tab",
+            valueAccepted: false
         },
         {
             key: "approveTabs",
-            displayName: "Approve Tab"
+            displayName: "Approve Tab",
+            valueAccepted: false
         },
         {
             key: "dateSignedTabs",
-            displayName: "Date Signed Tab"
+            displayName: "Date Signed Tab",
+            valueAccepted: false
         },
         {
             key: "titleTabs",
-            displayName: "Title Tab"
+            displayName: "Title Tab",
+            valueAccepted: false
         },
         {
             key: "textTabs",
-            displayName: "Text Tab"
+            displayName: "Text Tab",
+            valueAccepted: true
         },
         {
             key: "numberTabs",
-            displayName: "Number Tab"
+            displayName: "Number Tab",
+            valueAccepted: true
         },
         {
             key: "dateTabs",
-            displayName: "Date Tab"
+            displayName: "Date Tab",
+            valueAccepted: true
         },
         {
             key: "emailTabs",
-            displayName: "Email Tab"
+            displayName: "Email Tab",
+            valueAccepted: true
         },
         {
             key: "noteTabs",
-            displayName: "Note Tab"
+            displayName: "Note Tab",
+            valueAccepted: true
         },        
         {
             key: "firstNameTabs",
-            displayName: "First Name Tab"
+            displayName: "First Name Tab",
+            valueAccepted: false
         },
         {
             key: "lastNameTabs",
-            displayName: "Last Name Tab"
+            displayName: "Last Name Tab",
+            valueAccepted: false
         },
+        {
+            key: "fullNameTabs",
+            displayName: "Full Name Tab",
+            valueAccepted: false
+        },        
     ]
 
 }
