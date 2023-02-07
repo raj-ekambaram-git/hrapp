@@ -41,8 +41,9 @@ function ESignEmailTos(props) {
   const handleDocumentSignature = async (newSize,isDocumentSignatureSelected) => {
     if(isDocumentSignatureSelected) {
       const documentTypeConfigData = await getTypeDetails()
-      console.log("documentTypeConfigData:::"+JSON.stringify(documentTypeConfigData))
-      setConfigData(documentTypeConfigData)
+      if(documentTypeConfigData) {
+        setConfigData(documentTypeConfigData)
+      }      
       props.handleDocumentSignature(isDocumentSignatureSelected)
       setSize(newSize)
       onOpen()  
@@ -64,7 +65,7 @@ function ESignEmailTos(props) {
         const responseData = await accountService.getVendorDetail(props.documentType.typeId, userService.getAccountDetails().accountId);
         return documentUtil.getVendorConfigData(responseData)
       } else if(props.documentType.type === DocumentConstants.DOCUMENMT_TYPE.Account) {
-
+        
       } else if(props.documentType.type === DocumentConstants.DOCUMENMT_TYPE.User) {
         
       } else if(props.documentType.type === DocumentConstants.DOCUMENMT_TYPE.Project) {
