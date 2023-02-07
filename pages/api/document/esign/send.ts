@@ -68,7 +68,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
               name: eSignSendRequest.documentName,
               status: DocumentStatus.Active,
               urlPath: esignSendResult.envelopeId,
-              category: DocumentCategory.Signature
+              category: DocumentCategory.Signature,
+              configData: eSignSendRequest.esignDetails.configData
             },
             include: {
               createdUser: {
