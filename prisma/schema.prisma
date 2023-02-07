@@ -402,6 +402,7 @@ model Document {
   urlPath        String
   emailTo        String[]
   status         DocumentStatus
+  configData     Json?
   createdUser    User?            @relation(fields: [createdBy], references: [id])
   createdBy      Int?
   createdDate    DateTime         @default(now())

@@ -117,7 +117,6 @@ const sendEnvelope = async (args) => {
     results = await envelopesApi.createEnvelope(args.accountId, {
       envelopeDefinition: envelope,
     });
-    console.log("ENVELOPE RESULTS::"+JSON.stringify(results))
     let envelopeId = results.envelopeId;
   
     console.log(`Envelope was created. EnvelopeId ${envelopeId}`);
