@@ -27,6 +27,19 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       dsApiClient.addDefaultHeader("Authorization", "Bearer " + accountInfo.accessToken);  
       let envelopesApi = new docusign.EnvelopesApi(dsApiClient);
 
+      const evenlopeStatus = await envelopesApi.getEnvelope(
+        accountInfo.apiAccountId,
+        envelopeId,
+        null
+      );
+
+      if(evenlopeStatus) {
+        responseData["statusData"] = {
+          status: evenlopeStatus.status,
+          emailSubject: evenlopeStatus.emailSubject
+        }
+      }
+
       const recepients = await envelopesApi.listRecipients(
         accountInfo.apiAccountId,
         envelopeId,
@@ -39,7 +52,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         }
       }
 
-      console.log("recepients:::"+JSON.stringify(recepients))
       let envelopeDocuments = await envelopesApi.listDocuments(
         accountInfo.apiAccountId,
         envelopeId,
@@ -52,7 +64,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         }
       }
       
-      console.log("responseData::"+JSON.stringify(responseData))
       res.status(200).json(responseData)
 
     }else {

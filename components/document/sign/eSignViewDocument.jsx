@@ -19,6 +19,7 @@ import {
     Button,
     CardHeader,
     Spinner,
+    Badge,
   } from '@chakra-ui/react'
   
 import { useRef, useState } from 'react';
@@ -32,6 +33,7 @@ function ESignViewDocument(props) {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [envelopeeDocuments, setEnvelopeeDocuments] = useState();
   const [recepients, setRecepients] = useState();
+  const [statusData, setStatusData] = useState();
   const [loading, setLoading] = useState(false);
 
   const handleeESignViewDocument = async (newSize) => {
@@ -48,11 +50,12 @@ function ESignViewDocument(props) {
         position: 'top',
         duration: 6000,
         isClosable: true,
-    })
+      })
     return;
     }else {
       setEnvelopeeDocuments(responseData.envelopeDocuments)
       setRecepients(responseData.recepients)
+      setStatusData(responseData.statusData)
     }
     
   }
@@ -101,17 +104,20 @@ function ESignViewDocument(props) {
         fileExtension: pdfFile?"pdf":docItem.type === "zip"?"zip":"other"
 
       }
-      console.log("docMetaData:::"+JSON.stringify(docMetaData))
       const responseData = await documentService.getEnvelopeDocument(props.envelopeId,documentId, userService.getAccountDetails().accountId, docMetaData)
       setLoading(false)
-      window.open(responseData);
-      
-      // console.log("responseData::"+JSON.stringify(responseData))
       if(!responseData.error) {
-
+        window.open(responseData);
+      }else {
+        toast({
+          title: 'View eSignature Document.',
+          description: 'Error getting eSignature document, please try again. Details:'+responseData.errorMessage,
+          status: 'error',
+          position: 'top',
+          duration: 6000,
+          isClosable: true,
+        })
       }
-      // window.open(responseData);
-      // console.log("HANDLE VIEW DOC::"+JSON.stringify(responseData))
     }
     
   }
@@ -142,6 +148,16 @@ function ESignViewDocument(props) {
                                 </CardHeader>
                                 <CardBody>
                                   <Stack>
+                                  <Card>
+                                      <CardBody>
+                                        <HStack>
+                                            <Box textAlign="right" fontWeight="600">
+                                                Status
+                                            </Box>
+                                            <Badge fontWeight="600" color={statusData?.status === "completed"?"paid_status":"pending_status"}>{statusData?.status}</Badge>
+                                        </HStack>                                                                                   
+                                      </CardBody>
+                                    </Card>                                    
                                     <Card>
                                       <CardBody>
                                         <Box fontWeight="600" marginBottom={4}>
