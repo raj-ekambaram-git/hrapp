@@ -25,6 +25,8 @@ import { useRef, useState } from 'react';
 import { DocumentConstants, EMPTY_STRING } from '../../../constants';
 import { ToolTipInfo } from '../../../constants/toolTipInfo';
 import { util } from '../../../helpers/util';
+import { accountService, userService } from '../../../services';
+import {documentUtil} from '../../../helpers/documentUtil'
 
 function ESignEmailTos(props) {
   const toast = useToast();
@@ -36,8 +38,11 @@ function ESignEmailTos(props) {
   const [configData, setConfigData] = useState([{}]);
   const [ccEmail, setCcEmail] = useState([{}]);
 
-  const handleDocumentSignature = (newSize,isDocumentSignatureSelected) => {
+  const handleDocumentSignature = async (newSize,isDocumentSignatureSelected) => {
     if(isDocumentSignatureSelected) {
+      const documentTypeConfigData = await getTypeDetails()
+      console.log("documentTypeConfigData:::"+JSON.stringify(documentTypeConfigData))
+      setConfigData(documentTypeConfigData)
       props.handleDocumentSignature(isDocumentSignatureSelected)
       setSize(newSize)
       onOpen()  
@@ -52,6 +57,22 @@ function ESignEmailTos(props) {
       
     }
   }
+
+  const getTypeDetails = async() => {
+    if(props.documentType) {
+      if(props.documentType.type === DocumentConstants.DOCUMENMT_TYPE.Vendor) {
+        const responseData = await accountService.getVendorDetail(props.documentType.typeId, userService.getAccountDetails().accountId);
+        return documentUtil.getVendorConfigData(responseData)
+      } else if(props.documentType.type === DocumentConstants.DOCUMENMT_TYPE.Account) {
+
+      } else if(props.documentType.type === DocumentConstants.DOCUMENMT_TYPE.User) {
+        
+      } else if(props.documentType.type === DocumentConstants.DOCUMENMT_TYPE.Project) {
+        
+      }
+    }
+  }
+
 
   const handleEmailCC = (emailCCValue, index) => {
     if(util.isValidEmail(emailCCValue)) {
@@ -183,7 +204,7 @@ function ESignEmailTos(props) {
     
     if(inpputType === "configType") {
       newConfigData[index]["type"]= inputValue.target.value
-      newConfigData[index]["valueAccepted"]=  inputValue.target.options.item(inputValue.target.selectedIndex).getAttribute("data-enableInput")==="true"?true:false
+      newConfigData[index]["valueAccepted"]=  inputValue.target.options.item(inputValue.target.selectedIndex).getAttribute("data-enableinput")==="true"?true:false
     }else if (inpputType === "configKey") {
       // newConfigData[index]["key"]= "***"+inputValue+"***/"
       newConfigData[index]["key"]= inputValue
@@ -226,15 +247,15 @@ function ESignEmailTos(props) {
                                             <Box alignContent="left">
                                             {configData?.map((config, index) => 
                                                 <HStack marginBottom={3}>
-                                                    <Select id="accountTemplate" width= {config.valueAccepted?"80%":"35%"} onChange={(ev) => handleConfigEntry("configType",ev, index)}>
+                                                    <Select id="accountTemplate" value={config.type} width= {config.valueAccepted?"80%":"35%"} onChange={(ev) => handleConfigEntry("configType",ev, index)}>
                                                         <option value="">Select a tab</option>
                                                         {DocumentConstants.ESIGN_AVAILABLE_TABS?.map((availableTab) => (
-                                                            <option value={availableTab.key} data-enableInput={availableTab.valueAccepted} >{availableTab.displayName}</option>
+                                                            <option value={availableTab.key} data-enableinput={availableTab.valueAccepted} >{availableTab.displayName}</option>
                                                         ))}
                                                     </Select>   
-                                                      <Input type="text" placeholder='Key' width= {config.valueAccepted?"70%":""} marginTop={2} onChange={(e) => handleConfigEntry("configKey",e.target.value, index)}  marginBottom={2}/>
+                                                      <Input type="text" placeholder='Key' value={config.key} width= {config.valueAccepted?"70%":""} marginTop={2} onChange={(e) => handleConfigEntry("configKey",e.target.value, index)}  marginBottom={2}/>
                                                     {config.valueAccepted?<>                                                      
-                                                      <Input type="text" placeholder='Value' width= {config.valueAccepted?"50%":""} onChange={(e) => handleConfigEntry("configValue",e.target.value, index)}  marginBottom={2}/>
+                                                      <Input type="text" placeholder='Value' value={config.value} width= {config.valueAccepted?"50%":""} onChange={(e) => handleConfigEntry("configValue",e.target.value, index)}  marginBottom={2}/>
                                                     </>:<></>}                                               
                                                     {index === 0?<>
                                                       <SmallAddIcon onClick={() => handleAddExtraRow("configData")}/>

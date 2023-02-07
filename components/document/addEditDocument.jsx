@@ -228,7 +228,7 @@ const AddEditDocument = (props) => {
                                 {eSignFeatureEnabled?<>
                                     <HStack spacing={9} marginBottom="1rem">
                                         <Box fontWeight="500"> eSignature Required?</Box>
-                                        <ESignEmailTos handleDocumentSignature={handleDocumentSignature} setEmailTo={setEmailTo}/>                                      
+                                        <ESignEmailTos handleDocumentSignature={handleDocumentSignature} setEmailTo={setEmailTo} documentType={documentType}/>                                      
                                     </HStack>  
                                     {emailTo?<>
                                         <ESignDetails emailTo={emailTo} setEmailTo={setEmailTo}/>
