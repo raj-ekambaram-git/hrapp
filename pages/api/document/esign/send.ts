@@ -5,7 +5,7 @@ const fs = require('fs');
 import axios from "axios";
 import prisma from "../../../../lib/prisma";
 import { DocumentCategory, DocumentStatus } from "@prisma/client";
-import {authenticate} from '../../../../helpers/api/eSignatureUtil'
+import {authenticate, populateTabsData} from '../../../../helpers/api/eSignatureUtil'
 
 const s3 = new S3({
   region: process.env.ACCESS_REGION,
@@ -41,6 +41,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       const envelopeArgs = {
           signerEmail: eSignSendRequest.esignDetails.recepientEmail,
           ccEmail: eSignSendRequest.esignDetails.ccEmail,
+          configData: eSignSendRequest.esignDetails.configData,
           status: "sent",
           documentName: eSignSendRequest.documentName,
           documentURL: viewFile,
@@ -165,6 +166,9 @@ const sendEnvelope = async (args) => {
         recipientId: indexVal+1,
         routingOrder: indexVal+1,
         });
+        signerObj.tab = populateTabsData(docusign, args.configData)
+        //Get Tabs Data for Signer 
+        
       //   let signHere1 = docusign.SignHere.constructFromObject({
       //     anchorString: "**signature_1**",
       //     anchorYOffset: "10",

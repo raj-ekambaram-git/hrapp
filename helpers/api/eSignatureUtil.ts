@@ -1,8 +1,31 @@
 const docusign = require('docusign-esign');
 const fs = require('fs');
 
-export { authenticate };
+export { authenticate, populateTabsData };
 
+function populateTabsData(docuSign, configData){
+  console.log("CONFIG DATA:::"+JSON.stringify(configData))
+
+
+  if(configData && configData.length > 0) {
+    configData?.map((config) => {
+
+      console.log("config::::"+JSON.stringify(config))
+      // let signHere1 = docuSign.SignHere.constructFromObject({
+      //   anchorString: "**signature_1**",
+      //   anchorYOffset: "10",
+      //   anchorUnits: "pixels",
+      //   anchorXOffset: "20",
+      // });
+      // // Tabs are set per recipient / signer
+      // let signerTabs = docuSign.Tabs.constructFromObject({
+      //   signHereTabs: [signHere1],
+      // });
+  
+    })
+
+  }
+}
 
 async function authenticate(SCOPES){
     const jwtLifeSec = 60 * 60, // requested lifetime for the JWT is 10 min
