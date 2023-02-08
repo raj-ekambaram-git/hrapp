@@ -1,13 +1,10 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+generator client {
+  provider = "prisma-client-js"
+}
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-}
-
-generator client {
-  provider = "prisma-client-js"
 }
 
 model Address {
@@ -26,15 +23,15 @@ model Address {
   createdDate    DateTime      @default(now())
   lastUpdateDate DateTime      @updatedAt
   status         AddressStatus
-  account        Account       @relation(fields: [accountId], references: [id])
   accountId      Int           @default(0)
-  User           User?         @relation(fields: [userId], references: [id])
   userId         Int?
-  Vendor         Vendor?       @relation(fields: [vendorId], references: [id])
   vendorId       Int?
-  project        Project[]
-  contact        Contact?      @relation(fields: [contactId], references: [id])
   contactId      Int?
+  account        Account       @relation(fields: [accountId], references: [id])
+  contact        Contact?      @relation(fields: [contactId], references: [id])
+  User           User?         @relation(fields: [userId], references: [id])
+  Vendor         Vendor?       @relation(fields: [vendorId], references: [id])
+  project        Project[]
 
   @@index([accountId])
   @@index([accountId, vendorId, userId])
@@ -43,7 +40,6 @@ model Address {
 
 model Account {
   id             Int              @id @default(autoincrement())
-  type           AccountType      @default(Trial)
   name           String
   description    String
   ein            String?          @unique
@@ -51,20 +47,21 @@ model Account {
   email          String
   phone          String           @default("111-111-1111")
   status         AccountStatus
-  updatedBy      User?            @relation("AccountUpdatedUser", fields: [updatedById], references: [id])
-  updatedById    Int?             @default(1)
   createdDate    DateTime         @default(now())
   lastUpdateDate DateTime         @updatedAt
+  updatedById    Int?             @default(1)
+  type           AccountType      @default(Trial)
   logoPath       String?
-  address        Address[]
-  invoice        Invoice[]
-  vendor         Vendor[]
-  user           User[]           @relation("UserAccount")
-  project        Project[]
+  updatedBy      User?            @relation("AccountUpdatedUser", fields: [updatedById], references: [id])
   accountConfig  AccountConfig[]
+  accoutFeatures AccoutFeatures[]
+  address        Address[]
   contact        Contact[]
   exportTemplate ExportTemplate[]
-  accoutFeatures AccoutFeatures[]
+  invoice        Invoice[]
+  project        Project[]
+  user           User[]           @relation("UserAccount")
+  vendor         Vendor[]
 }
 
 model Vendor {
@@ -74,43 +71,43 @@ model Vendor {
   email               String
   phone               String        @default("111-111-1111")
   type                VendorType    @default(Staffing)
-  address             Address[]
-  account             Account?      @relation(fields: [accountId], references: [id])
   accountId           Int?          @default(0)
   ein                 String        @unique
   bankDetails         String?
   status              VendorStatus
-  updatedBy           User?         @relation("VendorUpdatedUser", fields: [updatedById], references: [id])
-  updatedById         Int?          @default(1)
-  paymentTerms        PaymentTerms  @default(Net30)
   createdDate         DateTime      @default(now())
   accountContactName  String?
   accountContactEmail String?
   accountContactPhone String?
   lastUpdateDate      DateTime      @updatedAt
+  updatedById         Int?          @default(1)
+  paymentTerms        PaymentTerms  @default(Net30)
+  address             Address[]
   invoice             Invoice[]
   project             Project[]
+  account             Account?      @relation(fields: [accountId], references: [id])
+  updatedBy           User?         @relation("VendorUpdatedUser", fields: [updatedById], references: [id])
   vendorUsers         VendorUsers[]
 }
 
 model ProjectResource {
   id                  Int            @id @default(autoincrement())
-  project             Project?       @relation(fields: [projectId], references: [id])
   projectId           Int?           @default(1)
-  user                User?          @relation(fields: [userId], references: [id])
   userId              Int?           @default(1)
   unitPrice           Decimal?       @default(0)
   currency            Currency?
   quantity            Int?
-  billable            Boolean        @default(false)
   uom                 UnitOfMeasure?
   budgetAllocated     Decimal?       @default(0)
-  usedBudget          Decimal?       @default(0)
-  remainingBudget     Decimal?       @default(0)
-  cost                Decimal?       @default(0)
+  billable            Boolean        @default(false)
   isTimesheetApprover Boolean        @default(false)
+  remainingBudget     Decimal?       @default(0)
+  usedBudget          Decimal?       @default(0)
   fromDate            DateTime?
   toDate              DateTime?
+  cost                Decimal?       @default(0)
+  project             Project?       @relation(fields: [projectId], references: [id])
+  user                User?          @relation(fields: [userId], references: [id])
 
   @@unique([projectId, userId, billable])
 }
@@ -119,21 +116,21 @@ model Invoice {
   id                 Int                  @id @default(autoincrement())
   description        String               @default("")
   type               InvoiceType
-  vendor             Vendor?              @relation(fields: [vendorId], references: [id])
   vendorId           Int?                 @default(0)
-  account            Account?             @relation(fields: [accountId], references: [id])
   accountId          Int?                 @default(0)
-  project            Project?             @relation(fields: [projectId], references: [id])
   projectId          Int?                 @default(0)
   invoiceDate        DateTime             @default(now())
   dueDte             DateTime?
-  invoiceEmailTo     String[]
   total              Decimal              @default(0)
   paidAmount         Decimal?             @default(0)
   status             InvoiceStatus
   paymentTerms       PaymentTerms
   createdDate        DateTime             @default(now())
   lastUpdateDate     DateTime             @updatedAt
+  invoiceEmailTo     String[]
+  account            Account?             @relation(fields: [accountId], references: [id])
+  project            Project?             @relation(fields: [projectId], references: [id])
+  vendor             Vendor?              @relation(fields: [vendorId], references: [id])
   invoiceItems       InvoiceItem[]
   invoiceTransaction InvoiceTransaction[]
 
@@ -155,71 +152,70 @@ model InvoiceItem {
   total            Decimal           @default(0)
   status           InvoiceStatus
   generalNote      String?
-  user             User?             @relation(fields: [userId], references: [id])
   userId           Int?
-  timesheetEntry   TimesheetEntries? @relation(fields: [timesheetEntryId], references: [id])
-  timesheetEntryId Int?
-  expense          Expense?          @relation(fields: [expenseId], references: [id])
-  expenseId        Int?
-  invoice          Invoice?          @relation(fields: [invoiceId], references: [id])
-  invoiceId        Int?
   fromDate         DateTime?
   toDate           DateTime?
   createdDate      DateTime          @default(now())
   lastUpdateDate   DateTime          @updatedAt
+  invoiceId        Int?
+  timesheetEntryId Int?
   markForDelete    Boolean           @default(false)
+  expenseId        Int?
+  expense          Expense?          @relation(fields: [expenseId], references: [id])
+  invoice          Invoice?          @relation(fields: [invoiceId], references: [id])
+  timesheetEntry   TimesheetEntries? @relation(fields: [timesheetEntryId], references: [id])
+  user             User?             @relation(fields: [userId], references: [id])
 }
 
 model InvoiceTransaction {
   id              Int                      @id @default(autoincrement())
   amount          Decimal                  @default(0)
-  transactionId   String
   transactionData String
-  invoice         Invoice?                 @relation(fields: [invoiceId], references: [id])
   invoiceId       Int?
-  status          InvoiceTransactionStatus
   createdDate     DateTime                 @default(now())
   lastUpdatedDate DateTime                 @updatedAt
+  status          InvoiceTransactionStatus
+  transactionId   String
+  invoice         Invoice?                 @relation(fields: [invoiceId], references: [id])
 
   @@index([invoiceId, status])
   @@index([lastUpdatedDate, status])
 }
 
 model Project {
-  id                        Int               @id @default(autoincrement())
+  id                        Int                @id @default(autoincrement())
   name                      String
   referenceCode             String
-  description               String            @default("")
+  description               String             @default("")
   type                      InvoiceItemType
   invoiceCycle              InvoiceCycle
-  addressId                 Int               @default(0)
-  address                   Address?          @relation(fields: [addressId], references: [id])
-  vendorId                  Int               @default(0)
-  vendor                    Vendor?           @relation(fields: [vendorId], references: [id])
-  accountId                 Int               @default(0)
-  account                   Account?          @relation(fields: [accountId], references: [id])
-  budget                    Decimal           @default(0)
-  miscBudget                Decimal?          @default(0)
-  usedMiscBudget            Decimal?          @default(0)
-  remainingBudgetToAllocate Decimal           @default(0)
-  usedBudget                Decimal           @default(0)
-  totalHours                Int?              @default(0)
-  averageRate               Decimal?          @default(0)
-  timesheetNotesRequired    Boolean           @default(false)
-  parent                    ProjectRelation[] @relation("ParentProject")
-  child                     ProjectRelation[] @relation("ChildProject")
+  addressId                 Int                @default(0)
+  vendorId                  Int                @default(0)
+  accountId                 Int                @default(0)
+  budget                    Decimal            @default(0)
+  totalHours                Int?               @default(0)
+  averageRate               Decimal?           @default(0)
   status                    ProjectStatus
   contactName               String?
   contactEmail              String?
   contactPhone              String?
-  paymentTerms              PaymentTerms      @default(Net60)
-  createdDate               DateTime          @default(now())
-  lastUpdateDate            DateTime          @updatedAt
+  createdDate               DateTime           @default(now())
+  lastUpdateDate            DateTime           @updatedAt
+  remainingBudgetToAllocate Decimal            @default(0)
+  usedBudget                Decimal            @default(0)
+  paymentTerms              PaymentTerms       @default(Net60)
+  miscBudget                Decimal?           @default(0)
+  usedMiscBudget            Decimal?           @default(0)
+  timesheetNotesRequired    Boolean            @default(false)
+  expense                   Expense[]
   invoice                   Invoice[]
+  account                   Account            @relation(fields: [accountId], references: [id])
+  address                   Address            @relation(fields: [addressId], references: [id])
+  vendor                    Vendor             @relation(fields: [vendorId], references: [id])
+  child                     ProjectRelation[]  @relation("ChildProject")
+  parent                    ProjectRelation[]  @relation("ParentProject")
   projectResource           ProjectResource[]
-
-  timesheetEntries TimesheetEntries[]
-  expense          Expense[]
+  timesheetEntries          TimesheetEntries[]
 
   @@index([accountId, status])
 }
@@ -228,61 +224,60 @@ model User {
   id                 Int                @id @default(autoincrement())
   firstName          String
   lastName           String
-  type               UserType           @default(Employee)
-  userRole           Role[]
   email              String             @unique
   phone              String             @default("111-111-1111")
-  account            Account?           @relation("UserAccount", fields: [accountId], references: [id])
   accountId          Int?               @default(0)
   isTimeSheetEnabled Boolean            @default(false)
-  address            Address[]
-  userAttributes     UserAttributes[]
   status             UserStatus         @default(Active)
   password           String             @default("passw0rd")
+  createdDate        DateTime           @default(now())
+  lastUpdateDate     DateTime           @updatedAt
   passwordExpired    Boolean            @default(false)
   passwordRetries    Int                @default(1)
   passwordSalt       String             @default("123456xyz")
-  cost               Decimal?           @default(0)
   lastSignIn         DateTime           @default(now())
-  createdDate        DateTime           @default(now())
-  lastUpdateDate     DateTime           @updatedAt
+  type               UserType           @default(Employee)
+  userRole           Role[]
+  cost               Decimal?           @default(0)
+  accountUpdatedUser Account[]          @relation("AccountUpdatedUser")
+  accountConfig      AccountConfig[]
+  address            Address[]
+  appConfig          AppConfig[]
+  appConfigLookup    AppConfigLookup[]
+  document           Document[]
+  expensesApproved   Expense[]          @relation("ApprovedExpenses")
+  expenses           Expense[]          @relation("CreatedExpenses")
   invoiceItem        InvoiceItem[]
+  notes              Notes[]
   projectResource    ProjectResource[]
   timesheet          Timesheet[]
   timesheetEntries   TimesheetEntries[]
-  notes              Notes[]
-  vendorUsers        VendorUsers[]
-  expenses           Expense[]          @relation("CreatedExpenses")
-  expensesApproved   Expense[]          @relation("ApprovedExpenses")
-  accountUpdatedUser Account[]          @relation("AccountUpdatedUser")
+  account            Account?           @relation("UserAccount", fields: [accountId], references: [id])
+  userAttributes     UserAttributes[]
   vendorUpdatedUser  Vendor[]           @relation("VendorUpdatedUser")
-  document           Document[]
-  appConfigLookup    AppConfigLookup[]
-  appConfig          AppConfig[]
-  accountConfig      AccountConfig[]
+  vendorUsers        VendorUsers[]
 }
 
 model UserAttributes {
   id             Int      @id @default(autoincrement())
+  createdDate    DateTime @default(now())
+  lastUpdateDate DateTime @updatedAt
+  userId         Int
   key            String
   name           String
   value          String?
-  createdDate    DateTime @default(now())
-  lastUpdateDate DateTime @updatedAt
-
-  user   User @relation(fields: [userId], references: [id])
-  userId Int
+  user           User     @relation(fields: [userId], references: [id])
 }
 
 model VendorUsers {
   id             Int              @id @default(autoincrement())
-  vendor         Vendor?          @relation(fields: [vendorId], references: [id])
   vendorId       Int?             @default(0)
-  user           User?            @relation(fields: [userId], references: [id])
   userId         Int?             @default(0)
   status         VendorUserStatus
   createdDate    DateTime         @default(now())
   lastUpdateDate DateTime         @updatedAt
+  user           User?            @relation(fields: [userId], references: [id])
+  vendor         Vendor?          @relation(fields: [vendorId], references: [id])
 
   @@unique([vendorId, userId])
 }
@@ -291,13 +286,13 @@ model Timesheet {
   id               Int                @id @default(autoincrement())
   name             String             @default("")
   type             TimesheetType
-  user             User?              @relation(fields: [userId], references: [id])
   userId           Int?               @default(1)
-  status           TimesheetStatus
   createdDate      DateTime           @default(now())
   lastUpdateDate   DateTime           @updatedAt
-  timesheetEntries TimesheetEntries[]
+  status           TimesheetStatus
   startDate        DateTime?
+  user             User?              @relation(fields: [userId], references: [id])
+  timesheetEntries TimesheetEntries[]
 
   @@unique([userId, name])
 }
@@ -305,23 +300,23 @@ model Timesheet {
 model Expense {
   id                 Int                  @id @default(autoincrement())
   name               String
-  category           ExpenseCategory      @default(General)
-  description        String?
   billable           Boolean?             @default(false)
   total              Decimal              @default(0)
   paidAmount         Decimal              @default(0)
-  project            Project?             @relation(fields: [projectId], references: [id])
   projectId          Int?                 @default(1)
   status             ExpenseStatus
-  approvedBy         User?                @relation("ApprovedExpenses", fields: [approvedById], references: [id])
   approvedById       Int?                 @default(1)
-  approvedDate       DateTime?
-  user               User?                @relation("CreatedExpenses", fields: [userId], references: [id])
   userId             Int?                 @default(1)
   createdDate        DateTime             @default(now())
   lastUpdateDate     DateTime             @updatedAt
-  expenseTransaction ExpenseTransaction[]
+  approvedDate       DateTime?
+  description        String?
+  category           ExpenseCategory      @default(General)
+  approvedBy         User?                @relation("ApprovedExpenses", fields: [approvedById], references: [id])
+  project            Project?             @relation(fields: [projectId], references: [id])
+  user               User?                @relation("CreatedExpenses", fields: [userId], references: [id])
   expenseEntries     ExpenseEntry[]
+  expenseTransaction ExpenseTransaction[]
   InvoiceItem        InvoiceItem[]
 
   @@index([projectId, status])
@@ -332,11 +327,11 @@ model ExpenseTransaction {
   amount          Decimal                  @default(0)
   transactionId   String
   transactionData String
-  expense         Expense?                 @relation(fields: [expenseId], references: [id])
   expenseId       Int?
   status          ExpenseTransactionStatus
   createdDate     DateTime                 @default(now())
   lastUpdatedDate DateTime                 @updatedAt
+  expense         Expense?                 @relation(fields: [expenseId], references: [id])
 
   @@index([expenseId, id, status, createdDate])
   @@index([expenseId, id, status])
@@ -347,47 +342,47 @@ model ExpenseEntry {
   type           ExpenseType
   billable       Boolean            @default(false)
   expenseDate    DateTime
-  date           DateTime?
   amount         Decimal            @default(0)
-  attachments    String[]
   status         ExpenseEntryStatus
-  notes          String?
   createdDate    DateTime           @default(now())
   lastUpdateDate DateTime           @updatedAt
-  expense        Expense?           @relation(fields: [expenseId], references: [id])
   expenseId      Int?
+  notes          String?
+  date           DateTime?
+  attachments    String[]
+  expense        Expense?           @relation(fields: [expenseId], references: [id])
 }
 
 model Calendar {
-  dateDimId            Int      @id
   dateActual           DateTime
-  epoch                BigInt
-  daySuffix            String
+  dateDimId            Int      @id
   dayName              String
-  dayOfWeek            Int
   dayOfMonth           Int
   dayOfQuarter         Int
+  dayOfWeek            Int
   dayOfYear            Int
-  weekOfMonth          Int
-  weekOfYear           Int
-  weekOfYearISO        String
+  daySuffix            String
+  epoch                BigInt
+  firstDayOfMonth      DateTime
+  firstDayOfQuarter    DateTime
+  firstDayOfWeek       DateTime
+  firstDayOfYear       DateTime
+  lastDayOfMonth       DateTime
+  lastDayOfQuarter     DateTime
+  lastDayOfWeek        DateTime
+  lastDayOfYear        DateTime
+  mmddyyyy             String
+  mmyyyy               String
   monthActual          Int
   monthName            String
   monthNameAbbreviated String
   quarterActual        Int
-  yearActual           Int
-  firstDayOfWeek       DateTime
-  lastDayOfWeek        DateTime
-  firstDayOfMonth      DateTime
-  lastDayOfMonth       DateTime
-  firstDayOfQuarter    DateTime
-  lastDayOfQuarter     DateTime
-  firstDayOfYear       DateTime
-  lastDayOfYear        DateTime
-  mmyyyy               String
-  mmddyyyy             String
-  mmdd                 String
+  weekOfMonth          Int
+  weekOfYear           Int
+  weekOfYearISO        String
   weekend              Boolean
+  yearActual           Int
+  mmdd                 String
   currentWeekDates     Json
 
   @@index([dateActual])
@@ -397,16 +392,16 @@ model Document {
   id             Int              @id @default(autoincrement())
   name           String
   type           DocumentType
-  category       DocumentCategory @default(Upload)
   typeId         Int
   urlPath        String
-  emailTo        String[]
   status         DocumentStatus
-  configData     Json?
-  createdUser    User?            @relation(fields: [createdBy], references: [id])
   createdBy      Int?
   createdDate    DateTime         @default(now())
   lastUpdateDate DateTime         @default(now()) @updatedAt
+  category       DocumentCategory @default(Upload)
+  emailTo        String[]
+  configData     Json?
+  createdUser    User?            @relation(fields: [createdBy], references: [id])
 
   @@index([createdBy])
   @@index([createdBy, status])
@@ -418,38 +413,38 @@ model Document {
 
 model TimesheetEntries {
   id             Int             @id @default(autoincrement())
-  timesheet      Timesheet?      @relation(fields: [timesheetId], references: [id])
   timesheetId    Int?
-  project        Project?        @relation(fields: [projectId], references: [id])
   projectId      Int?            @default(1)
   status         TimesheetStatus
   approvedDate   DateTime?
-  approvedUser   User?           @relation(fields: [approvedBy], references: [id])
-  approvedBy     Int?
   entries        Json
-  unitPrice      Decimal?        @default(0)
-  cost           Decimal?        @default(0)
-  billable       Boolean?        @default(false)
-  settled        Boolean?        @default(false)
-  notesRequired  Boolean         @default(false)
   createdDate    DateTime        @default(now())
   lastUpdateDate DateTime        @default(now()) @updatedAt
+  approvedBy     Int?
+  unitPrice      Decimal?        @default(0)
+  notesRequired  Boolean         @default(false)
+  billable       Boolean?        @default(false)
+  settled        Boolean?        @default(false)
+  cost           Decimal?        @default(0)
   invoiceItem    InvoiceItem[]
+  approvedUser   User?           @relation(fields: [approvedBy], references: [id])
+  project        Project?        @relation(fields: [projectId], references: [id])
+  timesheet      Timesheet?      @relation(fields: [timesheetId], references: [id])
 }
 
 model Notes {
-  id              Int        @id @default(autoincrement())
-  mode            NotesMode  @default(New)
-  type            NotesType
-  subTyle         NotesType?
-  typeId          Int
-  notes           String
-  replies         Notes[]    @relation("replies")
-  repliesRelation Notes[]    @relation("replies")
-  createdUser     User?      @relation(fields: [createdBy], references: [id])
-  createdBy       Int?
-  createdDate     DateTime   @default(now())
-  lastUpdateDate  DateTime   @default(now()) @updatedAt
+  id             Int        @id @default(autoincrement())
+  type           NotesType
+  typeId         Int
+  notes          String
+  createdDate    DateTime   @default(now())
+  lastUpdateDate DateTime   @default(now()) @updatedAt
+  createdBy      Int?
+  mode           NotesMode  @default(New)
+  subTyle        NotesType?
+  createdUser    User?      @relation(fields: [createdBy], references: [id])
+  Notes_A        Notes[]    @relation("replies")
+  Notes_B        Notes[]    @relation("replies")
 
   @@index([type, typeId])
 }
@@ -460,25 +455,25 @@ model AppConfigLookup {
   displayName       String
   configDescription String
   type              ConfigType
-  value             Json
   status            ConfigStatus
   configInputType   ConfigInputType
-  updatedUser       User?           @relation(fields: [updatedBy], references: [id])
   updatedBy         Int?
   createdDate       DateTime        @default(now())
   lastUpdateDate    DateTime        @default(now()) @updatedAt
+  value             Json
+  updatedUser       User?           @relation(fields: [updatedBy], references: [id])
 }
 
 model AppConfig {
   id             Int          @id @default(autoincrement())
   name           String
-  key            String
-  value          String[]
   status         ConfigStatus
-  updatedUser    User?        @relation(fields: [updatedBy], references: [id])
-  updatedBy      Int?
   createdDate    DateTime     @default(now())
   lastUpdateDate DateTime     @default(now()) @updatedAt
+  key            String
+  updatedBy      Int?
+  value          String[]
+  updatedUser    User?        @relation(fields: [updatedBy], references: [id])
 
   @@index([key])
   @@index([name])
@@ -490,13 +485,13 @@ model AccountConfig {
   id             Int          @id @default(autoincrement())
   name           String
   accountId      Int          @default(0)
-  account        Account?     @relation(fields: [accountId], references: [id])
   configKey      String
   configValue    String
   status         ConfigStatus
-  updatedUser    User?        @relation(fields: [updatedBy], references: [id])
-  updatedBy      Int?
   lastUpdateDate DateTime     @default(now()) @updatedAt
+  updatedBy      Int?
+  account        Account      @relation(fields: [accountId], references: [id])
+  updatedUser    User?        @relation(fields: [updatedBy], references: [id])
 }
 
 model Contact {
@@ -505,11 +500,11 @@ model Contact {
   lastName     String
   email        String
   phone        String
-  account      Account       @relation(fields: [accountId], references: [id])
-  accountId    Int           @default(0)
-  address      Address[]
-  receiveEmail Boolean       @default(false)
   status       ContactStatus
+  accountId    Int           @default(0)
+  receiveEmail Boolean       @default(false)
+  address      Address[]
+  account      Account       @relation(fields: [accountId], references: [id])
 }
 
 model ContactAssociation {
@@ -521,27 +516,27 @@ model ContactAssociation {
 
 model ProjectRelation {
   id             Int      @id @default(autoincrement())
-  parent         Project? @relation("ParentProject", fields: [parentId], references: [id])
   parentId       Int?     @default(1)
-  child          Project? @relation("ChildProject", fields: [childId], references: [id])
   childId        Int?     @default(1)
   createdDate    DateTime @default(now())
   lastUpdateDate DateTime @default(now()) @updatedAt
+  child          Project? @relation("ChildProject", fields: [childId], references: [id])
+  parent         Project? @relation("ParentProject", fields: [parentId], references: [id])
 }
 
 model ExportTemplate {
   id             Int                  @id @default(autoincrement())
-  type           ExportTemplateType
   name           String
-  fileName       String               @default("fileName")
-  account        Account?             @relation(fields: [accountId], references: [id])
   accountId      Int?                 @default(0)
-  template       String?
-  queryMeta      Json
   fileType       ExportFileType?
   status         ExportTemplateStatus
   createdDate    DateTime             @default(now())
   lastUpdateDate DateTime             @default(now()) @updatedAt
+  queryMeta      Json
+  type           ExportTemplateType
+  fileName       String               @default("fileName")
+  template       String?
+  account        Account?             @relation(fields: [accountId], references: [id])
 }
 
 model Feature {
@@ -554,18 +549,183 @@ model Feature {
 
 model AccoutFeatures {
   id             Int                  @id @default(autoincrement())
-  account        Account              @relation(fields: [accountId], references: [id])
   accountId      Int                  @default(0)
-  feature        Feature              @relation(fields: [featureId], references: [id])
   featureId      Int                  @default(0)
-  configuration  Json?
   status         AccountFeatureStatus
   createdDate    DateTime             @default(now())
   lastUpdateDate DateTime             @default(now()) @updatedAt
+  configuration  Json?
+  account        Account              @relation(fields: [accountId], references: [id])
+  feature        Feature              @relation(fields: [featureId], references: [id])
 
   @@unique([accountId, featureId])
   @@index([accountId, status])
   @@index([featureId, status])
+}
+
+model qrtz_blob_triggers {
+  trigger_name  String        @db.VarChar(80)
+  trigger_group String        @db.VarChar(80)
+  blob_data     String?
+  sched_name    String        @default("TestScheduler") @db.VarChar(120)
+  qrtz_triggers qrtz_triggers @relation(fields: [sched_name, trigger_name, trigger_group], references: [sched_name, trigger_name, trigger_group], onDelete: NoAction, onUpdate: NoAction, map: "qrtz_blob_triggers_sched_name_fkey")
+
+  @@id([sched_name, trigger_name, trigger_group])
+}
+
+model qrtz_calendars {
+  calendar_name String @db.VarChar(80)
+  calendar      String
+  sched_name    String @default("TestScheduler") @db.VarChar(120)
+
+  @@id([sched_name, calendar_name])
+}
+
+model qrtz_cron_triggers {
+  trigger_name    String        @db.VarChar(80)
+  trigger_group   String        @db.VarChar(80)
+  cron_expression String        @db.VarChar(80)
+  time_zone_id    String?       @db.VarChar(80)
+  sched_name      String        @default("TestScheduler") @db.VarChar(120)
+  qrtz_triggers   qrtz_triggers @relation(fields: [sched_name, trigger_name, trigger_group], references: [sched_name, trigger_name, trigger_group], onDelete: NoAction, onUpdate: NoAction, map: "qrtz_cron_triggers_sched_name_fkey")
+
+  @@id([sched_name, trigger_name, trigger_group])
+}
+
+model qrtz_fired_triggers {
+  entry_id          String   @db.VarChar(95)
+  trigger_name      String   @db.VarChar(80)
+  trigger_group     String   @db.VarChar(80)
+  instance_name     String   @db.VarChar(80)
+  fired_time        BigInt
+  priority          Int
+  state             String   @db.VarChar(16)
+  job_name          String?  @db.VarChar(80)
+  job_group         String?  @db.VarChar(80)
+  is_nonconcurrent  Boolean?
+  is_update_data    Boolean?
+  sched_name        String   @default("TestScheduler") @db.VarChar(120)
+  sched_time        BigInt
+  requests_recovery Boolean?
+
+  @@id([sched_name, entry_id])
+  @@index([sched_name, job_name, job_group], map: "idx_qrtz_ft_j_g")
+  @@index([sched_name, job_group], map: "idx_qrtz_ft_jg")
+  @@index([sched_name, trigger_name, trigger_group], map: "idx_qrtz_ft_t_g")
+  @@index([sched_name, trigger_group], map: "idx_qrtz_ft_tg")
+  @@index([sched_name, instance_name], map: "idx_qrtz_ft_trig_inst_name")
+}
+
+model qrtz_job_details {
+  job_name          String          @db.VarChar(128)
+  job_group         String          @db.VarChar(80)
+  description       String?         @db.VarChar(120)
+  job_class_name    String          @db.VarChar(200)
+  is_durable        Boolean?
+  is_nonconcurrent  Boolean?
+  is_update_data    Boolean?
+  sched_name        String          @default("TestScheduler") @db.VarChar(120)
+  requests_recovery Boolean?
+  job_data          Bytes?
+  qrtz_triggers     qrtz_triggers[]
+
+  @@id([sched_name, job_name, job_group])
+  @@index([sched_name, job_group], map: "idx_qrtz_j_grp")
+}
+
+model qrtz_locks {
+  lock_name  String @db.VarChar(40)
+  sched_name String @default("TestScheduler") @db.VarChar(120)
+
+  @@id([sched_name, lock_name])
+}
+
+model qrtz_paused_trigger_grps {
+  trigger_group String @db.VarChar(80)
+  sched_name    String @default("TestScheduler") @db.VarChar(120)
+
+  @@id([sched_name, trigger_group])
+}
+
+model qrtz_scheduler_state {
+  instance_name     String  @db.VarChar(200)
+  last_checkin_time BigInt?
+  checkin_interval  BigInt?
+  sched_name        String  @default("TestScheduler") @db.VarChar(120)
+
+  @@id([sched_name, instance_name])
+}
+
+model qrtz_simple_triggers {
+  trigger_name    String        @db.VarChar(80)
+  trigger_group   String        @db.VarChar(80)
+  repeat_count    BigInt
+  repeat_interval BigInt
+  times_triggered BigInt
+  sched_name      String        @default("TestScheduler") @db.VarChar(120)
+  qrtz_triggers   qrtz_triggers @relation(fields: [sched_name, trigger_name, trigger_group], references: [sched_name, trigger_name, trigger_group], onDelete: NoAction, onUpdate: NoAction, map: "qrtz_simple_triggers_sched_name_fkey")
+
+  @@id([sched_name, trigger_name, trigger_group])
+  @@index([trigger_name, trigger_group], map: "fki_qrtz_simple_triggers_qrtz_triggers")
+}
+
+model qrtz_simprop_triggers {
+  sched_name    String        @db.VarChar(120)
+  trigger_name  String        @db.VarChar(200)
+  trigger_group String        @db.VarChar(200)
+  str_prop_1    String?       @db.VarChar(512)
+  str_prop_2    String?       @db.VarChar(512)
+  str_prop_3    String?       @db.VarChar(512)
+  int_prop_1    Int?
+  int_prop_2    Int?
+  long_prop_1   BigInt?
+  long_prop_2   BigInt?
+  dec_prop_1    Decimal?      @db.Decimal(13, 4)
+  dec_prop_2    Decimal?      @db.Decimal(13, 4)
+  bool_prop_1   Boolean?
+  bool_prop_2   Boolean?
+  qrtz_triggers qrtz_triggers @relation(fields: [sched_name, trigger_name, trigger_group], references: [sched_name, trigger_name, trigger_group], onDelete: NoAction, onUpdate: NoAction, map: "qrtz_simprop_triggers_sched_name_fkey")
+
+  @@id([sched_name, trigger_name, trigger_group])
+}
+
+model qrtz_triggers {
+  trigger_name          String                 @db.VarChar(80)
+  trigger_group         String                 @db.VarChar(80)
+  job_name              String                 @db.VarChar(80)
+  job_group             String                 @db.VarChar(80)
+  description           String?                @db.VarChar(120)
+  next_fire_time        BigInt?
+  prev_fire_time        BigInt?
+  priority              Int?
+  trigger_state         String                 @db.VarChar(16)
+  trigger_type          String                 @db.VarChar(8)
+  start_time            BigInt
+  end_time              BigInt?
+  calendar_name         String?                @db.VarChar(80)
+  misfire_instr         Int?                   @db.SmallInt
+  job_data              Bytes?
+  sched_name            String                 @default("TestScheduler") @db.VarChar(120)
+  qrtz_blob_triggers    qrtz_blob_triggers?
+  qrtz_cron_triggers    qrtz_cron_triggers?
+  qrtz_simple_triggers  qrtz_simple_triggers?
+  qrtz_simprop_triggers qrtz_simprop_triggers?
+  qrtz_job_details      qrtz_job_details       @relation(fields: [sched_name, job_name, job_group], references: [sched_name, job_name, job_group], onDelete: NoAction, onUpdate: NoAction, map: "qrtz_triggers_sched_name_fkey")
+
+  @@id([sched_name, trigger_name, trigger_group])
+  @@index([job_name, job_group], map: "fki_qrtz_simple_triggers_job_details_name_group")
+  @@index([sched_name, calendar_name], map: "idx_qrtz_t_c")
+  @@index([sched_name, trigger_group], map: "idx_qrtz_t_g")
+  @@index([sched_name, job_name, job_group], map: "idx_qrtz_t_j")
+  @@index([sched_name, job_group], map: "idx_qrtz_t_jg")
+  @@index([sched_name, trigger_group, trigger_state], map: "idx_qrtz_t_n_g_state")
+  @@index([sched_name, trigger_name, trigger_group, trigger_state], map: "idx_qrtz_t_n_state")
+  @@index([sched_name, next_fire_time], map: "idx_qrtz_t_next_fire_time")
+  @@index([sched_name, misfire_instr, next_fire_time], map: "idx_qrtz_t_nft_misfire")
+  @@index([sched_name, trigger_state, next_fire_time], map: "idx_qrtz_t_nft_st")
+  @@index([sched_name, misfire_instr, next_fire_time, trigger_state], map: "idx_qrtz_t_nft_st_misfire")
+  @@index([sched_name, misfire_instr, next_fire_time, trigger_group, trigger_state], map: "idx_qrtz_t_nft_st_misfire_grp")
+  @@index([sched_name, trigger_state], map: "idx_qrtz_t_state")
 }
 
 enum AccountFeatureStatus {
@@ -642,8 +802,8 @@ enum Role {
   ACCOUNT_USER
   ACCOUNT_VENDOR_EMPLOYEE
   ACCOUNT_VENDOR_CONTRACTOR
-  ACCOUNT_MANAGER
   DEVELOPER
+  ACCOUNT_MANAGER
 }
 
 enum VendorType {
@@ -665,8 +825,8 @@ enum AccountStatus {
   Active
   Inactive
   Fraud
-  Approved
   MarkForDelete
+  Approved
 }
 
 enum AddressStatus {
@@ -676,11 +836,11 @@ enum AddressStatus {
 }
 
 enum InvoiceType {
-  General
   Staffing
   Product
   Project
   Timesheet
+  General
   Expense
   Misc
 }
@@ -705,25 +865,25 @@ enum InvoiceStatus {
 }
 
 enum PaymentTerms {
-  Net7
-  Net15
   Net30
   Net45
   Net60
   Net90
   Net180
   Net365
+  Net7
+  Net15
 }
 
 enum InvoiceItemType {
   General
-  Staffing
-  Product
   Project
-  Services
+  Staffing
   Timesheet
+  Product
   Expense
   Misc
+  Services
 }
 
 enum UnitOfMeasure {
@@ -754,12 +914,12 @@ enum TimesheetType {
 enum TimesheetStatus {
   Draft
   Saved
-  Submitted
   Approved
   Rejected
   Invoiced
-  Settled
+  Submitted
   MarkForDelete
+  Settled
 }
 
 enum DocumentType {
@@ -779,10 +939,10 @@ enum NotesType {
   Timesheet
   Account
   Invoice
-  Vendor
   Project
   User
   TimesheetEntry
+  Vendor
   TimesheetApproval
   Expense
   ExpenseEntry
@@ -854,7 +1014,6 @@ enum ExpenseType {
 
 enum ExpenseEntryStatus {
   Draft
-  Saved
   Submitted
   Approved
   Rejected
@@ -862,12 +1021,12 @@ enum ExpenseEntryStatus {
   PartiallyPaid
   Pending
   Cancelled
+  Saved
   MarkForDelete
 }
 
 enum ExpenseStatus {
   Draft
-  Saved
   Submitted
   Approved
   Rejected
@@ -875,6 +1034,7 @@ enum ExpenseStatus {
   PartiallyPaid
   Pending
   Cancelled
+  Saved
   Invoiced
   MarkForDelete
 }
