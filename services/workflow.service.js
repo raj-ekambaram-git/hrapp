@@ -10,9 +10,32 @@ export const workFlowService = {
     getTasksByAccount,
     createTask,
     updateTask,
+    getTaskListByType,
+    getAssignedToList,
     
 };
 
+function getTaskListByType(type, typeId, accountId) {
+    return fetchWrapper.get(`${baseUrl}/account/`+accountId+`/workflow/type/`+type, {})
+    .then(tasks => {
+        return tasks;
+    })  
+    .catch(err => {
+        console.log("Error getTaskListByType"+err)
+        return {errorMessage: err, error: true};
+    });
+}
+
+function getAssignedToList(accountId) {
+    return fetchWrapper.get(`${baseUrl}/account/`+accountId+`/workflow/admins`, {})
+    .then(tasks => {
+        return tasks;
+    })  
+    .catch(err => {
+        console.log("Error getAssignedToList"+err)
+        return {errorMessage: err, error: true};
+    });
+}
 
 function updateTask(taskRequest, taskId, accountId) {
     return fetchWrapper.put(`${baseUrl}/account/`+accountId+`/workflow/task/`+taskId, {taskRequest})

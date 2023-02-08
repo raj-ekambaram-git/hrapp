@@ -442,18 +442,18 @@ model TimesheetEntries {
 }
 
 model Notes {
-  id             Int        @id @default(autoincrement())
-  type           NotesType
-  typeId         Int
-  notes          String
-  createdDate    DateTime   @default(now())
-  lastUpdateDate DateTime   @default(now()) @updatedAt
-  createdBy      Int?
-  mode           NotesMode  @default(New)
-  subTyle        NotesType?
-  createdUser    User?      @relation(fields: [createdBy], references: [id])
-  Notes_A        Notes[]    @relation("replies")
-  Notes_B        Notes[]    @relation("replies")
+  id              Int        @id @default(autoincrement())
+  type            NotesType
+  typeId          Int
+  notes           String
+  createdDate     DateTime   @default(now())
+  lastUpdateDate  DateTime   @default(now()) @updatedAt
+  createdBy       Int?
+  mode            NotesMode  @default(New)
+  subTyle         NotesType?
+  createdUser     User?      @relation(fields: [createdBy], references: [id])
+  replies         Notes[]    @relation("replies")
+  repliesRelation Notes[]    @relation("replies")
 
   @@index([type, typeId])
 }
@@ -624,7 +624,7 @@ model WorkFlowStep {
   taskId         Int                @default(0)
   assigned       User?              @relation(fields: [assignedTo], references: [id])
   assignedTo     Int?
-  dueDate        DateTime?  
+  dueDate        DateTime?
   configData     Json?
   status         WorkFlowStepStatus
   createdDate    DateTime           @default(now())

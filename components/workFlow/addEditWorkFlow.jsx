@@ -27,6 +27,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { EMPTY_STRING } from "../../constants";
 import {WorkFlowConstants} from '../../constants/workFlowConstants'
 import { SmallAddIcon, SmallCloseIcon } from "@chakra-ui/icons";
+import { userService, workFlowService } from "../../services";
 
 
 const AddEditWorkFlow = (props) => {
@@ -37,10 +38,24 @@ const AddEditWorkFlow = (props) => {
   const [status, setStatus] = useState(EMPTY_STRING);
   const [name, setName] = useState(EMPTY_STRING);
   const [steps, setSteps] = useState([{}]);
+  const [tasks, setTasks] = useState();
+  const [assignedTos, setAssignedTos] = useState();
 
   const handleClick = (newSize) => {
     setSize(newSize)
     onOpen()
+    getTaskList()
+    getAssignedToList()
+  }
+
+  const getTaskList = async() => {
+    const responseData = await workFlowService.getTaskListByType(props.type, userService.getAccountDetails().accountId)
+    setTasks(responseData)
+  }
+
+  const getAssignedToList = async() => {
+    const responseData = await workFlowService.getAssignedToList(userService.getAccountDetails().accountId)
+    setAssignedTos(responseData)
   }
 
   const handleSaveWorkFlow = () => {
