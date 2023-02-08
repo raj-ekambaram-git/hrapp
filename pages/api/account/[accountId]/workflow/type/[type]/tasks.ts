@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import { NotesType, Role, UserStatus, VendorStatus } from "@prisma/client";
+import { NotesType, Role, UserStatus, VendorStatus, WorkFlowTaskStatus } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next"
 import prisma from "../../../../../../../lib/prisma";
 
@@ -22,6 +22,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             },
             type: {
               equals: NotesType[type.toString()]
+            },
+            status: {
+              equals: WorkFlowTaskStatus.Active
             }
 
         },

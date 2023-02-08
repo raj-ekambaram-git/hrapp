@@ -79,6 +79,19 @@ const AddEditWorkFlow = (props) => {
     }
   }
 
+  const handleStepEntry = (inpputType, inputValue, index) => {
+    const newSteps = [...steps]
+    
+    if(inpputType === "task") {
+        newSteps[index]["task"]= inputValue.target.value
+    }else if (inpputType === "assignedTo") {
+      // newConfigData[index]["key"]= "***"+inputValue+"***/"
+      newSteps[index]["assignedTo"]=inputValue.target.value
+    } else if (inpputType === "dueDate") {
+        newSteps[index]["dueDate"]= inputValue
+    }
+    setSteps(newSteps)    
+  }
   return (
 
     <div>
