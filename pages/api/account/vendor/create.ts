@@ -9,12 +9,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   try {
+    console.log("req.body:::"+JSON.stringify(req.body))
     const vendor = req.body;
 
     console.log("Vendor cretion::"+JSON.stringify(vendor))
     
     const savedVendor = await prisma.vendor.create({
-      data: vendor
+      data: vendor.createData
     });
     res.status(200).json(savedVendor);
   } catch (error) {

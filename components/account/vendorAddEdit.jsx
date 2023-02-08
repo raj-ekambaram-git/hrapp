@@ -166,6 +166,7 @@ const VendorEdit = (props) => {
     try {
       console.log("Create Veendorrr::"+JSON.stringify(formData)+"****workFlowEnabled::"+enableWorkFlow+"***WORKFLOW:::"+JSON.stringify(workFlow))
         if(enableWorkFlow) {
+          setValue("workFlowEnabled", true)
           //Check of name, status and steps are there
           if(workFlow && workFlow.name && workFlow.status && workFlow.steps) {
             console.log("Everything present so we are good.")
@@ -181,7 +182,8 @@ const VendorEdit = (props) => {
             return;  
           }
         }
-        const responseData = vendorService.createVendor(formData);
+        const responseData = await vendorService.createVendor(formData, workFlow);
+        console.log("responseData:::VREATE VENDOR::"+JSON.stringify(responseData))
         if(responseData.error) {
           toast({
             title: 'Add Vendor Error.',
@@ -212,6 +214,7 @@ const VendorEdit = (props) => {
         duration: 9000,
         isClosable: true,
       })    
+      return;
     }
   };
 
@@ -221,7 +224,7 @@ const VendorEdit = (props) => {
   const updateVendor = async (vendorId, formData) => {
     console.log("JSON Data::"+JSON.stringify(formData))
     try {
-      const responseData = vendorService.updateVendor(formData, vendorId, vendor.addressId)
+      const responseData = await vendorService.updateVendor(formData, vendorId, vendor.addressId)
       if(responseData.error) {
         toast({
           title: 'Update Vendor Error.',
@@ -231,6 +234,7 @@ const VendorEdit = (props) => {
           duration: 3000,
           isClosable: true,
         })    
+        return;
       } else {
         toast({
           title: 'Vendor Updated.',

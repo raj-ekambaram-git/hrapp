@@ -28,8 +28,10 @@ function getVendorReportData(vendorId, accountId) {
      });
 }
 
-function createVendor(formData) {
+function createVendor(formData, workFlow) {
+  console.log("createVendor:::"+JSON.stringify(workFlow))
   return fetchWrapper.post(`${baseUrl}/account/vendor/create`, {
+     createData: {
       name: formData.name,
       description: formData.description,
       address: {
@@ -58,8 +60,10 @@ function createVendor(formData) {
       accountContactName: formData.accountContactName,
       accountContactEmail: formData.accountContactEmail,
       accountContactPhone: formData.accountContactPhone,
-      updatedById: userService?.userValue?.id
-
+      updatedById: userService?.userValue?.id,
+      workFlowEnabled: formData.workFlowEnabled?true:false
+     },
+     workFlow
     })
     .then(vendor => {
       return vendor;
