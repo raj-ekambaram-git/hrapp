@@ -164,12 +164,10 @@ const VendorEdit = (props) => {
   // Create Account 
   const createVendor = async (formData) => {
     try {
-      console.log("Create Veendorrr::"+JSON.stringify(formData)+"****workFlowEnabled::"+enableWorkFlow+"***WORKFLOW:::"+JSON.stringify(workFlow))
         if(enableWorkFlow) {
-          setValue("workFlowEnabled", true)
           //Check of name, status and steps are there
           if(workFlow && workFlow.name && workFlow.status && workFlow.steps) {
-            console.log("Everything present so we are good.")
+            formData.workFlowEnabled = true;
           } else {
             toast({
               title: 'Add Vendor Error.',
@@ -183,7 +181,6 @@ const VendorEdit = (props) => {
           }
         }
         const responseData = await vendorService.createVendor(formData, workFlow);
-        console.log("responseData:::VREATE VENDOR::"+JSON.stringify(responseData))
         if(responseData.error) {
           toast({
             title: 'Add Vendor Error.',
@@ -316,7 +313,8 @@ const VendorEdit = (props) => {
                           </FormControl>    
                           </Box>  
                           {enableWorkFlow?<>
-                            <Box alignItems="center">    
+                            <Box alignItems="center">   
+                              ----{JSON.stringify(workFlow)} 
                               <AddEditWorkFlow isAddMode={isAddMode} workFlow={workFlow} setWorkFlow={setWorkFlow} type="Vendor"/>                       
                             </Box>                              
                           </>:<></>}

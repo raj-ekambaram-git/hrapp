@@ -29,7 +29,6 @@ function getVendorReportData(vendorId, accountId) {
 }
 
 function createVendor(formData, workFlow) {
-  console.log("createVendor:::"+JSON.stringify(workFlow))
   return fetchWrapper.post(`${baseUrl}/account/vendor/create`, {
      createData: {
       name: formData.name,

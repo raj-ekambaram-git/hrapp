@@ -31,6 +31,7 @@ import { SmallAddIcon, SmallCloseIcon } from "@chakra-ui/icons";
 import { userService, workFlowService } from "../../services";
 import { util, workFlowUtil } from "../../helpers";
 import DatePicker from "../common/datePicker";
+import { WorkFlowStepStatus } from "@prisma/client";
 
 
 const AddEditWorkFlow = (props) => {
@@ -73,7 +74,8 @@ const AddEditWorkFlow = (props) => {
             const workFlowData = {
                 name: name,
                 status: status,
-                steps: steps
+                steps: steps,
+                userId: userService.userValue.id
             }
             props.setWorkFlow(workFlowData)
             onClose()
@@ -103,7 +105,7 @@ const AddEditWorkFlow = (props) => {
   }
 
 
-  const handleAddExtraRow = (inputType) => {
+  const handleAddExtraRow = (inputType, index) => {
     if(inputType === "steps") {
       const newSteps = [...steps]
       newSteps.push({})
@@ -121,14 +123,14 @@ const AddEditWorkFlow = (props) => {
 
   const handleStepEntry = (inpputType, inputValue, index) => {
     const newSteps = [...steps]
-    if(inpputType === "task") {
-        newSteps[index]["task"]= inputValue.target.value
-    }else if (inpputType === "assignedTo") {
-      // newConfigData[index]["key"]= "***"+inputValue+"***/"
+    if(inpputType === "taskId") {
+        newSteps[index]["taskId"]= inputValue.target.value
+        newSteps[index]["status"]= WorkFlowStepStatus.Pending
+    } else if (inpputType === "assignedTo") {
       newSteps[index]["assignedTo"]=inputValue.target.value
-    }else if (inpputType === "dueDate") {
-        // newConfigData[index]["key"]= "***"+inputValue+"***/"
+    } else if (inpputType === "dueDate") {
         newSteps[index]["dueDate"]= new Date(inputValue)
+    } else if (inpputType === "stepNumber") {                
     }
     setSteps(newSteps)    
   }
@@ -187,8 +189,7 @@ const AddEditWorkFlow = (props) => {
                                                 {steps?.map((step, index) => 
                                                     <HStack marginBottom={9} spacing={6}>
                                                         <Text fontWeight="600">Step {index+1}:</Text>
-                                                            
-                                                        <Select id="stepTask" width="25%" value={step.task} onChange={(ev) => handleStepEntry("task",ev, index)}>
+                                                        <Select id="stepTask" width="25%" value={step.taskId} onChange={(ev) => handleStepEntry("taskId",ev, index)}>
                                                             <option value="">Select Task</option>
                                                             {tasks && tasks?.map((taskVal) => (
                                                                 <option value={taskVal.id} >{taskVal.name}</option>
@@ -205,9 +206,9 @@ const AddEditWorkFlow = (props) => {
                                                             <DatePicker onChange={handleDueDate} rowIndex={index}/> 
                                                         </HStack>   
                                                         {index === 0?<>
-                                                            <SmallAddIcon onClick={() => handleAddExtraRow("steps")}/>
+                                                            <SmallAddIcon onClick={() => handleAddExtraRow("steps", index)}/>
                                                         </>:<>
-                                                            <SmallAddIcon onClick={() => handleAddExtraRow("steps")}/>
+                                                            <SmallAddIcon onClick={() => handleAddExtraRow("steps", index)}/>
                                                             <SmallCloseIcon onClick={() => handleRemoveRow("steps", index)}/>
                                                         </>}
                                                         

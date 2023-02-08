@@ -23,7 +23,7 @@ function validateStepsDataFilled(steps) {
 
   if(steps) {
     return steps?.map((step) => {
-      if(step.task && step.assignedTo && step.dueDate) {
+      if(step.taskId && step.assignedTo && step.dueDate) {
         return true
       } else {
         return false
