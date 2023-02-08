@@ -50,12 +50,12 @@ const AddEditWorkFlow = (props) => {
 
   const getTaskList = async() => {
     const responseData = await workFlowService.getTaskListByType(props.type, userService.getAccountDetails().accountId)
-    setTasks(responseData)
+    setTasks(responseData)    
   }
 
   const getAssignedToList = async() => {
     const responseData = await workFlowService.getAssignedToList(userService.getAccountDetails().accountId)
-    setAssignedTos(responseData)
+    setAssignedTos(responseData)    
   }
 
   const handleSaveWorkFlow = () => {
@@ -123,15 +123,15 @@ const AddEditWorkFlow = (props) => {
                                                     <HStack marginBottom={3}>
                                                         <Select id="stepTask" value={step.task} onChange={(ev) => handleStepEntry("task",ev, index)}>
                                                             <option value="">Select Task</option>
-                                                            {/* {DocumentConstants.ESIGN_AVAILABLE_TABS?.map((availableTab) => (
-                                                                <option value={availableTab.key} data-enableinput={availableTab.valueAccepted} >{availableTab.displayName}</option>
-                                                            ))} */}
+                                                            {tasks && tasks?.map((taskVal) => (
+                                                                <option value={taskVal.id} >{taskVal.name}</option>
+                                                            ))}
                                                         </Select>   
                                                         <Select id="assignedTo" value={step.assignedTo} onChange={(ev) => handleStepEntry("assignedTo",ev, index)}>
                                                             <option value="">Assigned To</option>
-                                                            {/* {DocumentConstants.ESIGN_AVAILABLE_TABS?.map((availableTab) => (
-                                                                <option value={availableTab.key} data-enableinput={availableTab.valueAccepted} >{availableTab.displayName}</option>
-                                                            ))} */}
+                                                            {assignedTos?.map((assingedTo) => (
+                                                                <option value={assingedTo.id} >{assingedTo.firstName} {assingedTo.lastName}</option>
+                                                            ))}
                                                         </Select>                                                       
                                                         <Input type="text" placeholder='Due Date' value={step.dueDate} marginTop={2} onChange={(e) => handleStepEntry("dueDate",e.target.value, index)}  marginBottom={2}/>
                                                         {index === 0?<>

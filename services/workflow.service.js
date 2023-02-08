@@ -15,8 +15,8 @@ export const workFlowService = {
     
 };
 
-function getTaskListByType(type, typeId, accountId) {
-    return fetchWrapper.get(`${baseUrl}/account/`+accountId+`/workflow/type/`+type, {})
+function getTaskListByType(type, accountId) {
+    return fetchWrapper.get(`${baseUrl}/account/`+accountId+`/workflow/type/`+type+'/tasks', {})
     .then(tasks => {
         return tasks;
     })  

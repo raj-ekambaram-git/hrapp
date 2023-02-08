@@ -10,7 +10,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   const accountId = req.query.accountId;
-  console.log("Account ::"+accountId)
+  console.log("ADMINS Account ::"+accountId)
   try {
       const workFlowAdmins = await prisma.user.findMany({
         where: {
@@ -25,6 +25,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             }
         },
         select: {
+          id: true,
           firstName: true,
           lastName: true
         }
