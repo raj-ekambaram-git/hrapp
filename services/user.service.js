@@ -54,17 +54,20 @@ export const userService = {
 
 function accountFeatureEnabled(featureName) {
     const userCookie = cookie.get("user");
-    const userFeaturesEncrypted = JSON.parse(userCookie).features;
-    const decryptedValue = jwtDecode(userFeaturesEncrypted);        
-    if(decryptedValue && decryptedValue.sub) {
-        return decryptedValue?.sub.map((feature) => {
-            if(feature?.feature.name === featureName) {
-                return true;
-            }else {
-                return false;
-            }
-        }).includes(true)
+    if(userCookie) {
+        const userFeaturesEncrypted = JSON.parse(userCookie).features;
+        const decryptedValue = jwtDecode(userFeaturesEncrypted);        
+        if(decryptedValue && decryptedValue.sub) {
+            return decryptedValue?.sub.map((feature) => {
+                if(feature?.feature.name === featureName) {
+                    return true;
+                }else {
+                    return false;
+                }
+            }).includes(true)
+        }
     }
+
     return false;
  }
  

@@ -12,6 +12,7 @@ import expenseReducer from "./modules/Expense/reducer";
 import configurationReducer from "./modules/Configuration/reducer"
 import reportsReducer from "./modules/Reports/reducer"
 import costReducer from "./modules/Cost/reducer"
+import workFlowReducer from "./modules/WorkFlow/reducer"
 
 const rootReducer = combineReducers({
     timesheet: timesheetReducer,
@@ -25,7 +26,8 @@ const rootReducer = combineReducers({
     expense: expenseReducer,
     configuration: configurationReducer,
     reports: reportsReducer,
-    cost: costReducer
+    cost: costReducer,
+    workflow: workFlowReducer
 });
 
 export default rootReducer;

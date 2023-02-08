@@ -8,6 +8,7 @@ import { ExportTemplateStatus, ExportTemplateType } from "@prisma/client";
 export const ConfigConstants = {
   FEATURES: {
     ESIGNATURE: "eSignature",
+    WORK_FLOW: "WorkfFlow",
   },
   AVAILABLE_REPORTS: {
     ProjectReport: "ProjectReport",

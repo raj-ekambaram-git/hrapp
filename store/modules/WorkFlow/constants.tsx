@@ -1,0 +1,4 @@
+export const ActionTypes = {
+    SET_WORKFLOW_TASKS_BY_ACCOUNT: 'SET_WORKFLOW_TASKS_BY_ACCOUNT',
+
+};
