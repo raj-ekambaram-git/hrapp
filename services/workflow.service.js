@@ -9,9 +9,21 @@ export const workFlowService = {
 
     getTasksByAccount,
     createTask,
+    updateTask,
     
 };
 
+
+function updateTask(taskRequest, taskId, accountId) {
+    return fetchWrapper.put(`${baseUrl}/account/`+accountId+`/workflow/task/`+taskId, {taskRequest})
+        .then(task => {
+            return task;
+        })        
+        .catch(err => {
+            console.log("Inside updateTask Error")
+            return {errorMessage: err, error: true};
+        });
+}
 
 function createTask(taskRequest, accountId) {
     return fetchWrapper.post(`${baseUrl}/account/`+accountId+`/workflow/task/create`, {taskRequest})

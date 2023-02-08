@@ -10,13 +10,15 @@ import {
   Stack,
   StackDivider,
   useDisclosure,
-  useToast
+  useToast,
+  Switch
 } from '@chakra-ui/react'
 import { useDispatch } from "react-redux";
 import { userService, workFlowService } from "../../services";
 import { EMPTY_STRING, WorkFlowConstants } from "../../constants";
 import { CustomTable } from "../customTable/Table";
 import AddEditTask from "./addEditTask";
+import { WorkFlowTaskStatus } from "@prisma/client";
 
 
 const ManageTasks = (props) => {
@@ -28,6 +30,7 @@ const ManageTasks = (props) => {
   const WF_TASK_LIST_TABLE_COLUMNS = React.useMemo(() => WorkFlowConstants.TASK_LIST_TABLE_META)
 
   const handleClick = (newSize) => {
+    setTasks(null)
     setSize(newSize)
     getTasksByAccount()
     onOpen()
@@ -40,9 +43,52 @@ const ManageTasks = (props) => {
     }    
   }
 
+  const handleStatusUpdate = async(oldSatatus, taskId, index) => {
+    let status = WorkFlowTaskStatus.Active
+    if(oldSatatus === WorkFlowTaskStatus.Active) {
+      status = WorkFlowTaskStatus.Inactive
+    }
+
+    const taskRequest = {
+      id: taskId,
+      status: status,
+      updatedBy: parseInt(userService.userValue.id)
+    }
+    const responseData = await workFlowService.updateTask(taskRequest, userService.getAccountDetails().accountId)
+    if(responseData.error) {
+      toast({
+        title: 'Update Task.',
+        description: "Error updating task for you account. Details: "+responseData.errorMessage,
+        status: 'error',
+        position: 'top',
+        duration: 6000,
+        isClosable: true,
+      })
+    }else {
+      toast({
+        title: 'Updated Task.',
+        description: 'Successfully update task for your account.',
+        status: 'success',
+        position: 'top',
+        duration: 3000,
+        isClosable: true,
+      })      
+      const newTasks = [...tasks]
+      const updatedList = newTasks.map((task) => {
+        if(task.id === responseData.id) {
+          task.status = responseData.status
+        }
+        return task;
+      })
+
+      updateTasksForDisplay(updatedList)
+    }
+  }
+
   function updateTasksForDisplay(responseData) {
-    const updatedList =  responseData.map((task)=> {      
+    const updatedList =  responseData.map((task, index)=> {      
       task.updatedBy = task.updatedUser.firstName+" "+task.updatedUser.lastName;
+      task.toggleStatus = <Switch colorScheme='teal' size='sm' isChecked={task.status === WorkFlowTaskStatus.Active?true:false} onChange={() => handleStatusUpdate(task.status, task.id, index)}/>   
       return task;
     });
     setTasks(updatedList);

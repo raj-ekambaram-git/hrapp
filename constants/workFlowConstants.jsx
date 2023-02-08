@@ -66,6 +66,12 @@ export const WorkFlowConstants = {
           label: "Status",
           accessor: "status", 
           format: (value) => (value ? <Badge color={`${(value === "Active") ? "paid_status": value === "Inactive" ? "pending_status": "pending_status"}`}>{value}</Badge> : '✖️')
+        },
+        {
+          label: "",
+          accessor: "toggleStatus", 
+          disableSearch: true,
+          disableSort: true          
         }
                              
       ]

@@ -15,7 +15,8 @@ import {
     CardHeader,
     Textarea,
     FormControl,
-    FormLabel
+    FormLabel,
+    Switch
   } from '@chakra-ui/react';
 import { EMPTY_STRING, WorkFlowConstants } from "../../constants";
 import { ErrorMessage } from "../../constants/errorMessage";
@@ -140,7 +141,7 @@ const AddEditTask = (props) => {
                                             ))}
                                         </Select>
                                     </FormControl>   
-                                </Box>
+                                </Box>                                                             
                             </HStack>
                         </Stack>
                     </CardBody>
