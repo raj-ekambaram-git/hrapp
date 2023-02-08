@@ -28,6 +28,8 @@ import { EMPTY_STRING } from "../../constants";
 import {WorkFlowConstants} from '../../constants/workFlowConstants'
 import { SmallAddIcon, SmallCloseIcon } from "@chakra-ui/icons";
 import { userService, workFlowService } from "../../services";
+import { util } from "../../helpers";
+import DatePicker from "../common/datePicker";
 
 
 const AddEditWorkFlow = (props) => {
@@ -81,17 +83,28 @@ const AddEditWorkFlow = (props) => {
 
   const handleStepEntry = (inpputType, inputValue, index) => {
     const newSteps = [...steps]
-    
     if(inpputType === "task") {
         newSteps[index]["task"]= inputValue.target.value
     }else if (inpputType === "assignedTo") {
       // newConfigData[index]["key"]= "***"+inputValue+"***/"
       newSteps[index]["assignedTo"]=inputValue.target.value
-    } else if (inpputType === "dueDate") {
-        newSteps[index]["dueDate"]= inputValue
+    }else if (inpputType === "dueDate") {
+        // newConfigData[index]["key"]= "***"+inputValue+"***/"
+        newSteps[index]["dueDate"]= new Date(inputValue)
     }
     setSteps(newSteps)    
   }
+
+  function handleDueDate(e) {
+    if(e != undefined && (e.updatedDate)) {
+      const newSteps = [...steps]
+      if(util.getFormattedDate(newSteps[e.rowIndex].dueDate) != util.getFormattedDate(e.date)) {
+        newSteps[e.rowIndex].dueDate = e.date;
+        setSteps(newSteps)
+      }      
+    }    
+  }
+
   return (
 
     <div>
@@ -111,7 +124,7 @@ const AddEditWorkFlow = (props) => {
                             </DrawerHeader>
                             <DrawerBody>
                               <Stack divider={<StackDivider />} spacing='1'>
-                                <Card variant="document">
+                                <Card >
                                     <CardBody>
                                         <Stack spacing={9}>
                                             <HStack width="63%">
@@ -130,28 +143,32 @@ const AddEditWorkFlow = (props) => {
                                                 </FormControl>                                                   
                                             </HStack>
                                             <Stack spacing={5}>
-                                                <Heading size="h4"> Add/Remove Steps </Heading>
+                                                <Heading size="h4"> Add/Remove Steps</Heading>
+                                                
                                                 <Box alignContent="left">
                                                 {steps?.map((step, index) => 
                                                     <HStack marginBottom={3}>
-                                                        <Select id="stepTask" value={step.task} onChange={(ev) => handleStepEntry("task",ev, index)}>
+                                                        <Select id="stepTask" width="50%" value={step.task} onChange={(ev) => handleStepEntry("task",ev, index)}>
                                                             <option value="">Select Task</option>
                                                             {tasks && tasks?.map((taskVal) => (
                                                                 <option value={taskVal.id} >{taskVal.name}</option>
                                                             ))}
                                                         </Select>   
-                                                        <Select id="assignedTo" value={step.assignedTo} onChange={(ev) => handleStepEntry("assignedTo",ev, index)}>
+                                                        <Select id="assignedTo" width="50%" value={step.assignedTo} onChange={(ev) => handleStepEntry("assignedTo",ev, index)}>
                                                             <option value="">Assigned To</option>
                                                             {assignedTos?.map((assingedTo) => (
                                                                 <option value={assingedTo.id} >{assingedTo.firstName} {assingedTo.lastName}</option>
                                                             ))}
                                                         </Select>                                                       
-                                                        <Input type="text" placeholder='Due Date' value={step.dueDate} marginTop={2} onChange={(e) => handleStepEntry("dueDate",e.target.value, index)}  marginBottom={2}/>
+                                                        <HStack>
+                                                            <Input type="text" value={util.getFormattedDate(step.dueDate)} />
+                                                            <DatePicker onChange={handleDueDate} rowIndex={index}/> 
+                                                        </HStack>   
                                                         {index === 0?<>
-                                                        <SmallAddIcon onClick={() => handleAddExtraRow("steps")}/>
+                                                            <SmallAddIcon onClick={() => handleAddExtraRow("steps")}/>
                                                         </>:<>
-                                                        <SmallAddIcon onClick={() => handleAddExtraRow("steps")}/>
-                                                        <SmallCloseIcon onClick={() => handleRemoveRow("steps", index)}/>
+                                                            <SmallAddIcon onClick={() => handleAddExtraRow("steps")}/>
+                                                            <SmallCloseIcon onClick={() => handleRemoveRow("steps", index)}/>
                                                         </>}
                                                         
                                                     </HStack>                                                
