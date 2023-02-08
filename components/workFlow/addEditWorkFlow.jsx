@@ -68,7 +68,6 @@ const AddEditWorkFlow = (props) => {
   }
 
   const handleSaveWorkFlow = () => {
-    console.log("NAMEEE:::"+name+"****STATUS::"+status+"****STEPSS:::"+JSON.stringify(status))
     if(name && status && steps && !workFlowUtil.validateStepsDataFilled(steps)) {
         if(!workFlowUtil.checkDueDatesAreValid(steps)) {
             const workFlowData = {
@@ -76,7 +75,6 @@ const AddEditWorkFlow = (props) => {
                 status: status,
                 steps: steps
             }
-            console.log("workFlowData:::"+JSON.stringify(workFlowData))
             props.setWorkFlow(workFlowData)
             onClose()
         } else {

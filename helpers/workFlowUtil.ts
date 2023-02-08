@@ -7,9 +7,8 @@ export const workFlowUtil = {
 function checkDueDatesAreValid(steps) {
 
   if(steps) {
-    let currentDate = new Date();
+    let currentDate = new Date((new Date()).toDateString());
     return steps?.map((step) => {
-      console.log("currentDate:::"+currentDate+"*****step.dueDate:::"+step.dueDate)
       if(step.dueDate && currentDate <= step.dueDate) {
         currentDate = step.dueDate;
         return true
