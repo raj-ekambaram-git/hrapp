@@ -157,6 +157,9 @@ const VendorEdit = (props) => {
   const createVendor = async (formData) => {
     try {
       console.log("Create Veendorrr::"+JSON.stringify(formData))
+        if(workFlowEnabled) {
+
+        }
         const responseData = vendorService.createVendor(formData);
         if(responseData.error) {
           toast({
@@ -231,7 +234,6 @@ const VendorEdit = (props) => {
     }
   };
 
-
   return (
     <div>
       {isPageAuthprized ? (
@@ -288,8 +290,8 @@ const VendorEdit = (props) => {
                           </FormControl>    
                           </Box>  
                           {enableWorkFlow?<>
-                            <Box alignItems="center">                                                                                
-                              <AddEditWorkFlow isAddMode={isAddMode} setWorkFlow={setWorkFlow} type="Vendor"/>                       
+                            <Box alignItems="center">    
+                              <AddEditWorkFlow isAddMode={isAddMode} workFlow={workFlow} setWorkFlow={setWorkFlow} type="Vendor"/>                       
                             </Box>                              
                           </>:<></>}
                         
