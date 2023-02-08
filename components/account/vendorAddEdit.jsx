@@ -93,7 +93,12 @@ const VendorEdit = (props) => {
     }
 
     //Handle Account ID between the super account and others
-    setValue("accountId",accountId);
+    if(accountId) {
+      setValue("accountId",accountId);
+    } else {
+      setValue("accountId",userService.getAccountDetails().accountId);
+    }
+    
 
     if(userService.isAccountAdmin() || userService.isSuperAdmin()) {
       setPageAuthorized(true);
@@ -109,8 +114,11 @@ const VendorEdit = (props) => {
 
     // Call only if the user is SUPER_ADMIN and accountId as zero
     if((userService.isAccountAdmin() || userService.isSuperAdmin()) && (props && props.data && props.data.mode != MODE_ADD)) {
-      
-      const vendorResponse = await accountService.getVendorDetail(props.data.vendorId, accountId);
+      let accountIdVal = accountId;
+      if(!accountId) {
+        accountIdVal = userService.getAccountDetails().accountId
+      }
+      const vendorResponse = await accountService.getVendorDetail(props.data.vendorId, accountIdVal);
         const vendorData =  {
             id: vendorResponse.id.toString(),
             name: vendorResponse.name,
@@ -156,20 +164,34 @@ const VendorEdit = (props) => {
   // Create Account 
   const createVendor = async (formData) => {
     try {
-      console.log("Create Veendorrr::"+JSON.stringify(formData))
-        if(workFlowEnabled) {
-
+      console.log("Create Veendorrr::"+JSON.stringify(formData)+"****workFlowEnabled::"+enableWorkFlow+"***WORKFLOW:::"+JSON.stringify(workFlow))
+        if(enableWorkFlow) {
+          //Check of name, status and steps are there
+          if(workFlow && workFlow.name && workFlow.status && workFlow.steps) {
+            console.log("Everything present so we are good.")
+          } else {
+            toast({
+              title: 'Add Vendor Error.',
+              description: 'Workflow Enabled, please make sure you configure workflow for this vendor.',
+              status: 'error',
+              position: 'top',
+              duration: 9000,
+              isClosable: true,
+            }) 
+            return;  
+          }
         }
         const responseData = vendorService.createVendor(formData);
         if(responseData.error) {
           toast({
             title: 'Add Vendor Error.',
-            description: 'Error creating a new vendor.',
+            description: 'Error creating a new vendor. Details:'+responseData.errorMessage,
             status: 'error',
             position: 'top',
             duration: 9000,
             isClosable: true,
           })    
+          return;
         }else {
           toast({
             title: 'Add new vendor',
@@ -184,7 +206,7 @@ const VendorEdit = (props) => {
     } catch (error) {
       toast({
         title: 'Add Vendor Error.',
-        description: 'Please add all the required fields to add a vendor.',
+        description: 'Please add all the required fields to add a vendor. Details:'+error,
         status: 'error',
         position: 'top',
         duration: 9000,
