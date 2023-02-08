@@ -27,6 +27,9 @@ import {
 import { PageMainHeader } from "../common/pageMainHeader";
 import { useDispatch, useSelector } from "react-redux";
 import { resetSelectedAccountId } from "../../store/modules/Account/actions";
+import { ConfigConstants } from "../../constants";
+import AddEditWorkFlow from "../workFlow/addEditWorkFlow";
+
 
 const VendorEdit = (props) => {
   const dispatch = useDispatch();
@@ -54,6 +57,8 @@ const VendorEdit = (props) => {
 
   const [vendor, setVendor] = useState({});
   const [isPageAuthprized, setPageAuthorized] = useState(false);
+  const [enableWorkFlow, setEnableWorkFlow] = useState(false);
+  const [workFlow, setWorkFlow] = useState();
   const [isPageSectionAuthorized, setPageSectionAuthorized] = useState(false);
   const [isAddMode, setAddMode] = useState(true);
   // const [accountId, setAccountId] = useState(true);
@@ -95,6 +100,7 @@ const VendorEdit = (props) => {
     }
 
     getVendorDetailsAPICall();
+    setEnableWorkFlow(userService.accountFeatureEnabled(ConfigConstants.FEATURES.WORK_FLOW))
 
   }, []);
 
@@ -126,13 +132,15 @@ const VendorEdit = (props) => {
             city: vendorResponse.address[0].city,
             state: vendorResponse.address[0].state,
             zipCode: vendorResponse.address[0].zipCode,
-            country: vendorResponse.address[0].country
+            country: vendorResponse.address[0].country,
+            workFlowEnabled: vendorResponse.workFlowEnabled
         };
 
         setVendor(vendorData);
+        setEnableWorkFlow(vendorResponse.workFlowEnabled)
 
         // get user and set form fields
-        const fields = ['name', "description", "email", "type","phone","accountId", "ein","status","accountContactName","accountContactEmail","accountContactPhone","addressName","address1", "address2", "address3","city","state","zipCode"];
+        const fields = ['name', "description", "email", "type","phone","accountId", "ein","status","accountContactName","accountContactEmail","accountContactPhone","addressName","address1", "address2", "address3","city","state","zipCode","workFlowEnabled"];
         fields.forEach(field => setValue(field, vendorData[field]));
     }
 
@@ -256,7 +264,7 @@ const VendorEdit = (props) => {
                             <Input type="text" id="description" {...register('description')}  maxWidth="page.single_input"/>
                         </FormControl>    
                       </Box>  
-                      <HStack spacing={4}>
+                      <HStack spacing={6}>
                         <Box>
                           <FormControl isRequired>
                             <FormLabel>Vendor Status</FormLabel>
@@ -277,8 +285,14 @@ const VendorEdit = (props) => {
                               <option value="Product">Product</option>
                               <option value="Project">Project</option>
                             </Select>
-                          </FormControl>     
-                        </Box>  
+                          </FormControl>    
+                          </Box>  
+                          {enableWorkFlow?<>
+                            <Box alignItems="center">                                                                                
+                              <AddEditWorkFlow isAddMode={isAddMode} setWorkFlow={setWorkFlow} type="Vendor"/>                       
+                            </Box>                              
+                          </>:<></>}
+                        
                       </HStack>                          
                       <Box>
                         <FormControl isRequired>
