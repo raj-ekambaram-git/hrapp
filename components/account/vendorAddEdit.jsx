@@ -272,9 +272,9 @@ const VendorEdit = (props) => {
                             <FormLabel>Vendor Status</FormLabel>
                             <Select width="100%" id="status" {...register('status')} size="sm">
                               <option value="Active">Active</option>
-                              <option value="Inactive">Inactive</option>
-                              <option value="Error">Error</option>
                               <option value="Approved">Approved</option>
+                              <option value="Inactive">Inactive</option>
+                              <option value="Error">Error</option>                              
                               <option value="Rejected">Rejected</option>
                             </Select>
                           </FormControl>     

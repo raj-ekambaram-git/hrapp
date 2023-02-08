@@ -29,7 +29,7 @@ import { EMPTY_STRING } from "../../constants";
 import {WorkFlowConstants} from '../../constants/workFlowConstants'
 import { SmallAddIcon, SmallCloseIcon } from "@chakra-ui/icons";
 import { userService, workFlowService } from "../../services";
-import { util } from "../../helpers";
+import { util, workFlowUtil } from "../../helpers";
 import DatePicker from "../common/datePicker";
 
 
@@ -69,15 +69,28 @@ const AddEditWorkFlow = (props) => {
 
   const handleSaveWorkFlow = () => {
     console.log("NAMEEE:::"+name+"****STATUS::"+status+"****STEPSS:::"+JSON.stringify(status))
-    if(name && status && steps) {
-        const workFlowData = {
-            name: name,
-            status: status,
-            steps: steps
+    if(name && status && steps && !workFlowUtil.validateStepsDataFilled(steps)) {
+        if(!workFlowUtil.checkDueDatesAreValid(steps)) {
+            const workFlowData = {
+                name: name,
+                status: status,
+                steps: steps
+            }
+            console.log("workFlowData:::"+JSON.stringify(workFlowData))
+            props.setWorkFlow(workFlowData)
+            onClose()
+        } else {
+            toast({
+                title: 'Work Flow Error.',
+                description: 'Please check the due dates configured for steps, all due dates should be equal or greater than today with sequence.',
+                status: 'error',
+                position: 'top',
+                duration: 6000,
+                isClosable: true,
+              })   
+              return;            
         }
-        console.log("workFlowData:::"+JSON.stringify(workFlowData))
-        props.setWorkFlow(workFlowData)
-        onClose()
+
     }else {
         toast({
             title: 'Work Flow Error.',
@@ -87,6 +100,7 @@ const AddEditWorkFlow = (props) => {
             duration: 6000,
             isClosable: true,
           })   
+          return;
     }
   }
 
