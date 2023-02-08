@@ -10,18 +10,13 @@ import {
   Stack,
   StackDivider,
   useDisclosure,
-  Table,
-  Thead,
-  Th,
-  Tr,
-  Tbody,
-  Badge,
   useToast
 } from '@chakra-ui/react'
 import { useDispatch } from "react-redux";
-import { documentService, userService, workFlowService } from "../../services";
-import { DocumentConstants, EMPTY_STRING, WorkFlowConstants } from "../../constants";
+import { userService, workFlowService } from "../../services";
+import { EMPTY_STRING, WorkFlowConstants } from "../../constants";
 import { CustomTable } from "../customTable/Table";
+import AddEditTask from "./addEditTask";
 
 
 const ManageTasks = (props) => {
@@ -41,43 +36,22 @@ const ManageTasks = (props) => {
   const getTasksByAccount = async() => {
     const responseData = await workFlowService.getTasksByAccount(userService.getAccountDetails().accountId);
     if(responseData) {
-      setTasks(updateTasksForDisplay(responseData))      
+      updateTasksForDisplay(responseData)   
     }    
   }
 
   function updateTasksForDisplay(responseData) {
-    return responseData.map((task)=> {
+    const updatedList =  responseData.map((task)=> {      
       task.updatedBy = task.updatedUser.firstName+" "+task.updatedUser.lastName;
       return task;
     });
+    setTasks(updatedList);
   }
 
-  async function handleDeleteTask(documentId, index) {
-    const updateDocumentRequest = {
-      id: documentId,
-      status: DocumentConstants.DOCUMENT_STATUS.Delete
-    }
-    const responseData = await documentService.updateDocument(updateDocumentRequest)
-    if(responseData.error) {
-      toast({
-          title: 'Update Document.',
-          description: 'Error updating document, please try again. Details:'+responseData.errorMessage,
-          status: 'error',
-          position: 'top',
-          duration: 6000,
-          isClosable: true,
-        })
-    }else {
-      toast({
-          title: 'Update Document.',
-          description: 'Successfully udpated document.',
-          status: 'success',
-          position: 'top',
-          duration: 3000,
-          isClosable: true,
-        })
-        dispatch(removeDocumentByIndex(index))
-    }
+  const addNewTask = (newTask) => {
+    const newTasks = [...tasks]
+    newTasks.push(newTask)
+    updateTasksForDisplay(newTasks)
   }
   
   return (
@@ -99,6 +73,7 @@ const ManageTasks = (props) => {
                             </DrawerHeader>
                             <DrawerBody>
                               <Stack divider={<StackDivider />} spacing='1'>
+                                <AddEditTask onClose={onClose} addNewTask={addNewTask}/>
                                 {tasks?<>
                                   <CustomTable  columns={WF_TASK_LIST_TABLE_COLUMNS} rows={tasks} />                                
                                 </>:<></>}                              

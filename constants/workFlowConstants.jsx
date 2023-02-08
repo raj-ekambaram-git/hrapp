@@ -1,3 +1,5 @@
+import { Badge } from "@chakra-ui/react";
+
 export const WorkFlowConstants = {
     WORKFLOW_TYPE: {
         'Vendor': 'Vendor',
@@ -5,12 +7,44 @@ export const WorkFlowConstants = {
         'Project': 'Project',
         'User': 'User',
     },
+    WORKFLOW_TYPE_LOOKIUP: [
+      {
+        key: "Vendor",
+        displayName: "Vendor"
+      },
+      {
+        key: "Invoice",
+        displayName: "Invoice"
+      },
+      {
+        key: "Project",
+        displayName: "Project"
+      },
+      {
+        key: "User",
+        displayName: "User"
+      },      
+    ],
     WORKFLOW_STATUS: {
         "Active": "Active",
         "Inactive": "Inactive",
         "Draft": "Draft",
 
     },
+    WORKFLOW_STATUS_LOOKIUP: [
+      {
+        key: "Active",
+        displayName: "Active"
+      },
+      {
+        key: "Inactive",
+        displayName: "Inactive"
+      },
+      {
+        key: "Draft",
+        displayName: "Draft"
+      }, 
+    ],    
     TASK_LIST_TABLE_META: [
         {
           label: "Type",
@@ -31,7 +65,7 @@ export const WorkFlowConstants = {
         {
           label: "Status",
           accessor: "status", 
-          format: (value) => (value ? <Badge color={`${(value === "Paid" || value === "PartiallyPaid") ? "paid_status": value === "Pending" ? "pending_status": "pending_status"}`}>{value}</Badge> : '✖️')
+          format: (value) => (value ? <Badge color={`${(value === "Active") ? "paid_status": value === "Inactive" ? "pending_status": "pending_status"}`}>{value}</Badge> : '✖️')
         }
                              
       ]

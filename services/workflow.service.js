@@ -8,8 +8,21 @@ const baseUrl = `${publicRuntimeConfig.apiUrl}`;
 export const workFlowService = {
 
     getTasksByAccount,
+    createTask,
     
 };
+
+
+function createTask(taskRequest, accountId) {
+    return fetchWrapper.post(`${baseUrl}/account/`+accountId+`/workflow/task/create`, {taskRequest})
+        .then(task => {
+            return task;
+        })        
+        .catch(err => {
+            console.log("Inside createTask Error")
+            return {errorMessage: err, error: true};
+        });
+}
 
 function getTasksByAccount(accountId) {
     return fetchWrapper.get(`${baseUrl}/account/`+accountId+`/workflow/tasks`, {})
