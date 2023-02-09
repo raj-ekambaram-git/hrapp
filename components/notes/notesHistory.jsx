@@ -65,7 +65,7 @@ import NoteFooter from './noteFooter';
     return (
         <div>
             {(notesType?.type != undefined && notesType?.typeId != undefined) ? (<>
-                <Button size="xs"
+                <Button size="xs" bg={props.btnColor?props.btnColor:""}
                     onClick={() => handleClick("lg")}
                     >{`Comments`}
                 </Button>

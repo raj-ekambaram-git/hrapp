@@ -323,10 +323,13 @@ const AddEditWorkFlow = (props) => {
                                                             ))}
                                                         </Select>
                                                     </>:<>
-                                                        <Badge color={status === WorkFlowStatus.Active?"paid_status":"pending_status"}>{status}</Badge>
+                                                        <HStack>
+                                                            <Badge color={status === WorkFlowStatus.Active?"paid_status":"pending_status"}>{status}</Badge>
+                                                            <NotesHistory btnColor="header_actions"/>
+                                                        </HStack>
                                                     </>}
                                                 </FormControl>    
-                                                <NotesHistory/>
+                                                
                                             </HStack>
                                             <Stack spacing={7}>
                                                 <Heading size="h4"> {props.isAddMode?"Add/Remove Steps":"Steps"}</Heading>                                                
