@@ -30,13 +30,15 @@ import {
 } from '@chakra-ui/react'
 
 import { useDispatch, useSelector } from "react-redux";
-import { EMPTY_STRING } from "../../constants";
+import { EMPTY_STRING, NotesConstants } from "../../constants";
 import {WorkFlowConstants} from '../../constants/workFlowConstants'
 import { SmallAddIcon, SmallCloseIcon } from "@chakra-ui/icons";
 import { userService, workFlowService } from "../../services";
 import { util, workFlowUtil } from "../../helpers";
 import DatePicker from "../common/datePicker";
-import { WorkFlowStatus, WorkFlowStepStatus } from "@prisma/client";
+import { NotesType, WorkFlowStatus, WorkFlowStepStatus } from "@prisma/client";
+import NotesHistory from "../notes/notesHistory";
+import { setNotesType } from "../../store/modules/Notes/actions";
 
 
 const AddEditWorkFlow = (props) => {
@@ -187,6 +189,13 @@ const AddEditWorkFlow = (props) => {
         setStatus(responseData.status)
         setSteps(responseData.workFlowSteps)
         setWorkFlowId(responseData.id)
+
+        const notesData = {
+          type: NotesType.WorkFlowTask,
+          typeId: parseInt(responseData.id),
+          typeName: responseData.name
+        }
+        dispatch(setNotesType(notesData));
     }
   }
 
@@ -316,7 +325,8 @@ const AddEditWorkFlow = (props) => {
                                                     </>:<>
                                                         <Badge color={status === WorkFlowStatus.Active?"paid_status":"pending_status"}>{status}</Badge>
                                                     </>}
-                                                </FormControl>                                                   
+                                                </FormControl>    
+                                                <NotesHistory/>
                                             </HStack>
                                             <Stack spacing={7}>
                                                 <Heading size="h4"> {props.isAddMode?"Add/Remove Steps":"Steps"}</Heading>                                                

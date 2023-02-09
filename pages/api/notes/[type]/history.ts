@@ -17,7 +17,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     Invoice = "Invoice",
     Project = "Project",
     User = "User",
-    Vendor = "Vendor"
+    Vendor = "Vendor",
+    WorkFlowTask = "WorkFlowTask",
   }
 
   enum NotesMode {
@@ -57,6 +58,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       case NotesType.User: 
         typeValue = NotesType.User;
       break;
+      case NotesType.WorkFlowTask: 
+        typeValue = NotesType.WorkFlowTask;
+      break;      
     }
 
     const typeId = req.query?.typeId;
