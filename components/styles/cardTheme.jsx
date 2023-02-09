@@ -249,7 +249,7 @@ const userSettingCard = definePartsStyle({
   
 const projectProgress = definePartsStyle({
   container: {
-    width: "47%",
+    width: "50%",
     border: "1px",
     borderRadius: "5px",    
   },
@@ -327,7 +327,7 @@ const workFlowDashDetails = definePartsStyle({
 
 const workFlowDashboard = definePartsStyle({
   container: {
-    width: "23%",
+    width: "25%",
     borderWidth: '1px',
     borderRadius: 'lg',
     overflow: 'hidden', 
