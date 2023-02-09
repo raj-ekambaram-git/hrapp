@@ -259,7 +259,12 @@ const VendorEdit = (props) => {
       })    
     }
   };
-
+  const handleEnableWorkFlow = (enableWF) => {
+    setEnableWorkFlow(enableWF)
+    if(enableWF) {
+      setValue("status", VendorStatus.Inactive)
+    }
+  }
   return (
     <div>
       {isPageAuthprized ? (
@@ -299,8 +304,8 @@ const VendorEdit = (props) => {
                             
                             <Select width="100%" id="status" {...register('status')} size="sm">
                               {(enableWorkFlow)?<>
-                                <option value="Inactive">Inactive</option>
-                                {vendor.status !== VendorStatus.Inactive?<>
+                                <option value="Inactive" selected={vendor.status === VendorStatus.Active}>Inactive</option>
+                                {(isAddMode && vendor.status !== VendorStatus.Inactive && vendor.status)?<>
                                   <option value="Active" selected={vendor.status === VendorStatus.Active} >Active</option>
                                   <option value="Approved" selected={vendor.status === VendorStatus.Approved}>Approved</option>
                                   <option value="Inactive" selected={vendor.status === VendorStatus.Inactive}>Inactive</option>
@@ -332,7 +337,7 @@ const VendorEdit = (props) => {
                                 <FormControl>
                                   <FormLabel>Enable WorkFlow?</FormLabel>
                                   <Checkbox
-                                      onChange={(e) => setEnableWorkFlow(e.target.checked)}
+                                      onChange={(e) => handleEnableWorkFlow(e.target.checked)}
                                     />  
                                 </FormControl>    
                               </Box>                              

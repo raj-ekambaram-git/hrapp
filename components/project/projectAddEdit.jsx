@@ -288,6 +288,12 @@ const ProjectAddEdit = (props) => {
     }
   };
 
+  const handleEnableWorkFlow = (enableWF) => {
+    setEnableWorkFlow(enableWF)
+    if(enableWF) {
+      setValue("status", ProjectStatus.Inactive)
+    }
+  }
 
   return (
 
@@ -336,7 +342,7 @@ const ProjectAddEdit = (props) => {
                             <Select width="100%" id="status" {...register('status')} >                          
                               {(enableWorkFlow)?<>
                                   <option value="Created">Created</option>
-                                  {project.status !== ProjectStatus.Created?<>
+                                  {(isAddMode && project.status !== ProjectStatus.Created && project.status)?<>
                                     <option value="Open" selected={project.status === ProjectStatus.Open} >Open</option>
                                     <option value="Closed" selected={project.status === ProjectStatus.Closed}>Closed</option>
                                     <option value="Settled" selected={project.status === ProjectStatus.Settled}>Settled</option>
@@ -368,7 +374,7 @@ const ProjectAddEdit = (props) => {
                                 <FormControl>
                                   <FormLabel>Enable WorkFlow?</FormLabel>
                                   <Checkbox
-                                      onChange={(e) => setEnableWorkFlow(e.target.checked)}
+                                      onChange={(e) => handleEnableWorkFlow(e.target.checked)}
                                     />  
                                 </FormControl>    
                               </Box>                              
