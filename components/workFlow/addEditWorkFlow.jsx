@@ -340,7 +340,7 @@ const AddEditWorkFlow = (props) => {
                                                                 ))}
                                                             </Select>                                                       
                                                             <HStack>
-                                                                <Input type="text" width="100%" value={util.getFormattedDate(step.dueDate)} />
+                                                                <Input type="text" readOnly width="100%" value={util.getFormattedDate(step.dueDate)} />
                                                                 <DatePicker onChange={handleDueDate} rowIndex={index}/> 
                                                                 {index === 0?<>
                                                                     <SmallAddIcon onClick={() => handleAddExtraRow("steps", index+2)}/>
