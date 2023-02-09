@@ -30,7 +30,7 @@ const ProjectLocationSection = (props) => {
             <h2>
                 <AccordionButton>
                 <Box as="span" flex='1' textAlign='left'>
-                    <Heading size='xs' textTransform='uppercase'>
+                    <Heading size='xs'>
                     Project Location
                     </Heading>
                 </Box>

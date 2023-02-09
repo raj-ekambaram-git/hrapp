@@ -29,7 +29,7 @@ const AccountDetailSection = (props) => {
             <h2>
                 <AccordionButton bgColor="table_tile">
                 <Box as="span" flex='1' textAlign='left'>
-                    <Heading size='xs' textTransform='uppercase'>
+                    <Heading size='xs'>
                         Account Details
                     </Heading>
                 </Box>

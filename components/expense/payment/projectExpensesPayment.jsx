@@ -54,7 +54,7 @@ const ProjectExpensesPayment = (props) => {
                                 <h2>
                                     <AccordionButton bgColor="table_tile">
                                         <Box as="span" flex='1' textAlign='left'>
-                                            <Heading size='xs' textTransform='uppercase'>
+                                            <Heading size='xs'>
                                                 {expense.project.name} -- {expense.project.referenceCode}
                                             </Heading>
                                         </Box>

@@ -14,7 +14,7 @@ const AccountStatusSection = (props) => {
 
     <div>
         <Box>
-            <Heading size='xs' textTransform='uppercase'>
+            <Heading size='xs'>
             Account Status
             </Heading>
             <Badge color={`${

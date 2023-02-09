@@ -29,7 +29,7 @@ const VendorContactDetailSection = (props) => {
             <h2>
                 <AccordionButton>
                 <Box as="span" flex='1' textAlign='left'>
-                    <Heading size='xs' textTransform='uppercase'>
+                    <Heading size='xs'>
                     Vendor Contact
                     </Heading>
                 </Box>
