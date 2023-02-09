@@ -55,7 +55,8 @@ const AddEditWorkFlow = (props) => {
     const stepRequest = {
       id: stepId,
       status: statusToUpdate,
-      updatedBy: parseInt(userService.userValue.id)
+      completedDate: statusToUpdate === WorkFlowStepStatus.Complete?new Date():null
+
     }
     const responseData = await workFlowService.updateStep(stepRequest, stepId, userService.getAccountDetails().accountId)
     if(responseData.error) {
@@ -76,15 +77,18 @@ const AddEditWorkFlow = (props) => {
         duration: 3000,
         isClosable: true,
       })      
-    //   const newTasks = [...tasks]
-    //   const updatedList = newTasks.map((task) => {
-    //     if(task.id === responseData.id) {
-    //       task.status = responseData.status
-    //     }
-    //     return task;
-    //   })
+      const newSteps = [...steps]
+      const updatedList = newSteps.map((step) => {
+        if(step.id === responseData.id) {
+            step.status = responseData.status
+            if(responseData.status === WorkFlowStepStatus.Complete) {
+                step.completedDate = responseData.completedDate
+            }
+        }
+        return step;
+      })
 
-    //   updateTasksForDisplay(updatedList)
+      setSteps(updatedList)
     }
   }
 
@@ -291,7 +295,7 @@ const AddEditWorkFlow = (props) => {
                                                             <Badge color={step.status === WorkFlowStepStatus.Complete?"paid_status":
                                                                             step.status === WorkFlowStepStatus.Pending?"":
                                                                             (step.status === WorkFlowStepStatus.Pending) && (new Date() > step.dueDate)?"pending_status":"pending_status"}>{step.status} </Badge>
-                                                            {step.status === WorkFlowStepStatus.Complete?<>({util.getFormattedDateWithTime(step.completedDate)})</>:<></>}                                                                            
+                                                            {step.status === WorkFlowStepStatus.Complete?<><Text fontSize={12} fontWeight="600">( {util.getFormattedDateWithTime(step.completedDate)} )</Text></>:<></>}                                                                            
                                                             {(step.status === WorkFlowStepStatus.InProgress)?<><Switch colorScheme='teal' size='sm' id='inProgress' isChecked onChange={() => handleStatusUpdate(WorkFlowStepStatus.Complete, step.id, index)} >Mark Complete</Switch></>:<></>}                                                                            
                                                             {(step.status === WorkFlowStepStatus.Pending && index == 0)?<><Switch colorScheme='red' size='sm' id='pending' isChecked onChange={() => handleStatusUpdate(WorkFlowStepStatus.InProgress, step.id, index)}>Start</Switch></>:
                                                                 (step.status === WorkFlowStepStatus.Pending && steps[index-1]?.status == WorkFlowStepStatus.Complete)?<><><Switch colorScheme='red' size='sm' id='pending' isChecked onChange={() => handleStatusUpdate(WorkFlowStepStatus.InProgress, step.id, index)}>Start</Switch></></>:<></>}                                                                            
