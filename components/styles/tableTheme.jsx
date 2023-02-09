@@ -188,7 +188,7 @@ const baseStyle = definePartsStyle({
   },
   tr: {
     border: "1px",
-    borderColor:"gray.200",
+    borderColor:"gray.200",   
   },
   th: {
   },
@@ -196,11 +196,18 @@ const baseStyle = definePartsStyle({
     
   },
   tbody: {
+    tr: {
+      th: {
+        textTransform: "none",
+        fontWeight: "600"
+      }
+    },
     th:{
       wordBreak: "normal",
       overflow: "hidden",
       wordWrap: "break-word"
-    }
+    },
+
   }
 })
 
