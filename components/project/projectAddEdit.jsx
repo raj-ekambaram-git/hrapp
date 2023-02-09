@@ -342,7 +342,7 @@ const ProjectAddEdit = (props) => {
                             <Select width="100%" id="status" {...register('status')} >                          
                               {(enableWorkFlow)?<>
                                   <option value="Created">Created</option>
-                                  {(isAddMode && project.status !== ProjectStatus.Created && project.status)?<>
+                                  {(project.status !== ProjectStatus.Created && project.status)?<>
                                     <option value="Open" selected={project.status === ProjectStatus.Open} >Open</option>
                                     <option value="Closed" selected={project.status === ProjectStatus.Closed}>Closed</option>
                                     <option value="Settled" selected={project.status === ProjectStatus.Settled}>Settled</option>

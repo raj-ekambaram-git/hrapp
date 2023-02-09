@@ -571,13 +571,13 @@ const InvoiceAddEdit = (props) => {
                                   <Select width="100%" id="status" {...register('status')} >
                                     {(enableWorkFlow)?<>
                                       <option value="Draft">Draft</option>
-                                      {(isAddMode && status !== InvoiceStatus.Draft && status)?<>
+                                      {(status !== InvoiceStatus.Draft && status)?<>
                                         <option value="Submitted" selected={status === InvoiceStatus.Submitted} >Submitted</option>
                                         <option value="Pending" selected={status === InvoiceStatus.Closed}>Pending</option>
                                         <option value="Cancelled" selected={status === InvoiceStatus.Cancelled}>Cancelled</option>
                                       </>:<></>}
                                     </>:<>
-                                    <option value="Draft">Draft</option>
+                                     <option value="Draft">Draft</option>
                                       <option value="Submitted">Submitted</option>
                                       <option value="Pending">Pending</option>
                                       <option value="Cancelled">Cancelled</option>                              

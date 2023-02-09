@@ -451,7 +451,7 @@ const UserAddEdit = (props) => {
                             <Select width="100%" id="userStatus" {...register('userStatus')} >
                             {(enableWorkFlow)?<>
                                 <option value="Inactive" selected={user.userStatus === UserStatus.Inactive}>Inactive</option>
-                                {(isAddMode && user.userStatus !== UserStatus.Inactive && user.userStatus)?<>
+                                {(user.userStatus !== UserStatus.Inactive && user.userStatus)?<>
                                   <option value="Active" selected={user.userStatus === UserStatus.Active} >Active</option>
                                   <option value="Approved" selected={user.userStatus === UserStatus.Approved}>Approved</option>
                                   <option value="Inactive" selected={user.userStatus === UserStatus.Inactive}>Inactive</option>

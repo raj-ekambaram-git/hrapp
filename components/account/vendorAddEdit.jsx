@@ -305,7 +305,7 @@ const VendorEdit = (props) => {
                             <Select width="100%" id="status" {...register('status')} size="sm">
                               {(enableWorkFlow)?<>
                                 <option value="Inactive" selected={vendor.status === VendorStatus.Active}>Inactive</option>
-                                {(isAddMode && vendor.status !== VendorStatus.Inactive && vendor.status)?<>
+                                {(vendor.status !== VendorStatus.Inactive && vendor.status)?<>
                                   <option value="Active" selected={vendor.status === VendorStatus.Active} >Active</option>
                                   <option value="Approved" selected={vendor.status === VendorStatus.Approved}>Approved</option>
                                   <option value="Inactive" selected={vendor.status === VendorStatus.Inactive}>Inactive</option>
