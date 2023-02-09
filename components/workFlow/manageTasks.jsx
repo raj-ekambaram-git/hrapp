@@ -54,7 +54,7 @@ const ManageTasks = (props) => {
       status: status,
       updatedBy: parseInt(userService.userValue.id)
     }
-    const responseData = await workFlowService.updateTask(taskRequest, userService.getAccountDetails().accountId)
+    const responseData = await workFlowService.updateTask(taskRequest, taskId, userService.getAccountDetails().accountId)
     if(responseData.error) {
       toast({
         title: 'Update Task.',

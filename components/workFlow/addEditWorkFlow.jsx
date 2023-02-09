@@ -48,6 +48,46 @@ const AddEditWorkFlow = (props) => {
   const [tasks, setTasks] = useState();
   const [assignedTos, setAssignedTos] = useState();
 
+
+
+  const handleStatusUpdate = async(statusToUpdate, stepId, index) => {
+
+    const stepRequest = {
+      id: stepId,
+      status: statusToUpdate,
+      updatedBy: parseInt(userService.userValue.id)
+    }
+    const responseData = await workFlowService.updateStep(stepRequest, stepId, userService.getAccountDetails().accountId)
+    if(responseData.error) {
+      toast({
+        title: 'Update Step.',
+        description: "Error updating step for this workflow. Details: "+responseData.errorMessage,
+        status: 'error',
+        position: 'top',
+        duration: 6000,
+        isClosable: true,
+      })
+    }else {
+      toast({
+        title: 'Updated Step.',
+        description: 'Successfully update step for this workflow.',
+        status: 'success',
+        position: 'top',
+        duration: 3000,
+        isClosable: true,
+      })      
+    //   const newTasks = [...tasks]
+    //   const updatedList = newTasks.map((task) => {
+    //     if(task.id === responseData.id) {
+    //       task.status = responseData.status
+    //     }
+    //     return task;
+    //   })
+
+    //   updateTasksForDisplay(updatedList)
+    }
+  }
+
   const handleClick = (newSize) => {
     console.log("props.typeId:::::"+props.typeId)
     setSize(newSize)
@@ -252,9 +292,9 @@ const AddEditWorkFlow = (props) => {
                                                                             step.status === WorkFlowStepStatus.Pending?"":
                                                                             (step.status === WorkFlowStepStatus.Pending) && (new Date() > step.dueDate)?"pending_status":"pending_status"}>{step.status} </Badge>
                                                             {step.status === WorkFlowStepStatus.Complete?<>({util.getFormattedDateWithTime(step.completedDate)})</>:<></>}                                                                            
-                                                            {(step.status === WorkFlowStepStatus.InProgress)?<><Switch colorScheme='teal' size='sm' id='inProgress' isChecked >Mark Complete</Switch></>:<></>}                                                                            
-                                                            {(step.status === WorkFlowStepStatus.Pending && index == 0)?<><Switch colorScheme='red' size='sm' id='pending' isChecked >Start</Switch></>:
-                                                                (step.status === WorkFlowStepStatus.Pending && steps[index-1]?.status == WorkFlowStepStatus.Complete)?<><><Switch colorScheme='red' size='sm' id='pending' isChecked>Start</Switch></></>:<></>}                                                                            
+                                                            {(step.status === WorkFlowStepStatus.InProgress)?<><Switch colorScheme='teal' size='sm' id='inProgress' isChecked onChange={() => handleStatusUpdate(WorkFlowStepStatus.Complete, step.id, index)} >Mark Complete</Switch></>:<></>}                                                                            
+                                                            {(step.status === WorkFlowStepStatus.Pending && index == 0)?<><Switch colorScheme='red' size='sm' id='pending' isChecked onChange={() => handleStatusUpdate(WorkFlowStepStatus.InProgress, step.id, index)}>Start</Switch></>:
+                                                                (step.status === WorkFlowStepStatus.Pending && steps[index-1]?.status == WorkFlowStepStatus.Complete)?<><><Switch colorScheme='red' size='sm' id='pending' isChecked onChange={() => handleStatusUpdate(WorkFlowStepStatus.InProgress, step.id, index)}>Start</Switch></></>:<></>}                                                                            
                                                         </>:<></>} 
                                                         
                                                     </HStack>                                                
