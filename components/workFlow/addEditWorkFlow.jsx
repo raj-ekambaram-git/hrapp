@@ -234,7 +234,7 @@ const AddEditWorkFlow = (props) => {
                                                             ))}
                                                         </Select>                                                       
                                                         <HStack>
-                                                            <Input type="text" width="50%" value={util.getFormattedDate(step.dueDate)} />
+                                                            <Input type="text" width="100%" value={util.getFormattedDate(step.dueDate)} />
                                                             <DatePicker onChange={handleDueDate} rowIndex={index}/> 
                                                             {index === 0?<>
                                                                 <SmallAddIcon onClick={() => handleAddExtraRow("steps", index)}/>
@@ -251,7 +251,7 @@ const AddEditWorkFlow = (props) => {
                                                             <Badge color={step.status === WorkFlowStepStatus.Complete?"paid_status":
                                                                             step.status === WorkFlowStepStatus.Pending?"":
                                                                             (step.status === WorkFlowStepStatus.Pending) && (new Date() > step.dueDate)?"pending_status":"pending_status"}>{step.status} </Badge>
-                                                            {step.status === WorkFlowStepStatus.Complete?<>({util.getFormattedDate(step.completedDate)})</>:<></>}                                                                            
+                                                            {step.status === WorkFlowStepStatus.Complete?<>({util.getFormattedDateWithTime(step.completedDate)})</>:<></>}                                                                            
                                                             {(step.status === WorkFlowStepStatus.InProgress)?<><Switch colorScheme='teal' size='sm' id='inProgress' isChecked >Mark Complete</Switch></>:<></>}                                                                            
                                                             {(step.status === WorkFlowStepStatus.Pending && index == 0)?<><Switch colorScheme='red' size='sm' id='pending' isChecked >Start</Switch></>:
                                                                 (step.status === WorkFlowStepStatus.Pending && steps[index-1]?.status == WorkFlowStepStatus.Complete)?<><><Switch colorScheme='red' size='sm' id='pending' isChecked>Start</Switch></></>:<></>}                                                                            
