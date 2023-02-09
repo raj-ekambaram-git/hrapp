@@ -150,13 +150,15 @@ const ProjectAddEdit = (props) => {
             miscBudget: projectResponse.miscBudget,
             totalHours: projectResponse.totalHours,
             averageRate: projectResponse.averageRate,
-            status: projectResponse.status
+            status: projectResponse.status,
+            workFlowEnabled: projectResponse.workFlowEnabled
         };
         refreshAddressForVendor(projectResponse.vendorId);
         setProject(projetData);
         setTimesheetNotesRequired(projectResponse.timesheetNotesRequired)
-        
-        const fields = ['name','referenceCode', "description", "type", "invoiceCycle","contactName","contactEmail","contactPhone","addressId","vendorId", "accountId","miscBudget","budget","totalHours","status", "averageRate",'paymentTerms'];
+        setEnableWorkFlow(projectResponse.workFlowEnabled)
+
+        const fields = ['name','referenceCode', "description", "type", "invoiceCycle","contactName","contactEmail","contactPhone","addressId","vendorId", "accountId","miscBudget","budget","totalHours","status", "averageRate",'paymentTerms','workFlowEnabled'];
         fields.forEach(field => setValue(field, projetData[field]));
         
     }
@@ -180,7 +182,24 @@ const ProjectAddEdit = (props) => {
   // Create Account 
   const createProject = async (formData) => {
     try {
-      const data = await projectService.createProject(formData);
+      if(enableWorkFlow) {
+        //Check of name, status and steps are there
+        if(workFlow && workFlow.name && workFlow.status && workFlow.steps) {
+          formData.workFlowEnabled = true;
+        } else {
+          toast({
+            title: 'Add Project Error.',
+            description: 'Workflow Enabled, please make sure you configure workflow for this vendor.',
+            status: 'error',
+            position: 'top',
+            duration: 9000,
+            isClosable: true,
+          }) 
+          return;  
+        }
+      }
+
+      const data = await projectService.createProject(formData, workFlow);
 
         if(data.error) {
           toast({
@@ -191,6 +210,7 @@ const ProjectAddEdit = (props) => {
             duration: 6000,
             isClosable: true,
           })
+          return;
         }else {
           toast({
             title: 'New Project.',
@@ -203,7 +223,6 @@ const ProjectAddEdit = (props) => {
         }
 
       if(props.modalRequest) {
-        console.log("isnide")
         props.modalRequest();
         router.push("/account/vendor/projects");
       }else {
@@ -221,6 +240,7 @@ const ProjectAddEdit = (props) => {
         duration: 6000,
         isClosable: true,
       })
+      return;
     }
   };
 

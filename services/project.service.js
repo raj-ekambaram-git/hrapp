@@ -119,8 +119,9 @@ function updateProject(projectId, formData) {
    });
 }
 
-function createProject(formData) {
+function createProject(formData, workFlow) {
     return fetchWrapper.post(`${baseUrl}/account/project/create`, {
+        createData: {
             name: formData.name,
             referenceCode: formData.referenceCode,
             description: formData.description,
@@ -139,9 +140,12 @@ function createProject(formData) {
             contactPhone: formData.contactPhone,
             totalHours: parseInt(formData.totalHours),
             averageRate: util.getDecimalValue(formData.averageRate),            
-            status: formData.status
-        }
-    )
+            status: formData.status,
+            workFlowEnabled: formData.workFlowEnabled?true:false
+        },
+        workFlow
+
+    })
     .then(async project => {
   
         return project;
