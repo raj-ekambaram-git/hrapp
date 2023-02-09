@@ -57,7 +57,7 @@ function WorkFlowSection(props) {
                                         )}               
                                     </Stack>                     
                                 </>:<></>}
-                                {workFlowData.todayDue?<>
+                                {workFlowData.todayDue && workFlowData.todayDue.length >0?<>
                                     <Stack>
                                         <Box textAlign="left" fontWeight="600" bgColor="paid_status" padding={1} border="1px" borderRadius="5px"> 
                                             Today Due
@@ -75,7 +75,7 @@ function WorkFlowSection(props) {
                                     </Stack>                     
                                 </>:<></>}
                             </HStack>
-                            {workFlowData.all?<>
+                            {workFlowData.all && workFlowData.all>0?<>
                                 <Stack>
                                     <Box  textAlign="center" fontWeight="600" bgColor="inner_table_tile" padding={1} border="1px" borderRadius="5px"> 
                                         All
@@ -91,7 +91,12 @@ function WorkFlowSection(props) {
                                         </HStack>                                    
                                     )}               
                                 </Stack>                     
-                            </>:<></>}                                                        
+                            </>:<></>}       
+                            {workFlowData.all && workFlowData.all.length ==0 && workFlowData.todayDue && workFlowData.todayDue == 0 && workFlowData.pastDue && workFlowData.pastDue.length==0?<>
+                                <Box textAlign="center">
+                                    No Pending or InProgress tasks
+                                </Box>
+                            </>:<></>} 
                         </Stack>
                     </CardBody>
                 </Card>
