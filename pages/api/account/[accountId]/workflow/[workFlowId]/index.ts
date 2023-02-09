@@ -19,6 +19,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const accountId = req.query.accountId;
     const workFlowId = req.query.accountId;
 
+    const updatedWorkFlowStepsRequest = workFlowStepsRequest?.map((step, index) => {
+      step.taskId = parseInt(step.taskId)
+      step.assignedTo = parseInt(step.assignedTo)
+      step.stepNumber = index+1
+      return step;
+    })
+
     if(accountId && workFlowRequest && workFlowId) {
       const savedWorkFlow = await prisma.workFlow.update({
         where: {            
@@ -30,9 +37,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           workFlowSteps: {
             deleteMany: {
               workFlowId: workFlowRequest.id,
-              NOT: workFlowStepsRequest?.map(({ id }) => ({ id })),
+              NOT: updatedWorkFlowStepsRequest?.map(({ id }) => ({ id })),
             },
-            upsert: workFlowStepsRequest?.map((wfStep) => ({ 
+            upsert: updatedWorkFlowStepsRequest?.map((wfStep) => ({ 
               where: { id: wfStep.id?wfStep.id:0 },
               create: {...wfStep},
               update: {...wfStep},

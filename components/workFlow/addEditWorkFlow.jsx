@@ -54,7 +54,6 @@ const AddEditWorkFlow = (props) => {
 
   const handleWorkFlowUpdate = async() => {
       if(name && status && steps && !workFlowUtil.validateStepsDataFilled(steps) && workFlowId) {
-        console.log("Inside the condition...")
         if(!workFlowUtil.checkDueDatesAreValid(steps)) {
             const workFlowData = {
                 id: workFlowId,
@@ -62,7 +61,6 @@ const AddEditWorkFlow = (props) => {
                 status: status,
             }
 
-            console.log("workFlowData::::"+JSON.stringify(workFlowData))
             const responseData = await workFlowService.updateWorkFlow(workFlowData, steps, workFlowId, userService.getAccountDetails().accountId)
             if(responseData.error) {
               toast({
@@ -155,7 +153,6 @@ const AddEditWorkFlow = (props) => {
   }
 
   const handleClick = (newSize) => {
-    console.log("props.typeId:::::"+props.typeId)
     setSize(newSize)
     onOpen()
     getTaskList()
@@ -346,10 +343,10 @@ const AddEditWorkFlow = (props) => {
                                                                 <Input type="text" width="100%" value={util.getFormattedDate(step.dueDate)} />
                                                                 <DatePicker onChange={handleDueDate} rowIndex={index}/> 
                                                                 {index === 0?<>
-                                                                    <SmallAddIcon onClick={() => handleAddExtraRow("steps", index)}/>
+                                                                    <SmallAddIcon onClick={() => handleAddExtraRow("steps", index+2)}/>
                                                                     <Spacer maxWidth={3} />
                                                                 </>:<>
-                                                                    <SmallAddIcon onClick={() => handleAddExtraRow("steps", index)}/>
+                                                                    <SmallAddIcon onClick={() => handleAddExtraRow("steps", index+2)}/>
                                                                     {!props.isAddMode && step.status && (step.status === WorkFlowStepStatus.InProgress || step.status === WorkFlowStepStatus.Complete)?<> <Spacer maxWidth={2} /></>:<>
                                                                         <SmallCloseIcon onClick={() => handleRemoveRow("steps", index)}/>
                                                                     </>}                                                                                                                         

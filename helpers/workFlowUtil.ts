@@ -12,14 +12,10 @@ function checkDueDatesAreValid(steps) {
     let currentDate = new Date((new Date()).toDateString());
     
     return steps?.map((step) => {
-      console.log("STEP#:::"+step.stepNumber+"DUE DATE:::"+step.dueDate+"****STATUS::"+step.status+"****currentDate::"+currentDate)
-      console.log("(step.dueDate && currentDate <= step.dueDate):::"+util.getFormattedDate(step.dueDate))
       if((util.getLocaleDate(step.dueDate) && currentDate <= util.getLocaleDate(step.dueDate)) || step.status === WorkFlowStepStatus.Complete ) {
         currentDate = util.getLocaleDate(step.dueDate);
-        console.log('true...')
         return true
       } else {
-        console.log("False")
         return false
       }
     }).includes(false)
