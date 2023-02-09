@@ -30,6 +30,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { resetSelectedAccountId } from "../../store/modules/Account/actions";
 import { ConfigConstants } from "../../constants";
 import AddEditWorkFlow from "../workFlow/addEditWorkFlow";
+import { VendorStatus } from "@prisma/client";
 
 
 const VendorEdit = (props) => {
@@ -295,12 +296,23 @@ const VendorEdit = (props) => {
                         <Box>
                           <FormControl isRequired>
                             <FormLabel>Vendor Status</FormLabel>
+                            
                             <Select width="100%" id="status" {...register('status')} size="sm">
-                              <option value="Active">Active</option>
-                              <option value="Approved">Approved</option>
-                              <option value="Inactive">Inactive</option>
-                              <option value="Error">Error</option>                              
-                              <option value="Rejected">Rejected</option>
+                              {(enableWorkFlow)?<>
+                                <option value="Inactive">Inactive</option>
+                                {vendor.status !== VendorStatus.Inactive?<>
+                                  <option value="Active" selected={vendor.status === VendorStatus.Active} >Active</option>
+                                  <option value="Approved" selected={vendor.status === VendorStatus.Approved}>Approved</option>
+                                  <option value="Inactive" selected={vendor.status === VendorStatus.Inactive}>Inactive</option>
+                                  <option value="Rejected" selected={vendor.status === VendorStatus.Rejected}>Rejected</option>                                  
+                                </>:<></>}
+                              </>:<>
+                                <option value="Active">Active</option>
+                                <option value="Approved">Approved</option>
+                                <option value="Inactive">Inactive</option>
+                                <option value="Error">Error</option>                              
+                                <option value="Rejected">Rejected</option>
+                              </>}
                             </Select>
                           </FormControl>     
                         </Box>  
