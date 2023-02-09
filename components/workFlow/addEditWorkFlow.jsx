@@ -28,7 +28,8 @@ import {
   Slider,
   SliderTrack,
   SliderFilledTrack,
-  SliderThumb
+  SliderThumb,
+  IconButton
 } from '@chakra-ui/react'
 
 import { useDispatch, useSelector } from "react-redux";
@@ -268,7 +269,9 @@ const AddEditWorkFlow = (props) => {
                                                     {steps?.map((step, index) => 
                                                         <>
                                                         <HStack marginBottom={1} spacing={3}>
-                                                            <Text fontWeight="600">Step {index+1}:</Text>
+                                                            <Button bgColor="header_actions" fontWeight="600" fontSize="15">
+                                                                {index+1}
+                                                            </Button>
                                                             <Select id="stepTask" width="22%" value={step.taskId} onChange={(ev) => handleStepEntry("taskId",ev, index)}>
                                                                 <option value="">Select Task</option>
                                                                 {tasks && tasks?.map((taskVal) => (
@@ -307,7 +310,7 @@ const AddEditWorkFlow = (props) => {
                                                             
                                                         </HStack>  
                                                         {index+1 < steps.length?<>
-                                                            <Slider aria-label='slider-ex-3' defaultValue={30} orientation='vertical' minH='20' marginLeft='30' >
+                                                            <Slider aria-label='slider-ex-3' defaultValue={30} orientation='vertical' minH='20' marginLeft='4' >
                                                                 <SliderTrack bg="teal.500"/>                                                                                                                        
                                                             </Slider>    
                                                         </>:<></>}    
