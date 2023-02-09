@@ -11,3 +11,4 @@ export * from './tabsTheme';
 export * from './selectTheme';
 export * from './inputTheme';
 export * from './formLabelTheme';
+export * from './badgeTheme';
