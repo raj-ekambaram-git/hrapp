@@ -28,6 +28,8 @@ import {
   Checkbox
 } from '@chakra-ui/react';
 import {PageMainHeader} from '../../components/common/pageMainHeader';
+import { ConfigConstants } from "../../constants";
+import AddEditWorkFlow from "../workFlow/addEditWorkFlow";
 
 const ProjectAddEdit = (props) => {
   
@@ -56,6 +58,9 @@ const ProjectAddEdit = (props) => {
   const [vendorList, setVendorList] = useState([]);
   const [accountList, setAccountList] = useState([]);
   const [addressList, setAddressList] = useState([]);
+  const [enableWorkFlow, setEnableWorkFlow] = useState(false);
+  const [workFlow, setWorkFlow] = useState();
+
   
 
   //User Validation START
@@ -325,6 +330,28 @@ const ProjectAddEdit = (props) => {
                           </FormControl>     
                         </Box> 
                       </HStack>
+                      {(userService.accountFeatureEnabled(ConfigConstants.FEATURES.WORK_FLOW))?<>
+                        <HStack spacing="8rem">
+                            {(isAddMode && userService.isWorkFlowAdmin())?<>                              
+                              <Box>
+                                <FormControl>
+                                  <FormLabel>Enable WorkFlow?</FormLabel>
+                                  <Checkbox
+                                      onChange={(e) => setEnableWorkFlow(e.target.checked)}
+                                    />  
+                                </FormControl>    
+                              </Box>                              
+                            </>:<></>}
+                            {enableWorkFlow?<>
+                              <Box>
+                                <FormControl isRequired>
+                                  <FormLabel>WorkFlow</FormLabel>
+                                    <AddEditWorkFlow isAddMode={isAddMode} workFlow={workFlow} setWorkFlow={setWorkFlow} type="Project" typeId={projectId}/>                       
+                                </FormControl>    
+                              </Box>                              
+                            </>:<></>}
+                          </HStack>
+                      </>:<></>}
                       <HStack spacing="7rem">
                         <Box>
                           <FormControl isRequired>
