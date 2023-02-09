@@ -109,7 +109,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       }
     })
 
-    console.log("notesHistory:::"+JSON.stringify(notesHistory))
       res.status(200).json(notesHistory);
   } catch (error) {
     console.log(error)
