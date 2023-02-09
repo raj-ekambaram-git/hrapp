@@ -15,15 +15,45 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   try {
     const {workFlowRequest} = req.body;
+    const {workFlowStepsRequest} = req.body;
     const accountId = req.query.accountId;
     const workFlowId = req.query.accountId;
+
     if(accountId && workFlowRequest && workFlowId) {
       const savedWorkFlow = await prisma.workFlow.update({
         where: {            
           id: workFlowRequest.id
+        },     
+        data: {
+          ...workFlowRequest,
+          
+          workFlowSteps: {
+            deleteMany: {
+              workFlowId: workFlowRequest.id,
+              NOT: workFlowStepsRequest?.map(({ id }) => ({ id })),
+            },
+            upsert: workFlowStepsRequest?.map((wfStep) => ({ 
+              where: { id: wfStep.id?wfStep.id:0 },
+              create: {...wfStep},
+              update: {...wfStep},
+            }))
+          }
         },
-        data: workFlowRequest,
         include: {
+          workFlowSteps: {
+            select: {
+              id: true,
+              stepNumber: true,
+              taskId: true,
+              assignedTo: true,
+              dueDate: true,
+              status: true,
+              completedDate: true
+            },
+            orderBy: {
+              stepNumber: "asc"
+            }
+          },
           updatedUser: {
             select: {
               firstName: true,
@@ -32,6 +62,26 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           }
         }
       });
+
+      // const savedInvoice = await prisma.invoice.update({
+      //   where: {
+      //     id: invoice.invoiceData.id,
+      //   },
+      //   data: {
+      //     ...invoice.invoiceData,
+      //     invoiceItems: {
+      //       deleteMany: {
+      //         invoiceId: invoice.invoiceData.id,
+      //         NOT: invoice.invoiceItems?.map(({ id }) => ({ id })),
+      //       },
+      //       upsert: invoice.invoiceItems?.map((invoiceItem) => ({ 
+      //         where: { id: invoiceItem.id?invoiceItem.id:0 },
+      //         create: {...invoiceItem},
+      //         update: {...invoiceItem},
+      //       }))
+      //     },
+      //   }
+      // });      
       res.status(200).json(savedWorkFlow);
     }
 

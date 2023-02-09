@@ -54,16 +54,16 @@ const AddEditWorkFlow = (props) => {
 
   const handleWorkFlowUpdate = async() => {
       if(name && status && steps && !workFlowUtil.validateStepsDataFilled(steps) && workFlowId) {
+        console.log("Inside the condition...")
         if(!workFlowUtil.checkDueDatesAreValid(steps)) {
             const workFlowData = {
                 id: workFlowId,
                 name: name,
                 status: status,
-                workFlowSteps: steps,
             }
 
             console.log("workFlowData::::"+JSON.stringify(workFlowData))
-            const responseData = await workFlowService.updateWorkFlow(workFlowData, workFlowId, userService.getAccountDetails().accountId)
+            const responseData = await workFlowService.updateWorkFlow(workFlowData, steps, workFlowId, userService.getAccountDetails().accountId)
             if(responseData.error) {
               toast({
                 title: 'Work Flow Error.',
@@ -259,10 +259,10 @@ const AddEditWorkFlow = (props) => {
   const handleStepEntry = (inpputType, inputValue, index) => {
     const newSteps = [...steps]
     if(inpputType === "taskId") {
-        newSteps[index]["taskId"]= inputValue.target.value
+        newSteps[index]["taskId"]= parseInt(inputValue.target.value)
         newSteps[index]["status"]= WorkFlowStepStatus.Pending
     } else if (inpputType === "assignedTo") {
-      newSteps[index]["assignedTo"]=inputValue.target.value
+      newSteps[index]["assignedTo"]=parseInt(inputValue.target.value)
     } else if (inpputType === "dueDate") {
         newSteps[index]["dueDate"]= new Date(inputValue)
     } else if (inpputType === "stepNumber") {                

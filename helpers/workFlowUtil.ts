@@ -1,4 +1,5 @@
 import { WorkFlowStepStatus } from "@prisma/client";
+import { util } from "./util";
 
 export const workFlowUtil = {
   validateStepsDataFilled,
@@ -9,11 +10,16 @@ function checkDueDatesAreValid(steps) {
 
   if(steps) {
     let currentDate = new Date((new Date()).toDateString());
+    
     return steps?.map((step) => {
-      if((step.dueDate && currentDate <= step.dueDate) || step.status === WorkFlowStepStatus.Complete ) {
-        currentDate = step.dueDate;
+      console.log("STEP#:::"+step.stepNumber+"DUE DATE:::"+step.dueDate+"****STATUS::"+step.status+"****currentDate::"+currentDate)
+      console.log("(step.dueDate && currentDate <= step.dueDate):::"+util.getFormattedDate(step.dueDate))
+      if((util.getLocaleDate(step.dueDate) && currentDate <= util.getLocaleDate(step.dueDate)) || step.status === WorkFlowStepStatus.Complete ) {
+        currentDate = util.getLocaleDate(step.dueDate);
+        console.log('true...')
         return true
       } else {
+        console.log("False")
         return false
       }
     }).includes(false)

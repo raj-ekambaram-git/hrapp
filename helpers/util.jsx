@@ -27,8 +27,19 @@ export const util = {
     getWithCurrency,
     getTotalBillableExpense,
     getUserRole,
-    validateEmailArray
+    validateEmailArray,
+    getLocaleDate
 };
+
+function getLocaleDate(date) {
+  if(date) {
+    return new Date(new Date(date?.toString()).toLocaleDateString( "en-US", { timeZone: "America/New_York" }))
+  } else {
+    return date
+  }
+  
+}
+
 
 function validateEmailArray(emailArray) {
   return emailArray.map((email) => {

@@ -18,8 +18,8 @@ export const workFlowService = {
     
 };
 
-function updateWorkFlow(workFlowRequest, workFlowId, accountId) {
-    return fetchWrapper.put(`${baseUrl}/account/`+accountId+`/workflow/`+workFlowId, {workFlowRequest})
+function updateWorkFlow(workFlowRequest, workFlowStepsRequest, workFlowId, accountId) {
+    return fetchWrapper.put(`${baseUrl}/account/`+accountId+`/workflow/`+workFlowId, {workFlowRequest, workFlowStepsRequest})
         .then(workFlow => {
             return workFlow;
         })        
