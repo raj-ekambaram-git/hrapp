@@ -78,7 +78,7 @@ function WorkFlowSection(props) {
                             </HStack>
                             {workFlowData.all && workFlowData.all?.length>0?<>
                                 <Stack>
-                                    <Box  textAlign="center" fontWeight="600"  bgColor="inner_table_tile" padding={1} border="1px" borderRadius="5px"> 
+                                    <Box  textAlign="center" fontWeight="800" fontSize="10px" bgColor="inner_table_tile" padding={1} border="1px" borderRadius="5px"> 
                                         All
                                     </Box>
                                     {workFlowData.all?.map((countData) => 
