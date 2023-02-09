@@ -90,9 +90,7 @@ const ProjectResourceList = (props) => {
           <h2>
             <AccordionButton>
               <Box as="span" flex='1' textAlign='left'>
-                <Heading size='xs'>
                   Project Allocation 
-                </Heading>
               </Box>
               <AccordionIcon />
             </AccordionButton>

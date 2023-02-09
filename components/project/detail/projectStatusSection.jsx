@@ -14,7 +14,7 @@ const ProjectStatusSection = (props) => {
     <div>
         
         <Box>
-            <Heading size='xs' textTransform='uppercase' marginBottom="1rem">
+            <Heading size='xs'  marginBottom="1rem">
             Project Status
             </Heading>
             <Badge color={`${

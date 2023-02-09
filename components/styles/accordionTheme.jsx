@@ -15,7 +15,8 @@ const mainPage = definePartsStyle({
       },
     button: {
          bgColor: "table_tile",
-         borderRadius: 'lg'
+         borderRadius: 'lg',
+         fontSize: "14px"
     },
     
     panel: {

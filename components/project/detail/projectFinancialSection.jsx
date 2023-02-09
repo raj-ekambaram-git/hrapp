@@ -31,9 +31,7 @@ const ProjectAccountSection = (props) => {
             <h2>
                 <AccordionButton>
                 <Box as="span" flex='1' textAlign='left'>
-                    <Heading size='xs'>
                     Project Financials
-                    </Heading>
                 </Box>
                 <AccordionIcon />
                 </AccordionButton>

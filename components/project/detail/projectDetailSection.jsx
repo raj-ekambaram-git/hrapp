@@ -29,9 +29,7 @@ const ProjectDetailSection = (props) => {
             <h2>
                 <AccordionButton>
                 <Box as="span" flex='1' textAlign='left'>
-                    <Heading size='xs'>
                     Project Details
-                    </Heading>
                 </Box>
                 <AccordionIcon />
                 </AccordionButton>
