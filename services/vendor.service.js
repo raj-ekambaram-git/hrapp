@@ -12,10 +12,11 @@ export const vendorService = {
 
     updateVendor,
     createVendor,
-    getVendorReportData
- 
+    getVendorReportData,
 
 };
+
+
 
 function getVendorReportData(vendorId, accountId) {
   return fetchWrapper.get(`${baseUrl}/reports/vendor/`+vendorId+'/detail?accountId='+accountId, {})

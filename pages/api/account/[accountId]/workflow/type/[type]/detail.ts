@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import { WorkFlowTaskType, WorkFlowTaskStatus } from "@prisma/client";
+import { NotesType, Role, UserStatus, VendorStatus, WorkFlowTaskStatus, WorkFlowType } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next"
 import prisma from "../../../../../../../lib/prisma";
 
@@ -12,28 +12,35 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   const accountId = req.query?.accountId;
   const type = req.query?.type;
-  console.log("TASKS Account ::"+accountId)
+  const typeId = req.query?.typeId;
+  console.log("TASKS Account ::"+accountId+"****typeId::"+typeId+"****type::"+type)
   try {
-    if(accountId && type) {
-      const workFlowTasks = await prisma.workFlowTask.findMany({
+    if(accountId && type && typeId) {
+      const workFlow = await prisma.workFlow.findMany({
         where: {
             accountId: {
               equals: parseInt(accountId.toString())
             },
             type: {
-              equals: WorkFlowTaskType[type.toString()]
+              equals: WorkFlowType[type.toString()]
             },
-            status: {
-              equals: WorkFlowTaskStatus.Active
+           typeId: {
+            equals: parseInt(typeId.toString())
+           }
+        },
+        include: {
+          workFlowSteps: {
+            orderBy: {
+              stepNumber: "asc"
             }
-
+          }
         },
         orderBy: {
-          lastUpdateDate: "desc"
+          lastUpdateDate: "asc"
         }
-
       });
-      res.status(200).json(workFlowTasks);
+      console.log("workFlow:::"+JSON.stringify(workFlow))
+      res.status(200).json(workFlow[0]);
     } else {
       res.status(400).json({ message: 'Something went wrong while getting workflow type and tasks' })
     }

@@ -12,8 +12,20 @@ export const workFlowService = {
     updateTask,
     getTaskListByType,
     getAssignedToList,
+    getWorkFlowData,
     
 };
+
+function getWorkFlowData(type, typeId, accountId) {
+    return fetchWrapper.get(`${baseUrl}/account/`+accountId+`/workflow/type/`+type+'/detail?typeId='+typeId, {})
+    .then(workFlowData => {
+        return workFlowData;
+    })
+    .catch(err => {
+        console.log("Error getting getWorkFlowData  ::"+err)
+        return {errorMessage: err, error: true};
+       });
+  }
 
 function getTaskListByType(type, accountId) {
     return fetchWrapper.get(`${baseUrl}/account/`+accountId+`/workflow/type/`+type+'/tasks', {})

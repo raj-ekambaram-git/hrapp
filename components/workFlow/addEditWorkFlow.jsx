@@ -21,7 +21,9 @@ import {
   CardFooter,
   Box,
   Heading,
-  Text
+  Text,
+  Badge,
+  Spacer
 } from '@chakra-ui/react'
 
 import { useDispatch, useSelector } from "react-redux";
@@ -31,7 +33,7 @@ import { SmallAddIcon, SmallCloseIcon } from "@chakra-ui/icons";
 import { userService, workFlowService } from "../../services";
 import { util, workFlowUtil } from "../../helpers";
 import DatePicker from "../common/datePicker";
-import { WorkFlowStepStatus } from "@prisma/client";
+import { WorkFlowStatus, WorkFlowStepStatus } from "@prisma/client";
 
 
 const AddEditWorkFlow = (props) => {
@@ -46,15 +48,40 @@ const AddEditWorkFlow = (props) => {
   const [assignedTos, setAssignedTos] = useState();
 
   const handleClick = (newSize) => {
+    console.log("props.typeId:::::"+props.typeId)
     setSize(newSize)
     onOpen()
     getTaskList()
     getAssignedToList()
-    console.log("PROPS WORKFFLOW ::"+JSON.stringify(props.workFlow))
-    if(props.workFlow) {
-        setName(props.workFlow?.name)
-        setStatus(props.workFlow?.status)
-        setSteps(props.workFlow?.steps)
+
+    if(props.isAddMode) {
+        if(props.workFlow) {
+            setName(props.workFlow?.name)
+            setStatus(props.workFlow?.status)
+            setSteps(props.workFlow?.steps)
+        }    
+    } else if (!props.isAddMode && props.typeId){
+        //Get the WorkFlow ID and get the detaiils for the same
+        getWorkFlowData()
+    }
+  }
+
+  const getWorkFlowData = async() => {
+    const responseData = await workFlowService.getWorkFlowData(props.type, props.typeId, userService.getAccountDetails().accountId)
+    if(responseData.error) {
+        toast({
+            title: 'Work Flow Error.',
+            description: 'Error getting workflow details, please try again later or contact administrator.',
+            status: 'error',
+            position: 'top',
+            duration: 6000,
+            isClosable: true,
+          })   
+          return;     
+    } else {
+        setName(responseData.name)
+        setStatus(responseData.status)
+        setSteps(responseData.workFlowSteps)
     }
   }
 
@@ -174,12 +201,16 @@ const AddEditWorkFlow = (props) => {
                                                 </FormControl>   
                                                 <FormControl isRequired>
                                                     <FormLabel>Status</FormLabel>
-                                                    <Select id="status" value={status} onChange={(ev) => setStatus(ev.target.value)}>
-                                                        <option value="">Select Status</option>
-                                                        {WorkFlowConstants.WORKFLOW_STATUS_LOOKIUP?.map((status) => (
-                                                            <option value={status.key}>{status.displayName}</option>
-                                                        ))}
-                                                    </Select>
+                                                    {props.isAddMode?<>
+                                                        <Select id="status" value={status} onChange={(ev) => setStatus(ev.target.value)}>
+                                                            <option value="">Select Status</option>
+                                                            {WorkFlowConstants.WORKFLOW_STATUS_LOOKIUP?.map((status) => (
+                                                                <option value={status.key}>{status.displayName}</option>
+                                                            ))}
+                                                        </Select>
+                                                    </>:<>
+                                                        <Badge color={status === WorkFlowStatus.Active?"paid_status":"pending_status"}>{status}</Badge>
+                                                    </>}
                                                 </FormControl>                                                   
                                             </HStack>
                                             <Stack spacing={5}>
@@ -204,14 +235,21 @@ const AddEditWorkFlow = (props) => {
                                                         <HStack>
                                                             <Input type="text" value={util.getFormattedDate(step.dueDate)} />
                                                             <DatePicker onChange={handleDueDate} rowIndex={index}/> 
-                                                        </HStack>   
+                                                        </HStack>                                                          
                                                         {index === 0?<>
                                                             <SmallAddIcon onClick={() => handleAddExtraRow("steps", index)}/>
+                                                            <Spacer maxWidth={3} />
                                                         </>:<>
                                                             <SmallAddIcon onClick={() => handleAddExtraRow("steps", index)}/>
-                                                            <SmallCloseIcon onClick={() => handleRemoveRow("steps", index)}/>
-                                                        </>}
-                                                        
+                                                            {!props.isAddMode && step.status && (step.status === WorkFlowStepStatus.InProgress || step.status === WorkFlowStepStatus.Complete)?<> <Spacer maxWidth={3} /></>:<>
+                                                                <SmallCloseIcon onClick={() => handleRemoveRow("steps", index)}/>
+                                                            </>}                                                                                                                         
+                                                        </>}                                                        
+                                                        {!props.isAddMode && step.status?<>
+                                                            <Badge color={step.status === WorkFlowStepStatus.Complete?"paid_status":
+                                                                            step.status === WorkFlowStepStatus.Pending?"":
+                                                                            (step.status === WorkFlowStepStatus.Pending) && (new Date() > step.dueDate)?"pending_status":"pending_status"}>{step.status}</Badge>
+                                                        </>:<></>} 
                                                     </HStack>                                                
                                                 )}   
                                                 </Box>        
