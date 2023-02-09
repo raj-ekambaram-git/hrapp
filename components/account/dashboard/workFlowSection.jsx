@@ -25,6 +25,7 @@ function WorkFlowSection(props) {
       const getWorkFlowData = async () => {
         if(userService.isWorkFlowAdmin() || userService.isWorkFlowContributor) {
             const responseData = await workFlowService.getDashBoardData(userService.userValue.id, userService.getAccountDetails().accountId);
+            console.log("responseData:::"+JSON.stringify(responseData))
             setWorkFlowData(responseData)
         }
         
@@ -75,7 +76,7 @@ function WorkFlowSection(props) {
                                     </Stack>                     
                                 </>:<></>}
                             </HStack>
-                            {workFlowData.all && workFlowData.all>0?<>
+                            {workFlowData.all && workFlowData.all?.length>0?<>
                                 <Stack>
                                     <Box  textAlign="center" fontWeight="600" bgColor="inner_table_tile" padding={1} border="1px" borderRadius="5px"> 
                                         All
