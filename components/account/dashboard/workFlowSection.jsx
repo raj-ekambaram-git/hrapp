@@ -43,7 +43,7 @@ function WorkFlowSection(props) {
                             <HStack spacing="85px" marginLeft={6}>
                                 {workFlowData.pastDue && workFlowData.pastDue.length>0?<>
                                     <Stack>
-                                        <Box textAlign="left" color="white" fontWeight="600" bgColor="pending_status" padding={1} border="1px" borderRadius="5px"> 
+                                        <Box textAlign="center" color="white" fontSize="10px" fontWeight="600" bgColor="pending_status" padding={1} border="1px" borderRadius="5px"> 
                                             Past Due
                                         </Box>
                                         {workFlowData.pastDue?.map((countData) => 
@@ -60,7 +60,7 @@ function WorkFlowSection(props) {
                                 </>:<></>}
                                 {workFlowData.todayDue && workFlowData.todayDue.length >0?<>
                                     <Stack>
-                                        <Box textAlign="left" fontWeight="600" bgColor="paid_status" padding={1} border="1px" borderRadius="5px"> 
+                                        <Box textAlign="center" fontWeight="600" fontSize="10px" bgColor="paid_status" padding={1} border="1px" borderRadius="5px"> 
                                             Today Due
                                         </Box>
                                         {workFlowData.todayDue?.map((countData) => 
@@ -78,7 +78,7 @@ function WorkFlowSection(props) {
                             </HStack>
                             {workFlowData.all && workFlowData.all?.length>0?<>
                                 <Stack>
-                                    <Box  textAlign="center" fontWeight="600" bgColor="inner_table_tile" padding={1} border="1px" borderRadius="5px"> 
+                                    <Box  textAlign="center" fontWeight="600"  bgColor="inner_table_tile" padding={1} border="1px" borderRadius="5px"> 
                                         All
                                     </Box>
                                     {workFlowData.all?.map((countData) => 
