@@ -18,7 +18,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
               equals: parseInt(accountId.toString())
             },
             userRole: {            
-              hasSome: [Role.ACCOUNT_ADMIN, Role.ACCOUNT_VENDOR_REP]
+              hasSome: [Role.ACCOUNT_ADMIN, Role.ACCOUNT_VENDOR_REP, Role.WORKFLOW_ADMIN, Role.WORKFLOW_CONTRIBUTOR]
             },
             status: {
               equals: UserStatus.Active
