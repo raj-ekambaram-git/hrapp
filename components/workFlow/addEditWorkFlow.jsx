@@ -24,7 +24,11 @@ import {
   Text,
   Badge,
   Spacer,
-  Switch
+  Switch,
+  Slider,
+  SliderTrack,
+  SliderFilledTrack,
+  SliderThumb
 } from '@chakra-ui/react'
 
 import { useDispatch, useSelector } from "react-redux";
@@ -262,7 +266,8 @@ const AddEditWorkFlow = (props) => {
                                                 <Heading size="h4"> {props.isAddMode?"Add/Remove Steps":"Steps"}</Heading>                                                
                                                 <Box alignContent="left">
                                                     {steps?.map((step, index) => 
-                                                        <HStack marginBottom={16} spacing={3}>
+                                                        <>
+                                                        <HStack marginBottom={1} spacing={3}>
                                                             <Text fontWeight="600">Step {index+1}:</Text>
                                                             <Select id="stepTask" width="22%" value={step.taskId} onChange={(ev) => handleStepEntry("taskId",ev, index)}>
                                                                 <option value="">Select Task</option>
@@ -300,7 +305,13 @@ const AddEditWorkFlow = (props) => {
                                                                     (step.status === WorkFlowStepStatus.Pending && steps[index-1]?.status == WorkFlowStepStatus.Complete)?<><><Switch colorScheme='red' size='sm' id='pending' isChecked onChange={() => handleStatusUpdate(WorkFlowStepStatus.InProgress, step.id, index)}>Start</Switch></></>:<></>}                                                                            
                                                             </>:<></>} 
                                                             
-                                                        </HStack>                                                
+                                                        </HStack>  
+                                                        {index+1 < steps.length?<>
+                                                            <Slider aria-label='slider-ex-3' defaultValue={30} orientation='vertical' minH='20' marginLeft='30' >
+                                                                <SliderTrack bg="teal.500"/>                                                                                                                        
+                                                            </Slider>    
+                                                        </>:<></>}    
+                                                        </>                                      
                                                     )}   
                                                 </Box>        
                                             </Stack>                                    
