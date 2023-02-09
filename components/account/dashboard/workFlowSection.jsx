@@ -61,7 +61,7 @@ function WorkFlowSection(props) {
                                 {workFlowData.todayDue && workFlowData.todayDue.length >0?<>
                                     <Stack>
                                         <Box textAlign="center" fontWeight="600" fontSize="10px" bgColor="paid_status" padding={1} border="1px" borderRadius="5px"> 
-                                            Today Due
+                                            Due Today
                                         </Box>
                                         {workFlowData.todayDue?.map((countData) => 
                                             <HStack>
