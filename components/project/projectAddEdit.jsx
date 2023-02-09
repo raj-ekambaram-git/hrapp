@@ -30,6 +30,7 @@ import {
 import {PageMainHeader} from '../../components/common/pageMainHeader';
 import { ConfigConstants } from "../../constants";
 import AddEditWorkFlow from "../workFlow/addEditWorkFlow";
+import { ProjectStatus } from "@prisma/client";
 
 const ProjectAddEdit = (props) => {
   
@@ -332,11 +333,21 @@ const ProjectAddEdit = (props) => {
                         <Box>
                           <FormControl isRequired>
                             <FormLabel>Projet Status</FormLabel>
-                            <Select width="100%" id="status" {...register('status')} >
-                                {PROJECT_STATUS?.map((projectStatus) => (
-                                        <option value={projectStatus.projectStatusId}>{projectStatus.projectStatusName}</option>
-                                ))}   
-                            </Select>
+                            <Select width="100%" id="status" {...register('status')} >                          
+                              {(enableWorkFlow)?<>
+                                  <option value="Created">Created</option>
+                                  {project.status !== ProjectStatus.Created?<>
+                                    <option value="Open" selected={project.status === ProjectStatus.Open} >Open</option>
+                                    <option value="Closed" selected={project.status === ProjectStatus.Closed}>Closed</option>
+                                    <option value="Settled" selected={project.status === ProjectStatus.Settled}>Settled</option>
+                                  </>:<></>}
+                                </>:<>
+                                <option value="Created">Created</option>
+                                  <option value="Open">Open</option>
+                                  <option value="Closed">Closed</option>
+                                  <option value="Settled">Settled</option>                              
+                                </>}    
+                            </Select>                        
                           </FormControl>     
                         </Box>  
                         <Box>
