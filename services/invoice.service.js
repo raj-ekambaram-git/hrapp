@@ -282,13 +282,14 @@ function updateInvoice(formData, invoiceId, invoiceDate, dueDte, invoiceItemList
 
 
 
-function createNewInvoice(formData, invoiceItemList, invoiceDate, dueDte, invoiceEmailTos) {
+function createNewInvoice(formData, invoiceItemList, invoiceDate, dueDte, invoiceEmailTos, workFlow) {
   let paidAmountValue = 0;
   if(formData.paidAmount != undefined && formData.paidAmount != EMPTY_STRING) {
     paidAmountValue = parseFloat(formData.paidAmount);
   }
 
   return fetchWrapper.post(`${baseUrl}/account/invoice/create`, {
+    createData: {
         description: formData.description,
         type: formData.type,
         accountId: parseInt(formData.accountId),
@@ -302,8 +303,11 @@ function createNewInvoice(formData, invoiceItemList, invoiceDate, dueDte, invoic
         invoiceEmailTo: invoiceEmailTos,
         total: formData.total,
         status: formData.status,
-        paymentTerms: formData.paymentTerms
-      }
+        paymentTerms: formData.paymentTerms,
+        workFlowEnabled: formData.workFlowEnabled?true:false
+      },
+      workFlow
+    }
   )
   .then(async invoice => {
 

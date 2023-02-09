@@ -24,7 +24,8 @@ import {
   InputGroup,
   InputLeftElement,
   Text,
-  Badge
+  Badge,
+  Checkbox
 } from '@chakra-ui/react'
 import InvoiceItems from "../invoice/invoiceItems";
 import { useDispatch,useSelector } from "react-redux";
@@ -35,11 +36,12 @@ import { InvoiceConstants } from "../../constants/invoiceConstants";
 import {PageNotAuthorized} from '../../components/common/pageNotAuthorized';
 import {PageMainHeader} from '../../components/common/pageMainHeader';
 import InvoiceEmailTo from "../invoice/invoiceEmailTo";
-import { DocumentConstants, NotesConstants } from "../../constants";
+import { ConfigConstants, DocumentConstants, NotesConstants } from "../../constants";
 import { util } from "../../helpers/util";
 import { setDocumentType } from "../../store/modules/Document/actions";
 import InvoiceDetailActions from "../invoice/invoiceDetailActions";
-import { ExpenseStatus, InvoiceType, TimesheetStatus } from "@prisma/client";
+import { ExpenseStatus, InvoiceStatus, InvoiceType, TimesheetStatus } from "@prisma/client";
+import AddEditWorkFlow from "../workFlow/addEditWorkFlow";
 
 
 
@@ -69,6 +71,9 @@ const InvoiceAddEdit = (props) => {
   const [enableInvoiceItemAdd, setEnableInvoiceItemAdd] = useState(false);
   const [enableEmailIcon, setEnableEmailIcon] = useState(false);
   const [disableUpdate, setDisableUpdate] = useState(false);
+  const [enableWorkFlow, setEnableWorkFlow] = useState(false);
+  const [workFlow, setWorkFlow] = useState();
+
 
   
   //Get the invoiceItemsList if there are any
@@ -165,6 +170,7 @@ const InvoiceAddEdit = (props) => {
         setEnableEmailIcon(true);
         setInvoiceDate(invoiceResponse.invoiceDate)
         setDueDte(invoiceResponse.dueDte)
+        setEnableWorkFlow(invoiceResponse.workFlowEnabled)
 
         if(invoiceResponse.invoiceEmailTo != undefined && invoiceResponse.invoiceEmailTo.length >0){
           dispatch(setInvoiceEmailTo(invoiceResponse.invoiceEmailTo));
@@ -199,7 +205,7 @@ const InvoiceAddEdit = (props) => {
         dispatch(setInvoiceTotal(invoiceResponse.total));
         dispatch(setInvoicePaidAmount(invoiceResponse.paidAmount));
         
-        const fields = ['description', "type", "vendorId","accountId","projectId","invoiceDate","dueDte", "total","status","paymentTerms"];
+        const fields = ['description', "type", "vendorId","accountId","projectId","invoiceDate","dueDte", "total","status","paymentTerms","workFlowEnabled"];
         fields.forEach(field => setValue(field, invoiceResponse[field]));
     }
 
@@ -314,6 +320,22 @@ const InvoiceAddEdit = (props) => {
   // Create Account 
   const createInvoice = async (formData) => {
     try {
+        if(enableWorkFlow) {
+          //Check of name, status and steps are there
+          if(workFlow && workFlow.name && workFlow.status && workFlow.steps) {
+            formData.workFlowEnabled = true;
+          } else {
+            toast({
+              title: 'Add Invoice Error.',
+              description: 'Workflow Enabled, please make sure you configure workflow for this invoice.',
+              status: 'error',
+              position: 'top',
+              duration: 9000,
+              isClosable: true,
+            }) 
+            return;  
+          }
+        }
         if(invoiceItemList?.length <= 0 ) {
           toast({
             title: 'Invoice Error.',
@@ -325,7 +347,8 @@ const InvoiceAddEdit = (props) => {
           })
           return;
         }
-        const responseData = await invoiceService.createNewInvoice(formData, invoiceItemList, invoiceDate, dueDte, invoiceEmailTos);
+
+        const responseData = await invoiceService.createNewInvoice(formData, invoiceItemList, invoiceDate, dueDte, invoiceEmailTos, workFlow);
         if(!responseData.error) {
           toast({
             title: 'New Invoice.',
@@ -451,6 +474,12 @@ const InvoiceAddEdit = (props) => {
     }
   };
 
+  const handleEnableWorkFlow = (enableWF) => {
+    setEnableWorkFlow(enableWF)
+    if(enableWF) {
+      setValue("status", InvoiceStatus.Draft)
+    }
+  }
 
   return (
 
@@ -481,6 +510,28 @@ const InvoiceAddEdit = (props) => {
                           <Input type="text" {...register('description')}  id="description"    maxWidth="page.single_input" />
                         </FormControl>     
                       </Box>
+                      {(userService.accountFeatureEnabled(ConfigConstants.FEATURES.WORK_FLOW))?<>
+                        <HStack spacing={16}>
+                            {(isAddMode && userService.isWorkFlowAdmin())?<>                              
+                              <Box>
+                                <FormControl>
+                                  <FormLabel>Enable WorkFlow?</FormLabel>
+                                  <Checkbox
+                                      onChange={(e) => handleEnableWorkFlow(e.target.checked)}
+                                    />  
+                                </FormControl>    
+                              </Box>                              
+                            </>:<></>}
+                            {enableWorkFlow?<>
+                              <Box>
+                                <FormControl isRequired>
+                                  <FormLabel>WorkFlow</FormLabel>
+                                    <AddEditWorkFlow isAddMode={isAddMode} workFlow={workFlow} setWorkFlow={setWorkFlow} type="Invoice" typeId={invoiceId}/>                       
+                                </FormControl>    
+                              </Box>                              
+                            </>:<></>}
+                          </HStack>
+                      </>:<></>}                      
                       <HStack spacing={8}>
                         <Box>
                           <FormControl isRequired>
@@ -518,9 +569,19 @@ const InvoiceAddEdit = (props) => {
                                   }`}>{status}</Badge>                            
                                 </>) : (<>
                                   <Select width="100%" id="status" {...register('status')} >
-                                      {INVOICE_STATUS?.map((invoiceStatus) => (
-                                              <option value={invoiceStatus.invoiceStatusId}>{invoiceStatus.invoiceStatusName}</option>
-                                      ))}   
+                                    {(enableWorkFlow)?<>
+                                      <option value="Draft">Draft</option>
+                                      {(isAddMode && status !== InvoiceStatus.Draft && status)?<>
+                                        <option value="Submitted" selected={status === InvoiceStatus.Submitted} >Submitted</option>
+                                        <option value="Pending" selected={status === InvoiceStatus.Closed}>Pending</option>
+                                        <option value="Cancelled" selected={status === InvoiceStatus.Cancelled}>Cancelled</option>
+                                      </>:<></>}
+                                    </>:<>
+                                    <option value="Draft">Draft</option>
+                                      <option value="Submitted">Submitted</option>
+                                      <option value="Pending">Pending</option>
+                                      <option value="Cancelled">Cancelled</option>                              
+                                    </>}                                       
                                   </Select>
 
                                 </>)}
