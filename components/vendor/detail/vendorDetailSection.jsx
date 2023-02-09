@@ -29,9 +29,7 @@ const VendorDetailSection = (props) => {
             <h2>
                 <AccordionButton>
                 <Box as="span" flex='1' textAlign='left'>
-                    <Heading size='xs'>
                         Vendor Details
-                    </Heading>
                 </Box>
                 <AccordionIcon />
                 </AccordionButton>

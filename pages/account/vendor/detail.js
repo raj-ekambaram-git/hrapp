@@ -186,7 +186,7 @@ const VendorDetail = (props) => {
                   <VendorProjectsSection data={{vendor}}/>
                  </Accordion>                
                 <Box>
-                  <Heading size='xs' textTransform='uppercase' marginBottom="1rem">
+                  <Heading size='xs' textTramarginBottom="1rem">
                     Vendor Status
                   </Heading>
                   <Badge color={`${
