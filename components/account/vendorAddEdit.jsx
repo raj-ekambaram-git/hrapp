@@ -22,7 +22,8 @@ import {
   CardHeader,
   CardBody,
   StackDivider,
-  useToast
+  useToast,
+  Checkbox
 } from '@chakra-ui/react';
 import { PageMainHeader } from "../common/pageMainHeader";
 import { useDispatch, useSelector } from "react-redux";
@@ -102,7 +103,7 @@ const VendorEdit = (props) => {
 
     if(userService.isAccountAdmin() || userService.isSuperAdmin()) {
       setPageAuthorized(true);
-      setEnableWorkFlow(userService.accountFeatureEnabled(ConfigConstants.FEATURES.WORK_FLOW))
+      // setEnableWorkFlow(userService.accountFeatureEnabled(ConfigConstants.FEATURES.WORK_FLOW))
     }
 
     getVendorDetailsAPICall();
@@ -313,10 +314,25 @@ const VendorEdit = (props) => {
                             </Select>
                           </FormControl>    
                           </Box>  
-                          {enableWorkFlow?<>
-                            <Box alignItems="center">   
-                              <AddEditWorkFlow isAddMode={isAddMode} workFlow={workFlow} setWorkFlow={setWorkFlow} type="Vendor" typeId={vendorId}/>                       
-                            </Box>                              
+                          {(userService.accountFeatureEnabled(ConfigConstants.FEATURES.WORK_FLOW))?<>
+                            {(isAddMode && userService.isWorkFlowAdmin())?<>
+                              <Box>
+                                <FormControl>
+                                  <FormLabel>Enable WorkFlow?</FormLabel>
+                                  <Checkbox
+                                      onChange={(e) => setEnableWorkFlow(e.target.checked)}
+                                    />  
+                                </FormControl>    
+                              </Box>                              
+                            </>:<></>}
+                            {enableWorkFlow?<>
+                              <Box>
+                                <FormControl isRequired>
+                                  <FormLabel>WorkFlow</FormLabel>
+                                    <AddEditWorkFlow isAddMode={isAddMode} workFlow={workFlow} setWorkFlow={setWorkFlow} type="Vendor" typeId={vendorId}/>                       
+                                </FormControl>    
+                              </Box>                              
+                            </>:<></>}
                           </>:<></>}
                         
                       </HStack>                          
