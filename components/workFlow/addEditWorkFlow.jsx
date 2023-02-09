@@ -23,7 +23,8 @@ import {
   Heading,
   Text,
   Badge,
-  Spacer
+  Spacer,
+  Switch
 } from '@chakra-ui/react'
 
 import { useDispatch, useSelector } from "react-redux";
@@ -218,38 +219,44 @@ const AddEditWorkFlow = (props) => {
                                                 
                                                 <Box alignContent="left">
                                                 {steps?.map((step, index) => 
-                                                    <HStack marginBottom={9} spacing={6}>
+                                                    <HStack marginBottom={9} spacing={3}>
                                                         <Text fontWeight="600">Step {index+1}:</Text>
-                                                        <Select id="stepTask" width="25%" value={step.taskId} onChange={(ev) => handleStepEntry("taskId",ev, index)}>
+                                                        <Select id="stepTask" width="22%" value={step.taskId} onChange={(ev) => handleStepEntry("taskId",ev, index)}>
                                                             <option value="">Select Task</option>
                                                             {tasks && tasks?.map((taskVal) => (
                                                                 <option value={taskVal.id} >{taskVal.name}</option>
                                                             ))}
                                                         </Select>   
-                                                        <Select id="assignedTo" width="25%" value={step.assignedTo} onChange={(ev) => handleStepEntry("assignedTo",ev, index)}>
+                                                        <Select id="assignedTo" width="22%" value={step.assignedTo} onChange={(ev) => handleStepEntry("assignedTo",ev, index)}>
                                                             <option value="">Assigned To</option>
                                                             {assignedTos?.map((assingedTo) => (
                                                                 <option value={assingedTo.id} >{assingedTo.firstName} {assingedTo.lastName}</option>
                                                             ))}
                                                         </Select>                                                       
                                                         <HStack>
-                                                            <Input type="text" value={util.getFormattedDate(step.dueDate)} />
+                                                            <Input type="text" width="50%" value={util.getFormattedDate(step.dueDate)} />
                                                             <DatePicker onChange={handleDueDate} rowIndex={index}/> 
+                                                            {index === 0?<>
+                                                                <SmallAddIcon onClick={() => handleAddExtraRow("steps", index)}/>
+                                                                <Spacer maxWidth={3} />
+                                                            </>:<>
+                                                                <SmallAddIcon onClick={() => handleAddExtraRow("steps", index)}/>
+                                                                {!props.isAddMode && step.status && (step.status === WorkFlowStepStatus.InProgress || step.status === WorkFlowStepStatus.Complete)?<> <Spacer maxWidth={2} /></>:<>
+                                                                    <SmallCloseIcon onClick={() => handleRemoveRow("steps", index)}/>
+                                                                </>}                                                                                                                         
+                                                            </>}                                                                
                                                         </HStack>                                                          
-                                                        {index === 0?<>
-                                                            <SmallAddIcon onClick={() => handleAddExtraRow("steps", index)}/>
-                                                            <Spacer maxWidth={3} />
-                                                        </>:<>
-                                                            <SmallAddIcon onClick={() => handleAddExtraRow("steps", index)}/>
-                                                            {!props.isAddMode && step.status && (step.status === WorkFlowStepStatus.InProgress || step.status === WorkFlowStepStatus.Complete)?<> <Spacer maxWidth={3} /></>:<>
-                                                                <SmallCloseIcon onClick={() => handleRemoveRow("steps", index)}/>
-                                                            </>}                                                                                                                         
-                                                        </>}                                                        
+                                                    
                                                         {!props.isAddMode && step.status?<>
                                                             <Badge color={step.status === WorkFlowStepStatus.Complete?"paid_status":
                                                                             step.status === WorkFlowStepStatus.Pending?"":
-                                                                            (step.status === WorkFlowStepStatus.Pending) && (new Date() > step.dueDate)?"pending_status":"pending_status"}>{step.status}</Badge>
+                                                                            (step.status === WorkFlowStepStatus.Pending) && (new Date() > step.dueDate)?"pending_status":"pending_status"}>{step.status} </Badge>
+                                                            {step.status === WorkFlowStepStatus.Complete?<>({util.getFormattedDate(step.completedDate)})</>:<></>}                                                                            
+                                                            {(step.status === WorkFlowStepStatus.InProgress)?<><Switch colorScheme='teal' size='sm' id='inProgress' isChecked >Mark Complete</Switch></>:<></>}                                                                            
+                                                            {(step.status === WorkFlowStepStatus.Pending && index == 0)?<><Switch colorScheme='red' size='sm' id='pending' isChecked >Start</Switch></>:
+                                                                (step.status === WorkFlowStepStatus.Pending && steps[index-1]?.status == WorkFlowStepStatus.Complete)?<><><Switch colorScheme='red' size='sm' id='pending' isChecked>Start</Switch></></>:<></>}                                                                            
                                                         </>:<></>} 
+                                                        
                                                     </HStack>                                                
                                                 )}   
                                                 </Box>        

@@ -314,7 +314,6 @@ const VendorEdit = (props) => {
                           </Box>  
                           {enableWorkFlow?<>
                             <Box alignItems="center">   
-                              ----{JSON.stringify(workFlow)} 
                               <AddEditWorkFlow isAddMode={isAddMode} workFlow={workFlow} setWorkFlow={setWorkFlow} type="Vendor" typeId={vendorId}/>                       
                             </Box>                              
                           </>:<></>}
