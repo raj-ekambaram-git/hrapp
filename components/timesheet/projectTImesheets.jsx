@@ -47,9 +47,9 @@ const ProjectTimesheets = (props) => {
                     <Stack divider={<StackDivider />} spacing='1'>
                             <Accordion defaultIndex={[0]} variant="mainPage">
                             {approvalList?.map((timesheet) => (
-                                <AccordionItem marginBottom="1rem" border="1px" width="80%">
+                                <AccordionItem marginBottom="1rem"  width="80%">
                                     <h2>
-                                        <AccordionButton bgColor="table_tile">
+                                        <AccordionButton>
                                             <Box as="span" flex='1' textAlign='left'>
                                                 <Heading size='xs'>
                                                     {timesheet.project.name} -- {timesheet.project.referenceCode} -- {timesheet.billable?"Billable":"Non-Billable"} 

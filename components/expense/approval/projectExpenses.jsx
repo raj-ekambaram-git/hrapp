@@ -48,9 +48,9 @@ const ProjectExpenses = (props) => {
                   <Stack divider={<StackDivider />} spacing='1'>
                         <Accordion defaultIndex={[0]} variant="mainPage">
                         {approvalList?.map((expense) => (
-                            <AccordionItem marginBottom="1rem" border="1px" width="80%">
+                            <AccordionItem marginBottom="1rem" width="80%">
                                 <h2>
-                                    <AccordionButton bgColor="table_tile">
+                                    <AccordionButton>
                                         <Box as="span" flex='1' textAlign='left'>
                                             <Heading size='xs'>
                                                 {expense.project.name} -- {expense.project.referenceCode}
