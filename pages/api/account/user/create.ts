@@ -8,6 +8,7 @@ import { emailService } from "../../../../services";
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 import getConfig from 'next/config';
+import { WorkFlowType } from "@prisma/client";
 const { serverRuntimeConfig } = getConfig();
 
 
@@ -21,18 +22,18 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     console.log("API CREATE::"+JSON.stringify(user))
     //get Salt for passowrd
-    if(user.password != undefined) {
+    if(user.createData?.password != undefined) {
       const tempPassword = util.getTempPassword();
       const passwordHash = util.getPasswordHash(tempPassword);
-      user.passwordSalt = passwordHash.passwordSalt;
-      user.password = passwordHash.passwordHash;
-      user.passwordExpired = true
-      user.passwordRetries = 5
+      user.createData.passwordSalt = passwordHash.passwordSalt;
+      user.createData.password = passwordHash.passwordHash;
+      user.createData.passwordExpired = true
+      user.createData.passwordRetries = 5
 
       console.log("passwordHash:::"+passwordHash);
 
       const savedUser = await prisma.user.create({
-        data: user,
+        data: user.createData,
         include: {
           account: {
             select: {
@@ -52,6 +53,30 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       });
 
       if(savedUser) {
+
+        if(savedUser && savedUser.workFlowEnabled && user.workFlow) {
+          //Now persist the workflow data
+          const steps = user.workFlow?.steps?.map((step, index) => {
+            step.taskId = parseInt(step.taskId)
+            step.assignedTo = parseInt(step.assignedTo)
+            step.stepNumber = index+1
+            return step;
+          })
+          const savedWorkFlow = await prisma.workFlow.create({
+            data: {
+              type: WorkFlowType.User,
+              typeId: savedUser.id,
+              accountId: savedUser.accountId,
+              name: user.workFlow.name,
+              status: user.workFlow.status,
+              updatedBy: user.workFlow.userId,
+              workFlowSteps: {
+                create: steps
+              }
+            }
+          });
+        }
+
         const newSavedUserForEmail = {...savedUser}
         console.log("req.headers.referer::"+req.headers.referer)
         const passwordToken = jwt.sign({ sub: tempPassword}, serverRuntimeConfig.secret, { expiresIn: '30m' }); // TODO: Expiration dates from Config Values

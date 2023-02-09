@@ -23,7 +23,8 @@ import {
   StackDivider,
   useToast,
   InputGroup,
-  InputLeftElement
+  InputLeftElement,
+  Checkbox
 } from '@chakra-ui/react'
 import {PageNotAuthorized} from '../../components/common/pageNotAuthorized'
 import {PageMainHeader} from '../../components/common/pageMainHeader'
@@ -31,10 +32,11 @@ import ManageVendors from "../user/vendor/manageVendors";
 import { useDispatch, useSelector } from "react-redux";
 import {fetchVendorsByAccount, resetVendorsByAccount} from '../../store/modules/Vendor/actions'
 import { resetUserProjects, resetUserVendors, setUserProjects } from "../../store/modules/User/actions";
-import { DocumentConstants, NotesConstants } from "../../constants";
+import { ConfigConstants, DocumentConstants, NotesConstants } from "../../constants";
 import ManageUserRoles from "../user/manageUserRoles";
 import { setDocumentType } from "../../store/modules/Document/actions";
 import UserDetailActions from "../user/detail/userDetailActions";
+import AddEditWorkFlow from "../workFlow/addEditWorkFlow";
 
 
 
@@ -74,6 +76,8 @@ const UserAddEdit = (props) => {
   const [accountsList, setAccountsList] = useState([]);
   const [userRoles, setUserRoles] = useState([]);
   const [vendorList, setVendorList] = useState([]);
+  const [enableWorkFlow, setEnableWorkFlow] = useState(false);
+  const [workFlow, setWorkFlow] = useState();
 
   const vendorListNew = useSelector(state => state.vendor.vendorsByAccount);
 
@@ -197,15 +201,17 @@ const UserAddEdit = (props) => {
             city: userResonse.address && userResonse.address.length>0?userResonse.address[0].city:null,
             state: userResonse.address && userResonse.address.length>0?userResonse.address[0].state:null,
             zipCode: userResonse.address && userResonse.address.length>0?userResonse.address[0].zipCode:null,
-            country: userResonse.address && userResonse.address.length>0?userResonse.address[0].country:null
+            country: userResonse.address && userResonse.address.length>0?userResonse.address[0].country:null,
+            workFlowEnabled: userResonse.workFlowEnabled
         };
         setUser(userData);
         console.log("userResonse.userRole::"+JSON.stringify(userResonse.userRole))
         setUserRoles(userResonse.userRole)
         dispatch(setUserProjects(userResonse.projectResource))
+        setEnableWorkFlow(userResonse.workFlowEnabled)
 
         // get user and set form fields
-            const fields = ['firstName', "lastName","userType", "userEmail","userPhone","userAccountId", "userVendorId","timeSheetEnabled","userStatus","addressName","address1", "address2", "address3","city","state","zipCode", "userRole","cost"];
+            const fields = ['firstName', "lastName","userType", "userEmail","userPhone","userAccountId", "userVendorId","timeSheetEnabled","userStatus","addressName","address1", "address2", "address3","city","state","zipCode", "userRole","cost","workFlowEnabled"];
             fields.forEach(field => setValue(field, userData[field]));
     }
 
@@ -221,7 +227,23 @@ const UserAddEdit = (props) => {
   // Create Account 
   const createUser = async (formData) => {
     try {
-      const responseData = await userService.createUser(formData, userRoles)
+      if(enableWorkFlow) {
+        //Check of name, status and steps are there
+        if(workFlow && workFlow.name && workFlow.status && workFlow.steps) {
+          formData.workFlowEnabled = true;
+        } else {
+          toast({
+            title: 'Add User Error.',
+            description: 'Workflow Enabled, please make sure you configure workflow for this user.',
+            status: 'error',
+            position: 'top',
+            duration: 9000,
+            isClosable: true,
+          }) 
+          return;  
+        }
+      }      
+      const responseData = await userService.createUser(formData, userRoles, workFlow)
         if(responseData.error) {
           toast({
             title: 'Create User Error.',
@@ -231,6 +253,7 @@ const UserAddEdit = (props) => {
             duration: 6000,
             isClosable: true,
           })
+          return;
         }else {
           router.push("/account/users");
           toast({
@@ -254,6 +277,7 @@ const UserAddEdit = (props) => {
         duration: 6000,
         isClosable: true,
       })
+      return;
     }
   };
 
@@ -382,7 +406,29 @@ const UserAddEdit = (props) => {
                           </FormControl>     
                         </Box>                                                  
                       </HStack>
-                      <HStack spacing="13.5rem">
+                      {(userService.accountFeatureEnabled(ConfigConstants.FEATURES.WORK_FLOW))?<>
+                        <HStack spacing="12.5rem">
+                            {(isAddMode && userService.isWorkFlowAdmin())?<>
+                              <Box>
+                                <FormControl>
+                                  <FormLabel>Enable WorkFlow?</FormLabel>
+                                  <Checkbox
+                                      onChange={(e) => setEnableWorkFlow(e.target.checked)}
+                                    />  
+                                </FormControl>    
+                              </Box>                              
+                            </>:<></>}
+                            {enableWorkFlow?<>
+                              <Box>
+                                <FormControl isRequired>
+                                  <FormLabel>WorkFlow</FormLabel>
+                                    <AddEditWorkFlow isAddMode={isAddMode} workFlow={workFlow} setWorkFlow={setWorkFlow} type="User" typeId={userId}/>                       
+                                </FormControl>    
+                              </Box>                              
+                            </>:<></>}
+                          </HStack>
+                      </>:<></>}                      
+                      <HStack spacing="12.5rem">
                       <Box>
                           <FormControl isRequired>
                             <FormLabel>Enable Timesheet</FormLabel>

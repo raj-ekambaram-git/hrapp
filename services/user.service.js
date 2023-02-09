@@ -207,41 +207,44 @@ function updateUser(userId, formData, addressId, userRole) {
    });
 }
 
-function createUser(formData, userRoles) {
+function createUser(formData, userRoles, workFlow) {
     return fetchWrapper.post(`${baseUrl}/account/user/create`, {
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        type: formData.userType,
-        address: {
-          create: [
-            {
-              type: "U",
-              addressName: formData.addressName,
-              address1: formData.address1,
-              address2: formData.address2,
-              address3: formData.address3,
-              accountId: parseInt(formData.userAccountId),
-              vendorId: parseInt(formData.userVendorId),
-              city: formData.city,
-              state: formData.state,
-              zipCode: formData.zipCode,
-              country: formData.country,
-              status: "A"
-            }
-          ]
+        createData: {
+            firstName: formData.firstName,
+            lastName: formData.lastName,
+            type: formData.userType,
+            address: {
+              create: [
+                {
+                  type: "U",
+                  addressName: formData.addressName,
+                  address1: formData.address1,
+                  address2: formData.address2,
+                  address3: formData.address3,
+                  accountId: parseInt(formData.userAccountId),
+                  vendorId: parseInt(formData.userVendorId),
+                  city: formData.city,
+                  state: formData.state,
+                  zipCode: formData.zipCode,
+                  country: formData.country,
+                  status: "A"
+                }
+              ]
+            },
+            userRole: userRoles,
+            email: formData.userEmail.toLowerCase(),
+            password: formData.userPassword,
+            phone: formData.userPhone,
+            cost: formData.cost,
+            accountId: parseInt(formData.userAccountId),
+            // vendorId: parseInt(formData.userVendorId),
+            isTimeSheetEnabled: formData.timeSheetEnabled == "true" ? true : false,
+            status: formData.userStatus,
+            password: "defaultPassword",
+            workFlowEnabled: formData.workFlowEnabled?true:false
         },
-        userRole: userRoles,
-        email: formData.userEmail.toLowerCase(),
-        password: formData.userPassword,
-        phone: formData.userPhone,
-        cost: formData.cost,
-        accountId: parseInt(formData.userAccountId),
-        // vendorId: parseInt(formData.userVendorId),
-        isTimeSheetEnabled: formData.timeSheetEnabled == "true" ? true : false,
-        status: formData.userStatus,
-        password: "defaultPassword"
-        }
-    )
+        workFlow       
+    })
     .then(async user => {
   
         return user;
