@@ -37,6 +37,7 @@ import ManageUserRoles from "../user/manageUserRoles";
 import { setDocumentType } from "../../store/modules/Document/actions";
 import UserDetailActions from "../user/detail/userDetailActions";
 import AddEditWorkFlow from "../workFlow/addEditWorkFlow";
+import { UserStatus } from "@prisma/client";
 
 
 
@@ -442,12 +443,21 @@ const UserAddEdit = (props) => {
                           <FormControl isRequired>
                             <FormLabel>User Status</FormLabel>
                             <Select width="100%" id="userStatus" {...register('userStatus')} >
-                            <option value="">Select Status</option>
-                              <option value="Active">Active</option>
-                              <option value="Inactive">Inactive</option>
-                              <option value="Error">Error</option>
-                              <option value="Approved">Approved</option>
-                              <option value="Rejected">Rejected</option>
+                            {(enableWorkFlow)?<>
+                                <option value="Inactive">Inactive</option>
+                                {user.userStatus !== UserStatus.Inactive?<>
+                                  <option value="Active" selected={user.userStatus === UserStatus.Active} >Active</option>
+                                  <option value="Approved" selected={user.userStatus === UserStatus.Approved}>Approved</option>
+                                  <option value="Inactive" selected={user.userStatus === UserStatus.Inactive}>Inactive</option>
+                                  <option value="Rejected" selected={user.userStatus === UserStatus.Rejected}>Rejected</option>                                  
+                                </>:<></>}
+                              </>:<>
+                                <option value="Active">Active</option>
+                                <option value="Approved">Approved</option>
+                                <option value="Inactive">Inactive</option>
+                                <option value="Error">Error</option>                              
+                                <option value="Rejected">Rejected</option>
+                              </>}
                             </Select>
                           </FormControl>     
                         </Box>  
