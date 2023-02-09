@@ -6,7 +6,7 @@ import {CashFlowReportSection} from '../../components/account/dashboard/cashFlow
 import {ProjectProgress} from '../../components/account/dashboard/projectProgress'
 import {InvoiceReportSection} from '../../components/account/dashboard/invoiceReportSection'
 import { HStack, Stack } from "@chakra-ui/react";
-
+import {WorkFlowSection} from '../../components/account/dashboard/workFlowSection'
 
 
 export default function Home(props) {
@@ -25,6 +25,7 @@ export default function Home(props) {
       <Stack marginTop={10}>
         <HStack spacing={50}>
           <ProjectProgress/>
+          <WorkFlowSection/>
         </HStack>
       </Stack>      
       <Stack marginTop={10}>

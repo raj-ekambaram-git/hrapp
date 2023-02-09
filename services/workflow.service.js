@@ -15,8 +15,20 @@ export const workFlowService = {
     getWorkFlowData,
     updateStep,
     updateWorkFlow,
+    getDashBoardData
     
 };
+
+function getDashBoardData(userId, accountId) {
+    return fetchWrapper.get(`${baseUrl}/account/`+accountId+`/workflow/user/`+userId+`/dashboard`, {})
+        .then(workFlowData => {
+            return workFlowData;
+        })        
+        .catch(err => {
+            console.log("Inside updateWorkFlow Error")
+            return {errorMessage: err, error: true};
+        });
+}
 
 function updateWorkFlow(workFlowRequest, workFlowStepsRequest, workFlowId, accountId) {
     return fetchWrapper.put(`${baseUrl}/account/`+accountId+`/workflow/`+workFlowId, {workFlowRequest, workFlowStepsRequest})
