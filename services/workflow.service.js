@@ -14,8 +14,20 @@ export const workFlowService = {
     getAssignedToList,
     getWorkFlowData,
     updateStep,
+    updateWorkFlow,
     
 };
+
+function updateWorkFlow(workFlowRequest, workFlowId, accountId) {
+    return fetchWrapper.put(`${baseUrl}/account/`+accountId+`/workflow/`+workFlowId, {workFlowRequest})
+        .then(workFlow => {
+            return workFlow;
+        })        
+        .catch(err => {
+            console.log("Inside updateWorkFlow Error")
+            return {errorMessage: err, error: true};
+        });
+}
 
 function updateStep(stepRequest, stepId, accountId) {
     return fetchWrapper.put(`${baseUrl}/account/`+accountId+`/workflow/step/`+stepId, {stepRequest})

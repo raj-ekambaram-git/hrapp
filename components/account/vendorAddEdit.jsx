@@ -102,10 +102,11 @@ const VendorEdit = (props) => {
 
     if(userService.isAccountAdmin() || userService.isSuperAdmin()) {
       setPageAuthorized(true);
+      setEnableWorkFlow(userService.accountFeatureEnabled(ConfigConstants.FEATURES.WORK_FLOW))
     }
 
     getVendorDetailsAPICall();
-    setEnableWorkFlow(userService.accountFeatureEnabled(ConfigConstants.FEATURES.WORK_FLOW))
+    
 
   }, []);
 

@@ -27,9 +27,6 @@ import {
   Switch,
   Slider,
   SliderTrack,
-  SliderFilledTrack,
-  SliderThumb,
-  IconButton
 } from '@chakra-ui/react'
 
 import { useDispatch, useSelector } from "react-redux";
@@ -51,9 +48,69 @@ const AddEditWorkFlow = (props) => {
   const [name, setName] = useState(EMPTY_STRING);
   const [steps, setSteps] = useState([{}]);
   const [tasks, setTasks] = useState();
+  const [workFlowId, setWorkFlowId] = useState();
   const [assignedTos, setAssignedTos] = useState();
 
 
+  const handleWorkFlowUpdate = async() => {
+      if(name && status && steps && !workFlowUtil.validateStepsDataFilled(steps) && workFlowId) {
+        if(!workFlowUtil.checkDueDatesAreValid(steps)) {
+            const workFlowData = {
+                id: workFlowId,
+                name: name,
+                status: status,
+                workFlowSteps: steps,
+            }
+
+            console.log("workFlowData::::"+JSON.stringify(workFlowData))
+            const responseData = await workFlowService.updateWorkFlow(workFlowData, workFlowId, userService.getAccountDetails().accountId)
+            if(responseData.error) {
+              toast({
+                title: 'Work Flow Error.',
+                description: 'Error updating this workflow, please try again later or contact administrator. Details: '+responseData.errorMessage,
+                status: 'error',
+                position: 'top',
+                duration: 6000,
+                isClosable: true,
+              })   
+              return;   
+            } else {
+              toast({
+                title: 'Work Flow Update.',
+                description: 'Successfully update this workflow.',
+                status: 'success',
+                position: 'top',
+                duration: 3000,
+                isClosable: true,
+              })   
+              setName(responseData.name)
+              setStatus(responseData.status)
+              setSteps(responseData.workFlowSteps)
+            }
+        } else {
+            toast({
+                title: 'Work Flow Error.',
+                description: 'Please check the due dates configured for steps, all due dates should be equal or greater than today with sequence.',
+                status: 'error',
+                position: 'top',
+                duration: 6000,
+                isClosable: true,
+              })   
+              return;            
+        }
+
+      }else {
+          toast({
+              title: 'Work Flow Error.',
+              description: 'All the fields are requirred and needs at least one step configured.',
+              status: 'error',
+              position: 'top',
+              duration: 6000,
+              isClosable: true,
+            })   
+            return;
+      }
+  }
 
   const handleStatusUpdate = async(statusToUpdate, stepId, index) => {
 
@@ -132,6 +189,7 @@ const AddEditWorkFlow = (props) => {
         setName(responseData.name)
         setStatus(responseData.status)
         setSteps(responseData.workFlowSteps)
+        setWorkFlowId(responseData.id)
     }
   }
 
@@ -329,7 +387,13 @@ const AddEditWorkFlow = (props) => {
                                                 <Button size="xs" colorScheme='red' onClick={handleSaveWorkFlow}>
                                                 Save New WorkFlow
                                                 </Button>
-                                            : <></>}
+                                            : <>
+                                            {userService.isWorkFlowAdmin()?<>
+                                              <Button size="xs" colorScheme='red' onClick={handleWorkFlowUpdate}>
+                                                Update WorkFlow
+                                              </Button>
+                                            </>:<></>}
+                                            </>}
                                         </HStack>                                        
                                     </CardFooter>
                                 </Card>

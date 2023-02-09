@@ -28,8 +28,17 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             equals: parseInt(typeId.toString())
            }
         },
-        include: {
+        include: {          
           workFlowSteps: {
+            select: {
+              id: true,
+              stepNumber: true,
+              taskId: true,
+              assignedTo: true,
+              dueDate: true,
+              status: true,
+              completedDate: true
+            },
             orderBy: {
               stepNumber: "asc"
             }

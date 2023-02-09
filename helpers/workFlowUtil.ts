@@ -1,3 +1,4 @@
+import { WorkFlowStepStatus } from "@prisma/client";
 
 export const workFlowUtil = {
   validateStepsDataFilled,
@@ -9,7 +10,7 @@ function checkDueDatesAreValid(steps) {
   if(steps) {
     let currentDate = new Date((new Date()).toDateString());
     return steps?.map((step) => {
-      if(step.dueDate && currentDate <= step.dueDate) {
+      if((step.dueDate && currentDate <= step.dueDate) || step.status === WorkFlowStepStatus.Complete ) {
         currentDate = step.dueDate;
         return true
       } else {

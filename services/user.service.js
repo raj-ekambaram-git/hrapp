@@ -49,8 +49,30 @@ export const userService = {
     getApprovalData,
     getAllAccountCosts,
     getProjectProgressData,
-    accountFeatureEnabled
+    accountFeatureEnabled,
+    isWorkFlowAdmin,
+    isWorkFlowContributor
 };
+
+function isWorkFlowContributor() {
+    if( userSubject.value 
+        && userSubject.value?.userRole?.includes(UserConstants.USER_ROLES.WORKFLOW_CONTRIBUTOR)
+        && userSubject.value?.accountId != UserConstants.SUPER_ADMIN_ID) {
+        return true;
+    }
+    
+    return false;
+}
+
+function isWorkFlowAdmin() {
+    if( userSubject.value 
+        && userSubject.value?.userRole?.includes(UserConstants.USER_ROLES.WORKFLOW_ADMIN)
+        && userSubject.value?.accountId != UserConstants.SUPER_ADMIN_ID) {
+        return true;
+    }
+    
+    return false;
+}
 
 function accountFeatureEnabled(featureName) {
     const userCookie = cookie.get("user");
