@@ -29,9 +29,7 @@ const AccountEINSection = (props) => {
             <h2>
                 <AccordionButton bgColor="table_tile">
                 <Box as="span" flex='1' textAlign='left'>
-                    <Heading size='xs'>
                         Account EIN
-                    </Heading>
                 </Box>
                 <AccordionIcon />
                 </AccordionButton>
