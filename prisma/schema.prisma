@@ -1024,6 +1024,7 @@ enum NotesType {
   Expense
   ExpenseEntry
   WorkFlowTask
+  WorkFlowTaskStep
 }
 
 enum ConfigStatus {
