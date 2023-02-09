@@ -84,11 +84,7 @@ function CashFlowReportSection(props) {
             {cashFlowData?
                 <Card variant="cashFlowDashboard">
                     <CardHeader>
-                        <HStack>
-                            <Box>
                                 Cash Flow
-                            </Box>
-                        </HStack>                
                     </CardHeader>
                     <CardBody variant="cashFlowDashboard">
                         <Stack spacing={4}>

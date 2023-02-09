@@ -36,7 +36,7 @@ function WorkFlowSection(props) {
             {workFlowData?
                 <Card variant="workFlowDashboard">
                     <CardHeader>
-                        WorkFlow tasks to manage
+                        WorkFlow Tasks
                     </CardHeader>
                     <CardBody>
                         <Stack width="100%" marginBottom={4} spacing={8}>

@@ -35,11 +35,7 @@ function InvoiceReportSection(props) {
             {invoiceReportData?
                 <Card variant="invoiceReportDashboard">
                     <CardHeader>
-                        <HStack>
-                            <Box>
-                                Invoices Due
-                            </Box>
-                        </HStack>                
+                        Invoices Due
                     </CardHeader>
                     <CardBody variant="invoiceReportDashboard">
                         <Stack spacing={4}>

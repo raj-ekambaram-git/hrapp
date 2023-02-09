@@ -354,7 +354,7 @@ const cashFlowDashboard = definePartsStyle({
   },
   header:{
     fontSize: "16px",
-    textAlign: "center"
+    fontWeight: "600"
   },
 })
 
@@ -370,7 +370,7 @@ const invoiceReportDashboard = definePartsStyle({
   },
   header:{
     fontSize: "16px",
-    textAlign: "center",    
+    fontWeight: "600" 
   },
 })
 
