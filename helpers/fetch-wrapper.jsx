@@ -94,7 +94,7 @@ function authHeader(url) {
     const isLoggedIn = user && user.authToken;
     const isApiUrl = url.startsWith(publicRuntimeConfig.apiUrl);
     if (isLoggedIn && isApiUrl) {
-       return { Authorization: `Bearer ${user.authToken}` };
+       return { Authorization: `Bearer ${user.authToken}`, "Access-Control-Allow-Origin": "http://localhost:3000" };
     } else {
         return {};
     }

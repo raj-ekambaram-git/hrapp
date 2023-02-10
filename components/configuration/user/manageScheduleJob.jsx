@@ -5,6 +5,7 @@ import {
   CardHeader,
   CardBody,
 } from '@chakra-ui/react'
+import ManageJobs from "../jobs/manageJobs";
 
 
 
@@ -31,7 +32,7 @@ const ManageScheduleJob = (props) => {
                 Manage Schedule Job
             </CardHeader>
             <CardBody>      
-              {/* <ManageTasks/>           */}
+              <ManageJobs />
             </CardBody>
           </Card>
       </>:<></>}

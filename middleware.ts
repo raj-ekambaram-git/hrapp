@@ -7,7 +7,8 @@ import cache from "memory-cache";
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
     const token = request.headers.get('Authorization');
-    console.log("pathname:::"+pathname+"------token:::"+token)
+    const tokeoriginn = request.headers.get('Access-Control-Allow-Origin');
+    console.log("pathname:::"+pathname+"------token:::"+token+"****tokeoriginn::"+tokeoriginn)
     
     if(pathname.startsWith('/api')) { // This is the API Authorization
       if( token != undefined) {
