@@ -1,7 +1,7 @@
 
 .loader {
     color: teal;
-    font-size: 8rem;
+    font-size: 3rem;
     text-indent: -9999em;
     overflow: hidden;
     width: 1em;
@@ -106,5 +106,4 @@
     height: 100%;
     z-index: 9999999999;
     overflow: hidden;
-
   }
