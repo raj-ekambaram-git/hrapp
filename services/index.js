@@ -13,3 +13,4 @@ export * from './configuration.service';
 export * from './reports.service';
 export * from './importexport.service';
 export * from './workflow.service';
+export * from './scheduler.service';
