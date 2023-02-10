@@ -11,7 +11,6 @@ import {
     CardBody,
     CardFooter,
     Select,
-    Spinner,
     CardHeader,
     Textarea,
     FormControl,
@@ -21,7 +20,7 @@ import {
 import { EMPTY_STRING, WorkFlowConstants } from "../../constants";
 import { ErrorMessage } from "../../constants/errorMessage";
 import { userService, workFlowService } from "../../services";
-
+import {Spinner } from '../../components';
 
 
 const AddEditTask = (props) => {

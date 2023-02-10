@@ -11,7 +11,6 @@ import {
     CardBody,
     CardFooter,
     Select,
-    Spinner
   } from '@chakra-ui/react';
 import { useDispatch, useSelector } from "react-redux";
 import { ShowInlineErrorMessage } from "../common/showInlineErrorMessage";
@@ -21,7 +20,7 @@ import { setDocumentsByType } from "../../store/modules/Document/actions";
 import { DocumentCategory, DocumentType } from "@prisma/client";
 import { ESignEmailTos } from "./sign/eSignEmailTos";
 import { ESignDetails } from "./sign/eSignDetails";
-
+import {Spinner } from '../../components/';
 
 const AddEditDocument = (props) => {
     const dispatch = useDispatch();

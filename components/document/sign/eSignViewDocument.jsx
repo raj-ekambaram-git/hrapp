@@ -18,7 +18,6 @@ import {
     CardFooter,
     Button,
     CardHeader,
-    Spinner,
     Badge,
   } from '@chakra-ui/react'
   
@@ -26,6 +25,7 @@ import { useRef, useState } from 'react';
 import { EMPTY_STRING } from '../../../constants';
 import { util } from '../../../helpers/util';
 import { documentService, userService } from '../../../services';
+import {Spinner } from '../../../components';
 
 function ESignViewDocument(props) {
   const toast = useToast();
