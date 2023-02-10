@@ -545,7 +545,10 @@ model ExportTemplate {
   type           ExportTemplateType
   fileName       String               @default("fileName")
   template       String?
-  account        Account?             @relation(fields: [accountId], references: [id])
+  emailTemplate  String?
+  schedule       Boolean              @default(false)
+
+  account Account? @relation(fields: [accountId], references: [id])
 }
 
 model Feature {
