@@ -58,9 +58,10 @@ console.log("userId ID::"+userId+"---PAYMENT AccountioD::"+accountId)
             // userId: {
             //   equals: parseInt(userId.toString())
             // },
-            isTimesheetApprover: {
-              equals: true
-            },          
+            // isTimesheetApprover: {
+            //   equals: true
+            // },    
+            // billable: false,      
             project: {              
               expense: {
                 some: {
