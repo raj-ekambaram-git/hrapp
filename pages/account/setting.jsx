@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import ImportExport from "../../components/configuration/importExport";
 import AccountDocuments from "../../components/configuration/user/accountDocuments";
+import ManageScheduleJob from "../../components/configuration/user/manageScheduleJob";
 import ManageWorkFlowTasks from "../../components/configuration/user/manageWorkFlowTasks";
 import UserSetting from "../../components/configuration/user/userSetting";
 import { ConfigConstants } from "../../constants";
@@ -13,11 +14,13 @@ import { userService } from "../../services";
 const AccountSetting = (props) => {
   const router = useRouter();
   const [workFlowEnabled, setWorkFlowEnabled] = useState(false);
+  const [scheduleJob, setScheduleJob] = useState(false);
 
   const userId = userService?.userValue?.id;
 
   useEffect(() => {
     setWorkFlowEnabled(userService.accountFeatureEnabled(ConfigConstants.FEATURES.WORK_FLOW))
+    setScheduleJob(userService.accountFeatureEnabled(ConfigConstants.FEATURES.SCHEDULE_JOB))
   }, []);
 
 
@@ -29,6 +32,7 @@ const AccountSetting = (props) => {
           <Tab border="1px" marginRight={4}>Import/Export</Tab>
           <Tab border="1px" marginRight={4}>Documents</Tab>
           {workFlowEnabled?<><Tab border="1px" marginRight={4}>WorkFlow Management</Tab></>:<></>}          
+          {scheduleJob?<><Tab border="1px" marginRight={4}>Schedule Jobs</Tab></>:<></>}          
         </TabList>
         <TabPanels>
           <TabPanel>
@@ -50,6 +54,13 @@ const AccountSetting = (props) => {
             <TabPanel>
               <Stack width="page.sub_heading_width">
                 <ManageWorkFlowTasks/>            
+              </Stack>
+            </TabPanel>             
+          </>:<></>}   
+          {scheduleJob?<>
+            <TabPanel>
+              <Stack width="page.sub_heading_width">
+                <ManageScheduleJob/>            
               </Stack>
             </TabPanel>             
           </>:<></>}   

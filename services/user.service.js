@@ -51,8 +51,19 @@ export const userService = {
     getProjectProgressData,
     accountFeatureEnabled,
     isWorkFlowAdmin,
-    isWorkFlowContributor
+    isWorkFlowContributor,
+    isScheduleJobAdmin
 };
+
+function isScheduleJobAdmin() {
+    if( userSubject.value 
+        && userSubject.value?.userRole?.includes(UserConstants.USER_ROLES.SCHEDULE_JOB_ADMIN)
+        && userSubject.value?.accountId != UserConstants.SUPER_ADMIN_ID) {
+        return true;
+    }
+    
+    return false;
+}
 
 function isWorkFlowContributor() {
     if( userSubject.value 

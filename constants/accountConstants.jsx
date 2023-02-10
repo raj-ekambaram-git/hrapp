@@ -172,7 +172,10 @@ export const ACCOUNT_VALIDATION_SCHEMA = Yup.object().shape({
       roleID: "WORKFLOW_CONTRIBUTOR",
       roleName: "WorkFlow Contributor"
     },                 
-
+    {
+      roleID: "SCHEDULE_JOB_ADMIN",
+      roleName: "Schedule Job Admin"
+    },     
 ];  
 
 
