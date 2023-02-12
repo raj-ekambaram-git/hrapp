@@ -11,11 +11,11 @@ export const schedulerService = {
 };
 
 function getScheduleJobs(accountId) {
-    console.log("accountId:::"+accountId)
-    return fetchWrapper.get(`${baseUrl}/scheduler/account/`+accountId+`/jobs`, {})
-    .then(tasks => {
-        console.log("tasks:::"+tasks)
-        return tasks;
+    console.log("accountId:::"+accountId+"****baseUrl:::"+baseUrl)
+    return fetchWrapper.get(`${baseUrl}/scheduler/account/`+accountId+`/jobs?accountId=`+accountId, {})
+    .then(jobs => {
+        console.log("jobs:::"+JSON.stringify(jobs))
+        return jobs;
     })  
     .catch(err => {
         console.log("Error getScheduleJobs"+err)

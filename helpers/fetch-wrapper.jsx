@@ -93,8 +93,10 @@ function authHeader(url) {
     const user = userService.userValue;
     const isLoggedIn = user && user.authToken;
     const isApiUrl = url.startsWith(publicRuntimeConfig.apiUrl);
-    if (isLoggedIn && isApiUrl) {
-       return { Authorization: `Bearer ${user.authToken}` };
+    const isSchedulerApiUrl = url.startsWith(publicRuntimeConfig.schedulerAPIURL);
+    console.log("isApiUrl:::"+isApiUrl)
+    if (isLoggedIn && (isApiUrl || isSchedulerApiUrl)) {
+       return { Authorization: `Bearer ${user.authToken}`};
     } else {
         return {};
     }
