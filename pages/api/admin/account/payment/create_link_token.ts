@@ -33,7 +33,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           // This should correspond to a unique id for the current user.
           client_user_id: userId.toString(),
         },
-        client_name: 'Plaid Quickstart',
+        client_name: process.env.PLAID_CLIENT_NAME,
         products: (process.env.PLAID_PRODUCTS || Products.Transactions).split(','),
         country_codes: (process.env.PLAID_COUNTRY_CODES || 'US').split(','),
         language: 'en',
