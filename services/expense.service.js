@@ -230,12 +230,20 @@ function updateExpense(expense, expenseEntries, markTimesheetEntrySettled) {
   });
 }
 
-function createExpense(expenseRequest) {
+function createExpense(expenseRequest, markTimesheetEntrySettled) {
     console.log("Before calling the create expense....."+JSON.stringify(expenseRequest))
   
     return fetchWrapper.post(`${baseUrl}/expense/create`, {expenseRequest}
     )
     .then(async expense => {
+      if(markTimesheetEntrySettled) {
+        const selectedTSEIds = expenseRequest?.expenseEntries?.create?.map((costItem) => {
+          return parseInt(costItem.notes.split("_")[0]);          
+        })
+        const data = {settled: true};
+        const udpateTSEntries = await timesheetService.updateTimesheetEntries(selectedTSEIds, data);        
+        console.log("selectedTSEIdsselectedTSEIds::"+udpateTSEntries)
+      }
         return expense;
     })        
     .catch(err => {

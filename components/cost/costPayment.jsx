@@ -165,7 +165,7 @@ const CostPayment = (props) => {
                 create: costItemList
               },
             }
-            const responseData = await expenseService.createExpense(expenseRequest);
+            const responseData = await expenseService.createExpense(expenseRequest, true);
             if(!responseData.error) {
               toast({
                 title: 'New Cost.',
