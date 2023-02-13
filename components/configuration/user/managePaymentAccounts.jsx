@@ -150,9 +150,9 @@ const ManagePaymentAccounts = (props) => {
                 } disabled={!ready}>
                 <strong>Link account</strong>
               </Button>
-              <Button marginBottom={3} onClick={() => handleTransfer()} >
+              {/* <Button marginBottom={3} onClick={() => handleTransfer()} >
                 <strong>Transfer</strong>
-              </Button>
+              </Button> */}
                   {linkedAccountData?<>
                     <Card>
                       <CardBody>
