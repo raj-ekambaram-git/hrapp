@@ -138,7 +138,7 @@ const ManagePaymentAccounts = (props) => {
             </CardHeader>
             <CardBody>      
               {/* <ManageJobs /> */}
-              <Button onClick={() => open()
+              <Button marginBottom={3} onClick={() => open()
                 } disabled={!ready}>
                 <strong>Link account</strong>
               </Button>
