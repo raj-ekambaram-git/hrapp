@@ -44,12 +44,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         access_token: accountPaymentMethodInfo.token,
       });
   
+      console.log("ITEMS DETAILS::"+JSON.stringify(itemResponse.data))
       // Also pull information about the institution
       const configs = {
         institution_id: itemResponse.data.item.institution_id,
         country_codes: (process.env.PLAID_COUNTRY_CODES || 'US').split(','),
       };
       const instResponse = await client.institutionsGetById(configs);
+
+      console.log("instResponse:::"+JSON.stringify(instResponse.data))
       const linkedAccountData = {
         accountPaymentMethodInfo: accountPaymentMethodInfo,
         // item: itemResponse.data.item,

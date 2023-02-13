@@ -160,12 +160,12 @@ const ManagePaymentAccounts = (props) => {
                                 Status
                             </Heading>
                             <Box textAlign="left">
-                                <Badge color={linkedAccountData.accountPaymentMethodInfo.status === PaymentMethodStatus.Active?"paid_status":"pending_status"}>
-                                  {linkedAccountData.accountPaymentMethodInfo.status}
+                                <Badge color={linkedAccountData.accountPaymentMethodInfo?.status === PaymentMethodStatus.Active?"paid_status":"pending_status"}>
+                                  {linkedAccountData.accountPaymentMethodInfo?.status}
                                 </Badge>
                             </Box>                              
                             <Box>
-                              {linkedAccountData.accountPaymentMethodInfo.status === PaymentMethodStatus.Active?<>
+                              {linkedAccountData.accountPaymentMethodInfo?.status === PaymentMethodStatus.Active?<>
                                 <Switch colorScheme='teal' size='sm' id='Active' isChecked onChange={() => handleStatusUpdate(PaymentMethodStatus.Inactive)} >Mark Inactive</Switch>
                               </>:<></>}
                             </Box>
