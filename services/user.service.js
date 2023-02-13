@@ -52,8 +52,19 @@ export const userService = {
     accountFeatureEnabled,
     isWorkFlowAdmin,
     isWorkFlowContributor,
-    isScheduleJobAdmin
+    isScheduleJobAdmin,
+    isPaymentAdmin,
 };
+
+function isPaymentAdmin() {
+    if( userSubject.value 
+        && userSubject.value?.userRole?.includes(UserConstants.USER_ROLES.PAYMENT_ADMIN)
+        && userSubject.value?.accountId != UserConstants.SUPER_ADMIN_ID) {
+        return true;
+    }
+    
+    return false;
+}
 
 function isScheduleJobAdmin() {
     if( userSubject.value 

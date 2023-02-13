@@ -3,6 +3,26 @@ import { accountService, userService } from '../../../services';
 import { ActionTypes } from './constants';
 
 
+export const setPaymentProducts = (paymentProducts) => {
+    return {
+        type: ActionTypes.PAYMENT_PRODUCTS,
+        payload: paymentProducts
+    }
+}
+
+export const setPaymentInitiation = (isPaymentInitiation) => {
+    return {
+        type: ActionTypes.IS_PAYMENT_INITIATION,
+        payload: isPaymentInitiation
+    }
+}
+
+export const setAccountPaymentToken = (paymentToken) => {
+    return {
+        type: ActionTypes.SET_PAYMENT_TOKEN,
+        payload: paymentToken
+    }
+}
 
 export const setUsersByAccount = (users) => {
     return {

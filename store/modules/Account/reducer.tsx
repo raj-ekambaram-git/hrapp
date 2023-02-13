@@ -3,7 +3,13 @@ import { ActionTypes } from "./constants";
 const initialState = {
     accountUsers: [],
     selectedAccountId: null,
-    accountVendors: []
+    accountVendors: [],
+    payment: {
+        linkPaymentToken: null,
+        isPaymentInitiation: false,
+        products: []
+    }
+    
 };
 
 const accountReducer = (state = initialState, {type, payload}) => {
@@ -42,7 +48,13 @@ const accountReducer = (state = initialState, {type, payload}) => {
             newState.accountVendors = newVendorsByAccount;
         }
         
-    } 
+    } else if(type === ActionTypes.SET_PAYMENT_TOKEN) {
+        newState.payment.linkPaymentToken = payload;
+    } else if(type === ActionTypes.IS_PAYMENT_INITIATION) {
+        newState.payment.isPaymentInitiation = payload;
+    } else if(type === ActionTypes.PAYMENT_PRODUCTS) {
+        newState.payment.products = payload;
+    }
 
     console.log("accountReducer:::New State:::Before Return:::"+JSON.stringify(newState));
     return newState;

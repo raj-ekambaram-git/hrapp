@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import ImportExport from "../../components/configuration/importExport";
 import AccountDocuments from "../../components/configuration/user/accountDocuments";
+import ManagePaymentAccounts from "../../components/configuration/user/managePaymentAccounts";
 import ManageScheduleJob from "../../components/configuration/user/manageScheduleJob";
 import ManageWorkFlowTasks from "../../components/configuration/user/manageWorkFlowTasks";
 import UserSetting from "../../components/configuration/user/userSetting";
@@ -15,12 +16,15 @@ const AccountSetting = (props) => {
   const router = useRouter();
   const [workFlowEnabled, setWorkFlowEnabled] = useState(false);
   const [scheduleJob, setScheduleJob] = useState(false);
+  const [payment, setPayment] = useState(false);
 
   const userId = userService?.userValue?.id;
 
   useEffect(() => {
     setWorkFlowEnabled(userService.accountFeatureEnabled(ConfigConstants.FEATURES.WORK_FLOW))
     setScheduleJob(userService.accountFeatureEnabled(ConfigConstants.FEATURES.SCHEDULE_JOB))
+    setPayment(userService.accountFeatureEnabled(ConfigConstants.FEATURES.PAYMENT))
+
   }, []);
 
 
@@ -33,6 +37,7 @@ const AccountSetting = (props) => {
           <Tab border="1px" marginRight={4}>Documents</Tab>
           {workFlowEnabled?<><Tab border="1px" marginRight={4}>WorkFlow Management</Tab></>:<></>}          
           {scheduleJob?<><Tab border="1px" marginRight={4}>Schedule Jobs</Tab></>:<></>}          
+          {payment?<><Tab border="1px" marginRight={4}>Payment Accounts</Tab></>:<></>}          
         </TabList>
         <TabPanels>
           <TabPanel>
@@ -64,6 +69,13 @@ const AccountSetting = (props) => {
               </Stack>
             </TabPanel>             
           </>:<></>}   
+          {payment?<>
+            <TabPanel>
+              <Stack width="page.sub_heading_width">
+                <ManagePaymentAccounts/>            
+              </Stack>
+            </TabPanel>             
+          </>:<></>}             
         </TabPanels>
       </Tabs>
 

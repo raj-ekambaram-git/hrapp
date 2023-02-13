@@ -64,6 +64,7 @@ model Account {
   vendor         Vendor[]
   workFlowTasks  WorkFlowTask[]
   workFlow       WorkFlow[]
+  paymentMethods PaymentMethod[]
 }
 
 model Vendor {
@@ -265,6 +266,7 @@ model User {
   workFlowTasks      WorkFlowTask[]
   workFlow           WorkFlow[]
   workFlowSteps      WorkFlowStep[]
+  paymentMethods     PaymentMethod[]
 }
 
 model UserAttributes {
@@ -641,6 +643,20 @@ model WorkFlowStep {
   @@index([assignedTo, status, dueDate])
 }
 
+model PaymentMethod {
+  id             Int                 @id @default(autoincrement())
+  type           PaymentMethodType
+  account        Account             @relation(fields: [accountId], references: [id])
+  accountId      Int                 @default(0)
+  token          String
+  itemId         String
+  status         PaymentMethodStatus
+  updatedBy      Int?
+  updatedUser    User?               @relation(fields: [updatedBy], references: [id])
+  createdDate    DateTime            @default(now())
+  lastUpdateDate DateTime            @default(now()) @updatedAt
+}
+
 model qrtz_blob_triggers {
   trigger_name  String        @db.VarChar(80)
   trigger_group String        @db.VarChar(80)
@@ -885,6 +901,7 @@ enum Role {
   WORKFLOW_ADMIN
   WORKFLOW_CONTRIBUTOR
   SCHEDULE_JOB_ADMIN
+  PAYMENT_ADMIN
 }
 
 enum VendorType {
@@ -1199,4 +1216,14 @@ enum WorkFlowStepStatus {
   Complete
   Delayed
   Skipped
+}
+
+enum PaymentMethodType {
+  Account
+  Vendor
+}
+
+enum PaymentMethodStatus {
+  Active
+  Inactive
 }

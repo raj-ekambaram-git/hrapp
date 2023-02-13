@@ -10,6 +10,7 @@ export const ConfigConstants = {
     ESIGNATURE: "eSignature",
     WORK_FLOW: "WorkfFlow",
     SCHEDULE_JOB: "ScheduleJob",
+    PAYMENT: "Payment",
   },
   AVAILABLE_REPORTS: {
     ProjectReport: "ProjectReport",
