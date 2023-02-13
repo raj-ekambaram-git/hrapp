@@ -22,6 +22,7 @@ import {
   PlaidLinkOnSuccess,
 } from 'react-plaid-link';
 import { PaymentMethodStatus } from "@prisma/client";
+import { Spinner } from "../../common/spinner";
 
 
 
@@ -106,6 +107,7 @@ const ManagePaymentAccounts = (props) => {
       }
 
     }
+    setLoading(false);
   }
 
   const handleStatusUpdate = async (status) => {
@@ -121,6 +123,7 @@ const ManagePaymentAccounts = (props) => {
       }
 
     }
+    setLoading(false);
   }
 
   return (
@@ -128,6 +131,7 @@ const ManagePaymentAccounts = (props) => {
 
     <div>
       {isPageAuthprized?<>
+        {loading?<><Spinner /></>:<></>}        
         <Card variant="userSettingCard">
             <CardHeader>
                 Manage Payment Accounts
@@ -144,10 +148,10 @@ const ManagePaymentAccounts = (props) => {
                         <Stack spacing={5}>
                           <HStack>
 
-                              <Heading width="10%" size="xs">
+                              <Heading width="11%" size="xs">
                                   Bank Name
                               </Heading>
-                              <Box fontSize={14} textAlign="left">
+                              <Box fontSize={14} textAlign="left" fontWeight="600">
                                   {linkedAccountData.institutionName}
                               </Box>
                           </HStack>
