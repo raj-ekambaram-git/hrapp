@@ -59,6 +59,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         institutionName: instResponse.data.institution.name,
       }
       console.log("linkedAccountData::::"+JSON.stringify(linkedAccountData))
+
+
+      const authResponse = await client.authGet({
+        access_token: accountPaymentMethodInfo.token,
+      });
+
+      console.log("authResponse::::"+JSON.stringify(authResponse.data))
     res.status(200).json(linkedAccountData);
 
     }else {

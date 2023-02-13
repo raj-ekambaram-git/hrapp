@@ -28,6 +28,7 @@
     "cors": "^2.8.5",
     "date-fns": "^2.29.3",
     "docusign-esign": "^6.0.0",
+    "dwolla-v2": "^3.4.0",
     "extension": "^0.2.2",
     "fs": "^0.0.1-security",
     "generate-password": "^1.7.0",

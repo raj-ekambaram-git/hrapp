@@ -35,9 +35,10 @@ const ManagePaymentAccounts = (props) => {
   const [loading, setLoading] = useState(true);
 
   const linkToken = useSelector(state => state.account?.payment?.linkPaymentToken);
-  const onSuccess = useCallback(async (publicToken) => {
+  const onSuccess = useCallback(async (publicToken, metadata) => {
+    console.log("metadata::::"+JSON.stringify(metadata))
     setLoading(true);
-    const exchangeResponse = await paymentService.exchangeForAccessToken(publicToken, userService.userValue.id, userService.getAccountDetails().accountId)
+    const exchangeResponse = await paymentService.exchangeForAccessToken(publicToken, userService.userValue.id, userService.getAccountDetails().accountId, metadata)
     await getBalance();
   }, []);
 
@@ -126,6 +127,13 @@ const ManagePaymentAccounts = (props) => {
     setLoading(false);
   }
 
+  const handleTransfer = async () => {
+    const transferLinkResponse = await paymentService.initiateTransfer(userService.userValue.id, userService.getAccountDetails().accountId);
+    setToken(transferLinkResponse.link_token);      
+    dispatch(setAccountPaymentToken(transferLinkResponse.link_token))
+  }
+
+
   return (
 
 
@@ -141,6 +149,9 @@ const ManagePaymentAccounts = (props) => {
               <Button marginBottom={3} onClick={() => open()
                 } disabled={!ready}>
                 <strong>Link account</strong>
+              </Button>
+              <Button marginBottom={3} onClick={() => handleTransfer()} >
+                <strong>Transfer</strong>
               </Button>
                   {linkedAccountData?<>
                     <Card>

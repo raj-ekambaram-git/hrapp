@@ -246,6 +246,7 @@ model User {
   userRole           Role[]
   cost               Decimal?           @default(0)
   workFlowEnabled    Boolean            @default(false)
+  accountOwner       Boolean            @default(false)
   accountUpdatedUser Account[]          @relation("AccountUpdatedUser")
   accountConfig      AccountConfig[]
   address            Address[]
@@ -267,6 +268,8 @@ model User {
   workFlow           WorkFlow[]
   workFlowSteps      WorkFlowStep[]
   paymentMethods     PaymentMethod[]
+
+  @@index([accountId, accountOwner])  
 }
 
 model UserAttributes {
@@ -644,17 +647,20 @@ model WorkFlowStep {
 }
 
 model PaymentMethod {
-  id             Int                 @id @default(autoincrement())
-  type           PaymentMethodType
-  account        Account             @relation(fields: [accountId], references: [id])
-  accountId      Int                 @default(0)
-  token          String
-  itemId         String
-  status         PaymentMethodStatus
-  updatedBy      Int?
-  updatedUser    User?               @relation(fields: [updatedBy], references: [id])
-  createdDate    DateTime            @default(now())
-  lastUpdateDate DateTime            @default(now()) @updatedAt
+  id                 Int                 @id @default(autoincrement())
+  type               PaymentMethodType
+  account            Account             @relation(fields: [accountId], references: [id])
+  accountId          Int                 @default(0)
+  token              String
+  processorToken     String
+  processCustomerId  String
+  processorPaymentId String
+  itemId             String
+  status             PaymentMethodStatus
+  updatedBy          Int?
+  updatedUser        User?               @relation(fields: [updatedBy], references: [id])
+  createdDate        DateTime            @default(now())
+  lastUpdateDate     DateTime            @default(now()) @updatedAt
 }
 
 model qrtz_blob_triggers {

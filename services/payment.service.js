@@ -11,10 +11,24 @@ export const paymentService = {
     createLinkToken,
     exchangeForAccessToken,
     accountBalance,
-    updateExistingAccount
-
+    updateExistingAccount,
+    initiateTransfer,
     
 };
+
+function initiateTransfer(userId, accountId) {
+    return fetchWrapper.post(`${baseUrl}/admin/account/payment/method/initiate_transfer`, {
+        userId: userId,
+        accountId: accountId
+    })
+    .then(linkData => {
+        return linkData;
+    })  
+    .catch(err => {
+        console.log("Error createLinkToken"+err)
+        return {errorMessage: err, error: true};
+    });
+}
 
 function updateExistingAccount(userId, accountId, status) {
     return fetchWrapper.post(`${baseUrl}/admin/account/payment/method/update`, {
@@ -45,11 +59,12 @@ function accountBalance(userId, accountId) {
     });
 }
 
-function exchangeForAccessToken(publicToken, userId, accountId) {
+function exchangeForAccessToken(publicToken, userId, accountId, plaidMetaData) {
     return fetchWrapper.post(`${baseUrl}/admin/account/payment/exchange_link_token`, {
         publicToken: publicToken,
         userId: userId,
-        accountId: accountId
+        accountId: accountId,
+        plaidMetaData: plaidMetaData
     })
     .then(linkData => {
         return linkData;
