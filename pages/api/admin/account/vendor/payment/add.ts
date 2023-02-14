@@ -2,6 +2,7 @@
 
 import { AccountFeatureStatus, FeatureStatus, PaymentMethodStatus } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next"
+import { PaymentConstants } from "../../../../../../constants";
 import prisma from "../../../../../../lib/prisma";
 
 
@@ -30,11 +31,24 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             name: "PaymentProcessor"
           }
         },
-      })
+      })      
+
+      const vendorDetails = await prisma.vendor.findUnique({
+        where: {
+          id: parseInt(vendorId.toString())
+        },
+        include: {
+          address: true          
+        }
+      })      
   
       console.log("accountPaymentProcFeature:::"+JSON.stringify(accountPaymentProcFeature))
-      if(accountPaymentProcFeature) { 
-
+      if(accountPaymentProcFeature && accountPaymentProcFeature.configuration && accountPaymentProcFeature.configuration['processor']) { 
+        if(accountPaymentProcFeature.configuration['processor'] === PaymentConstants.SUPPORTED_PAYMENT_PROCESSORS.Dwolla) {
+          processDwollaPaymentProcessor(paymentAccountData, vendorDetails)
+        }
+      } else {
+        res.status(400).json({ message: 'Processor Not enabled for this account, please contact administrator.' })
       }
 
     } else {
@@ -46,4 +60,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     console.log(error)
     res.status(400).json({ message: 'Something went wrong while updating' })
   }
+}
+
+
+const processDwollaPaymentProcessor = async(paymentAccountData, vendorDetails) => {
+
+  //Create the customer first and the create the funding source
+
 }
