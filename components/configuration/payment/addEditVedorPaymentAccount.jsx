@@ -23,7 +23,7 @@ import {
   
 import { useDispatch } from "react-redux";
 import { ConfigConstants, EMPTY_STRING } from "../../../constants";
-import { configurationService, userService } from "../../../services";
+import { configurationService, paymentService, userService } from "../../../services";
 
 const AddEditVedorPaymentAccount = (props) => {
     const dispatch = useDispatch();
@@ -35,17 +35,53 @@ const AddEditVedorPaymentAccount = (props) => {
     const [bankName, setBankName] = useState();
     const [bankType, setBankType] = useState();
     const [isAddMode, setAddMode] = useState(true);
+    const [isPageAuthorized, setPageAuthorized] = useState(false);
     const { isOpen, onOpen, onClose } = useDisclosure();
   
     function handleAddEditAccount(newSize) {
         setSize(newSize);
-        onOpen();
-        if(props.accountFeature && props.accountFeature.configuration) {
+        onOpen();     
+        if(userService.isAccountAdmin() && userService.isPaymentAdmin()) {
+            setPageAuthorized(true)
+            getVendorPaymentAccount()   
+        }
+        
+
+      }
+
+      const getVendorPaymentAccount = async() => {
+        const responseData = await paymentService.vendorPaymentAccount(props.vendorId, userService.getAccountDetails().accountId)
+        if(responseData) {
             setAddMode(false)
+            setBankType(responseData.bankType)
+            setBankName(responseData.bankName)
+            setRoutingNumber(responseData.routingNumber)
+            setAccountNumber(responseData.accountNumber)
         }
       }
 
-      const handleAddUpdateVendorPaymentAccount = () => {
+      const handleAddUpdateVendorPaymentAccount = async() => {
+
+        if(bankType && bankType != EMPTY_STRING && bankName && routingNumber && accountNumber) {
+            const paymentAccountData = {
+                bankType: bankType,
+                bankName: bankName,
+                routingNumber: routingNumber,
+                accountNumber: accountNumber
+            }
+            const responseData = await paymentService.paymentAccount(props.vendorId, userService.getAccountDetails().accountId, paymentAccountData)
+        } else {
+            toast({
+                title: 'Add Vendor Payment Account.',
+                description: 'All the fields are required, please enter and try again.',
+                status: 'error',
+                position: 'top',
+                duration: 9000,
+                isClosable: true,
+              })     
+              return;
+        }
+        
 
       }
 
@@ -68,53 +104,56 @@ const AddEditVedorPaymentAccount = (props) => {
                             Add Vendor Payment
                         </DrawerHeader>
                         <DrawerBody>
-                          <Stack spacing={6} marginTop={9}>
-                            <HStack spacing={1}>
-                                <Box alignContent="right" width="20%">
-                                    Bank Type
-                                </Box>
-                                <Box alignContent="left" width="40%">
-                                    <Select  value={bankType} onChange={(ev) => setBankType(ev.target.value)} border="table_border">
-                                        <option value="">Select Type</option>
-                                        {ConfigConstants.AVAILABLE_PAYMENT_ACCOUNT_TYPES?.map((paymentAccountType) => (
-                                                <option value={paymentAccountType.id}>{paymentAccountType.name}</option>
-                                        ))}                                           
-                                    </Select>
-                                </Box>   
-                            </HStack>                                                                                                    
-                            <HStack spacing={1}>
-                                <Box alignContent="right" width="20%">
-                                    Bank Name
-                                </Box>
-                                <Box alignContent="left" width="40%">
-                                    <Input type="text" value={bankName} onChange={(ev) => setBankName(ev.target.value)}/>
-                                </Box>   
-                            </HStack>                                                                                                    
-                            <HStack spacing={1}>
-                                <Box alignContent="right" width="20%">
-                                    Routing Number
-                                </Box>
-                                <Box alignContent="left" width="40%">
-                                    <Input type="number" value={routingNumber} onChange={(ev) => setRoutingNumber(ev.target.value)}/>
-                                </Box>   
-                            </HStack>                                                                                                    
-                            <HStack spacing={1}>
-                                <Box alignContent="right" width="20%">
-                                    Account Number
-                                </Box>
-                                <Box alignContent="left" width="40%">
-                                    <Input type="number" value={accountNumber} onChange={(ev) => setAccountNumber(ev.target.value)}/>
-                                </Box>   
-                            </HStack>                                                                                                    
-                            <Button width="30%" marginTop="20px" onClick={() => handleAddUpdateVendorPaymentAccount()} bgColor="header_actions">
-                              {isAddMode ? (<>
-                                  Add                               
-                              </>) : (<>
-                                  Update
-                              </>)}
-                            </Button>                                                                                                        
+                        {isPageAuthorized?<>
+                            <Stack spacing={6} marginTop={9}>
+                                <HStack spacing={1}>
+                                    <Box alignContent="right" width="20%">
+                                        Bank Type
+                                    </Box>
+                                    <Box alignContent="left" width="40%">
+                                        <Select  value={bankType} onChange={(ev) => setBankType(ev.target.value)} border="table_border">
+                                            <option value="">Select Type</option>
+                                            {ConfigConstants.AVAILABLE_PAYMENT_ACCOUNT_TYPES?.map((paymentAccountType) => (
+                                                    <option value={paymentAccountType.id}>{paymentAccountType.name}</option>
+                                            ))}                                           
+                                        </Select>
+                                    </Box>   
+                                </HStack>                                                                                                    
+                                <HStack spacing={1}>
+                                    <Box alignContent="right" width="20%">
+                                        Bank Name
+                                    </Box>
+                                    <Box alignContent="left" width="40%">
+                                        <Input type="text" value={bankName} onChange={(ev) => setBankName(ev.target.value)}/>
+                                    </Box>   
+                                </HStack>                                                                                                    
+                                <HStack spacing={1}>
+                                    <Box alignContent="right" width="20%">
+                                        Routing Number
+                                    </Box>
+                                    <Box alignContent="left" width="40%">
+                                        <Input type="number" value={routingNumber} onChange={(ev) => setRoutingNumber(ev.target.value)}/>
+                                    </Box>   
+                                </HStack>                                                                                                    
+                                <HStack spacing={1}>
+                                    <Box alignContent="right" width="20%">
+                                        Account Number
+                                    </Box>
+                                    <Box alignContent="left" width="40%">
+                                        <Input type="number" value={accountNumber} onChange={(ev) => setAccountNumber(ev.target.value)}/>
+                                    </Box>   
+                                </HStack>                                                                                                    
+                                <Button width="30%" marginTop="20px" onClick={() => handleAddUpdateVendorPaymentAccount()} bgColor="header_actions">
+                                {isAddMode ? (<>
+                                    Add                               
+                                </>) : (<>
+                                    Update
+                                </>)}
+                                </Button>                                                                                                        
 
-                          </Stack>
+                            </Stack>                        
+                        </>:<></>}
+
                         </DrawerBody>
                     </DrawerContent>
            </Drawer>

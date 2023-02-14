@@ -57,9 +57,9 @@ const VendorDetailActions = (props) => {
                   <Box>
                     <ManageDocuments/>
                   </Box>           
-                  {(props.data?.vendor?.type === VendorType.Supplier && userService.accountFeatureEnabled(ConfigConstants.FEATURES.PAYMENT_PROCESSOR))? <>
+                  {(props.data?.vendor?.type === VendorType.Supplier && userService.accountFeatureEnabled(ConfigConstants.FEATURES.PAYMENT_PROCESSOR) && userService.isPaymentAdmin)? <>
                     <Box>
-                      <AddEditVedorPaymentAccount/>
+                      <AddEditVedorPaymentAccount vendorId={props.data?.vendor?.id}/>
                     </Box>           
                   </>:<></>}  
                 </HStack>

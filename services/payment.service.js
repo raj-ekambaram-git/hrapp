@@ -13,8 +13,39 @@ export const paymentService = {
     accountBalance,
     updateExistingAccount,
     initiateTransfer,
+    vendorPaymentAccount,
+    paymentAccount,
     
 };
+
+function paymentAccount(vendorId, accountId, paymentAccountData) {
+    return fetchWrapper.post(`${baseUrl}/admin/account/vendor/payment/method`, {
+        vendorId: vendorId,
+        accountId: accountId,
+        paymentAccountData: paymentAccountData
+    })
+    .then(vendorPaymentAccount => {
+        return vendorPaymentAccount;
+    })  
+    .catch(err => {
+        console.log("Error vendorPaymentAccount"+err)
+        return {errorMessage: err, error: true};
+    });
+}
+
+function vendorPaymentAccount(vendorId, accountId) {
+    return fetchWrapper.post(`${baseUrl}/admin/account/vendor/payment/method`, {
+        vendorId: vendorId,
+        accountId: accountId
+    })
+    .then(vendorPaymentAccount => {
+        return vendorPaymentAccount;
+    })  
+    .catch(err => {
+        console.log("Error vendorPaymentAccount"+err)
+        return {errorMessage: err, error: true};
+    });
+}
 
 function initiateTransfer(userId, accountId) {
     return fetchWrapper.post(`${baseUrl}/admin/account/payment/method/initiate_transfer`, {
