@@ -266,14 +266,14 @@ const CostPayment = (props) => {
                           </DrawerHeader>
                           <DrawerBody>
                             <Stack spacing={8}>
-                              <Box>
                                 <Box>
                                   <ShowInlineErrorMessage showErrorMessage={showErrorMessage}/>
                                 </Box>           
                                 {isAddMode?<>
+                                  <HStack spacing={1}>
                                     <FormControl isRequired>
                                         <FormLabel>Vendor</FormLabel>
-                                        <Select width="50%" onChange={(ev) => handleVendorSelection(ev.target.value)} value={costVendorId}>
+                                        <Select width="70%" onChange={(ev) => handleVendorSelection(ev.target.value)} value={costVendorId}>
                                             <option value="">Select an Vendor</option>
                                             {accountVendorList?.map((vendor) => (
                                             <option value={vendor.id}>{vendor.name}</option>
@@ -282,13 +282,14 @@ const CostPayment = (props) => {
                                     </FormControl>    
                                     <FormControl isRequired>
                                         <FormLabel>Project</FormLabel>
-                                        <Select width="50%" onChange={(ev) => handleProjectSelection(ev.target.value)} value={costProjectId}>
+                                        <Select width="70%" onChange={(ev) => handleProjectSelection(ev.target.value)} value={costProjectId}>
                                             <option value="">Select Project</option>
                                             {projectList?.map((project) => (
                                             <option value={project.id}>{project.name} -- {project.referenceCode}</option>
                                             ))}
                                         </Select>
-                                    </FormControl>    
+                                    </FormControl>  
+                                  </HStack>                                      
                                 </>:<>
                                       <Stack spacing={2} marginBottom={6} fontSize="15px">
                                           <HStack marginBottom={3}>
@@ -315,14 +316,14 @@ const CostPayment = (props) => {
                                       </Stack>
                                 </>}               
                                 {costProjectId?
-                                    <Stack spacing={3}>
-                                        <Box maxWidth="25%">
+                                    <Stack spacing={8}>
+                                        <Box maxWidth="35%">
                                             <FormControl isRequired>
                                                 <FormLabel>Cost Name</FormLabel>
                                                 <Input type="text" id="costName"  value={costName} onChange={(ev) => setCostName(ev.target.value)}/>
                                             </FormControl>      
                                         </Box>          
-                                        <Box>
+                                        <Box maxWidth="35%">
                                             <FormControl>
                                                 <FormLabel>Cost Description</FormLabel>
                                                 <Textarea type="text" id="costDescription" value={costDescription} onChange={(ev) => setCostDescription(ev.target.value)}/>
@@ -353,8 +354,7 @@ const CostPayment = (props) => {
                                             </>
                                         :<></>}                       
                                     </Stack>
-                                :<></>}
-                              </Box>                               
+                                :<></>}                          
                             </Stack>
                           </DrawerBody>
                       </DrawerContent>
