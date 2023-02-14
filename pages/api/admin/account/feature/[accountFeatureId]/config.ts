@@ -16,13 +16,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   
     const {featureConfigData} = req.body;
 
-    console.log("featureConfigData:::"+JSON.stringify(featureConfigData));
+    console.log("featureConfigData::: 111 "+JSON.stringify(featureConfigData));
     if(featureConfigData.accountId && featureConfigData.id) {
       const updateData = {
         id: featureConfigData.id,
         configuration: {}
       };
+      console.log(" Updaesestet ")
       const processorKey = util.getConfigHash(featureConfigData.configuration.processorKey, false)
+      console.log(" processorKey::: +"+JSON.stringify(processorKey))
       if(processorKey.configurationSalt) {
         const processorSecret = util.getConfigHash(featureConfigData.configuration.processorSecret, processorKey.configurationSalt)
         if(processorSecret) {

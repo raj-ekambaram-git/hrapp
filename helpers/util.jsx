@@ -29,7 +29,8 @@ export const util = {
     getUserRole,
     validateEmailArray,
     getLocaleDate,
-    getConfigHash
+    getConfigHash,
+    decryptConfigHash
 };
 
 function getLocaleDate(date) {
@@ -253,20 +254,32 @@ function getPasswordHash(password) {
 }
 
 function getConfigHash(configuration, configurationSaltInput) {
-  console.log("configurationSaltInput::"+configurationSaltInput)
-  let configSalt = configurationSaltInput;
+  const crypto = require("crypto");
+  const algorithm = process.env.CRYPTO_ALGO;
+  let initVector = configurationSaltInput;
   if(!configurationSaltInput) {
-    console.log("inside the salt creation")
-    configSalt = bcrypt.genSaltSync(10);   
-    console.log("inside the salt creation:: configSalt::"+configSalt) 
+    initVector = crypto.randomBytes(16);
   }
-  console.log("111 inside the salt creation:: configSalt::"+configSalt+"*****configuration::::"+configuration) 
-  const configurationHash = bcrypt.hashSync(configuration, configSalt);
-  console.log("inside the salt creation:: configSalt::"+configSalt+"*****configuration::::"+configuration) 
-  return {configurationSalt: configSalt, configurationHash: configurationHash };
+  let securitykey = crypto.createHash(process.env.HASH_TYPE).update(String(process.env.ENCRYPTION_KEY)).digest('base64').substr(0, 32);
+  const cipher = crypto.createCipheriv(algorithm, securitykey, initVector);
+  let encryptedData = cipher.update(configuration, "utf-8", "hex");
+  encryptedData += cipher.final("hex");
+  return {configurationSalt: initVector, configurationHash: encryptedData };
 
 }
 
+
+function decryptConfigHash(configurationHash, initVector) {
+  const crypto = require("crypto");
+  const algorithm = process.env.CRYPTO_ALGO;
+  let securitykey = crypto.createHash(process.env.HASH_TYPE).update(String(process.env.ENCRYPTION_KEY)).digest('base64').substr(0, 32);
+  const decipher = crypto.createDecipheriv(algorithm, securitykey.toString(), Buffer.from(initVector));
+  
+  let decryptedData = decipher.update(configurationHash, "hex", "utf-8");
+  decryptedData += decipher.final("utf8");
+  return decryptedData;
+
+}
 
 function getTempPassword() {
   return generator.generate({

@@ -40,7 +40,6 @@ const ConfigurePaymentProcessor = (props) => {
     function handleConfigurePaymentProcessor(newSize) {
         setSize(newSize);
         onOpen();
-        console.log("props.accountFeature::::"+JSON.stringify(props.accountFeature))
         if(props.accountFeature && props.accountFeature.configuration) {
             setAddMode(false)
             setProcessor(props.accountFeature.configuration?.processor)
@@ -53,7 +52,7 @@ const ConfigurePaymentProcessor = (props) => {
         if(processorConsent) {
             if(processor && processor != EMPTY_STRING && processorKey && processorSecret) {
                 const featureConfigUpdateData = {
-                    id: props.accountFeature.id,
+                    id: props.accountFeature.accountFeatureId,
                     accountId: userService.getAccountDetails().accountId,
                     configuration: {
                         processor: processor,
@@ -62,8 +61,7 @@ const ConfigurePaymentProcessor = (props) => {
                         processorSecret: processorSecret
                     }
                 }
-                console.log("featureConfigUpdateData:::::"+JSON.stringify(featureConfigUpdateData))
-                const responseData = await configurationService.updateFeatureConfig(props.accountFeature.id, featureConfigUpdateData)
+                const responseData = await configurationService.updateFeatureConfig(props.accountFeature.accountFeatureId, featureConfigUpdateData)
             } else {
                 toast({
                     title: 'Add Payment Processor.',
