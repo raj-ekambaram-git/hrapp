@@ -80,7 +80,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             
 
       } else {
-        res.status(400).json({ message: 'NO active payment methods available for this vendor.' })
+        res.status(200).json(null)
       }
 
     } else {

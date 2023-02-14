@@ -17,12 +17,15 @@ import {
     HStack,
     Input,
     Checkbox,
-    Select
+    Select,
+    Badge,
+    Card,
+    CardBody
 
   } from '@chakra-ui/react';
   import { Spinner } from "../../common/spinner";
 import { useDispatch } from "react-redux";
-import { ConfigConstants, EMPTY_STRING } from "../../../constants";
+import { ConfigConstants, EMPTY_STRING, PaymentConstants } from "../../../constants";
 import { configurationService, paymentService, userService } from "../../../services";
 
 const AddEditVedorPaymentAccount = (props) => {
@@ -54,7 +57,7 @@ const AddEditVedorPaymentAccount = (props) => {
       const getVendorPaymentAccount = async() => {
         const responseData = await paymentService.vendorPaymentAccount(props.vendorId, userService.getAccountDetails().accountId)
         setLoading(false)
-        if(responseData.error) {
+        if(responseData && responseData.error) {
             toast({
                 title: 'Vendor Payment Account.',
                 description: 'Error getting payment data for this vendor.',
@@ -101,7 +104,7 @@ const AddEditVedorPaymentAccount = (props) => {
                     duration: 3000,
                     isClosable: true,
                   })     
-                  return;
+                  onClose()
             }
         } else {
             toast({
@@ -138,58 +141,97 @@ const AddEditVedorPaymentAccount = (props) => {
                         </DrawerHeader>
                         <DrawerBody>
                         {isPageAuthorized?<>
-                            {loading?<><Spinner /></>:<></>}       
-                            <Stack spacing={6} marginTop={9}>
-                                {vendorPaymentSummary?<>
-                                </>:<>
-                                    <HStack spacing={1}>
-                                        <Box alignContent="right" width="20%">
-                                            Bank Type
-                                        </Box>
-                                        <Box alignContent="left" width="40%">
-                                            <Select  value={bankType} onChange={(ev) => setBankType(ev.target.value)} border="table_border">
-                                                <option value="">Select Type</option>
-                                                {ConfigConstants.AVAILABLE_PAYMENT_ACCOUNT_TYPES?.map((paymentAccountType) => (
-                                                        <option value={paymentAccountType.id}>{paymentAccountType.name}</option>
-                                                ))}                                           
-                                            </Select>
-                                        </Box>   
-                                    </HStack>                                                                                                    
-                                    <HStack spacing={1}>
-                                        <Box alignContent="right" width="20%">
-                                            Bank Name
-                                        </Box>
-                                        <Box alignContent="left" width="40%">
-                                            <Input type="text" value={bankName} onChange={(ev) => setBankName(ev.target.value)}/>
-                                        </Box>   
-                                    </HStack>                                                                                                    
-                                    <HStack spacing={1}>
-                                        <Box alignContent="right" width="20%">
-                                            Routing Number
-                                        </Box>
-                                        <Box alignContent="left" width="40%">
-                                            <Input type="number" value={routingNumber} onChange={(ev) => setRoutingNumber(ev.target.value)}/>
-                                        </Box>   
-                                    </HStack>                                                                                                    
-                                    <HStack spacing={1}>
-                                        <Box alignContent="right" width="20%">
-                                            Account Number
-                                        </Box>
-                                        <Box alignContent="left" width="40%">
-                                            <Input type="number" value={accountNumber} onChange={(ev) => setAccountNumber(ev.target.value)}/>
-                                        </Box>   
-                                    </HStack>                                                                                                    
-                                    <Button width="30%" marginTop="20px" onClick={() => handleAddUpdateVendorPaymentAccount()} bgColor="header_actions">
-                                    {isAddMode ? (<>
-                                        Add                               
-                                    </>) : (<>
-                                        Update
-                                    </>)}
-                                    </Button>                                   
-                                </>}
-                                                                                                     
+                            {loading?<><Spinner /></>:<></>} 
+                            <Card variant="document">
+                                <CardBody>
+                                    <Stack spacing={6} marginTop={9}>
+                                    {vendorPaymentSummary?<>
+                                        <HStack spacing={1}>
+                                            <Box alignContent="right" width="20%" fontWeight="600">
+                                                Name
+                                            </Box>
+                                            <Box alignContent="left" width="40%" fontWeight="600">
+                                                {vendorPaymentSummary.name}
+                                            </Box>                                      
+                                        </HStack>   
+                                        <HStack spacing={1}>
+                                            <Box alignContent="right" width="20%" fontWeight="600">
+                                                Bank Type
+                                            </Box>
+                                            <Box alignContent="left" width="40%" fontWeight="600">
+                                                {vendorPaymentSummary.bankType}
+                                            </Box>  
+                                        </HStack>                                        
+                                        <HStack spacing={1}>
+                                            <Box alignContent="right" width="20%" fontWeight="600">
+                                                Bank Name
+                                            </Box>
+                                            <Box alignContent="left" width="40%" fontWeight="600">
+                                                {vendorPaymentSummary.bankName}
+                                            </Box>   
+                                        </HStack>   
+                                        <HStack spacing={1}>
+                                            <Box alignContent="right" width="20%" fontWeight="600">
+                                                Status
+                                            </Box>
+                                            <Box alignContent="left" width="40%">
+                                                <Badge color={vendorPaymentSummary.status==="verified"?"paid_status":"pending_status"}>
+                                                    {vendorPaymentSummary.status}
+                                                </Badge>
+                                            </Box>   
+                                        </HStack>                                                                         
+                                    </>:<>
+                                        <HStack spacing={1}>
+                                            <Box alignContent="right" width="20%">
+                                                Bank Type
+                                            </Box>
+                                            <Box alignContent="left" width="40%">
+                                                <Select  value={bankType} onChange={(ev) => setBankType(ev.target.value)} border="table_border">
+                                                    <option value="">Select Type</option>
+                                                    {ConfigConstants.AVAILABLE_PAYMENT_ACCOUNT_TYPES?.map((paymentAccountType) => (
+                                                            <option value={paymentAccountType.id}>{paymentAccountType.name}</option>
+                                                    ))}                                           
+                                                </Select>
+                                            </Box>   
+                                        </HStack>                                                                                                    
+                                        <HStack spacing={1}>
+                                            <Box alignContent="right" width="20%">
+                                                Bank Name
+                                            </Box>
+                                            <Box alignContent="left" width="40%">
+                                                <Input type="text" value={bankName} onChange={(ev) => setBankName(ev.target.value)}/>
+                                            </Box>   
+                                        </HStack>                                                                                                    
+                                        <HStack spacing={1}>
+                                            <Box alignContent="right" width="20%">
+                                                Routing Number
+                                            </Box>
+                                            <Box alignContent="left" width="40%">
+                                                <Input type="number" value={routingNumber} onChange={(ev) => setRoutingNumber(ev.target.value)}/>
+                                            </Box>   
+                                        </HStack>                                                                                                    
+                                        <HStack spacing={1}>
+                                            <Box alignContent="right" width="20%">
+                                                Account Number
+                                            </Box>
+                                            <Box alignContent="left" width="40%">
+                                                <Input type="number" value={accountNumber} onChange={(ev) => setAccountNumber(ev.target.value)}/>
+                                            </Box>   
+                                        </HStack>                                                                                                    
+                                        <Button width="30%" marginTop="20px" onClick={() => handleAddUpdateVendorPaymentAccount()} bgColor="header_actions">
+                                            {isAddMode ? (<>
+                                                Add                               
+                                            </>) : (<>
+                                                Update
+                                            </>)}
+                                        </Button>                                   
+                                        </>}
+                                                                                                        
 
-                            </Stack>                        
+                                    </Stack>         
+                                </CardBody>
+                            </Card>      
+               
                         </>:<></>}
 
                         </DrawerBody>
