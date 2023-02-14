@@ -99,14 +99,13 @@ const ManagePaymentAccounts = (props) => {
     //First get the account config data
     const paymentConfigData = await accountService.isPaymentConfigured(userService.userValue.id, userService.getAccountDetails().accountId);
     if(paymentConfigData && paymentConfigData.configured) {
+      console.log("paymentConfigData:::"+JSON.stringify(paymentConfigData))
       setAccountFeature(paymentConfigData)
       //First see if there are already linked accounts
       const linkedAccountData = await paymentService.getMethodsByAccount(userService.userValue.id, userService.getAccountDetails().accountId);
-      console.log("linkedAccountData:::"+JSON.stringify(linkedAccountData))
       if(linkedAccountData) {
         setLinkedAccountData(linkedAccountData)
       } else {
-        console.log("linkedAccountData ELSE USEEFFECT:::"+JSON.stringify(linkedAccountData))
         if (token == null) {
           createLinkToken();
         }
@@ -123,12 +122,10 @@ const ManagePaymentAccounts = (props) => {
 
   const handleStatusUpdate = async (status) => {
     const linkedAccountData = await paymentService.updateExistingAccount(userService.userValue.id, userService.getAccountDetails().accountId, status);
-    console.log("linkedAccountData:::"+JSON.stringify(linkedAccountData))
     if(linkedAccountData) {
       setLinkedAccountData(linkedAccountData)
     } else {
       setLinkedAccountData(null)
-      console.log("linkedAccountData ELSE USEEFFECT:::"+JSON.stringify(linkedAccountData))
       if (token == null) {
         createLinkToken();
       }
@@ -155,7 +152,8 @@ const ManagePaymentAccounts = (props) => {
                 Manage Payment Accounts
             </CardHeader>
             <CardBody>      
-              {!configurePaymentProcessor?<>
+              <ConfigurePaymentProcessor accountFeature={accountFeature}/>
+              {configurePaymentProcessor?<>
                 <Button marginBottom={3} onClick={() => open()
                 } disabled={!ready}>
                 <strong>Link account</strong>
@@ -200,9 +198,7 @@ const ManagePaymentAccounts = (props) => {
                     </pre>
                   )
                 )}                        
-              </>:<>
-                    <ConfigurePaymentProcessor accountFeature={accountFeature}/>
-              </>}
+              </>:<></>}
     
             </CardBody>
           </Card>

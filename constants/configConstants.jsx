@@ -9,8 +9,8 @@ export const ConfigConstants = {
 
   AVAILABLE_PAYMENT_PROCESSORS: [
     {
-      processorId: "Dwolloa",
-      processorName: "Dwolloa",
+      processorId: "Dwolla",
+      processorName: "Dwolla",
     },
   
   
