@@ -65,6 +65,7 @@ const ManagePaymentAccounts = (props) => {
         duration: 3000,
         isClosable: true,
       })    
+      setLinkedAccountData(exchangeResponse)
       await getBalance();
     }
     
