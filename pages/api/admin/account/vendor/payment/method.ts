@@ -2,7 +2,8 @@
 
 import { AccountFeatureStatus, PaymentMethodStatus } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next"
-import { ConfigConstants } from "../../../../../../constants";
+import { ConfigConstants, PaymentConstants } from "../../../../../../constants";
+import { util } from "../../../../../../helpers";
 import prisma from "../../../../../../lib/prisma";
 
 
@@ -64,6 +65,17 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           && accountPaymentMethodInfo.account?.accoutFeatures[0].feature?.name === ConfigConstants.FEATURES.PAYMENT_PROCESSOR) { 
         
             console.log("INSIDE THIS AND PROCESSOR ENABLED")
+            if(accountPaymentMethodInfo.account?.accoutFeatures[0].configuration 
+              && accountPaymentMethodInfo.account?.accoutFeatures[0].configuration['processor'] === PaymentConstants.SUPPORTED_PAYMENT_PROCESSORS.Dwolla ) {
+                console.log("inside dwolla account")
+                const processorResponse = await processDwolla(accountPaymentMethodInfo)
+                if(processorResponse.success) {
+                    
+                } else {
+                  res.status(400).json({ message: 'NO active payment methods available for this vendor.' })
+                }
+              }
+            
 
       } else {
         res.status(400).json({ message: 'NO active payment methods available for this vendor.' })
@@ -79,3 +91,21 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(400).json({ message: 'Something went wrong while updating' })
   }
 }
+
+
+
+const processDwolla = async(accountPaymentMethodInfo) => {
+  const dClient = require("dwolla-v2").Client;
+
+  const dwolla = new dClient({
+    environment: "sandbox", // Defaults to "production"
+    key: util.decryptConfigHash(accountPaymentMethodInfo.account.accoutFeatures[0]?.configuration["processorKey"], accountPaymentMethodInfo.account.accoutFeatures[0]?.configuration["salt"]),
+    secret: util.decryptConfigHash(accountPaymentMethodInfo.account.accoutFeatures[0]?.configuration["processorSecret"], accountPaymentMethodInfo.account.accoutFeatures[0]?.configuration["salt"]),
+  });
+
+  const fundingSource = dwolla.get('funding-sources/'+accountPaymentMethodInfo.processorPaymentId, {});
+  
+  console.log("fundingSource::::"+JSON.stringify(fundingSource.body))
+
+  return { success: true,}
+} 
