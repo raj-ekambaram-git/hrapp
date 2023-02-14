@@ -111,7 +111,8 @@ const CostPayment = (props) => {
     const handleProjectSelection = async(selectedProjectId) => {
         setCostProjectId(selectedProjectId)
         const responseData = await projectService.getSuppliers(selectedProjectId, userService.getAccountDetails().accountId)
-        if(responseData && responseData.kength>0) {
+        console.log("responseData:::SUPPLIERS::"+JSON.stringify(responseData))
+        if(responseData && responseData.length>0) {
           setSupplierList(responseData)
         }
     }
@@ -324,12 +325,23 @@ const CostPayment = (props) => {
                                 </>}               
                                 {costProjectId?
                                     <Stack spacing={8}>
-                                        <Box maxWidth="35%">
+                                      <HStack spacing={1}>
                                             <FormControl isRequired>
                                                 <FormLabel>Cost Name</FormLabel>
-                                                <Input type="text" id="costName"  value={costName} onChange={(ev) => setCostName(ev.target.value)}/>
+                                                <Input width="70%" type="text" id="costName"  value={costName} onChange={(ev) => setCostName(ev.target.value)}/>
                                             </FormControl>      
-                                        </Box>          
+                                        {supplierList?<>
+                                          <FormControl>
+                                            <FormLabel>Supplier</FormLabel>
+                                            <Select width="70%" onChange={(ev) => setSupplierId(ev.target.value)} value={supplierId}>
+                                                <option value="">Select Supplier</option>
+                                                {supplierList?.map((supplier) => (
+                                                <option value={supplier?.id}>{supplier?.name}</option>
+                                                ))}
+                                            </Select>
+                                          </FormControl>                                                 
+                                        </>:<></>}
+                                      </HStack>
                                         <Box maxWidth="35%">
                                             <FormControl>
                                                 <FormLabel>Cost Description</FormLabel>

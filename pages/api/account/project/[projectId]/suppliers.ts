@@ -17,37 +17,25 @@ console.log("projectId ID::"+projectId+"---AccountioD::"+accountId)
   
   try {
     if(projectId && projectId) {
-      const suppliers = await prisma.projectResource.findMany({
+      const suppliers = await prisma.vendor.findMany({
         where: {
-            projectId: {
-              equals: parseInt(projectId.toString())
-            },
-            project: {
-              accountId: {
-                equals: parseInt(accountId.toString())
+          projectResource: {
+            some: {
+              projectId: {
+                equals: parseInt(projectId.toString())
               }
-            },
-            supplierId: {
-              not: null
             }
+          }
         },
         orderBy: {
           id: "desc"
         },
-        include: {
-          supplier: {
-            select: {
-              id: true,
-              name: true
-            }
-          }
-        }
       });
 
       console.log("PROJECT suppliers:: :"+JSON.stringify(suppliers))
       res.status(200).json(suppliers);
     }  else {
-      res.status(400).json({ message: 'Something went wrong while getting project suppliers' })
+      res.status(400).json({ message: 'Something went wrong while getting project suppluer' })
     }
 
   } catch (error) {
