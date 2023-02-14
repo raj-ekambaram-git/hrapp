@@ -100,6 +100,7 @@ const AddProjectResource = (props) => {
   const handleEdit = (newSize) => {
     console.log("HANDLE EDIT :::"+vendorId);
     getUsersByVendor(vendorId);
+    getSuppliersByAccount();
     if(data != undefined && data != EMPTY_STRING) {
       //Edit Mode so get the data and set for each field
       setUserId(data?.projectResource?.userId)
@@ -173,6 +174,7 @@ const AddProjectResource = (props) => {
     setToDate(EMPTY_STRING)
     setFromDate(EMPTY_STRING)
     setToDate(EMPTY_STRING)
+    setSupplierId(EMPTY_STRING)
   }
 
   function handleSelectedProjectResource() {

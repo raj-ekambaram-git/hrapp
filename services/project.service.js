@@ -170,6 +170,7 @@ function updateProjectResource(requestData, remainingBudgetToUpdate) {
             fromDate: new Date(requestData.fromDate),
             toDate: new Date(requestData.toDate),
             budgetAllocated: requestData.budgetAllocated,
+            supplierId: parseInt(requestData.supplierId),
             currency: requestData.currency,
             billable: requestData.billable,
             isTimesheetApprover: requestData.isTimesheetApprover,
@@ -203,6 +204,7 @@ function createProjectResource(requestData, remainingBudgetToUpdate) {
             budgetAllocated: requestData.budgetAllocated,
             currency: requestData.currency,
             billable: requestData.billable,
+            supplierId: parseInt(requestData.supplierId),
             isTimesheetApprover: requestData.isTimesheetApprover,
             uom: requestData.uom
           },
