@@ -106,7 +106,7 @@ const ConfigurePaymentProcessor = (props) => {
                         <DrawerBody>
                           <Stack spacing={6} marginTop={9}>
                             <HStack spacing={1}>
-                                <Box alignContent="right" width="40%">
+                                <Box alignContent="right" width="28%">
                                     Porcessor Name
                                 </Box>
                                 <Box alignContent="left">

@@ -20,6 +20,7 @@ export const ConfigConstants = {
     WORK_FLOW: "WorkfFlow",
     SCHEDULE_JOB: "ScheduleJob",
     PAYMENT: "Payment",
+    PAYMENT_PROCESSOR: "PaymentProcessor",
   },
   AVAILABLE_REPORTS: {
     ProjectReport: "ProjectReport",

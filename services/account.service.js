@@ -38,7 +38,7 @@ export const accountService = {
 
 
 function isPaymentConfigured(userId, accountId) {
-    return fetchWrapper.post(`${baseUrl}/admin/account/payment/config`, {
+    return fetchWrapper.post(`${baseUrl}/admin/account/payment/processor/config`, {
         accountId: accountId,
         userId: userId
     })

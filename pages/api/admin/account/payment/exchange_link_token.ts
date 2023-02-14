@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import { PaymentMethodStatus, PaymentMethodType } from "@prisma/client";
+import { AccountFeatureStatus, PaymentMethodStatus, PaymentMethodType } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next"
 import { util } from "../../../../../helpers";
 import prisma from "../../../../../lib/prisma";
@@ -61,8 +61,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           accoutFeatures: {
             where: {
               feature: {
-                name: "Payment"
-              }
+                name: "PaymentProcessor"
+              },
+              status: AccountFeatureStatus.Active
             },
             select: {
               configuration: true
@@ -80,8 +81,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         }
       })
 
-      console.log("ACCOUNT DETAILS:::"+JSON.stringify(account))
-
       if(account && account.accoutFeatures[0]?.configuration) {
 
         const processor = account.accoutFeatures[0]?.configuration["processor"]
@@ -90,7 +89,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           processorResponse = await processDwolla(account, plaidMetaData, processTokenResponse)
         }
 
-        if(processorResponse && processorResponse['success']) {
+        if((processor && processorResponse && processorResponse['success'])) {
           const accountPaymentMethodInfo = await prisma.paymentMethod.create({
             data: {
               type: PaymentMethodType.Account,
@@ -107,12 +106,23 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     
           res.status(200).json(tokenResponse.data);
         } else {
-          res.status(400).json({ message: 'Error proccing by the processor.' })
+          res.status(400).json({ message: 'Something went wrong while updating' })
         }
 
 
       } else {
-        res.status(400).json({ message: 'Something went wrong while processing' })
+        const accountPaymentMethodInfo = await prisma.paymentMethod.create({
+          data: {
+            type: PaymentMethodType.Account,
+            itemId: tokenResponse.data.item_id,
+            token: tokenResponse.data.access_token, //TODO, encryp the token and persist
+            status: PaymentMethodStatus.Active,
+            accountId: parseInt(accountId.toString()),
+            updatedBy: parseInt(userId.toString()),
+          }
+        })    
+        res.status(200).json(tokenResponse.data);
+
       }
 
   

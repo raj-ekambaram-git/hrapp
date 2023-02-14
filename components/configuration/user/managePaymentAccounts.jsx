@@ -11,7 +11,7 @@ import {
   Box,
   Heading,
   Badge,
-  Switch
+  Switch,
 } from '@chakra-ui/react'
 import { useDispatch, useSelector } from "react-redux";
 import {setAccountPaymentToken, setPaymentInitiation, setPaymentProducts} from '../../../store/modules/Account/actions'
@@ -23,25 +23,51 @@ import {
 } from 'react-plaid-link';
 import { PaymentMethodStatus } from "@prisma/client";
 import { Spinner } from "../../common/spinner";
+import { ConfigConstants } from "../../../constants";
 
 
 
 const ManagePaymentAccounts = (props) => {
   const dispatch = useDispatch();
+  const toast = useToast();
   const [isPageAuthprized, setPageAuthorized] = useState(false);
   const [token, setToken] = useState(null);
   const [balanceData, setBalanceData] = useState(null);
   const [accountFeature, setAccountFeature] = useState(null);
   const [linkedAccountData, setLinkedAccountData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [configurePaymentProcessor, setConfigurePaymentProcessor] = useState(true);
+  const [configurePaymentProcessor, setConfigurePaymentProcessor] = useState(false);
+  
 
   const linkToken = useSelector(state => state.account?.payment?.linkPaymentToken);
   const onSuccess = useCallback(async (publicToken, metadata) => {
     console.log("metadata::::"+JSON.stringify(metadata))
     setLoading(true);
     const exchangeResponse = await paymentService.exchangeForAccessToken(publicToken, userService.userValue.id, userService.getAccountDetails().accountId, metadata)
-    await getBalance();
+    if(exchangeResponse.error) {
+      toast({
+        title: 'Add Payment.',
+        description: 'Error adding an account, please try again later or contact administrator.',
+        status: 'error',
+        position: 'top',
+        duration: 9000,
+        isClosable: true,
+      })     
+      setLoading(false)
+      return;
+      
+    } else {
+      toast({
+        title: 'Add Payment.',
+        description: 'Successfully added the account details.',
+        status: 'success',
+        position: 'top',
+        duration: 3000,
+        isClosable: true,
+      })    
+      await getBalance();
+    }
+    
   }, []);
 
   // Creates a Link token
@@ -98,7 +124,9 @@ const ManagePaymentAccounts = (props) => {
   const getExistingAccounts = async() => {
     //First get the account config data
     const paymentConfigData = await accountService.isPaymentConfigured(userService.userValue.id, userService.getAccountDetails().accountId);
-    if(paymentConfigData && paymentConfigData.configured) {
+    setConfigurePaymentProcessor(userService.accountFeatureEnabled(ConfigConstants.FEATURES.PAYMENT_PROCESSOR))
+
+    if((userService.accountFeatureEnabled(ConfigConstants.FEATURES.PAYMENT_PROCESSOR) && paymentConfigData && paymentConfigData.configured) || !userService.accountFeatureEnabled(ConfigConstants.FEATURES.PAYMENT_PROCESSOR)) {
       console.log("paymentConfigData:::"+JSON.stringify(paymentConfigData))
       setAccountFeature(paymentConfigData)
       //First see if there are already linked accounts
@@ -113,8 +141,7 @@ const ManagePaymentAccounts = (props) => {
       }
       setLoading(false);
     } else {
-      setAccountFeature(paymentConfigData)
-      setConfigurePaymentProcessor(true)
+      setAccountFeature(paymentConfigData)      
       setLoading(false);
     }
 
@@ -152,12 +179,13 @@ const ManagePaymentAccounts = (props) => {
                 Manage Payment Accounts
             </CardHeader>
             <CardBody>      
+            {configurePaymentProcessor?<>
               <ConfigurePaymentProcessor accountFeature={accountFeature}/>
-              {configurePaymentProcessor?<>
+              </>:<></>}
                 <Button marginBottom={3} onClick={() => open()
-                } disabled={!ready}>
-                <strong>Link account</strong>
-              </Button>
+                    } disabled={!ready}>
+                    <strong>Link account</strong>
+                </Button>
                   {linkedAccountData?<>
                     <Card>
                       <CardBody>
@@ -198,8 +226,6 @@ const ManagePaymentAccounts = (props) => {
                     </pre>
                   )
                 )}                        
-              </>:<></>}
-    
             </CardBody>
           </Card>
       </>:<></>}

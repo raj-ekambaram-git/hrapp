@@ -660,11 +660,11 @@ model PaymentMethod {
   accountId          Int                 @default(0)
   vendor             Vendor?             @relation(fields: [vendorId], references: [id])
   vendorId           Int?
-  token              String
-  processorToken     String
-  processCustomerId  String
-  processorPaymentId String
-  itemId             String
+  token              String?
+  processorToken     String?
+  processCustomerId  String?
+  processorPaymentId String?
+  itemId             String?
   status             PaymentMethodStatus
   updatedBy          Int?
   updatedUser        User?               @relation(fields: [updatedBy], references: [id])
