@@ -172,7 +172,7 @@ const VendorDetail = (props) => {
               </HStack>                  
             </Box>                  
           </Flex>
-          <VendorDetailActions/>
+          <VendorDetailActions data={{vendor}}/>
           <Flex>
               <Stack width="page.sub_heading_width">
                 {/* <Accordion marginBottom="1rem" border="1px" width="60%"> */}

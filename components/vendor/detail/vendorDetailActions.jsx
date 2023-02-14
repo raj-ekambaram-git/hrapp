@@ -7,6 +7,10 @@ import {
 } from '@chakra-ui/react';
 import { useRouter } from "next/router";
 import ManageDocuments from "../../document/manageDocuments";
+import { VendorType } from "@prisma/client";
+import { userService } from "../../../services";
+import { ConfigConstants } from "../../../constants";
+import AddEditVedorPaymentAccount from "../../configuration/payment/addEditVedorPaymentAccount";
 
 
 
@@ -52,7 +56,12 @@ const VendorDetailActions = (props) => {
                   </Box>     
                   <Box>
                     <ManageDocuments/>
-                  </Box>                                                 
+                  </Box>           
+                  {(props.data?.vendor?.type === VendorType.Supplier && userService.accountFeatureEnabled(ConfigConstants.FEATURES.PAYMENT_PROCESSOR))? <>
+                    <Box>
+                      <AddEditVedorPaymentAccount/>
+                    </Box>           
+                  </>:<></>}  
                 </HStack>
             </Flex>          
     </div>
