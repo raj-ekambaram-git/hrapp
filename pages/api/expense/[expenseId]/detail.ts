@@ -20,6 +20,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           },
       },
         include: {
+          supplier: {
+            select: {
+              id: true,
+              name: true
+            }
+          },
           approvedBy: {
             select: {
               firstName: true,
@@ -50,7 +56,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
               }
             }
           }
-        }
+        },
+        
       })
       
         res.status(200).json(expenses[0]);

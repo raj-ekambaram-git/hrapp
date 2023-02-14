@@ -58,6 +58,7 @@ const CostPayment = (props) => {
     const [costVendorId, setCostVendorId] = useState();
     const [costVendorName, setCostVendorName] = useState();
     const [costProjectName, setCostProjectName] = useState();
+    const [costSupplierName, setCostSupplierName] = useState();
     const [addedCostTotal, setAddedCostTotal] = useState();
     const [showErrorMessage, setShowErrorMessage] = useState(EMPTY_STRING);
     const [accountVendorList, setAccountVendorList] = useState([]);
@@ -92,6 +93,7 @@ const CostPayment = (props) => {
                 setCostProjectId(expenseResponse.projectId)
                 setCostProjectName(expenseResponse.project?.name)
                 setCostVendorName(expenseResponse.project?.vendor?.name)
+                setCostSupplierName(expenseResponse.supplier?.name)
                 setSupplierId(expenseResponse.supplierId)
                 populateSelectedTimesheetIds()
                 console.log("expenseResponse::"+JSON.stringify(expenseResponse))
@@ -320,8 +322,18 @@ const CostPayment = (props) => {
                                               <Box textAlign="left" fontWeight="600">
                                                   {costProjectName}
                                               </Box>
-                                          </HStack>      
-                                          <HStack marginTop="50px">
+                                          </HStack>  
+                                          {costSupplierName?<>
+                                            <HStack marginBottom={3}>
+                                              <Box textAlign="right">
+                                                  Supplier:
+                                              </Box>
+                                              <Box textAlign="left" fontWeight="600">
+                                                  {costSupplierName}
+                                              </Box>
+                                            </HStack>                                            
+                                          </>:<></>}    
+                                          <HStack marginTop="80px">
                                               <Box>
                                                 <Badge color={(props.costData?.status === ExpenseStatus.Approved || props.costData?.status === ExpenseStatus.PartiallyPaid || props.costData?.status === ExpenseStatus.Paid)?"paid_status":"pending_status"}>{props.costData?.status}</Badge>
                                               </Box>                                              
