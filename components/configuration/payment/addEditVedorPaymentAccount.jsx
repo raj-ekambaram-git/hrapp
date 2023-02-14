@@ -142,9 +142,9 @@ const AddEditVedorPaymentAccount = (props) => {
                         <DrawerBody>
                         {isPageAuthorized?<>
                             {loading?<><Spinner /></>:<></>} 
-                            <Card variant="document">
+                            <Card variant="document" marginTop={8}>
                                 <CardBody>
-                                    <Stack spacing={6} marginTop={9}>
+                                    <Stack spacing={6} marginTop={3}>
                                     {vendorPaymentSummary?<>
                                         <HStack spacing={1}>
                                             <Box alignContent="right" width="20%" fontWeight="600">
