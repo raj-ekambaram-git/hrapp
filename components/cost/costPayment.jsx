@@ -141,6 +141,8 @@ const CostPayment = (props) => {
     }
 
     async function handleVendorSelection(selectedVendorObj) {
+        setSupplierList([])
+        setSupplierId(EMPTY_STRING)  
         const projectListResponse = await accountService.getProjectsByVendor(selectedVendorObj, userService.getAccountDetails().accountId);
         setProjectList(projectListResponse);
     } 

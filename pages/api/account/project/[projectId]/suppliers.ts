@@ -24,6 +24,15 @@ console.log("projectId ID::"+projectId+"---AccountioD::"+accountId)
               projectId: {
                 equals: parseInt(projectId.toString())
               }
+            },            
+          },
+        },
+        include: {
+          projectResource: {
+            where: {
+              projectId: {
+                equals: parseInt(projectId.toString())
+              }
             }
           }
         },
