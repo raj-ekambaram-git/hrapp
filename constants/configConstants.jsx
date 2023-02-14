@@ -11,10 +11,18 @@ export const ConfigConstants = {
     {
       processorId: "Dwolla",
       processorName: "Dwolla",
-    },
-  
-  
+    },  
   ],
+  AVAILABLE_PAYMENT_ACCOUNT_TYPES: [
+    {
+      id: "Checking",
+      name: "Checking",
+    },  
+    {
+      id: "Savings",
+      name: "Savings",
+    },  
+  ],  
   FEATURES: {
     ESIGNATURE: "eSignature",
     WORK_FLOW: "WorkfFlow",
