@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
-import { paymentService, userService } from "../../../services";
+import { accountService, paymentService, userService } from "../../../services";
 import {
   Card,
   CardHeader,
@@ -15,7 +15,7 @@ import {
 } from '@chakra-ui/react'
 import { useDispatch, useSelector } from "react-redux";
 import {setAccountPaymentToken, setPaymentInitiation, setPaymentProducts} from '../../../store/modules/Account/actions'
-
+import ConfigurePaymentProcessor from '../payment/configurePaymentProcessor'
 import {
   usePlaidLink,
   PlaidLinkOptions,
@@ -31,8 +31,10 @@ const ManagePaymentAccounts = (props) => {
   const [isPageAuthprized, setPageAuthorized] = useState(false);
   const [token, setToken] = useState(null);
   const [balanceData, setBalanceData] = useState(null);
+  const [accountFeatureId, setAccountFeatureId] = useState(null);
   const [linkedAccountData, setLinkedAccountData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [configurePaymentProcessor, setConfigurePaymentProcessor] = useState(true);
 
   const linkToken = useSelector(state => state.account?.payment?.linkPaymentToken);
   const onSuccess = useCallback(async (publicToken, metadata) => {
@@ -84,9 +86,7 @@ const ManagePaymentAccounts = (props) => {
 
     if(userService.isSuperAdmin() || (userService.isAccountAdmin() && userService.isPaymentAdmin())) {
       setPageAuthorized(true);
-
       getExistingAccounts();
-
 
       if (isOauth && ready) {
         open();
@@ -96,19 +96,29 @@ const ManagePaymentAccounts = (props) => {
   }, []);
   
   const getExistingAccounts = async() => {
-    //First see if there are already linked accounts
-    const linkedAccountData = await paymentService.getMethodsByAccount(userService.userValue.id, userService.getAccountDetails().accountId);
-    console.log("linkedAccountData:::"+JSON.stringify(linkedAccountData))
-    if(linkedAccountData) {
-      setLinkedAccountData(linkedAccountData)
-    } else {
-      console.log("linkedAccountData ELSE USEEFFECT:::"+JSON.stringify(linkedAccountData))
-      if (token == null) {
-        createLinkToken();
-      }
+    //First get the account config data
+    const paymentConfigData = await accountService.isPaymentConfigured(userService.userValue.id, userService.getAccountDetails().accountId);
+    if(paymentConfigData && paymentConfigData.configured) {
+      setAccountFeatureId(paymentConfigData.accountFeatureId)
+      //First see if there are already linked accounts
+      const linkedAccountData = await paymentService.getMethodsByAccount(userService.userValue.id, userService.getAccountDetails().accountId);
+      console.log("linkedAccountData:::"+JSON.stringify(linkedAccountData))
+      if(linkedAccountData) {
+        setLinkedAccountData(linkedAccountData)
+      } else {
+        console.log("linkedAccountData ELSE USEEFFECT:::"+JSON.stringify(linkedAccountData))
+        if (token == null) {
+          createLinkToken();
+        }
 
+      }
+      setLoading(false);
+    } else {
+      setAccountFeatureId(paymentConfigData.accountFeatureId)
+      setConfigurePaymentProcessor(true)
+      setLoading(false);
     }
-    setLoading(false);
+
   }
 
   const handleStatusUpdate = async (status) => {
@@ -145,14 +155,11 @@ const ManagePaymentAccounts = (props) => {
                 Manage Payment Accounts
             </CardHeader>
             <CardBody>      
-              {/* <ManageJobs /> */}
-              <Button marginBottom={3} onClick={() => open()
+              {!configurePaymentProcessor?<>
+                <Button marginBottom={3} onClick={() => open()
                 } disabled={!ready}>
                 <strong>Link account</strong>
               </Button>
-              {/* <Button marginBottom={3} onClick={() => handleTransfer()} >
-                <strong>Transfer</strong>
-              </Button> */}
                   {linkedAccountData?<>
                     <Card>
                       <CardBody>
@@ -185,14 +192,18 @@ const ManagePaymentAccounts = (props) => {
                       </CardBody>
                     </Card>
                   </>:<></>}
-              {!loading &&
-                balanceData != null &&
-                Object.entries(balanceData).map((entry, i) => (
-                  <pre key={i}>
-                    <code>{JSON.stringify(entry[1], null, 2)}</code>
-                  </pre>
-                )
-              )}              
+                {!loading &&
+                  balanceData != null &&
+                  Object.entries(balanceData).map((entry, i) => (
+                    <pre key={i}>
+                      <code>{JSON.stringify(entry[1], null, 2)}</code>
+                    </pre>
+                  )
+                )}                        
+              </>:<>
+                    <ConfigurePaymentProcessor accountFeatureId={accountFeatureId}/>
+              </>}
+    
             </CardBody>
           </Card>
       </>:<></>}

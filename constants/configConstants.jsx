@@ -6,6 +6,15 @@ import { util } from '../helpers/util'
 import { ExportTemplateStatus, ExportTemplateType } from "@prisma/client";
 
 export const ConfigConstants = {
+
+  AVAILABLE_PAYMENT_PROCESSORS: [
+    {
+      processorId: "Dwolloa",
+      processorName: "Dwolloa",
+    },
+  
+  
+  ],
   FEATURES: {
     ESIGNATURE: "eSignature",
     WORK_FLOW: "WorkfFlow",

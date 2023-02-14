@@ -31,8 +31,25 @@ export const accountService = {
     getInvoiceReportData,
     registerAccount,
     updateLogo,
-    availableSuppliers
+    availableSuppliers,
+    isPaymentConfigured,
+
 };
+
+
+function isPaymentConfigured(userId, accountId) {
+    return fetchWrapper.post(`${baseUrl}/admin/account/payment/config`, {
+        accountId: accountId,
+        userId: userId
+    })
+    .then(paymentConfig => {
+        return paymentConfig;
+    })
+    .catch(err => {
+        console.log("Error getting getPaymentServiceConfigData  ::"+err)
+        return {errorMessage: err, error: true};
+       });
+}
 
 function availableSuppliers(accountId) {
     return fetchWrapper.get(`${baseUrl}/account/`+accountId+'/suppliers', {})

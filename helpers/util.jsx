@@ -28,7 +28,8 @@ export const util = {
     getTotalBillableExpense,
     getUserRole,
     validateEmailArray,
-    getLocaleDate
+    getLocaleDate,
+    getConfigHash
 };
 
 function getLocaleDate(date) {
@@ -250,6 +251,22 @@ function getPasswordHash(password) {
 
   return {passwordSalt: passwordSalt, passwordHash: passwordHash };
 }
+
+function getConfigHash(configuration, configurationSaltInput) {
+  console.log("configurationSaltInput::"+configurationSaltInput)
+  let configSalt = configurationSaltInput;
+  if(!configurationSaltInput) {
+    console.log("inside the salt creation")
+    configSalt = bcrypt.genSaltSync(10);   
+    console.log("inside the salt creation:: configSalt::"+configSalt) 
+  }
+  console.log("111 inside the salt creation:: configSalt::"+configSalt+"*****configuration::::"+configuration) 
+  const configurationHash = bcrypt.hashSync(configuration, configSalt);
+  console.log("inside the salt creation:: configSalt::"+configSalt+"*****configuration::::"+configuration) 
+  return {configurationSalt: configSalt, configurationHash: configurationHash };
+
+}
+
 
 function getTempPassword() {
   return generator.generate({

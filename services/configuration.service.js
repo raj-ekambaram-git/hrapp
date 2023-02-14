@@ -14,8 +14,24 @@ export const configurationService = {
   createAppConfigAdmin,
   updateAppConfigAdmin,
   getAppConfig,
-  verifyCaptcha
+  verifyCaptcha,
+  updateFeatureConfig
 };
+
+function updateFeatureConfig(accountFeautureId, featureConfigData ) {
+  console.log("featureConfigData::::"+featureConfigData.configuration)
+  return fetchWrapper.put(`${baseUrl}/admin/account/feature/`+accountFeautureId+'/config', {
+        featureConfigData
+      }
+  )
+  .then(async configAdmin => {
+      return configAdmin;
+  })        
+  .catch(err => {
+    console.log("Error Creating configAdmin"+err)
+    return {errorMessage: err, error: true};
+  });
+}
 
 function verifyCaptcha(token) {
     return fetchWrapper.post(`${baseUrl}/token/verify`, {
