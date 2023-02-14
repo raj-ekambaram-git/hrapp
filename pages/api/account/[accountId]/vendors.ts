@@ -20,9 +20,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             status: {
               not: VendorStatus.MarkForDelete
             },
-            type: {
-              not: VendorType.Supplier
-            }
         },
         orderBy: {
           lastUpdateDate: "desc"

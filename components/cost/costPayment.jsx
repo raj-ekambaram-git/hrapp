@@ -30,7 +30,7 @@ import { COST_CALL_TYPE, EMPTY_STRING, EXPENSE_CALL_TYPE, INVOICE_CALL_TYPE, Pro
 import { ShowInlineErrorMessage } from '../common/showInlineErrorMessage';
 import { accountService, expenseService, projectService, userService } from '../../services';
 import ProjectTimesheets from '../project/detail/projectTimesheets';
-import { ExpenseCategory, ExpenseStatus, ExpenseType, TimesheetStatus } from '@prisma/client';
+import { ExpenseCategory, ExpenseStatus, ExpenseType, TimesheetStatus, VendorType } from '@prisma/client';
 import { useRef } from 'react';
 import { CustomTable } from '../customTable/Table';
 import { util } from '../../helpers';
@@ -293,7 +293,9 @@ const CostPayment = (props) => {
                                         <Select width="70%" onChange={(ev) => handleVendorSelection(ev.target.value)} value={costVendorId}>
                                             <option value="">Select an Vendor</option>
                                             {accountVendorList?.map((vendor) => (
-                                            <option value={vendor.id}>{vendor.name}</option>
+                                              vendor.type != VendorType.Supplier?<>
+                                                <option value={vendor.id}>{vendor.name}</option>
+                                              </>:<></>                                            
                                             ))}
                                         </Select>
                                     </FormControl>    
