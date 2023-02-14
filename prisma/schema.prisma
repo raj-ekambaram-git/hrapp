@@ -94,6 +94,7 @@ model Vendor {
   vendorUsers         VendorUsers[]
   paymentMethod       PaymentMethod[]
   projectResource     ProjectResource[]
+  expense             Expense[]
 }
 
 model ProjectResource {
@@ -325,6 +326,7 @@ model Expense {
   status             ExpenseStatus
   approvedById       Int?                 @default(1)
   userId             Int?                 @default(1)
+  supplierId         Int?
   createdDate        DateTime             @default(now())
   lastUpdateDate     DateTime             @updatedAt
   approvedDate       DateTime?
@@ -332,6 +334,7 @@ model Expense {
   category           ExpenseCategory      @default(General)
   approvedBy         User?                @relation("ApprovedExpenses", fields: [approvedById], references: [id])
   project            Project?             @relation(fields: [projectId], references: [id])
+  supplier           Vendor?              @relation(fields: [supplierId], references: [id])
   user               User?                @relation("CreatedExpenses", fields: [userId], references: [id])
   expenseEntries     ExpenseEntry[]
   expenseTransaction ExpenseTransaction[]

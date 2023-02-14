@@ -52,6 +52,7 @@ const CostPayment = (props) => {
     const [isAddMode, setAddMode] = useState(true);
     const [cost, setCost] = useState();
     const [costProjectId, setCostProjectId] = useState();
+    const [supplierId, setSupplierId] = useState();
     const [costName, setCostName] = useState();
     const [costDescription, setCostDescription] = useState(EMPTY_STRING);
     const [costVendorId, setCostVendorId] = useState();
@@ -61,6 +62,7 @@ const CostPayment = (props) => {
     const [showErrorMessage, setShowErrorMessage] = useState(EMPTY_STRING);
     const [accountVendorList, setAccountVendorList] = useState([]);
     const [projectList, setProjectList] = useState([]);
+    const [supplierList, setSupplierList] = useState([]);
     const cstTotal = useSelector(state => state.cost.costTotal);
     const costItemList = useSelector(state => state.cost.costItemList);
 
@@ -90,6 +92,7 @@ const CostPayment = (props) => {
                 setCostProjectId(expenseResponse.projectId)
                 setCostProjectName(expenseResponse.project?.name)
                 setCostVendorName(expenseResponse.project?.vendor?.name)
+                setSupplierId(expenseResponse.supplierId)
                 populateSelectedTimesheetIds()
                 console.log("expenseResponse::"+JSON.stringify(expenseResponse))
                 setCost(expenseResponse)
@@ -107,6 +110,10 @@ const CostPayment = (props) => {
 
     const handleProjectSelection = async(selectedProjectId) => {
         setCostProjectId(selectedProjectId)
+        const responseData = await projectService.getSuppliers(selectedProjectId, userService.getAccountDetails().accountId)
+        if(responseData && responseData.kength>0) {
+          setSupplierList(responseData)
+        }
     }
     
     const getVendorList = async() => {

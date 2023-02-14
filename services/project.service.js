@@ -23,9 +23,21 @@ export const projectService = {
     getAllExpensesByProject,
     getProjectExpensesByStatus,
     updateMiscUsedBudget,
-    markProjectDelete
+    markProjectDelete,
+    getSuppliers
     
 };
+
+function getSuppliers(projectId, accountId) {
+    return fetchWrapper.get(`${baseUrl}/account/project/`+projectId+'/suppliers?accountId='+accountId, {})
+    .then(projectSuppliers => {
+        return projectSuppliers;
+    })
+    .catch(err => {
+        console.log("Error getting getSuppliers ::"+err)
+        return {errorMessage: err, error: true};
+       });
+}
 
 function markProjectDelete(projectId, accountId) {
     return fetchWrapper.put(`${baseUrl}/account/project/`+projectId+"?accountId"+accountId, {
