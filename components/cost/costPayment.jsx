@@ -128,7 +128,10 @@ const CostPayment = (props) => {
         if(isAddMode) {
             dispatch(setCostTotal(0));
             dispatch(setCostItemList([]));
-            dispatch(setSelectedCostTSEId([]));                
+            dispatch(setSelectedCostTSEId([]));     
+            setProjectList([])           
+            setSupplierList([])     
+            setCostProjectId(null)      
         } else {
             getCostDetails(props.costId)
         }
