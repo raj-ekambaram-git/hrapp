@@ -2,6 +2,7 @@
 
 import { AccountFeatureStatus, PaymentMethodStatus, PaymentMethodType } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next"
+import { ConfigConstants } from "../../../../../constants";
 import { util } from "../../../../../helpers";
 import prisma from "../../../../../lib/prisma";
 const { Configuration, PlaidApi, Products, PlaidEnvironments, ProcessorTokenCreateRequestProcessorEnum,ProcessorTokenCreateRequest} = require('plaid');
@@ -61,7 +62,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           accoutFeatures: {
             where: {
               feature: {
-                name: "PaymentProcessor"
+                name: ConfigConstants.FEATURES.PAYMENT_PROCESSOR
               },
               status: AccountFeatureStatus.Active
             },

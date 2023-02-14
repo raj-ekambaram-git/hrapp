@@ -2,7 +2,7 @@
 
 import { FeatureStatus, PaymentMethodStatus } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next"
-import { EMPTY_STRING } from "../../../../../../constants";
+import { ConfigConstants, EMPTY_STRING } from "../../../../../../constants";
 import { util } from "../../../../../../helpers";
 import prisma from "../../../../../../lib/prisma";
 
@@ -23,7 +23,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         where: {
           accountId: parseInt(accountId.toString()),
           feature: {
-            name: "PaymentProcessor",
+            name: ConfigConstants.FEATURES.PAYMENT_PROCESSOR,
             status: FeatureStatus.Active
           }
         },

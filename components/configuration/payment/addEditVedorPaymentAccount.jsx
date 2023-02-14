@@ -69,7 +69,7 @@ const AddEditVedorPaymentAccount = (props) => {
                 routingNumber: routingNumber,
                 accountNumber: accountNumber
             }
-            const responseData = await paymentService.paymentAccount(props.vendorId, userService.getAccountDetails().accountId, paymentAccountData)
+            const responseData = await paymentService.paymentAccount(props.vendorId, userService.getAccountDetails().accountId, userService.userValue.id, paymentAccountData)
             if(responseData.error) {
                 toast({
                     title: 'Add Vendor Payment Account.',

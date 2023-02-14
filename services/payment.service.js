@@ -18,8 +18,9 @@ export const paymentService = {
     
 };
 
-function paymentAccount(vendorId, accountId, paymentAccountData) {
+function paymentAccount(vendorId, accountId, userId, paymentAccountData) {
     return fetchWrapper.post(`${baseUrl}/admin/account/vendor/payment/add`, {
+        userId: userId,
         vendorId: vendorId,
         accountId: accountId,
         paymentAccountData: paymentAccountData

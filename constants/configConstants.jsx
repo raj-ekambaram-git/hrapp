@@ -15,11 +15,11 @@ export const ConfigConstants = {
   ],
   AVAILABLE_PAYMENT_ACCOUNT_TYPES: [
     {
-      id: "Checking",
+      id: "checking",
       name: "Checking",
     },  
     {
-      id: "Savings",
+      id: "savings",
       name: "Savings",
     },  
   ],  

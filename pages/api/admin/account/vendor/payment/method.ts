@@ -1,7 +1,8 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import { PaymentMethodStatus } from "@prisma/client";
+import { AccountFeatureStatus, PaymentMethodStatus } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next"
+import { ConfigConstants } from "../../../../../../constants";
 import prisma from "../../../../../../lib/prisma";
 
 
@@ -22,30 +23,33 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     if(vendorId && accountId) {
       const accountPaymentMethodInfo = await prisma.paymentMethod.findFirst({
         where: {
-          account: {
-            accoutFeatures: {
-              some: {
-                feature: {
-                  name: "PaymentProcessor"
-                }
-              }
-            }
-          },
           accountId: parseInt(accountId.toString()),
           vendorId: parseInt(vendorId.toString()),
-          status: PaymentMethodStatus.Active
+          status: PaymentMethodStatus.Active,
+          account: {
+            accoutFeatures: {
+              every: {
+                status: AccountFeatureStatus.Active
+              }
+            }
+          }
           
         },
         include: {          
           account: {            
             include: {
               accoutFeatures: {
-                // where: {
-                //   feature: {
-                //     name: "PaymentProcessor"
-                //   }
-                // },
+                where: {
+                  feature: {
+                    name: ConfigConstants.FEATURES.PAYMENT_PROCESSOR
+                  }
+                },
                 select: {
+                  feature: {
+                    select: {
+                      name: true
+                    }
+                  },                  
                   configuration: true
                 }
               }
@@ -54,9 +58,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         }
       })
   
-      console.log("accountPaymentMethodInfo:::"+JSON.stringify(accountPaymentMethodInfo))
-      if(accountPaymentMethodInfo) { 
+      console.log("METHOD::::::accountPaymentMethodInfo:::"+JSON.stringify(accountPaymentMethodInfo))
+      if(accountPaymentMethodInfo && accountPaymentMethodInfo.account && accountPaymentMethodInfo.account?.accoutFeatures
+          && accountPaymentMethodInfo.account?.accoutFeatures.length>0 
+          && accountPaymentMethodInfo.account?.accoutFeatures[0].feature?.name === ConfigConstants.FEATURES.PAYMENT_PROCESSOR) { 
+        
+            console.log("INSIDE THIS AND PROCESSOR ENABLED")
 
+      } else {
+        res.status(400).json({ message: 'NO active payment methods available for this vendor.' })
       }
 
     } else {
