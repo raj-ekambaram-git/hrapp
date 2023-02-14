@@ -128,7 +128,7 @@ const CostPayment = (props) => {
         if(isAddMode) {
             dispatch(setCostTotal(0));
             dispatch(setCostItemList([]));
-            dispatch(setSelectedCostTSEId([]));    
+            dispatch(setSelectedCostTSEId([]));                
         } else {
             getCostDetails(props.costId)
         }
@@ -328,9 +328,9 @@ const CostPayment = (props) => {
                                       <HStack spacing={1}>
                                             <FormControl isRequired>
                                                 <FormLabel>Cost Name</FormLabel>
-                                                <Input width="70%" type="text" id="costName"  value={costName} onChange={(ev) => setCostName(ev.target.value)}/>
+                                                <Input width={supplierList && supplierList.length>0?"70%":"35%"}  type="text" id="costName"  value={costName} onChange={(ev) => setCostName(ev.target.value)}/>
                                             </FormControl>      
-                                        {supplierList?<>
+                                        {supplierList && supplierList.length>0?<>
                                           <FormControl>
                                             <FormLabel>Supplier</FormLabel>
                                             <Select width="70%" onChange={(ev) => setSupplierId(ev.target.value)} value={supplierId}>
