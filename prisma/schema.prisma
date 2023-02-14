@@ -68,30 +68,31 @@ model Account {
 }
 
 model Vendor {
-  id                  Int           @id @default(autoincrement())
+  id                  Int             @id @default(autoincrement())
   name                String
   description         String?
   email               String
-  phone               String        @default("111-111-1111")
-  type                VendorType    @default(Staffing)
-  accountId           Int?          @default(0)
-  ein                 String        @unique
+  phone               String          @default("111-111-1111")
+  type                VendorType      @default(Staffing)
+  accountId           Int?            @default(0)
+  ein                 String          @unique
   bankDetails         String?
   status              VendorStatus
-  createdDate         DateTime      @default(now())
+  createdDate         DateTime        @default(now())
   accountContactName  String?
   accountContactEmail String?
   accountContactPhone String?
-  lastUpdateDate      DateTime      @updatedAt
-  updatedById         Int?          @default(1)
-  paymentTerms        PaymentTerms  @default(Net30)
-  workFlowEnabled     Boolean       @default(false)
+  lastUpdateDate      DateTime        @updatedAt
+  updatedById         Int?            @default(1)
+  paymentTerms        PaymentTerms    @default(Net30)
+  workFlowEnabled     Boolean         @default(false)
   address             Address[]
   invoice             Invoice[]
   project             Project[]
-  account             Account?      @relation(fields: [accountId], references: [id])
-  updatedBy           User?         @relation("VendorUpdatedUser", fields: [updatedById], references: [id])
+  account             Account?        @relation(fields: [accountId], references: [id])
+  updatedBy           User?           @relation("VendorUpdatedUser", fields: [updatedById], references: [id])
   vendorUsers         VendorUsers[]
+  paymentMethod       PaymentMethod[]
 }
 
 model ProjectResource {
@@ -269,7 +270,7 @@ model User {
   workFlowSteps      WorkFlowStep[]
   paymentMethods     PaymentMethod[]
 
-  @@index([accountId, accountOwner])  
+  @@index([accountId, accountOwner])
 }
 
 model UserAttributes {
@@ -651,6 +652,8 @@ model PaymentMethod {
   type               PaymentMethodType
   account            Account             @relation(fields: [accountId], references: [id])
   accountId          Int                 @default(0)
+  vendor             Vendor?             @relation(fields: [vendorId], references: [id])
+  vendorId           Int?
   token              String
   processorToken     String
   processCustomerId  String
@@ -914,6 +917,7 @@ enum VendorType {
   Staffing
   Product
   Project
+  Supplier
 }
 
 enum VendorStatus {
