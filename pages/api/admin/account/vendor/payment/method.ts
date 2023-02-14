@@ -22,19 +22,29 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     if(vendorId && accountId) {
       const accountPaymentMethodInfo = await prisma.paymentMethod.findFirst({
         where: {
+          account: {
+            accoutFeatures: {
+              some: {
+                feature: {
+                  name: "PaymentProcessor"
+                }
+              }
+            }
+          },
           accountId: parseInt(accountId.toString()),
           vendorId: parseInt(vendorId.toString()),
           status: PaymentMethodStatus.Active
+          
         },
         include: {          
           account: {            
             include: {
               accoutFeatures: {
-                where: {
-                  feature: {
-                    name: "PaymentProcessor"
-                  }
-                },
+                // where: {
+                //   feature: {
+                //     name: "PaymentProcessor"
+                //   }
+                // },
                 select: {
                   configuration: true
                 }

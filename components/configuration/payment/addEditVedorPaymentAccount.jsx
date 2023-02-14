@@ -70,6 +70,28 @@ const AddEditVedorPaymentAccount = (props) => {
                 accountNumber: accountNumber
             }
             const responseData = await paymentService.paymentAccount(props.vendorId, userService.getAccountDetails().accountId, paymentAccountData)
+            if(responseData.error) {
+                toast({
+                    title: 'Add Vendor Payment Account.',
+                    description: 'Error adding new payment account for this vendor, please try again later or contact administrator.',
+                    status: 'error',
+                    position: 'top',
+                    duration: 9000,
+                    isClosable: true,
+                  })     
+                  return;
+            } else {
+
+                toast({
+                    title: 'Add Vendor Payment Account.',
+                    description: 'Successfully added new payment account for this vendor.',
+                    status: 'success',
+                    position: 'top',
+                    duration: 3000,
+                    isClosable: true,
+                  })     
+                  return;
+            }
         } else {
             toast({
                 title: 'Add Vendor Payment Account.',

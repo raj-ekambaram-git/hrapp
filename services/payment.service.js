@@ -19,7 +19,7 @@ export const paymentService = {
 };
 
 function paymentAccount(vendorId, accountId, paymentAccountData) {
-    return fetchWrapper.post(`${baseUrl}/admin/account/vendor/payment/method`, {
+    return fetchWrapper.post(`${baseUrl}/admin/account/vendor/payment/add`, {
         vendorId: vendorId,
         accountId: accountId,
         paymentAccountData: paymentAccountData
@@ -28,7 +28,7 @@ function paymentAccount(vendorId, accountId, paymentAccountData) {
         return vendorPaymentAccount;
     })  
     .catch(err => {
-        console.log("Error vendorPaymentAccount"+err)
+        console.log("Error paymentAccount"+err)
         return {errorMessage: err, error: true};
     });
 }
