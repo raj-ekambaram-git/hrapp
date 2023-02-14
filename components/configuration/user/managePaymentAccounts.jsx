@@ -31,7 +31,7 @@ const ManagePaymentAccounts = (props) => {
   const [isPageAuthprized, setPageAuthorized] = useState(false);
   const [token, setToken] = useState(null);
   const [balanceData, setBalanceData] = useState(null);
-  const [accountFeatureId, setAccountFeatureId] = useState(null);
+  const [accountFeature, setAccountFeature] = useState(null);
   const [linkedAccountData, setLinkedAccountData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [configurePaymentProcessor, setConfigurePaymentProcessor] = useState(true);
@@ -99,7 +99,7 @@ const ManagePaymentAccounts = (props) => {
     //First get the account config data
     const paymentConfigData = await accountService.isPaymentConfigured(userService.userValue.id, userService.getAccountDetails().accountId);
     if(paymentConfigData && paymentConfigData.configured) {
-      setAccountFeatureId(paymentConfigData.accountFeatureId)
+      setAccountFeature(paymentConfigData)
       //First see if there are already linked accounts
       const linkedAccountData = await paymentService.getMethodsByAccount(userService.userValue.id, userService.getAccountDetails().accountId);
       console.log("linkedAccountData:::"+JSON.stringify(linkedAccountData))
@@ -114,7 +114,7 @@ const ManagePaymentAccounts = (props) => {
       }
       setLoading(false);
     } else {
-      setAccountFeatureId(paymentConfigData.accountFeatureId)
+      setAccountFeature(paymentConfigData)
       setConfigurePaymentProcessor(true)
       setLoading(false);
     }
@@ -201,7 +201,7 @@ const ManagePaymentAccounts = (props) => {
                   )
                 )}                        
               </>:<>
-                    <ConfigurePaymentProcessor accountFeatureId={accountFeatureId}/>
+                    <ConfigurePaymentProcessor accountFeature={accountFeature}/>
               </>}
     
             </CardBody>

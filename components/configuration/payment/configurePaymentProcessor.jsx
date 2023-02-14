@@ -40,13 +40,20 @@ const ConfigurePaymentProcessor = (props) => {
     function handleConfigurePaymentProcessor(newSize) {
         setSize(newSize);
         onOpen();
+        console.log("props.accountFeature::::"+JSON.stringify(props.accountFeature))
+        if(props.accountFeature && props.accountFeature.configuration) {
+            setAddMode(false)
+            setProcessor(props.accountFeature.configuration?.processor)
+            setProcessorKey(props.accountFeature.configuration?.processorKey)
+            setProcessorConsent(props.accountFeature.configuration?.processorConsent)
+        }
       }
 
     const handleAddUpdateProcessor = async () => {
         if(processorConsent) {
             if(processor && processor != EMPTY_STRING && processorKey && processorSecret) {
                 const featureConfigUpdateData = {
-                    id: props.accountFeatureId,
+                    id: props.accountFeature.id,
                     accountId: userService.getAccountDetails().accountId,
                     configuration: {
                         processor: processor,
@@ -56,7 +63,7 @@ const ConfigurePaymentProcessor = (props) => {
                     }
                 }
                 console.log("featureConfigUpdateData:::::"+JSON.stringify(featureConfigUpdateData))
-                const responseData = await configurationService.updateFeatureConfig(props.accountFeatureId, featureConfigUpdateData)
+                const responseData = await configurationService.updateFeatureConfig(props.accountFeature.id, featureConfigUpdateData)
             } else {
                 toast({
                     title: 'Add Payment Processor.',
@@ -131,6 +138,7 @@ const ConfigurePaymentProcessor = (props) => {
                             </HStack>  
                             <Box>
                             <Checkbox
+                                isChecked={processorConsent?true:false}
                                 onChange={(e) => setProcessorConsent(e.target.checked)}
                             /> Consent     
                             </Box>  

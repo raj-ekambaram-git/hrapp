@@ -15,8 +15,11 @@ export const configurationService = {
   updateAppConfigAdmin,
   getAppConfig,
   verifyCaptcha,
-  updateFeatureConfig
+  updateFeatureConfig,
+
 };
+
+
 
 function updateFeatureConfig(accountFeautureId, featureConfigData ) {
   console.log("featureConfigData::::"+featureConfigData.configuration)
