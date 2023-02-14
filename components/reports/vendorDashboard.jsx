@@ -9,6 +9,7 @@ import {setSelectedReportsVendorId} from '../../store/modules/Reports/actions'
 import FinancialSummary from "./vendor/financialSummary";
 import RevenueByUsers from "./vendor/charts/revenueByUsers";
 import RevenueByProjects from "./vendor/charts/revenueByProjects";
+import { VendorType } from "@prisma/client";
 
 
 export default function VendorDashboard(props) {
@@ -55,7 +56,9 @@ return (
                 <Select width="30%" bgColor="white" size="sm" onChange={(ev) => getVendorReportData(ev.target.value)} value={vendorId}>
                       <option value="">Select an Vendor</option>
                       {vendorList?.map((vendor) => (
-                        <option value={vendor.id} data-email={vendor.email}>{vendor.name}</option>
+                        vendor.type != VendorType.Supplier?<>
+                          <option value={vendor.id} data-email={vendor.email}>{vendor.name}</option>
+                        </>:<></>      
                       ))}
                 </Select> 
                 {vendor?(
