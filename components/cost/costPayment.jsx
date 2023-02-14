@@ -171,6 +171,7 @@ const CostPayment = (props) => {
               billable: true,
               total: addedCostTotal,
               status: status,
+              supplierId: parseInt(supplierId),
               userId: parseInt(userService.userValue.id),
               expenseEntries: {
                 create: costItemList
@@ -221,6 +222,7 @@ const CostPayment = (props) => {
               description: costDescription,
               billable: true,
               total: addedCostTotal,
+              supplierId: parseInt(supplierId),
               status: status,
               userId: parseInt(userService.userValue.id),
             }
