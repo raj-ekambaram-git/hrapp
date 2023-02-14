@@ -30,7 +30,7 @@ import {
 import {PageMainHeader} from '../../components/common/pageMainHeader';
 import { ConfigConstants } from "../../constants";
 import AddEditWorkFlow from "../workFlow/addEditWorkFlow";
-import { ProjectStatus } from "@prisma/client";
+import { ProjectStatus, VendorType } from "@prisma/client";
 
 const ProjectAddEdit = (props) => {
   
@@ -454,7 +454,9 @@ const ProjectAddEdit = (props) => {
                               <Select width="100%" id="vendorId" {...register('vendorId')} onChange={(ev) => refreshAddressForVendor(ev.target.value)}>
                                   <option value="">Select an Vendor</option>
                                   {vendorList?.map((vendor) => (
-                                    <option value={vendor.id}>{vendor.name}</option>
+                                    vendor.type != VendorType.Supplier?<>
+                                      <option value={vendor.id}>{vendor.name}</option>
+                                    </>:<></>      
                                   ))}
                             </Select>
                             </FormControl>     

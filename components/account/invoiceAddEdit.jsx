@@ -40,7 +40,7 @@ import { ConfigConstants, DocumentConstants, NotesConstants } from "../../consta
 import { util } from "../../helpers/util";
 import { setDocumentType } from "../../store/modules/Document/actions";
 import InvoiceDetailActions from "../invoice/invoiceDetailActions";
-import { ExpenseStatus, InvoiceStatus, InvoiceType, TimesheetStatus } from "@prisma/client";
+import { ExpenseStatus, InvoiceStatus, InvoiceType, TimesheetStatus, VendorType } from "@prisma/client";
 import AddEditWorkFlow from "../workFlow/addEditWorkFlow";
 
 
@@ -623,7 +623,9 @@ const InvoiceAddEdit = (props) => {
                                 <Select width="100%" id="vendorId" {...register('vendorId')} onChange={(ev) => refreshProjectForVendor(ev)}>
                                     <option value="">Select an Vendor</option>
                                     {vendorList?.map((vendor) => (
-                                      <option value={vendor.id} data-email={vendor.email}>{vendor.name}</option>
+                                      vendor.type != VendorType.Supplier?<>
+                                        <option value={vendor.id} data-email={vendor.email}>{vendor.name}</option>
+                                      </>:<></>      
                                     ))}
                               </Select>
                               ) : (<>
