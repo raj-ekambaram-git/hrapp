@@ -30,9 +30,20 @@ export const accountService = {
     getCashFlowData,
     getInvoiceReportData,
     registerAccount,
-    updateLogo
+    updateLogo,
+    availableSuppliers
 };
 
+function availableSuppliers(accountId) {
+    return fetchWrapper.get(`${baseUrl}/account/`+accountId+'/suppliers', {})
+    .then(accountSuppliers => {
+        return accountSuppliers;
+    })
+    .catch(err => {
+        console.log("Error getting availableSuppliers  ::"+err)
+        return {errorMessage: err, error: true};
+       });
+}
 
 function updateLogo(accountId, logoPath ) {
 

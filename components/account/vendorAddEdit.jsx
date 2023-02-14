@@ -328,6 +328,7 @@ const VendorEdit = (props) => {
                               <option value="Staffing">Staffing</option>
                               <option value="Product">Product</option>
                               <option value="Project">Project</option>
+                              <option value="Supplier">Supplier</option>
                             </Select>
                           </FormControl>    
                           </Box>  

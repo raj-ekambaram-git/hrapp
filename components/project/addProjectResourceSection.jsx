@@ -29,7 +29,7 @@ import {
 import {
   EditIcon
 } from '@chakra-ui/icons';
-import { projectService, userService } from '../../services';
+import { accountService, projectService, userService } from '../../services';
 import {UserConstants} from "../../constants";
 import {MODE_ADD, EMPTY_STRING} from "../../constants/accountConstants";
 import { useDispatch, useSelector } from "react-redux";
@@ -45,9 +45,11 @@ const AddProjectResource = (props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isAddMode, setAddMode] = useState(true);
   const [userList, setUserList] = useState([]);
+  const [supplierList, setSupplierList] = useState([]);
   const [userId, setUserId] = useState("");
   const [projectResourceId, setProjectResourceId] = useState("");
   const [cost, setCost] = useState("");
+  const [supplierId, setSupplierId] = useState("");
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
   const [price, setPrice] = useState("");
@@ -82,8 +84,17 @@ const AddProjectResource = (props) => {
   const handleAdd = (newSize) => {
     console.log("HANDLE CLICK :::"+vendorId);
     getUsersByVendor(vendorId);
+    getSuppliersByAccount();
     setSize(newSize);
     onOpen();
+  }
+
+  const getSuppliersByAccount = async() => {
+    console.log("getSuppliersByAccount:::")
+    const responseData = await accountService.availableSuppliers(userService.getAccountDetails().accountId);
+    if(responseData && responseData.length>0) {
+      setSupplierList(responseData)
+    }
   }
 
   const handleEdit = (newSize) => {
@@ -93,6 +104,7 @@ const AddProjectResource = (props) => {
       //Edit Mode so get the data and set for each field
       setUserId(data?.projectResource?.userId)
       setProjectResourceId(data?.projectResource?.id)
+      setSupplierId(data?.projectResource?.supplierId)
       setPrice(data?.projectResource?.unitPrice)
       setCurrency(data?.projectResource?.currency)
       setQuantity(data?.projectResource?.quantity)
@@ -204,6 +216,7 @@ const AddProjectResource = (props) => {
         isTimesheetApprover: isTimesheetApprover,
         fromDate: fromDate,
         toDate: toDate,
+        supplierId: supplierId,
         uom: uom,
         user: {
           firstName: selectedUserFirstName,
@@ -433,6 +446,21 @@ const AddProjectResource = (props) => {
                                           </Select>
                                         </Th>
                                     </Tr>
+                                    {supplierList?<>
+                                      <Tr >
+                                        <Th bgColor="table_tile">
+                                          Resource From
+                                        </Th>
+                                        <Th>
+                                          <Select width="50%%" value={supplierId} onChange={(ev) => setSupplierId(ev.target.value)} border="table_border">
+                                            <option value="">Select Supplier</option>
+                                              {supplierList?.map((supplier) => (
+                                                      <option value={supplier.id} >{supplier.name}</option>
+                                              ))}   
+                                          </Select>
+                                        </Th>
+                                      </Tr>                                       
+                                    </>:<></>}                                 
                                     <Tr>
                                         <Th bgColor="table_tile">
                                           Bilable

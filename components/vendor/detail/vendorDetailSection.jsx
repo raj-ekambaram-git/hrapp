@@ -52,7 +52,7 @@ const VendorDetailSection = (props) => {
                         </Tr>
                         <Tr >
                             <Th bgColor="table_tile">
-                                Vendor Name
+                                Name
                             </Th>
                             <Th>
                                 <Text pt='table_display_value' fontSize='table_display_value'>
@@ -62,14 +62,24 @@ const VendorDetailSection = (props) => {
                         </Tr>
                         <Tr >
                             <Th bgColor="table_tile">
-                                Vendor Description
+                                Description
                             </Th>
                             <Th>
                                 <Text pt='table_display_value' fontSize='table_display_value'>
                                     {vendor.description}
                                 </Text>
                             </Th>
-                        </Tr>                                                                                               
+                        </Tr>    
+                        <Tr >
+                            <Th bgColor="table_tile">
+                                Type
+                            </Th>
+                            <Th>
+                                <Text pt='table_display_value' fontSize='table_display_value'>
+                                    {vendor.type}
+                                </Text>
+                            </Th>
+                        </Tr>                                                                                                                       
                         </Tbody>
                     </Table>
                 </TableContainer>    
