@@ -35,6 +35,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
               currency: true,
               quantity: true,
               supplierId: true,
+              cost: true,
               uom: true,
               isTimesheetApprover: true,
               budgetAllocated: true,

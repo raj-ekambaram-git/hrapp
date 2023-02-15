@@ -246,7 +246,6 @@ function registerAccount(formData) {
   }
 
 function getUserList(accountId) {
-    console.log("getUserList:::"+accountId)
     return fetchWrapper.get(`${baseUrl}/account/`+accountId+'/users', {})
         .then(accountUsers => {
             return accountUsers;
@@ -312,7 +311,6 @@ function getInvoiceListByProject(projectId, accountId) {
 }
 
 function getProjectDetail(projectId, accountId) {
-    console.log("ssseese")
     return fetchWrapper.get(`${baseUrl}/account/project/${projectId}/detail?accountId=`+accountId, {})
         .then(project => {
             console.log("project::::"+JSON.stringify(project))
@@ -321,7 +319,6 @@ function getProjectDetail(projectId, accountId) {
 }
 
 function getInvoiceDetail(invoiceId, accountId) {
-    console.log("Invoice ID::"+invoiceId+"===Accoint ID::"+accountId)
     return fetchWrapper.get(`${baseUrl}/account/invoice/${invoiceId}/detail?accountId=`+accountId, {})
         .then(invoice => {
             return invoice;
@@ -332,7 +329,6 @@ function getInvoiceDetail(invoiceId, accountId) {
 function getVendorDetail(vendorId, accountId) {
     return fetchWrapper.get(`${baseUrl}/account/vendor/${vendorId}/detail?accountId=`+accountId, {})
         .then(vendor => {
-            console.log("getVendorDetail:::"+JSON.stringify(vendor))
             return vendor;
         });
 }
