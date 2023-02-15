@@ -28,7 +28,6 @@ const InvoiceTransactions = (props) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const dispatch = useDispatch();
     const [size, setSize] = useState(EMPTY_STRING);
-    console.log("props.invoiceId::"+props.invoiceId)
 
     const invoiceTransactions = useSelector(state => state.invoice.invoiceTransactions);
     const invoiceTotal = useSelector(state => state.invoice.invoiceTotal);
@@ -60,7 +59,7 @@ const InvoiceTransactions = (props) => {
               onClick={() => handleInvoiceTransactions("xl")}
               key="xl"
               m={1}
-              >{`Payments Received`}
+              >{props.callType==="PaymentTransaction"?"Attach":`Payments Received`}
           </Button>
 
           <Drawer onClose={onClose} isOpen={isOpen} size={size}>

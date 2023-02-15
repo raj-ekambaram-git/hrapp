@@ -61,8 +61,11 @@ const AttachTransactionToInvoice = (props) => {
 
       const populateInvoieListForDisplay = (responseData) => {                
         const updatedInvoiceList = responseData.map((invoice) => {
-            invoice.attachAction= <InvoiceTransactions invoiceId={invoice.id} invoicePaidAmount={invoice.paidAmount}/>
-            return invoice;
+            invoice.attachAction= <InvoiceTransactions invoiceId={invoice.id} invoicePaidAmount={invoice.paidAmount} callType="PaymentTransaction"/>
+            if((parseFloat(invoice.total)-parseFloat(invoice.paidAmount))>=(-parseFloat(props.transactionAmount))) {
+                return invoice;
+            }
+            
         })
         
         setInvoiceList(updatedInvoiceList)
@@ -73,7 +76,7 @@ const AttachTransactionToInvoice = (props) => {
     return (
         <>
         <Flex marginBottom="1rem" borderRadius="lg" alignSelf="center">
-          <Button size="xs" bgColor="header_actions" onClick={() => handleTransactionAsPaid("xl")}>Attach Invoice</Button>
+          <Button size="xs" bgColor="header_actions" onClick={() => handleTransactionAsPaid("xxl")}>Attach Invoice</Button>
 
           <Drawer onClose={onClose} isOpen={isOpen} size={size}>
                 <DrawerOverlay />
@@ -104,7 +107,7 @@ const AttachTransactionToInvoice = (props) => {
                                             </Box>
                                             <Box textAlign="left" fontWeight="600">
                                                 <Text color={props.transactionAmount>0?"pending_status":"paid_status"}>
-                                                    {util.getWithCurrency(props.transactionAmount)}
+                                                    {util.getWithCurrency(-props.transactionAmount)}
                                                 </Text>
                                                 
                                             </Box>
