@@ -10,7 +10,7 @@ export const PaymentConstants = {
     {
       label: "Amount",
       accessor: "transaction_amount",
-      format: (value) => (value ? <Text fontWeight="600" color={value>0?"pending_status":"paid_status"}>{util.getWithCurrency(value)}</Text> : util.getWithCurrency(0))
+      format: (value) => (value ? <Text fontWeight="600" color={value>0?"pending_status":"paid_status"}>{util.getWithCurrency(value>0?value:-value)}</Text> : util.getWithCurrency(0))
     },
     {
       label: "Date",

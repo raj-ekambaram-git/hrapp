@@ -75,7 +75,6 @@ const AttachTransactionToInvoice = (props) => {
 
     return (
         <>
-        <Flex marginBottom="1rem" borderRadius="lg" alignSelf="center">
           <Button size="xs" bgColor="header_actions" onClick={() => handleTransactionAsPaid("xxl")}>Attach Invoice</Button>
 
           <Drawer onClose={onClose} isOpen={isOpen} size={size}>
@@ -119,8 +118,7 @@ const AttachTransactionToInvoice = (props) => {
                           </Stack>
                         </DrawerBody>
                     </DrawerContent>
-           </Drawer>
-        </Flex>                              
+           </Drawer>                      
         </>
     );
 };
