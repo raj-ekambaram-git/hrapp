@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import { CheckCircleIcon } from "@chakra-ui/icons";
 import {
 
     Button,
@@ -16,6 +16,7 @@ import { useDispatch } from "react-redux";
 import { PaymentConstants } from "../../../constants";
 import { userService } from "../../../services";
 import { CustomTable } from "../../customTable/Table";
+import  AttachTransactionToInvoice from './attachTransactionToInvoice'
 
 const PaymentTransactions = (props) => {
     const dispatch = useDispatch();
@@ -38,16 +39,20 @@ const PaymentTransactions = (props) => {
     const populateTransactionTable = async(transactions) => {
         if(transactions && transactions.length>0) {
             const transactionList =  transactions.map((transaction, index)=> {
-            if(!transaction.transaction_marked_invoice || !transaction.transaction_marked_expense) {
+                console.log("transaction.transaction_marked_invoice::::"+transaction.transaction_marked)
+            if(!transaction.transaction_marked) {
                 //Enable CheckBox to include now
                 if(parseFloat(transaction.transaction_amount) > 0) {
                     // This means we spent the money to expense
-                    transaction.transaction_action = <Button size="xs" colorScheme="red" onClick={() => handleTransactionAsPaid("Expense",transaction.transaction_id)}>Mark Expense</Button>
+                    transaction.transaction_action = <Button size="xs" colorScheme="red"  onClick={() => handleTransactionAsPaid("Expense",transaction.transaction_id)}>Attach Expense</Button>
                 } else {
                     // This means we received the money for invoice
-                    transaction.transaction_action = <Button size="xs" bgColor="header_actions" onClick={() => handleTransactionAsPaid("Invoice",transaction.transaction_id)}>Mark Invoice</Button>
+                    transaction.transaction_action = <AttachTransactionToInvoice transactionId={transaction.transaction_id} />
                 }                
+            } else {
+                transaction.transaction_action = <Button size="xs" onClick={() => handleTransactionAsPaid("Marked",transaction.transaction_id)}>Attached</Button>
             }
+          
             transaction.transaction_status=transaction.pending?"Pending":"Complete"                
         return transaction;
         });

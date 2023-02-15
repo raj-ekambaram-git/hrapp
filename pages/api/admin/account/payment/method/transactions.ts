@@ -151,10 +151,16 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
               transactionObj["transaction_pending"] = transaction.pending
 
               if(markedExpenseTransactionIds.includes(transaction.transaction_id)) {
-                transactionObj["transaction_marked_expense"] = true
+                transactionObj["transaction_marked"] = true
+                transactionObj["transaction_type"] = "Expense"
+              }else {
+                transactionObj["transaction_marked"] = false
               }
               if(markedInvoiceTransactionIds.includes(transaction.transaction_id)) {
-                transactionObj["transaction_marked_invoice"] = true
+                transactionObj["transaction_marked"] = true
+                transactionObj["transaction_type"] = "Invoice"
+              } else {
+                transactionObj["transaction_marked"] = false
               }              
 
               return transactionObj

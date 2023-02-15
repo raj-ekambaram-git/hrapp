@@ -163,7 +163,7 @@ const ManagePaymentAccounts = (props) => {
     setLoading(true)
     const transactionRequest = {
       paymentMethodId: accountPaymentMethodInfoId,
-      pastDays: 30,
+      pastDays: 100,
       maxTransactionSize: 20,
       offSetData: 0
     }

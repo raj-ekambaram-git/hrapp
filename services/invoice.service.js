@@ -28,9 +28,26 @@ export const invoiceService = {
     updateInvoiceEmailTo,
     generateInvoiceWithoutDetail,
     sendInvoiceEmail,
-    markInvoiceDelete
+    markInvoiceDelete,
+    invoicesNotPaid,
 
 };
+
+function invoicesNotPaid(accountId, userId) {
+
+  return fetchWrapper.post(`${baseUrl}/account/invoice/pending`, {
+    accountId: accountId,
+    userId: userId
+  })
+  .then(async invoices => {
+    return invoices;
+  })        
+  .catch(err => {
+    console.log("Error invoicesNotPaid"+err)
+    return {errorMessage: err, error: true};
+  });
+
+}
 
 function markInvoiceDelete(invoiceId, accountId) {
 
