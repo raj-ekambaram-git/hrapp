@@ -399,6 +399,33 @@ const cashFlowInnerDetails = definePartsStyle({
 })
 
 
+
+const paymentTransactions = definePartsStyle({
+  container: {
+    borderWidth: '1px',
+    borderRadius: 'lg',
+    overflow: 'hidden', 
+    border: "1px",
+    width: "100%"    
+  },
+  footer: {
+    maxH: "5px",
+    alignItems: "center",
+    fontSize: '15px',
+    fontWeight: "400",
+    bgColor: '#EDF2F7'
+  },
+  header:{
+    fontSize: "13px",
+    borderBottom: "1px",
+    fontWeight: "600"
+  },
+  body: {
+    
+  }
+
+})
+
 const sizes = definePartsStyle({
   md: {
     container: {
@@ -407,4 +434,4 @@ const sizes = definePartsStyle({
   },
 })
 
-export const cardTheme = defineMultiStyleConfig({ baseStyle, sizes, variants: {workflowTaskForm, eSignDocument,projectProgress, userSettingCard, settingCard, costSummary, invoiceReportDashboard, cashFlowInnerDetails, cashFlowDashboard, helpDashboard, dashboardWelcome,projectUsersFinancialSummary, reportByUsers, projectReportsHeader, comment, replies, replyDetails, document, timesheetDailyNotes, projectFinancialSummary, workFlowDashboard, workFlowDashDetails} })
+export const cardTheme = defineMultiStyleConfig({ baseStyle, sizes, variants: {paymentTransactions, workflowTaskForm, eSignDocument,projectProgress, userSettingCard, settingCard, costSummary, invoiceReportDashboard, cashFlowInnerDetails, cashFlowDashboard, helpDashboard, dashboardWelcome,projectUsersFinancialSummary, reportByUsers, projectReportsHeader, comment, replies, replyDetails, document, timesheetDailyNotes, projectFinancialSummary, workFlowDashboard, workFlowDashDetails} })

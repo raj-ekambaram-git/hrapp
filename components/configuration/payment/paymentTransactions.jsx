@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import {
 
@@ -17,19 +17,21 @@ import { useDispatch } from "react-redux";
 const PaymentTransactions = (props) => {
     const dispatch = useDispatch();
     const toast = useToast();
-    const [transactions, setransactions] = useState(props.paymentTransactions);
+    const [transactions, setTransactions] = useState();
 
-
+    useEffect(() => {
+        setTransactions(props.paymentTransactions)
+      }, [props.paymentTransactions]);
 
     return (
         <>
-        {props.paymentTransactions?<>
-            <Card>
+        {transactions?<>
+            <Card variant="paymentTransactions">
                 <CardHeader>
                     Payment Transactions for last 30 days
                 </CardHeader>
                 <CardBody>
-                    {JSON.stringify(props.paymentTransactions)}
+                    {JSON.stringify(transactions)}
                 </CardBody>
                 <CardFooter>
                     

@@ -106,7 +106,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                 },
               },
             });
-            console.log("alreadyMarkedInvoiceTransactions:::"+JSON.stringify(alreadyMarkedInvoiceTransactions))
+            const markedInvoiceTransactionIds = alreadyMarkedInvoiceTransactions.map((transaction) => {return transaction.transactionId});
+            console.log("markedInvoiceTransactionIds:::"+JSON.stringify(markedInvoiceTransactionIds))
 
             //Check if any of these transactions are already marked under expense
             const alreadyMarkedExpenseTransactions = await prisma.expenseTransaction.findMany({
@@ -124,9 +125,42 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                 },
               },
             });
-            console.log("alreadyMarkedExpenseTransactions:::"+JSON.stringify(alreadyMarkedExpenseTransactions))
 
-            res.status(200).json({transactionIds})
+            const markedExpenseTransactionIds = alreadyMarkedExpenseTransactions.map((transaction) => {return transaction.transactionId});
+            console.log("markedExpenseTransactionIds:::"+JSON.stringify(markedExpenseTransactionIds))
+
+            //Now loop through all the transactions and mark the status for the response
+            const transactionResponse = transactions.data?.transactions?.map((transaction) => {
+              const transactionObj = {};
+              const accountData = transactions.data?.accounts?.filter(account => (account.account_id === transaction.account_id))
+              
+              console.log("accountData:::"+JSON.stringify(accountData))
+
+              if(accountData && accountData.length>0) {
+                transactionObj["account_name"] = accountData[0].name
+                transactionObj["account_mask"] = accountData[0].mask
+                transactionObj["account_subtype"] = accountData[0].subtype  
+              }
+
+              transactionObj["account_id"] = transaction.account_id
+              transactionObj["transaction_id"] = transaction.transaction_id
+              transactionObj["transaction_amount"] = transaction.amount
+              transactionObj["transaction_date"] = transaction.date
+              transactionObj["transaction_datetime"] = transaction.datetime
+              transactionObj["transaction_category"] = transaction.category
+
+              if(markedExpenseTransactionIds.includes(transaction.transaction_id)) {
+                transactionObj["transaction_marked_expense"] = true
+              }
+              if(markedInvoiceTransactionIds.includes(transaction.transaction_id)) {
+                transactionObj["transaction_marked_invoice"] = true
+              }              
+
+              return transactionObj
+            });
+
+            console.log("transactionResponse:::"+JSON.stringify(transactionResponse))
+            res.status(200).json({transactionResponse})
           } else {
             res.status(200).json({})
           }
