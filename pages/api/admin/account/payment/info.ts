@@ -55,10 +55,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         institutionName: instResponse.data.institution.name,
       }
 
-
-      const authResponse = await client.authGet({
-        access_token: accountPaymentMethodInfo.token,
-      });
+      
 
     res.status(200).json(linkedAccountData);
 

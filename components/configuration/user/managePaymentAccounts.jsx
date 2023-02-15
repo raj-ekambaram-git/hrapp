@@ -14,17 +14,15 @@ import {
   Switch,
 } from '@chakra-ui/react'
 import { useDispatch, useSelector } from "react-redux";
-import {setAccountPaymentToken, setPaymentInitiation, setPaymentProducts} from '../../../store/modules/Account/actions'
+import {setAccountPaymentToken} from '../../../store/modules/Account/actions'
 import ConfigurePaymentProcessor from '../payment/configurePaymentProcessor'
 import {
   usePlaidLink,
-  PlaidLinkOptions,
-  PlaidLinkOnSuccess,
 } from 'react-plaid-link';
 import { PaymentMethodStatus } from "@prisma/client";
 import { Spinner } from "../../common/spinner";
 import { ConfigConstants } from "../../../constants";
-
+import PaymentTransactions from '../payment/paymentTransactions';
 
 
 const ManagePaymentAccounts = (props) => {
@@ -37,7 +35,7 @@ const ManagePaymentAccounts = (props) => {
   const [linkedAccountData, setLinkedAccountData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [configurePaymentProcessor, setConfigurePaymentProcessor] = useState(false);
-  
+  const [paymentTransactions, setPaymentTransactions] = useState(null);
 
   const linkToken = useSelector(state => state.account?.payment?.linkPaymentToken);
   const onSuccess = useCallback(async (publicToken, metadata) => {
@@ -65,7 +63,7 @@ const ManagePaymentAccounts = (props) => {
         isClosable: true,
       })    
       setLinkedAccountData(exchangeResponse)
-      await getBalance();
+      // await getBalance();
     }
     
   }, []);
@@ -160,10 +158,8 @@ const ManagePaymentAccounts = (props) => {
     setLoading(false);
   }
 
-  const handleTransfer = async () => {
-    const transferLinkResponse = await paymentService.initiateTransfer(userService.userValue.id, userService.getAccountDetails().accountId);
-    setToken(transferLinkResponse.link_token);      
-    dispatch(setAccountPaymentToken(transferLinkResponse.link_token))
+  const viewPaymentTransactions = async() => {
+
   }
 
 
@@ -211,6 +207,12 @@ const ManagePaymentAccounts = (props) => {
                               {linkedAccountData.accountPaymentMethodInfo?.status === PaymentMethodStatus.Active?<>
                                 <Switch colorScheme='teal' size='sm' id='Active' isChecked onChange={() => handleStatusUpdate(PaymentMethodStatus.Inactive, linkedAccountData.accountPaymentMethodInfo?.id)} >Mark Inactive</Switch>
                               </>:<></>}
+                            </Box>
+                            <Box>
+                              <Button size="xs" bgColor="header_actions" 
+                                  onClick={() => viewPaymentTransactions()}                                
+                                  >{`View Transactions`}
+                              </Button> 
                             </Box>
                           </HStack>
                         </Stack>

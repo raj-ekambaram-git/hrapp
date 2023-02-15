@@ -41,15 +41,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         public_token: publicToken,
       });
 
-      //Generate processorToken for DWOLLO integration
-      const processTokenResponse = await client.processorTokenCreate({
-        access_token: tokenResponse.data.access_token,
-        account_id: plaidMetaData.accounts[0].id,
-        processor: ProcessorTokenCreateRequestProcessorEnum.Dwolla
-      });
-
-      console.log("processTokenResponse::::"+JSON.stringify(processTokenResponse.data))
-
       console.log("tokenResponse:::"+JSON.stringify(tokenResponse.data))
 
       //Now get Account Details to create the verified customer
@@ -86,7 +77,17 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
         const processor = account.accoutFeatures[0]?.configuration["processor"]
         let processorResponse = {};
+        let processTokenResponse;
         if(processor === "Dwolla") {
+          //Generate processorToken for DWOLLO integration
+            processTokenResponse = await client.processorTokenCreate({
+            access_token: tokenResponse.data.access_token,
+            account_id: plaidMetaData.accounts[0].id,
+            processor: ProcessorTokenCreateRequestProcessorEnum.Dwolla
+          });
+
+          console.log("processTokenResponse::::"+JSON.stringify(processTokenResponse.data))
+
           processorResponse = await processDwolla(account, plaidMetaData, processTokenResponse)
         }
 
