@@ -50,7 +50,7 @@ const PaymentTransactions = (props) => {
                     transaction.transaction_action = <AttachTransactionToInvoice transactionId={transaction.transaction_id} transactionAmount={transaction.transaction_amount}/>
                 }                
             } else {
-                transaction.transaction_action = <Button size="xs" onClick={() => handleTransactionAsPaid("Marked",transaction.transaction_id)}>Attached</Button>
+                transaction.transaction_action = <Button size="xs" isDisabled={true} onClick={() => handleTransactionAsPaid("Marked",transaction.transaction_id)}>Attached</Button>
             }
           
             transaction.transaction_status=transaction.pending?"Pending":"Complete"                

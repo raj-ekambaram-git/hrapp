@@ -31,6 +31,7 @@ import { PaymentConstants } from "../../../constants";
 import { CustomTable } from "../../customTable/Table";
 import { util } from "../../../helpers";
 import InvoiceTransactions from "../../invoice/transaction/invoiceTransactions";
+import AddEditTransaction from "../../invoice/transaction/addEditTransaction";
 
 const AttachTransactionToInvoice = (props) => {
     const dispatch = useDispatch();
@@ -61,7 +62,9 @@ const AttachTransactionToInvoice = (props) => {
 
       const populateInvoieListForDisplay = (responseData) => {                
         const updatedInvoiceList = responseData.map((invoice) => {
-            invoice.attachAction= <InvoiceTransactions invoiceId={invoice.id} invoicePaidAmount={invoice.paidAmount} callType="PaymentTransaction"/>
+            // invoice.attachAction= <InvoiceTransactions invoiceId={invoice.id} invoicePaidAmount={invoice.paidAmount} callType="PaymentTransaction"/>
+            invoice.attachAction = <AddEditTransaction isAddMode={true} invoiceId={invoice.id}/>
+            
             if((parseFloat(invoice.total)-parseFloat(invoice.paidAmount))>=(-parseFloat(props.transactionAmount))) {
                 return invoice;
             }

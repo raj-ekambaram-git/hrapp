@@ -106,7 +106,8 @@ const AddEditTransaction = (props) => {
                 >
                     <PopoverTrigger>
                         <Button
-                            bgColor="button.primary.color"
+                            size="xs"
+                            bgColor="header_actions" 
                             onClick={onToggle}
                             key="xl"
                             m={1}
@@ -176,8 +177,8 @@ const AddEditTransaction = (props) => {
                     </PopoverBody>
                     <PopoverFooter display='flex' justifyContent='flex-end'>
                         <ButtonGroup size='sm'>
-                        <Button variant='outline'  onClick={onClose} >Cancel</Button>
-                        <Button colorScheme='red' onClick={handleTransacionSubmit}>Apply</Button>
+                        <Button variant='outline' size="xs" onClick={onClose} >Cancel</Button>
+                        <Button colorScheme='red' size="xs" onClick={handleTransacionSubmit}>Apply</Button>
                         </ButtonGroup>
                     </PopoverFooter>
                     </PopoverContent>
