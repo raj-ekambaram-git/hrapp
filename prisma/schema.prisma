@@ -190,6 +190,7 @@ model InvoiceTransaction {
 
   @@index([invoiceId, status])
   @@index([lastUpdatedDate, status])
+  @@unique([transactionId])
 }
 
 model Project {

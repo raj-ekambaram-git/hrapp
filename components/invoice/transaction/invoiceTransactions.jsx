@@ -36,10 +36,16 @@ const InvoiceTransactions = (props) => {
 
 
     useEffect(() => {
-      dispatch(fetchInvoiceTransactions(props.invoiceId,userService.getAccountDetails().accountId))
+      // console.log("Before Disptach Invoice Transacton USE EFEEFES")
+      // dispatch(fetchInvoiceTransactions(props.invoiceId,userService.getAccountDetails().accountId))
     }, []);
 
-    function handleInvoiceTransactions(drawerSize) {
+    async function handleInvoiceTransactions(drawerSize) {
+      console.log("invoiceTransactions::::"+JSON.stringify(invoiceTransactions)+"******props.invoiceId:::"+props.invoiceId)
+      if(props.invoiceId) {
+        console.log("Before Disptach Invoice Transacton")
+        dispatch(fetchInvoiceTransactions(props.invoiceId,userService.getAccountDetails().accountId))
+      }
       setSize(drawerSize);
       onOpen();
     }
