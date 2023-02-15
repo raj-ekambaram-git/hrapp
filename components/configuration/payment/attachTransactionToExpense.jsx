@@ -60,27 +60,18 @@ const AttachTransactionToExpense = (props) => {
         }
       }
 
-      const populateExpenseListForDisplay = (responseData) => {                
-        const updatedExpenseList = responseData.map((expense) => {
+      const populateExpenseListForDisplay = (responseData) => {          
+        const updatedExpenseList =  [];
+        responseData.map((expense) => {
             console.log("props.transactionAmount::"+props.transactionAmount+"expense.total:::"+expense.total+"****expense.paidAmount::"+expense.paidAmount)
             // invoice.attachAction= <InvoiceTransactions invoiceId={invoice.id} invoicePaidAmount={invoice.paidAmount} callType="PaymentTransaction"/>
             expense.attachAction = <AddEditTransaction isAddMode={true} expenseId={expense.id} callType="PaymentTransaction" transactionId={props.transactionId}  transactionAmount={props.transactionAmount} />
             
             if((parseFloat(expense.total)-parseFloat(expense.paidAmount))>=parseFloat(props.transactionAmount)) {
-                return expense;
-            } else {
-                return {}
-            }
-            
+                updatedExpenseList.push(expense)
+            }            
         })
-        
-        if(updatedExpenseList) {
-            setExpenseList(updatedExpenseList)
-        } else {
-            setExpenseList([])
-        }
-        
-
+        setExpenseList(updatedExpenseList)
       }
 
 
