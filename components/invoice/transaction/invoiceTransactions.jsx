@@ -19,7 +19,7 @@ import {
   } from '@chakra-ui/react';
 
 import { useSelector, useDispatch } from "react-redux";
-import { fetchInvoiceTransactions } from "../../../store/modules/Invoice/actions";
+import { fetchInvoiceTransactions, setInvoicePaidAmount } from "../../../store/modules/Invoice/actions";
 import { userService } from "../../../services";
 import { EMPTY_STRING } from "../../../constants/accountConstants";
 import AddEditTransaction from "./addEditTransaction";
@@ -41,10 +41,11 @@ const InvoiceTransactions = (props) => {
     }, []);
 
     async function handleInvoiceTransactions(drawerSize) {
-      console.log("invoiceTransactions::::"+JSON.stringify(invoiceTransactions)+"******props.invoiceId:::"+props.invoiceId)
       if(props.invoiceId) {
-        console.log("Before Disptach Invoice Transacton")
         dispatch(fetchInvoiceTransactions(props.invoiceId,userService.getAccountDetails().accountId))
+      }
+      if(props.invoicePaidAmount) {
+        dispatch(setInvoicePaidAmount(props.invoicePaidAmount));
       }
       setSize(drawerSize);
       onOpen();

@@ -30,6 +30,7 @@ import { invoiceService, userService } from "../../../services";
 import { PaymentConstants } from "../../../constants";
 import { CustomTable } from "../../customTable/Table";
 import { util } from "../../../helpers";
+import InvoiceTransactions from "../../invoice/transaction/invoiceTransactions";
 
 const AttachTransactionToInvoice = (props) => {
     const dispatch = useDispatch();
@@ -52,12 +53,21 @@ const AttachTransactionToInvoice = (props) => {
                 isClosable: true,
               })  
         } else {
-            setInvoiceList(responseData)
+            populateInvoieListForDisplay(responseData)
             setSize(newSize);
             onOpen();    
         }
       }
 
+      const populateInvoieListForDisplay = (responseData) => {                
+        const updatedInvoiceList = responseData.map((invoice) => {
+            invoice.attachAction= <InvoiceTransactions invoiceId={invoice.id} invoicePaidAmount={invoice.paidAmount}/>
+            return invoice;
+        })
+        
+        setInvoiceList(updatedInvoiceList)
+
+      }
 
 
     return (

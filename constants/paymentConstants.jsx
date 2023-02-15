@@ -1,6 +1,6 @@
 import { Badge, Text } from "@chakra-ui/react";
 import { util } from "../helpers";
-import InvoiceTransactions from "../components/invoice/transaction/invoiceTransactions";
+
 
 export const PaymentConstants = {
   SUPPORTED_PAYMENT_PROCESSORS: {
@@ -68,8 +68,7 @@ export const PaymentConstants = {
     },   
     {
       label: "",
-      accessor: "id",
-      format: (value) => (value? <InvoiceTransactions invoiceId={value}/> : 'N/A'),
+      accessor: "attachAction",
       disableSearch: true,
       disableSort: true
     },                         
