@@ -15,8 +15,24 @@ export const paymentService = {
     initiateTransfer,
     vendorPaymentAccount,
     paymentAccount,
+    getPaymentTransactions,
     
 };
+
+function getPaymentTransactions(accountId, userId, transactionRequest) {
+    return fetchWrapper.post(`${baseUrl}/admin/account/payment/method/transactions`, {
+        userId: userId,
+        accountId: accountId,
+        transactionRequest: transactionRequest
+    })
+    .then(paymentAccountTransactions => {
+        return paymentAccountTransactions;
+    })  
+    .catch(err => {
+        console.log("Error getPaymentTransactions"+err)
+        return {errorMessage: err, error: true};
+    });
+}
 
 function paymentAccount(vendorId, accountId, userId, paymentAccountData) {
     return fetchWrapper.post(`${baseUrl}/admin/account/vendor/payment/add`, {

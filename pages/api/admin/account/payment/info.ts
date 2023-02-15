@@ -35,6 +35,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         accountId: parseInt(accountId.toString()),
         status: PaymentMethodStatus.Active
       },
+      select: {
+        id: true,
+        status: true,
+        token: true
+      }
     })
 
     if(accountPaymentMethodInfo) {
@@ -49,6 +54,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       };
       const instResponse = await client.institutionsGetById(configs);
 
+      delete accountPaymentMethodInfo["token"]
       const linkedAccountData = {
         accountPaymentMethodInfo: accountPaymentMethodInfo,
         // item: itemResponse.data.item,

@@ -30,7 +30,9 @@ export const util = {
     validateEmailArray,
     getLocaleDate,
     getConfigHash,
-    decryptConfigHash
+    decryptConfigHash,
+    getPaymentFormattedDate,
+    getPastDateFromGivenDate,
 };
 
 function getLocaleDate(date) {
@@ -279,6 +281,26 @@ function decryptConfigHash(configurationHash, initVector) {
   decryptedData += decipher.final("utf8");
   return decryptedData;
 
+}
+
+function getPaymentFormattedDate(dateTime) {
+  if(dateTime != undefined && dateTime != EMPTY_STRING) {
+    return (new Date(dateTime?.toString()).toISOString( "en-US", { timeZone: "America/New_York" }).slice(0, 10) );
+  }else {
+    return EMPTY_STRING;
+  }
+  
+}
+
+function getPastDateFromGivenDate(dateTime, daysToBack) {
+  if(dateTime != undefined && dateTime != EMPTY_STRING) {
+    const dateMinusDays = new Date(dateTime);
+    dateMinusDays.setDate(dateMinusDays.getDate() - daysToBack);  
+    return (new Date(dateMinusDays?.toString()).toISOString( "en-US", { timeZone: "America/New_York" }).slice(0, 10) );
+  }else {
+    return EMPTY_STRING;
+  }
+  
 }
 
 function getTempPassword() {

@@ -12,6 +12,7 @@ import {
   Heading,
   Badge,
   Switch,
+  CardFooter,
 } from '@chakra-ui/react'
 import { useDispatch, useSelector } from "react-redux";
 import {setAccountPaymentToken} from '../../../store/modules/Account/actions'
@@ -158,8 +159,31 @@ const ManagePaymentAccounts = (props) => {
     setLoading(false);
   }
 
-  const viewPaymentTransactions = async() => {
+  const viewPaymentTransactions = async(accountPaymentMethodInfoId) => {
+    setLoading(true)
+    const transactionRequest = {
+      paymentMethodId: accountPaymentMethodInfoId,
+      pastDays: 30,
+      maxTransactionSize: 20,
+      offSetData: 0
+    }
+    const responseData = await paymentService.getPaymentTransactions(userService.getAccountDetails().accountId, userService.userValue.id, transactionRequest)
 
+    if(responseData && responseData.error) {
+      toast({
+        title: 'View Transactions.',
+        description: 'Error retreiving transactons, please try again later or contact administrator.',
+        status: 'error',
+        position: 'top',
+        duration: 9000,
+        isClosable: true,
+      })     
+      setLoading(false)
+      return;
+    } else {
+      setPaymentTransactions(responseData)
+      setLoading(false)
+    }
   }
 
 
@@ -210,7 +234,7 @@ const ManagePaymentAccounts = (props) => {
                             </Box>
                             <Box>
                               <Button size="xs" bgColor="header_actions" 
-                                  onClick={() => viewPaymentTransactions()}                                
+                                  onClick={() => viewPaymentTransactions(linkedAccountData.accountPaymentMethodInfo?.id)}                                
                                   >{`View Transactions`}
                               </Button> 
                             </Box>
@@ -218,6 +242,7 @@ const ManagePaymentAccounts = (props) => {
                         </Stack>
                       </CardBody>
                     </Card>
+                    <PaymentTransactions paymentTransactions={paymentTransactions} paymentMethodId={linkedAccountData.accountPaymentMethodInfo?.id}/>
                   </>:<></>}
                 {!loading &&
                   balanceData != null &&

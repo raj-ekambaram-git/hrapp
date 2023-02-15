@@ -7,6 +7,9 @@ import { ExportTemplateStatus, ExportTemplateType } from "@prisma/client";
 
 export const ConfigConstants = {
 
+  MAX_PAYMENT_TRANSACTIONS: {
+    count: 20
+  },
   AVAILABLE_PAYMENT_PROCESSORS: [
     {
       processorId: "Dwolla",
