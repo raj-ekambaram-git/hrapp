@@ -148,6 +148,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
               transactionObj["transaction_date"] = transaction.date
               transactionObj["transaction_datetime"] = transaction.datetime
               transactionObj["transaction_category"] = transaction.category
+              transactionObj["transaction_pending"] = transaction.pending
 
               if(markedExpenseTransactionIds.includes(transaction.transaction_id)) {
                 transactionObj["transaction_marked_expense"] = true
@@ -160,7 +161,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             });
 
             console.log("transactionResponse:::"+JSON.stringify(transactionResponse))
-            res.status(200).json({transactionResponse})
+            res.status(200).json(transactionResponse)
           } else {
             res.status(200).json({})
           }

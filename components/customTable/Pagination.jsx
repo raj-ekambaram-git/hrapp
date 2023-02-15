@@ -8,7 +8,8 @@ export const Pagination = ({ activePage, count, rowsPerPage, totalPages, setActi
   
     return (
       <>
-        <HStack spacing={8} marginTop="3rem" marginLeft="25rem" marginBottom="5rem">
+      <Box alignContent="left">
+        <HStack spacing={3} marginTop="3rem" marginLeft="25rem" marginBottom="5rem">
           <Button size="xs" bgColor="header_actions" disabled={activePage === 1} onClick={() => setActivePage(1)}>
             <HStack>
                 <ArrowLeftIcon/> <Text fontWeight="bolder" >First</Text>
@@ -35,8 +36,8 @@ export const Pagination = ({ activePage, count, rowsPerPage, totalPages, setActi
           <Box>
             Rows: {beginning === end ? end : `${beginning} - ${end}`} of {count}
           </Box>
-          </HStack>
-        
+        </HStack>
+      </Box>
       </>
     )
   }

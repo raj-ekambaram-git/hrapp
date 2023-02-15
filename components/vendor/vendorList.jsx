@@ -37,22 +37,20 @@ const VendorList = (props) => {
 
   }, []);
   
-    /**
-   * Function to get the list of accounts for a drop down
-   */
-    async function getVendorList(accountId) {
-      // setPageAuthorized(true);
-      const responseData = await accountService.getVendorList(accountId);
-      if(responseData != undefined && responseData != EMPTY_STRING) {
-        const updatedVendorList =  responseData.map((vendor, index)=> {
-          vendor.detailAction = <Button size="xs" bgColor="header_actions" onClick={() => handleVendorDetailSelection(vendor.id)}>Details</Button>
-          vendor.createdDate = util.getFormattedDate(vendor.createdDate)
-          return vendor;
-        });
-        setVendorList(updatedVendorList );
-      }
-      
-
+  /**
+  * Function to get the list of accounts for a drop down
+  */
+  async function getVendorList(accountId) {
+    // setPageAuthorized(true);
+    const responseData = await accountService.getVendorList(accountId);
+    if(responseData != undefined && responseData != EMPTY_STRING) {
+      const updatedVendorList =  responseData.map((vendor, index)=> {
+        vendor.detailAction = <Button size="xs" bgColor="header_actions" onClick={() => handleVendorDetailSelection(vendor.id)}>Details</Button>
+        vendor.createdDate = util.getFormattedDate(vendor.createdDate)
+        return vendor;
+      });
+      setVendorList(updatedVendorList );
+    }    
   }
   
   function handleVendorDetailSelection(vendorId) {
