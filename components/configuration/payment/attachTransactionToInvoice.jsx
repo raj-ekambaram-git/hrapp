@@ -63,7 +63,7 @@ const AttachTransactionToInvoice = (props) => {
       const populateInvoieListForDisplay = (responseData) => {                
         const updatedInvoiceList = responseData.map((invoice) => {
             // invoice.attachAction= <InvoiceTransactions invoiceId={invoice.id} invoicePaidAmount={invoice.paidAmount} callType="PaymentTransaction"/>
-            invoice.attachAction = <AddEditTransaction isAddMode={true} invoiceId={invoice.id}/>
+            invoice.attachAction = <AddEditTransaction isAddMode={true} invoiceId={invoice.id} callType="PaymentTransaction" transactionId={props.transactionId}  transactionAmount={-props.transactionAmount} />
             
             if((parseFloat(invoice.total)-parseFloat(invoice.paidAmount))>=(-parseFloat(props.transactionAmount))) {
                 return invoice;
