@@ -206,7 +206,7 @@ const ManagePaymentAccounts = (props) => {
                     <strong>Link account</strong>
                 </Button>
                   {linkedAccountData?<>
-                    <Card>
+                    <Card variant="userSettingCard" marginBottom={5}>
                       <CardBody>
                         <Stack spacing={5}>
                           <HStack>
