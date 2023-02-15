@@ -72,5 +72,41 @@ export const PaymentConstants = {
       disableSearch: true,
       disableSort: true
     },                         
+  ],
+  EXPENSE_LIST_TABLE_META: [
+    {
+      label: "ID",
+      accessor: "id",      
+    },
+    {
+      label: "Name",
+      accessor: "name",
+    },    
+    {
+      label: "Type",
+      accessor: "category",
+    },       
+    {
+      label: "Status",
+      accessor: "status",
+      format: (value) => (value ? <Badge color={`${value === "Submitted" ? "pending_status": "paid_status"}`}>{value}</Badge> : '✖️')
+    },
+    {
+      label: "Total",
+      accessor: "total",
+      format: (value) => (value ? util.getWithCurrency(value) : 'N/A')
+    },
+    {
+      label: "Paid",
+      accessor: "paidAmount",
+      format: (value) => (value? <Text color={value>0?"paid_status":"pending_status"}>{util.getWithCurrency(value)}</Text> : 'N/A')
+    },    
+    {
+      label: "",
+      accessor: "attachAction",
+      disableSearch: true,
+      disableSort: true
+    },                         
   ]
+  
 }

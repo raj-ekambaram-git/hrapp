@@ -23,9 +23,25 @@ export const expenseService = {
     updateExpenseStatus,
     markExpenseDelete,
     getNewExpenseEmailRequest,
-    getExpenseApprovalEmailRequest
+    getExpenseApprovalEmailRequest,
+    expensesNotPaid
 };
 
+function expensesNotPaid(accountId, userId) {
+
+  return fetchWrapper.post(`${baseUrl}/account/expense/pending`, {
+    accountId: accountId,
+    userId: userId
+  })
+  .then(async expenses => {
+  return expenses;
+  })        
+  .catch(err => {
+    console.log("Error expensesNotPaid"+err)
+    return {errorMessage: err, error: true};
+  });
+
+}
 
 function getExpenseApprovalEmailRequest(expense, notes) {
 

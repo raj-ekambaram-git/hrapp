@@ -26,66 +26,74 @@ import {
   } from '@chakra-ui/react';
   
 import { useDispatch } from "react-redux";
-import { invoiceService, userService } from "../../../services";
+import { expenseService, invoiceService, userService } from "../../../services";
 import { PaymentConstants } from "../../../constants";
 import { CustomTable } from "../../customTable/Table";
 import { util } from "../../../helpers";
 import InvoiceTransactions from "../../invoice/transaction/invoiceTransactions";
-import AddEditTransaction from "../../invoice/transaction/addEditTransaction";
+import AddEditTransaction from "../../expense/payment/transaction/addEditTransaction";
 
-const AttachTransactionToInvoice = (props) => {
+const AttachTransactionToExpense = (props) => {
     const dispatch = useDispatch();
     const toast = useToast();
 
     const [size, setSize] = useState('');
-    const [invoiceList, setInvoiceList] = useState();
+    const [expenseList, setExpenseList] = useState();
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const INVOICE_LIST_TABLE_COLUMNS = React.useMemo(() => PaymentConstants.INVOICE_LIST_TABLE_META)
+    const EXPENSE_LIST_TABLE_COLUMNS = React.useMemo(() => PaymentConstants.EXPENSE_LIST_TABLE_META)
 
     const handleTransactionAsPaid = async(newSize) => {
-        const responseData = await invoiceService.invoicesNotPaid(userService.getAccountDetails().accountId, userService.userValue.id)
+        const responseData = await expenseService.expensesNotPaid(userService.getAccountDetails().accountId, userService.userValue.id)
         if(responseData && responseData.error) {
             toast({
-                title: 'Pending Invoices.',
-                description: 'Error getting pending invoices, please try again later or contact administrator.',
+                title: 'Pending Expenses.',
+                description: 'Error getting pending expenses, please try again later or contact administrator.',
                 status: 'error',
                 position: 'top',
                 duration: 9000,
                 isClosable: true,
               })  
         } else {
-            populateInvoieListForDisplay(responseData)
+            populateExpenseListForDisplay(responseData)
             setSize(newSize);
             onOpen();    
         }
       }
 
-      const populateInvoieListForDisplay = (responseData) => {                
-        const updatedInvoiceList = responseData.map((invoice) => {
+      const populateExpenseListForDisplay = (responseData) => {                
+        const updatedExpenseList = responseData.map((expense) => {
+            console.log("props.transactionAmount::"+props.transactionAmount+"expense.total:::"+expense.total+"****expense.paidAmount::"+expense.paidAmount)
             // invoice.attachAction= <InvoiceTransactions invoiceId={invoice.id} invoicePaidAmount={invoice.paidAmount} callType="PaymentTransaction"/>
-            invoice.attachAction = <AddEditTransaction isAddMode={true} invoiceId={invoice.id} callType="PaymentTransaction" transactionId={props.transactionId}  transactionAmount={-props.transactionAmount} />
+            expense.attachAction = <AddEditTransaction isAddMode={true} expenseId={expense.id} callType="PaymentTransaction" transactionId={props.transactionId}  transactionAmount={props.transactionAmount} />
             
-            if((parseFloat(invoice.total)-parseFloat(invoice.paidAmount))>=(-parseFloat(props.transactionAmount))) {
-                return invoice;
+            if((parseFloat(expense.total)-parseFloat(expense.paidAmount))>=parseFloat(props.transactionAmount)) {
+                return expense;
+            } else {
+                return {}
             }
             
         })
         
-        setInvoiceList(updatedInvoiceList)
+        if(updatedExpenseList) {
+            setExpenseList(updatedExpenseList)
+        } else {
+            setExpenseList([])
+        }
+        
 
       }
 
 
     return (
         <>
-          <Button size="xs" bgColor="header_actions" onClick={() => handleTransactionAsPaid("xxl")}>Attach Invoice</Button>
+          <Button size="xs" colorScheme="red"  onClick={() => handleTransactionAsPaid("xxl")}>Attach Expense</Button>
 
           <Drawer onClose={onClose} isOpen={isOpen} size={size}>
                 <DrawerOverlay />
                     <DrawerContent>
                         <DrawerCloseButton />
                         <DrawerHeader>
-                            Attach Invoice Transaction
+                            Attach Expense Transction
                         </DrawerHeader>
                         <DrawerBody>
                           <Stack spacing={6} marginTop={9}>
@@ -109,7 +117,7 @@ const AttachTransactionToInvoice = (props) => {
                                             </Box>
                                             <Box textAlign="left" fontWeight="600">
                                                 <Text color={props.transactionAmount>0?"pending_status":"paid_status"}>
-                                                    {util.getWithCurrency(-props.transactionAmount)}
+                                                    {util.getWithCurrency(props.transactionAmount)}
                                                 </Text>
                                                 
                                             </Box>
@@ -117,7 +125,7 @@ const AttachTransactionToInvoice = (props) => {
                                     </Stack>
                                 </CardBody>
                             </Card>
-                            <CustomTable columns={INVOICE_LIST_TABLE_COLUMNS} rows={invoiceList} />                                                               
+                            <CustomTable columns={EXPENSE_LIST_TABLE_COLUMNS} rows={expenseList} />                                                               
                           </Stack>
                         </DrawerBody>
                     </DrawerContent>
@@ -126,4 +134,4 @@ const AttachTransactionToInvoice = (props) => {
     );
 };
 
-export default AttachTransactionToInvoice;
+export default AttachTransactionToExpense;

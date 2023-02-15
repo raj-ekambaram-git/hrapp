@@ -116,7 +116,7 @@ const AddEditTransaction = (props) => {
                             onClick={() => handleTransactionAddEdit()}
                             key="xl"
                             m={1}
-                            >{`Add New`}
+                            >{(props.callType && props.callType === "PaymentTransaction")?"Attach":`Add New`}
                         </Button>  
                     </PopoverTrigger>
                     <PopoverContent>

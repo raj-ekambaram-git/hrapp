@@ -61,10 +61,8 @@ const AddEditTransaction = (props) => {
                     expenseId: expenseId,
                     transactionId: tranReferenceNo
                 };
-                console.log("expenseTransData::::"+JSON.stringify(expenseTransData));
                 const responseData = await expenseService.createExpenseTransaction(expenseTransData, userService.getAccountDetails().accountId);
 
-                console.log("handleTransacionSubmit::::responseData::::"+JSON.stringify(responseData));
                 if(responseData.error) {
                     toast({
                         title: 'New Expense Transaction.',
@@ -95,6 +93,14 @@ const AddEditTransaction = (props) => {
 
     }
 
+    const handleTransactionAddEdit = () => {
+        if(props.callType && props.callType === "PaymentTransaction" && props.transactionId && props.transactionAmount) {
+            setTranReferenceNo(props.transactionId)
+            setTranAmount(props.transactionAmount)
+        }
+        onToggle()
+    }
+
     return (
         <div>
                 <Popover
@@ -107,10 +113,10 @@ const AddEditTransaction = (props) => {
                     <PopoverTrigger>
                         <Button
                             size="xs" bgColor="header_actions" 
-                            onClick={onToggle}
+                            onClick={() => handleTransactionAddEdit()}
                             key="xl"
                             m={1}
-                            >{`Add New`}
+                            >{(props.callType && props.callType === "PaymentTransaction")?"Attach":`Add New`}
                         </Button>  
                     </PopoverTrigger>
                     <PopoverContent>
@@ -137,18 +143,21 @@ const AddEditTransaction = (props) => {
                                             fontSize='dollar_left_element'
                                             children='$'
                                         />      
-                                        <Input type="number" id="tranAmount"  onChange={(ev) => setTranAmount(ev.target.value)}  />
+                                        <Input type="number" value={tranAmount} id="tranAmount"  onChange={(ev) => setTranAmount(ev.target.value)}  />
                                     </InputGroup>
                                     </Th>                                    
                                 </Tr>
-                                <Tr>
-                                    <Th bgColor="table_tile">
-                                        Reference No.
-                                    </Th>
-                                    <Th>
-                                        <Input type="text" id="tranReferenceNo" onChange={(ev) => setTranReferenceNo(ev.target.value)} />
-                                    </Th>                                    
-                                </Tr>   
+                                {(props.callType && props.callType === "PaymentTransaction" && props.transactionId) ? <>    
+                                </>: <>                                   
+                                    <Tr>
+                                        <Th bgColor="table_tile">
+                                            Reference No.
+                                        </Th>
+                                        <Th>
+                                            <Input type="text" id="tranReferenceNo" onChange={(ev) => setTranReferenceNo(ev.target.value)} />
+                                        </Th>                                    
+                                    </Tr>   
+                                </>}
                                 <Tr>
                                     <Th bgColor="table_tile">
                                         Status

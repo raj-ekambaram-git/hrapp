@@ -17,6 +17,8 @@ import { PaymentConstants } from "../../../constants";
 import { userService } from "../../../services";
 import { CustomTable } from "../../customTable/Table";
 import  AttachTransactionToInvoice from './attachTransactionToInvoice'
+import  AttachTransactionToExpense from './attachTransactionToExpense'
+
 
 const PaymentTransactions = (props) => {
     const dispatch = useDispatch();
@@ -44,7 +46,9 @@ const PaymentTransactions = (props) => {
                 //Enable CheckBox to include now
                 if(parseFloat(transaction.transaction_amount) > 0) {
                     // This means we spent the money to expense
-                    transaction.transaction_action = <Button size="xs" colorScheme="red"  onClick={() => handleTransactionAsPaid("Expense",transaction.transaction_id)}>Attach Expense</Button>
+                    // transaction.transaction_action = <Button size="xs" colorScheme="red"  onClick={() => handleTransactionAsPaid("Expense",transaction.transaction_id)}>Attach Expense</Button>
+                    transaction.transaction_action = <AttachTransactionToExpense transactionId={transaction.transaction_id} transactionAmount={transaction.transaction_amount}/>
+                    
                 } else {
                     // This means we received the money for invoice
                     transaction.transaction_action = <AttachTransactionToInvoice transactionId={transaction.transaction_id} transactionAmount={transaction.transaction_amount}/>
