@@ -6,14 +6,14 @@ import prisma from "../../../../lib/prisma";
 
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.method !== 'GET') {
+  if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Method not allowed' });
   }
 
   try {
-    const userId = req.query?.userId;
-    const accountId = req.query?.accountId;
-    
+    const {userId} = req.body;
+    const {accountId} = req.body;
+    console.log("userId::::::"+userId+"*****accountId::"+accountId)
     if(userId && accountId) {
 
       const invoices = await prisma.invoice.findMany({

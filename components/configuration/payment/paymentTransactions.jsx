@@ -47,7 +47,7 @@ const PaymentTransactions = (props) => {
                     transaction.transaction_action = <Button size="xs" colorScheme="red"  onClick={() => handleTransactionAsPaid("Expense",transaction.transaction_id)}>Attach Expense</Button>
                 } else {
                     // This means we received the money for invoice
-                    transaction.transaction_action = <AttachTransactionToInvoice transactionId={transaction.transaction_id} />
+                    transaction.transaction_action = <AttachTransactionToInvoice transactionId={transaction.transaction_id} transactionAmount={transaction.transaction_amount}/>
                 }                
             } else {
                 transaction.transaction_action = <Button size="xs" onClick={() => handleTransactionAsPaid("Marked",transaction.transaction_id)}>Attached</Button>
