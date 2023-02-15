@@ -37,14 +37,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       },
     })
 
-    console.log("accountPaymentMethodInfo:::"+JSON.stringify(accountPaymentMethodInfo))
-
     if(accountPaymentMethodInfo) {
       const itemResponse = await client.itemGet({
         access_token: accountPaymentMethodInfo.token,
       });
   
-      console.log("ITEMS DETAILS::"+JSON.stringify(itemResponse.data))
       // Also pull information about the institution
       const configs = {
         institution_id: itemResponse.data.item.institution_id,
@@ -52,20 +49,17 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       };
       const instResponse = await client.institutionsGetById(configs);
 
-      console.log("instResponse:::"+JSON.stringify(instResponse.data))
       const linkedAccountData = {
         accountPaymentMethodInfo: accountPaymentMethodInfo,
         // item: itemResponse.data.item,
         institutionName: instResponse.data.institution.name,
       }
-      console.log("linkedAccountData::::"+JSON.stringify(linkedAccountData))
 
 
       const authResponse = await client.authGet({
         access_token: accountPaymentMethodInfo.token,
       });
 
-      console.log("authResponse::::"+JSON.stringify(authResponse.data))
     res.status(200).json(linkedAccountData);
 
     }else {

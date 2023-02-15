@@ -62,8 +62,9 @@ function initiateTransfer(userId, accountId) {
     });
 }
 
-function updateExistingAccount(userId, accountId, status) {
+function updateExistingAccount(userId, accountId, status, paymentMethodId) {
     return fetchWrapper.post(`${baseUrl}/admin/account/payment/method/update`, {
+        paymentMethodId: paymentMethodId,
         userId: userId,
         accountId: accountId,
         status: status

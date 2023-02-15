@@ -59,19 +59,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         }
       })
   
-      console.log("METHOD::::::accountPaymentMethodInfo:::"+JSON.stringify(accountPaymentMethodInfo))
       if(accountPaymentMethodInfo && accountPaymentMethodInfo.account && accountPaymentMethodInfo.account?.accoutFeatures
           && accountPaymentMethodInfo.account?.accoutFeatures.length>0 
           && accountPaymentMethodInfo.account?.accoutFeatures[0].feature?.name === ConfigConstants.FEATURES.PAYMENT_PROCESSOR) { 
         
-            console.log("INSIDE THIS AND PROCESSOR ENABLED")
             if(accountPaymentMethodInfo.account?.accoutFeatures[0].configuration 
               && accountPaymentMethodInfo.account?.accoutFeatures[0].configuration['processor'] === PaymentConstants.SUPPORTED_PAYMENT_PROCESSORS.Dwolla ) {
-                console.log("inside dwolla account")
                 const processorResponse = await processDwolla(accountPaymentMethodInfo)
-                console.log("RETURN processorResponse:::"+JSON.stringify(processorResponse))
                 if(processorResponse.success) {
-                  console.log("INSIDE SUCCESS")
                   res.status(200).json(processorResponse)
                 } else {
                   res.status(400).json({ message: 'NO active payment methods available for this vendor.' })
@@ -107,8 +102,6 @@ const processDwolla = async(accountPaymentMethodInfo) => {
 
   const fundingSource = await dwolla.get('funding-sources/'+accountPaymentMethodInfo.processorPaymentId, {});
   
-  console.log("fundingSource::::"+JSON.stringify(fundingSource.body))
-
   const paymentData = {
     success: true, 
     bankName: fundingSource.body?.bankName, 

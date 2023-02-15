@@ -41,7 +41,6 @@ const ManagePaymentAccounts = (props) => {
 
   const linkToken = useSelector(state => state.account?.payment?.linkPaymentToken);
   const onSuccess = useCallback(async (publicToken, metadata) => {
-    console.log("metadata::::"+JSON.stringify(metadata))
     setLoading(true);
     const exchangeResponse = await paymentService.exchangeForAccessToken(publicToken, userService.userValue.id, userService.getAccountDetails().accountId, metadata)
     if(exchangeResponse.error) {
@@ -90,7 +89,6 @@ const ManagePaymentAccounts = (props) => {
   const getBalance = React.useCallback(async () => {
     setLoading(true);
     const balanceResponse = await paymentService.accountBalance(userService.userValue.id, userService.getAccountDetails().accountId)
-    console.log("balanceResponse:::"+JSON.stringify(balanceResponse))
     setBalanceData(balanceResponse);
     setLoading(false);
   }, [setBalanceData, setLoading]);
@@ -148,8 +146,8 @@ const ManagePaymentAccounts = (props) => {
 
   }
 
-  const handleStatusUpdate = async (status) => {
-    const linkedAccountData = await paymentService.updateExistingAccount(userService.userValue.id, userService.getAccountDetails().accountId, status);
+  const handleStatusUpdate = async (status, paymentMethodId) => {
+    const linkedAccountData = await paymentService.updateExistingAccount(userService.userValue.id, userService.getAccountDetails().accountId, status, paymentMethodId);
     if(linkedAccountData) {
       setLinkedAccountData(linkedAccountData)
     } else {
@@ -211,7 +209,7 @@ const ManagePaymentAccounts = (props) => {
                             </Box>                              
                             <Box>
                               {linkedAccountData.accountPaymentMethodInfo?.status === PaymentMethodStatus.Active?<>
-                                <Switch colorScheme='teal' size='sm' id='Active' isChecked onChange={() => handleStatusUpdate(PaymentMethodStatus.Inactive)} >Mark Inactive</Switch>
+                                <Switch colorScheme='teal' size='sm' id='Active' isChecked onChange={() => handleStatusUpdate(PaymentMethodStatus.Inactive, linkedAccountData.accountPaymentMethodInfo?.id)} >Mark Inactive</Switch>
                               </>:<></>}
                             </Box>
                           </HStack>

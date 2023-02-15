@@ -1,6 +1,9 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
+import { AccountFeatureStatus, PaymentMethodStatus } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next"
+import { ConfigConstants, PaymentConstants } from "../../../../../../constants";
+import { util } from "../../../../../../helpers";
 import prisma from "../../../../../../lib/prisma";
 const { Configuration, PlaidApi, Products, PlaidEnvironments} = require('plaid');
 
@@ -30,21 +33,51 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const {userId} = req.body;
     const {accountId} = req.body;
     const {status} = req.body;
+    const {paymentMethodId} = req.body;
+    
 
-    console.log("accountId:::"+accountId+"-----userId::"+userId);
     if(userId && accountId && status) {
-      const accountPaymentMethodInfo = await prisma.paymentMethod.updateMany({
+      const accountPaymentMethodInfo = await prisma.paymentMethod.update({
         where: {
-          accountId: parseInt(accountId.toString())
+          id: paymentMethodId
         },
         data: {
           status: status
         },
       })
+
+      if(status === PaymentMethodStatus.Inactive) {
+        const paymentProcessorAccountFeature = await prisma.accoutFeatures.findFirst({
+          where: {
+            accountId: parseInt(accountId.toString()),
+            status: AccountFeatureStatus.Active,
+            feature: {
+              name: {
+                equals: ConfigConstants.FEATURES.PAYMENT_PROCESSOR
+              }
+            }
+          },
+        })
+    
+        if(paymentProcessorAccountFeature && paymentProcessorAccountFeature.configuration 
+            && paymentProcessorAccountFeature.configuration['processor'] === PaymentConstants.SUPPORTED_PAYMENT_PROCESSORS.Dwolla) {
   
-      console.log("accountPaymentMethodInfo:::"+JSON.stringify(accountPaymentMethodInfo))
-      res.status(200).json(null);
+              const processorResponse = await processDwolla(paymentProcessorAccountFeature.configuration, accountPaymentMethodInfo)
+              if(processorResponse.success) {
+                console.log("INSIDE SUCCESS")
+                res.status(200).json(null)
+              } else {
+                res.status(400).json({ message: 'NO active payment methods available for this vendor.' })
+              }
   
+        }
+      } else {
+        console.log("accountPaymentMethodInfo:::"+JSON.stringify(accountPaymentMethodInfo))
+        res.status(200).json(null);  
+      }
+
+
+
     } else {
       res.status(400).json({ message: 'Something went wrong while updating' })  
     }
@@ -53,3 +86,27 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(400).json({ message: 'Something went wrong while updating' })
   }
 }
+
+
+
+const processDwolla = async(configuration, accountPaymentMethodInfo) => {
+
+  const dClient = require("dwolla-v2").Client;
+
+  const dwolla = new dClient({
+    environment: "sandbox", // Defaults to "production"
+    key: util.decryptConfigHash(configuration["processorKey"], configuration["salt"]),
+    secret: util.decryptConfigHash(configuration["processorSecret"], configuration["salt"]),
+  });
+
+  const udeActivatedCustomer = await dwolla.post('customers/'+accountPaymentMethodInfo.processCustomerId, {
+    "status": "deactivated"
+  });
+  
+
+  const paymentData = {
+    success: true, 
+  }
+
+  return paymentData
+} 
