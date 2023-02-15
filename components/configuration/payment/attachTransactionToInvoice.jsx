@@ -29,6 +29,7 @@ import { useDispatch } from "react-redux";
 import { invoiceService, userService } from "../../../services";
 import { PaymentConstants } from "../../../constants";
 import { CustomTable } from "../../customTable/Table";
+import { util } from "../../../helpers";
 
 const AttachTransactionToInvoice = (props) => {
     const dispatch = useDispatch();
@@ -69,7 +70,7 @@ const AttachTransactionToInvoice = (props) => {
                     <DrawerContent>
                         <DrawerCloseButton />
                         <DrawerHeader>
-                            Attach transction to an Invoice
+                            Attach transction to an invoice
                         </DrawerHeader>
                         <DrawerBody>
                           <Stack spacing={6} marginTop={9}>
@@ -93,7 +94,7 @@ const AttachTransactionToInvoice = (props) => {
                                             </Box>
                                             <Box textAlign="left" fontWeight="600">
                                                 <Text color={props.transactionAmount>0?"pending_status":"paid_status"}>
-                                                    {props.transactionAmount}
+                                                    {util.getWithCurrency(props.transactionAmount)}
                                                 </Text>
                                                 
                                             </Box>

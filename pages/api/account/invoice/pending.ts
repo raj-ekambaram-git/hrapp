@@ -23,7 +23,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           },
           status: {
             in: [InvoiceStatus.Submitted, InvoiceStatus.PartiallyPaid]
-          }
+          },
       },
       include: {
         invoiceTransaction: true
