@@ -24,7 +24,9 @@ import {
     Textarea,
     Box,
     Text,
-    useToast
+    useToast,
+    Stack,
+    Checkbox
   } from '@chakra-ui/react';
 import { EMPTY_STRING } from "../../../../constants/accountConstants";
 import { ExpenseConstants } from "../../../../constants/expenseConstants";
@@ -47,6 +49,8 @@ const AddEditTransaction = (props) => {
     const [supplierPayment, setSupplierPayment] = useState();
     const [showErrorMessage, setShowErrorMessage] = useState(EMPTY_STRING);
     const [loading, setLoading] = useState(false);
+    const [useSupplierPayment, setUseSupplierPayment] = useState(false);
+    
     const expenseId = props.expenseId;
 
 
@@ -161,7 +165,38 @@ const AddEditTransaction = (props) => {
                                     </InputGroup>
                                     </Th>                                    
                                 </Tr>
-                                {(props.callType && props.callType === "PaymentTransaction" && props.transactionId) ? <>    
+                                {supplierPayment?<>
+                                    <Tr>
+                                        <Th bgColor="table_tile">
+                                            Saved Payment Details
+                                        </Th>
+                                        <Th>
+                                            <Stack bgColor="table_tile" padding={1}>
+                                                <Stack marginLeft={4}>
+                                                <Box>
+                                                    {supplierPayment.name}
+                                                </Box>
+                                                <Box>
+                                                    {supplierPayment.bankName}
+                                                </Box>
+                                                <Box>
+                                                    {supplierPayment.bankType}
+                                                </Box>
+                                                </Stack>
+
+                                            </Stack>
+                                        </Th>                                    
+                                    </Tr> 
+                                    <Tr>
+                                        <Th bgColor="table_tile">
+                                            Pay Now using above
+                                        </Th>
+                                        <Th>
+                                            <Checkbox onChange={(e) => setUseSupplierPayment(e.target.checked)}/>                                
+                                        </Th>
+                                    </Tr>   
+                                </>:<></>}
+                                {((props.callType && props.callType === "PaymentTransaction" && props.transactionId)) ? <>    
                                 </>: <>                                   
                                     <Tr>
                                         <Th bgColor="table_tile">
