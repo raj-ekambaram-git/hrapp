@@ -29,9 +29,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         },
       })
       if(accountFeatureConfigData) {
-        if(accountFeatureConfigData.configuration) {
+        if(accountFeatureConfigData.configuration && accountFeatureConfigData.configuration["processor"]) {
           res.status(200).json({
             configured: true, 
+            accountVerified: true,
             accountFeatureId: accountFeatureConfigData.id, 
             configuration: {
               processor: accountFeatureConfigData.configuration["processor"]?accountFeatureConfigData.configuration["processor"]:EMPTY_STRING,

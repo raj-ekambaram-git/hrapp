@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import { PaymentMethodStatus } from "@prisma/client";
+import { PaymentMethodStatus, PaymentMethodType } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next"
 import prisma from "../../../../../lib/prisma";
 const { Configuration, PlaidApi, Products, PlaidEnvironments} = require('plaid');
@@ -33,7 +33,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const accountPaymentMethodInfo = await prisma.paymentMethod.findFirst({
       where: {
         accountId: parseInt(accountId.toString()),
-        status: PaymentMethodStatus.Active
+        status: PaymentMethodStatus.Active,
+        type: PaymentMethodType.Account
       },
       select: {
         id: true,
