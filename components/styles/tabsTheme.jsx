@@ -33,7 +33,7 @@ const { definePartsStyle, defineMultiStyleConfig } =
     const { colorScheme: c, theme } = props
     return {
       root: {
-        width: "1220px"
+        width: "100%"
       },
       tab: {
         borderRadius: "5px",
