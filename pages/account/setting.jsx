@@ -30,14 +30,14 @@ const AccountSetting = (props) => {
 
     return (      
 
-      <Tabs variant='soft-rounded' colorScheme='teal' size="sm" isLazy>
+      <Tabs isFitted variant='accountSetting'  colorScheme='teal' size="sm" isLazy>
         <TabList marginBottom={6}>
           <Tab border="1px" marginRight={4}>User</Tab>
           <Tab border="1px" marginRight={4}>Import/Export</Tab>
           <Tab border="1px" marginRight={4}>Documents</Tab>
-          {workFlowEnabled?<><Tab border="1px" marginRight={4}>WorkFlow Management</Tab></>:<></>}          
+          {workFlowEnabled?<><Tab border="1px" marginRight={4}>WorkFlow</Tab></>:<></>}          
           {scheduleJob?<><Tab border="1px" marginRight={4}>Schedule Jobs</Tab></>:<></>}          
-          {payment?<><Tab border="1px" marginRight={4}>Payment Accounts</Tab></>:<></>}          
+          {payment?<><Tab border="1px" marginRight={4}>Payments</Tab></>:<></>}          
         </TabList>
         <TabPanels>
           <TabPanel>
