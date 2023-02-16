@@ -130,7 +130,7 @@ const InvoiceTransactions = (props) => {
                             </Table>      
                             {/* {util.getZeroPriceForNull(invoiceTotal) > util.getZeroPriceForNull(invoicePaidAmount) ? ( */}
                                 <HStack>
-                                  <Button variant='outline'  onClick={onClose} >Cancel</Button>
+                                  <Button colorScheme="yellow"  onClick={onClose} >Cancel</Button>
                                   <AddEditTransaction isAddMode={true} invoiceId={props.invoiceId}/>
                                 </HStack>
                             {/* ) : (
