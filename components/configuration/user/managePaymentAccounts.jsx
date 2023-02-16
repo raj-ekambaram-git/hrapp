@@ -127,7 +127,7 @@ const ManagePaymentAccounts = (props) => {
     const paymentConfigData = await accountService.isPaymentConfigured(userService.userValue.id, userService.getAccountDetails().accountId);
     setConfigurePaymentProcessor(userService.accountFeatureEnabled(ConfigConstants.FEATURES.PAYMENT_PROCESSOR))
 
-    if((userService.accountFeatureEnabled(ConfigConstants.FEATURES.PAYMENT_PROCESSOR) && paymentConfigData && paymentConfigData.configured && paymentConfigData.accountVerified) || !userService.accountFeatureEnabled(ConfigConstants.FEATURES.PAYMENT_PROCESSOR)) {
+    if((userService.accountFeatureEnabled(ConfigConstants.FEATURES.PAYMENT_PROCESSOR) && paymentConfigData && paymentConfigData.configured) || !userService.accountFeatureEnabled(ConfigConstants.FEATURES.PAYMENT_PROCESSOR)) {
       setAccountVerified(true)
       console.log("paymentConfigData:::"+JSON.stringify(paymentConfigData))
       setAccountFeature(paymentConfigData)
