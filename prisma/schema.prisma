@@ -39,32 +39,33 @@ model Address {
 }
 
 model Account {
-  id             Int              @id @default(autoincrement())
-  name           String
-  description    String
-  ein            String?          @unique
-  bankId         Int?
-  email          String
-  phone          String           @default("111-111-1111")
-  status         AccountStatus
-  createdDate    DateTime         @default(now())
-  lastUpdateDate DateTime         @updatedAt
-  updatedById    Int?             @default(1)
-  type           AccountType      @default(Trial)
-  logoPath       String?
-  updatedBy      User?            @relation("AccountUpdatedUser", fields: [updatedById], references: [id])
-  accountConfig  AccountConfig[]
-  accoutFeatures AccoutFeatures[]
-  address        Address[]
-  contact        Contact[]
-  exportTemplate ExportTemplate[]
-  invoice        Invoice[]
-  project        Project[]
-  user           User[]           @relation("UserAccount")
-  vendor         Vendor[]
-  workFlowTasks  WorkFlowTask[]
-  workFlow       WorkFlow[]
-  paymentMethods PaymentMethod[]
+  id                Int              @id @default(autoincrement())
+  name              String
+  description       String
+  ein               String?          @unique
+  bankId            Int?
+  email             String
+  phone             String           @default("111-111-1111")
+  status            AccountStatus
+  createdDate       DateTime         @default(now())
+  lastUpdateDate    DateTime         @updatedAt
+  updatedById       Int?             @default(1)
+  type              AccountType      @default(Trial)
+  logoPath          String?
+  paymentCustomerId String?
+  updatedBy         User?            @relation("AccountUpdatedUser", fields: [updatedById], references: [id])
+  accountConfig     AccountConfig[]
+  accoutFeatures    AccoutFeatures[]
+  address           Address[]
+  contact           Contact[]
+  exportTemplate    ExportTemplate[]
+  invoice           Invoice[]
+  project           Project[]
+  user              User[]           @relation("UserAccount")
+  vendor            Vendor[]
+  workFlowTasks     WorkFlowTask[]
+  workFlow          WorkFlow[]
+  paymentMethods    PaymentMethod[]
 }
 
 model Vendor {
@@ -188,9 +189,9 @@ model InvoiceTransaction {
   transactionId   String
   invoice         Invoice?                 @relation(fields: [invoiceId], references: [id])
 
+  @@unique([transactionId])
   @@index([invoiceId, status])
   @@index([lastUpdatedDate, status])
-  @@unique([transactionId])
 }
 
 model Project {
@@ -355,6 +356,7 @@ model ExpenseTransaction {
   lastUpdatedDate DateTime                 @updatedAt
   expense         Expense?                 @relation(fields: [expenseId], references: [id])
 
+  @@unique([transactionId])
   @@index([expenseId, id, status, createdDate])
   @@index([expenseId, id, status])
 }
