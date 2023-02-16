@@ -92,7 +92,7 @@ import ExpenseTransactions from "./transaction/expenseTransactions";
                 </DrawerHeader>                    
                 <DrawerBody>
                     <ShowInlineErrorMessage showErrorMessage={showErrorMessage}/>
-                    <ExpenseTransactions expenseId={expense.id} paidAmount={expense.paidAmount} isCost={props.isCost}/>
+                    <ExpenseTransactions expenseId={expense.id} paidAmount={expense.paidAmount} isCost={props.isCost} supplierId={expense.supplierId}/>
                     <Stack marginTop={10}>
                         <Box>
                             Expense Details

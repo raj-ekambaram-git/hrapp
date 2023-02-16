@@ -97,6 +97,9 @@ const AddEditTransaction = (props) => {
         if(props.callType && props.callType === "PaymentTransaction" && props.transactionId && props.transactionAmount) {
             setTranReferenceNo(props.transactionId)
             setTranAmount(props.transactionAmount)
+        } else if (props.callType && props.callType === "Cost") {
+            console.log("Cost Add Transaction::"+props.supplierId)
+            //Now get the Payment Method Details for the supplier where the cost is from
         }
         onToggle()
     }
