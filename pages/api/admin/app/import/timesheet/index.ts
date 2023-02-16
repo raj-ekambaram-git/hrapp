@@ -22,11 +22,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           name: "MMMM",
           status: TimesheetStatus.Saved,
           type: TimesheetType.Weekly,  
-          userId: parseInt("2")        
+          userId: parseInt("2"),
+                  
         },
         update: {
           status: TimesheetStatus.Draft
-        }
+          }
+
+        
      });
     res.status(200).json(savedInvoice);
 

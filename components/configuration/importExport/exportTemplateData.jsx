@@ -35,25 +35,30 @@ function ExportTemplateData() {
 
   async function handleExportTemplateData(newSize) {
     const responseData = await importExportService.getSavedExportTemplates(userService.getAccountDetails().accountId)
+    console.log("responseData:::"+JSON.stringify(responseData))
     if(responseData != undefined && responseData != EMPTY_STRING) {
-      const updatedExportTemplates =  responseData.map((exportTemplate, index)=> {
+      const updatedExportTemplates = [];
+      responseData.map((exportTemplate, index)=> {
         exportTemplate.type === ExportTemplateType.System?
           exportTemplate.exportAction =  exportTemplate.status === ExportTemplateStatus.Active?<><ExportSystemTemplateData handleSystemExportNow={handleSystemExportNow} exportTemplateMeta={exportTemplate}/></>:<></>          
           : exportTemplate.exportAction =  exportTemplate.status === ExportTemplateStatus.Active?<><Button onClick={() => handleExportNow(exportTemplate.id)} size="xs"  bgColor="header_actions">Export</Button></>:<></>
-        return exportTemplate;   
-      });
-      setExportTemplates(responseData)
+
+          updatedExportTemplates.push(exportTemplate)
+        // return exportTemplate;   
+      });      
+      setExportTemplates(updatedExportTemplates)
     }
     setSize(newSize);
     onOpen();
   }
 
   const handleSystemExportNow = async () => {
+    console.log("handleSystemExportNow::")
 
   }
 
   const handleExportNow = async (templateId) => {
-    const templateToExport = exportTemplates.filter((exportTemplate) => (exportTemplate.id == templateId));
+    const templateToExport = exportTemplates?.filter((exportTemplate) => (exportTemplate.id == templateId));
     if(templateToExport && templateToExport.length>0 
         && templateToExport[0]?.queryMeta?.selectList && templateToExport[0]?.queryMeta?.selectList.length > 0
         && templateToExport[0]?.queryMeta?.tableNames && templateToExport[0]?.queryMeta?.tableNames.length > 0
