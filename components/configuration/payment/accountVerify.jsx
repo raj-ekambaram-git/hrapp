@@ -30,7 +30,7 @@ import {
   
 import { useDispatch } from "react-redux";
 import { ConfigConstants, EMPTY_STRING, US_STATES } from "../../../constants";
-import { configurationService, userService } from "../../../services";
+import { configurationService, paymentService, userService } from "../../../services";
 import { AccountType } from "@prisma/client";
 import { util } from "../../../helpers";
 
@@ -95,27 +95,6 @@ const AccountVerify = (props) => {
 
     const handleAccountVerify = async () => {
         if(accountVerificationConsent) {
-            console.log("accountName:::"+accountName)
-            console.log("accountEIN:::"+accountEIN)
-            console.log("accountEmail:::"+accountEmail)
-            console.log("businessType:::"+businessType)
-            console.log("businessClassification:::"+businessClassification)
-            console.log("accountAddress1:::"+accountAddress1)
-            console.log("accountCity:::"+accountCity)
-            console.log("accountState:::"+accountState)
-            console.log("accountZipCode:::"+accountZipCode)
-            console.log("controllerFirstName:::"+controllerFirstName)
-            console.log("controllerLastName:::"+controllerLastName)
-            console.log("controllerTitle:::"+controllerTitle)
-            console.log("controllerLastFour:::"+controllerLastFour)
-            console.log("controllerDOB:::"+controllerDOB)
-            console.log("controllerAddress1:::"+controllerAddress1)
-            console.log("controllerCity:::"+controllerCity)
-            console.log("controllerState:::"+controllerState)
-            console.log("controllerZipCode:::"+controllerZipCode)
-            console.log("controllerCountry:::"+controllerCountry)
-
-
             if(accountName && accountEIN && accountEmail && util.isValidEmail(accountEmail) && businessType
                 && businessClassification && accountAddress1 && accountCity
                 && accountState && accountZipCode
@@ -153,8 +132,33 @@ const AccountVerify = (props) => {
                     businessName: accountName,
                     ein: accountEIN
                 }
+                const responseData = await paymentService.verifyAccount(userService.getAccountDetails().accountId, verificationRequestData)
+                if(responseData.error) {
+                    toast({
+                        title: 'Account Verification.',
+                        description: 'Error verifying your account, please try again later or contact administrator.',
+                        status: 'error',
+                        position: 'top',
+                        duration: 9000,
+                        isClosable: true,
+                      })     
+                      return;
+                } else {
+                    toast({
+                        title: 'Account Verification.',
+                        description: 'Successfully verified yoour account.',
+                        status: 'success',
+                        position: 'top',
+                        duration: 3000,
+                        isClosable: true,
+                      })     
+                      if(responseData.verified) {
+                        props.setAccountVerified(true)
+                      }
+                      onClose();
 
-                console.log("verificationRequestData:::::"+JSON.stringify(verificationRequestData))
+                }
+                
                 
 
             } else {
@@ -303,7 +307,7 @@ const AccountVerify = (props) => {
                                                 </FormControl>       
                                                 <FormControl isRequired>
                                                     <FormLabel>Last 4 SSN</FormLabel>
-                                                    <Input type="password"  value={controllerLastFour} id="controllerLastFour" onChange={(ev) => setControllerLastFour(ev.target.value)}  />
+                                                    <Input type="password"  maxLength={4} value={controllerLastFour} id="controllerLastFour" onChange={(ev) => setControllerLastFour(ev.target.value)}  />
                                                 </FormControl>                                                                           
                                             </HStack>   
                                             <HStack spacing="150px">

@@ -211,7 +211,7 @@ const ManagePaymentAccounts = (props) => {
                 {accountVerified?<>
                   <Badge color="paid_status">Verified</Badge>
                 </>:<>                  
-                  <AccountVerify accountDetails={accountFeature.accountDetails}/>
+                  <AccountVerify accountDetails={accountFeature.accountDetails} setAccountVerified={setAccountVerified}/>
                 </>}
 
               </HStack>

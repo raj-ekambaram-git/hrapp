@@ -16,8 +16,23 @@ export const paymentService = {
     vendorPaymentAccount,
     paymentAccount,
     getPaymentTransactions,
+    verifyAccount
     
 };
+
+function verifyAccount(accountId, verificationRequest) {
+    return fetchWrapper.post(`${baseUrl}/admin/account/payment/processor/verify`, {
+        accountId: accountId,
+        verificationRequest: verificationRequest
+    })
+    .then(paymentAccountTransactions => {
+        return paymentAccountTransactions;
+    })  
+    .catch(err => {
+        console.log("Error getPaymentTransactions"+err)
+        return {errorMessage: err, error: true};
+    });
+}
 
 function getPaymentTransactions(accountId, userId, transactionRequest) {
     return fetchWrapper.post(`${baseUrl}/admin/account/payment/method/transactions`, {

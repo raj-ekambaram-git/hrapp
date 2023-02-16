@@ -41,6 +41,10 @@ export const ConfigConstants = {
   MAX_PAYMENT_TRANSACTIONS: {
     count: 20
   },
+  PAYMENT_PROCESSORS:
+    {
+      Dwolla: "Dwolla",
+    },
   AVAILABLE_PAYMENT_PROCESSORS: [
     {
       processorId: "Dwolla",
