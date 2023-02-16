@@ -62,7 +62,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         }
       });
 
-      console.log("userData::::"+JSON.stringify(userData))
       if(userData && userData.account.accoutFeatures && userData.account.accoutFeatures.length>0 && transactionRequest.paymentMethodId) {
         //Get the PaymentMethod for the given ID
         const paymentMethod = await prisma.paymentMethod.findUnique({
@@ -71,7 +70,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           },
         });
 
-        console.log("paymentMethod::::"+JSON.stringify(paymentMethod))
 
         if(paymentMethod && paymentMethod.status === PaymentMethodStatus.Active && paymentMethod.accountId === accountId) {
           //Now Call the Plaid
@@ -86,11 +84,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             },
           });
 
-          console.log("transactions.data::::"+JSON.stringify(transactions.data))
-
           if(transactions.data && transactions.data?.transactions && transactions.data?.total_transactions > 0) {
             const transactionIds = transactions.data?.transactions?.map((transaction) => {return transaction.transaction_id})
-            console.log("transactionIds::::"+JSON.stringify(transactionIds))
             
             //Check if any of these transactions are already marked under invoice
             const alreadyMarkedInvoiceTransactions = await prisma.invoiceTransaction.findMany({
@@ -107,7 +102,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
               },
             });
             const markedInvoiceTransactionIds = alreadyMarkedInvoiceTransactions.map((transaction) => {return transaction.transactionId});
-            console.log("markedInvoiceTransactionIds:::"+JSON.stringify(markedInvoiceTransactionIds))
 
             //Check if any of these transactions are already marked under expense
             const alreadyMarkedExpenseTransactions = await prisma.expenseTransaction.findMany({
@@ -127,15 +121,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             });
 
             const markedExpenseTransactionIds = alreadyMarkedExpenseTransactions.map((transaction) => {return transaction.transactionId});
-            console.log("markedExpenseTransactionIds:::"+JSON.stringify(markedExpenseTransactionIds))
 
             //Now loop through all the transactions and mark the status for the response
             const transactionResponse = transactions.data?.transactions?.map((transaction) => {
               const transactionObj = {};
               const accountData = transactions.data?.accounts?.filter(account => (account.account_id === transaction.account_id))
               
-              console.log("accountData:::"+JSON.stringify(accountData))
-
               if(accountData && accountData.length>0) {
                 transactionObj["account_name"] = accountData[0].name
                 transactionObj["account_mask"] = accountData[0].mask
@@ -149,24 +140,19 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
               transactionObj["transaction_datetime"] = transaction.datetime
               transactionObj["transaction_category"] = transaction.category
               transactionObj["transaction_pending"] = transaction.pending
-
+              transactionObj["transaction_marked"] = false
               if(markedExpenseTransactionIds.includes(transaction.transaction_id)) {
                 transactionObj["transaction_marked"] = true
                 transactionObj["transaction_type"] = "Expense"
-              }else {
-                transactionObj["transaction_marked"] = false
               }
               if(markedInvoiceTransactionIds.includes(transaction.transaction_id)) {
                 transactionObj["transaction_marked"] = true
                 transactionObj["transaction_type"] = "Invoice"
-              } else {
-                transactionObj["transaction_marked"] = false
-              }              
+              }           
 
               return transactionObj
             });
 
-            console.log("transactionResponse:::"+JSON.stringify(transactionResponse))
             res.status(200).json(transactionResponse)
           } else {
             res.status(200).json({})
