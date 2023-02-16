@@ -193,7 +193,7 @@ const ManagePaymentAccounts = (props) => {
     <div>
       {isPageAuthprized?<>
         {loading?<><Spinner /></>:<></>}        
-        <Card variant="userSettingCard">
+        <Card variant="userSettingPaymentCard">
             <CardHeader>
                 Manage Payment Accounts
             </CardHeader>
@@ -206,7 +206,7 @@ const ManagePaymentAccounts = (props) => {
                     <strong>Link account</strong>
                 </Button>
                   {linkedAccountData?<>
-                    <Card variant="userSettingCard" marginBottom={5}>
+                    <Card variant="userSettingPaymentCard" marginBottom={5}>
                       <CardBody>
                         <Stack spacing={5}>
                           <HStack>

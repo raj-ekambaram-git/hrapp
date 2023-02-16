@@ -246,6 +246,21 @@ const userSettingCard = definePartsStyle({
     fontWeight: "600"
   }
 })
+
+const userSettingPaymentCard = definePartsStyle({
+  container: {
+    width: "100%",
+    border: "1px",
+    borderRadius: "5px",    
+    
+  },
+  body: {
+    fontSize: "12px"
+  },
+  header: {
+    fontWeight: "600"
+  }
+})
   
 const projectProgress = definePartsStyle({
   container: {
@@ -434,4 +449,4 @@ const sizes = definePartsStyle({
   },
 })
 
-export const cardTheme = defineMultiStyleConfig({ baseStyle, sizes, variants: {paymentTransactions, workflowTaskForm, eSignDocument,projectProgress, userSettingCard, settingCard, costSummary, invoiceReportDashboard, cashFlowInnerDetails, cashFlowDashboard, helpDashboard, dashboardWelcome,projectUsersFinancialSummary, reportByUsers, projectReportsHeader, comment, replies, replyDetails, document, timesheetDailyNotes, projectFinancialSummary, workFlowDashboard, workFlowDashDetails} })
+export const cardTheme = defineMultiStyleConfig({ baseStyle, sizes, variants: {paymentTransactions, workflowTaskForm, eSignDocument,projectProgress, userSettingCard, settingCard, costSummary, invoiceReportDashboard, cashFlowInnerDetails, cashFlowDashboard, helpDashboard, dashboardWelcome,projectUsersFinancialSummary, reportByUsers, projectReportsHeader, comment, replies, replyDetails, document, timesheetDailyNotes, projectFinancialSummary, workFlowDashboard, workFlowDashDetails, userSettingPaymentCard} })
