@@ -25,7 +25,7 @@ import { useDispatch } from "react-redux";
 import { ConfigConstants, EMPTY_STRING } from "../../../constants";
 import { configurationService, userService } from "../../../services";
 
-const ConfigurePaymentProcessor = (props) => {
+const AccountVerify = (props) => {
     const dispatch = useDispatch();
     const toast = useToast();
 
@@ -109,11 +109,11 @@ const ConfigurePaymentProcessor = (props) => {
 
     return (
         <>
-          <Button size="xs" bgColor="header_actions" 
+          <Button size="xs" colorScheme="red"
               onClick={() => handleConfigurePaymentProcessor("lg")}
               key="lg"
               m={1}
-              >{`Configure Payment Processor`}
+              >{`Verify Account`}
           </Button>
 
           <Drawer onClose={onClose} isOpen={isOpen} size={size}>
@@ -121,7 +121,7 @@ const ConfigurePaymentProcessor = (props) => {
                     <DrawerContent>
                         <DrawerCloseButton />
                         <DrawerHeader>
-                            Configure Payment Processor 
+                            Verify Account
                         </DrawerHeader>
                         <DrawerBody>
                           <Stack spacing={6} marginTop={9}>
@@ -175,4 +175,4 @@ const ConfigurePaymentProcessor = (props) => {
     );
 };
 
-export default ConfigurePaymentProcessor;
+export default AccountVerify;

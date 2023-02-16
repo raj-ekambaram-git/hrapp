@@ -70,9 +70,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                 res.status(400).json({ message: 'NO active payment methods available for this vendor.' })
               }
   
+        } else {
+          res.status(200).json(null);  
         }
       } else {
-        console.log("accountPaymentMethodInfo:::"+JSON.stringify(accountPaymentMethodInfo))
+        console.log("accountPaymentMethodInfo after successful update :::"+JSON.stringify(accountPaymentMethodInfo))
         res.status(200).json(null);  
       }
 

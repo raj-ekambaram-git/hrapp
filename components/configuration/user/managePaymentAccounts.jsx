@@ -17,6 +17,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import {setAccountPaymentToken} from '../../../store/modules/Account/actions'
 import ConfigurePaymentProcessor from '../payment/configurePaymentProcessor'
+import AccountVerify from '../payment/accountVerify'
 import {
   usePlaidLink,
 } from 'react-plaid-link';
@@ -36,6 +37,7 @@ const ManagePaymentAccounts = (props) => {
   const [linkedAccountData, setLinkedAccountData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [configurePaymentProcessor, setConfigurePaymentProcessor] = useState(false);
+  const [accountVerified, setAccountVerified] = useState(false);
   const [paymentTransactions, setPaymentTransactions] = useState(null);
 
   const linkToken = useSelector(state => state.account?.payment?.linkPaymentToken);
@@ -65,6 +67,7 @@ const ManagePaymentAccounts = (props) => {
       })    
       setLinkedAccountData(exchangeResponse)
       // await getBalance();
+      setLoading(false);  
     }
     
   }, []);
@@ -124,7 +127,8 @@ const ManagePaymentAccounts = (props) => {
     const paymentConfigData = await accountService.isPaymentConfigured(userService.userValue.id, userService.getAccountDetails().accountId);
     setConfigurePaymentProcessor(userService.accountFeatureEnabled(ConfigConstants.FEATURES.PAYMENT_PROCESSOR))
 
-    if((userService.accountFeatureEnabled(ConfigConstants.FEATURES.PAYMENT_PROCESSOR) && paymentConfigData && paymentConfigData.configured) || !userService.accountFeatureEnabled(ConfigConstants.FEATURES.PAYMENT_PROCESSOR)) {
+    if((userService.accountFeatureEnabled(ConfigConstants.FEATURES.PAYMENT_PROCESSOR) && paymentConfigData && paymentConfigData.configured && paymentConfigData.accountVerified) || !userService.accountFeatureEnabled(ConfigConstants.FEATURES.PAYMENT_PROCESSOR)) {
+      setAccountVerified(true)
       console.log("paymentConfigData:::"+JSON.stringify(paymentConfigData))
       setAccountFeature(paymentConfigData)
       //First see if there are already linked accounts
@@ -139,8 +143,11 @@ const ManagePaymentAccounts = (props) => {
       }
       setLoading(false);
     } else {
-      setAccountFeature(paymentConfigData)      
-      setLoading(false);
+      if((userService.accountFeatureEnabled(ConfigConstants.FEATURES.PAYMENT_PROCESSOR) && paymentConfigData && paymentConfigData.configured && !paymentConfigData.accountVerified)) {
+        
+      }
+      setAccountFeature(paymentConfigData)              
+      setLoading(false);  
     }
 
   }
@@ -199,7 +206,16 @@ const ManagePaymentAccounts = (props) => {
             </CardHeader>
             <CardBody>      
             {configurePaymentProcessor?<>
-              <ConfigurePaymentProcessor accountFeature={accountFeature}/>
+              <HStack marginBottom={7}>
+                <ConfigurePaymentProcessor accountFeature={accountFeature}/>
+                {accountVerified?<>
+                  <Badge color="paid_status">Verified</Badge>
+                </>:<>
+                  <AccountVerify />
+                </>}
+              </HStack>
+              
+
               </>:<></>}
                 <Button marginBottom={3} onClick={() => open()
                     } disabled={!ready}>
