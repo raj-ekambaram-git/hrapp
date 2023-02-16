@@ -27,7 +27,7 @@ import {
     Badge
 
   } from '@chakra-ui/react';
-  
+import { Spinner } from "../../common/spinner";
 import { useDispatch } from "react-redux";
 import { ConfigConstants, EMPTY_STRING, US_STATES } from "../../../constants";
 import { configurationService, paymentService, userService } from "../../../services";
@@ -65,6 +65,7 @@ const AccountVerify = (props) => {
     const [businessClassification, setBusinessClassification] = useState();
     const [businessType, setBusinessType] = useState();
     const [accountVerificationConsent, setAccountVerificationConsent] = useState();
+    const [loading, setLoading] = useState(false);
     
 
   
@@ -132,6 +133,7 @@ const AccountVerify = (props) => {
                     businessName: accountName,
                     ein: accountEIN
                 }
+                setLoading(true)
                 const responseData = await paymentService.verifyAccount(userService.getAccountDetails().accountId, verificationRequestData)
                 if(responseData.error) {
                     toast({
@@ -142,6 +144,7 @@ const AccountVerify = (props) => {
                         duration: 9000,
                         isClosable: true,
                       })     
+                      setLoading(false)
                       return;
                 } else {
                     toast({
@@ -155,6 +158,7 @@ const AccountVerify = (props) => {
                       if(responseData.verified) {
                         props.setAccountVerified(true)
                       }
+                      setLoading(false)
                       onClose();
 
                 }
@@ -171,6 +175,7 @@ const AccountVerify = (props) => {
                     duration: 9000,
                     isClosable: true,
                   })     
+                  setLoading(false)
                   return;
             }
 
@@ -183,6 +188,7 @@ const AccountVerify = (props) => {
                 duration: 9000,
                 isClosable: true,
               })     
+              setLoading(false)
               return;
         }
     }
@@ -204,6 +210,7 @@ const AccountVerify = (props) => {
                             Verify Account
                         </DrawerHeader>
                         <DrawerBody>
+                        {loading?<><Spinner /></>:<></>}        
                           <Stack spacing={1} marginTop={3}>
                             <Card>
                                 <CardHeader>
