@@ -55,6 +55,7 @@ const AddEditVedorPaymentAccount = (props) => {
       }
 
       const getVendorPaymentAccount = async() => {
+        setLoading(true)
         const responseData = await paymentService.vendorPaymentAccount(props.vendorId, userService.getAccountDetails().accountId)
         setLoading(false)
         if(responseData && responseData.error) {
@@ -82,6 +83,7 @@ const AddEditVedorPaymentAccount = (props) => {
                 routingNumber: routingNumber,
                 accountNumber: accountNumber
             }
+            setLoading(true)
             const responseData = await paymentService.paymentAccount(props.vendorId, userService.getAccountDetails().accountId, userService.userValue.id, paymentAccountData)
             setLoading(false)
             if(responseData.error) {

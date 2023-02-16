@@ -29,12 +29,12 @@ import {
 import { EMPTY_STRING } from "../../../../constants/accountConstants";
 import { ExpenseConstants } from "../../../../constants/expenseConstants";
 import { ErrorMessage } from "../../../../constants/errorMessage";
-import { expenseService, userService } from "../../../../services";
+import { expenseService, paymentService, userService } from "../../../../services";
 import { util } from "../../../../helpers/util";
 import { ShowInlineErrorMessage } from "../../../common/showInlineErrorMessage";
 import { useDispatch } from "react-redux";
 import { setExpensePaidAmount, updateExpenseTransactions } from "../../../../store/modules/Expense/actions";
-
+import { Spinner } from "../../../common/spinner";
   
 const AddEditTransaction = (props) => {
     const toast = useToast();
@@ -44,7 +44,9 @@ const AddEditTransaction = (props) => {
     const [tranReferenceNo, setTranReferenceNo] = useState(EMPTY_STRING);
     const [tranStatus, setTranStatus] = useState(EMPTY_STRING);
     const [tranNotes, setTranNotes] = useState(EMPTY_STRING);
+    const [supplierPayment, setSupplierPayment] = useState();
     const [showErrorMessage, setShowErrorMessage] = useState(EMPTY_STRING);
+    const [loading, setLoading] = useState(false);
     const expenseId = props.expenseId;
 
 
@@ -93,12 +95,20 @@ const AddEditTransaction = (props) => {
 
     }
 
-    const handleTransactionAddEdit = () => {
+    const handleTransactionAddEdit = async() => {
         if(props.callType && props.callType === "PaymentTransaction" && props.transactionId && props.transactionAmount) {
             setTranReferenceNo(props.transactionId)
             setTranAmount(props.transactionAmount)
         } else if (props.callType && props.callType === "Cost") {
             console.log("Cost Add Transaction::"+props.supplierId)
+            if(props.supplierId) {
+                setLoading(true)
+                const responseData = await paymentService.vendorPaymentAccount(props.supplierId, userService.getAccountDetails().accountId)
+                console.log("SUPPLIER PAYMENT DATA:::"+JSON.stringify(responseData))
+                setSupplierPayment(responseData)
+                setLoading(false)
+            }
+            
             //Now get the Payment Method Details for the supplier where the cost is from
         }
         onToggle()
@@ -123,10 +133,11 @@ const AddEditTransaction = (props) => {
                         </Button>  
                     </PopoverTrigger>
                     <PopoverContent>
+                    {loading?<><Spinner /></>:<></>} 
                     <PopoverHeader>New Transaction</PopoverHeader>
                     <PopoverArrow />
                     <PopoverCloseButton />
-                    <PopoverBody>
+                    <PopoverBody>                        
                         <Box>
                             <ShowInlineErrorMessage showErrorMessage={showErrorMessage}/>
                         </Box>
