@@ -7,6 +7,37 @@ import { ExportTemplateStatus, ExportTemplateType } from "@prisma/client";
 
 export const ConfigConstants = {
 
+  
+  AVAILABLE_TITLES: [
+    {
+      id: "CEO",
+      name: "CEO",
+    },  
+    {
+      id: "CFO",
+      name: "CFO",
+    },  
+  ],  
+  AVAILABLE_ACCOUNT_BUSINESS_CLASSIFICATIONS: [
+    {
+      id: "checking",
+      name: "Checking",
+    },  
+    {
+      id: "savings",
+      name: "Savings",
+    },  
+  ],  
+  AVAILABLE_ACCOUNT_BUSINESS_TYPES: [
+    {
+      id: "checking",
+      name: "Checking",
+    },  
+    {
+      id: "savings",
+      name: "Savings",
+    },  
+  ],  
   MAX_PAYMENT_TRANSACTIONS: {
     count: 20
   },

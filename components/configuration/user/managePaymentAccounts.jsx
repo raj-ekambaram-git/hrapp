@@ -210,9 +210,10 @@ const ManagePaymentAccounts = (props) => {
                 <ConfigurePaymentProcessor accountFeature={accountFeature}/>
                 {accountVerified?<>
                   <Badge color="paid_status">Verified</Badge>
-                </>:<>
-                  <AccountVerify />
+                </>:<>                  
+                  <AccountVerify accountDetails={accountFeature.accountDetails}/>
                 </>}
+
               </HStack>
               
 

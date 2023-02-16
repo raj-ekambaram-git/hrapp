@@ -25,8 +25,34 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           feature: {
             name: ConfigConstants.FEATURES.PAYMENT_PROCESSOR,
             status: FeatureStatus.Active
-          }
+          },          
         },
+        include: {
+          account: {
+            select: {
+              name: true,
+              email: true,
+              ein: true,
+              address: {
+                where: {
+                  userId: null,
+                  vendorId: null,
+                  accountId: parseInt(accountId.toString())
+                }
+              },
+              user: {
+                where: {
+                  accountOwner: true
+                },
+                select: {
+                  firstName: true,
+                  lastName: true,
+                  address: true
+                }
+              }
+            }
+          }
+        }
       })
       if(accountFeatureConfigData) {
         if(accountFeatureConfigData.configuration && accountFeatureConfigData.configuration["processor"]) {
@@ -40,7 +66,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
               processorConsent: accountFeatureConfigData.configuration["processorConsent"]?accountFeatureConfigData.configuration["processorConsent"]:false,
               processorAccountId: accountFeatureConfigData.configuration["processorAccountId"]?accountFeatureConfigData.configuration["processorAccountId"]:EMPTY_STRING,
               accountVerificationConsent: accountFeatureConfigData.configuration["accountVerificationConsent"]?accountFeatureConfigData.configuration["accountVerificationConsent"]:EMPTY_STRING,
-            }
+            },
+            accountDetails: accountFeatureConfigData.account
           });
         } else {
           res.status(200).json({configured: false, accountFeatureId: accountFeatureConfigData.id });

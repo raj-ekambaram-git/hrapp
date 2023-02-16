@@ -33,6 +33,8 @@ export const util = {
     decryptConfigHash,
     getPaymentFormattedDate,
     getPastDateFromGivenDate,
+    isValidDOB,
+    isValidLastFour
 };
 
 function getLocaleDate(date) {
@@ -315,3 +317,28 @@ function isValidEmail(email) {
   return validator.isEmail(email);
 }
 
+function isValidDOB(dob) {
+  if(dob) {
+    const parsedDate = Date.parse(dob)
+    console.log("parsedDate::::"+parsedDate)
+    
+    if(isNaN(parsedDate)) {
+      return false
+    } 
+
+    return true
+  }
+}
+
+function isValidLastFour(dob) {
+  if(dob) {
+    const parsedDate = Date.parse(dob)
+    console.log("parsedDate::::"+parsedDate)
+    
+    if(isNaN(parsedDate)) {
+      return false
+    } 
+
+    return true
+  }
+}
