@@ -30,7 +30,7 @@ const AccountSetting = (props) => {
 
     return (      
 
-      <Tabs isFitted variant='accountSetting'  colorScheme='teal' size="sm" isLazy>
+      <Tabs isFitted variant='accountSetting'  colorScheme='teal' size="xs" isLazy>
         <TabList marginBottom={6}>
           <Tab border="1px" marginRight={4}>User</Tab>
           <Tab border="1px" marginRight={4}>Import/Export</Tab>

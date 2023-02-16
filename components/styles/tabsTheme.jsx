@@ -37,17 +37,17 @@ const { definePartsStyle, defineMultiStyleConfig } =
       },
       tab: {
         borderRadius: "5px",
-        fontWeight: "semibold",
+        fontSize: "13px",
+        fontWeight: "600",
         color: "gray.600",
         bg: "table_tile",
         _selected: {
-          color: "black",
           bg: "header_actions",
+          borderColor: "red"
         },
         border: "1px",        
       },
-      tabpanels: {
-      
+      tabpanels: {      
         borderRadius: "5px",
         borderColor: "gray.600"
       },      
