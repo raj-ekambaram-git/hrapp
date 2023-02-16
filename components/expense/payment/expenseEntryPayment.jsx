@@ -85,7 +85,7 @@ import ExpenseTransactions from "./transaction/expenseTransactions";
                 <DrawerCloseButton />
                 <DrawerHeader>
                     {props.isCost?<>
-                        Manage Cost
+                        Manage Cost Payments
                     </>:<>
                         Expense {expense?.name} of {expense?.user?.firstName} {expense?.user?.lastName}                    
                     </>}                    
