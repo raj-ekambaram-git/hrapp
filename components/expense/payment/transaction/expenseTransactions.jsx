@@ -73,7 +73,7 @@ const ExpenseTransactions = (props) => {
                           {expenseTransaction.status}
                       </Th>
                       <Th>
-                          {expenseTransaction.lastUpdatedDate}
+                          {util.getFormattedDateWithTime(expenseTransaction.lastUpdatedDate)}
                       </Th>
                       <Th>
                           {expenseTransaction.transactionData}
