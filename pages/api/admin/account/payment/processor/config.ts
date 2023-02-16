@@ -32,12 +32,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         if(accountFeatureConfigData.configuration && accountFeatureConfigData.configuration["processor"]) {
           res.status(200).json({
             configured: true, 
-            accountVerified: true,
+            accountVerified: accountFeatureConfigData.configuration["processorAccountId"]?accountFeatureConfigData.configuration["processorAccountId"]:EMPTY_STRING,
             accountFeatureId: accountFeatureConfigData.id, 
             configuration: {
               processor: accountFeatureConfigData.configuration["processor"]?accountFeatureConfigData.configuration["processor"]:EMPTY_STRING,
               processorKey: accountFeatureConfigData.configuration["processorKey"]?util.decryptConfigHash(accountFeatureConfigData.configuration["processorKey"], accountFeatureConfigData.configuration["salt"]):EMPTY_STRING,
               processorConsent: accountFeatureConfigData.configuration["processorConsent"]?accountFeatureConfigData.configuration["processorConsent"]:false,
+              processorAccountId: accountFeatureConfigData.configuration["processorAccountId"]?accountFeatureConfigData.configuration["processorAccountId"]:EMPTY_STRING,
+              accountVerificationConsent: accountFeatureConfigData.configuration["accountVerificationConsent"]?accountFeatureConfigData.configuration["accountVerificationConsent"]:EMPTY_STRING,
             }
           });
         } else {
