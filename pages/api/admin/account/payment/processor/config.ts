@@ -45,6 +45,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         } else {
           res.status(200).json({configured: false, accountFeatureId: accountFeatureConfigData.id });
         }
+      } else {
+        res.status(200).json(null);
       }
     }else {
       res.status(200).json(null);
