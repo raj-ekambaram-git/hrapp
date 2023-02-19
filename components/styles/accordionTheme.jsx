@@ -10,7 +10,7 @@ const mainPage = definePartsStyle({
     },
     container: {
         marginBottom: "1rem",
-        width: "80%",
+        width: "100%",
         borderRadius: 'lg'
       },
     button: {
