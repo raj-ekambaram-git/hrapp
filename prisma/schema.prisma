@@ -1263,4 +1263,5 @@ enum PurchaseOrderStatus {
   Created
   Active
   Inactive
+  Closed
 }

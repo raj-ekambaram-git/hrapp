@@ -12,7 +12,8 @@ export const ProjectConstants = {
     },
     {
       label: "Amount",
-      accessor: "amount"
+      accessor: "amount",
+      format: (value) => (value ? util.getWithCurrency(value) : '✖️')
     },   
     {
       label: "Status",
