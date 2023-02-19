@@ -21,7 +21,6 @@ function InvoiceReportSection(props) {
     
       const getInvoiceReportData = async () => {
             if(userService.isAccountAdmin()) {
-                console.log("cashFlowData::::::")
                 const responseData = await accountService.getInvoiceReportData(userService.getAccountDetails().accountId);
                 setInvoiceReportData(responseData)
             }                   
