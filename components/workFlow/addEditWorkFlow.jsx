@@ -32,7 +32,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { EMPTY_STRING, NotesConstants } from "../../constants";
 import {WorkFlowConstants} from '../../constants/workFlowConstants'
-import { SmallAddIcon, SmallCloseIcon } from "@chakra-ui/icons";
+import { SmallAddIcon, DeleteIcon } from "@chakra-ui/icons";
 import { userService, workFlowService } from "../../services";
 import { util, workFlowUtil } from "../../helpers";
 import DatePicker from "../common/datePicker";
@@ -363,7 +363,7 @@ const AddEditWorkFlow = (props) => {
                                                                 </>:<>
                                                                     <SmallAddIcon onClick={() => handleAddExtraRow("steps", index+2)}/>
                                                                     {!props.isAddMode && step.status && (step.status === WorkFlowStepStatus.InProgress || step.status === WorkFlowStepStatus.Complete)?<> <Spacer maxWidth={2} /></>:<>
-                                                                        <SmallCloseIcon onClick={() => handleRemoveRow("steps", index)}/>
+                                                                        <DeleteIcon boxSize={3} color="red" onClick={() => handleRemoveRow("steps", index)}/>
                                                                     </>}                                                                                                                         
                                                                 </>}                                                                
                                                             </HStack>                                                          
