@@ -45,16 +45,18 @@ const VendorDetailActions = (props) => {
                       Users
                     </Button>
                   </Box>   
-                  <Box>
-                    <Button size="xs" bgColor="header_actions" onClick={navigateVendorProjectsPage}>
-                      Projects
-                    </Button>
-                  </Box>                   
-                  <Box>
-                    <Button size="xs" bgColor="header_actions" onClick={navigateVendorInvoicesPage}>
-                      Invoices
-                    </Button>
-                  </Box>     
+                  {(props.data?.vendor?.type !== VendorType.Supplier && userService.accountFeatureEnabled(ConfigConstants.FEATURES.PAYMENT_PROCESSOR) && userService.isPaymentAdmin)? <>
+                    <Box>
+                      <Button size="xs" bgColor="header_actions" onClick={navigateVendorProjectsPage}>
+                        Projects
+                      </Button>
+                    </Box>                   
+                    <Box>
+                      <Button size="xs" bgColor="header_actions" onClick={navigateVendorInvoicesPage}>
+                        Invoices
+                      </Button>
+                    </Box>     
+                  </>:<></>}  
                   <Box>
                     <ManageDocuments/>
                   </Box>           
