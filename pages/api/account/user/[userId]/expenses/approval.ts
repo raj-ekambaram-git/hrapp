@@ -16,7 +16,6 @@ console.log("userId ID::"+userId+"---AccountioD::"+accountId)
   
   try {
     if(userId != "" && accountId != "" && accountId != "NaN" && accountId != undefined && userId != undefined && userId != "NaN") {
-      console.log("11111");
       const projects = await prisma.projectResource.findMany({
         select: {
           project: {

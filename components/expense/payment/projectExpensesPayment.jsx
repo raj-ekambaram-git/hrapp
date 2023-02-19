@@ -23,6 +23,7 @@ import {
     Text,
     TableContainer
   } from '@chakra-ui/react';
+import { ExpenseEntryStatus, ExpenseStatus } from '@prisma/client';
 import { useSelector } from 'react-redux';
 import { ExpenseConstants } from '../../../constants';
 import { util } from '../../../helpers/util';
@@ -109,14 +110,12 @@ const ProjectExpensesPayment = (props) => {
                                                                     $ {expenseEntry.paidAmount}
                                                                 </Th>
                                                                 <Th>
-                                                                    <ExpenseEntryPayment expense={expenseEntry} isCost={false}/>
+                                                                    {expenseEntry.status}<ExpenseEntryPayment expense={expenseEntry} isCost={false}/>
                                                                 </Th> 
                                                                 <Th>
                                                                     <Badge color={`${
-                                                                            expenseEntry.status === "Approved"
-                                                                            ? "timesheet.approved_status"
-                                                                            : (expenseEntry.status === "Submitted" || expenseEntry.status === "Saved")
-                                                                            ? "timesheet.approved_status"
+                                                                            (expenseEntry.status === ExpenseEntryStatus.Approved || expenseEntry.status === ExpenseStatus.Invoiced )
+                                                                            ? "paid_status"
                                                                             : "timesheet.pending_status"
                                                                         }`}>{expenseEntry.status}
                                                                     </Badge>                                                                    
