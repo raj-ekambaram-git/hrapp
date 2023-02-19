@@ -334,7 +334,29 @@ const ProjectAddEdit = (props) => {
                             <FormLabel>Project Reference</FormLabel>
                             <Input type="text" id="referenceCode" {...register('referenceCode')}   maxWidth="page.single_input"/>
                         </FormControl>    
-                      </Box>                        
+                      </Box>   
+                      {(userService.accountFeatureEnabled(ConfigConstants.FEATURES.WORK_FLOW))?<>
+                        <HStack spacing="8rem">
+                            {(isAddMode && userService.isWorkFlowAdmin())?<>                              
+                              <Box>
+                                <FormControl>
+                                  <FormLabel>Enable WorkFlow?</FormLabel>
+                                  <Checkbox
+                                      onChange={(e) => handleEnableWorkFlow(e.target.checked)}
+                                    />  
+                                </FormControl>    
+                              </Box>                              
+                            </>:<></>}
+                            {enableWorkFlow?<>
+                              <Box>
+                                <FormControl isRequired>
+                                  <FormLabel>WorkFlow</FormLabel>
+                                    <AddEditWorkFlow isAddMode={isAddMode} workFlow={workFlow} setWorkFlow={setWorkFlow} type="Project" typeId={projectId}/>                       
+                                </FormControl>    
+                              </Box>                              
+                            </>:<></>}
+                          </HStack>
+                      </>:<></>}                                           
                       <HStack spacing="10rem">
                         <Box>
                           <FormControl isRequired>
@@ -367,28 +389,6 @@ const ProjectAddEdit = (props) => {
                           </FormControl>     
                         </Box> 
                       </HStack>
-                      {(userService.accountFeatureEnabled(ConfigConstants.FEATURES.WORK_FLOW))?<>
-                        <HStack spacing="8rem">
-                            {(isAddMode && userService.isWorkFlowAdmin())?<>                              
-                              <Box>
-                                <FormControl>
-                                  <FormLabel>Enable WorkFlow?</FormLabel>
-                                  <Checkbox
-                                      onChange={(e) => handleEnableWorkFlow(e.target.checked)}
-                                    />  
-                                </FormControl>    
-                              </Box>                              
-                            </>:<></>}
-                            {enableWorkFlow?<>
-                              <Box>
-                                <FormControl isRequired>
-                                  <FormLabel>WorkFlow</FormLabel>
-                                    <AddEditWorkFlow isAddMode={isAddMode} workFlow={workFlow} setWorkFlow={setWorkFlow} type="Project" typeId={projectId}/>                       
-                                </FormControl>    
-                              </Box>                              
-                            </>:<></>}
-                          </HStack>
-                      </>:<></>}
                       <HStack spacing="7rem">
                         <Box>
                           <FormControl isRequired>

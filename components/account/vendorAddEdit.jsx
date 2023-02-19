@@ -298,6 +298,26 @@ const VendorEdit = (props) => {
                         </FormControl>    
                       </Box>  
                       <HStack spacing={6}>
+                      {(userService.accountFeatureEnabled(ConfigConstants.FEATURES.WORK_FLOW))?<>
+                            {(isAddMode && userService.isWorkFlowAdmin())?<>
+                              <Box>
+                                <FormControl>
+                                  <FormLabel>Enable WorkFlow?</FormLabel>
+                                  <Checkbox
+                                      onChange={(e) => handleEnableWorkFlow(e.target.checked)}
+                                    />  
+                                </FormControl>    
+                              </Box>                              
+                            </>:<></>}
+                            {enableWorkFlow?<>
+                              <Box>
+                                <FormControl isRequired>
+                                  <FormLabel>WorkFlow</FormLabel>
+                                    <AddEditWorkFlow isAddMode={isAddMode} workFlow={workFlow} setWorkFlow={setWorkFlow} type="Vendor" typeId={vendorId}/>                       
+                                </FormControl>    
+                              </Box>                              
+                            </>:<></>}
+                        </>:<></>}                        
                         <Box>
                           <FormControl isRequired>
                             <FormLabel>Vendor Status</FormLabel>
@@ -331,28 +351,7 @@ const VendorEdit = (props) => {
                               <option value="Supplier">Supplier</option>
                             </Select>
                           </FormControl>    
-                          </Box>  
-                          {(userService.accountFeatureEnabled(ConfigConstants.FEATURES.WORK_FLOW))?<>
-                            {(isAddMode && userService.isWorkFlowAdmin())?<>
-                              <Box>
-                                <FormControl>
-                                  <FormLabel>Enable WorkFlow?</FormLabel>
-                                  <Checkbox
-                                      onChange={(e) => handleEnableWorkFlow(e.target.checked)}
-                                    />  
-                                </FormControl>    
-                              </Box>                              
-                            </>:<></>}
-                            {enableWorkFlow?<>
-                              <Box>
-                                <FormControl isRequired>
-                                  <FormLabel>WorkFlow</FormLabel>
-                                    <AddEditWorkFlow isAddMode={isAddMode} workFlow={workFlow} setWorkFlow={setWorkFlow} type="Vendor" typeId={vendorId}/>                       
-                                </FormControl>    
-                              </Box>                              
-                            </>:<></>}
-                          </>:<></>}
-                        
+                          </Box>                                                  
                       </HStack>                          
                       <Box>
                         <FormControl isRequired>
