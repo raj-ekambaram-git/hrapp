@@ -118,7 +118,7 @@ const AddEditPurchaseOrder = (props) => {
                                             fontSize='dollar_left_element'
                                             children='$'
                                         />     
-                                        <Input type="text" value={amount} width="50%" onChange={(ev) => setAmount(ev.target.value)}/>
+                                        <Input type="number" value={amount} width="50%" onChange={(ev) => setAmount(ev.target.value)}/>
                                     </InputGroup>    
                                 </FormControl>                                                                                                       
                             </HStack>

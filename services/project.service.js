@@ -27,7 +27,21 @@ export const projectService = {
     getSuppliers,
     getPurchaseOrders,
     createPurchaseOrder,
+    updatePOStatus,
 };
+
+function updatePOStatus(poId, poRequest, accountId) {
+    return fetchWrapper.put(`${baseUrl}/account/project/purchaseorder/`+poId+`?accountId`+accountId, {
+        poRequest
+    })
+    .then(purchaseOrder => {
+        return purchaseOrder;
+    })  
+    .catch(err => {
+        console.log("Error purchaseOrder")
+        return {errorMessage: err, error: true};
+    });
+}
 
 function createPurchaseOrder(poRequest, accountId) {
     return fetchWrapper.post(`${baseUrl}/account/project/`+poRequest.projectId+"/purchaseorder/create?accountId"+accountId, {

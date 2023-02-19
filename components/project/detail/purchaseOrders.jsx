@@ -16,7 +16,9 @@ import {
   Tr,
   Tbody,
   Badge,
-  useToast
+  useToast,
+  Switch,
+  HStack
 } from '@chakra-ui/react'
 import {
   DeleteIcon
@@ -26,6 +28,7 @@ import { projectService, userService } from "../../../services";
 import { ProjectConstants } from "../../../constants";
 import { CustomTable } from "../../customTable/Table";
 import AddEditPurchaseOrder from "./addEditPurchaseOrder";
+import { PurchaseOrderStatus } from "@prisma/client";
 
 
 
@@ -40,7 +43,7 @@ const PurchaseOrders = (props) => {
   const handleClick = async (newSize) => {
     if(props.projectId) {
       const responseData = await projectService.getPurchaseOrders(props.projectId, userService.getAccountDetails().accountId);
-      setPurchaseOrders(responseData)
+      handlePurchaseOrderTableDisplay(responseData)
       setSize(newSize)
       onOpen()  
     }
@@ -49,7 +52,35 @@ const PurchaseOrders = (props) => {
   const handleNewPOSubmit = (newPO) => {
     const newPOList = [...purchaseOrders]
     newPOList.push(newPO);
-    setPurchaseOrders(newPOList)
+    handlePurchaseOrderTableDisplay(newPOList)
+  }
+
+  const handleStatusUpdate = async(purchaseOrderId, status, index) => {
+    const poRequest = {
+      id: purchaseOrderId,
+      status: status
+    }
+    const responseData = await projectService.updatePOStatus(purchaseOrderId, poRequest, userService.getAccountDetails().accountId)
+    console.log("responseData:::"+JSON.stringify(responseData))
+    const newPOList = [...purchaseOrders]
+    newPOList[index] = responseData;
+    handlePurchaseOrderTableDisplay(newPOList)
+  }
+
+  const handlePurchaseOrderTableDisplay = (poList) => {
+    const updatedPOList = poList.map((po, index) => {
+
+      if(po.status == PurchaseOrderStatus.Created) {
+        po.status = <HStack><Badge color={`${(po.status == PurchaseOrderStatus.Created )? "paid_status": "pending_status"}`}>{po.status}</Badge> <Switch colorScheme='teal' size='sm' id='created' isChecked onChange={() => handleStatusUpdate(po.id, PurchaseOrderStatus.Active, index)} >Mark Active</Switch></HStack>;
+      } else if (po.status == PurchaseOrderStatus.Active) {
+        po.status = <HStack><Badge color={`${(po.status == "Active" )? "paid_status": "pending_status"}`}>{po.status}</Badge> <Switch marginLeft="10" colorScheme='teal' size='sm' id='created' isChecked onChange={() => handleStatusUpdate(po.id, PurchaseOrderStatus.Inactive, index)} >Mark Inactive</Switch></HStack>;
+      } else if (po.status == PurchaseOrderStatus.Inactive) {
+        po.status = <HStack><Badge color={`${(po.status == "Active" )? "paid_status": "pending_status"}`}>{po.status}</Badge> <Switch marginLeft="10" colorScheme='red' size='sm' id='created' isChecked onChange={() => handleStatusUpdate(po.id, PurchaseOrderStatus.Inactive, index)} >Mark Closed</Switch></HStack>;
+      }
+      
+      return po;
+    })
+    setPurchaseOrders(updatedPOList)
   }
 
 
