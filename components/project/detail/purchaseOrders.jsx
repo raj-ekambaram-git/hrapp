@@ -25,6 +25,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { projectService, userService } from "../../../services";
 import { ProjectConstants } from "../../../constants";
 import { CustomTable } from "../../customTable/Table";
+import AddEditPurchaseOrder from "./addEditPurchaseOrder";
 
 
 
@@ -43,7 +44,12 @@ const PurchaseOrders = (props) => {
       setSize(newSize)
       onOpen()  
     }
+  }
 
+  const handleNewPOSubmit = (newPO) => {
+    const newPOList = [...purchaseOrders]
+    newPOList.push(newPO);
+    setPurchaseOrders(newPOList)
   }
 
 
@@ -53,8 +59,8 @@ const PurchaseOrders = (props) => {
     <div>
           <Button size="xs"
               bgColor="header_actions"
-              onClick={() => handleClick("xl")}
-              key="xl"
+              onClick={() => handleClick("xxl")}
+              key="xxl"
               m={1}
               >{`Purchase Orders`}
           </Button>      
@@ -67,6 +73,7 @@ const PurchaseOrders = (props) => {
                             </DrawerHeader>
                             <DrawerBody>
                               <Stack divider={<StackDivider />} spacing='1'>
+                                <AddEditPurchaseOrder projectId={props.projectId} onClose={onClose} handleNewPOSubmit={handleNewPOSubmit}/>
                                 <CustomTable columns={PURCHASE_ORDERS_TABLE_COLUMNS} rows={purchaseOrders} />
                               </Stack>
                             </DrawerBody>

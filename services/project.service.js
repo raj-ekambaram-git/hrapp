@@ -26,7 +26,21 @@ export const projectService = {
     markProjectDelete,
     getSuppliers,
     getPurchaseOrders,
+    createPurchaseOrder,
 };
+
+function createPurchaseOrder(poRequest, accountId) {
+    return fetchWrapper.post(`${baseUrl}/account/project/`+poRequest.projectId+"/purchaseorder/create?accountId"+accountId, {
+        poRequest
+    })
+    .then(purchaseOrder => {
+        return purchaseOrder;
+    })  
+    .catch(err => {
+        console.log("Error purchaseOrder")
+        return {errorMessage: err, error: true};
+    });
+}
 
 function getPurchaseOrders(projectId, accountId) {
     return fetchWrapper.get(`${baseUrl}/account/project/`+projectId+'/purchaseorder?accountId='+accountId, {})
@@ -62,7 +76,7 @@ function markProjectDelete(projectId, accountId) {
           console.log("Error deletedProject")
           return {errorMessage: err, error: true};
       });
-  }
+}
 
 function updateMiscUsedBudget(projectId, usedMiscBudget) {
     return fetchWrapper.put(`${baseUrl}/account/project/${projectId}`, {

@@ -1,6 +1,7 @@
 import {
   Badge,
 } from '@chakra-ui/react'
+import { util } from '../helpers'
 
 export const ProjectConstants = {
 
@@ -22,6 +23,7 @@ export const ProjectConstants = {
     {
       label: "Created On",
       accessor: "createdDate",
+      format: (value) => (value ? util.getFormattedDateWithTime(value) : '✖️')
     },
   ],
   EXPENSE_LIST_TABLE_META: [
