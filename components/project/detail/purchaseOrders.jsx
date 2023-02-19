@@ -22,6 +22,9 @@ import {
   DeleteIcon
 } from '@chakra-ui/icons';
 import { useDispatch, useSelector } from "react-redux";
+import { projectService, userService } from "../../../services";
+import { ProjectConstants } from "../../../constants";
+import { CustomTable } from "../../customTable/Table";
 
 
 
@@ -30,10 +33,17 @@ const PurchaseOrders = (props) => {
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [size, setSize] = useState('');
+  const [purchaseOrders, setPurchaseOrders] = useState();
+  const PURCHASE_ORDERS_TABLE_COLUMNS = React.useMemo(() => ProjectConstants.PURCHASE_ORDER_TABLE_META)
 
-  const handleClick = (newSize) => {
-    setSize(newSize)
-    onOpen()
+  const handleClick = async (newSize) => {
+    if(props.projectId) {
+      const responseData = await projectService.getPurchaseOrders(props.projectId, userService.getAccountDetails().accountId);
+      setPurchaseOrders(responseData)
+      setSize(newSize)
+      onOpen()  
+    }
+
   }
 
 
@@ -43,8 +53,8 @@ const PurchaseOrders = (props) => {
     <div>
           <Button size="xs"
               bgColor="header_actions"
-              onClick={() => handleClick("xxl")}
-              key="xxl"
+              onClick={() => handleClick("xl")}
+              key="xl"
               m={1}
               >{`Purchase Orders`}
           </Button>      
@@ -57,37 +67,7 @@ const PurchaseOrders = (props) => {
                             </DrawerHeader>
                             <DrawerBody>
                               <Stack divider={<StackDivider />} spacing='1'>
-                                <Table variant="sortTable">
-                                    <Thead>
-                                      <Tr>
-                                        <Th>
-                                        </Th>
-                                        <Th>
-                                          ID
-                                        </Th>
-                                        <Th>
-                                          Name
-                                        </Th>
-                                        <Th>
-                                          Status
-                                        </Th>
-                                        <Th>
-                                          Category
-                                        </Th>
-                                        <Th>
-                                          Created On
-                                        </Th>
-                                        <Th>
-                                          Created By
-                                        </Th>
-                                        <Th>
-                                        </Th>
-                                      </Tr>
-                                    </Thead>
-                                    <Tbody>
-                                    </Tbody>                                    
-                                  </Table>
-
+                                <CustomTable columns={PURCHASE_ORDERS_TABLE_COLUMNS} rows={purchaseOrders} />
                               </Stack>
                             </DrawerBody>
                     </DrawerContent>                    

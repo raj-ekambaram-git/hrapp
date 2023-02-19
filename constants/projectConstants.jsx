@@ -4,6 +4,26 @@ import {
 
 export const ProjectConstants = {
 
+  PURCHASE_ORDER_TABLE_META: [
+    {
+      label: "PO#",
+      accessor: "number",
+    },
+    {
+      label: "Amount",
+      accessor: "amount"
+    },   
+    {
+      label: "Status",
+      accessor: "status",
+      format: (value) => (value ?<Badge color={`${(value !== "Active" )? "paid_status": "pending_status"}`}>{value}</Badge> : '✖️')
+      
+    },
+    {
+      label: "Created On",
+      accessor: "createdDate",
+    },
+  ],
   EXPENSE_LIST_TABLE_META: [
     {
       label: "",

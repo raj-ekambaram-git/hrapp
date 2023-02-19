@@ -41,7 +41,7 @@ const ProjectDetailActions = (props) => {
                   <ProjectExpenses data={{projectId: projectId, callType: PROJECT_CALL_TYPE}}/>
                 </Box>
                 <ManageDocuments/>        
-                <PurchaseOrders />      
+                <PurchaseOrders projectId={projectId}/>      
               </HStack>
         </Flex>           
     </div>
