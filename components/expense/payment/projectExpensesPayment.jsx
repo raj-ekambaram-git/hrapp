@@ -49,13 +49,13 @@ const ProjectExpensesPayment = (props) => {
                 <CardBody>
                   <Stack divider={<StackDivider />} spacing='1'>
                         <Accordion defaultIndex={[0]} variant="mainPage">
-                        {pendingExpensePaymentList?.map((expense) => (
+                        {pendingExpensePaymentList?.map((project) => (
                             <AccordionItem marginBottom="1rem" width="100%">
                                 <h2>
                                     <AccordionButton>
                                         <Box as="span" flex='1' textAlign='left'>
                                             <Heading size='xs'>
-                                                {expense.project.name} -- {expense.project.referenceCode}
+                                                {project.name} -- {project.referenceCode}
                                             </Heading>
                                         </Box>
                                         <AccordionIcon />
@@ -91,7 +91,7 @@ const ProjectExpensesPayment = (props) => {
                                                 </Tr>   
                                             </Thead>                
                                             <Tbody>
-                                                {expense.project.expense?.map((expenseEntry) => (
+                                                {project.expense?.map((expenseEntry) => (
                                                     <Tr>
                                                         {(expenseEntry.status == ExpenseConstants.EXPENSE_STATUS.Approved || expenseEntry.status == ExpenseConstants.EXPENSE_STATUS.Invoiced ||
                                                             expenseEntry.status == ExpenseConstants.EXPENSE_STATUS.PartiallyPaid) ? (

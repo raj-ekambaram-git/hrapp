@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import { ExpenseStatus } from "@prisma/client";
+import { ExpenseCategory, ExpenseStatus } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next"
 import prisma from "../../../../../../lib/prisma";
 
@@ -17,70 +17,116 @@ console.log("userId ID::"+userId+"---PAYMENT AccountioD::"+accountId)
   try {
     if(userId != "" && accountId != "" && accountId != "NaN" && accountId != undefined && userId != undefined && userId != "NaN") {
 
-      const projects = await prisma.projectResource.findMany({
+      const projects = await prisma.project.findMany({
+        where: {
+          accountId: parseInt(accountId.toString()),
+          expense: {
+            some: {
+              status: {
+                in: [ExpenseStatus.Approved, ExpenseStatus.PartiallyPaid, ExpenseStatus.Invoiced]
+              },              
+            }
+          }
+        },
         select: {
-          project: {
+          name: true,
+          referenceCode: true,
+          expense: {
+            where: {
+              status: {
+                not: ExpenseStatus.MarkForDelete
+              },
+              category: ExpenseCategory.General
+            },
             select: {
+              id: true,
               name: true,
-              referenceCode: true,
-              expense: {
-                where: {
-                  status: {
-                    not: ExpenseStatus.MarkForDelete
-                  }
-                },
+              status: true,
+              total: true,
+              paidAmount: true,
+              expenseEntries: true,
+              lastUpdateDate: true,
+              approvedDate: true,
+              user: {
                 select: {
-                  id: true,
-                  name: true,
-                  status: true,
-                  total: true,
-                  paidAmount: true,
-                  expenseEntries: true,
-                  lastUpdateDate: true,
-                  approvedDate: true,
-                  user: {
-                    select: {
-                      firstName: true,
-                      lastName: true
-                    }
-                  },
-                  approvedBy: {
-                    select: {
-                      firstName: true
-                    }
-                  }
+                  firstName: true,
+                  lastName: true
+                }
+              },
+              approvedBy: {
+                select: {
+                  firstName: true
                 }
               }
             }
           }
-        },
-        where: {
-            // userId: {
-            //   equals: parseInt(userId.toString())
-            // },
-            // isTimesheetApprover: {
-            //   equals: true
-            // },    
-            // billable: false,      
-            project: {              
-              expense: {
-                some: {
-                  status: {
-                    in: [ExpenseStatus.Approved, ExpenseStatus.PartiallyPaid, ExpenseStatus.Invoiced]
-                  },
-                },
-                
-              },
-              accountId: {
-                equals: parseInt(accountId.toString())
-              }
-            }
-            
-        },
-        orderBy: {
-          id: "desc"
         }
-      });
+      });  
+
+      // const projects = await prisma.projectResource.findMany({
+      //   select: {
+      //     project: {
+      //       select: {
+      //         name: true,
+      //         referenceCode: true,
+      //         expense: {
+      //           where: {
+      //             status: {
+      //               not: ExpenseStatus.MarkForDelete
+      //             }
+      //           },
+      //           select: {
+      //             id: true,
+      //             name: true,
+      //             status: true,
+      //             total: true,
+      //             paidAmount: true,
+      //             expenseEntries: true,
+      //             lastUpdateDate: true,
+      //             approvedDate: true,
+      //             user: {
+      //               select: {
+      //                 firstName: true,
+      //                 lastName: true
+      //               }
+      //             },
+      //             approvedBy: {
+      //               select: {
+      //                 firstName: true
+      //               }
+      //             }
+      //           }
+      //         }
+      //       }
+      //     }
+      //   },
+      //   where: {
+      //       // userId: {
+      //       //   equals: parseInt(userId.toString())
+      //       // },
+      //       // isTimesheetApprover: {
+      //       //   equals: true
+      //       // },    
+      //       // billable: false,      
+      //       project: {              
+      //         expense: {
+      //           some: {
+      //             status: {
+      //               in: [ExpenseStatus.Approved, ExpenseStatus.PartiallyPaid, ExpenseStatus.Invoiced]
+      //             },
+      //           },
+                
+      //         },
+      //         accountId: {
+      //           equals: parseInt(accountId.toString())
+      //         }
+      //       }
+            
+      //   },
+      //   orderBy: {
+      //     id: "desc"
+      //   }
+      // });
 
 
       res.status(200).json(projects);
