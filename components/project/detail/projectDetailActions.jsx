@@ -12,6 +12,7 @@ import { PROJECT_CALL_TYPE } from "../../../constants";
 import ManageDocuments from "../../document/manageDocuments";
 import ProjectExpenses from "./projectExpenses";
 import PurchaseOrders from "./purchaseOrders";
+import AddEditWorkFlow from "../../workFlow/addEditWorkFlow";
 
 
 const ProjectDetailActions = (props) => {
@@ -41,7 +42,11 @@ const ProjectDetailActions = (props) => {
                   <ProjectExpenses data={{projectId: projectId, callType: PROJECT_CALL_TYPE}}/>
                 </Box>
                 <ManageDocuments/>        
-                <PurchaseOrders projectId={projectId}/>      
+                <PurchaseOrders projectId={projectId}/>    
+                {props.workFlowEnabled?<>
+                  <AddEditWorkFlow isAddMode={false} type="Project" typeId={projectId}/>                       
+                </>:<></>}  
+                
               </HStack>
         </Flex>           
     </div>

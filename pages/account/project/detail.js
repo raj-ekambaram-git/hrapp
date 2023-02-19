@@ -98,7 +98,8 @@ const ProjectDetail = (props) => {
       status: responseData.status,
       contactName: responseData.contactName,
       contactEmail: responseData.contactEmail,
-      contactPhone: responseData.contactPhone
+      contactPhone: responseData.contactPhone,
+      workFlowEnabled: responseData.workFlowEnabled
    };
 
     const projectLocation =  {
@@ -143,7 +144,7 @@ const ProjectDetail = (props) => {
         <>
 
           <PageMainHeader heading="Project Details for" param1={project.name} notesData={notesData}/>       
-          <ProjectDetailActions/>
+          <ProjectDetailActions workFlowEnabled={project.workFlowEnabled}/>
           <Flex>
               <Stack width="page.sub_heading_width">
                 <Accordion defaultIndex={[0]} variant="mainPage">
