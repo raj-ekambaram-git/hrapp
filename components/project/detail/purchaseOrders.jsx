@@ -61,7 +61,6 @@ const PurchaseOrders = (props) => {
       status: status
     }
     const responseData = await projectService.updatePOStatus(purchaseOrderId, poRequest, userService.getAccountDetails().accountId)
-    console.log("responseData:::"+JSON.stringify(responseData))
     const newPOList = [...purchaseOrders]
     newPOList[index] = responseData;
     handlePurchaseOrderTableDisplay(newPOList)
