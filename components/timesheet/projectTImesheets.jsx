@@ -46,13 +46,13 @@ const ProjectTimesheets = (props) => {
                     <CardBody>
                     <Stack divider={<StackDivider />} spacing='1'>
                             <Accordion defaultIndex={[0]} variant="mainPage">
-                            {approvalList?.map((timesheet) => (
+                            {approvalList?.map((project) => (
                                 <AccordionItem marginBottom="1rem"  width="100%">
                                     <h2>
                                         <AccordionButton>
                                             <Box as="span" flex='1' textAlign='left'>
                                                 <Heading size='xs'>
-                                                    {timesheet.project.name} -- {timesheet.project.referenceCode} -- {timesheet.billable?"Billable":"Non-Billable"} 
+                                                    {project.name} -- {project.referenceCode} 
                                                 </Heading>
                                             </Box>
                                             <AccordionIcon />
@@ -82,7 +82,7 @@ const ProjectTimesheets = (props) => {
                                                     </Tr>   
                                                 </Thead>                
                                                 <Tbody>
-                                                    {timesheet.project.timesheetEntries?.map((timesheetEntry) => (
+                                                    {project.timesheetEntries?.map((timesheetEntry) => (
                                                         <Tr>
                                                             {timesheetEntry.status == TIMESHEET_STATUS.Submitted ? (
                                                                 <>
@@ -93,7 +93,10 @@ const ProjectTimesheets = (props) => {
                                                                         {timesheetEntry.timesheet.name}
                                                                     </Th>
                                                                     <Th>
-                                                                        {timesheetEntry.billable?"Yes":"No"}
+                                                                        <Badge color={timesheetEntry.billable?"paid_status":"pending_status"}>
+                                                                            {timesheetEntry.billable?"Yes":"No"}
+                                                                        </Badge>
+                                                                        
                                                                     </Th>
                                                                     <Th>
                                                                         <TimesheetEntryDetail tsEntryDetail={timesheetEntry}/>

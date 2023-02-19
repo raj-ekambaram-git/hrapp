@@ -16,62 +16,105 @@ console.log("userId ID::"+userId+"---AccountioD::"+accountId)
   
   try {
     if(userId != "" && accountId != "" && accountId != "NaN" && accountId != undefined && userId != undefined && userId != "NaN") {
-      const projects = await prisma.projectResource.findMany({
-        select: {
-          billable: true,
-          project: {
+      const projects = await prisma.project.findMany({
+        where: {
+          projectResource: {
+            some: {
+              userId: parseInt(userId.toString()),
+              isTimesheetApprover: true
+            }
+          },
+          timesheetEntries: {
+            some: {
+              status: TimesheetStatus.Submitted
+            }
+          }
+        },
+        include: {
+          timesheetEntries: {
+            where: {
+              status: TimesheetStatus.Submitted
+            },
             select: {
-              name: true,
-              referenceCode: true,
-              timesheetEntries: {
-                where: {
-                  status: {
-                    not: TimesheetStatus.MarkForDelete
-                  }
-                },
+              id: true,
+              status: true,
+              entries: true,
+              lastUpdateDate: true,
+              billable: true,
+              timesheet: {
                 select: {
-                  id: true,
-                  status: true,
-                  entries: true,
-                  lastUpdateDate: true,
-                  billable: true,
-                  timesheet: {
+                  name: true,
+                  userId: true,
+                  user: {
                     select: {
-                      name: true,
-                      userId: true,
-                      user: {
-                        select: {
-                          firstName: true,
-                          lastName: true
-                        }
-                      }
+                      firstName: true,
+                      lastName: true
                     }
                   }
                 }
               }
             }
           }
-        },
-        where: {
-            userId: {
-              equals: parseInt(userId.toString())
-            },
-            isTimesheetApprover: {
-              equals: true
-            },
-            project: {
-              timesheetEntries: {
-                some: {
-                  status: "Submitted"
-                }
-              }
-            }
-            
-        },
-        orderBy: {
-          id: "desc"
         }
+
       });
+      // console.log("projects1::::"+JSON.stringify(projects1))
+      // const projects = await prisma.projectResource.findMany({
+      //   select: {
+      //     billable: true,
+      //     project: {
+      //       select: {
+      //         name: true,
+      //         referenceCode: true,
+      //         timesheetEntries: {
+      //           where: {
+      //             status: {
+      //               not: TimesheetStatus.MarkForDelete
+      //             }
+      //           },
+      //           select: {
+      //             id: true,
+      //             status: true,
+      //             entries: true,
+      //             lastUpdateDate: true,
+      //             billable: true,
+      //             timesheet: {
+      //               select: {
+      //                 name: true,
+      //                 userId: true,
+      //                 user: {
+      //                   select: {
+      //                     firstName: true,
+      //                     lastName: true
+      //                   }
+      //                 }
+      //               }
+      //             }
+      //           }
+      //         }
+      //       }
+      //     }
+      //   },
+      //   where: {
+      //       userId: {
+      //         equals: parseInt(userId.toString())
+      //       },
+      //       isTimesheetApprover: {
+      //         equals: true
+      //       },
+      //       project: {
+      //         timesheetEntries: {
+      //           some: {
+      //             status: "Submitted"
+      //           }
+      //         }
+      //       }
+            
+      //   },
+      //   orderBy: {
+      //     id: "desc"
+      //   }
+      // });
 
       res.status(200).json(projects);
     } else if (accountId != "" && accountId != undefined && userId == "NaN"){
