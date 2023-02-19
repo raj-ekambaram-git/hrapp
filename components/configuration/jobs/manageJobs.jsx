@@ -37,18 +37,18 @@ const ManageJobs = (props) => {
   const getJobsByAccount = async() => {
     const responseData = await schedulerService.getScheduleJobs(userService.getAccountDetails().accountId);
     if(responseData) {
-      updateJobsForDisplay(responseData)   
+      updateJobsForDisplay(responseData.data)   
     }    
   }
 
 
   function updateJobsForDisplay(responseData) {
     const updatedList =  responseData.map((task, index)=> {      
-      task.updatedBy = task.updatedUser.firstName+" "+task.updatedUser.lastName;
-      task.toggleStatus = <Switch colorScheme='teal' size='sm' isChecked={task.status === WorkFlowTaskStatus.Active?true:false} onChange={() => handleStatusUpdate(task.status, task.id, index)}/>   
+      // task.updatedBy = task.updatedUser.firstName+" "+task.updatedUser.lastName;
+      // task.toggleStatus = <Switch colorScheme='teal' size='sm' isChecked={task.status === WorkFlowTaskStatus.Active?true:false} onChange={() => handleStatusUpdate(task.status, task.id, index)}/>   
       return task;
     });
-    setTasks(updatedList);
+    setJobs(updatedList);
   }
 
   const addNewTask = (newJob) => {
