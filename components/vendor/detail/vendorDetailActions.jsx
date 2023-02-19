@@ -11,6 +11,7 @@ import { VendorType } from "@prisma/client";
 import { userService } from "../../../services";
 import { ConfigConstants } from "../../../constants";
 import AddEditVedorPaymentAccount from "../../configuration/payment/addEditVedorPaymentAccount";
+import AddEditWorkFlow from "../../workFlow/addEditWorkFlow";
 
 
 
@@ -62,6 +63,9 @@ const VendorDetailActions = (props) => {
                       <AddEditVedorPaymentAccount vendorId={props.data?.vendor?.id}/>
                     </Box>           
                   </>:<></>}  
+                  {props.data?.vendor?.workFlowEnabled?<>
+                    <AddEditWorkFlow isAddMode={false} type="Vendor" typeId={props.data?.vendor?.id}/>                       
+                  </>:<></>}
                 </HStack>
             </Flex>          
     </div>
