@@ -11,6 +11,7 @@ import ProjectTimesheets from '../../../components/project/detail/projectTimeshe
 import { PROJECT_CALL_TYPE } from "../../../constants";
 import ManageDocuments from "../../document/manageDocuments";
 import ProjectExpenses from "./projectExpenses";
+import PurchaseOrders from "./purchaseOrders";
 
 
 const ProjectDetailActions = (props) => {
@@ -39,7 +40,8 @@ const ProjectDetailActions = (props) => {
                 <Box>
                   <ProjectExpenses data={{projectId: projectId, callType: PROJECT_CALL_TYPE}}/>
                 </Box>
-                <ManageDocuments/>                 
+                <ManageDocuments/>        
+                <PurchaseOrders />      
               </HStack>
         </Flex>           
     </div>

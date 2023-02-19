@@ -229,6 +229,7 @@ model Project {
   parent                    ProjectRelation[]  @relation("ParentProject")
   projectResource           ProjectResource[]
   timesheetEntries          TimesheetEntries[]
+  purchaseOrder             PurchaseOrder[]
 
   @@index([accountId, status])
 }
@@ -673,6 +674,17 @@ model PaymentMethod {
   updatedUser        User?               @relation(fields: [updatedBy], references: [id])
   createdDate        DateTime            @default(now())
   lastUpdateDate     DateTime            @default(now()) @updatedAt
+}
+
+model PurchaseOrder {
+  id             Int                 @id @default(autoincrement())
+  project        Project             @relation(fields: [projectId], references: [id])
+  projectId      Int                 @default(0)
+  number         String
+  status         PurchaseOrderStatus
+  amount         Decimal
+  createdDate    DateTime            @default(now())
+  lastUpdateDate DateTime            @default(now()) @updatedAt
 }
 
 model qrtz_blob_triggers {
@@ -1243,6 +1255,12 @@ enum PaymentMethodType {
 }
 
 enum PaymentMethodStatus {
+  Active
+  Inactive
+}
+
+enum PurchaseOrderStatus {
+  Created
   Active
   Inactive
 }
