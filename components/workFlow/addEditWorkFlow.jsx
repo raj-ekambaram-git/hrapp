@@ -337,7 +337,9 @@ const AddEditWorkFlow = (props) => {
                                                     {steps?.map((step, index) => 
                                                         <>
                                                         <HStack marginBottom={1} spacing={3}>
-                                                            <Button bgColor="header_actions" fontWeight="600" fontSize="15">
+                                                            <Button bgColor= {step.status === WorkFlowStepStatus.Complete?"header_actions":
+                                                                              step.status === WorkFlowStepStatus.InProgress?"header_actions":
+                                                                              step.status === WorkFlowStepStatus.Pending?"table_tile": "header_actions"} fontWeight="600" fontSize="15">
                                                                 {index+1}
                                                             </Button>
                                                             <Select id="stepTask" width="22%" value={step.taskId} onChange={(ev) => handleStepEntry("taskId",ev, index)}>
