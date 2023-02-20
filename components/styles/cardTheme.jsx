@@ -264,7 +264,7 @@ const userSettingPaymentCard = definePartsStyle({
   
 const projectProgress = definePartsStyle({
   container: {
-    width: "50%",
+    width: "47%",
     border: "1px",
     borderRadius: "5px",    
   },
