@@ -42,7 +42,7 @@ const ProjectAddEditSection = (props) => {
                     <DrawerContent>
                         <DrawerCloseButton />
                             <DrawerHeader>
-                                Create a Project for vendor
+                                Create a Project for client
                             </DrawerHeader>
                             <DrawerBody>
                               <Stack divider={<StackDivider />} spacing='1'>

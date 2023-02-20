@@ -45,7 +45,7 @@ export const UserConstants = {
           accessor: "accountName"
         },
         {
-          label: "Vendor",
+          label: "Client",
           accessor: 'vendorName'
         },
         {
@@ -92,7 +92,7 @@ export const UserConstants = {
           accessor: "accountName"
         },
         {
-          label: "Vendor",
+          label: "Client",
           accessor: 'vendorName'
         },
         {

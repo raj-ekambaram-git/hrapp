@@ -20,7 +20,6 @@ import {
 
 const VendorAccountContactDetailSection = (props) => {
     const vendor = props.data.vendor;
-    console.log("vendor::"+JSON.stringify(vendor))
 
   return (
 

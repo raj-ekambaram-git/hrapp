@@ -19,7 +19,6 @@ import {
 
 const VendorContactDetailSection = (props) => {
     const vendor = props.data.vendor;
-    console.log("vendor::"+JSON.stringify(vendor))
 
   return (
 
@@ -29,7 +28,7 @@ const VendorContactDetailSection = (props) => {
             <h2>
                 <AccordionButton>
                 <Box as="span" flex='1' textAlign='left'>
-                    Vendor Contact
+                     Contact
                 </Box>
                 <AccordionIcon />
                 </AccordionButton>
@@ -42,7 +41,7 @@ const VendorContactDetailSection = (props) => {
                         <Tbody>
                         <Tr >
                             <Th bgColor="table_tile" width="project.details.column1">
-                                Vendor Contact Email
+                                 Contact Email
                             </Th>
                             <Th>
                                 <Text pt='table_display_value' fontSize='table_display_value'>
@@ -52,7 +51,7 @@ const VendorContactDetailSection = (props) => {
                         </Tr>
                         <Tr >
                             <Th bgColor="table_tile">
-                                Vendor Contact Phone
+                                 Contact Phone
                             </Th>
                             <Th>
                                 <Text pt='table_display_value' fontSize='table_display_value'>

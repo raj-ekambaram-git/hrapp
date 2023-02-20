@@ -183,7 +183,7 @@ export default function RevenueByVendors(props) {
       <AccordionItem>
           <AccordionButton>
               <Box as="span" flex='1' textAlign='left'>
-                      By Vendors
+                      By Clients
               </Box>
               <AccordionIcon />
           </AccordionButton>

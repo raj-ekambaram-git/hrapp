@@ -151,7 +151,7 @@ export const InvoiceConstants = {
       accessor: "type"
     },    
     {
-      label: "Vendor",
+      label: "Client",
       accessor: "vendorName"
     },
     {

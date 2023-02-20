@@ -66,7 +66,7 @@ export default function Dashboard(props) {
       <Tabs isFitted variant='reports' size="sm" defaultIndex={selectedTabIndex}>
         <TabList mb='1em'>
           <Tab onClick={() => handleReportSelection("account")}>Account</Tab>
-          <Tab onClick={() => handleReportSelection("vendor")}>Vendor</Tab>
+          <Tab onClick={() => handleReportSelection("vendor")}>Client</Tab>
           <Tab onClick={() => handleReportSelection("project")}>Project</Tab>
         </TabList>
         <TabPanels>

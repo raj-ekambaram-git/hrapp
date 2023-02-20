@@ -160,7 +160,6 @@ const InvoiceAddEdit = (props) => {
         
         const invoiceResponse = await accountService.getInvoiceDetail(props.data.invoiceId, userService.getAccountDetails().accountId);
 
-        console.log("invoiceResponse:::"+JSON.stringify(invoiceResponse));
         setStatus(invoiceResponse.status);
         setInvoiceType(invoiceResponse.type);
         setProjectId(invoiceResponse.projectId);
@@ -181,22 +180,17 @@ const InvoiceAddEdit = (props) => {
           dispatch(setInvoiceItemList(invoiceResponse.invoiceItems));
         }
 
-        console.log("invoiceResponse.invoiceItemList::::"+JSON.stringify(invoiceResponse.invoiceItems))
         const expenseIds =  [...invoiceResponse.invoiceItems].map((invoice)=> {
           if(invoice.type ==InvoiceType.Expense) {
             return parseInt(invoice?.expense?.id)
           }
         });
-        console.log("expenseIds::::"+expenseIds)
         const timesheetEntryIds =  [...invoiceResponse.invoiceItems].map((invoice)=> {
           if(invoice.type ==InvoiceType.Timesheet) {
             return parseInt(invoice.timesheetEntry?.id)
           }
         });
 
-        console.log("timesheetEntryIds::::"+timesheetEntryIds)
-
-        console.log("expenseIds::"+expenseIds+"****TSE::"+timesheetEntryIds)
         // const expenseIds = invoiceResponse.invoiceItems.filter((invoice) => (invoice.type ==InvoiceType.Expense));
         // const timesheetEntryIds = invoiceResponse.invoiceItems.filter((invoice) => (invoice.type ==InvoiceType.timesheetEntry));
         dispatch(setSelectedInvoiceTSEId(timesheetEntryIds));
@@ -228,15 +222,12 @@ const InvoiceAddEdit = (props) => {
     
     const projectListResponse = await accountService.getProjectsByVendor(selectedVendorObj.target.value, userService.getAccountDetails().accountId);
 
-    console.log("projectListResponse::"+JSON.stringify(projectListResponse))
-    
     setProjectList(projectListResponse);
     setProjectId(EMPTY_STRING);
 
   } 
 
   function handleInvoiceType(invoiceTypeValue) {
-    console.log("handleInvoiceType:::"+invoiceTypeValue);
     setInvoiceType(invoiceTypeValue)
     setValue("total",0)
     dispatch(setInvoiceTotal(0));
@@ -618,10 +609,10 @@ const InvoiceAddEdit = (props) => {
                         <>
                           <Box>
                             <FormControl isRequired>
-                              <FormLabel>Vendor</FormLabel>
+                              <FormLabel>Client</FormLabel>
                               {isAddMode ? (
                                 <Select width="100%" id="vendorId" {...register('vendorId')} onChange={(ev) => refreshProjectForVendor(ev)}>
-                                    <option value="">Select an Vendor</option>
+                                    <option value="">Select Client</option>
                                     {vendorList?.map((vendor) => (
                                       vendor.type != VendorType.Supplier?<>
                                         <option value={vendor.id} data-email={vendor.email}>{vendor.name}</option>

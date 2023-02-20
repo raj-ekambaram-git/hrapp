@@ -10,7 +10,7 @@ export const WorkFlowConstants = {
     WORKFLOW_TYPE_LOOKIUP: [
       {
         key: "Vendor",
-        displayName: "Vendor"
+        displayName: "Client"
       },
       {
         key: "Invoice",
@@ -48,7 +48,8 @@ export const WorkFlowConstants = {
     TASK_LIST_TABLE_META: [
         {
           label: "Type",
-          accessor: "type"
+          accessor: "type",
+          format: (value) => (value==="Vendor" ? "Client" : value)
         },    
         {
           label: "Name",

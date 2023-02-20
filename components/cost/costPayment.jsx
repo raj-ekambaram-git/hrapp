@@ -289,9 +289,9 @@ const CostPayment = (props) => {
                                 {isAddMode?<>
                                   <HStack spacing={1}>
                                     <FormControl isRequired>
-                                        <FormLabel>Vendor</FormLabel>
+                                        <FormLabel>Client</FormLabel>
                                         <Select width="70%" onChange={(ev) => handleVendorSelection(ev.target.value)} value={costVendorId}>
-                                            <option value="">Select an Vendor</option>
+                                            <option value="">Select Client</option>
                                             {accountVendorList?.map((vendor) => (
                                               vendor.type != VendorType.Supplier?<>
                                                 <option value={vendor.id}>{vendor.name}</option>
@@ -313,7 +313,7 @@ const CostPayment = (props) => {
                                       <Stack spacing={2} marginBottom={6} fontSize="15px">
                                           <HStack marginBottom={3}>
                                               <Box textAlign="right">
-                                                  Vendor:
+                                                  Client:
                                               </Box>
                                               <Box textAlign="left" fontWeight="600">
                                                   {costVendorName}

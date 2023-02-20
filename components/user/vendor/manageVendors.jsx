@@ -127,7 +127,7 @@ const ManageVendors = (props) => {
               onClick={() => handleManageVendors("lg")}
               key="lg"
               m={1}
-              >{`Add/Remove Vendor`}
+              >{`Add/Remove CLient`}
           </Button>
 
           <Drawer onClose={onClose} isOpen={isOpen} size={size}>
@@ -135,7 +135,7 @@ const ManageVendors = (props) => {
                     <DrawerContent>
                         <DrawerCloseButton />
                         <DrawerHeader>
-                            Manage Vendors for user {data.userFirstName} {data.userLastName}
+                            Manage Clients for user {data.userFirstName} {data.userLastName}
                         </DrawerHeader>
                         <DrawerBody>
                           <Stack spacing={8}>
@@ -147,7 +147,7 @@ const ManageVendors = (props) => {
                                       <Th>
                                       </Th>
                                       <Th>
-                                        Vendor
+                                        Clients
                                       </Th>                                      
                                     </Tr>
                                   </Thead>
@@ -171,9 +171,9 @@ const ManageVendors = (props) => {
                                 <ShowInlineErrorMessage showErrorMessage={showErrorMessage}/>
                             </Box>                          
                             <FormControl isRequired>
-                              <FormLabel>Vendor</FormLabel>
+                              <FormLabel>Client</FormLabel>
                               <Select width="50%" onChange={(ev) => setUserVendorId(ev.target.value)}>
-                                  <option value="">Select an Vendor</option>
+                                  <option value="">Select Client</option>
                                   {vendorListNew?.map((vendor) => (
                                     <option value={vendor.id}>{vendor.name}</option>
                                   ))}
@@ -181,7 +181,7 @@ const ManageVendors = (props) => {
                             </FormControl>     
                             </Box> 
                             <Button onClick={() => handleAddVendorToUser()} size="sm" width="30%" bgColor="button.primary.color">
-                              Add Vendor
+                              Add Client
                             </Button>                            
                           </Stack>
                         </DrawerBody>

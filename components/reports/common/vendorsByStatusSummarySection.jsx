@@ -25,7 +25,7 @@ export default function VendorsByStatusSummarySection(props) {
           <Table variant="reportTableList" colorScheme="teal">
             <Thead position="sticky" top={0}>
               <Tr>
-                <Th colSpan={3} textAlign="center"><Tooltip label="Click on a vendor for detailed reports">Vendors</Tooltip></Th>
+                <Th colSpan={3} textAlign="center"><Tooltip label="Click on a client for detailed reports">Clients</Tooltip></Th>
               </Tr>
             </Thead>
             <Tbody>

@@ -77,7 +77,6 @@ const VendorEdit = (props) => {
 
 
   const handlePhoneInput = (e, fieldName) => {
-    console.log("fieldName::"+fieldName)
     // this is where we'll call the phoneNumberFormatter function
     const formattedPhoneNumber = util.formatPhoneNumber(e);
     // we'll set the input value using our setInputValue
@@ -173,8 +172,8 @@ const VendorEdit = (props) => {
             formData.workFlowEnabled = true;
           } else {
             toast({
-              title: 'Add Vendor Error.',
-              description: 'Workflow Enabled, please make sure you configure workflow for this vendor.',
+              title: 'Add Client Error.',
+              description: 'Workflow Enabled, please make sure you configure workflow for this client.',
               status: 'error',
               position: 'top',
               duration: 9000,
@@ -186,8 +185,8 @@ const VendorEdit = (props) => {
         const responseData = await vendorService.createVendor(formData, workFlow);
         if(responseData.error) {
           toast({
-            title: 'Add Vendor Error.',
-            description: 'Error creating a new vendor. Details:'+responseData.errorMessage,
+            title: 'Add Client Error.',
+            description: 'Error creating a new client. Details:'+responseData.errorMessage,
             status: 'error',
             position: 'top',
             duration: 9000,
@@ -196,8 +195,8 @@ const VendorEdit = (props) => {
           return;
         }else {
           toast({
-            title: 'Add new vendor',
-            description: 'Successfullt added new vendor.',
+            title: 'Add new client',
+            description: 'Successfullt added new client.',
             status: 'success',
             position: 'top',
             duration: 3000,
@@ -207,8 +206,8 @@ const VendorEdit = (props) => {
         }
     } catch (error) {
       toast({
-        title: 'Add Vendor Error.',
-        description: 'Please add all the required fields to add a vendor. Details:'+error,
+        title: 'Add Client Error.',
+        description: 'Please add all the required fields to add a client. Details:'+error,
         status: 'error',
         position: 'top',
         duration: 9000,
@@ -222,13 +221,12 @@ const VendorEdit = (props) => {
 
   // update invoice in database
   const updateVendor = async (vendorId, formData) => {
-    console.log("JSON Data::"+JSON.stringify(formData))
     try {
       const responseData = await vendorService.updateVendor(formData, vendorId, vendor.addressId)
       if(responseData.error) {
         toast({
-          title: 'Update Vendor Error.',
-          description: 'Error updating the vendor.',
+          title: 'Update Client Error.',
+          description: 'Error updating the client.',
           status: 'error',
           position: 'top',
           duration: 3000,
@@ -237,8 +235,8 @@ const VendorEdit = (props) => {
         return;
       } else {
         toast({
-          title: 'Vendor Updated.',
-          description: 'Successfully updated the vendor.',
+          title: 'Client Updated.',
+          description: 'Successfully updated the client.',
           status: 'success',
           position: 'top',
           duration: 9000,
@@ -250,8 +248,8 @@ const VendorEdit = (props) => {
     } catch (error) {
       console.log(error)
       toast({
-        title: 'Update Vendor Error.',
-        description: 'Error updating the vendor.',
+        title: 'Update Client Error.',
+        description: 'Error updating the client.',
         status: 'error',
         position: 'top',
         duration: 3000,
@@ -271,29 +269,29 @@ const VendorEdit = (props) => {
         <div> 
           
           {isAddMode ? (
-              <PageMainHeader heading="New Vendor"/>
+              <PageMainHeader heading="New Client"/>
           ) : (
-              <PageMainHeader heading="Update Vendor"/>
+              <PageMainHeader heading="Update Client"/>
           )}     
           <Box width="page.sub_heading_width">
           <form onSubmit={handleSubmit(onSubmit)}>
             <Stack spacing={4}>
               <Card>
                 <CardHeader>
-                  <Heading size='xs'>Vendor Details</Heading>
+                  <Heading size='xs'> Details</Heading>
                 </CardHeader>
 
                 <CardBody>
                   <Stack divider={<StackDivider />} spacing='4'>
                       <Box>
                         <FormControl isRequired>
-                          <FormLabel>Vendor Name</FormLabel>
+                          <FormLabel> Name</FormLabel>
                           <Input type="text" {...register('name')}  id="name"  maxWidth="page.single_input"/>
                         </FormControl>     
                       </Box>
                       <Box>
                         <FormControl isRequired>
-                            <FormLabel>Vendor Descirption</FormLabel>
+                            <FormLabel> Descirption</FormLabel>
                             <Input type="text" id="description" {...register('description')}  maxWidth="page.single_input"/>
                         </FormControl>    
                       </Box>  
@@ -320,7 +318,7 @@ const VendorEdit = (props) => {
                         </>:<></>}                        
                         <Box>
                           <FormControl isRequired>
-                            <FormLabel>Vendor Status</FormLabel>
+                            <FormLabel> Status</FormLabel>
                             
                             <Select width="100%" id="status" {...register('status')} size="sm">
                               {(enableWorkFlow)?<>
@@ -343,7 +341,7 @@ const VendorEdit = (props) => {
                         </Box>  
                         <Box>
                           <FormControl isRequired>
-                            <FormLabel>Vendor Type</FormLabel>
+                            <FormLabel> Type</FormLabel>
                             <Select width="100%" id="type" {...register('type')}  size="sm">
                               <option value="Staffing">Staffing</option>
                               <option value="Product">Product</option>
@@ -364,14 +362,14 @@ const VendorEdit = (props) => {
               </Card>              
               <Card>
                 <CardHeader bgColor="table_tile">
-                  <Heading size='xs'>Vendor Contact</Heading>
+                  <Heading size='xs'> Contact</Heading>
                 </CardHeader>
 
                 <CardBody>
                   <Stack maxWidth="page.single_input" spacing="1rem">
                     <HStack>
                         <FormControl isRequired>
-                          <FormLabel>Vendor Email</FormLabel>
+                          <FormLabel> Email</FormLabel>
                           <Input type="email" id="email"   {...register('email')}  />
                         </FormControl>     
                         <FormControl isRequired>
@@ -384,7 +382,7 @@ const VendorEdit = (props) => {
                 </Card>
                 <Card>
                   <CardHeader>
-                    <Heading size='xs'>Vendor Addreses</Heading>
+                    <Heading size='xs'> Addreses</Heading>
                   </CardHeader>
 
                   <CardBody>

@@ -180,7 +180,7 @@ export const ProjectConstants = {
       accessor: "accountName",
     },
     {
-      label: "Vendor",
+      label: "Client",
       accessor: "vendorName"
     },
     {

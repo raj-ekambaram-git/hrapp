@@ -425,7 +425,7 @@ const ProjectAddEdit = (props) => {
               </Card>              
               <Card>
                 <CardHeader>
-                  <Heading size='xs'>Projet Account/Vendor</Heading>
+                  <Heading size='xs'>Projet Account and Client Details</Heading>
                 </CardHeader>
 
                 <CardBody>
@@ -450,9 +450,9 @@ const ProjectAddEdit = (props) => {
                         <>
                           <Box>
                             <FormControl isRequired>
-                              <FormLabel>Vendor</FormLabel>
+                              <FormLabel>Client</FormLabel>
                               <Select width="100%" id="vendorId" {...register('vendorId')} onChange={(ev) => refreshAddressForVendor(ev.target.value)}>
-                                  <option value="">Select an Vendor</option>
+                                  <option value="">Select Client</option>
                                   {vendorList?.map((vendor) => (
                                     vendor.type != VendorType.Supplier?<>
                                       <option value={vendor.id}>{vendor.name}</option>
@@ -570,7 +570,7 @@ const ProjectAddEdit = (props) => {
               <Flex marginBottom={4}>
                 <HStack>
                   <Box>
-                  <Button size="xs" bgColor="header_actions" onClick={() => props.data.onClose()}>
+                  <Button size="xs" colorScheme="yellow"  onClick={() => router.back()}>
                       Cancel
                     </Button>
                   </Box>

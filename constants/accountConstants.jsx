@@ -407,7 +407,7 @@ export const AccountConstants = {
       accessor: "projectName"
     },    
     {
-      label: "Vendor",
+      label: "Client",
       accessor: "vendorName"
     },        
     {

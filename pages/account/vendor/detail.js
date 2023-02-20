@@ -187,7 +187,7 @@ const VendorDetail = (props) => {
                  </Accordion>                
                 <Box>
                   <Heading size='xs' textTramarginBottom="1rem">
-                    Vendor Status
+                     Status
                   </Heading>
                   <Badge color={`${
                         vendor.status === "Active"

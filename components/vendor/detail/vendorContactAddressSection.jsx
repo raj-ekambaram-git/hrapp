@@ -20,7 +20,6 @@ import {
 
 const VendorContactAddressSection = (props) => {
     const vendorAddress = props.data.vendorAddress;
-    console.log("vendor::"+JSON.stringify(vendorAddress))
 
   return (
 
@@ -29,7 +28,7 @@ const VendorContactAddressSection = (props) => {
             <h2>
                 <AccordionButton>
                 <Box as="span" flex='1' textAlign='left'>
-                        Vendor Contact Address
+                        Contact Address
                 </Box>
                 <AccordionIcon />
                 </AccordionButton>

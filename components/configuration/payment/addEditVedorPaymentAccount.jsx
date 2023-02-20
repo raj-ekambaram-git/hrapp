@@ -60,8 +60,8 @@ const AddEditVedorPaymentAccount = (props) => {
         setLoading(false)
         if(responseData && responseData.error) {
             toast({
-                title: 'Vendor Payment Account.',
-                description: 'Error getting payment data for this vendor.',
+                title: 'Client Payment Account.',
+                description: 'Error getting payment data for this client.',
                 status: 'error',
                 position: 'top',
                 duration: 9000,
@@ -88,8 +88,8 @@ const AddEditVedorPaymentAccount = (props) => {
             setLoading(false)
             if(responseData.error) {
                 toast({
-                    title: 'Add Vendor Payment Account.',
-                    description: 'Error adding new payment account for this vendor, please try again later or contact administrator.',
+                    title: 'Add Client Payment Account.',
+                    description: 'Error adding new payment account for this client, please try again later or contact administrator.',
                     status: 'error',
                     position: 'top',
                     duration: 9000,
@@ -99,8 +99,8 @@ const AddEditVedorPaymentAccount = (props) => {
             } else {
 
                 toast({
-                    title: 'Add Vendor Payment Account.',
-                    description: 'Successfully added new payment account for this vendor.',
+                    title: 'Add Client Payment Account.',
+                    description: 'Successfully added new payment account for this client.',
                     status: 'success',
                     position: 'top',
                     duration: 3000,
@@ -110,7 +110,7 @@ const AddEditVedorPaymentAccount = (props) => {
             }
         } else {
             toast({
-                title: 'Add Vendor Payment Account.',
+                title: 'Add Client Payment Account.',
                 description: 'All the fields are required, please enter and try again.',
                 status: 'error',
                 position: 'top',
@@ -139,7 +139,7 @@ const AddEditVedorPaymentAccount = (props) => {
                     <DrawerContent>
                         <DrawerCloseButton />
                         <DrawerHeader>
-                            Add Vendor Payment
+                            Add Client Payment
                         </DrawerHeader>
                         <DrawerBody>
                         {isPageAuthorized?<>

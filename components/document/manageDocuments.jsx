@@ -96,7 +96,7 @@ const ManageDocuments = (props) => {
                     <DrawerContent>
                         <DrawerCloseButton />
                             <DrawerHeader>
-                                {documentType.type} Documents
+                                {documentType.type==="Vendor"?"Client":documentType.type} Documents
                             </DrawerHeader>
                             <DrawerBody>
                               <Stack divider={<StackDivider />} spacing='1'>

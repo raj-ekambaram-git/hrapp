@@ -45,8 +45,6 @@ const VendorUserAddSection = (props) => {
   const [showErrorMessage, setShowErrorMessage] = useState(EMPTY_STRING);
   const {data} = props;
 
-  console.log("VendorUserAddSection::"+JSON.stringify(data));
-
   const vendorUsers = useSelector(state => state.vendor.vendorUsers);
   const userListNew = useSelector(state => state.account.accountUsers);
 
@@ -69,8 +67,8 @@ const VendorUserAddSection = (props) => {
     const responseData = await userService.removeUserVendor(userVendorRequest,);
     if(responseData != undefined && responseData!= EMPTY_STRING && responseData.error) {
       toast({
-        title: 'Remove User from vendor.',
-        description: 'Error removing user to vendor. Details::'+responseData.errorMessage,
+        title: 'Remove User from client.',
+        description: 'Error removing user to client. Details::'+responseData.errorMessage,
         status: 'error',
         position: 'top',
         duration: 9000,
@@ -79,8 +77,8 @@ const VendorUserAddSection = (props) => {
     }else {
       dispatch(removeUserFromVendorByIndex(removedIndex));
       toast({
-        title: 'Remvoe User from vendor.',
-        description: 'Successfully removed user from vendor.',
+        title: 'Remvoe User from client.',
+        description: 'Successfully removed user from client.',
         status: 'success',
         position: 'top',
         duration: 3000,
@@ -99,8 +97,8 @@ const VendorUserAddSection = (props) => {
       const responseData = await userService.addUserVendor(userVendorRequest, userService.getAccountDetails().accountId);
       if(responseData != undefined && responseData!= EMPTY_STRING && responseData.error) {
         toast({
-          title: 'Add User to vendor.',
-          description: 'Error adding user to vendor. Details::'+responseData.errorMessage,
+          title: 'Add User to client.',
+          description: 'Error adding user to client. Details::'+responseData.errorMessage,
           status: 'error',
           position: 'top',
           duration: 9000,
@@ -109,8 +107,8 @@ const VendorUserAddSection = (props) => {
       }else {
         dispatch(setVendorUsers(responseData));
         toast({
-          title: 'Add User to vendor.',
-          description: 'Successfully added user to this vendor.',
+          title: 'Add User to client.',
+          description: 'Successfully added user to this client.',
           status: 'success',
           position: 'top',
           duration: 3000,
@@ -140,7 +138,7 @@ const VendorUserAddSection = (props) => {
                     <DrawerContent>
                         <DrawerCloseButton />
                             <DrawerHeader>
-                                Manage Users for vendor {data.vendorName}
+                                Manage Users for client {data.vendorName}
                             </DrawerHeader>
                             <DrawerBody>
                               <Stack spacing={8}>
@@ -228,8 +226,8 @@ const VendorUserAddSection = (props) => {
                                 </Select>
                                 </FormControl>     
                               </Box> 
-                              <Button onClick={() => handleAddVendorToUser()} size="sm" width="30%" bgColor="button.primary.color">
-                                Add Vendor
+                              <Button onClick={() => handleAddVendorToUser()} size="xs" width="20%" bgColor="header_actions">
+                                Add Client
                               </Button>                                   
                               </Stack>
                             </DrawerBody>

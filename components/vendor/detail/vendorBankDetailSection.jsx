@@ -19,7 +19,6 @@ import {
 
 const VendorBankDetailSection = (props) => {
     const vendor = props.data.vendor;
-    console.log("vendor::"+JSON.stringify(vendor))
 
   return (
 
@@ -42,7 +41,7 @@ const VendorBankDetailSection = (props) => {
                         <Tbody>
                         <Tr >
                             <Th bgColor="table_tile" width="project.details.column1">
-                                Vendor EIN
+                                 EIN
                             </Th>
                             <Th>
                                 <Text pt='table_display_value' fontSize='table_display_value'>

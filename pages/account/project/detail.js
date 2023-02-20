@@ -121,7 +121,6 @@ const ProjectDetail = (props) => {
       }
     }
     
-    console.log("Consumed Budget:::"+alreadyConsumedBudget);
 
     dispatch(setSelectedProjectRemainingBudget(parseFloat(responseData.budget)-alreadyConsumedBudget))
     

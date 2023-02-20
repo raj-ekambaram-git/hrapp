@@ -37,7 +37,7 @@ const VendorDetailActions = (props) => {
                   </Box>
                   <Box>
                     <Button size="xs" bgColor="header_actions" onClick={manageVendorsForAccount}>
-                     All Vendors
+                     All Clients
                     </Button>
                   </Box>   
                   <Box>

@@ -29,7 +29,7 @@ const ProjectAccountSection = (props) => {
                 <h2>
                 <AccordionButton>
                     <Box as="span" flex='1' textAlign='left'>
-                        Project Account/Vendor Details
+                        Project Account and Client Details
                     </Box>
                     <AccordionIcon />
                 </AccordionButton>
@@ -52,7 +52,7 @@ const ProjectAccountSection = (props) => {
                         </Tr>
                         <Tr >
                             <Th bgColor="table_tile">
-                                Vendor
+                                Client
                             </Th>
                             <Th>
                             <Text pt='table_display_value' fontSize='table_display_value'>                        

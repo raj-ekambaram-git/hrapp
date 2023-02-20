@@ -73,7 +73,7 @@ const VendorList = (props) => {
                 <HStack>
                   <Box>
                     <Button size="xs" bgColor="header_actions" onClick={navigatePage}>
-                      Add New Vendor 
+                      Add New Client 
                     </Button>
                   </Box>
                 </HStack>

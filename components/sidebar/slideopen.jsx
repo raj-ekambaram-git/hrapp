@@ -55,7 +55,7 @@ const Slideopen = (props) => {
             </Tooltip>             
           </>):""}          
           {props.allowedModule?.includes("vendor")?(<>
-            <Tooltip label="Vendors " placement='right' borderRadius="6px" padding="10px"  fontWeight={600} color={tooltip_style.color}  hasArrow backgroundColor={tooltip_style.bgColor}> 
+            <Tooltip label="Clients " placement='right' borderRadius="6px" padding="10px"  fontWeight={600} color={tooltip_style.color}  hasArrow backgroundColor={tooltip_style.bgColor}> 
               <Link href={`/account/vendors`} >  
                 <div>
                   <BiGridAlt  className={styles.icons1}/>

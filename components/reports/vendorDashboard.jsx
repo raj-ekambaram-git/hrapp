@@ -54,7 +54,7 @@ return (
                   )
                 }    
                 <Select width="30%" bgColor="white" size="sm" onChange={(ev) => getVendorReportData(ev.target.value)} value={vendorId}>
-                      <option value="">Select an Vendor</option>
+                      <option value="">Select Client</option>
                       {vendorList?.map((vendor) => (
                         vendor.type != VendorType.Supplier?<>
                           <option value={vendor.id} data-email={vendor.email}>{vendor.name}</option>
