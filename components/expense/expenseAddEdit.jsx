@@ -13,6 +13,7 @@ import { PageMainHeader } from "../common/pageMainHeader";
 import { ExpenseConstants, NotesConstants } from "../../constants";
 import ExpenseEntry from "./expenseEntry";
 import { setExpenseEntries, setExpenseHeader } from "../../store/modules/Expense/actions";
+import { BreadcrumbSection } from "../common/breadcrumbSection";
 
 
 const ExpenseAddEdit = (props) => {
@@ -60,6 +61,7 @@ const ExpenseAddEdit = (props) => {
           ) : (
               <PageMainHeader heading="Update Expense" notesData={notesData}/>
           )}              
+          <BreadcrumbSection breadCrumbData={ExpenseConstants.BREADCRUMB_DATA_ADD_EDIT} currentPage={isAddMode?"Add Expense":"Edit"}/>
           <Box width="100%">
             <ExpenseEntry data={{userId: userService.userValue.id, expenseId: expenseId, isAddMode: isAddMode }}></ExpenseEntry>
           </Box>
