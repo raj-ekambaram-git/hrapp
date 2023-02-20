@@ -173,7 +173,7 @@ const VendorDetail = (props) => {
               </HStack>                  
             </Box>                  
           </Flex>
-          <BreadcrumbSection breadCrumbData={AccountConstants.BREADCRUMB_DATA_ADD_EDIT_VENDOR} currentPage={vendor.name}/>
+          <BreadcrumbSection breadCrumbData={AccountConstants.BREADCRUMB_DATA_DETAIL_VENDOR} currentPage={vendor.name}/>
           <VendorDetailActions data={{vendor}}/>
           <Flex>
               <Stack width="page.sub_heading_width">

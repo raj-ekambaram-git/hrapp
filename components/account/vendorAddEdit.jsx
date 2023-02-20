@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { util } from '../../helpers';
 import { accountService, userService, vendorService } from "../../services";
-import {MODE_ADD, VENDOR_VALIDATION_SCHEMA, USER_ROLES} from "../../constants/accountConstants";
+import {MODE_ADD, VENDOR_VALIDATION_SCHEMA, USER_ROLES, AccountConstants} from "../../constants/accountConstants";
 import {US_STATES} from "../../constants/commonConstants";
 import { PageNotAuthorized } from "../../components/common/pageNotAuthorized";
 import {
@@ -31,6 +31,7 @@ import { resetSelectedAccountId } from "../../store/modules/Account/actions";
 import { ConfigConstants } from "../../constants";
 import AddEditWorkFlow from "../workFlow/addEditWorkFlow";
 import { VendorStatus } from "@prisma/client";
+import { BreadcrumbSection } from "../common/breadcrumbSection";
 
 
 const VendorEdit = (props) => {
@@ -273,6 +274,7 @@ const VendorEdit = (props) => {
           ) : (
               <PageMainHeader heading="Update Client"/>
           )}     
+          <BreadcrumbSection breadCrumbData={AccountConstants.BREADCRUMB_DATA_ADD_EDIT_VENDOR} currentPage={isAddMode?"Add Client":"Edit "+vendor.name}/>
           <Box width="page.sub_heading_width">
           <form onSubmit={handleSubmit(onSubmit)}>
             <Stack spacing={4}>
