@@ -112,7 +112,7 @@ const theme = extendTheme({
   space: {
     page: {
       heading: ".75rem",
-      heading_marginBottom: "2rem",
+      heading_marginBottom: "1rem",
       sub_heading: ".5rem",
       sub_heading_marginBottom: "1rem"
     }

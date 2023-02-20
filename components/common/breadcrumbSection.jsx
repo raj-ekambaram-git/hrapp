@@ -12,7 +12,7 @@ function BreadcrumbSection(props) {
   console.log("props.data::::"+JSON.stringify(props.breadCrumbData))
     return (
         <>
-          <Breadcrumb marginBottom={4} spacing='8px' separator={<ChevronRightIcon color='gray.500' />} color='gray.500' fontSize="14" fontWeight="600">
+          <Breadcrumb marginBottom={6} spacing='8px' separator={<ChevronRightIcon color='gray.500' />} color='gray.500' fontSize="14" fontWeight="600">
             {props.breadCrumbData.map((breadCrumb, index) => 
                   <BreadcrumbItem>
                   {(props.breadCrumbData.length > index+1) ? <>
