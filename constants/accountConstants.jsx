@@ -146,7 +146,7 @@ export const ACCOUNT_VALIDATION_SCHEMA = Yup.object().shape({
     },    
     {
       roleID: "ACCOUNT_VENDOR_REP",
-      roleName: "Account Vendor Rep"
+      roleName: "Account Client Rep"
     },
     {
       roleID: "ACCOUNT_USER",
@@ -154,11 +154,11 @@ export const ACCOUNT_VALIDATION_SCHEMA = Yup.object().shape({
     },
     {
       roleID: "ACCOUNT_VENDOR_EMPLOYEE",
-      roleName: "Vendor Employee"
+      roleName: "Employee"
     },
     {
       roleID: "ACCOUNT_VENDOR_CONTRACTOR",
-      roleName: "Vendor Contractor"
+      roleName: "Client Contractor"
     },
     {
       roleID: "ACCOUNT_MANAGER",
@@ -191,7 +191,7 @@ export const USER_ROLES_SUPERADMIN = [
   },    
   {
     roleID: "ACCOUNT_VENDOR_REP",
-    roleName: "Account Vendor Rep"
+    roleName: "Account Client Rep"
   },
   {
     roleID: "ACCOUNT_USER",
@@ -199,11 +199,11 @@ export const USER_ROLES_SUPERADMIN = [
   },
   {
     roleID: "ACCOUNT_VENDOR_EMPLOYEE",
-    roleName: "Vendor Employee"
+    roleName: "Employee"
   },
   {
     roleID: "ACCOUNT_VENDOR_CONTRACTOR",
-    roleName: "Vendor Contractor"
+    roleName: "Client Contractor"
   },
   {
     roleID: "ACCOUNT_MANAGER",
@@ -363,7 +363,7 @@ export const USER_ROLE_DESC = {
   'ACCOUNT_VENDOR_REP': 'Vendor Account Rep',
   'ACCOUNT_USER': 'Account User',
   'ACCOUNT_VENDOR_EMPLOYEE': 'Vendor Employee',
-  'ACCOUNT_VENDOR_CONTRACTOR': 'Vendor Contractor',
+  'ACCOUNT_VENDOR_CONTRACTOR': 'Client Contractor',
   'ACCOUNT_MANAGER': 'Account Manager'
 };
 
