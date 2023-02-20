@@ -42,6 +42,7 @@ import { setDocumentType } from "../../store/modules/Document/actions";
 import InvoiceDetailActions from "../invoice/invoiceDetailActions";
 import { ExpenseStatus, InvoiceStatus, InvoiceType, TimesheetStatus, VendorType } from "@prisma/client";
 import AddEditWorkFlow from "../workFlow/addEditWorkFlow";
+import { BreadcrumbSection } from "../common/breadcrumbSection";
 
 
 
@@ -62,6 +63,7 @@ const InvoiceAddEdit = (props) => {
   const [accountsList, setAccountsList] = useState([]);
   const [vendorList, setVendorList] = useState([]);
   const [projectList, setProjectList] = useState([]);
+  const [invoiceDescription, setInvoiceDescription] = useState(EMPTY_STRING);
   const [projectType, setProjectType] = useState(EMPTY_STRING);
   const [invoiceType, setInvoiceType] = useState(EMPTY_STRING);
   const [projectId, setProjectId] = useState(EMPTY_STRING);
@@ -170,6 +172,7 @@ const InvoiceAddEdit = (props) => {
         setInvoiceDate(invoiceResponse.invoiceDate)
         setDueDte(invoiceResponse.dueDte)
         setEnableWorkFlow(invoiceResponse.workFlowEnabled)
+        setInvoiceDescription(invoiceResponse.description)
 
         if(invoiceResponse.invoiceEmailTo != undefined && invoiceResponse.invoiceEmailTo.length >0){
           dispatch(setInvoiceEmailTo(invoiceResponse.invoiceEmailTo));
@@ -483,6 +486,7 @@ const InvoiceAddEdit = (props) => {
           ) : (
             <div>{isVendor? (<PageMainHeader heading="Update Vendor Invoice" notesData={notesData}/>): (<PageMainHeader heading="Update Account Invoice" notesData={notesData}/>)}</div>
           )}    
+          <BreadcrumbSection breadCrumbData={InvoiceConstants.BREADCRUMB_DATA_ADD_EDIT} currentPage={isAddMode?"Add Invoice":invoiceDescription}/>
           <InvoiceDetailActions data={{isAddMode: isAddMode, status: status, invoiceId: invoiceId}}/>
           <Flex>
           <Box width="page.sub_heading_width">

@@ -198,6 +198,34 @@ export const ProjectConstants = {
       format: (value) => (value ? <Badge color={`${(value === "Created" ||value === "Open" )? "paid_status":value === "Closed"? "pending_status": "pending_status"}`}>{value}</Badge> : '✖️')
     }
                          
+  ],
+  BREADCRUMB_DATA_DETAIL: [
+    {
+      link: "/account/dashboard",
+      name: "Home"
+    },
+    {
+      link: "/account/projects",
+      name: "Projects"
+    },   
+    {
+      link: "#",
+      name: "Project Detail"
+    },  
+  ],
+  BREADCRUMB_DATA_ADD_EDIT: [
+    {
+      link: "/account/dashboard",
+      name: "Home"
+    },
+    {
+      link: "/account/projects",
+      name: "Projects"
+    },   
+    {
+      link: "#",
+      name: "Add / Edit"
+    },  
   ]
 
 

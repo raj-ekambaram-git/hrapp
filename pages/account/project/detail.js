@@ -16,11 +16,12 @@ import ProjectLocationSection from "../../../components/project/detail/projectLo
 import ProjectFinancialSection from "../../../components/project/detail/projectFinancialSection";
 import ProjectStatusSection from "../../../components/project/detail/projectStatusSection";
 import {PageMainHeader} from '../../../components/common/pageMainHeader';
-import { NotesConstants } from "../../../constants";
+import { NotesConstants, ProjectConstants } from "../../../constants";
 import { useDispatch, useSelector } from "react-redux";
 import ProjectDetailActions from "../../../components/project/detail/projectDetailActions";
 import { setSelectedProjectRemainingBudget, setSelectedProjectResources, setSelectedProjectVendorId } from "../../../store/modules/Project/actions";
 import { setDocumentType } from "../../../store/modules/Document/actions";
+import { BreadcrumbSection } from "../../../components/common/breadcrumbSection";
 
 
 const ProjectDetail = (props) => {
@@ -143,6 +144,7 @@ const ProjectDetail = (props) => {
         <>
 
           <PageMainHeader heading="Project Details for" param1={project.name} notesData={notesData}/>       
+          <BreadcrumbSection breadCrumbData={ProjectConstants.BREADCRUMB_DATA_DETAIL} currentPage={project.name}/>
           <ProjectDetailActions workFlowEnabled={project.workFlowEnabled}/>
           <Flex>
               <Stack width="page.sub_heading_width">

@@ -28,9 +28,10 @@ import {
   Checkbox
 } from '@chakra-ui/react';
 import {PageMainHeader} from '../../components/common/pageMainHeader';
-import { ConfigConstants } from "../../constants";
+import { ConfigConstants, ProjectConstants } from "../../constants";
 import AddEditWorkFlow from "../workFlow/addEditWorkFlow";
 import { ProjectStatus, VendorType } from "@prisma/client";
+import { BreadcrumbSection } from "../common/breadcrumbSection";
 
 const ProjectAddEdit = (props) => {
   
@@ -306,7 +307,7 @@ const ProjectAddEdit = (props) => {
           ) : (
             <PageMainHeader heading="Update Project"/>
           )}              
-
+          <BreadcrumbSection breadCrumbData={ProjectConstants.BREADCRUMB_DATA_ADD_EDIT} currentPage={isAddMode?"Add Project":project.name}/>
           <Box width="page.sub_heading_width">
           <form onSubmit={handleSubmit(onSubmit)}>
             <Stack spacing={4}>

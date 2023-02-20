@@ -197,6 +197,34 @@ export const InvoiceConstants = {
   ],
   INVOICE_PAST_DUE_TABLE_META: [
     
+  ],
+  BREADCRUMB_DATA_DETAIL: [
+    {
+      link: "/account/dashboard",
+      name: "Home"
+    },
+    {
+      link: "/account/invoices",
+      name: "Invoices"
+    },   
+    {
+      link: "#",
+      name: "Invoice Detail"
+    },  
+  ],
+  BREADCRUMB_DATA_ADD_EDIT: [
+    {
+      link: "/account/dashboard",
+      name: "Home"
+    },
+    {
+      link: "/account/invoices",
+      name: "Invoices"
+    },   
+    {
+      link: "#",
+      name: "Add / Edit"
+    },  
   ]
 
 }

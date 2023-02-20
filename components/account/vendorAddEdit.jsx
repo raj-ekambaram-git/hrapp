@@ -274,7 +274,7 @@ const VendorEdit = (props) => {
           ) : (
               <PageMainHeader heading="Update Client"/>
           )}     
-          <BreadcrumbSection breadCrumbData={AccountConstants.BREADCRUMB_DATA_ADD_EDIT_VENDOR} currentPage={isAddMode?"Add Client":"Edit "+vendor.name}/>
+          <BreadcrumbSection breadCrumbData={AccountConstants.BREADCRUMB_DATA_ADD_EDIT_VENDOR} currentPage={isAddMode?"Add Client":vendor.name}/>
           <Box width="page.sub_heading_width">
           <form onSubmit={handleSubmit(onSubmit)}>
             <Stack spacing={4}>

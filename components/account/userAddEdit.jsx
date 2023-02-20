@@ -343,7 +343,7 @@ const UserAddEdit = (props) => {
           ) : (
             <div>{isVendor? (<PageMainHeader heading="Update Client User" notesData={notesData}/>): (<PageMainHeader heading="Update Account User" notesData={notesData}/>)}</div>
           )}              
-          <BreadcrumbSection breadCrumbData={UserConstants.BREADCRUMB_DATA_ADD_EDIT} currentPage={isAddMode?"Add User":"Edit "+user.lastName}/>
+          <BreadcrumbSection breadCrumbData={UserConstants.BREADCRUMB_DATA_ADD_EDIT} currentPage={isAddMode?"Add User":user.lastName}/>
           {(userService.isAccountAdmin() || userService.isSuperAdmin) ? (
             <>
               {!isAddMode? (
