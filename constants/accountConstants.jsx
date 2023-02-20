@@ -487,5 +487,19 @@ export const AccountConstants = {
       accessor: "status",
       format: (value) => (value ? <Badge color={`${value === "Active"? "paid_status": value === "Inactive"? "pending_status": "pending_status"}`}>{value}</Badge> : '✖️')
     }               
+  ],
+  BREADCRUMB_DATA_ADD_EDIT_VENDOR: [
+    {
+      link: "/account/dashboard",
+      name: "Home"
+    },
+    {
+      link: "/account/vendors",
+      name: "Clients"
+    },   
+    {
+      link: "#",
+      name: "Client Detail"
+    },  
   ]
 }

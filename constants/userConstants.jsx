@@ -109,5 +109,19 @@ export const UserConstants = {
             accessor: "status",
             format: (value) => (value ? <Badge color={`${(value === "Active" || value === "Approved")? "paid_status" : "pending_status"}`}>{value}</Badge> : '✖️')
           },     
+      ],
+      BREADCRUMB_DATA_ADD_EDIT: [
+        {
+          link: "/account/dashboard",
+          name: "Home"
+        },
+        {
+          link: "/account/users",
+          name: "Users"
+        },   
+        {
+          link: "#",
+          name: "Add / Edit"
+        },  
       ]
 }

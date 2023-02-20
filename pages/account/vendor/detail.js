@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { accountService, userService } from '../../../services';
-import {EMPTY_STRING, MODE_ADD} from "../../../constants/accountConstants";
+import {AccountConstants, EMPTY_STRING, MODE_ADD} from "../../../constants/accountConstants";
 import {
   Box,
   Heading,
@@ -30,6 +30,7 @@ import { resetUsersByAccount } from "../../../store/modules/Account/actions";
 import { resetNotesType, setNotesType } from "../../../store/modules/Notes/actions";
 import VendorDetailActions from "../../../components/vendor/detail/vendorDetailActions";
 import { setDocumentType } from "../../../store/modules/Document/actions";
+import { BreadcrumbSection } from "../../../components/common/breadcrumbSection";
 
 
 
@@ -172,6 +173,7 @@ const VendorDetail = (props) => {
               </HStack>                  
             </Box>                  
           </Flex>
+          <BreadcrumbSection breadCrumbData={AccountConstants.BREADCRUMB_DATA_ADD_EDIT_VENDOR} currentPage={vendor.name}/>
           <VendorDetailActions data={{vendor}}/>
           <Flex>
               <Stack width="page.sub_heading_width">

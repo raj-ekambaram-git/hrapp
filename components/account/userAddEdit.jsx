@@ -32,13 +32,13 @@ import ManageVendors from "../user/vendor/manageVendors";
 import { useDispatch, useSelector } from "react-redux";
 import {fetchVendorsByAccount, resetVendorsByAccount} from '../../store/modules/Vendor/actions'
 import { resetUserProjects, resetUserVendors, setUserProjects } from "../../store/modules/User/actions";
-import { ConfigConstants, DocumentConstants, NotesConstants } from "../../constants";
+import { ConfigConstants, DocumentConstants, NotesConstants, UserConstants } from "../../constants";
 import ManageUserRoles from "../user/manageUserRoles";
 import { setDocumentType } from "../../store/modules/Document/actions";
 import UserDetailActions from "../user/detail/userDetailActions";
 import AddEditWorkFlow from "../workFlow/addEditWorkFlow";
 import { UserStatus } from "@prisma/client";
-
+import {BreadcrumbSection} from '../../components/common/breadcrumbSection'
 
 
 
@@ -339,11 +339,11 @@ const UserAddEdit = (props) => {
         <div> 
           
           {isAddMode ? (
-            <div>{isVendor?( <PageMainHeader heading="New Vendor User"/>):( <PageMainHeader heading="New Account User"/>)}</div>
+            <div>{isVendor?( <PageMainHeader heading="New Client User"/>):( <PageMainHeader heading="New Account User"/>)}</div>
           ) : (
-            <div>{isVendor? (<PageMainHeader heading="Update Vendor User" notesData={notesData}/>): (<PageMainHeader heading="Update Account User" notesData={notesData}/>)}</div>
+            <div>{isVendor? (<PageMainHeader heading="Update Client User" notesData={notesData}/>): (<PageMainHeader heading="Update Account User" notesData={notesData}/>)}</div>
           )}              
-
+          <BreadcrumbSection breadCrumbData={UserConstants.BREADCRUMB_DATA_ADD_EDIT}/>
           {(userService.isAccountAdmin() || userService.isSuperAdmin) ? (
             <>
               {!isAddMode? (
@@ -357,7 +357,7 @@ const UserAddEdit = (props) => {
               ): (<></>)}
             </>
           ) : ("")}
-          <Box width="page.sub_heading_width">
+          <Box width="page.sub_heading_width">          
           <form onSubmit={handleSubmit(onSubmit)}>
             <Stack spacing={4}>
               <Card>
