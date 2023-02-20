@@ -21,9 +21,9 @@ const AccountSetting = (props) => {
   const userId = userService?.userValue?.id;
 
   useEffect(() => {
-    setWorkFlowEnabled(userService.accountFeatureEnabled(ConfigConstants.FEATURES.WORK_FLOW))
-    setScheduleJob(userService.accountFeatureEnabled(ConfigConstants.FEATURES.SCHEDULE_JOB))
-    setPayment(userService.accountFeatureEnabled(ConfigConstants.FEATURES.PAYMENT))
+    setWorkFlowEnabled(userService.accountFeatureEnabled(ConfigConstants.FEATURES.WORK_FLOW) && userService.isWorkFlowAdmin())
+    setScheduleJob(userService.accountFeatureEnabled(ConfigConstants.FEATURES.SCHEDULE_JOB) && userService.isScheduleJobAdmin())
+    setPayment(userService.accountFeatureEnabled(ConfigConstants.FEATURES.PAYMENT) && userService.isPaymentAdmin())
 
   }, []);
 
