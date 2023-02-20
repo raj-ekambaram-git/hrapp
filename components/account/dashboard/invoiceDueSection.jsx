@@ -36,10 +36,13 @@ import { InvoiceConstants } from "../../../constants";
 import { util } from "../../../helpers";
 import { CustomTable } from "../../customTable/Table";
 import { InvoiceStatus } from "@prisma/client";
+import { setSelectedInvoiceId } from "../../../store/modules/Invoice/actions";
+import { useRouter } from "next/router";
 
 
 
 const InvoiceDueSection = (props) => {
+  const router = useRouter();
   const [size, setSize] = useState('');
   const [invoiceDues, setInvoiceDues] = useState('');
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -55,8 +58,15 @@ const InvoiceDueSection = (props) => {
     onOpen();
   }
 
+  function handleInvoiceDetailSelection(invoiceId) {
+    dispatch(setSelectedInvoiceId(invoiceId))
+    router.push("/account/invoice/detail");
+
+  }
+
   function updateInvoicesForDisplay(responseData) {
     const updatedInvoiceList = responseData.map((invoice)=> {
+      invoice.detailAction = <Button size="xs" bgColor="header_actions" onClick={() => handleInvoiceDetailSelection(invoice.id)}>Details</Button>
       // invoice.deleteAction = <><HStack spacing={6}>{(invoice.status === InvoiceStatus.Draft)?(<DeleteIcon size="xs" onClick={() => handleInvoiceDeleteSelection(invoice.id)}/>):(<Box marginRight={3}></Box>)}<Box>{invoice.id}</Box></HStack></>
       // invoice.status = <Badge color={`${(invoice.status === "Paid" || invoice.status === "PartiallyPaid") ? "paid_status": invoice.status === "Pending" ? "pending_status": "pending_status"}`}>{invoice.status}</Badge>
       invoice.amount = util.getWithCurrency(invoice.total)
