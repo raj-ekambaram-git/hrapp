@@ -25,6 +25,7 @@ import {Spinner} from '../../common/spinner'
 import { userService, workFlowService } from "../../../services";
 import { WorkFlowConstants } from "../../../constants";
 import { util } from "../../../helpers";
+import { InfoOutlineIcon } from "@chakra-ui/icons";
 
 function MyWorkFlowTaskDetailSection(props) {
     const router = useRouter();
@@ -121,10 +122,14 @@ function MyWorkFlowTaskDetailSection(props) {
                                                 {task.workFlow?.type === WorkFlowTaskType.Vendor?"Client": task.workFlow?.type}
                                             </Box>
                                             <Box width="25%">
-                                                {task.task?.name}
+                                                <HStack>
+                                                    <InfoOutlineIcon />
+                                                    <Text>{task.task?.name}</Text>
+                                                </HStack>
+                                                
                                             </Box>   
                                             <Box width="30%">
-                                                <Text color={task.dueDate<new Date()?"paid_status":"pending_status"}>
+                                                <Text fontWeight="600" color={util.getLocaleDate(task.dueDate)<new Date()?"pending_status":"paid_status"}>
                                                     {task.dueDate?util.getFormattedDateWithTime(task.dueDate):""}
                                                 </Text>
                                                 

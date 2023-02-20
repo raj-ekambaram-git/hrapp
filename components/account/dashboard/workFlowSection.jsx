@@ -14,6 +14,7 @@ import {
 import { WorkFlowStepStatus } from '@prisma/client';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { WorkFlowConstants } from '../../../constants';
 import {userService, workFlowService} from '../../../services'
 import  {MyWorkFlowTaskDetailSection} from './myWorkFlowTaskDetailSection'
 
@@ -49,7 +50,7 @@ function WorkFlowSection(props) {
                                         </Box>
                                         {workFlowData.pastDue?.map((countData) => 
                                             <HStack>
-                                                <MyWorkFlowTaskDetailSection taskRequest="pastDue" taskStatus={countData.status} taskCount={countData._count}/>
+                                                <MyWorkFlowTaskDetailSection taskRequest={WorkFlowConstants.WORKFLOW_STATUS_TASK_REQUEST.pastDue} taskStatus={countData.status} taskCount={countData._count}/>
                                                 {/* <Box textAlign="right" fontWeight="600">
                                                     {countData.status === WorkFlowStepStatus.InProgress? "In Progress": countData.status}
                                                 </Box>
@@ -67,12 +68,7 @@ function WorkFlowSection(props) {
                                         </Box>
                                         {workFlowData.todayDue?.map((countData) => 
                                             <HStack>
-                                                <Box textAlign="right" fontWeight="600">
-                                                    {countData.status === WorkFlowStepStatus.InProgress? "In Progress": countData.status}
-                                                </Box>
-                                                <Box textAlign="left">
-                                                    {countData._count}
-                                                </Box>
+                                                <MyWorkFlowTaskDetailSection taskRequest={WorkFlowConstants.WORKFLOW_STATUS_TASK_REQUEST.currentDue} taskStatus={countData.status} taskCount={countData._count}/>                                                                                            
                                             </HStack>                                    
                                         )}               
                                     </Stack>                     
@@ -84,14 +80,9 @@ function WorkFlowSection(props) {
                                         All
                                     </Box>
                                     {workFlowData.all?.map((countData) => 
-                                        <HStack>
-                                            <Box width="50%" textAlign="right" fontWeight="600">
-                                                {countData.status === WorkFlowStepStatus.InProgress? "In Progress": countData.status}
-                                            </Box>
-                                            <Box  width="20%" textAlign="left">
-                                                {countData._count}
-                                            </Box>
-                                        </HStack>                                    
+                                        <Box  textAlign="center">
+                                            <MyWorkFlowTaskDetailSection taskRequest={WorkFlowConstants.WORKFLOW_STATUS_TASK_REQUEST.all} taskStatus={countData.status} taskCount={countData._count}/>                                            
+                                        </Box>                                    
                                     )}               
                                 </Stack>                     
                             </>:<></>}       
