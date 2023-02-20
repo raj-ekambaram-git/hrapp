@@ -21,16 +21,16 @@ import {
 } from '@chakra-ui/react';
 import { useRouter } from "next/router";
 import { WorkFlowStepStatus, WorkFlowTaskType } from "@prisma/client";
-import {Spinner} from '../../common/spinner'
-import { userService, workFlowService } from "../../../services";
-import { WorkFlowConstants } from "../../../constants";
-import { util } from "../../../helpers";
+import {Spinner} from '../common/spinner'
+import { userService, workFlowService } from "../../services";
+import { WorkFlowConstants } from "../../constants";
+import { util } from "../../helpers";
 import { InfoOutlineIcon } from "@chakra-ui/icons";
 import { useDispatch } from "react-redux";
-import { setSelectedVendorId } from "../../../store/modules/Vendor/actions";
-import { setSelectedUserId } from "../../../store/modules/User/actions";
-import { setSelectedInvoiceId } from "../../../store/modules/Invoice/actions";
-import { setSelectedProjectId } from "../../../store/modules/Project/actions";
+import { setSelectedVendorId } from "../../store/modules/Vendor/actions";
+import { setSelectedUserId } from "../../store/modules/User/actions";
+import { setSelectedInvoiceId } from "../../store/modules/Invoice/actions";
+import { setSelectedProjectId } from "../../store/modules/Project/actions";
 
 function MyWorkFlowTaskDetailSection(props) {
     const router = useRouter();

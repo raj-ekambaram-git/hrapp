@@ -16,7 +16,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { WorkFlowConstants } from '../../../constants';
 import {userService, workFlowService} from '../../../services'
-import  {MyWorkFlowTaskDetailSection} from './myWorkFlowTaskDetailSection'
+import  {MyWorkFlowTaskDetailSection} from '../../workFlow/myWorkFlowTaskDetailSection'
 
 function WorkFlowSection(props) {
     const router = useRouter();
