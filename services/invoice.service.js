@@ -30,8 +30,24 @@ export const invoiceService = {
     sendInvoiceEmail,
     markInvoiceDelete,
     invoicesNotPaid,
-
+    getInvoicePastDueDetails
 };
+
+function getInvoicePastDueDetails(accountId, pastDueDays) {
+
+  return fetchWrapper.post(`${baseUrl}/account/invoice/pastdue`, {
+    accountId: accountId,
+    pastDueDays: pastDueDays
+  })
+  .then(async invoices => {
+    return invoices;
+  })        
+  .catch(err => {
+    console.log("Error getInvoicePastDueDetails"+err)
+    return {errorMessage: err, error: true};
+  });
+
+}
 
 function invoicesNotPaid(accountId, userId) {
 

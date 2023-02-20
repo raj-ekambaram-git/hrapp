@@ -10,7 +10,7 @@ import {
 import { useEffect, useState } from 'react';
 import {accountService, userService} from '../../../services'
 import { util } from '../../../helpers/util';
-import {InnerCardSection} from '../../../components/account/dashboard/common/innterCardSection'
+import {InnerCardSection} from './common/innerCardSection'
 
 function CashFlowReportSection(props) {
     const [cashFlowData, setCashFlowData] = useState();

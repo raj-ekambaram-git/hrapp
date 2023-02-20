@@ -194,6 +194,9 @@ export const InvoiceConstants = {
       format: (value) => (value ? <Badge color={`${(value === "Paid" || value === "PartiallyPaid") ? "paid_status": value === "Pending" ? "pending_status": "pending_status"}`}>{value}</Badge> : '✖️')
     }
                          
+  ],
+  INVOICE_PAST_DUE_TABLE_META: [
+    
   ]
 
 }
