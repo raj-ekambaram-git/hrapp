@@ -216,7 +216,7 @@ const Register = (props) => {
                                 <HStack spacing="10rem">
                                   <Box>
                                     <FormControl isRequired>
-                                      <FormLabel>Email (Logon ID)</FormLabel>
+                                      <FormLabel>Email (Login ID)</FormLabel>
                                       <Input type="email" id="accountEmail"   {...register('accountEmail')}  />
                                     </FormControl>     
                                   </Box>                                                                  

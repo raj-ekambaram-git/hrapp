@@ -75,6 +75,12 @@ export const WorkFlowConstants = {
           disableSort: true          
         }
                              
-      ]
+      ],
+      WORKFLOW_STATUS_TASK_REQUEST: {
+        "pastDue": "pastDue",
+        "currentDue": "currentDue",
+        "all": "all",
+
+    },
 
 }

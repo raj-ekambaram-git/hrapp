@@ -15,9 +15,25 @@ export const workFlowService = {
     getWorkFlowData,
     updateStep,
     updateWorkFlow,
-    getDashBoardData
-    
+    getDashBoardData,
+    getMyTasks,
 };
+
+function getMyTasks(userId, accountId, taskStatus, taskType) {
+    return fetchWrapper.post(`${baseUrl}/account/`+accountId+`/workflow/user/`+userId+`/tasks`, {
+        userId: userId,
+        accountId: accountId,
+        taskStatus: taskStatus,
+        taskRequestType: taskType
+    })
+        .then(myTasks => {
+            return myTasks;
+        })        
+        .catch(err => {
+            console.log("Inside getMyTasks Error")
+            return {errorMessage: err, error: true};
+        });
+}
 
 function getDashBoardData(userId, accountId) {
     return fetchWrapper.get(`${baseUrl}/account/`+accountId+`/workflow/user/`+userId+`/dashboard`, {})

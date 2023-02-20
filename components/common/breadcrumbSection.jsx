@@ -9,7 +9,7 @@ import {
   Text,
 } from '@chakra-ui/react'
 function BreadcrumbSection(props) {
-  console.log("props.data::::"+JSON.stringify(props.breadCrumbData))
+
     return (
         <>
           <Breadcrumb marginBottom={6} spacing='8px' separator={<ChevronRightIcon color='gray.500' />} color='gray.500' fontSize="14" fontWeight="600">
