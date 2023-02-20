@@ -26,10 +26,16 @@ import { userService, workFlowService } from "../../../services";
 import { WorkFlowConstants } from "../../../constants";
 import { util } from "../../../helpers";
 import { InfoOutlineIcon } from "@chakra-ui/icons";
+import { useDispatch } from "react-redux";
+import { setSelectedVendorId } from "../../../store/modules/Vendor/actions";
+import { setSelectedUserId } from "../../../store/modules/User/actions";
+import { setSelectedInvoiceId } from "../../../store/modules/Invoice/actions";
+import { setSelectedProjectId } from "../../../store/modules/Project/actions";
 
 function MyWorkFlowTaskDetailSection(props) {
     const router = useRouter();
     const toast = useToast();
+    const dispatch = useDispatch();
     const [size, setSize] = useState('');
     const [loading, setLoading] = useState(false);
     const [myTasks, setMyTasks] = useState();
@@ -89,11 +95,31 @@ function MyWorkFlowTaskDetailSection(props) {
         }
     }
 
+    const handleTaskDetail = (type, typeId) => {
+        if(type && typeId) {
+            if(type === WorkFlowTaskType.Vendor) {
+                dispatch(setSelectedVendorId(parseInt(typeId.toString())))
+                router.push("/account/vendor/detail");
+            } else if (type === WorkFlowTaskType.User) {
+                dispatch(setSelectedUserId(typeId))
+                router.push("/account/user/edit");
+            } else if (type === WorkFlowTaskType.Invoice) {
+                dispatch(setSelectedInvoiceId(typeId))
+                router.push("/account/invoice/detail");
+            } else if (type === WorkFlowTaskType.Project) {
+                dispatch(setSelectedProjectId(typeId))
+                router.push("/account/project/detail");
+          
+            }
+        }
+
+    }
+
     return (
         <>
           <Button size="xs" border="1px"
-              onClick={() => handleMyTasks("xl")}
-              key="xl"
+              onClick={() => handleMyTasks("xxl")}
+              key="xxl"
               m={1} 
               >{(props.taskStatus === WorkFlowStepStatus.InProgress? "In Progress": props.taskStatus)+`: `+props.taskCount}
           </Button>
@@ -134,6 +160,11 @@ function MyWorkFlowTaskDetailSection(props) {
                                                 </Text>
                                                 
                                             </Box>  
+                                            <Box width="20%">
+                                                <Button size="xs" border="1px" bgColor="header_actions"
+                                                    onClick={() => handleTaskDetail(task.workFlow?.type, task.workFlow?.typeId)}>Details
+                                                </Button>
+                                            </Box>
                                             <Box width="30%">
                                                 <HStack spacing={2}>
                                                     <Badge color={(task.status === WorkFlowStepStatus.Complete || task.status === WorkFlowStepStatus.InProgress)?"paid_status": (task.status === WorkFlowStepStatus.Pending || task.status === WorkFlowStepStatus.Delayed)? "pending_status": "pending_status"}>{task.status}</Badge>
