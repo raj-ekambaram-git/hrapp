@@ -25,12 +25,12 @@ import {Spinner} from '../common/spinner'
 import { userService, workFlowService } from "../../services";
 import { WorkFlowConstants } from "../../constants";
 import { util } from "../../helpers";
-import { InfoOutlineIcon } from "@chakra-ui/icons";
 import { useDispatch } from "react-redux";
 import { setSelectedVendorId } from "../../store/modules/Vendor/actions";
 import { setSelectedUserId } from "../../store/modules/User/actions";
 import { setSelectedInvoiceId } from "../../store/modules/Invoice/actions";
 import { setSelectedProjectId } from "../../store/modules/Project/actions";
+
 
 function MyWorkFlowTaskDetailSection(props) {
     const router = useRouter();
@@ -149,7 +149,6 @@ function MyWorkFlowTaskDetailSection(props) {
                                             </Box>
                                             <Box width="25%">
                                                 <HStack>
-                                                    <InfoOutlineIcon />
                                                     <Text>{task.task?.name}</Text>
                                                 </HStack>
                                                 
