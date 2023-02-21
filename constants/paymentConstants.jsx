@@ -127,7 +127,11 @@ export const PaymentConstants = {
       label: "Billable",
       accessor: "billable",
       format: (value) => (value ? "Yes": "No")
-    },       
+    },   
+    {
+      label: "Date",
+      accessor: "date",
+    },           
     {
       label: "Status",
       accessor: "status",

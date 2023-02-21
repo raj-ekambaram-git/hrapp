@@ -23,7 +23,9 @@ import {
     Card,
     Text,
     CardFooter,
-    ButtonGroup
+    ButtonGroup,
+    FormControl,
+    FormLabel
 
   } from '@chakra-ui/react';
   
@@ -42,11 +44,20 @@ const CreateExpenseFromTransaction = (props) => {
 
     const [size, setSize] = useState('');
     const [expenseList, setExpenseList] = useState([]);
+    const [expenseName, setExpenseName] = useState();
+    const [userProjectList, setUserProjectList] = useState([]);
+    const [expenseProjectId, setExpenseProjectId] = useState();
+    const [expenseUserId, setExpenseUserId] = useState();
     const [disableAddEntry, setDisableAddEntry] = useState(false);
     const [expenseEntryType, setExpenseEntryType] = useState();
     const { isOpen, onOpen, onClose } = useDisclosure();
     const EXPENSE_LIST_TABLE_COLUMNS = React.useMemo(() => PaymentConstants.NEW_EXPENSE_LIST_TABLE_META)
     const expenseEntriesFromPayTrans = useSelector(state => state.expense.expenseEntryFromPayTran);
+
+    async function getProjectForUser(userId) {
+        const projectsForUserResponse = await userService.getProjectsByUser(userId, userService.getAccountDetails().accountId, "billable");    
+        setUserProjectList(projectsForUserResponse);
+      }
 
     const addToNewExpense = async(newSize, isChecked) => {        
         if(isChecked) {
@@ -83,6 +94,7 @@ const CreateExpenseFromTransaction = (props) => {
                 amount: props.transactionAmount,
                 billable: false,
                 notes: props.transactionId,
+                date: props.transactionDate,
             }
 
             const newExpenseList = [...expenseEntriesFromPayTrans]
@@ -111,6 +123,10 @@ const CreateExpenseFromTransaction = (props) => {
         onClose();        
       }
 
+      const submitExpenseFromTransactions = async() => {
+
+      }
+
     return (
         <>
           <Checkbox onChange={(e) => addToNewExpense("xxl",e.target.checked)} />
@@ -123,7 +139,7 @@ const CreateExpenseFromTransaction = (props) => {
                             Attach Expense Transction
                         </DrawerHeader>
                         <DrawerBody>
-                          <Stack spacing={6} marginTop={9}>
+                          <Stack spacing={5} marginTop={9}>
                             <Card variant="paymentTransactions">
                                 <CardHeader>
                                     Transaction Detail
@@ -138,6 +154,14 @@ const CreateExpenseFromTransaction = (props) => {
                                                 {props.transactionId}
                                             </Box>                                    
                                         </HStack>
+                                        <HStack spacing={3}>
+                                            <Box textAlign="right" width="15%">
+                                                Transaction Date
+                                            </Box>
+                                            <Box textAlign="left" fontWeight="600">
+                                                {props.transactionDate}
+                                            </Box>
+                                        </HStack>                                        
                                         <HStack spacing={3}>
                                             <Box textAlign="right" width="15%">
                                                 Amount
@@ -179,7 +203,41 @@ const CreateExpenseFromTransaction = (props) => {
 
                                 </CardFooter>
                             </Card>
-                            <CustomTable columns={EXPENSE_LIST_TABLE_COLUMNS} rows={expenseEntriesFromPayTrans} />                                                               
+                            {expenseEntriesFromPayTrans && expenseEntriesFromPayTrans.length >0?<>
+                                <Stack spacing={5}>
+                                    <HStack spacing={10}>
+                                        <FormControl isRequired>
+                                            <FormLabel>Name</FormLabel>
+                                            <Input type="text" id="expenseName"   onChange={(ev) => setExpenseName(ev.target.value)}/>
+                                        </FormControl>        
+                                        <FormControl isRequired>
+                                            <FormLabel>User</FormLabel>
+                                            <Select id="projectId" value={expenseUserId} onChange={(ev) => setExpenseUserId(ev.target.value)}>
+                                                <option value="">Select User</option>
+                                                {userProjectList?.map((project) => (
+                                                    {...project.project?.status === ProjectStatus.Open?(<>
+                                                    <option value={project.projectId} data-unitprice={project.unitPrice} >{project.project.name} - {project.project.referenceCode}</option>
+                                                    </>):(<></>)}
+                                                ))}
+                                            </Select>  
+                                        </FormControl>  
+                                        <FormControl isRequired>
+                                            <FormLabel>Project</FormLabel>
+                                            <Select id="projectId" value={expenseProjectId} onChange={(ev) => setExpenseProjectId(ev.target.value)}>
+                                                <option value="">Select Project</option>
+                                                {userProjectList?.map((project) => (
+                                                    {...project.project?.status === ProjectStatus.Open?(<>
+                                                    <option value={project.projectId} data-unitprice={project.unitPrice} >{project.project.name} - {project.project.referenceCode}</option>
+                                                    </>):(<></>)}
+                                                ))}
+                                            </Select>  
+                                        </FormControl>                                                                                                                 
+                                    </HStack>                                                                         
+                                    <Button bgColor="header_actions"  width="15%" size="xs" onClick={submitExpenseFromTransactions} >Create Expense</Button>
+                                </Stack>                                
+                            </>:<></>}
+                            <CustomTable columns={EXPENSE_LIST_TABLE_COLUMNS} rows={expenseEntriesFromPayTrans} />        
+
                           </Stack>
                         </DrawerBody>
                     </DrawerContent>
