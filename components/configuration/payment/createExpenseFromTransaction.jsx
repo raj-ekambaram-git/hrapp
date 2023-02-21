@@ -370,7 +370,7 @@ const CreateExpenseFromTransaction = (props) => {
                                 </Stack>                                
                             </>:<></>}
                             <CustomTable columns={EXPENSE_LIST_TABLE_COLUMNS} rows={expenseEntriesFromPayTrans} />        
-                            <Box>
+                            <Box fontWeight="600">
                                 Total: {util.getWithCurrency(expenseTotal)}
                             </Box>
                           </Stack>

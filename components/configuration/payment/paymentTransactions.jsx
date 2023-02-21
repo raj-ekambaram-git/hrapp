@@ -96,7 +96,7 @@ const PaymentTransactions = (props) => {
                                 <option value="30">Last 30 Days</option>
                                 <option value="45">Last 45 Days</option>
                                 <option value="60">Last 60 Days</option>
-                                <option value="60">Last 90 Days</option>
+                                <option value="90">Last 90 Days</option>
                             </Select>  
                         </Box>
                         <Box justifyItems="right">
