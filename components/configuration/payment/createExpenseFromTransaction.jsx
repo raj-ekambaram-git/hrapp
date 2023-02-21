@@ -118,7 +118,8 @@ const CreateExpenseFromTransaction = (props) => {
                 amount: props.transactionAmount,
                 billable: false,
                 notes: props.transactionId,
-                expenseDate: "2023-02-09T06:00:00.000Z",
+                expenseDate: new Date(props.transactionDate).toISOString(),
+                date: new Date(props.transactionDate).toISOString(),
             }
 
             const newExpenseList = [...expenseEntriesFromPayTrans]
