@@ -159,11 +159,13 @@ const CreateExpenseFromTransaction = (props) => {
 
             try {
 
+                const transactionIds = expenseEntriesFromPayTrans.map((payTran) => {return payTran.notes})
+
                 const expenseTransaction = {
                     amount: expenseTotal,
-                    transactionId: "From Payment Transaction1",
-                    transactionData: "From Payment Transaction1",
-                    externalTransactionID: ["1","2"],
+                    transactionId: transactionIds.toString(),
+                    transactionData: transactionIds.toString(),
+                    externalTransactionID: transactionIds,
                     status: ExpenseTransactionStatus.Paid
                 }
                 const expenseRequest = {
