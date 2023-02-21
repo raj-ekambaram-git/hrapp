@@ -29,13 +29,13 @@ import {
   } from '@chakra-ui/react';
   
 import { useDispatch, useSelector } from "react-redux";
-import { userService, accountService } from "../../../services";
+import { userService, accountService, expenseService } from "../../../services";
 import { PaymentConstants } from "../../../constants";
 import { CustomTable } from "../../customTable/Table";
 import { util } from "../../../helpers";
 import { ExpenseTypeLookup } from "../../../data/exponseType";
-import { ExpenseEntryStatus, ProjectStatus } from "@prisma/client";
-import { setExpenseEntryFromPayTrans } from "../../../store/modules/Expense/actions";
+import { ExpenseEntryStatus, ExpenseStatus, ProjectStatus } from "@prisma/client";
+import { setExpenseEntryFromPayTrans, setExpenseEntryFromPayTransTotal } from "../../../store/modules/Expense/actions";
 import { FiUserPlus } from "react-icons/fi";
 import { Spinner } from '../../common/spinner'
 
@@ -47,6 +47,7 @@ const CreateExpenseFromTransaction = (props) => {
     const [loading, setLoading] = useState(false);
     const [expenseList, setExpenseList] = useState([]);
     const [expenseName, setExpenseName] = useState();
+    // const [expenseTotal, setExpenseTotal] = useState(0);
     const [accountUserList, setAccountUserList] = useState();
     const [userProjectList, setUserProjectList] = useState();
     const [expenseProjectId, setExpenseProjectId] = useState();
@@ -55,7 +56,8 @@ const CreateExpenseFromTransaction = (props) => {
     const [expenseEntryType, setExpenseEntryType] = useState();
     const { isOpen, onOpen, onClose } = useDisclosure();
     const EXPENSE_LIST_TABLE_COLUMNS = React.useMemo(() => PaymentConstants.NEW_EXPENSE_LIST_TABLE_META)
-    const expenseEntriesFromPayTrans = useSelector(state => state.expense.expenseEntryFromPayTran);
+    const expenseEntriesFromPayTrans = useSelector(state => state.expense.paymentTransactions.expenseEntryFromPayTran);
+    const expenseTotal = useSelector(state => state.expense.paymentTransactions.expenseEntryTotal);
 
 
     const getAccountUsers = async() => {
@@ -92,6 +94,9 @@ const CreateExpenseFromTransaction = (props) => {
                 dispatch(setExpenseEntryFromPayTrans(newExpenseList))
                 populateExpenseListForDisplay(newExpenseList)
                 setExpenseEntryType(null);
+                if(expenseTotal) {
+                    dispatch(setExpenseEntryFromPayTransTotal(parseFloat(expenseTotal)-parseFloat(props.transactionAmount)))                    
+                }
             } 
         }
       }
@@ -113,7 +118,7 @@ const CreateExpenseFromTransaction = (props) => {
                 amount: props.transactionAmount,
                 billable: false,
                 notes: props.transactionId,
-                date: props.transactionDate,
+                expenseDate: "2023-02-09T06:00:00.000Z",
             }
 
             const newExpenseList = [...expenseEntriesFromPayTrans]
@@ -122,6 +127,11 @@ const CreateExpenseFromTransaction = (props) => {
             populateExpenseListForDisplay(newExpenseList)
             setExpenseEntryType(null);
             setDisableAddEntry(true)
+            if(expenseTotal) {
+                dispatch(setExpenseEntryFromPayTransTotal(parseFloat(expenseTotal)+parseFloat(props.transactionAmount)))                    
+            } else {
+                dispatch(setExpenseEntryFromPayTransTotal(parseFloat(props.transactionAmount)))                    
+            }
         } else {
             toast({
                 title: 'Create Expense Error.',
@@ -146,6 +156,51 @@ const CreateExpenseFromTransaction = (props) => {
 
         if(expenseName && expenseProjectId && expenseUserId) {
 
+            try {
+
+                const expenseRequest = {
+                  projectId: parseInt(expenseProjectId),
+                  name: expenseName,
+                  billable: false,
+                  total: expenseTotal,
+                  status: ExpenseStatus.Approved,
+                  userId: parseInt(expenseUserId),
+                  expenseEntries: {
+                    create: [...expenseEntriesFromPayTrans]
+                  },
+                }
+                const responseData = await expenseService.createExpense(expenseRequest);
+                if(!responseData.error) {
+                  toast({
+                    title: 'New Expense.',
+                    description: 'Successfully added new expense.',
+                    status: 'success',
+                    position: 'top',
+                    duration: 3000,
+                    isClosable: true,
+                  })
+                //   router.push("/account/user/expenses");
+                  
+                }else {
+                  toast({
+                    title: 'Expense Error.',
+                    description: 'Not able to create expense, plrease try again or contact administrator. Please make sure all the fields are entered, Details:'+responseData.errorMessage,
+                    status: 'error',
+                    position: 'top',
+                    duration: 6000,
+                    isClosable: true,
+                  })
+                }
+            } catch (error) {
+              toast({
+                title: 'Expense Error.',
+                description: 'Not able to create expense, plrease try again or contact administrator. Details:'+error,
+                status: 'error',
+                position: 'top',
+                duration: 6000,
+                isClosable: true,
+              })
+            }
         } else {
             toast({
                 title: 'Create Expense Error.',
@@ -283,7 +338,9 @@ const CreateExpenseFromTransaction = (props) => {
                                 </Stack>                                
                             </>:<></>}
                             <CustomTable columns={EXPENSE_LIST_TABLE_COLUMNS} rows={expenseEntriesFromPayTrans} />        
-
+                            <Box>
+                                Total: {util.getWithCurrency(expenseTotal)}
+                            </Box>
                           </Stack>
                         </DrawerBody>
                     </DrawerContent>

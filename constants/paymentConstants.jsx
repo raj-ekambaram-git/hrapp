@@ -130,7 +130,7 @@ export const PaymentConstants = {
     },   
     {
       label: "Date",
-      accessor: "date",
+      accessor: "expenseDate",
     },           
     {
       label: "Status",

@@ -21,7 +21,7 @@ import { CustomTable } from "../../customTable/Table";
 import  AttachTransactionToInvoice from './attachTransactionToInvoice'
 import  AttachTransactionToExpense from './attachTransactionToExpense'
 import CreateExpenseFromTransaction from './createExpenseFromTransaction'
-import { setExpenseEntryFromPayTrans } from "../../../store/modules/Expense/actions";
+import { setExpenseEntryFromPayTrans, setExpenseEntryFromPayTransTotal } from "../../../store/modules/Expense/actions";
 
 const PaymentTransactions = (props) => {
     const dispatch = useDispatch();
@@ -35,6 +35,7 @@ const PaymentTransactions = (props) => {
             populateTransactionTable(props.paymentTransactions)
         }        
         dispatch(setExpenseEntryFromPayTrans([]))
+        dispatch(setExpenseEntryFromPayTransTotal(null))
       }, [props.paymentTransactions]);
 
 
@@ -46,7 +47,6 @@ const PaymentTransactions = (props) => {
     const populateTransactionTable = async(transactions) => {
         if(transactions && transactions.length>0) {
             const transactionList =  transactions.map((transaction, index)=> {
-                console.log("transaction.transaction_marked_invoice::::"+transaction.transaction_marked)
             if(!transaction.transaction_marked) {
 
                 //Enable CheckBox to include now

@@ -14,7 +14,12 @@ const initialState = {
     expenseHeader: {},
     expenseTransactions: [],
     expensePaidAmount: null,
-    expenseEntryFromPayTran: []
+    paymentTransactions: {
+        expenseEntryFromPayTran: [],
+        expenseEntryTotal: null
+
+    }
+    
 };
 
 const expenseReducer = (state = initialState, {type, payload}) => {
@@ -56,16 +61,18 @@ const expenseReducer = (state = initialState, {type, payload}) => {
     } else if(type === ActionTypes.EXPENSE_PAID_AMOUNT) {
         newState.expensePaidAmount = parseFloat(payload);
     } else if(type === ActionTypes.EXPENSE_ENTRY_FROM_PAYMENT_TRANS) {
-        const newExpenseTransactions = [...newState.expenseEntryFromPayTran]
+        const newExpenseTransactions = [...newState.paymentTransactions.expenseEntryFromPayTran]
         if(Array.isArray(payload)) {
             //Edit Condition
-            newState.expenseEntryFromPayTran = payload;
+            newState.paymentTransactions.expenseEntryFromPayTran = payload;
         }else {
             //Add New Condtion or udpate
             newExpenseTransactions.push(payload);
-            newState.expenseEntryFromPayTran = newExpenseTransactions;
+            newState.paymentTransactions.expenseEntryFromPayTran = newExpenseTransactions;
         }
-    } 
+    } else if(type === ActionTypes.EXPENSE_ENTRY_FROM_PAYMENT_TRANS_TOTAL) {
+        newState.paymentTransactions.expenseEntryTotal = parseFloat(payload);
+    }
 
 
     return newState;

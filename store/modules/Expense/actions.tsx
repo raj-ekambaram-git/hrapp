@@ -118,3 +118,10 @@ export const setExpenseEntryFromPayTrans = (expenseEntryFromPayTrans) => {
         payload: expenseEntryFromPayTrans
     }
 }
+
+export const setExpenseEntryFromPayTransTotal = (expenseEntryFromPayTransTotal) => {
+    return {
+        type: ActionTypes.EXPENSE_ENTRY_FROM_PAYMENT_TRANS_TOTAL,
+        payload: expenseEntryFromPayTransTotal
+    }
+}
