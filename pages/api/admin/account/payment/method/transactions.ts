@@ -85,15 +85,18 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           });
 
           if(transactions.data && transactions.data?.transactions && transactions.data?.total_transactions > 0) {
-            const transactionIds = transactions.data?.transactions?.map((transaction) => {return transaction.transaction_id})
+            const transactionIds = transactions.data?.transactions?.map((transaction) => {              
+              return {
+                transactionId: {                  
+                  contains: transaction.transaction_id
+                },
+              }
+            })
             
-            console.log("transactionIds:::"+JSON.stringify(transactionIds))
             //Check if any of these transactions are already marked under invoice
             const alreadyMarkedInvoiceTransactions = await prisma.invoiceTransaction.findMany({
               where: {
-                transactionId: {
-                  in: transactionIds
-                },
+                OR: transactionIds,
                 invoice: {
                   accountId: parseInt(accountId.toString()),
                   status: {
@@ -107,11 +110,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             //Check if any of these transactions are already marked under expense
             const alreadyMarkedExpenseTransactions = await prisma.expenseTransaction.findMany({
               where: {
-                OR: {
-                  transactionId: {                  
-                    in: transactionIds
-                  },
-                },
+                OR: transactionIds,
                 expense: {
                   project: {
                     accountId: parseInt(accountId.toString())
@@ -123,9 +122,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
               },
             });
 
-            console.log("alreadyMarkedExpenseTransactions::::"+JSON.stringify(alreadyMarkedExpenseTransactions))
-
-            const markedExpenseTransactionIds = alreadyMarkedExpenseTransactions.map((transaction) => {return transaction.transactionId});
+            const markedExpenseTransactionIds = [];
+            alreadyMarkedExpenseTransactions.map((transaction) => {
+              transaction.transactionId.split(",").map((tranId) => {
+                markedExpenseTransactionIds.push(tranId)
+              })
+            });
 
             //Now loop through all the transactions and mark the status for the response
             const transactionResponse = transactions.data?.transactions?.map((transaction) => {
@@ -146,7 +148,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
               transactionObj["transaction_category"] = transaction.category
               transactionObj["transaction_pending"] = transaction.pending
               transactionObj["transaction_marked"] = false
+              console.log("transaction.transaction_id:::"+transaction.transaction_id)
               if(markedExpenseTransactionIds.includes(transaction.transaction_id)) {
+                console.log("Matched...")
                 transactionObj["transaction_marked"] = true
                 transactionObj["transaction_type"] = "Expense"
               }
