@@ -16,7 +16,7 @@ console.log("EMAIL SERVER  SIDE API CALL")
   try {
     const {emailRequest} = req.body;
 
-    console.log("emailRequest.templateData::"+JSON.stringify(emailRequest))
+    
       if(emailRequest && !emailRequest.withAttachment) {
         await mail.send({
           from: {
@@ -32,7 +32,6 @@ console.log("EMAIL SERVER  SIDE API CALL")
           ],
           template_id: emailRequest.template_id
         }).then((emailResponse) => {
-          console.log("emailResponse::"+JSON.stringify(emailResponse))
           res.status(200).json(emailRequest);
         })
         .catch(err => {
