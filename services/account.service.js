@@ -24,6 +24,7 @@ export const accountService = {
     getAddressByVendor,
     getProjectsByVendor,
     getUserList,
+    getAdminUserList,
     createAccount,
     updateAccount,
     getAccountReportData,
@@ -247,6 +248,13 @@ function registerAccount(formData) {
 
 function getUserList(accountId) {
     return fetchWrapper.get(`${baseUrl}/account/`+accountId+'/users', {})
+        .then(accountUsers => {
+            return accountUsers;
+        });
+}
+
+function getAdminUserList(accountId) {
+    return fetchWrapper.get(`${baseUrl}/account/`+accountId+'/users?filterBy=Admins', {})
         .then(accountUsers => {
             return accountUsers;
         });

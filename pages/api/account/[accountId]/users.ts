@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import { UserStatus, VendorUserStatus } from "@prisma/client";
+import { Role, UserStatus, VendorUserStatus } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next"
 import { EMPTY_STRING } from "../../../../constants/accountConstants";
 import prisma from "../../../../lib/prisma";
@@ -12,8 +12,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   const vendorId = req.query.vendorId;
   const accountId = req.query.accountId;
+  const filterBy = req.query.filterBy;
 
-console.log("Vendor ID::"+vendorId+"---AccountioD::"+accountId)
+console.log("Vendor ID::"+vendorId+"---AccountioD::"+accountId+"****filterBy::"+filterBy)
   
   try {
     if(vendorId != EMPTY_STRING && accountId != EMPTY_STRING && accountId != "NaN" && accountId != undefined && vendorId != undefined) {
@@ -55,25 +56,51 @@ console.log("Vendor ID::"+vendorId+"---AccountioD::"+accountId)
       });
       res.status(200).json(users);
     } else if (accountId != EMPTY_STRING && accountId != undefined && (vendorId == EMPTY_STRING || vendorId == undefined)){
-      console.log("2222")
-      const users = await prisma.user.findMany({
-        where: {
-            accountId: {
-              equals: parseInt(accountId.toString())
-            },
-            status: {
-              not: UserStatus.MarkForDelete
-            }
-        },
-        orderBy: {
-          lastUpdateDate: "desc"
-        },
-        include: {
-          account: true
-        }
+      if(filterBy && filterBy === "Admins") {
+        const users = await prisma.user.findMany({
+          where: {
+              accountId: {
+                equals: parseInt(accountId.toString())
+              },
+              status: {
+                not: UserStatus.MarkForDelete,
+                in: [UserStatus.Active, UserStatus.Approved]
+              },
+              userRole: {
+                hasSome: [Role.ACCOUNT_ADMIN, Role.ACCOUNT_MANAGER, Role.ACCOUNT_VENDOR_REP]
+              }
+          },
+          orderBy: {
+            lastUpdateDate: "desc"
+          },
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true
+          }
+        });
+        res.status(200).json(users);
+      } else {
+        const users = await prisma.user.findMany({
+          where: {
+              accountId: {
+                equals: parseInt(accountId.toString())
+              },
+              status: {
+                not: UserStatus.MarkForDelete
+              }
+          },
+          orderBy: {
+            lastUpdateDate: "desc"
+          },
+          include: {
+            account: true
+          }
+  
+        });
+        res.status(200).json(users);
+      }
 
-      });
-      res.status(200).json(users);
 
     }else if (vendorId != EMPTY_STRING && vendorId != undefined && accountId == "NaN") {
       const users = await prisma.vendorUsers.findMany({

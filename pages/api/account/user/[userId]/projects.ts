@@ -33,37 +33,65 @@ console.log("userId ID::"+userId+"---AccountioD::"+accountId+"***filter::"+filte
   
   try {
     if(userId != "" && accountId != "" && accountId != "NaN" && accountId != undefined && userId != undefined && userId != "NaN") {
-      const projects = await prisma.projectResource.findMany({
-        where: whereClasuse,
-        orderBy: {
-          id: "desc"
-        },
-        include: {
-          project: {            
-            include: {
-              projectResource: {
-                select: {
-                  cost: true,
-                  user: {
-                    select: {
-                      id: true,
-                      firstName: true,
-                      lastName: true,
+      if(filter === "Admins") {
+        const projects = await prisma.projectResource.findMany({
+          where: {
+            project: {
+              accountId: parseInt(accountId.toString()),
+            },            
+            userId: parseInt(userId.toString())
+          },
+          orderBy: {
+            id: "desc"
+          },
+          select: {
+            billable: true,
+            project: {
+              select: {
+                status: true,
+                id: true,
+                name: true,
+                referenceCode: true    
+              }
+            }
+          }
+        });
+        res.status(200).json(projects);
+      } else {
+        const projects = await prisma.projectResource.findMany({
+          where: whereClasuse,
+          orderBy: {
+            id: "desc"
+          },
+          include: {
+            project: {            
+              include: {
+                projectResource: {
+                  select: {
+                    cost: true,
+                    user: {
+                      select: {
+                        id: true,
+                        firstName: true,
+                        lastName: true,
+                      }
                     }
                   }
                 }
               }
-            }
-          },
-          user: {
-            select: {
-              firstName: true,
-              lastName: true
+            },
+            user: {
+              select: {
+                firstName: true,
+                lastName: true
+              }
             }
           }
-        }
-      });
-      res.status(200).json(projects);
+        });
+        res.status(200).json(projects);
+      }
+
+      
     } else if (accountId != "" && accountId != undefined && userId == "NaN"){
       console.log("2222");
       const projects = await prisma.projectResource.findMany({

@@ -10,7 +10,6 @@ import {
     DrawerCloseButton,
     DrawerHeader,
     DrawerOverlay,
-    Flex,
     Stack,
     useDisclosure,
     useToast,
@@ -30,22 +29,26 @@ import {
   } from '@chakra-ui/react';
   
 import { useDispatch, useSelector } from "react-redux";
-import { userService } from "../../../services";
+import { userService, accountService } from "../../../services";
 import { PaymentConstants } from "../../../constants";
 import { CustomTable } from "../../customTable/Table";
 import { util } from "../../../helpers";
 import { ExpenseTypeLookup } from "../../../data/exponseType";
-import { ExpenseEntryStatus } from "@prisma/client";
+import { ExpenseEntryStatus, ProjectStatus } from "@prisma/client";
 import { setExpenseEntryFromPayTrans } from "../../../store/modules/Expense/actions";
+import { FiUserPlus } from "react-icons/fi";
+import { Spinner } from '../../common/spinner'
 
 const CreateExpenseFromTransaction = (props) => {
     const dispatch = useDispatch();
     const toast = useToast();
 
     const [size, setSize] = useState('');
+    const [loading, setLoading] = useState(false);
     const [expenseList, setExpenseList] = useState([]);
     const [expenseName, setExpenseName] = useState();
-    const [userProjectList, setUserProjectList] = useState([]);
+    const [accountUserList, setAccountUserList] = useState();
+    const [userProjectList, setUserProjectList] = useState();
     const [expenseProjectId, setExpenseProjectId] = useState();
     const [expenseUserId, setExpenseUserId] = useState();
     const [disableAddEntry, setDisableAddEntry] = useState(false);
@@ -54,9 +57,25 @@ const CreateExpenseFromTransaction = (props) => {
     const EXPENSE_LIST_TABLE_COLUMNS = React.useMemo(() => PaymentConstants.NEW_EXPENSE_LIST_TABLE_META)
     const expenseEntriesFromPayTrans = useSelector(state => state.expense.expenseEntryFromPayTran);
 
-    async function getProjectForUser(userId) {
-        const projectsForUserResponse = await userService.getProjectsByUser(userId, userService.getAccountDetails().accountId, "billable");    
-        setUserProjectList(projectsForUserResponse);
+
+    const getAccountUsers = async() => {
+        setLoading(true)
+        const responseData = await accountService.getAdminUserList(userService.getAccountDetails().accountId)
+        setAccountUserList(responseData)
+        setLoading(false)
+    }
+
+    const getProjectForUser = async(userId) => {
+        if(userId) {
+            setLoading(true)
+            setExpenseUserId(userId)
+            const projectsForUserResponse = await userService.getProjectsByUser(userId, userService.getAccountDetails().accountId, "Admins");    
+            setUserProjectList(projectsForUserResponse);
+            setLoading(false)    
+        } else {
+            setExpenseUserId(null)
+            setUserProjectList(null);
+        }
       }
 
     const addToNewExpense = async(newSize, isChecked) => {        
@@ -125,6 +144,20 @@ const CreateExpenseFromTransaction = (props) => {
 
       const submitExpenseFromTransactions = async() => {
 
+        if(expenseName && expenseProjectId && expenseUserId) {
+
+        } else {
+            toast({
+                title: 'Create Expense Error.',
+                description: "Please enter name, user and project and try again.",
+                status: 'error',
+                position: 'top',
+                duration: 6000,
+                isClosable: true,
+              })
+              return;
+        }
+
       }
 
     return (
@@ -139,6 +172,7 @@ const CreateExpenseFromTransaction = (props) => {
                             Attach Expense Transction
                         </DrawerHeader>
                         <DrawerBody>
+                        {loading?<><Spinner/></>:<></>}
                           <Stack spacing={5} marginTop={9}>
                             <Card variant="paymentTransactions">
                                 <CardHeader>
@@ -206,32 +240,44 @@ const CreateExpenseFromTransaction = (props) => {
                             {expenseEntriesFromPayTrans && expenseEntriesFromPayTrans.length >0?<>
                                 <Stack spacing={5}>
                                     <HStack spacing={10}>
+                                        <Box width="25%">
+                                            <FormControl isRequired>
+                                                <FormLabel>Name</FormLabel>
+                                                <Input type="text" id="expenseName"   onChange={(ev) => setExpenseName(ev.target.value)}/>
+                                            </FormControl>    
+                                        </Box>
+                                        <Box>
                                         <FormControl isRequired>
-                                            <FormLabel>Name</FormLabel>
-                                            <Input type="text" id="expenseName"   onChange={(ev) => setExpenseName(ev.target.value)}/>
-                                        </FormControl>        
-                                        <FormControl isRequired>
-                                            <FormLabel>User</FormLabel>
-                                            <Select id="projectId" value={expenseUserId} onChange={(ev) => setExpenseUserId(ev.target.value)}>
-                                                <option value="">Select User</option>
-                                                {userProjectList?.map((project) => (
-                                                    {...project.project?.status === ProjectStatus.Open?(<>
-                                                    <option value={project.projectId} data-unitprice={project.unitPrice} >{project.project.name} - {project.project.referenceCode}</option>
-                                                    </>):(<></>)}
-                                                ))}
-                                            </Select>  
-                                        </FormControl>  
-                                        <FormControl isRequired>
-                                            <FormLabel>Project</FormLabel>
-                                            <Select id="projectId" value={expenseProjectId} onChange={(ev) => setExpenseProjectId(ev.target.value)}>
-                                                <option value="">Select Project</option>
-                                                {userProjectList?.map((project) => (
-                                                    {...project.project?.status === ProjectStatus.Open?(<>
-                                                    <option value={project.projectId} data-unitprice={project.unitPrice} >{project.project.name} - {project.project.referenceCode}</option>
-                                                    </>):(<></>)}
-                                                ))}
-                                            </Select>  
-                                        </FormControl>                                                                                                                 
+                                            <FormLabel>User</FormLabel>                                            
+                                            <HStack>                                                
+                                                {accountUserList?<>
+                                                    <Select id="projectId" value={expenseUserId} onChange={(ev) => getProjectForUser(ev.target.value)}>
+                                                        <option value="">Select User</option>
+                                                        {accountUserList?.map((accountUser) => (
+                                                            <option value={accountUser.id} >{accountUser.firstName} - {accountUser.lastName}</option>
+                                                        ))}
+                                                    </Select>                                              
+                                                </>:<>
+                                                    <FiUserPlus size={30} onClick={getAccountUsers}/>
+                                                </>}                                                
+                                            </HStack>         
+                                        </FormControl>     
+                                        </Box> 
+                                        {userProjectList?<>
+                                        <Box>
+                                            <FormControl isRequired>
+                                                <FormLabel>Project</FormLabel>
+                                                <Select id="projectId" value={expenseProjectId} onChange={(ev) => setExpenseProjectId(ev.target.value)}>
+                                                    <option value="">Select Project</option>
+                                                    {userProjectList?.map((project) => (
+                                                        {...project.project?.status === ProjectStatus.Open?(<>
+                                                        <option value={project.project?.id} >{project.project?.name} - {project.project?.referenceCode} - {project.billable?"Billable":"Non-Billable"}</option>
+                                                        </>):(<></>)}
+                                                    ))}
+                                                </Select>  
+                                            </FormControl>   
+                                        </Box>                                           
+                                        </>:<></>}                                                                                                            
                                     </HStack>                                                                         
                                     <Button bgColor="header_actions"  width="15%" size="xs" onClick={submitExpenseFromTransactions} >Create Expense</Button>
                                 </Stack>                                
