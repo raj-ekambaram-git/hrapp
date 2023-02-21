@@ -25,10 +25,10 @@ const mainPage = definePartsStyle({
     },
     icon: {
       border: '1px solid',
-      borderColor: 'gray.200',
+      borderColor: 'gray.800',
       background: 'gray.200',
       borderRadius: 'full',
-      color: 'gray.500',
+      color: 'gray.800',
 
       _dark: {
         borderColor: 'gray.600',
