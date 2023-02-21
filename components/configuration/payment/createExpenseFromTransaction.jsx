@@ -34,7 +34,7 @@ import { PaymentConstants } from "../../../constants";
 import { CustomTable } from "../../customTable/Table";
 import { util } from "../../../helpers";
 import { ExpenseTypeLookup } from "../../../data/exponseType";
-import { ExpenseEntryStatus, ExpenseStatus, ProjectStatus } from "@prisma/client";
+import { ExpenseEntryStatus, ExpenseStatus, ExpenseTransactionStatus, ProjectStatus } from "@prisma/client";
 import { setExpenseEntryFromPayTrans, setExpenseEntryFromPayTransTotal } from "../../../store/modules/Expense/actions";
 import { FiUserPlus } from "react-icons/fi";
 import { Spinner } from '../../common/spinner'
@@ -123,7 +123,7 @@ const CreateExpenseFromTransaction = (props) => {
             }
 
             const newExpenseList = [...expenseEntriesFromPayTrans]
-            newExpenseList.push(expenseEntry)
+            newExpenseList.push(expenseEntry)   
             dispatch(setExpenseEntryFromPayTrans(newExpenseList))
             populateExpenseListForDisplay(newExpenseList)
             setExpenseEntryType(null);
@@ -159,16 +159,29 @@ const CreateExpenseFromTransaction = (props) => {
 
             try {
 
+                const expenseTransaction = {
+                    amount: expenseTotal,
+                    transactionId: "From Payment Transaction1",
+                    transactionData: "From Payment Transaction1",
+                    externalTransactionID: ["1","2"],
+                    status: ExpenseTransactionStatus.Paid
+                }
                 const expenseRequest = {
                   projectId: parseInt(expenseProjectId),
                   name: expenseName,
+                  approvedById: parseInt(expenseUserId),
+                  approvedDate: new Date().toISOString(),
                   billable: false,
                   total: expenseTotal,
-                  status: ExpenseStatus.Approved,
+                  paidAmount: expenseTotal,
+                  status: ExpenseStatus.Paid,
                   userId: parseInt(expenseUserId),
                   expenseEntries: {
                     create: [...expenseEntriesFromPayTrans]
                   },
+                  expenseTransaction: {
+                    create: [expenseTransaction]
+                  }
                 }
                 const responseData = await expenseService.createExpense(expenseRequest);
                 if(!responseData.error) {

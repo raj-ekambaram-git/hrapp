@@ -347,15 +347,16 @@ model Expense {
 }
 
 model ExpenseTransaction {
-  id              Int                      @id @default(autoincrement())
-  amount          Decimal                  @default(0)
-  transactionId   String
-  transactionData String
-  expenseId       Int?
-  status          ExpenseTransactionStatus
-  createdDate     DateTime                 @default(now())
-  lastUpdatedDate DateTime                 @updatedAt
-  expense         Expense?                 @relation(fields: [expenseId], references: [id])
+  id                    Int                      @id @default(autoincrement())
+  amount                Decimal                  @default(0)
+  transactionId         String
+  transactionData       String
+  expenseId             Int?
+  externalTransactionID String[]
+  status                ExpenseTransactionStatus
+  createdDate           DateTime                 @default(now())
+  lastUpdatedDate       DateTime                 @updatedAt
+  expense               Expense?                 @relation(fields: [expenseId], references: [id])
 
   @@unique([transactionId])
   @@index([expenseId, id, status, createdDate])
