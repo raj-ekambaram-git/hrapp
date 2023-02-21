@@ -65,16 +65,13 @@ function ExportSystemTemplateData(props) {
 
   }
     return (
-      <div>
-          <Flex marginBottom="1rem" borderRadius="lg" alignSelf="center">
-              <HStack>
-                <Button size="xs" bgColor="header_actions" 
-                    onClick={() => handleSystemExportTemplateData("xl")}
-                    key="xl"
-                    m={1}
-                    >{`Export`}
-                </Button>
-              </HStack>
+      <>          
+              <Button size="xs" bgColor="header_actions" 
+                  onClick={() => handleSystemExportTemplateData("xl")}
+                  key="xl"
+                  m={1}
+                  >{`Export`}
+              </Button>
               <Drawer onClose={onClose} isOpen={isOpen} size={size}>
                     <DrawerOverlay />
                     <DrawerContent>
@@ -102,9 +99,7 @@ function ExportSystemTemplateData(props) {
                         </DrawerBody>
                     </DrawerContent>
               </Drawer>
-            </Flex>
-
-        </div>
+        </>
 
     );
 }

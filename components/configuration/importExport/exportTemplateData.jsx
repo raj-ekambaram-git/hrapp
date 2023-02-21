@@ -40,7 +40,7 @@ function ExportTemplateData() {
       const updatedExportTemplates = [];
       responseData.map((exportTemplate, index)=> {
         exportTemplate.type === ExportTemplateType.System?
-          exportTemplate.exportAction =  exportTemplate.status === ExportTemplateStatus.Active?<><ExportSystemTemplateData handleSystemExportNow={handleSystemExportNow} exportTemplateMeta={exportTemplate}/></>:<></>          
+          exportTemplate.exportAction =  exportTemplate.status === ExportTemplateStatus.Active?<ExportSystemTemplateData handleSystemExportNow={handleSystemExportNow} exportTemplateMeta={exportTemplate}/>:<></>          
           : exportTemplate.exportAction =  exportTemplate.status === ExportTemplateStatus.Active?<><Button onClick={() => handleExportNow(exportTemplate.id)} size="xs"  bgColor="header_actions">Export</Button></>:<></>
 
           updatedExportTemplates.push(exportTemplate)
