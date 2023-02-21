@@ -21,6 +21,13 @@ const baseStyle = definePartsStyle({
     bgColor:"heading",
     color: "white"
   },
+  closeButton: {
+    bgColor:"gray.300",
+    border: "1px"
+  },
+  dialog: {
+    border: "1px",
+  }
 })
 
 
