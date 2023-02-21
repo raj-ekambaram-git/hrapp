@@ -7,6 +7,8 @@ import {
     CardBody,
     CardFooter,
     CardHeader,
+    Checkbox,
+    HStack,
     useDisclosure,
     useToast,
 
@@ -18,7 +20,8 @@ import { userService } from "../../../services";
 import { CustomTable } from "../../customTable/Table";
 import  AttachTransactionToInvoice from './attachTransactionToInvoice'
 import  AttachTransactionToExpense from './attachTransactionToExpense'
-
+import CreateExpenseFromTransaction from './createExpenseFromTransaction'
+import { setExpenseEntryFromPayTrans } from "../../../store/modules/Expense/actions";
 
 const PaymentTransactions = (props) => {
     const dispatch = useDispatch();
@@ -31,6 +34,7 @@ const PaymentTransactions = (props) => {
         if(userService.isSuperAdmin() || (userService.isAccountAdmin && userService.isPaymentAdmin)) {
             populateTransactionTable(props.paymentTransactions)
         }        
+        dispatch(setExpenseEntryFromPayTrans([]))
       }, [props.paymentTransactions]);
 
 
@@ -38,23 +42,25 @@ const PaymentTransactions = (props) => {
 
     }
 
+
     const populateTransactionTable = async(transactions) => {
         if(transactions && transactions.length>0) {
             const transactionList =  transactions.map((transaction, index)=> {
                 console.log("transaction.transaction_marked_invoice::::"+transaction.transaction_marked)
             if(!transaction.transaction_marked) {
+
                 //Enable CheckBox to include now
                 if(parseFloat(transaction.transaction_amount) > 0) {
                     // This means we spent the money to expense
                     // transaction.transaction_action = <Button size="xs" colorScheme="red"  onClick={() => handleTransactionAsPaid("Expense",transaction.transaction_id)}>Attach Expense</Button>
                     transaction.transaction_action = <AttachTransactionToExpense transactionId={transaction.transaction_id} transactionAmount={transaction.transaction_amount}/>
-                    
+                    transaction.open_transaction = <CreateExpenseFromTransaction transactionId={transaction.transaction_id} transactionAmount={transaction.transaction_amount}/>
                 } else {
                     // This means we received the money for invoice
                     transaction.transaction_action = <AttachTransactionToInvoice transactionId={transaction.transaction_id} transactionAmount={transaction.transaction_amount}/>
                 }                
             } else {
-                transaction.transaction_action = <Button size="xs" isDisabled={true} onClick={() => handleTransactionAsPaid("Marked",transaction.transaction_id)}>Attached</Button>
+                transaction.transaction_action = <Button size="xs" isDisabled={true} onClick={() => handleTransactionAsPaid("Marked",transaction.transaction_id)}>Attached</Button>                
             }
           
             transaction.transaction_status=transaction.pending?"Pending":"Complete"                

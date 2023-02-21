@@ -8,6 +8,12 @@ export const PaymentConstants = {
   },
   TRANSACTION_LIST_TABLE_META: [
     {
+      label: "",
+      accessor: "open_transaction",
+      disableSearch: true,
+      disableSort: true
+    },
+    {
       label: "Amount",
       accessor: "transaction_amount",
       format: (value) => (value ? <Text fontWeight="600" color={value>0?"pending_status":"paid_status"}>{util.getWithCurrency(value>0?value:-value)}</Text> : util.getWithCurrency(0))
@@ -107,6 +113,30 @@ export const PaymentConstants = {
       disableSearch: true,
       disableSort: true
     },                         
+  ],
+  NEW_EXPENSE_LIST_TABLE_META: [
+    {
+      label: "Type",
+      accessor: "type",      
+    },
+    {
+      label: "Amount",
+      accessor: "amount",
+    },    
+    {
+      label: "Billable",
+      accessor: "billable",
+      format: (value) => (value ? "Yes": "No")
+    },       
+    {
+      label: "Status",
+      accessor: "status",
+      format: (value) => (value ? <Badge color={`${value === "Submitted" ? "pending_status": "paid_status"}`}>{value}</Badge> : '✖️')
+    },
+    {
+      label: "Transaction ID",
+      accessor: "notes",
+    },                       
   ]
   
 }

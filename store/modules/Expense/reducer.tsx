@@ -14,6 +14,7 @@ const initialState = {
     expenseHeader: {},
     expenseTransactions: [],
     expensePaidAmount: null,
+    expenseEntryFromPayTran: []
 };
 
 const expenseReducer = (state = initialState, {type, payload}) => {
@@ -54,6 +55,16 @@ const expenseReducer = (state = initialState, {type, payload}) => {
         
     } else if(type === ActionTypes.EXPENSE_PAID_AMOUNT) {
         newState.expensePaidAmount = parseFloat(payload);
+    } else if(type === ActionTypes.EXPENSE_ENTRY_FROM_PAYMENT_TRANS) {
+        const newExpenseTransactions = [...newState.expenseEntryFromPayTran]
+        if(Array.isArray(payload)) {
+            //Edit Condition
+            newState.expenseEntryFromPayTran = payload;
+        }else {
+            //Add New Condtion or udpate
+            newExpenseTransactions.push(payload);
+            newState.expenseEntryFromPayTran = newExpenseTransactions;
+        }
     } 
 
 
