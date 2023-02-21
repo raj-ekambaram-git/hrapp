@@ -66,7 +66,7 @@ import NoteFooter from './noteFooter';
         <div>
             {(notesType?.type != undefined && notesType?.typeId != undefined) ? (<>
                 <Button size="xs" bg={props.btnColor?props.btnColor:"inner_table_tile"}
-                    onClick={() => handleClick("lg")}
+                    onClick={() => handleClick("xl")}
                     >{`Comments`}
                 </Button>
                 <Drawer onClose={onClose} isOpen={isOpen} size={size}>
