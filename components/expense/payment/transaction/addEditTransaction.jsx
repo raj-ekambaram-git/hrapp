@@ -60,6 +60,7 @@ const AddEditTransaction = (props) => {
             && tranReferenceNo !== undefined && tranReferenceNo !== EMPTY_STRING
             && tranStatus !== undefined && tranStatus !== EMPTY_STRING
             && tranNotes !== undefined && tranNotes !== EMPTY_STRING) {
+                setLoading(true)
                 const expenseTransData= {
                     amount: tranAmount,
                     transactionData: tranNotes,
@@ -78,6 +79,7 @@ const AddEditTransaction = (props) => {
                         duration: 9000,
                         isClosable: true,
                       })
+                      setLoading(false)
                 }else {
                     dispatch(updateExpenseTransactions(responseData.expenseTransaction));
                     dispatch(setExpensePaidAmount(responseData.finalPaidAmount));
@@ -90,12 +92,16 @@ const AddEditTransaction = (props) => {
                         duration: 3000,
                         isClosable: true,
                       })
+                      setLoading(false)
                       
                 }
         }else {
             setShowErrorMessage(ErrorMessage.EXPENSE_TRANSACTION_FORM_ERROR);
+            setLoading(false)
             return;
         }
+
+        
 
     }
 
