@@ -142,7 +142,7 @@ const AddEditPurchaseOrder = (props) => {
             </>:<>
                 <HStack>
                     <Button size="xs"
-                        width="15%"
+                        width="5%"
                         colorScheme="yellow"
                         onClick={() => props.onClose()}
                         >{`Cancel`}
