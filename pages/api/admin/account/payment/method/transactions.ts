@@ -87,6 +87,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           if(transactions.data && transactions.data?.transactions && transactions.data?.total_transactions > 0) {
             const transactionIds = transactions.data?.transactions?.map((transaction) => {return transaction.transaction_id})
             
+            console.log("transactionIds:::"+JSON.stringify(transactionIds))
             //Check if any of these transactions are already marked under invoice
             const alreadyMarkedInvoiceTransactions = await prisma.invoiceTransaction.findMany({
               where: {
@@ -96,7 +97,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                 invoice: {
                   accountId: parseInt(accountId.toString()),
                   status: {
-                    in: [InvoiceStatus.Submitted, InvoiceStatus.PartiallyPaid]
+                    in: [InvoiceStatus.Submitted, InvoiceStatus.PartiallyPaid, InvoiceStatus.Paid]
                   }
                 },
               },
@@ -106,19 +107,23 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             //Check if any of these transactions are already marked under expense
             const alreadyMarkedExpenseTransactions = await prisma.expenseTransaction.findMany({
               where: {
-                transactionId: {
-                  in: transactionIds
+                OR: {
+                  transactionId: {                  
+                    in: transactionIds
+                  },
                 },
                 expense: {
                   project: {
                     accountId: parseInt(accountId.toString())
                   },
                   status: {
-                    in: [ExpenseStatus.Approved, ExpenseStatus.PartiallyPaid]
+                    in: [ExpenseStatus.Approved, ExpenseStatus.PartiallyPaid, ExpenseStatus.Paid]
                   }
                 },
               },
             });
+
+            console.log("alreadyMarkedExpenseTransactions::::"+JSON.stringify(alreadyMarkedExpenseTransactions))
 
             const markedExpenseTransactionIds = alreadyMarkedExpenseTransactions.map((transaction) => {return transaction.transactionId});
 
