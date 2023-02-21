@@ -195,7 +195,8 @@ const CreateExpenseFromTransaction = (props) => {
                     duration: 3000,
                     isClosable: true,
                   })
-                //   router.push("/account/user/expenses");
+                props.handleTransactionsAsMarked(transactionIds)
+                onClose()
                   
                 }else {
                   toast({

@@ -39,7 +39,16 @@ const PaymentTransactions = (props) => {
       }, [props.paymentTransactions]);
 
 
-    const handleTransactionAsPaid = async(type, transactionId) => {
+    const handleTransactionsAsMarked = async(transactionIds) => {
+        const newPaymentTransacitons = [...props.paymentTransactions]
+        const updatedList = newPaymentTransacitons.map(payTran => {
+            if(transactionIds.includes(payTran.transaction_id)) {
+                payTran["transaction_marked"] = true;
+            }
+            return payTran;
+        })
+
+        populateTransactionTable(updatedList)
 
     }
 
@@ -54,11 +63,12 @@ const PaymentTransactions = (props) => {
                     // This means we spent the money to expense
                     // transaction.transaction_action = <Button size="xs" colorScheme="red"  onClick={() => handleTransactionAsPaid("Expense",transaction.transaction_id)}>Attach Expense</Button>
                     transaction.transaction_action = <AttachTransactionToExpense transactionId={transaction.transaction_id} transactionAmount={transaction.transaction_amount}/>
-                    transaction.open_transaction = <CreateExpenseFromTransaction transactionId={transaction.transaction_id} transactionAmount={transaction.transaction_amount} transactionDate={transaction.transaction_date}/>
+                    transaction.open_transaction = <CreateExpenseFromTransaction transactionId={transaction.transaction_id} transactionAmount={transaction.transaction_amount} transactionDate={transaction.transaction_date} handleTransactionsAsMarked={handleTransactionsAsMarked}/>
                 } else {
                     // This means we received the money for invoice
                     transaction.transaction_action = <AttachTransactionToInvoice transactionId={transaction.transaction_id} transactionAmount={transaction.transaction_amount}/>
                 }                
+                
             } else {
                 transaction.transaction_action = <Button size="xs" isDisabled={true} onClick={() => handleTransactionAsPaid("Marked",transaction.transaction_id)}>Attached</Button>                
             }
