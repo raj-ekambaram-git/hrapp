@@ -148,9 +148,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
               transactionObj["transaction_category"] = transaction.category
               transactionObj["transaction_pending"] = transaction.pending
               transactionObj["transaction_marked"] = false
-              console.log("transaction.transaction_id:::"+transaction.transaction_id)
               if(markedExpenseTransactionIds.includes(transaction.transaction_id)) {
-                console.log("Matched...")
                 transactionObj["transaction_marked"] = true
                 transactionObj["transaction_type"] = "Expense"
               }

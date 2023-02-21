@@ -90,7 +90,6 @@ const CreateExpenseFromTransaction = (props) => {
                 const newExpenseList = [...expenseEntriesFromPayTrans]
                 //Remove taht id from the list
                 const expenseListIdByIndex = newExpenseList.findIndex(x => x.notes === props.transactionId);
-                console.log("expenseListIdByIndex:::"+expenseListIdByIndex)
                 newExpenseList.splice(expenseListIdByIndex, 1);
                 dispatch(setExpenseEntryFromPayTrans(newExpenseList))
                 populateExpenseListForDisplay(newExpenseList)
