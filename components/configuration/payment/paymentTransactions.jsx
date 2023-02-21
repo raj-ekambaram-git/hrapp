@@ -7,10 +7,12 @@ import {
     CardBody,
     CardFooter,
     CardHeader,
-    Checkbox,
+    Text,
     HStack,
     useDisclosure,
     useToast,
+    Box,
+    Select,
 
   } from '@chakra-ui/react';
 import { Spinner } from "../../common/spinner";
@@ -85,7 +87,23 @@ const PaymentTransactions = (props) => {
         {transactions?<>
             <Card variant="paymentTransactions">
                 <CardHeader>
-                    Payment Transactions for last 30 days
+                    <HStack spacing={9}>
+                        <Text>
+                            Payment Transactions for 
+                        </Text>
+                        <Box>
+                            <Select id="type" onChange={(ev) => props.viewPaymentTransactions(props.paymentMethodId, ev.target.value)}>
+                                <option value="30">Last 30 Days</option>
+                                <option value="45">Last 45 Days</option>
+                                <option value="60">Last 60 Days</option>
+                                <option value="60">Last 90 Days</option>
+                            </Select>  
+                        </Box>
+                        <Box justifyItems="right">
+                            <CreateExpenseFromTransaction isViewMode={true}/>
+                        </Box>                        
+                    </HStack>
+                    
                 </CardHeader>
                 <CardBody>
                     {/* {JSON.stringify(transactions)} */}

@@ -101,6 +101,10 @@ const CreateExpenseFromTransaction = (props) => {
         }
       }
 
+      const openCreateExpense = (newSize) => {    
+        setSize(newSize);
+        onOpen();    
+      }
       const populateExpenseListForDisplay = (responseData) => {          
 
         const transactionList =  responseData.map((transaction, index)=> {
@@ -234,19 +238,28 @@ const CreateExpenseFromTransaction = (props) => {
 
     return (
         <>
-          <Checkbox onChange={(e) => addToNewExpense("xxl",e.target.checked)} />
+        {props.isViewMode?<>
+            <Button size="xs" bgColor="header_actions" 
+              onClick={() => openCreateExpense("xxl")}
+              >{`Create Expense`}
+          </Button>             
+        </>:<>
+            <Checkbox onChange={(e) => addToNewExpense("xxl",e.target.checked)} />
+        </>}        
+          
 
           <Drawer onClose={onClose} isOpen={isOpen} size={size}>
                 <DrawerOverlay />
                     <DrawerContent>
                         <DrawerCloseButton />
                         <DrawerHeader>
-                            Attach Expense Transction
+                            Create Expense
                         </DrawerHeader>
                         <DrawerBody>
                         {loading?<><Spinner/></>:<></>}
                           <Stack spacing={5} marginTop={9}>
-                            <Card variant="paymentTransactions">
+                            {props.transactionId && props.transactionAmount?<>
+                                <Card variant="paymentTransactions">
                                 <CardHeader>
                                     Transaction Detail
                                 </CardHeader>
@@ -308,7 +321,9 @@ const CreateExpenseFromTransaction = (props) => {
                                     </ButtonGroup>
 
                                 </CardFooter>
-                            </Card>
+                            </Card>                            
+                            </>:<></>}
+
                             {expenseEntriesFromPayTrans && expenseEntriesFromPayTrans.length >0?<>
                                 <Stack spacing={5}>
                                     <HStack spacing={10}>

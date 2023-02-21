@@ -166,12 +166,12 @@ const ManagePaymentAccounts = (props) => {
     setLoading(false);
   }
 
-  const viewPaymentTransactions = async(accountPaymentMethodInfoId) => {
+  const viewPaymentTransactions = async(accountPaymentMethodInfoId,pastDays) => {
     setLoading(true)
     const transactionRequest = {
       paymentMethodId: accountPaymentMethodInfoId,
-      pastDays: 100,
-      maxTransactionSize: 20,
+      pastDays: pastDays,
+      // maxTransactionSize: 20,
       offSetData: 0
     }
     const responseData = await paymentService.getPaymentTransactions(userService.getAccountDetails().accountId, userService.userValue.id, transactionRequest)
@@ -251,7 +251,7 @@ const ManagePaymentAccounts = (props) => {
                             </Box>
                             <Box>
                               <Button size="xs" bgColor="header_actions" 
-                                  onClick={() => viewPaymentTransactions(linkedAccountData.accountPaymentMethodInfo?.id)}                                
+                                  onClick={() => viewPaymentTransactions(linkedAccountData.accountPaymentMethodInfo?.id, 30)}                                
                                   >{`View Transactions`}
                               </Button> 
                             </Box>
@@ -259,7 +259,7 @@ const ManagePaymentAccounts = (props) => {
                         </Stack>
                       </CardBody>
                     </Card>
-                    <PaymentTransactions paymentTransactions={paymentTransactions} paymentMethodId={linkedAccountData.accountPaymentMethodInfo?.id}/>
+                    <PaymentTransactions paymentTransactions={paymentTransactions} paymentMethodId={linkedAccountData.accountPaymentMethodInfo?.id} viewPaymentTransactions={viewPaymentTransactions}/>
                   </>:<></>}
                 {!loading &&
                   balanceData != null &&
