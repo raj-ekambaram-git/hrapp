@@ -440,7 +440,7 @@ model Document {
 model TimesheetEntries {
   id             Int             @id @default(autoincrement())
   timesheetId    Int?
-  projectId      Int?            @default(1)
+  projectId      Int            @default(1)
   status         TimesheetStatus
   approvedDate   DateTime?
   entries        Json
