@@ -66,6 +66,8 @@ model Account {
   workFlowTasks     WorkFlowTask[]
   workFlow          WorkFlow[]
   paymentMethods    PaymentMethod[]
+
+  @@index([name])
 }
 
 model Vendor {
@@ -232,6 +234,7 @@ model Project {
   purchaseOrder             PurchaseOrder[]
 
   @@index([accountId, status])
+  @@index([name, accountId])
 }
 
 model User {
@@ -278,6 +281,9 @@ model User {
   paymentMethods     PaymentMethod[]
 
   @@index([accountId, accountOwner])
+  @@index([email])
+  @@index([email, status])
+  @@index([accountId])
 }
 
 model UserAttributes {
