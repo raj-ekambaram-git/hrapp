@@ -1,6 +1,7 @@
 export { ApprovalSection };
 import {
     Box,
+    Button,
     Card,
     CardBody,
     CardHeader,
@@ -43,9 +44,9 @@ function ApprovalSection(props) {
                                     Billable Timesheets:
                                 </Box>
                                 <Box width="10%" textAlign="left">
-                                        <Link href="#" onClick={() => router.push("/account/user/timesheets/approval")}>
-                                            {approvalData.billableTimesheetCount}
-                                        </Link>
+                                    <Button bgColor="header_actions" onClick={() => router.push("/account/user/timesheets/approval")} fontWeight="800" fontSize="14">
+                                        {approvalData.billableTimesheetCount}
+                                    </Button>                                    
                                 </Box>
                             </HStack>
                             <HStack>
@@ -53,9 +54,9 @@ function ApprovalSection(props) {
                                     Non-Billable Timesheets:
                                 </Box>
                                 <Box width="10%" textAlign="left">
-                                        <Link href="#" onClick={() => router.push("/account/user/timesheets/approval")}>
-                                            {approvalData.nonBillableTimesheetCount}
-                                        </Link>
+                                    <Button bgColor="header_actions" onClick={() => router.push("/account/user/timesheets/approval")} fontWeight="800" fontSize="14">
+                                        {approvalData.nonBillableTimesheetCount}
+                                    </Button>                                      
                                 </Box>
                             </HStack>
                             <HStack>
@@ -63,9 +64,9 @@ function ApprovalSection(props) {
                                     Expenses:
                                 </Box>
                                 <Box width="10%" textAlign="left">
-                                        <Link href="#" onClick={() => router.push("/account/user/expenses/approval")}>
-                                            {approvalData.expenseCount}
-                                        </Link>
+                                    <Button bgColor="header_actions" onClick={() => router.push("/account/user/expenses/approval")} fontWeight="800" fontSize="14">
+                                        {approvalData.expenseCount}
+                                    </Button>                                      
                                 </Box>
                             </HStack>                                                        
                         </Stack>
