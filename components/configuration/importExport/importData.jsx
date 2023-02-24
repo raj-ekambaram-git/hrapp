@@ -150,8 +150,8 @@ const ImportData = (props) => {
                 </Heading>
 
                 <Button size="xs" bgColor="header_actions" 
-                  onClick={() => handleImport("lg")}
-                  key="lg"
+                  onClick={() => handleImport("xl")}
+                  key="xl"
                   m={1}
                   >{`Import`}
                 </Button>

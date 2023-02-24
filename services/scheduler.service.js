@@ -12,7 +12,7 @@ export const schedulerService = {
 
 function getScheduleJobs(accountId) {
     console.log("accountId:::"+accountId+"****baseUrl:::"+baseUrl)
-    return fetchWrapper.get(`${baseUrl}/scheduler/account/`+accountId+`/jobs?accountId=`+accountId, {})
+    return fetchWrapper.get(`${baseUrl}/scheduler/account/`+accountId+`/jobs?jobGroup=`+accountId, {})
     .then(jobs => {
         console.log("jobs:::"+JSON.stringify(jobs))
         return jobs;

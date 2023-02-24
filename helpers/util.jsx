@@ -96,7 +96,7 @@ function getWithCurrency(value) {
   if(value === undefined || value === EMPTY_STRING || value === null || isNaN(value)) {
     return "$ "+parseFloat(0);
   }else {
-    return "$ "+parseFloat(value);
+    return "$ "+parseFloat(value).toFixed(2);
   }
 }
 

@@ -337,7 +337,7 @@ const ExpenseEntry = (props) => {
                           </HStack>                          
                         </Th>             
                         <Th>
-                          <Input type="number" id="amount"  value={expenseEntry.amount} onChange={(ev) => handleExpenseAmount(index, expenseEntry.amount,ev.target.value)}/>
+                          <Input type="number" id="amount"  value={parseFloat(expenseEntry.amount).toFixed(2)} onChange={(ev) => handleExpenseAmount(index, expenseEntry.amount,ev.target.value)}/>
                         </Th>  
                         <Th>
                           <HStack spacing={5}>
