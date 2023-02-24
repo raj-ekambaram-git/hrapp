@@ -25,6 +25,7 @@ export const importExportService = {
 
 function importData(userId, accountId, objectType, file, importName) {
   
+
   if(objectType === "Timesheet") {
     const importDataRequest = {
       "jobRequestData": {
@@ -49,30 +50,27 @@ function importData(userId, accountId, objectType, file, importName) {
       }
     }
 
-    console.log("REQUEST DATA::::"+JSON.stringify(importDataRequest))
+    const formData = new FormData();
+    formData.append("file", file);  
+    formData.append("request", JSON.stringify(importDataRequest));
 
-    return fetchWrapper.post(`${schedulerBaseUrl}/import/timesheet`, {
-      file: file,
-      request: JSON.stringify(importDataRequest)
-    })
+    return fetchWrapper.filePost(`${schedulerBaseUrl}/import/timesheet`, formData)
     .then(importedData => {
-  
       return importedData;
     })
     .catch(err => {
-      console.log("Error Updating Invoice::"+err)
+      console.log("Error importData::"+JSON.stringify(err))
       return {errorMessage: err, error: true};
     });
   }
 
+  
 }
 
 function previousImports(userId, accountId) {
 
-  console.log("accountId:::"+accountId+"****baseUrl:::"+schedulerBaseUrl)
   return fetchWrapper.get(`${schedulerBaseUrl}/scheduler/account/`+accountId+`/jobs?jobGroup=`+accountId+"_"+userId+ConfigConstants.IMPORT_JOB_SUFFIX.suffix, {})
   .then(jobs => {
-      console.log("jobs:::"+JSON.stringify(jobs))
       return jobs;
   })  
   .catch(err => {
@@ -83,17 +81,13 @@ function previousImports(userId, accountId) {
 
 function exportSystemReport(inputData, accountId) {
 
-  console.log("inputData:::"+JSON.stringify(inputData))
   if(inputData.reportType===ConfigConstants.AVAILABLE_REPORTS.ProjectReport) {
-    console.log("ProjectReport::")
     return fetchWrapper.get(`${baseUrl}/reports/project/`+inputData.projectId+'/detail?accountId='+accountId, {}
     )
     .then(async projectData => {
-      console.log("projectData:::"+JSON.stringify(projectData))
       return generateReport(projectData, inputData.templateName, inputData.templateCSS)
     })
     .catch(err => {
-      console.log("Error generateInvoice::"+err)
       return {errorMessage: err, error: true};
     });
   }
@@ -105,7 +99,6 @@ async function generateReport(inputData, templateName, templateCSS) {
     templateName: templateName,
     templateCSS: templateCSS
   }
-  console.log("reportInputData:::"+JSON.stringify(reportInputData))
   const authHeader = JSON.stringify(fetchWrapper.authHeader(`${baseUrl}/reports/generate`));
   const data = await fetch(`${baseUrl}/reports/generate/`, {
     method: 'POST',

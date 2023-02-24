@@ -12,8 +12,18 @@ export const fetchWrapper = {
     delete: _delete,
     authHeader,
     filePut,
-    cachedGet
+    cachedGet,
+    filePost,
 };
+
+function filePost(url, body) {
+    const requestOptions = {
+        method: 'POST',
+        headers: {...authHeader(url) },
+        body: body
+    };
+    return fetch(url, requestOptions).then(handleResponse);
+}
 
 function cachedGet(url, params, hours) {
 
@@ -101,6 +111,9 @@ function authHeader(url) {
         return {};
     }
 }
+
+
+
 
 function handleResponse(response) {
     return response.text().then(text => {

@@ -102,49 +102,41 @@ const ImportData = (props) => {
 
 
   const importData = async() => {
-    const responseData = await importExportService.importData(userService.userValue.id, userService.getAccountDetails().accountId, importObject, file, "TestImport1");
-  } 
-
-  const handleParseAndLoad = async () => {
-         
-    if (!file){
+    const responseData = await importExportService.importData(userService.userValue.id, userService.getAccountDetails().accountId, importObject, file, "TestImport7");
+    if(responseData && responseData.statusCode == 501) {
       toast({
-        title: 'Upload File Error.',
-        description: 'Enter a valid file.',
+        title: 'Import Data Error.',
+        description: 'Import name already exists, please try importing the data with different name.',
         status: 'error',
         position: 'top',
         duration: 6000,
         isClosable: true,
       })
       return;
-    };
-    // const responseData = await importExportService.importData(file, file.type)
-        // Initialize a reader which allows user
-        // to read any file or blob.
-        const reader = new FileReader();
-         
-        // Event listener on reader when the file
-        // loads, we parse it and set the data.
-        reader.onload = async ({ target }) => {
-            const csv = Papa.parse(target.result, { header: true });
-            const parsedData = csv?.data;
-            const columns = Object.keys(parsedData[0]);
-            console.log("parsedData:::"+JSON.stringify(parsedData))
-            console.log("columns:::"+columns)
-            setData(parsedData);
-            const responseData = await importExportService.importTimesheetData(parsedData)
-            
-        };
-        reader.readAsText(file);    
-
-        
-
-        console.log("DATTAA::"+JSON.stringify(data))
-  }
- 
+    } else if(responseData && responseData.statusCode == 200){
+      toast({
+        title: 'Import Data.',
+        description: 'Successfully imported daa.',
+        status: 'success',
+        position: 'top',
+        duration: 3000,
+        isClosable: true,
+      })
+      onClose()
+    } else {
+      toast({
+        title: 'Import Data Error.',
+        description: 'Import error, please try again later or contact administrator.',
+        status: 'error',
+        position: 'top',
+        duration: 6000,
+        isClosable: true,
+      })
+      return;
+    }
+  } 
 
   const handleFileChange = (e) => {
-    console.log("handleFileChange")
     // Check if user has entered the file
     if (e.target.files.length) {
         const inputFile = e.target.files[0];         
