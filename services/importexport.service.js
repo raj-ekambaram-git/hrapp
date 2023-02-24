@@ -7,6 +7,7 @@ import { ConfigConstants } from '../constants';
 
 const { publicRuntimeConfig } = getConfig();
 const baseUrl = `${publicRuntimeConfig.apiUrl}`;
+const schedulerBaseUrl = `${publicRuntimeConfig.schedulerAPIURL}`;
 
 export const importExportService = {
 
@@ -16,8 +17,23 @@ export const importExportService = {
   saveExportAsTeplate,
   getSavedExportTemplates,
   generateReport,
-  exportSystemReport
+  exportSystemReport,
+  previousImports,
 };
+
+function previousImports(userId, accountId) {
+
+  console.log("accountId:::"+accountId+"****baseUrl:::"+schedulerBaseUrl)
+  return fetchWrapper.get(`${schedulerBaseUrl}/scheduler/account/`+accountId+`/jobs?jobGroup=`+accountId+"_"+userId+ConfigConstants.IMPORT_JOB_SUFFIX.suffix, {})
+  .then(jobs => {
+      console.log("jobs:::"+JSON.stringify(jobs))
+      return jobs;
+  })  
+  .catch(err => {
+      console.log("Error getScheduleJobs"+err)
+      return {errorMessage: err, error: true};
+  });
+}
 
 function exportSystemReport(inputData, accountId) {
 
@@ -35,8 +51,6 @@ function exportSystemReport(inputData, accountId) {
       return {errorMessage: err, error: true};
     });
   }
-
-
 }
 
 async function generateReport(inputData, templateName, templateCSS) {

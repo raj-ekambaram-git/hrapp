@@ -7,7 +7,9 @@ import { ExportTemplateStatus, ExportTemplateType } from "@prisma/client";
 
 export const ConfigConstants = {
 
-  
+  IMPORT_JOB_SUFFIX: {
+    suffix: "_Import"
+  },
   AVAILABLE_TITLES: [
     {
       id: "CEO",
@@ -200,6 +202,28 @@ export const ConfigConstants = {
         disableSort: true
       },
      
-    ]
+    ],
+    PREV_IMPORT_LIST_TABLE_META: [
+      {
+        label: "Name",
+        accessor: "jobName",
+        format: (value) => (value ? value.split("_")[0] : "N/A")
+      },  
+      {
+        label: "Status",
+        accessor: "status",
+        format: (value) => (value ? <Badge color={`${value === "Success" ? "paid_status": "pending_status"}`}>{value === "Success"?"Ok":"Failed"}</Badge> : '✖️')
+      },
+      {
+        label: "Finished At",
+        accessor: "finishedAt",
+        format: (value) => (value ? util.getFormattedDateWithTime(value) : 'N/A')
+      },
+      {
+        label: "File Name",
+        accessor: "importedFileName",
+        format: (value) => (value ?value.split("/")[1] : 'N/A')      
+      },                         
+    ],
 
 }

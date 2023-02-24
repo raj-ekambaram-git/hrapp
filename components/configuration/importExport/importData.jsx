@@ -26,6 +26,8 @@ import { configurationService, importExportService, userService } from "../../..
 import { ConfigConstants, EMPTY_STRING } from "../../../constants";
 const allowedExtensions = ["csv"];
 import Papa from "papaparse";
+import {Spinner} from '../../common/spinner'
+import { CustomTable } from "../../customTable/Table";
 
 const ImportData = (props) => {
   const [size, setSize] = useState('');
@@ -34,11 +36,14 @@ const ImportData = (props) => {
   const toast = useToast();
   const [allowedImports, setAllowedImports] = useState([]);
   const [importObject, setImportObject] = useState();
+  const [previoustImports, setPrevioustImports] = useState();
   const appConfigList = useSelector(state => state.configuration.allConfigurations);
   // This state will store the parsed data
   const [data, setData] = useState([]);        
+  const [loading, setLoading] = useState(false);     
   // It will store the file uploaded by the user
   const [file, setFile] = useState(EMPTY_STRING);
+  const PREV_IMPORT_LIST_TABLE_COLUMNS = React.useMemo(() => ConfigConstants.PREV_IMPORT_LIST_TABLE_META)
 
 
   useEffect(() => {
@@ -58,7 +63,12 @@ const ImportData = (props) => {
   const handleImportObject = (importObject) => {
     setImportObject(importObject.target.value)
   }
-  function handleImport(newSize) {
+
+
+  const handleImport = async(newSize) => {
+    setLoading(true)
+    setSize(newSize);
+    onOpen();
     if(userService.isSuperAdmin() || userService.isAccountAdmin() ) {
       if(!appConfigList || (appConfigList && appConfigList.length==0)) {
         loadAppConfig() 
@@ -66,14 +76,25 @@ const ImportData = (props) => {
       const allowedImports = appConfigList.filter((appConfig) => (appConfig.key === ConfigConstants.CONFIG_KEYS.AllowedImports));
       if(allowedImports && allowedImports.length >0) {
         setAllowedImports(allowedImports[0].value)
-      }     
- 
+      }
+      
+      //Get Previoust Imports for this user
+      const responseData = await importExportService.previousImports(userService.userValue.id, userService.getAccountDetails().accountId)
+      processImportDataForDisplay(responseData)
     }    
-
-
-    setSize(newSize);
-    onOpen();
+    setLoading(false)
   }
+
+  const processImportDataForDisplay = (responseData) => {
+    const updatedList = responseData?.data?.map((importJob) => {
+      importJob.status = importJob?.runStatus?.runStatus;
+      importJob.finishedAt = importJob?.runStatus?.lastRunTime;
+      importJob.importedFileName = importJob?.requestData?.importFilePath;
+      return importJob;
+    })
+    setPrevioustImports(updatedList)
+  }
+
 
   const handleParseAndLoad = async () => {
          
@@ -88,7 +109,6 @@ const ImportData = (props) => {
       })
       return;
     };
-    console.log("222 filefile::"+JSON.stringify(file))
     // const responseData = await importExportService.importData(file, file.type)
         // Initialize a reader which allows user
         // to read any file or blob.
@@ -159,40 +179,51 @@ const ImportData = (props) => {
               <Drawer onClose={onClose} isOpen={isOpen} size={size}>
                 <DrawerOverlay />
                     <DrawerContent>
+                        {loading?<><Spinner/></>:<></>}
                         <DrawerCloseButton />
                         <DrawerHeader>
                             Import Data
                         </DrawerHeader>
                         <DrawerBody>
-                          <Stack marginBottom={5}>
-                            <Heading size="xs">  
-                              Supported Imports
-                            </Heading>
-                              <Box>
-                                  <Select width="50%" id="importObject" onChange={(ev) => handleImportObject(ev)}>
-                                      <option value="">Select an object</option>
-                                      {allowedImports?.map((allowedImport) => (
-                                        <option value={allowedImport}>{allowedImport}</option>
-                                      ))}
-                                </Select>
-                              </Box>
-                          </Stack>
-                          <Stack spacing={8}>
-                            {importObject?<>
-                              <Box>
-                                <FormControl isRequired>
-                                  <FormLabel>Enter CSV File</FormLabel>
-                                  <Input
-                                      onChange={handleFileChange}
-                                      id="csvInput"
-                                      name="file"
-                                      type="File"
-                                  />
-                                </FormControl>
-                              </Box>
-                              <Button  size="sm" width="30%" bgColor="button.primary.color" onClick={() => handleParseAndLoad()}>
-                                Import
-                              </Button>
+                          <Stack>
+                            <Stack marginBottom={5}>
+                              <Heading size="xs">  
+                                Supported Imports
+                              </Heading>
+                                <Box>
+                                    <Select width="50%" id="importObject" onChange={(ev) => handleImportObject(ev)}>
+                                        <option value="">Select an object</option>
+                                        {allowedImports?.map((allowedImport) => (
+                                          <option value={allowedImport}>{allowedImport}</option>
+                                        ))}
+                                  </Select>
+                                </Box>
+                            </Stack>
+                            <Stack spacing={8}>
+                              {importObject?<>
+                                <Box>
+                                  <FormControl isRequired>
+                                    <FormLabel>Enter CSV File</FormLabel>
+                                    <Input
+                                        onChange={handleFileChange}
+                                        id="csvInput"
+                                        name="file"
+                                        type="File"
+                                    />
+                                  </FormControl>
+                                </Box>
+                                <Button  size="xs"  width="20%" bgColor="header_actions" onClick={() => handleParseAndLoad()}>
+                                  Import
+                                </Button>
+                              </>:<></>}
+                            </Stack>
+                            {previoustImports?<>
+                              <Stack>
+                                  <Box>
+                                    Previous Imports
+                                  </Box>
+                                  <CustomTable columns={PREV_IMPORT_LIST_TABLE_COLUMNS} rows={previoustImports} />
+                              </Stack>
                             </>:<></>}
                           </Stack>
                         </DrawerBody>

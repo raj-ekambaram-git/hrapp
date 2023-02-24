@@ -17,6 +17,8 @@ const AccountSetting = (props) => {
   const [workFlowEnabled, setWorkFlowEnabled] = useState(false);
   const [scheduleJob, setScheduleJob] = useState(false);
   const [payment, setPayment] = useState(false);
+  const [importExport, setImportExport] = useState(false);
+  const [documents, setDocuments] = useState(false);
 
   const userId = userService?.userValue?.id;
 
@@ -24,7 +26,10 @@ const AccountSetting = (props) => {
     setWorkFlowEnabled(userService.accountFeatureEnabled(ConfigConstants.FEATURES.WORK_FLOW) && userService.isWorkFlowAdmin())
     setScheduleJob(userService.accountFeatureEnabled(ConfigConstants.FEATURES.SCHEDULE_JOB) && userService.isScheduleJobAdmin())
     setPayment(userService.accountFeatureEnabled(ConfigConstants.FEATURES.PAYMENT) && userService.isPaymentAdmin())
-
+    if(userService.isSuperAdmin() || userService.isAccountAdmin() ) {
+      setImportExport(true)
+      setDocuments(true)
+    }
   }, []);
 
 
@@ -33,8 +38,8 @@ const AccountSetting = (props) => {
       <Tabs isFitted variant='accountSetting'  colorScheme='teal' size="xs" isLazy>
         <TabList marginBottom={6}>
           <Tab border="1px" marginRight={4}>User</Tab>
-          <Tab border="1px" marginRight={4}>Import/Export</Tab>
-          <Tab border="1px" marginRight={4}>Documents</Tab>
+          {importExport?<><Tab border="1px" marginRight={4}>Import/Export</Tab></>:<></>}
+          {documents?<><Tab border="1px" marginRight={4}>Documents</Tab></>:<></>}
           {workFlowEnabled?<><Tab border="1px" marginRight={4}>WorkFlow</Tab></>:<></>}          
           {scheduleJob?<><Tab border="1px" marginRight={4}>Schedule Jobs</Tab></>:<></>}          
           {payment?<><Tab border="1px" marginRight={4}>Payments</Tab></>:<></>}          
@@ -45,16 +50,20 @@ const AccountSetting = (props) => {
               <UserSetting />
             </Stack>
           </TabPanel>
-          <TabPanel>
-            <Stack width="page.sub_heading_width">
-              <ImportExport/>            
-            </Stack>
-          </TabPanel>
-          <TabPanel>
-            <Stack width="page.sub_heading_width">
-              <AccountDocuments/>            
-            </Stack>
-          </TabPanel>       
+          {importExport?<>
+            <TabPanel>
+              <Stack width="page.sub_heading_width">
+                <ImportExport/>            
+              </Stack>
+            </TabPanel>
+          </>:<></>}
+          {documents?<>
+            <TabPanel>
+              <Stack width="page.sub_heading_width">
+                <AccountDocuments/>            
+              </Stack>
+            </TabPanel>       
+          </>:<></>}
           {workFlowEnabled?<>
             <TabPanel>
               <Stack width="page.sub_heading_width">
