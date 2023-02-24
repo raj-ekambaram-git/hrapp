@@ -18,6 +18,10 @@ import {
   FormControl,
   FormLabel,
   Input,
+  CardHeader,
+  CardBody,
+  Card,
+  ButtonGroup,
 } from '@chakra-ui/react';
 
 import { useDispatch, useSelector } from "react-redux";
@@ -67,6 +71,7 @@ const ImportData = (props) => {
 
   const handleImport = async(newSize) => {
     setLoading(true)
+    setImportObject(null)
     setSize(newSize);
     onOpen();
     if(userService.isSuperAdmin() || userService.isAccountAdmin() ) {
@@ -170,8 +175,8 @@ const ImportData = (props) => {
                 </Heading>
 
                 <Button size="xs" bgColor="header_actions" 
-                  onClick={() => handleImport("xl")}
-                  key="xl"
+                  onClick={() => handleImport("xxl")}
+                  key="xxl"
                   m={1}
                   >{`Import`}
                 </Button>
@@ -185,13 +190,13 @@ const ImportData = (props) => {
                             Import Data
                         </DrawerHeader>
                         <DrawerBody>
-                          <Stack>
-                            <Stack marginBottom={5}>
+                          <Stack spacing={9}>
+                            <Stack>
                               <Heading size="xs">  
                                 Supported Imports
                               </Heading>
                                 <Box>
-                                    <Select width="50%" id="importObject" onChange={(ev) => handleImportObject(ev)}>
+                                    <Select width="30%" id="importObject" onChange={(ev) => handleImportObject(ev)}>
                                         <option value="">Select an object</option>
                                         {allowedImports?.map((allowedImport) => (
                                           <option value={allowedImport}>{allowedImport}</option>
@@ -199,12 +204,13 @@ const ImportData = (props) => {
                                   </Select>
                                 </Box>
                             </Stack>
-                            <Stack spacing={8}>
+                            <Stack spacing={4}>
                               {importObject?<>
                                 <Box>
                                   <FormControl isRequired>
                                     <FormLabel>Enter CSV File</FormLabel>
                                     <Input
+                                        width="20%"
                                         onChange={handleFileChange}
                                         id="csvInput"
                                         name="file"
@@ -212,17 +218,26 @@ const ImportData = (props) => {
                                     />
                                   </FormControl>
                                 </Box>
-                                <Button  size="xs"  width="20%" bgColor="header_actions" onClick={() => handleParseAndLoad()}>
-                                  Import
-                                </Button>
+                                <ButtonGroup>
+                                  <Button  size="xs"  width="5%" colorScheme="yellow" onClick={() => onClose()}>
+                                    Cancel
+                                  </Button>
+                                  <Button  size="xs"  width="10%" bgColor="header_actions" onClick={() => handleParseAndLoad()}>
+                                    Import
+                                  </Button>
+                                </ButtonGroup>
                               </>:<></>}
                             </Stack>
                             {previoustImports?<>
                               <Stack>
-                                  <Box>
-                                    Previous Imports
-                                  </Box>
-                                  <CustomTable columns={PREV_IMPORT_LIST_TABLE_COLUMNS} rows={previoustImports} />
+                                  <Card variant="paymentTransactions">
+                                    <CardHeader>
+                                      Previous Imports
+                                    </CardHeader>
+                                    <CardBody>
+                                      <CustomTable columns={PREV_IMPORT_LIST_TABLE_COLUMNS} rows={previoustImports} />
+                                    </CardBody>
+                                  </Card>                                  
                               </Stack>
                             </>:<></>}
                           </Stack>
