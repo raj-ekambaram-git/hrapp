@@ -19,7 +19,53 @@ export const importExportService = {
   generateReport,
   exportSystemReport,
   previousImports,
+  importData,
 };
+
+
+function importData(userId, accountId, objectType, file, importName) {
+  
+  if(objectType === "Timesheet") {
+    const importDataRequest = {
+      "jobRequestData": {
+        "accountId": accountId,
+        "cronExpression": "",
+        "jobGroup": accountId+"_"+userId+ConfigConstants.IMPORT_JOB_SUFFIX.suffix,
+        "message": "string",
+        "name": importName,
+        "subject": "string",
+        "templateId": 0,
+        "templateParams": [
+          {
+            "key": "importObject",
+            "value": objectType
+          }
+        ],
+        "userId": userId
+      },
+      "scheduleTime": {
+        "scheduledTime": new Date(),
+        "zoneId": "America/New_York"
+      }
+    }
+
+    console.log("REQUEST DATA::::"+JSON.stringify(importDataRequest))
+
+    return fetchWrapper.post(`${schedulerBaseUrl}/import/timesheet`, {
+      file: file,
+      request: JSON.stringify(importDataRequest)
+    })
+    .then(importedData => {
+  
+      return importedData;
+    })
+    .catch(err => {
+      console.log("Error Updating Invoice::"+err)
+      return {errorMessage: err, error: true};
+    });
+  }
+
+}
 
 function previousImports(userId, accountId) {
 

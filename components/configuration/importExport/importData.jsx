@@ -101,6 +101,10 @@ const ImportData = (props) => {
   }
 
 
+  const importData = async() => {
+    const responseData = await importExportService.importData(userService.userValue.id, userService.getAccountDetails().accountId, importObject, file, "TestImport1");
+  } 
+
   const handleParseAndLoad = async () => {
          
     if (!file){
@@ -222,7 +226,7 @@ const ImportData = (props) => {
                                   <Button  size="xs"  width="5%" colorScheme="yellow" onClick={() => onClose()}>
                                     Cancel
                                   </Button>
-                                  <Button  size="xs"  width="10%" bgColor="header_actions" onClick={() => handleParseAndLoad()}>
+                                  <Button  size="xs"  width="10%" bgColor="header_actions" onClick={() => importData()}>
                                     Import
                                   </Button>
                                 </ButtonGroup>
