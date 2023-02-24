@@ -40,6 +40,7 @@ const ImportData = (props) => {
   const toast = useToast();
   const [allowedImports, setAllowedImports] = useState([]);
   const [importObject, setImportObject] = useState();
+  const [importName, setImportName] = useState();
   const [previoustImports, setPrevioustImports] = useState();
   const appConfigList = useSelector(state => state.configuration.allConfigurations);
   // This state will store the parsed data
@@ -102,31 +103,43 @@ const ImportData = (props) => {
 
 
   const importData = async() => {
-    const responseData = await importExportService.importData(userService.userValue.id, userService.getAccountDetails().accountId, importObject, file, "TestImport7");
-    if(responseData && responseData.statusCode == 501) {
-      toast({
-        title: 'Import Data Error.',
-        description: 'Import name already exists, please try importing the data with different name.',
-        status: 'error',
-        position: 'top',
-        duration: 6000,
-        isClosable: true,
-      })
-      return;
-    } else if(responseData && responseData.statusCode == 200){
-      toast({
-        title: 'Import Data.',
-        description: 'Successfully imported daa.',
-        status: 'success',
-        position: 'top',
-        duration: 3000,
-        isClosable: true,
-      })
-      onClose()
+    if(importName && file && importObject) {
+      const responseData = await importExportService.importData(userService.userValue.id, userService.getAccountDetails().accountId, importObject, file, importName);
+      if(responseData && responseData.statusCode == 501) {
+        toast({
+          title: 'Import Data Error.',
+          description: 'Import name already exists, please try importing the data with different name.',
+          status: 'error',
+          position: 'top',
+          duration: 6000,
+          isClosable: true,
+        })
+        return;
+      } else if(responseData && responseData.statusCode == 200){
+        toast({
+          title: 'Import Data.',
+          description: 'Successfully imported daa.',
+          status: 'success',
+          position: 'top',
+          duration: 3000,
+          isClosable: true,
+        })
+        onClose()
+      } else {
+        toast({
+          title: 'Import Data Error.',
+          description: 'Import error, please try again later or contact administrator.',
+          status: 'error',
+          position: 'top',
+          duration: 6000,
+          isClosable: true,
+        })
+        return;
+      }
     } else {
       toast({
         title: 'Import Data Error.',
-        description: 'Import error, please try again later or contact administrator.',
+        description: 'All the fields are required.',
         status: 'error',
         position: 'top',
         duration: 6000,
@@ -134,6 +147,7 @@ const ImportData = (props) => {
       })
       return;
     }
+
   } 
 
   const handleFileChange = (e) => {
@@ -170,12 +184,20 @@ const ImportData = (props) => {
                     Import bulk data using CSV
                 </Heading>
 
-                <Button size="xs" bgColor="header_actions" 
-                  onClick={() => handleImport("xxl")}
-                  key="xxl"
-                  m={1}
-                  >{`Import`}
-                </Button>
+                <ButtonGroup>
+                  <Button size="xs" bgColor="header_actions" 
+                    onClick={() => handleImport("xxl")}
+                    key="xxl"
+                    m={1}
+                    >{`Import`}
+                  </Button>
+                  <Button size="xs" bgColor="header_actions" 
+                    onClick={() => handleImport("xxl")}
+                    key="xxl"
+                    m={1}
+                    >{`Previous Imports`}
+                  </Button>                  
+                </ButtonGroup>
               </HStack>                
               <Drawer onClose={onClose} isOpen={isOpen} size={size}>
                 <DrawerOverlay />
@@ -192,7 +214,7 @@ const ImportData = (props) => {
                                 Supported Imports
                               </Heading>
                                 <Box>
-                                    <Select width="30%" id="importObject" onChange={(ev) => handleImportObject(ev)}>
+                                    <Select width="20%" id="importObject" onChange={(ev) => handleImportObject(ev)}>
                                         <option value="">Select an object</option>
                                         {allowedImports?.map((allowedImport) => (
                                           <option value={allowedImport}>{allowedImport}</option>
@@ -200,20 +222,30 @@ const ImportData = (props) => {
                                   </Select>
                                 </Box>
                             </Stack>
-                            <Stack spacing={4}>
+                            <Stack spacing={9}>
                               {importObject?<>
-                                <Box>
+                                <HStack>
+                                  <FormControl isRequired>
+                                    <FormLabel>Import Name</FormLabel>
+                                    <Input
+                                        width="50%"
+                                        onChange={(ev) => setImportName(ev.target.value)}
+                                        id="csvInput"
+                                        name="file"
+                                        type="text"
+                                    />
+                                  </FormControl>                              
                                   <FormControl isRequired>
                                     <FormLabel>Enter CSV File</FormLabel>
                                     <Input
-                                        width="20%"
+                                        width="50%"
                                         onChange={handleFileChange}
                                         id="csvInput"
                                         name="file"
                                         type="File"
                                     />
                                   </FormControl>
-                                </Box>
+                                </HStack>
                                 <ButtonGroup>
                                   <Button  size="xs"  width="5%" colorScheme="yellow" onClick={() => onClose()}>
                                     Cancel
