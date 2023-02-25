@@ -12,7 +12,7 @@ module.exports = {
     ? 'http://localhost:3000/api' // development api
     : process.env.NODE_ENV === 'awsdev'
     ? 'https://apmpmfa7ay.us-east-1.awsapprunner.com/api'
-    : 'https://www.backofficeneeds.com/api', // production api
+    : 'https://devapi.backofficeneeds.com', // production api
   },
   publicRuntimeConfig: {
       apiUrl: process.env.NODE_ENV === 'development'
@@ -24,7 +24,7 @@ module.exports = {
       ? 'http://localhost:8080' // development api
       : process.env.NODE_ENV === 'awsdev'
       ? 'https://apmpmfa7ay.us-east-1.awsapprunner.com/api'
-      : 'https://www.backofficeneeds.com/api', // production api          
+      : 'https://devapi.backofficeneeds.com', // production api          
   },
   eslint: {
     // Warning: This allows production builds to successfully complete even if
