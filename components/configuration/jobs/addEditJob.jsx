@@ -1,27 +1,24 @@
 import React, { useEffect, useRef, useState } from "react";
 import {
     Button,
-    Box,
     Stack,
     HStack,
     useToast,
     Input,
-    Text,
     Card,
     CardBody,
     CardFooter,
     Select,
     CardHeader,
-    Textarea,
     FormControl,
     FormLabel,
-    Switch,
-    Spinner,
     Checkbox
   } from '@chakra-ui/react';
-import { EMPTY_STRING, ScheduleJobConstants } from "../../../constants";
+import { ScheduleJobConstants } from "../../../constants";
 import { importExportService, userService } from "../../../services";
-
+import { util } from "../../../helpers";
+import DatePicker from "../../common/datePicker";
+import { Spinner } from '../../common/spinner'
 
 
 const AddEditJob = (props) => {
@@ -29,6 +26,9 @@ const AddEditJob = (props) => {
     const [enableAddNew, setEnableAddNew] = useState(false);
     const [enableRecurring, setEnableRecurring] = useState(false);
     const [recurringInterval, setRecurringInterval] = useState();
+    const [scheduleDate, setScheduleDate] = useState();
+    const [scheduleHour, setScheduleHour] = useState();
+    const [scheduleMinute, setScheduleMinute] = useState();
     const [templates, setTemplates] = useState();
     const [type, setType] = useState();
     const [name, setName] = useState();
@@ -57,6 +57,14 @@ const AddEditJob = (props) => {
 
     const handleSaveJob = async() => {
         
+    }
+
+    const handleScheduleDate = (e) => {
+        if(e != undefined && (e.updatedDate)) {
+            if(util.getFormattedDate(scheduleDate) != util.getFormattedDate(e.date)) {
+                setScheduleDate(e.date)
+            }      
+          }
     }
 
 
@@ -110,6 +118,22 @@ const AddEditJob = (props) => {
                                         </FormControl>    
                                     </>:<></>}
                                 </HStack>
+                                <HStack>
+                                        <FormControl isRequired>
+                                            <FormLabel>Schedule Date</FormLabel>
+                                            <HStack>
+                                                <Input type="text" readOnly width="50%" value={util.getFormattedDate(scheduleDate)} />
+                                                <DatePicker onChange={handleScheduleDate}/> 
+                                            </HStack>
+                                        </FormControl> 
+                                        <FormControl isRequired>
+                                            <FormLabel>Schedule Time (24HRS)</FormLabel>
+                                            <HStack>
+                                                <Input type="text" readOnly width="30%" value={util.getFormattedDate(scheduleDate)} />
+                                                <DatePicker onChange={handleScheduleDate}/> 
+                                            </HStack>
+                                        </FormControl>                                
+                                </HStack>                                    
                             </Stack>
                         </CardBody>
                         <CardFooter>                        

@@ -81,7 +81,6 @@ const scheduleJobForm = definePartsStyle({
   container: {
     borderWidth: '1px',
     borderRadius: 'lg',
-    overflow: 'hidden', 
     border: "1px",
     width: "60%"
     
