@@ -1,7 +1,25 @@
 import { Badge } from "@chakra-ui/react";
 
 export const ScheduleJobConstants = {
-   
+
+  RECURRING_INTERVALS: [
+    {
+      recurringIntervalId: "Daily",
+      recurringIntervalName: "Daily"
+    },    
+    {
+      recurringIntervalId: "Weekly",
+      recurringIntervalName: "Weekly"
+    },    
+    {
+      recurringIntervalId: "Monthly",
+      recurringIntervalName: "Monthly"
+    },    
+    {
+      recurringIntervalId: "Quarterly",
+      recurringIntervalName: "Quarterly"
+    },    
+], 
   JOB_LIST_TABLE_META: [
         {
           label: "Type",

@@ -16,20 +16,22 @@ import {
     FormControl,
     FormLabel,
     Switch,
-    Spinner
+    Spinner,
+    Checkbox
   } from '@chakra-ui/react';
-import { EMPTY_STRING, WorkFlowConstants } from "../../constants";
-import { ErrorMessage } from "../../constants/errorMessage";
-import { userService, workFlowService } from "../../services";
+import { EMPTY_STRING, ScheduleJobConstants } from "../../../constants";
+import { importExportService, userService } from "../../../services";
 
 
 
 const AddEditJob = (props) => {
     const toast = useToast();
+    const [enableAddNew, setEnableAddNew] = useState(false);
+    const [enableRecurring, setEnableRecurring] = useState(false);
+    const [recurringInterval, setRecurringInterval] = useState();
+    const [templates, setTemplates] = useState();
     const [type, setType] = useState();
     const [name, setName] = useState();
-    const [description, setDescription] = useState();
-    const [status, setStatus] = useState();
     const [loading, setLoading] = useState();
 
 
@@ -39,59 +41,25 @@ const AddEditJob = (props) => {
 
     const resetValues = () => {
         setLoading(false)
-        setType(EMPTY_STRING)
-        setName(EMPTY_STRING)
-        setDescription(EMPTY_STRING)
-        setStatus(EMPTY_STRING)
+        setType(null)
+        setName(null)
+        setRecurringInterval(null)
+        setEnableRecurring(false)
     }
 
-    const handleSaveTask = async() => {
-        if(name && type && description && status) {
-            const newWFTaskRequest = {
-                type: type,
-                name: name,
-                description: description,
-                status: status,
-                accountId: parseInt(userService.getAccountDetails().accountId),
-                updatedBy: parseInt(userService.userValue.id)
-            }
-
-            const responseData = await workFlowService.createTask(newWFTaskRequest, userService.getAccountDetails().accountId)
-            console.log("responseData:::"+JSON.stringify(responseData))
-            if(responseData.error) {
-                toast({
-                    title: 'New Task.',
-                    description: "Error create new task for you account. Details: "+responseData.errorMessage,
-                    status: 'error',
-                    position: 'top',
-                    duration: 6000,
-                    isClosable: true,
-                })
-            } else {
-                toast({
-                    title: 'New Task.',
-                    description: 'Successfully added new task for your account.',
-                    status: 'success',
-                    position: 'top',
-                    duration: 3000,
-                    isClosable: true,
-                })
-                props.addNewTask(responseData)
-                resetValues()
-            }
-
-        }else {
-            toast({
-                title: 'New Task.',
-                description: ErrorMessage.ALL_FIELDS_REQIURED,
-                status: 'error',
-                position: 'top',
-                duration: 6000,
-                isClosable: true,
-            })
-            return;
-        }
+    const handleAddJob = async() => {
+        setLoading(true)
+        const responseData = await importExportService.getSavedExportTemplates(userService.getAccountDetails().accountId)
+        setTemplates(responseData)
+        setEnableAddNew(true)
+        setLoading(false)
     }
+
+    const handleSaveJob = async() => {
+        
+    }
+
+
 
     return (
         <>
@@ -101,61 +69,71 @@ const AddEditJob = (props) => {
                   <Spinner/>
                   </>
                 ) : (<></>)}
-                <Card variant="workflowTaskForm">
-                    <CardHeader>
-                        Add New WorkFlow Task
-                    </CardHeader>
-                    <CardBody>
-                        <Stack>
-                            <HStack spacing={2}>
-                                <Box>
+                {enableAddNew?<>
+                    <Card variant="scheduleJobForm">
+                        <CardHeader>
+                            Add New Job
+                        </CardHeader>
+                        <CardBody>
+                            <Stack spacing={5}>
+                                <HStack spacing={9}>
+                                        <FormControl isRequired>
+                                            <FormLabel>Name</FormLabel>
+                                            <Input type="text" width="75%" value={name} id="name"  onChange={(ev) => setName(ev.target.value)}></Input>
+                                        </FormControl> 
+                                        <FormControl isRequired>
+                                            <FormLabel>Type</FormLabel>
+                                            <Select  id="type" width="50%" value={type} onChange={(ev) => setType(ev.target.value)}>
+                                                <option value="">Select Type</option>
+                                                {templates?.map((template) => (
+                                                    <option value={template.id} 
+                                                            data-queryMeta={template.queryMeta}
+                                                            data-templateType={template.type} >{template.name}</option>
+                                                ))}
+                                            </Select>
+                                        </FormControl>     
+                                </HStack>
+                                <HStack spacing={9}>
                                     <FormControl isRequired>
-                                        <FormLabel>Type</FormLabel>
-                                        <Select  id="type" value={type} onChange={(ev) => setType(ev.target.value)}>
-                                            <option value="">Select Type</option>
-                                            {WorkFlowConstants.WORKFLOW_TYPE_LOOKIUP?.map((type) => (
-                                                <option value={type.key}>{type.displayName}</option>
-                                            ))}
-                                        </Select>
-                                    </FormControl>     
-                                </Box>
-                                <Box>
-                                    <FormControl isRequired>
-                                        <FormLabel>Name</FormLabel>
-                                        <Input type="text" value={name} id="name"  onChange={(ev) => setName(ev.target.value)}></Input>
+                                        <FormLabel>Recurring?</FormLabel>
+                                        <Checkbox onChange={(e) => setEnableRecurring(e.target.checked)} />
                                     </FormControl> 
-                                </Box>
-                                <Box>
-                                    <FormControl isRequired>
-                                        <FormLabel>Description</FormLabel>
-                                        <Input type="text" value={description} id="description"  onChange={(ev) => setDescription(ev.target.value)}></Input>                  
-                                    </FormControl> 
-                                </Box>
-                                <Box>
-                                    <FormControl isRequired>
-                                        <FormLabel>Status</FormLabel>
-                                        <Select id="status" value={status} onChange={(ev) => setStatus(ev.target.value)}>
-                                            <option value="">Select Status</option>
-                                            {WorkFlowConstants.WORKFLOW_STATUS_LOOKIUP?.map((status) => (
-                                                <option value={status.key}>{status.displayName}</option>
-                                            ))}
-                                        </Select>
-                                    </FormControl>   
-                                </Box>                                                             
+                                    {enableRecurring?<>
+                                        <FormControl isRequired>
+                                            <FormLabel>Recurring Interval</FormLabel>
+                                            <Select id="recurringInterval" width="50%"  value={recurringInterval} onChange={(ev) => setRecurringInterval(ev.target.value)}>
+                                                <option value="">Recurring Interval</option>
+                                                {ScheduleJobConstants.RECURRING_INTERVALS?.map((recurringInterval) => (
+                                                    <option value={recurringInterval.recurringIntervalId}>{recurringInterval.recurringIntervalName}</option>
+                                                ))}
+                                            </Select>
+                                        </FormControl>    
+                                    </>:<></>}
+                                </HStack>
+                            </Stack>
+                        </CardBody>
+                        <CardFooter>                        
+                            <HStack>
+                                <Button size="xs" colorScheme="yellow" onClick={props.onClose}>
+                                    Cancel
+                                </Button>                                      
+                                <Button size="xs" colorScheme='red' onClick={handleSaveJob}>
+                                    Add Job
+                                </Button>
                             </HStack>
-                        </Stack>
-                    </CardBody>
-                    <CardFooter>                        
-                        <HStack>
-                            <Button size="xs" colorScheme="yellow" onClick={props.onClose}>
-                                Cancel
-                            </Button>                                      
-                            <Button size="xs" colorScheme='red' onClick={handleSaveTask}>
-                                Save New Task
-                            </Button>
-                        </HStack>
-                    </CardFooter>
-                </Card>                            
+                        </CardFooter>
+                    </Card>                  
+                </>:<>
+                    <HStack>
+                        <Button size="xs" colorScheme="yellow" onClick={props.onClose}>
+                            Cancel
+                        </Button>                                      
+                        <Button size="xs" colorScheme='red' onClick={handleAddJob}>
+                            Add Job
+                        </Button>
+                    </HStack>                
+                </>}
+                          
         </Stack>                    
         </>
     );

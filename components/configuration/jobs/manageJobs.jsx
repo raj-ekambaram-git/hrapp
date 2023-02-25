@@ -17,6 +17,7 @@ import { useDispatch } from "react-redux";
 import { EMPTY_STRING, ScheduleJobConstants } from "../../../constants";
 import { schedulerService, userService } from "../../../services";
 import { CustomTable } from "../../customTable/Table";
+import AddEditJob from "./addEditJob";
 
 
 const ManageJobs = (props) => {
@@ -76,7 +77,7 @@ const ManageJobs = (props) => {
                             </DrawerHeader>
                             <DrawerBody>
                               <Stack divider={<StackDivider />} spacing='1'>
-                                {/* <AddEditTask onClose={onClose} addNewTask={addNewTask}/> */}
+                                <AddEditJob onClose={onClose}/>
                                 {jobs?<>
                                   <CustomTable  columns={SCHEDULE_JOB_LIST_TABLE_COLUMNS} rows={jobs} />                                
                                 </>:<></>}                              
