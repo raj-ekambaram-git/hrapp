@@ -14,8 +14,8 @@ import {
     FormLabel,
     Checkbox
   } from '@chakra-ui/react';
-import { CommonConstants, ScheduleJobConstants } from "../../../constants";
-import { importExportService, userService } from "../../../services";
+import { CommonConstants, ConfigConstants, EMPTY_STRING, ScheduleJobConstants } from "../../../constants";
+import { importExportService, schedulerService, userService } from "../../../services";
 import { util } from "../../../helpers";
 import DatePicker from "../../common/datePicker";
 import { Spinner } from '../../common/spinner'
@@ -55,10 +55,70 @@ const AddEditJob = (props) => {
         setLoading(false)
     }
 
-    const handleSaveJob =  async() => {
-        
+    const handleSaveJob =  async() => {        
         const formFields = [{key: "Job Name", value: name}, {key:"Job Type", value: type}, {key:"Schedule Date", value: scheduleDate}, {key:"Schedule Hour", value: scheduleHour}, {key:"Schedule Minute", value: scheduleMinute} ];
-        util.formFieldValidation("Add Schedule Job", formFields, toast );
+        if(!util.formFieldValidation("Add Schedule Job", formFields, toast )) {
+
+            let cronExpression = EMPTY_STRING;
+            if(enableRecurring) {
+                if(recurringInterval && recurringInterval != EMPTY_STRING) {
+                    cronExpression = util.getCronExpression(scheduleDate, scheduleHour, scheduleMinute, recurringInterval)
+                } else {
+                    toast({
+                        title: "Add Schedule Job",
+                        description: 'Recurring interval is required field, please try again.',
+                        status: 'error',
+                        position: 'top',
+                        duration: 6000,
+                        isClosable: true,
+                    })
+                }
+                
+            }
+            
+
+
+            const jobDataRequest = {
+                "jobRequestData": {
+                  "accountId": userService.getAccountDetails().accountId,
+                  "cronExpression": cronExpression,
+                  "jobGroup": userService.getAccountDetails().accountId.toString(),
+                  "name": name,
+                  "templateId": type,
+                  "templateParams": [
+                  ],
+                  "userId": userService.userValue.id
+                },
+                "scheduleTime": {
+                  "scheduledTime": util.getScheduleTime(scheduleDate, scheduleHour, scheduleMinute),
+                  "zoneId": ConfigConstants.TIMEZONE
+                }
+              }
+
+              console.log("jobDataRequest::::"+JSON.stringify(jobDataRequest))
+            const responseData = await schedulerService.scheduleJob(jobDataRequest, userService.getAccountDetails().accountId)
+            if(responseData.error) {
+                toast({
+                    title: "Add Schedule Job",
+                    description: 'Error schedule new job. Please try again later or contact administrator. Details:'+responseData.errorMessage,
+                    status: 'error',
+                    position: 'top',
+                    duration: 6000,
+                    isClosable: true,
+                })
+            } else {
+                toast({
+                    title: "Add Schedule Job",
+                    description: 'Successfully scheduled new job.',
+                    status: 'success',
+                    position: 'top',
+                    duration: 6000,
+                    isClosable: true,
+                })
+                onClose()
+            }
+
+        } 
 
     }
 

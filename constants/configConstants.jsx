@@ -7,6 +7,7 @@ import { ExportTemplateStatus, ExportTemplateType } from "@prisma/client";
 
 export const ConfigConstants = {
 
+  TIMEZONE: "America/New_York",
   IMPORT_JOB_SUFFIX: {
     suffix: "_Import"
   },

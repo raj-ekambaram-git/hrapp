@@ -35,13 +35,21 @@ export const util = {
     getPastDateFromGivenDate,
     isValidDOB,
     isValidLastFour,
-    formFieldValidation
+    formFieldValidation,
+    getCronExpression,
+    getScheduleTime,
 };
 
+function getScheduleTime(scheduleDate, scheduleHour, scheduleTime) {
+  return new Date();
+}
+function getCronExpression(scheduleDate, scheduleHour, scheduleTime, recurringInterval) {
+  return EMPTY_STRING;
+}
 
 function formFieldValidation(moduleName, formFields, toast) {
 
-  formFields.map((formField) => {
+  const fieldErrors =  formFields.map((formField) => {
     if(formField?.key && (formField?.value == null || formField?.value == undefined || formField?.value == EMPTY_STRING)) {
       toast({
           title: moduleName,
@@ -52,10 +60,12 @@ function formFieldValidation(moduleName, formFields, toast) {
           isClosable: true,
       })
       return false;
+    } else {
+      return true;
     }
   })
 
-  return true;
+  return fieldErrors.includes(false);
 
 }
 

@@ -46,7 +46,7 @@ function importData(userId, accountId, objectType, file, importName) {
       },
       "scheduleTime": {
         "scheduledTime": new Date(),
-        "zoneId": "America/New_York"
+        "zoneId": ConfigConstants.TIMEZONE
       }
     }
 
