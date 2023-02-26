@@ -24,14 +24,12 @@ function getScheduleJobs(accountId) {
 }
 
 function scheduleJob(scheduleRequest, accountId) {
-    return fetchWrapper.post(`${baseUrl}/scheduler/schedule`, {
-        scheduleRequest
-    })
+    return fetchWrapper.post(`${baseUrl}/scheduler/schedule`, scheduleRequest)
     .then(schedulers => {
         return schedulers;
     })        
     .catch(err => {
-        console.log("Inside scheduleJob Error")
+        console.log("Inside scheduleJob Error::"+err)
         return {errorMessage: err, error: true};
     });
 }

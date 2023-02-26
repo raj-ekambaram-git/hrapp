@@ -84,13 +84,13 @@ const AddEditJob = (props) => {
                   "cronExpression": cronExpression,
                   "jobGroup": userService.getAccountDetails().accountId.toString(),
                   "name": name,
-                  "templateId": type,
+                  "templateId": 5,
                   "templateParams": [
                   ],
                   "userId": userService.userValue.id
                 },
                 "scheduleTime": {
-                  "scheduledTime": util.getScheduleTime(scheduleDate, scheduleHour, scheduleMinute),
+                  "scheduledTime": new Date(scheduleDate.setHours(scheduleHour, scheduleMinute, 0,0)),
                   "zoneId": ConfigConstants.TIMEZONE
                 }
               }
@@ -115,7 +115,7 @@ const AddEditJob = (props) => {
                     duration: 6000,
                     isClosable: true,
                 })
-                onClose()
+                props.onClose()
             }
 
         } 

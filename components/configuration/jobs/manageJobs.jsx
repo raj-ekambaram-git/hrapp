@@ -18,7 +18,7 @@ import { EMPTY_STRING, ScheduleJobConstants } from "../../../constants";
 import { schedulerService, userService } from "../../../services";
 import { CustomTable } from "../../customTable/Table";
 import AddEditJob from "./addEditJob";
-
+import {Spinner} from '../../common/spinner'
 
 const ManageJobs = (props) => {
   const dispatch = useDispatch();
@@ -26,6 +26,7 @@ const ManageJobs = (props) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [size, setSize] = useState(EMPTY_STRING);
   const [jobs, setJobs] = useState();
+  const [loading, setLoading] = useState(false);
   const SCHEDULE_JOB_LIST_TABLE_COLUMNS = React.useMemo(() => ScheduleJobConstants.JOB_LIST_TABLE_META)
 
   const handleClick = (newSize) => {
@@ -36,10 +37,12 @@ const ManageJobs = (props) => {
   }
 
   const getJobsByAccount = async() => {
+    setLoading(true)
     const responseData = await schedulerService.getScheduleJobs(userService.getAccountDetails().accountId);
     if(responseData) {
       updateJobsForDisplay(responseData.data)   
-    }    
+    }  
+    setLoading(false)  
   }
 
 
@@ -76,6 +79,7 @@ const ManageJobs = (props) => {
                                 Manage Schedule Jobs
                             </DrawerHeader>
                             <DrawerBody>
+                              {loading?<><Spinner/></>:<></>}
                               <Stack divider={<StackDivider />} spacing='1'>
                                 <AddEditJob onClose={onClose}/>
                                 {jobs?<>
