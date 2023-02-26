@@ -30,6 +30,7 @@ const AddEditJob = (props) => {
     const [scheduleHour, setScheduleHour] = useState();
     const [scheduleMinute, setScheduleMinute] = useState();
     const [templates, setTemplates] = useState();
+    const [typeName, setTypeName] = useState();
     const [type, setType] = useState();
     const [name, setName] = useState();
     const [loading, setLoading] = useState();
@@ -84,7 +85,8 @@ const AddEditJob = (props) => {
                   "cronExpression": cronExpression,
                   "jobGroup": userService.getAccountDetails().accountId.toString(),
                   "name": name,
-                  "templateId": 5,
+                  "templateId": type,
+                  "templateName": typeName,
                   "templateParams": [
                   ],
                   "userId": userService.userValue.id

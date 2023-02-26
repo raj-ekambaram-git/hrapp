@@ -1,4 +1,5 @@
 import { Badge } from "@chakra-ui/react";
+import { util } from "../helpers";
 
 export const ScheduleJobConstants = {
 
@@ -22,32 +23,29 @@ export const ScheduleJobConstants = {
 ], 
   JOB_LIST_TABLE_META: [
         {
-          label: "Type",
-          accessor: "type"
+          label: "Name",
+          accessor: "jobName"
         },    
         {
-          label: "Name",
-          accessor: "name"
-        },
-        {
-          label: "Description",
-          accessor: "description"
-        }, 
-        {
-          label: "Updated By",
-          accessor: "updatedBy",
-        },
-        {
           label: "Status",
-          accessor: "status", 
-          format: (value) => (value ? <Badge color={`${(value === "Active") ? "paid_status": value === "Inactive" ? "pending_status": "pending_status"}`}>{value}</Badge> : '✖️')
+          accessor: "jobStatus", 
+          format: (value) => (value ? <Badge color={`${(value == "SCHEDULED" || value == "RUNNING" || value == "COMPLETE") ? "paid_status": "pending_status"}`}>{value}</Badge> : '✖️')
         },
         {
-          label: "",
-          accessor: "toggleStatus", 
-          disableSearch: true,
-          disableSort: true          
-        }
+          label: "Scheduled",
+          accessor: "scheduleTime",
+          format: (value) => (value ? util.getFormattedDateWithTime(value) : '-')
+        },   
+        {
+          label: "Last Ran",
+          accessor: "lastFiredTime",
+          format: (value) => (value ? util.getFormattedDateWithTime(value) : '-')
+        },          
+        {
+          label: "Next Run",
+          accessor: "nextFireTime",
+          format: (value) => (value ? util.getFormattedDateWithTime(value) : '-')
+        },   
                              
       ]
 

@@ -47,10 +47,8 @@ const ManageJobs = (props) => {
 
 
   function updateJobsForDisplay(responseData) {
-    const updatedList =  responseData.map((task, index)=> {      
-      // task.updatedBy = task.updatedUser.firstName+" "+task.updatedUser.lastName;
-      // task.toggleStatus = <Switch colorScheme='teal' size='sm' isChecked={task.status === WorkFlowTaskStatus.Active?true:false} onChange={() => handleStatusUpdate(task.status, task.id, index)}/>   
-      return task;
+    const updatedList =  responseData.map((job, index)=> {      
+      return job;
     });
     setJobs(updatedList);
   }
