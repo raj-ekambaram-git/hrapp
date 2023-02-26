@@ -24,7 +24,8 @@ export const ScheduleJobConstants = {
   JOB_LIST_TABLE_META: [
         {
           label: "Name",
-          accessor: "jobName"
+          accessor: "jobName",
+          format: (value) => (value ? value.split("_")[0] : '✖️')
         },    
         {
           label: "Type",
