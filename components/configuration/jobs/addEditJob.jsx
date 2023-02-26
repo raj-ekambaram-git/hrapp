@@ -97,7 +97,6 @@ const AddEditJob = (props) => {
                 }
               }
 
-              console.log("jobDataRequest::::"+JSON.stringify(jobDataRequest))
             const responseData = await schedulerService.scheduleJob(jobDataRequest, userService.getAccountDetails().accountId)
             if(responseData.error) {
                 toast({
@@ -132,6 +131,11 @@ const AddEditJob = (props) => {
           }
     }
 
+    const handleType =(ev) => {
+        setType(ev.target.value)
+        setTypeName(ev.target.options.item(ev.target.selectedIndex).getAttribute("data-templateName"))
+    }
+
 
 
     return (
@@ -156,11 +160,12 @@ const AddEditJob = (props) => {
                                         </FormControl> 
                                         <FormControl isRequired>
                                             <FormLabel>Type</FormLabel>
-                                            <Select  id="type" width="50%" value={type} onChange={(ev) => setType(ev.target.value)}>
+                                            <Select  id="type" width="50%" value={type} onChange={(ev) => handleType(ev)}>
                                                 <option value="">Select Type</option>
                                                 {templates?.map((template) => (
                                                     <option value={template.id} 
                                                             data-queryMeta={template.queryMeta}
+                                                            data-templateName={template.name}
                                                             data-templateType={template.type} >{template.name}</option>
                                                 ))}
                                             </Select>

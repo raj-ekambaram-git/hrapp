@@ -27,6 +27,10 @@ export const ScheduleJobConstants = {
           accessor: "jobName"
         },    
         {
+          label: "Type",
+          accessor: "typeName"
+        },
+        {
           label: "Status",
           accessor: "jobStatus", 
           format: (value) => (value ? <Badge color={`${(value == "SCHEDULED" || value == "RUNNING" || value == "COMPLETE") ? "paid_status": "pending_status"}`}>{value}</Badge> : '✖️')

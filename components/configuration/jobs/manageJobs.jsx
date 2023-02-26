@@ -48,6 +48,7 @@ const ManageJobs = (props) => {
 
   function updateJobsForDisplay(responseData) {
     const updatedList =  responseData.map((job, index)=> {      
+      job.typeName = job?.requestData?.templateName;
       return job;
     });
     setJobs(updatedList);
