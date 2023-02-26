@@ -34,8 +34,30 @@ export const util = {
     getPaymentFormattedDate,
     getPastDateFromGivenDate,
     isValidDOB,
-    isValidLastFour
+    isValidLastFour,
+    formFieldValidation
 };
+
+
+function formFieldValidation(moduleName, formFields, toast) {
+
+  formFields.map((formField) => {
+    if(formField?.key && (formField?.value == null || formField?.value == undefined || formField?.value == EMPTY_STRING)) {
+      toast({
+          title: moduleName,
+          description: formField?.key+" is required field, please enter and try again",
+          status: 'error',
+          position: 'top',
+          duration: 3000,
+          isClosable: true,
+      })
+      return false;
+    }
+  })
+
+  return true;
+
+}
 
 function getLocaleDate(date) {
   if(date) {

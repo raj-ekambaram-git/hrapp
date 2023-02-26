@@ -14,7 +14,7 @@ import {
     FormLabel,
     Checkbox
   } from '@chakra-ui/react';
-import { ScheduleJobConstants } from "../../../constants";
+import { CommonConstants, ScheduleJobConstants } from "../../../constants";
 import { importExportService, userService } from "../../../services";
 import { util } from "../../../helpers";
 import DatePicker from "../../common/datePicker";
@@ -55,8 +55,11 @@ const AddEditJob = (props) => {
         setLoading(false)
     }
 
-    const handleSaveJob = async() => {
+    const handleSaveJob =  async() => {
         
+        const formFields = [{key: "Job Name", value: name}, {key:"Job Type", value: type}, {key:"Schedule Date", value: scheduleDate}, {key:"Schedule Hour", value: scheduleHour}, {key:"Schedule Minute", value: scheduleMinute} ];
+        util.formFieldValidation("Add Schedule Job", formFields, toast );
+
     }
 
     const handleScheduleDate = (e) => {
@@ -128,9 +131,18 @@ const AddEditJob = (props) => {
                                         </FormControl> 
                                         <FormControl isRequired>
                                             <FormLabel>Schedule Time (24HRS)</FormLabel>
-                                            <HStack>
-                                                <Input type="text" readOnly width="30%" value={util.getFormattedDate(scheduleDate)} />
-                                                <DatePicker onChange={handleScheduleDate}/> 
+                                            <HStack spacing={3}>
+                                                <Select id="scheduleHour" width="20%"  value={scheduleHour} onChange={(ev) => setScheduleHour(ev.target.value)}>
+                                                    {CommonConstants.HOURS_LOOKUP?.map((hourLookup) => (
+                                                        <option value={hourLookup}>{hourLookup}</option>
+                                                    ))}
+                                                </Select>                                            
+                                                <Select id="scheduleMinute" width="20%"  value={scheduleMinute} onChange={(ev) => setScheduleMinute(ev.target.value)}>
+                                                {CommonConstants.MINUTES_LOOKUP?.map((minuteLookup) => (
+                                                    <option value={minuteLookup}>{minuteLookup}</option>
+                                                ))}
+                                            </Select>                                            
+
                                             </HStack>
                                         </FormControl>                                
                                 </HStack>                                    
