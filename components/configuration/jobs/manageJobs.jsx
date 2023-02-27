@@ -35,8 +35,8 @@ const ManageJobs = (props) => {
   const [loading, setLoading] = useState(false);
   const SCHEDULE_JOB_LIST_TABLE_COLUMNS = React.useMemo(() => ScheduleJobConstants.JOB_LIST_TABLE_META)
 
-  const handleClick = (newSize) => {
-    setJobs(null)
+  const handleClick = async (newSize) => {
+    // setJobs(null)
     setSize(newSize)
     getJobsByAccount()
     onOpen()
@@ -53,6 +53,7 @@ const ManageJobs = (props) => {
 
   const handleStatusUpdate = async(toStatus, jobName, jobGroup) => {
     setLoading(true)
+
     const responseData = await schedulerService.updateStatus(toStatus, jobName, jobGroup, userService.userValue.id, userService.getAccountDetails().accountId)
 
     if(responseData.error) {
@@ -73,14 +74,20 @@ const ManageJobs = (props) => {
         duration: 6000,
         isClosable: true,
       })
-      const newJobList = [...jobs]    
-      const updatedList = newJobList.map((job) => {
-        if(job.jobName === jobName) {
-          job.jobStatus = toStatus === ScheduleJobConstants.JOB_STATUS.Pause?"PAUSED":toStatus === ScheduleJobConstants.JOB_STATUS.Resume?"SCHEDULED":toStatus === ScheduleJobConstants.JOB_STATUS.Cancel?"COMPLETE":toStatus === ScheduleJobConstants.JOB_STATUS.Delete?"DELETED":""
-        }
-        return job;
-      })
-      updateJobsForDisplay(updatedList)
+
+      if(jobs) {
+        const newJobList = [...jobs]    
+        const updatedList = newJobList.map((job) => {
+          if(job.jobName === jobName) {
+            job.jobStatus = toStatus === ScheduleJobConstants.JOB_STATUS.Pause?"PAUSED":toStatus === ScheduleJobConstants.JOB_STATUS.Resume?"SCHEDULED":toStatus === ScheduleJobConstants.JOB_STATUS.Cancel?"COMPLETE":toStatus === ScheduleJobConstants.JOB_STATUS.Delete?"DELETED":""
+          }
+          return job;
+        })
+        updateJobsForDisplay(updatedList)
+  
+      } else {
+        onClose()
+      }
     }
 
     setLoading(false)
@@ -108,11 +115,6 @@ const ManageJobs = (props) => {
     setJobs(updatedList);
   }
 
-  const addNewTask = (newJob) => {
-    const newJobs = [...jobs]
-    newJobs.push(newJob)
-    updateJobsForDisplay(newJobs)
-  }
   
   return (
 
