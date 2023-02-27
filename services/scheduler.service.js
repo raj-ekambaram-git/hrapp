@@ -1,14 +1,50 @@
 import getConfig from 'next/config';
 
 import { fetchWrapper } from 'helpers';
+import { EMPTY_STRING, ScheduleJobConstants } from '../constants';
 
 const { publicRuntimeConfig } = getConfig();
 const baseUrl = `${publicRuntimeConfig.schedulerAPIURL}`;
 
 export const schedulerService = {
     scheduleJob,    
-    getScheduleJobs
+    getScheduleJobs,
+    updateStatus
 };
+
+function updateStatus(toStatus, jobName, jobGroup, userId, accountId) {
+    console.log("accountId:::"+accountId+"****baseUrl:::"+jobName+"****jobGroup:::"+jobGroup+"*****toStatus::"+toStatus)
+    
+    const requestData = {
+        accountId: accountId,
+        userId: userId,
+        jobGroup: jobGroup,
+        jobName: jobName,
+        jobAction: toStatus
+    }
+
+    let statusPath = EMPTY_STRING;
+
+    if(toStatus === ScheduleJobConstants.JOB_STATUS.Pause) {
+        statusPath = "pause"
+    } else if (toStatus === ScheduleJobConstants.JOB_STATUS.Resume) {
+        statusPath = "resume"
+    } else if (toStatus === ScheduleJobConstants.JOB_STATUS.Cancel) {
+        statusPath = "unschedule"
+    } else if (toStatus === ScheduleJobConstants.JOB_STATUS.Delete) {
+        statusPath = "delete"
+    }
+
+    return fetchWrapper.post(`${baseUrl}/scheduler/`+statusPath, requestData)
+    .then(updatedJob => {
+        return updatedJob;
+    })  
+    .catch(err => {
+        console.log("Error getScheduleJobs"+err)
+        return {errorMessage: err, error: true};
+    });
+
+}
 
 function getScheduleJobs(accountId) {
     console.log("accountId:::"+accountId+"****baseUrl:::"+baseUrl)

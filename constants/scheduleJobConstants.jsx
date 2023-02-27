@@ -3,6 +3,13 @@ import { util } from "../helpers";
 
 export const ScheduleJobConstants = {
 
+
+  JOB_STATUS: {
+    Pause: "Pause",
+    Resume: "Resume",
+    Cancel: "Cancel",
+    Delete: "Delete"
+  },
   RECURRING_INTERVAL_VALUE: {
     Daily: "Daily",
     Weekly: "Weekly",
@@ -29,6 +36,12 @@ export const ScheduleJobConstants = {
 ], 
   JOB_LIST_TABLE_META: [
         {
+          label: "",
+          accessor: "deleteAction",
+          disableSort: true,
+          disableSearch: true
+        },  
+        {
           label: "Name",
           accessor: "jobName",
           format: (value) => (value ? value.split("_")[0] : '✖️')
@@ -40,7 +53,7 @@ export const ScheduleJobConstants = {
         {
           label: "Status",
           accessor: "jobStatus", 
-          format: (value) => (value ? <Badge color={`${(value == "SCHEDULED" || value == "RUNNING" || value == "COMPLETE") ? "paid_status": "pending_status"}`}>{value}</Badge> : '✖️')
+          format: (value) => (value ? <Badge color={`${(value == "RUNNING" || value == "COMPLETE") ? "paid_status": value == "SCHEDULED"?"black": "pending_status"}`}>{value}</Badge> : '✖️')
         },
         {
           label: "Scheduled",
@@ -56,7 +69,15 @@ export const ScheduleJobConstants = {
           label: "Next Run",
           accessor: "nextFireTime",
           format: (value) => (value ? new Date(value).toLocaleString() : '-')
-        },   
+        },  
+        {
+          label: "",
+          accessor: "updateActions",
+          disableSort: true,
+          disableSearch: true
+        },  
+
+         
                              
       ]
 

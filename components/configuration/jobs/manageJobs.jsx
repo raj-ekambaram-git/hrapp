@@ -11,7 +11,9 @@ import {
   StackDivider,
   useDisclosure,
   useToast,
-  Switch
+  Switch,
+  HStack,
+  Tooltip
 } from '@chakra-ui/react'
 import { useDispatch } from "react-redux";
 import { EMPTY_STRING, ScheduleJobConstants } from "../../../constants";
@@ -19,6 +21,10 @@ import { schedulerService, userService } from "../../../services";
 import { CustomTable } from "../../customTable/Table";
 import AddEditJob from "./addEditJob";
 import {Spinner} from '../../common/spinner'
+import { MdCancel } from 'react-icons/md';
+import { DeleteIcon } from "@chakra-ui/icons";
+
+
 
 const ManageJobs = (props) => {
   const dispatch = useDispatch();
@@ -45,10 +51,58 @@ const ManageJobs = (props) => {
     setLoading(false)  
   }
 
+  const handleStatusUpdate = async(toStatus, jobName, jobGroup) => {
+    setLoading(true)
+    const responseData = await schedulerService.updateStatus(toStatus, jobName, jobGroup, userService.userValue.id, userService.getAccountDetails().accountId)
+
+    if(responseData.error) {
+      toast({
+        title: "Update Schedule Job",
+        description: 'Error updating job, please try again later or contact administrator. Details:'+err.errorMessage,
+        status: 'error',
+        position: 'top',
+        duration: 6000,
+        isClosable: true,
+      })
+    } else {
+      toast({
+        title: "Update Schedule Job",
+        description: 'Successfully updated the job.',
+        status: 'success',
+        position: 'top',
+        duration: 6000,
+        isClosable: true,
+      })
+      const newJobList = [...jobs]    
+      const updatedList = newJobList.map((job) => {
+        if(job.jobName === jobName) {
+          job.jobStatus = toStatus === ScheduleJobConstants.JOB_STATUS.Pause?"PAUSED":toStatus === ScheduleJobConstants.JOB_STATUS.Resume?"SCHEDULED":toStatus === ScheduleJobConstants.JOB_STATUS.Cancel?"COMPLETE":toStatus === ScheduleJobConstants.JOB_STATUS.Delete?"DELETED":""
+        }
+        return job;
+      })
+      updateJobsForDisplay(updatedList)
+    }
+
+    setLoading(false)
+
+  }
 
   function updateJobsForDisplay(responseData) {
     const updatedList =  responseData.map((job, index)=> {      
       job.typeName = job?.requestData?.templateName;
+      if(job.jobStatus === "SCHEDULED") {
+        //Paus and Cancel
+        job.updateActions =  <HStack><Switch colorScheme='red' size='sm' id='pause' isChecked onChange={() => handleStatusUpdate(ScheduleJobConstants.JOB_STATUS.Pause, job.jobName, job.groupName)} >Pause</Switch> 
+                                  <MdCancel size="20" onClick={() => handleStatusUpdate(ScheduleJobConstants.JOB_STATUS.Cancel, job.jobName, job.groupName)} /></HStack>
+      } else if (job.jobStatus === "PAUSED") {
+        //Resume and Cancel
+        job.updateActions =  <HStack><Switch colorScheme='teal' size='sm' id='pause' isChecked onChange={() => handleStatusUpdate(ScheduleJobConstants.JOB_STATUS.Resume, job.jobName, job.groupName)} >Resume</Switch> <MdCancel size="20" onClick={() => handleStatusUpdate(ScheduleJobConstants.JOB_STATUS.Cancel, job.jobName, job.groupName)} /> </HStack>
+      } else if (job.jobStatus === "COMPLETE") {
+        //Onlly Cancel
+        // job.updateActions = <DeleteIcon boxSize={4}/>
+      }
+      job.deleteAction = <DeleteIcon  onClick={() => handleStatusUpdate(ScheduleJobConstants.JOB_STATUS.Delete, job.jobName, job.groupName)}  boxSize={3}/>
+      
       return job;
     });
     setJobs(updatedList);
