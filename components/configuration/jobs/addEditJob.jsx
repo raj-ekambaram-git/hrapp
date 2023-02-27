@@ -93,10 +93,12 @@ const AddEditJob = (props) => {
                 },
                 "scheduleTime": {
                   "scheduledTime": util.getScheduleTime(scheduleDate, scheduleHour, scheduleMinute),
-                  "zoneId": "UTC"
+                  "zoneId": "UTC",
+                  "callerTimeZone": util.getLocaleTimeZone(),
                 }
               }
 
+              console.log(":jobDataRequest::::"+JSON.stringify(jobDataRequest))
             const responseData = await schedulerService.scheduleJob(jobDataRequest, userService.getAccountDetails().accountId)
             if(responseData.error) {
                 toast({

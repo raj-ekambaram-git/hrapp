@@ -3,6 +3,12 @@ import { util } from "../helpers";
 
 export const ScheduleJobConstants = {
 
+  RECURRING_INTERVAL_VALUE: {
+    Daily: "Daily",
+    Weekly: "Weekly",
+    Monthly: "Monthly",
+    Quarterly: "Quarterly"
+  },
   RECURRING_INTERVALS: [
     {
       recurringIntervalId: "Daily",

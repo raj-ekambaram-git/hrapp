@@ -6,6 +6,7 @@ const generator = require('generate-password');
 const bcrypt = require('bcryptjs');
 import cookie from 'js-cookie'
 import jwtDecode from 'jwt-decode';
+import { ScheduleJobConstants } from '../constants';
 
 export const util = {
     formatPhoneNumber,
@@ -39,8 +40,13 @@ export const util = {
     getCronExpression,
     getScheduleTime,
     stringToDate,
-    stringToDateTime
+    stringToDateTime,
+    getLocaleTimeZone
 };
+
+function getLocaleTimeZone() {
+  return Intl.DateTimeFormat().resolvedOptions().timeZone;
+}
 
 function getScheduleTime(scheduleDate, scheduleHour, scheduleMinute) {
   
@@ -48,7 +54,12 @@ function getScheduleTime(scheduleDate, scheduleHour, scheduleMinute) {
 }
 
 
-function getCronExpression(scheduleDate, scheduleHour, scheduleTime, recurringInterval) {
+function getCronExpression(scheduleDate, scheduleHour, scheduleMinute, recurringInterval) {
+  if(recurringInterval == ScheduleJobConstants.RECURRING_INTERVAL_VALUE.Daily) {
+    //0 42 10 * * ?
+    return "0 "+scheduleMinute+" "+scheduleHour+" 1/1 * ? *";
+  }
+
   return EMPTY_STRING;
 }
 
