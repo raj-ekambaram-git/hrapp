@@ -56,7 +56,7 @@ const AddEditJob = (props) => {
         setLoading(false)
     }
 
-    const handleSaveJob =  async() => {        
+    const handleSaveJob =  async() => {   
         const formFields = [{key: "Job Name", value: name}, {key:"Job Type", value: type}, {key:"Schedule Date", value: scheduleDate}, {key:"Schedule Hour", value: scheduleHour}, {key:"Schedule Minute", value: scheduleMinute} ];
         if(!util.formFieldValidation("Add Schedule Job", formFields, toast )) {
 
@@ -78,7 +78,7 @@ const AddEditJob = (props) => {
             }
             
 
-
+            
             const jobDataRequest = {
                 "jobRequestData": {
                   "accountId": userService.getAccountDetails().accountId,
@@ -92,8 +92,8 @@ const AddEditJob = (props) => {
                   "userId": userService.userValue.id
                 },
                 "scheduleTime": {
-                  "scheduledTime": new Date(scheduleDate.setHours(scheduleHour, scheduleMinute, 0,0)),
-                  "zoneId": ConfigConstants.TIMEZONE
+                  "scheduledTime": util.getScheduleTime(scheduleDate, scheduleHour, scheduleMinute),
+                  "zoneId": "UTC"
                 }
               }
 

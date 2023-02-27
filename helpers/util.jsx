@@ -43,16 +43,16 @@ export const util = {
 };
 
 function getScheduleTime(scheduleDate, scheduleHour, scheduleMinute) {
-
-  return stringToDateTime(scheduleDate+"/"+scheduleHour+"/"+scheduleMinute, "mm/dd/yyyy/hh/mi","/");
+  
+  return stringToDateTime(scheduleDate.toLocaleDateString("en-US", { timeZone: "America/New_York" })+"/"+scheduleHour+"/"+scheduleMinute, "mm/dd/yyyy/hh/mi","/");
 }
+
+
 function getCronExpression(scheduleDate, scheduleHour, scheduleTime, recurringInterval) {
   return EMPTY_STRING;
 }
 
-function stringToDateTime(_date,_format,_delimiter)
-{ 
-            console.log("Dateee::"+_date)
+function stringToDateTime(_date,_format,_delimiter){ 
             var formatLowerCase=_format.toLowerCase();
             var formatItems=formatLowerCase.split(_delimiter);
             var dateItems=_date.split(_delimiter);
@@ -62,14 +62,12 @@ function stringToDateTime(_date,_format,_delimiter)
             var hourIndex=formatItems.indexOf("hh");
             var minuteIndex=formatItems.indexOf("mi");
             var month=parseInt(dateItems[monthIndex]);
-            month-=1;
-            var formatedDate = new Date(dateItems[yearIndex],month,dateItems[dayIndex], hourIndex,minuteIndex);
-            console.log("formatedDate::::"+formatedDate)
-            return formatedDate;
+            month-=1;            
+            var formatedDate = new Date(dateItems[yearIndex],month,dateItems[dayIndex], dateItems[hourIndex],dateItems[minuteIndex]);
+            return new Date(new Date(formatedDate).toLocaleString());
 }
 
-function stringToDate(_date,_format,_delimiter)
-{
+function stringToDate(_date,_format,_delimiter) {
             var formatLowerCase=_format.toLowerCase();
             var formatItems=formatLowerCase.split(_delimiter);
             var dateItems=_date.split(_delimiter);

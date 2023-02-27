@@ -39,17 +39,17 @@ export const ScheduleJobConstants = {
         {
           label: "Scheduled",
           accessor: "scheduleTime",
-          format: (value) => (value ? util.getFormattedDateWithTime(value) : '-')
+          format: (value) => (value ? new Date(value).toLocaleString() : '-')
         },   
         {
           label: "Last Ran",
           accessor: "lastFiredTime",
-          format: (value) => (value ? util.getFormattedDateWithTime(value) : '-')
+          format: (value) => (value ? new Date(value).toLocaleString() : '-')
         },          
         {
           label: "Next Run",
           accessor: "nextFireTime",
-          format: (value) => (value ? util.getFormattedDateWithTime(value) : '-')
+          format: (value) => (value ? new Date(value).toLocaleString() : '-')
         },   
                              
       ]
