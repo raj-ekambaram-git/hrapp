@@ -19,6 +19,7 @@ import { importExportService, schedulerService, userService } from "../../../ser
 import { util } from "../../../helpers";
 import DatePicker from "../../common/datePicker";
 import { Spinner } from '../../common/spinner'
+import { ExportTemplateType } from "@prisma/client";
 
 
 const AddEditJob = (props) => {
@@ -29,9 +30,11 @@ const AddEditJob = (props) => {
     const [scheduleDate, setScheduleDate] = useState(EMPTY_STRING);
     const [scheduleHour, setScheduleHour] = useState();
     const [scheduleMinute, setScheduleMinute] = useState();
+    const [templateParams, setTemplateParams] = useState(EMPTY_STRING);
     const [templates, setTemplates] = useState();
     const [typeName, setTypeName] = useState();
     const [type, setType] = useState();
+    const [selectedTypeQueryMeta, setSelectedTypeQueryMeta] = useState();
     const [name, setName] = useState(EMPTY_STRING);
     const [loading, setLoading] = useState();
 
@@ -48,6 +51,13 @@ const AddEditJob = (props) => {
         setEnableRecurring(false)
     }
 
+    const setKeyValue = (keyName, value, index) => {
+        const queryKeyValue = {};
+        queryKeyValue[keyName] = value;
+        setTemplateParams(queryKeyValue)
+      }
+
+      
     const handleAddJob = async() => {
         setLoading(true)
         const responseData = await importExportService.getSavedExportTemplates(userService.getAccountDetails().accountId)
@@ -88,8 +98,7 @@ const AddEditJob = (props) => {
                   "name": name,
                   "templateId": type,
                   "templateName": typeName,
-                  "templateParams": [
-                  ],
+                  "templateParams": [templateParams],
                   "userId": userService.userValue.id
                 },
                 "scheduleTime": {
@@ -98,8 +107,9 @@ const AddEditJob = (props) => {
                   "callerTimeZone": util.getLocaleTimeZone(),
                 }
               }
-
+              console.log("jobDataRequest:::"+JSON.stringify(jobDataRequest))
             const responseData = await schedulerService.scheduleJob(jobDataRequest, userService.getAccountDetails().accountId)
+            
             if(responseData.error) {
                 toast({
                     title: "Add Schedule Job",
@@ -134,8 +144,14 @@ const AddEditJob = (props) => {
     }
 
     const handleType =(ev) => {
+        setSelectedTypeQueryMeta(null)
+        setTemplateParams(EMPTY_STRING)
         setType(ev.target.value)
         setTypeName(ev.target.options.item(ev.target.selectedIndex).getAttribute("data-templatename"))
+        if(ev.target.options.item(ev.target.selectedIndex).getAttribute("data-querymeta")) {
+            setSelectedTypeQueryMeta(JSON.parse(ev.target.options.item(ev.target.selectedIndex).getAttribute("data-querymeta")))
+        }
+        
     }
 
 
@@ -166,13 +182,25 @@ const AddEditJob = (props) => {
                                                 <option value="">Select Type</option>
                                                 {templates?.map((template) => (
                                                     <option value={template.id} 
-                                                            data-querymeta={template.queryMeta}
+                                                            data-querymeta={JSON.stringify(template.queryMeta)}
                                                             data-templatename={template.name}
-                                                            data-templatetype={template.type} >{template.name}</option>
+                                                            data-templatetype={template.type} >{template.name} - {template.type===ExportTemplateType.User?"Custom":"System"}</option>
                                                 ))}
                                             </Select>
                                         </FormControl>     
                                 </HStack>
+                                {selectedTypeQueryMeta?<>
+                                    <HStack>
+                                        {selectedTypeQueryMeta?.fields?.map((field, index) => 
+                                        <HStack>
+                                            <FormControl isRequired={field.required?true:false}>
+                                                <FormLabel>{field.name}</FormLabel>
+                                                <Input type={field.type==="number"?"number":"text"}  width="75%" onChange={(ev) =>setKeyValue(field.key, ev.target.value, index)}/>
+                                            </FormControl>   
+                                        </HStack>
+                                        )}                                        
+                                    </HStack>
+                                </>:<></>}
                                 <HStack spacing={9}>
                                     <FormControl isRequired>
                                         <FormLabel>Recurring?</FormLabel>
