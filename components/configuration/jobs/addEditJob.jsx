@@ -26,13 +26,13 @@ const AddEditJob = (props) => {
     const [enableAddNew, setEnableAddNew] = useState(false);
     const [enableRecurring, setEnableRecurring] = useState(false);
     const [recurringInterval, setRecurringInterval] = useState();
-    const [scheduleDate, setScheduleDate] = useState();
+    const [scheduleDate, setScheduleDate] = useState(EMPTY_STRING);
     const [scheduleHour, setScheduleHour] = useState();
     const [scheduleMinute, setScheduleMinute] = useState();
     const [templates, setTemplates] = useState();
     const [typeName, setTypeName] = useState();
     const [type, setType] = useState();
-    const [name, setName] = useState();
+    const [name, setName] = useState(EMPTY_STRING);
     const [loading, setLoading] = useState();
 
 
@@ -42,9 +42,9 @@ const AddEditJob = (props) => {
 
     const resetValues = () => {
         setLoading(false)
-        setType(null)
-        setName(null)
-        setRecurringInterval(null)
+        setType(EMPTY_STRING)
+        setName(EMPTY_STRING)
+        setRecurringInterval(EMPTY_STRING)
         setEnableRecurring(false)
     }
 
@@ -57,6 +57,7 @@ const AddEditJob = (props) => {
     }
 
     const handleSaveJob =  async() => {   
+
         const formFields = [{key: "Job Name", value: name}, {key:"Job Type", value: type}, {key:"Schedule Date", value: scheduleDate}, {key:"Schedule Hour", value: scheduleHour}, {key:"Schedule Minute", value: scheduleMinute} ];
         if(!util.formFieldValidation("Add Schedule Job", formFields, toast )) {
 
@@ -98,7 +99,6 @@ const AddEditJob = (props) => {
                 }
               }
 
-              console.log(":jobDataRequest::::"+JSON.stringify(jobDataRequest))
             const responseData = await schedulerService.scheduleJob(jobDataRequest, userService.getAccountDetails().accountId)
             if(responseData.error) {
                 toast({
@@ -135,7 +135,7 @@ const AddEditJob = (props) => {
 
     const handleType =(ev) => {
         setType(ev.target.value)
-        setTypeName(ev.target.options.item(ev.target.selectedIndex).getAttribute("data-templateName"))
+        setTypeName(ev.target.options.item(ev.target.selectedIndex).getAttribute("data-templatename"))
     }
 
 
@@ -166,9 +166,9 @@ const AddEditJob = (props) => {
                                                 <option value="">Select Type</option>
                                                 {templates?.map((template) => (
                                                     <option value={template.id} 
-                                                            data-queryMeta={template.queryMeta}
-                                                            data-templateName={template.name}
-                                                            data-templateType={template.type} >{template.name}</option>
+                                                            data-querymeta={template.queryMeta}
+                                                            data-templatename={template.name}
+                                                            data-templatetype={template.type} >{template.name}</option>
                                                 ))}
                                             </Select>
                                         </FormControl>     

@@ -55,9 +55,17 @@ function getScheduleTime(scheduleDate, scheduleHour, scheduleMinute) {
 
 
 function getCronExpression(scheduleDate, scheduleHour, scheduleMinute, recurringInterval) {
+  var days = ['SUNDAY','MONDAY','TUESDAY','WEDNESDAY','THURSDAY','FRIDAY','SATURDAY'];    
+  var day  = days[scheduleDate.getDay()].substring(0,3);
+
   if(recurringInterval == ScheduleJobConstants.RECURRING_INTERVAL_VALUE.Daily) {
-    //0 42 10 * * ?
     return "0 "+scheduleMinute+" "+scheduleHour+" 1/1 * ? *";
+  } else if (recurringInterval == ScheduleJobConstants.RECURRING_INTERVAL_VALUE.Weekly) {
+    return "0 "+scheduleMinute+" "+scheduleHour+" ? * "+ day+" *";
+  } else if (recurringInterval == ScheduleJobConstants.RECURRING_INTERVAL_VALUE.Monthly) {    
+    return "0 "+scheduleMinute+" "+scheduleHour+" "+ scheduleDate.getDate() +" 1/1 ? * ";    
+  } else if (recurringInterval == ScheduleJobConstants.RECURRING_INTERVAL_VALUE.Quarterly) {
+    return "0 "+scheduleMinute+" "+scheduleHour+" "+ scheduleDate.getDate() +" 1/3 ? * ";    
   }
 
   return EMPTY_STRING;
