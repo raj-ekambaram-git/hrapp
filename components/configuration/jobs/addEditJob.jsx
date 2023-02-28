@@ -71,6 +71,18 @@ const AddEditJob = (props) => {
         const formFields = [{key: "Job Name", value: name}, {key:"Job Type", value: type}, {key:"Schedule Date", value: scheduleDate}, {key:"Schedule Hour", value: scheduleHour}, {key:"Schedule Minute", value: scheduleMinute} ];
         if(!util.formFieldValidation("Add Schedule Job", formFields, toast )) {
 
+            if(name.includes("_")) {
+                toast({
+                    title: "Add Schedule Job",
+                    description: 'Job Name cannot contain underscore(_), please remove and try again.',
+                    status: 'error',
+                    position: 'top',
+                    duration: 6000,
+                    isClosable: true,
+                })
+                return;
+            }
+
             let cronExpression = EMPTY_STRING;
             if(enableRecurring) {
                 if(recurringInterval && recurringInterval != EMPTY_STRING) {
