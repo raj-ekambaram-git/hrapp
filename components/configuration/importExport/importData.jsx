@@ -187,13 +187,11 @@ const ImportData = (props) => {
                 <ButtonGroup>
                   <Button size="xs" bgColor="header_actions" 
                     onClick={() => handleImport("xxl")}
-                    key="xxl"
                     m={1}
                     >{`Import`}
                   </Button>
                   <Button size="xs" bgColor="header_actions" 
                     onClick={() => handleImport("xxl")}
-                    key="xxl"
                     m={1}
                     >{`Previous Imports`}
                   </Button>                  

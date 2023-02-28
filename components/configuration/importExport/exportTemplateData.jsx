@@ -35,7 +35,6 @@ function ExportTemplateData() {
 
   async function handleExportTemplateData(newSize) {
     const responseData = await importExportService.getSavedExportTemplates(userService.getAccountDetails().accountId, "true")
-    console.log("responseData:::"+JSON.stringify(responseData))
     if(responseData != undefined && responseData != EMPTY_STRING) {
       const updatedExportTemplates = [];
       responseData.map((exportTemplate, index)=> {
@@ -108,7 +107,6 @@ function ExportTemplateData() {
                 </Heading>
                 <Button size="xs" bgColor="header_actions" 
                     onClick={() => handleExportTemplateData("xxl")}
-                    key="xxl"
                     m={1}
                     >{`Export Data`}
                 </Button>

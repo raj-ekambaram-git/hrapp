@@ -281,7 +281,6 @@ const ExportData = (props) => {
 
                 <Button size="xs" bgColor="header_actions" 
                   onClick={() => hanldeExport("xl")}
-                  key="xl"
                   m={1}
                   >{`Export`}
                 </Button>
