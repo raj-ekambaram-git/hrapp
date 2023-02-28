@@ -113,8 +113,8 @@ async function generateReport(inputData, templateName, templateCSS) {
   }
 }
 
-function getSavedExportTemplates(accountId) {
-  return fetchWrapper.get(`${baseUrl}/admin/app/export/templates?accountId=`+accountId, {})
+function getSavedExportTemplates(accountId, exportData) {
+  return fetchWrapper.get(`${baseUrl}/admin/app/export/templates?accountId=`+accountId+'&exportData='+exportData, {})
       .then(columnData => {
           return columnData;
       })  

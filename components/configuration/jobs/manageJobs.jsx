@@ -45,7 +45,7 @@ const ManageJobs = (props) => {
   const getJobsByAccount = async() => {
     setLoading(true)
     const responseData = await schedulerService.getScheduleJobs(userService.getAccountDetails().accountId);
-    if(responseData) {
+    if(responseData && responseData.length>0) {
       updateJobsForDisplay(responseData.data)   
     }  
     setLoading(false)  

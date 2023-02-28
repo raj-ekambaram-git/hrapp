@@ -60,7 +60,7 @@ const AddEditJob = (props) => {
       
     const handleAddJob = async() => {
         setLoading(true)
-        const responseData = await importExportService.getSavedExportTemplates(userService.getAccountDetails().accountId)
+        const responseData = await importExportService.getSavedExportTemplates(userService.getAccountDetails().accountId, "false")
         setTemplates(responseData)
         setEnableAddNew(true)
         setLoading(false)

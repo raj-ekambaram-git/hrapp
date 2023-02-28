@@ -34,7 +34,7 @@ function ExportTemplateData() {
 
 
   async function handleExportTemplateData(newSize) {
-    const responseData = await importExportService.getSavedExportTemplates(userService.getAccountDetails().accountId)
+    const responseData = await importExportService.getSavedExportTemplates(userService.getAccountDetails().accountId, "true")
     console.log("responseData:::"+JSON.stringify(responseData))
     if(responseData != undefined && responseData != EMPTY_STRING) {
       const updatedExportTemplates = [];

@@ -14,25 +14,34 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   try {
     const accountId = req.query?.accountId;
-    console.log("accountId::"+JSON.stringify(accountId))
+    const exportData = req.query?.exportData;
+    console.log("accountId::"+JSON.stringify(accountId)+"****exportData::"+exportData)
 
     if(accountId && accountId != EMPTY_STRING) {
-      const savedTemplates = await prisma.exportTemplate.findMany({
-        where: {
-          OR: [
-            {
-              type: {
-                equals: ExportTemplateType.System,              
-              }
-            },            
-           {
-            accountId: {
-              equals: parseInt(accountId.toString())
+
+      const whereClause = {
+        OR: [
+          {
+            type: {
+              equals: ExportTemplateType.System,              
             }
-           }
-          ],
-          
-        }
+          },            
+         {
+          accountId: {
+            equals: parseInt(accountId.toString())
+          }
+         }
+        ],        
+      }
+
+      if(exportData && exportData === "true") {
+        whereClause["schedule"] =  false;
+      }
+
+      console.log("whereClause:::"+JSON.stringify(whereClause))
+
+      const savedTemplates = await prisma.exportTemplate.findMany({
+        where: whereClause
       });
       res.status(200).json(savedTemplates);
   
