@@ -45,7 +45,7 @@ const ManageJobs = (props) => {
   const getJobsByAccount = async() => {
     setLoading(true)
     const responseData = await schedulerService.getScheduleJobs(userService.getAccountDetails().accountId);
-    if(responseData && responseData.length>0) {
+    if(responseData &&  responseData.data && responseData.data?.length>0) {
       updateJobsForDisplay(responseData.data)   
     }  
     setLoading(false)  
@@ -54,8 +54,7 @@ const ManageJobs = (props) => {
   const handleStatusUpdate = async(toStatus, jobName, jobGroup) => {
     setLoading(true)
 
-    const responseData = await schedulerService.updateStatus(toStatus, jobName, jobGroup, userService.userValue.id, userService.getAccountDetails().accountId)
-
+    const responseData = await schedulerService.updateStatus(toStatus, jobName, jobGroup, userService.userValue.id, userService.getAccountDetails().accountId)    
     if(responseData.error) {
       toast({
         title: "Update Schedule Job",

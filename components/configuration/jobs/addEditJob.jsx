@@ -30,7 +30,7 @@ const AddEditJob = (props) => {
     const [scheduleDate, setScheduleDate] = useState(EMPTY_STRING);
     const [scheduleHour, setScheduleHour] = useState();
     const [scheduleMinute, setScheduleMinute] = useState();
-    const [templateParams, setTemplateParams] = useState(EMPTY_STRING);
+    const [templateParams, setTemplateParams] = useState();
     const [templates, setTemplates] = useState();
     const [typeName, setTypeName] = useState();
     const [type, setType] = useState();
@@ -98,7 +98,7 @@ const AddEditJob = (props) => {
                   "name": name,
                   "templateId": type,
                   "templateName": typeName,
-                  "templateParams": [templateParams],
+                  "templateParams": [],
                   "userId": userService.userValue.id
                 },
                 "scheduleTime": {
@@ -106,6 +106,9 @@ const AddEditJob = (props) => {
                   "zoneId": "UTC",
                   "callerTimeZone": util.getLocaleTimeZone(),
                 }
+              }
+              if(templateParams) {
+                jobDataRequest["templateParams"] = [templateParams]
               }
               console.log("jobDataRequest:::"+JSON.stringify(jobDataRequest))
             const responseData = await schedulerService.scheduleJob(jobDataRequest, userService.getAccountDetails().accountId)

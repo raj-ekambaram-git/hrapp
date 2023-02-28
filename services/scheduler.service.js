@@ -9,8 +9,21 @@ const baseUrl = `${publicRuntimeConfig.schedulerAPIURL}`;
 export const schedulerService = {
     scheduleJob,    
     getScheduleJobs,
-    updateStatus
+    updateStatus,
+    checkUserWeeklyTimesheetReminder
 };
+
+function checkUserWeeklyTimesheetReminder(userId, accountId) {
+    console.log("accountId:::"+accountId+"****userId:::"+userId)
+    return fetchWrapper.get(`${baseUrl}/scheduler/account/`+accountId+`/jobs?jobGroup=`+userId+"_"+accountId+ScheduleJobConstants.JOB_GROUP_SUFFIX.REMINDER, {})
+    .then(jobs => {
+        return jobs;
+    })  
+    .catch(err => {
+        console.log("Error getScheduleJobs"+err)
+        return {errorMessage: err, error: true};
+    });
+}
 
 function updateStatus(toStatus, jobName, jobGroup, userId, accountId) {
     console.log("accountId:::"+accountId+"****baseUrl:::"+jobName+"****jobGroup:::"+jobGroup+"*****toStatus::"+toStatus)

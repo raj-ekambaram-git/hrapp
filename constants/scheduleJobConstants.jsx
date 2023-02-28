@@ -2,8 +2,13 @@ import { Badge } from "@chakra-ui/react";
 import { util } from "../helpers";
 
 export const ScheduleJobConstants = {
-
-
+  WEEKLY_TS_REMINDER_TEMPLATE_NAME: "UserWeeklyTimesheetReminder",
+  JOB_NAME_PREFIX: {
+    WEEKLY_TS_REMINDER: "WeeklyTimesheetReminder"
+  },
+  JOB_GROUP_SUFFIX: {
+    REMINDER: "_Reminder"
+  },
   JOB_STATUS: {
     Pause: "Pause",
     Resume: "Resume",

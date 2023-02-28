@@ -83,7 +83,7 @@ const UploadLogo = (props) => {
 
     return (
         <>
-        <Stack spacing={5} marginBottom={6}>
+            <Stack spacing={5} marginBottom={6}>
                 <Card>
                     <CardBody>
                           <Heading size="sm" marginBottom={4}>

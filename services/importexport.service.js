@@ -4,6 +4,7 @@ import getConfig from 'next/config';
 import { fetchWrapper } from 'helpers';
 import { userService } from './user.service';
 import { ConfigConstants } from '../constants';
+import { ExportTemplateType } from '@prisma/client';
 
 const { publicRuntimeConfig } = getConfig();
 const baseUrl = `${publicRuntimeConfig.apiUrl}`;
@@ -16,12 +17,24 @@ export const importExportService = {
   exportData,
   saveExportAsTeplate,
   getSavedExportTemplates,
+  getSavedExportTemplateByName,
   generateReport,
   exportSystemReport,
   previousImports,
   importData,
 };
 
+
+function getSavedExportTemplateByName(templateName, templateType) {
+  return fetchWrapper.get(`${baseUrl}/admin/app/export/template/`+templateName+'?templateType='+templateType, {})
+      .then(columnData => {
+          return columnData;
+      })  
+      .catch(err => {
+        console.log("Error Getting getSavedExportTemplateByName")
+        return {errorMessage: err, error: true};
+    });
+}
 
 function importData(userId, accountId, objectType, file, importName) {
   
