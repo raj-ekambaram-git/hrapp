@@ -16,14 +16,16 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   try {
+    console.log("req.body:::"+JSON.stringify(req.body))
     const {user} = req.body;
 
 
 
-    console.log("user::"+JSON.stringify(user))
+    console.log("user::"+JSON.stringify(user)+"****user.userId::"+user.userId + "***** user.accountId::"+ user.accountId)
 
     if(user.userId && user.accountId  ) {
 
+      console.log("insdieee")
       var today = new Date();
       var dd = String(today.getDate()).padStart(2, '0');
       var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
