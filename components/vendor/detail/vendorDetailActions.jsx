@@ -12,6 +12,7 @@ import { userService } from "../../../services";
 import { ConfigConstants } from "../../../constants";
 import AddEditVedorPaymentAccount from "../../configuration/payment/addEditVedorPaymentAccount";
 import AddEditWorkFlow from "../../workFlow/addEditWorkFlow";
+import VendorPreferences from "./vendorPreferences";
 
 
 
@@ -68,6 +69,7 @@ const VendorDetailActions = (props) => {
                   {props.data?.vendor?.workFlowEnabled?<>
                     <AddEditWorkFlow isAddMode={false} type="Vendor" typeId={props.data?.vendor?.id}/>                       
                   </>:<></>}
+                    <VendorPreferences vendorId={props.data?.vendor?.id}/>                       
                 </HStack>
             </Flex>          
     </div>

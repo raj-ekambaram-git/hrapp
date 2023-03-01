@@ -99,6 +99,24 @@ model Vendor {
   paymentMethod       PaymentMethod[]
   projectResource     ProjectResource[]
   expense             Expense[]
+  vendorSetting       VendorSetting[]
+}
+
+model VendorSetting {
+  id             Int                 @id @default(autoincrement())
+  key            String
+  displayName    String
+  value          Json
+  vendorId       Int
+  vendor         Vendor?             @relation(fields: [vendorId], references: [id])
+  status         VendorSettingStatus
+  createdDate    DateTime            @default(now())
+  lastUpdateDate DateTime            @updatedAt
+
+  @@unique([vendorId, key])
+  @@index([vendorId])
+  @@index([vendorId, key])
+  @@index([vendorId, status])
 }
 
 model ProjectResource {
@@ -1280,4 +1298,10 @@ enum PurchaseOrderStatus {
   Active
   Inactive
   Closed
+}
+
+enum VendorSettingStatus {
+  Active
+  Inactive
+  MarkForDelete
 }

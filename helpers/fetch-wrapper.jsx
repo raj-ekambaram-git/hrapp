@@ -14,7 +14,8 @@ export const fetchWrapper = {
     filePut,
     cachedGet,
     filePost,
-    postWithAuth
+    postWithAuth,
+    getWithAuth
 };
 
 function filePost(url, body) {
@@ -44,6 +45,15 @@ function cachedGet(url, params, hours) {
         cache.put(url, data, hours * 1000 * 60 * 60);
         return data;
     }
+}
+
+function getWithAuth(url, params, authHeader) {
+    const requestOptions = {
+        method: 'GET',
+        headers: authHeader
+
+    };
+    return fetch(url, requestOptions).then(handleResponse);
 }
 
 function get(url, params) {

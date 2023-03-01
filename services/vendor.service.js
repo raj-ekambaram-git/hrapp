@@ -13,10 +13,44 @@ export const vendorService = {
     updateVendor,
     createVendor,
     getVendorReportData,
-
+    getVendorPreferences,
+    createVendorPreference,
+    updateVendorSetting,
 };
 
+function updateVendorSetting(updateRequest, accountId) {
+  return fetchWrapper.put(`${baseUrl}/account/vendor/preference/`+updateRequest.id, {updateRequest: updateRequest})
+    .then(vendorPreference => {
+      return vendorPreference;
+    })
+    .catch(err => {
+      console.log("Error Updating vendorPreference::"+err)
+      return {errorMessage: err, error: true};
+  });
+}
 
+function createVendorPreference(vendorSettingRequest, accountId) {
+  return fetchWrapper.post(`${baseUrl}/account/vendor/preference/create`, {vendorSettingRequest: vendorSettingRequest})
+    .then(vendorPreference => {
+      return vendorPreference;
+    })
+    .catch(err => {
+      console.log("Error Creating vendorPreference::"+err)
+      return {errorMessage: err, error: true};
+  });
+}
+
+
+function getVendorPreferences(vendorId, accountId) {
+  return fetchWrapper.get(`${baseUrl}/account/vendor/`+vendorId+'/preferences?accountId='+accountId, {})
+  .then(vendorPreferences => {
+      return vendorPreferences;
+  })
+  .catch(err => {
+      console.log("Error getting getVendorReportData  ::"+err)
+      return {errorMessage: err, error: true};
+     });
+}
 
 function getVendorReportData(vendorId, accountId) {
   return fetchWrapper.get(`${baseUrl}/reports/vendor/`+vendorId+'/detail?accountId='+accountId, {})
