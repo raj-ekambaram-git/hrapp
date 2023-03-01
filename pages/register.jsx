@@ -27,6 +27,7 @@ import { util } from "../helpers/util";
 import Head from "next/head";
 import { FooterSection } from "../components/static/FooterSection";
 import Script from "next/script";
+import { Spinner } from "../components";
 const SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITEKEY;
 
 const Register = (props) => {
@@ -38,6 +39,7 @@ const Register = (props) => {
   const accountEmail = useRef("");
   const [accountPhone, setAccountPhone] = useState("");
   const [isAddMode, setAddMode] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const formOptions = { resolver: yupResolver(REGISTRATION_VALIDATION_SCHEMA) };
   const { register, handleSubmit, setValue, reset, formState } = useForm();
@@ -93,6 +95,7 @@ const Register = (props) => {
   // Create Account 
   const createAccount = async (formData) => {
     try {
+      setLoading(true)
         const data = await accountService.registerAccount(formData);
 
         if(data.error) {
@@ -113,6 +116,7 @@ const Register = (props) => {
             duration: 3000,
             isClosable: true,
           })    
+          setLoading(false)
           router.push("/login");  
         }
       
@@ -172,6 +176,7 @@ const Register = (props) => {
                             </CardHeader>
 
                             <CardBody>
+                              {loading?<><Spinner /></>:<></>}
                               <Stack>
                                     <FormControl isRequired>
                                       <FormLabel>Account Name</FormLabel>

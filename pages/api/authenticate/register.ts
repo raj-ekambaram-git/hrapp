@@ -6,6 +6,9 @@ import { ErrorMessage } from "../../../constants/errorMessage";
 import { util } from "../../../helpers/util";
 import prisma from "../../../lib/prisma";
 import { emailService, userService } from "../../../services";
+const jwt = require('jsonwebtoken');
+import getConfig from 'next/config';
+const { serverRuntimeConfig } = getConfig();
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method !== 'POST') {
@@ -32,7 +35,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         address: true,
         updatedBy: {
           select: {
-            email: true
+            email: true,
+            userRole: true
           }
         }
       }
@@ -41,7 +45,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     if(savedAccount) {
       const newSavedAccountForEmail = {...savedAccount}
       newSavedAccountForEmail["tempPassword"] = ""
-      const authHeader = {Authorization: req.headers.authorization}
+
+      const authToken = jwt.sign({ sub: savedAccount.updatedBy?.email+":"+savedAccount.id+":"+serverRuntimeConfig.clientId+":"+savedAccount.updatedBy?.userRole}, serverRuntimeConfig.secret, { expiresIn: '1d' }); // TODO: Expiration dates from Config Values
+
+      const authHeader = {Authorization: authToken}
       const emailResponse = emailService.sendEmail(getNewAccountEmailRequest(newSavedAccountForEmail), authHeader);
     }
     res.status(200).json(savedAccount);
