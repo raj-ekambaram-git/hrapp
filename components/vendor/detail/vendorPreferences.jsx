@@ -92,7 +92,7 @@ const VendorPreferences = (props) => {
       id: id,
       status: status
     }
-
+    setLoading(true)
     const responseData = await vendorService.updateVendorSetting(updateRequest, userService.getAccountDetails().accountId)
 
     console.log("responseData::"+JSON.stringify(responseData))
@@ -124,11 +124,12 @@ const VendorPreferences = (props) => {
       }
       vendorPreferencesRef.current = newVenorPrefs;
       populatePrefernceDataForTable(newVenorPrefs)  
+      setLoading(false)
     }
   }
 
   const handleSavePrference = async() => {
-    
+    setLoading(true)
     if(name && key && value) {
       const preferenceRequest = {
         displayName: name,
@@ -176,6 +177,7 @@ const VendorPreferences = (props) => {
       return;
     }
 
+    setLoading(false)
   }
 
 
