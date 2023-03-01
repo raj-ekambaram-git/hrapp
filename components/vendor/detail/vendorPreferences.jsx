@@ -64,6 +64,13 @@ const VendorPreferences = (props) => {
 
   const populatePrefernceDataForTable = (responseData) => {
     const updatedList = responseData.map((preference, index) => {
+
+      PREDEFINED_PREFERENCES.VENDOR.map((predefinedPref) => {
+        if(predefinedPref.key === preference.key) {
+          preference.key = predefinedPref.name
+        }
+      })
+
       preference.deleteAction = <DeleteIcon size="xs" onClick={() => handleUpdatePreference(preference.id, VendorSettingStatus.MarkForDelete, index)}/>;
       if(preference.status === VendorSettingStatus.Active) {
         preference.updateAction = <Switch colorScheme='teal' size='sm' id='pause' isChecked onChange={() => handleUpdatePreference(preference.id, VendorSettingStatus.Inactive, index)} >Mark Inactive</Switch> ;      
