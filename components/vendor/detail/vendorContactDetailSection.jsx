@@ -40,6 +40,16 @@ const VendorContactDetailSection = (props) => {
                         <Thead></Thead>
                         <Tbody>
                         <Tr >
+                            <Th bgColor="table_tile">
+                                 Contact Name
+                            </Th>
+                            <Th>
+                                <Text pt='table_display_value' fontSize='table_display_value'>
+                                    {vendor.vendorContactName}
+                                </Text>
+                            </Th>
+                        </Tr>                            
+                        <Tr >
                             <Th bgColor="table_tile" width="project.details.column1">
                                  Contact Email
                             </Th>

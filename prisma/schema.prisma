@@ -82,6 +82,7 @@ model Vendor {
   bankDetails         String?
   status              VendorStatus
   createdDate         DateTime          @default(now())
+  vendorContactName   String?
   accountContactName  String?
   accountContactEmail String?
   accountContactPhone String?

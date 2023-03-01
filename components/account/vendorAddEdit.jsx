@@ -45,6 +45,7 @@ const VendorEdit = (props) => {
   const phone = useRef("");
   const ein = useRef("");
   const status = useRef("");
+  const vendorContactName = useRef("");
   const accountContactName = useRef("");
   const accountContactEmail = useRef("");
   const accountContactPhone = useRef("");
@@ -132,6 +133,7 @@ const VendorEdit = (props) => {
             accountId: vendorResponse.accountId,
             ein: vendorResponse.ein,
             status: vendorResponse.status,
+            vendorContactName: vendorResponse.vendorContactName,
             accountContactName: vendorResponse.accountContactName,
             accountContactEmail: vendorResponse.accountContactEmail,
             accountContactPhone: vendorResponse.accountContactPhone,
@@ -151,7 +153,7 @@ const VendorEdit = (props) => {
         setEnableWorkFlow(vendorResponse.workFlowEnabled)
 
         // get user and set form fields
-        const fields = ['name', "description", "email", "type","phone","accountId", "ein","status","accountContactName","accountContactEmail","accountContactPhone","addressName","address1", "address2", "address3","city","state","zipCode","workFlowEnabled"];
+        const fields = ['name', "description", "email", "type","phone","accountId", "ein","status","accountContactName","accountContactEmail","vendorContactName","accountContactPhone","addressName","address1", "address2", "address3","city","state","zipCode","workFlowEnabled"];
         fields.forEach(field => setValue(field, vendorData[field]));
     }
 
@@ -368,15 +370,19 @@ const VendorEdit = (props) => {
                 </CardHeader>
 
                 <CardBody>
-                  <Stack maxWidth="page.single_input" spacing="1rem">
-                    <HStack>
+                  <Stack spacing="1rem">
+                    <HStack spacing={8}>
+                        <FormControl isRequired>
+                          <FormLabel> Contact Name (First Last)</FormLabel>
+                          <Input type="vendorContactName" id="vendorContactName"   {...register('vendorContactName')}  />
+                        </FormControl>   
                         <FormControl isRequired>
                           <FormLabel> Email</FormLabel>
                           <Input type="email" id="email"   {...register('email')}  />
                         </FormControl>     
                         <FormControl isRequired>
                             <FormLabel>Account Phone</FormLabel>
-                            <Input type="tel" id="phone"   {...register('phone')}  onChange={(ev) => handlePhoneInput(ev.target.value, "phone")}/>
+                            <Input type="tel" width="50%" id="phone"   {...register('phone')}  onChange={(ev) => handlePhoneInput(ev.target.value, "phone")}/>
                           </FormControl>      
                       </HStack>
                     </Stack>

@@ -102,6 +102,7 @@ const VendorDetail = (props) => {
       type: responseData.type,
       phone: responseData.phone,
       project: [],
+      vendorContactName: responseData.vendorContactName,
       accountContactName: responseData.accountContactName,
       accountContactEmail: responseData.accountContactEmail,
       accountContactPhone: responseData.accountContactPhone,
