@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   Button,
   Drawer,
@@ -38,6 +38,7 @@ const VendorPreferences = (props) => {
   const [size, setSize] = useState(EMPTY_STRING);
   const [loading, setLoading] = useState();
   const [vendorPreferences, setVendorPreferences] = useState([]);
+  const vendorPreferencesRef = useRef([]);
   const [enableAddPreference, setEnableAddPreference] = useState(false);
   const [enablePredefinedPreference, setEnablePredefinedPreference] = useState(false);
   const [name, setName] = useState();
@@ -54,6 +55,7 @@ const VendorPreferences = (props) => {
     setLoading(true)
     const responseData = await vendorService.getVendorPreferences(props.vendorId, userService.getAccountDetails().accountId)
     if(responseData && responseData.length>0) {
+      vendorPreferencesRef.current = responseData;
       populatePrefernceDataForTable(responseData)
     }
     
@@ -113,13 +115,14 @@ const VendorPreferences = (props) => {
         duration: 6000,
         isClosable: true,
       })
-      const newVenorPrefs = [...vendorPreferences];
+      const newVenorPrefs = [...vendorPreferencesRef.current];
       console.log("newVenorPrefs::"+JSON.stringify(newVenorPrefs))
       if(status === VendorSettingStatus.MarkForDelete) {
         newVenorPrefs.splice(index, 1);
       } else {
         newVenorPrefs[index] = responseData        
       }
+      vendorPreferencesRef.current = newVenorPrefs;
       populatePrefernceDataForTable(newVenorPrefs)  
     }
   }
@@ -156,8 +159,9 @@ const VendorPreferences = (props) => {
           duration: 6000,
           isClosable: true,
         })
-        const newVenorPrefs = [...vendorPreferences];
+        const newVenorPrefs = [...vendorPreferencesRef.current];
         newVenorPrefs.push(responseData)
+        vendorPreferencesRef.current = newVenorPrefs;
         populatePrefernceDataForTable(newVenorPrefs)  
       }
     } else {
