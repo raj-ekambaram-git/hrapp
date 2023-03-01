@@ -11,7 +11,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const invoiceId = req.query?.invoiceId;
     const accountId = req.query?.accountId;
-    console.log("GET INVOICE ID Details::"+invoiceId)
     
     if(invoiceId != "" && invoiceId != undefined && accountId != "" && accountId != undefined && accountId != "NaN") {
       const invoices = await prisma.invoice.findMany({
@@ -90,7 +89,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           }
         }
       })
-        console.log("invoices::::"+JSON.stringify(invoices))
         res.status(200).json(invoices[0]);
   
     } else if (invoiceId != "" && invoiceId != undefined && accountId != "" && accountId != undefined && accountId == "NaN") {

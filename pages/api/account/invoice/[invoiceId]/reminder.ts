@@ -4,6 +4,8 @@ import { NextApiRequest, NextApiResponse } from "next"
 import prisma from "../../../../../lib/prisma";
 import getConfig from 'next/config';
 import { fetchWrapper } from "../../../../../helpers";
+import { CommonConstants, EmailConstants, EMPTY_STRING } from "../../../../../constants";
+import { emailService } from "../../../../../services";
 const { serverRuntimeConfig } = getConfig();
 const serverBaseUrl = `${serverRuntimeConfig.apiUrl}`;
 
@@ -19,6 +21,75 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     if(invoiceId && accountId) {
 
+      const responseData = await fetchWrapper.getWithAuth(`${serverBaseUrl}/account/invoice/`+invoiceId+'/generate/detail?accountId='+accountId, {},authHeader)
+      .then(async generateInvoiceDetail => {
+
+        console.log("generateInvoiceDetail:::"+JSON.stringify(generateInvoiceDetail))
+        if(generateInvoiceDetail.invoiceEmailTo != undefined && generateInvoiceDetail.invoiceEmailTo != null && generateInvoiceDetail.invoiceEmailTo != EMPTY_STRING) {
+            const sendEmailTo = generateInvoiceDetail.invoiceEmailTo;
+            const emailTos = sendEmailTo.map((emailTo) => {
+              return {
+                "email": emailTo
+              }
+            });
+
+          
+            const data = await fetch(`${serverBaseUrl}/account/invoice/${invoiceId}/generate`, {
+              method: 'POST',
+              body: JSON.stringify(generateInvoiceDetail),
+              headers: { 'Content-Type': 'application/json', ...authHeader},
+            });
+            console.log("data::data::"+JSON.stringify(data))
+            // if(data.arrayBuffer) {
+            //   console.log("sesese")
+              
+            //   const buffer = Buffer.from(new ArrayBuffer(data))
+            //   const utf8str = buffer.toString('base64')
+            // }
+
+            if(data instanceof ArrayBuffer) {
+              const buffer = Buffer.from(data)
+              const utf8str = buffer.toString('base64')
+              
+              const emailResponse = await emailService.sendEmail({
+                withAttachment: true,
+                from: CommonConstants.fromEmail,
+                to: emailTos,
+                templateData: generateInvoiceDetail,
+                template_id: EmailConstants.emailTemplate.invoiceTemplateId,
+                subject: "Invoice: "+generateInvoiceDetail.id+" created",
+                attachments: [
+                  {
+                    content: utf8str,
+                    filename: "Invoice_File_"+generateInvoiceDetail.id+".pdf",
+                    type: "application/pdf",
+                    disposition: "attachment"
+                  }
+                ]
+              });
+
+              return {message: "Successfully sent email to: "+JSON.stringify(sendEmailTo), error: false};
+            } else {
+              console.log("Errorrr:::::")
+              return {errorMessage: "Error generateInvoice", error: true};
+            }
+         
+
+            
+          } else {
+            console.log("NO emials to send")
+            return {errorMessage: "Error Sending invoice email.", error: true};
+          }
+
+      })
+      .catch(err => {
+        console.log("Error generateInvoice::"+err)
+        return {errorMessage: err, error: true};
+      });
+
+      console.log("responseData:::"+JSON.stringify(responseData))
+      res.status(200).json(responseData)
+  
     } else {
       res.status(400).json({ message: 'Something went wrong while sending invoice reminder.' })
     }
@@ -27,3 +98,4 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(400).json({ message: 'Something went wrong while updating' })
   }
 }
+
