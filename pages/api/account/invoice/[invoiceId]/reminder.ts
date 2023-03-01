@@ -24,7 +24,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       const responseData = await fetchWrapper.getWithAuth(`${serverBaseUrl}/account/invoice/`+invoiceId+'/generate/detail?accountId='+accountId, {},authHeader)
       .then(async generateInvoiceDetail => {
 
-        console.log("generateInvoiceDetail:::"+JSON.stringify(generateInvoiceDetail))
         if(generateInvoiceDetail.invoiceEmailTo != undefined && generateInvoiceDetail.invoiceEmailTo != null && generateInvoiceDetail.invoiceEmailTo != EMPTY_STRING) {
             const sendEmailTo = generateInvoiceDetail.invoiceEmailTo;
             const emailTos = sendEmailTo.map((emailTo) => {
@@ -34,21 +33,19 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             });
 
           
-            const data = await fetch(`${serverBaseUrl}/account/invoice/${invoiceId}/generate`, {
+            const bufferResponse = await fetch(`${serverBaseUrl}/account/invoice/${invoiceId}/generate`, {
               method: 'POST',
               body: JSON.stringify(generateInvoiceDetail),
               headers: { 'Content-Type': 'application/json', ...authHeader},
+            }).then((response) => {
+              if (!response.ok) {
+                throw new Error(`HTTP error, status = ${response.status}`);
+              }
+              return response.arrayBuffer();
             });
-            console.log("data::data::"+JSON.stringify(data))
-            // if(data.arrayBuffer) {
-            //   console.log("sesese")
-              
-            //   const buffer = Buffer.from(new ArrayBuffer(data))
-            //   const utf8str = buffer.toString('base64')
-            // }
-
-            if(data instanceof ArrayBuffer) {
-              const buffer = Buffer.from(data)
+            
+            if(bufferResponse) {
+              const buffer = Buffer.from(bufferResponse)
               const utf8str = buffer.toString('base64')
               
               const emailResponse = await emailService.sendEmail({
@@ -66,15 +63,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                     disposition: "attachment"
                   }
                 ]
-              });
+              }, authHeader);
 
               return {message: "Successfully sent email to: "+JSON.stringify(sendEmailTo), error: false};
             } else {
-              console.log("Errorrr:::::")
               return {errorMessage: "Error generateInvoice", error: true};
-            }
-         
-
+            }         
             
           } else {
             console.log("NO emials to send")
