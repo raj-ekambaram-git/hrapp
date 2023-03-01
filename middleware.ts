@@ -63,5 +63,20 @@ async function hasAccess(url, token){
 
 // See "Matching Paths" below to learn more
 export const config = {
-  matcher: ['/account/:path*', '/api/account/:path*', '/api/expense/:path*', '/api/calendar/:path*', '/api/notes/:path*', '/api/timesheet/:path*', '/accounts', '/api/access/roles']
+  matcher: ['/account/:path*', 
+            '/api/access/roles',
+            '/api/account/:path*', 
+            '/api/admin/:path*', 
+            '/api/calendar/:path*', 
+            '/api/config/:path*', 
+            '/api/document/:path*', 
+            '/api/expense/:path*', 
+            '/api/notes/:path*', 
+            '/api/reminder/:path*', 
+            '/api/reports/:path*', 
+            '/api/scheduler/:path*', 
+            '/api/timesheet/:path*', 
+            '/api/token/:path*', 
+            '/api/email',
+            '/accounts']
 }
