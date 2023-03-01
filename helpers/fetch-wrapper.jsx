@@ -14,6 +14,7 @@ export const fetchWrapper = {
     filePut,
     cachedGet,
     filePost,
+    postWithAuth
 };
 
 function filePost(url, body) {
@@ -54,6 +55,15 @@ function get(url, params) {
     return fetch(url, requestOptions).then(handleResponse);
 }
 
+function postWithAuth(url, body, authHeader) {
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', ...authHeader },
+        credentials: 'include',
+        body: JSON.stringify(body)
+    };
+    return fetch(url, requestOptions).then(handleResponse);
+}
 
 function post(url, body) {
     const requestOptions = {

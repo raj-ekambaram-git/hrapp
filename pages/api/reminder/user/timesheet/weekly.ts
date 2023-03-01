@@ -16,11 +16,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   try {
-    console.log("req.body:::"+JSON.stringify(req.body))
     const {user} = req.body;
-
-
-
+    
     console.log("user::"+JSON.stringify(user)+"****user.userId::"+user.userId + "***** user.accountId::"+ user.accountId)
 
     if(user.userId && user.accountId  ) {
@@ -67,8 +64,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           });
   
           if(!timesheet || (timesheet && timesheet.length == 0)) {
+            console.log("Iseseese")
             //Either timesheet not present or its just saved and not submitted
-            const emailResponse = emailService.sendEmail(getTimesheetReminderEmailRequest(userRecord, calendar.weekOfYearISO, calendar.firstDayOfWeek));
+            const authHeader = {Authorization: req.headers.authorization}
+            const emailResponse = emailService.sendEmail(getTimesheetReminderEmailRequest(userRecord, calendar.weekOfYearISO, calendar.firstDayOfWeek), authHeader);
             res.status(200).json(emailResponse);
           }
   

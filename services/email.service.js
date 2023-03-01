@@ -10,14 +10,15 @@ export const emailService = {
     sendEmail
 };
 
-function sendEmail (emailRequest) {
+function sendEmail (emailRequest, authHeader) {
     let baseUrl = publicBaseUrl;
     if(serverBaseUrl != undefined)
     {
         baseUrl = publicBaseUrl;
     }
     
-    return fetchWrapper.post(`${baseUrl}/email`, {emailRequest})
+    if(authHeader) {
+        return fetchWrapper.postWithAuth(`${baseUrl}/email`, {emailRequest}, authHeader)
         .then(email => {
             return email;
         })
@@ -25,4 +26,17 @@ function sendEmail (emailRequest) {
             console.log("Error emailRequest::"+err)
             return {errorMessage: err, error: true};
         });
+
+    } else {
+        return fetchWrapper.post(`${baseUrl}/email`, {emailRequest})
+        .then(email => {
+            return email;
+        })
+        .catch(err => {
+            console.log("Error emailRequest::"+err)
+            return {errorMessage: err, error: true};
+        });
+    }
+    
+
 }
