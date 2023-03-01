@@ -41,7 +41,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     if(savedAccount) {
       const newSavedAccountForEmail = {...savedAccount}
       newSavedAccountForEmail["tempPassword"] = ""
-      const emailResponse = emailService.sendEmail(getNewAccountEmailRequest(newSavedAccountForEmail));
+      const authHeader = {Authorization: req.headers.authorization}
+      const emailResponse = emailService.sendEmail(getNewAccountEmailRequest(newSavedAccountForEmail), authHeader);
     }
     res.status(200).json(savedAccount);
   } catch (error) {

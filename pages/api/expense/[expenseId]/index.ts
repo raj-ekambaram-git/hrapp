@@ -71,7 +71,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     });
 
     if(savedExpense && savedExpense.status === ExpenseStatus.Submitted) {
-        const emailResponse = emailService.sendEmail(expenseService.getNewExpenseEmailRequest(savedExpense));
+        const authHeader = {Authorization: req.headers.authorization}
+        const emailResponse = emailService.sendEmail(expenseService.getNewExpenseEmailRequest(savedExpense), authHeader);
         if(!emailResponse.error) {
           console.log("error happened sending email:::"+JSON.stringify(savedExpense))
         } 

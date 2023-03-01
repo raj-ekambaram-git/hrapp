@@ -76,7 +76,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     if(savedTimesheet && savedTimesheet.status === TimesheetStatus.Submitted) {
       savedTimesheet.timesheetEntries?.map((timesheetEntry) => {
-        const emailResponse = emailService.sendEmail(timesheetService.getNewTimesheetEmailRequest(timesheetEntry, savedTimesheet));
+        const authHeader = {Authorization: req.headers.authorization}
+        const emailResponse = emailService.sendEmail(timesheetService.getNewTimesheetEmailRequest(timesheetEntry, savedTimesheet), authHeader);
         if(!emailResponse.error) {
           console.log("error happened sending email:::"+JSON.stringify(timesheetEntry))
         }

@@ -33,7 +33,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   
       if(savedUser) {
         //Send Reset Password Email now
-        const emailResponse = emailService.sendEmail(getTempPasswordEmailRequest(savedUser, req.headers.referer.split("login")[0]+"changepassword?userId="+savedUser.id+"&maskedTempPassword="+passwordToken));
+        const authHeader = {Authorization: req.headers.authorization}
+        const emailResponse = emailService.sendEmail(getTempPasswordEmailRequest(savedUser, req.headers.referer.split("login")[0]+"changepassword?userId="+savedUser.id+"&maskedTempPassword="+passwordToken), authHeader);
       }
       res.status(200).json(savedUser);
     

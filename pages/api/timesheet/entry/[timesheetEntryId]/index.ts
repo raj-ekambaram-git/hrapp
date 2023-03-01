@@ -117,7 +117,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
               }
             }
           });
-          const emailResponse = emailService.sendEmail(timesheetService.getTimesheetApprovalEmailRequest(tsEntryDetailsForEmail, tsEntryDetailsForEmail.timesheet, timesheetEntryNotes));
+          const authHeader = {Authorization: req.headers.authorization}
+          const emailResponse = emailService.sendEmail(timesheetService.getTimesheetApprovalEmailRequest(tsEntryDetailsForEmail, tsEntryDetailsForEmail.timesheet, timesheetEntryNotes), authHeader);
           if(!emailResponse.error) {
             console.log("error happened sending email:::"+JSON.stringify(savedTSEntry))
           }              

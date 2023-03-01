@@ -82,7 +82,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         const passwordToken = jwt.sign({ sub: tempPassword}, serverRuntimeConfig.secret, { expiresIn: '30m' }); // TODO: Expiration dates from Config Values
 
         newSavedUserForEmail["tempPassword"] = req.headers.referer.split("account")[0]+"changepassword?userId="+savedUser.id+"&maskedTempPassword="+passwordToken
-        const emailResponse = emailService.sendEmail(getNewUserEmailRequest(newSavedUserForEmail));
+        const authHeader = {Authorization: req.headers.authorization}
+        const emailResponse = emailService.sendEmail(getNewUserEmailRequest(newSavedUserForEmail), authHeader);
       }
 
       res.status(200).json(savedUser);

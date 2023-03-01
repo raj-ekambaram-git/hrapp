@@ -29,7 +29,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     });
 
     if(savedAccount && process.env.ENABLE_EMAIL === "Yes") {
-      const emailResponse = emailService.sendEmail(getNewAccountEmailRequest(savedAccount));
+      const authHeader = {Authorization: req.headers.authorization}
+      const emailResponse = emailService.sendEmail(getNewAccountEmailRequest(savedAccount), authHeader);
     }
 
     res.status(200).json(savedAccount);
