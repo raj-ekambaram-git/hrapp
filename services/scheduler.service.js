@@ -10,8 +10,21 @@ export const schedulerService = {
     scheduleJob,    
     getScheduleJobs,
     updateStatus,
-    checkUserWeeklyTimesheetReminder
+    checkUserWeeklyTimesheetReminder,
+    checkUInvoiceDueReminder
 };
+
+function checkUInvoiceDueReminder(userId, accountId) {
+    console.log("accountId:::"+accountId+"****userId:::"+userId)
+    return fetchWrapper.get(`${baseUrl}/scheduler/account/`+accountId+`/jobs?jobGroup=`+userId+"_"+accountId+ScheduleJobConstants.JOB_GROUP_SUFFIX.INVOICE_DUE_REMINDER, {})
+    .then(jobs => {
+        return jobs;
+    })  
+    .catch(err => {
+        console.log("Error getScheduleJobs"+err)
+        return {errorMessage: err, error: true};
+    });
+}
 
 function checkUserWeeklyTimesheetReminder(userId, accountId) {
     console.log("accountId:::"+accountId+"****userId:::"+userId)

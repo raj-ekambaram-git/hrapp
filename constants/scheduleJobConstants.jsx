@@ -3,11 +3,14 @@ import { util } from "../helpers";
 
 export const ScheduleJobConstants = {
   WEEKLY_TS_REMINDER_TEMPLATE_NAME: "UserWeeklyTimesheetReminder",
+  INVOICE_DUE_REMINDER_TEMPLATE_NAME: "DailyInvoiceDueReminder",
   JOB_NAME_PREFIX: {
-    WEEKLY_TS_REMINDER: "WeeklyTimesheetReminder"
+    WEEKLY_TS_REMINDER: "WeeklyTimesheetReminder",
+    INVOICE_DUE_REMINDER: "InvoiceDueReminder"
   },
   JOB_GROUP_SUFFIX: {
-    REMINDER: "_Reminder"
+    REMINDER: "_Reminder",
+    INVOICE_DUE_REMINDER: "_InvoiceDueReminder",
   },
   JOB_STATUS: {
     Pause: "Pause",

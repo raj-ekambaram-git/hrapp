@@ -7,6 +7,7 @@ import {
 } from '@chakra-ui/react'
 import UploadLogo from "./uploadLogo";
 import Reminders from "./reminders";
+import InvoiceDueReminder from "./invoiceDueReminder";
 
 
 
@@ -37,6 +38,9 @@ const UserSetting = (props) => {
                 {user?<>
                   <UploadLogo logoPath={user.account?.logoPath}/>
                   <Reminders/>
+                  {userService.isAccountAdmin()?<>
+                    <InvoiceDueReminder/>
+                  </>:<></>}
                 </>:<></>}
             </CardBody>
           </Card>

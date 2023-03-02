@@ -11,9 +11,9 @@ import { util } from "../../../helpers";
 import { ExportTemplateType } from "@prisma/client";
 
 
-const Reminders = (props) => {
+const InvoiceDueReminder = (props) => {
   const toast =useToast()
-  const [weeklyTSReminderEnabled, setWeeklyTSReminderEnabled] = useState(false);
+  const [invoiceDueReminderEnabled, setInvoiceDueReminderEnabled] = useState(false);
   const [loading, setLoading] = useState(false);
   const [template, setTemplate] = useState();
 
@@ -25,11 +25,11 @@ const Reminders = (props) => {
 
   const handleStatusUpdate = async() => {
     setLoading(true)
-    const responseData = await schedulerService.updateStatus(ScheduleJobConstants.JOB_STATUS.Delete, ScheduleJobConstants.JOB_NAME_PREFIX.WEEKLY_TS_REMINDER+"_"+userService.getAccountDetails().accountId+"_"+userService.userValue.id, userService.userValue.id+"_"+userService.getAccountDetails().accountId+ScheduleJobConstants.JOB_GROUP_SUFFIX.REMINDER, userService.userValue.id, userService.getAccountDetails().accountId)    
+    const responseData = await schedulerService.updateStatus(ScheduleJobConstants.JOB_STATUS.Delete, ScheduleJobConstants.JOB_NAME_PREFIX.WEEKLY_TS_REMINDER+"_"+userService.getAccountDetails().accountId+"_"+userService.userValue.id, userService.userValue.id+"_"+userService.getAccountDetails().accountId+ScheduleJobConstants.JOB_GROUP_SUFFIX.INVOICE_DUE_REMINDER, userService.userValue.id, userService.getAccountDetails().accountId)    
     if(responseData.error) {
       toast({
-        title: "Update Timesheet Reminder",
-        description: 'Error updating timesheet reminder, please try again later or contact administrator. Details:'+err.errorMessage,
+        title: "Update Invoice Due Reminder",
+        description: 'Error updating invoice due reminder, please try again later or contact administrator. Details:'+err.errorMessage,
         status: 'error',
         position: 'top',
         duration: 6000,
@@ -38,14 +38,14 @@ const Reminders = (props) => {
       setLoading(false)
     } else {
       toast({
-        title: "Update Timesheet Reminder",
-        description: 'Successfully updated the timesheet reminder.',
+        title: "Update Invoice Due Reminder",
+        description: 'Successfully updated the invoice due reminder.',
         status: 'success',
         position: 'top',
         duration: 6000,
         isClosable: true,
       })
-      setWeeklyTSReminderEnabled(false)
+      setInvoiceDueReminderEnabled(false)
     }
 
     setLoading(false)
@@ -62,10 +62,10 @@ const Reminders = (props) => {
             "jobRequestData": {
               "accountId": userService.getAccountDetails().accountId,
               "cronExpression": "0 00 07 ? * MON *",
-              "jobGroup": userService.userValue.id+"_"+userService.getAccountDetails().accountId+ScheduleJobConstants.JOB_GROUP_SUFFIX.REMINDER,
-              "name": ScheduleJobConstants.JOB_NAME_PREFIX.WEEKLY_TS_REMINDER,
+              "jobGroup": userService.userValue.id+"_"+userService.getAccountDetails().accountId+ScheduleJobConstants.JOB_GROUP_SUFFIX.INVOICE_DUE_REMINDER,
+              "name": ScheduleJobConstants.JOB_NAME_PREFIX.INVOICE_DUE_REMINDER,
               "templateId": template.id,
-              "templateName": ScheduleJobConstants.WEEKLY_TS_REMINDER_TEMPLATE_NAME,
+              "templateName": ScheduleJobConstants.INVOICE_DUE_REMINDER_TEMPLATE_NAME,
               "templateParams": [],
               "userId": userService.userValue.id
             },
@@ -79,7 +79,7 @@ const Reminders = (props) => {
         
         if(responseData.error) {
             toast({
-                title: "Enable Reminder",
+                title: "Enable Invoice Due Reminder",
                 description: 'Error enabling new reminder. Please try again later or contact administrator. Details:'+responseData.errorMessage,
                 status: 'error',
                 position: 'top',
@@ -88,26 +88,26 @@ const Reminders = (props) => {
             })
         } else {
             toast({
-                title: "Enable Reminder",
+                title: "Enable Invoice Due Reminder",
                 description: 'Successfully enabled new reminder.',
                 status: 'success',
                 position: 'top',
                 duration: 6000,
                 isClosable: true,
             })
-            setWeeklyTSReminderEnabled(true)
+            setInvoiceDueReminderEnabled(true)
         }    
         setLoading(false)
   }
 
   const populateReminders = async() => {
     setLoading(true)
-    const templateData = await importExportService.getSavedExportTemplateByName(ScheduleJobConstants.WEEKLY_TS_REMINDER_TEMPLATE_NAME, ExportTemplateType.System);
+    const templateData = await importExportService.getSavedExportTemplateByName(ScheduleJobConstants.INVOICE_DUE_REMINDER_TEMPLATE_NAME, ExportTemplateType.System);
     if(templateData) {
       setTemplate(templateData)
-      const responseData = await schedulerService.checkUserWeeklyTimesheetReminder(userService.userValue.id, userService.getAccountDetails().accountId);
+      const responseData = await schedulerService.checkUInvoiceDueReminder(userService.userValue.id, userService.getAccountDetails().accountId);
       if(responseData && responseData.data && responseData.data?.length>0) {
-        setWeeklyTSReminderEnabled(true)
+        setInvoiceDueReminderEnabled(true)
       }
     }
 
@@ -123,16 +123,16 @@ const Reminders = (props) => {
                     {loading?<><Spinner /></>:<></>}
                       <Heading size="sm" marginBottom={4}>
                           <HStack>
-                            <Text>User Reminders</Text>   
+                            <Text>Invoice Due Reminders</Text>   
                           </HStack>                               
                       </Heading>                                 
 
                     <HStack>
-                      {weeklyTSReminderEnabled?<>
-                        <Text fontSize="14px">Disable weekly timesheet reminder </Text>
+                      {invoiceDueReminderEnabled?<>
+                        <Text fontSize="14px">Stromg sending invoice due reminder for your clients </Text>
                         <Switch colorScheme='red' size='sm' id='pending' isChecked onChange={() => handleStatusUpdate()}>Disable</Switch>
                       </>:<>
-                        <Text fontSize="14px">Enable weekly timesheet reminder </Text>
+                        <Text fontSize="14px">Send invoice due reminder for your clients </Text>
                         <Switch colorScheme='teal' size='sm' id='pending' isChecked onChange={() => handleSaveJob()}>Enable</Switch>
                       </>}
 
@@ -146,4 +146,4 @@ const Reminders = (props) => {
   );
 };
 
-export default Reminders;
+export default InvoiceDueReminder;
