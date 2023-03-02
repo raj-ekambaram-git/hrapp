@@ -1,11 +1,11 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
 import { NextApiRequest, NextApiResponse } from "next"
-import prisma from "../../../../../lib/prisma";
+import prisma from "../../../../lib/prisma";
 import getConfig from 'next/config';
-import { fetchWrapper } from "../../../../../helpers";
-import { CommonConstants, EmailConstants, EMPTY_STRING } from "../../../../../constants";
-import { emailService } from "../../../../../services";
+import { fetchWrapper } from "../../../../helpers";
+import { CommonConstants, EmailConstants, EMPTY_STRING } from "../../../../constants";
+import { emailService } from "../../../../services";
 const { serverRuntimeConfig } = getConfig();
 const serverBaseUrl = `${serverRuntimeConfig.apiUrl}`;
 
@@ -15,8 +15,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   try {
-    const invoiceId = req.query?.invoiceId;
-    const accountId = req.query?.accountId;
+    console.log("req.body:::"+JSON.stringify(req.body))
+    const {invoiceId} = req.body;
+    const {accountId} = req.body;
     const authHeader = {Authorization: req.headers.authorization}
 
     if(invoiceId && accountId) {
