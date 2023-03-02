@@ -16,7 +16,7 @@ export const schedulerService = {
 
 function checkUInvoiceDueReminder(userId, accountId) {
     console.log("accountId:::"+accountId+"****userId:::"+userId)
-    return fetchWrapper.get(`${baseUrl}/scheduler/account/`+accountId+`/jobs?jobGroup=`+userId+"_"+accountId+ScheduleJobConstants.JOB_GROUP_SUFFIX.INVOICE_DUE_REMINDER, {})
+    return fetchWrapper.get(`${baseUrl}/scheduler/account/`+accountId+`/jobs?jobGroup=`+accountId+ScheduleJobConstants.JOB_GROUP_SUFFIX.INVOICE_DUE_REMINDER, {})
     .then(jobs => {
         return jobs;
     })  

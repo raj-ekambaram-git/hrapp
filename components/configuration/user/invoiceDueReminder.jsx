@@ -61,8 +61,8 @@ const InvoiceDueReminder = (props) => {
         const jobDataRequest = {
             "jobRequestData": {
               "accountId": userService.getAccountDetails().accountId,
-              "cronExpression": "0 00 07 ? * MON *",
-              "jobGroup": userService.userValue.id+"_"+userService.getAccountDetails().accountId+ScheduleJobConstants.JOB_GROUP_SUFFIX.INVOICE_DUE_REMINDER,
+              "cronExpression": '0 0 4 1/1 * ? *',
+              "jobGroup": userService.getAccountDetails().accountId+ScheduleJobConstants.JOB_GROUP_SUFFIX.INVOICE_DUE_REMINDER,
               "name": ScheduleJobConstants.JOB_NAME_PREFIX.INVOICE_DUE_REMINDER,
               "templateId": template.id,
               "templateName": ScheduleJobConstants.INVOICE_DUE_REMINDER_TEMPLATE_NAME,
