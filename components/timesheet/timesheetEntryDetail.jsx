@@ -187,12 +187,12 @@ import { setNotesType } from "../../store/modules/Notes/actions";
 
                 <HStack marginTop="3rem">
                     <Box marginRight="1rem">
-                        <Button size="xs" onClick={() => updateTimesheetEntry(tsEntryDetail.timesheet?.userId,tsEntryDetail.id,TIMESHEET_STATUS.Approved)} bgColor="timesheet.approved_status">
+                        <Button size="xs" onClick={() => updateTimesheetEntry(tsEntryDetail.timesheet?.userId,tsEntryDetail.id,TIMESHEET_STATUS.Approved)} bgColor="header_actions">
                             Approve
                         </Button>
                     </Box>
                     <Box>
-                        <Button size="xs"  onClick={() => updateTimesheetEntry(tsEntryDetail.timesheet?.userId,tsEntryDetail.id,TIMESHEET_STATUS.Rejected)} bgColor="timesheet.rejected_status">
+                        <Button size="xs"  onClick={() => updateTimesheetEntry(tsEntryDetail.timesheet?.userId,tsEntryDetail.id,TIMESHEET_STATUS.Rejected)} colorScheme="red">
                             Reject
                         </Button>
                     </Box>

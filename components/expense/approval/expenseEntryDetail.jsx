@@ -102,12 +102,12 @@ import { expenseService, userService } from "../../../services";
 
                     <HStack marginTop="3rem">
                         <Box marginRight="1rem">
-                            <Button size="xs" onClick={() => updateExpense(expense.id,ExpenseConstants.EXPENSE_STATUS.Approved)} bgColor="timesheet.approved_status">
+                            <Button size="xs" onClick={() => updateExpense(expense.id,ExpenseConstants.EXPENSE_STATUS.Approved)} bgColor="header_actions">
                                 Approve
                             </Button>
                         </Box>
                         <Box>
-                            <Button size="xs"  onClick={() => updateExpense(expense.id,ExpenseConstants.EXPENSE_STATUS.Rejected)} bgColor="timesheet.rejected_status">
+                            <Button size="xs"  onClick={() => updateExpense(expense.id,ExpenseConstants.EXPENSE_STATUS.Rejected)} colorScheme="red">
                                 Reject
                             </Button>
                         </Box>
