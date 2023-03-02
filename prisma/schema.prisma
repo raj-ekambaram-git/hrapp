@@ -106,7 +106,7 @@ model VendorSetting {
   id             Int                 @id @default(autoincrement())
   key            String
   displayName    String
-  value          Json
+  value          String
   vendorId       Int
   vendor         Vendor?             @relation(fields: [vendorId], references: [id])
   status         VendorSettingStatus
