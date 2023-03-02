@@ -25,7 +25,7 @@ const InvoiceDueReminder = (props) => {
 
   const handleStatusUpdate = async() => {
     setLoading(true)
-    const responseData = await schedulerService.updateStatus(ScheduleJobConstants.JOB_STATUS.Delete, ScheduleJobConstants.JOB_NAME_PREFIX.WEEKLY_TS_REMINDER+"_"+userService.getAccountDetails().accountId+"_"+userService.userValue.id, userService.userValue.id+"_"+userService.getAccountDetails().accountId+ScheduleJobConstants.JOB_GROUP_SUFFIX.INVOICE_DUE_REMINDER, userService.userValue.id, userService.getAccountDetails().accountId)    
+    const responseData = await schedulerService.updateStatus(ScheduleJobConstants.JOB_STATUS.Delete, ScheduleJobConstants.JOB_NAME_PREFIX.INVOICE_DUE_REMINDER+"_"+userService.getAccountDetails().accountId+"_"+userService.userValue.id, userService.userValue.id+"_"+userService.getAccountDetails().accountId+ScheduleJobConstants.JOB_GROUP_SUFFIX.INVOICE_DUE_REMINDER, userService.userValue.id, userService.getAccountDetails().accountId)    
     if(responseData.error) {
       toast({
         title: "Update Invoice Due Reminder",
@@ -129,10 +129,10 @@ const InvoiceDueReminder = (props) => {
 
                     <HStack>
                       {invoiceDueReminderEnabled?<>
-                        <Text fontSize="14px">Stromg sending invoice due reminder for your clients </Text>
+                        <Text fontSize="14px">Stop sending invoice due reminder for clients </Text>
                         <Switch colorScheme='red' size='sm' id='pending' isChecked onChange={() => handleStatusUpdate()}>Disable</Switch>
                       </>:<>
-                        <Text fontSize="14px">Send invoice due reminder for your clients </Text>
+                        <Text fontSize="14px">Send invoice due reminder for clients </Text>
                         <Switch colorScheme='teal' size='sm' id='pending' isChecked onChange={() => handleSaveJob()}>Enable</Switch>
                       </>}
 
