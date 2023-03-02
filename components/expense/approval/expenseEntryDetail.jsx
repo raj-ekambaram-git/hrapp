@@ -78,7 +78,6 @@ import { expenseService, userService } from "../../../services";
         <div>
             <Button size="xs" bgColor="header_actions"
                 onClick={() => handleClick("xl")}
-                key="xl"
                 m={1}
                 >{`Approve / Reject`}
             </Button>

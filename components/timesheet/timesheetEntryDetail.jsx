@@ -93,12 +93,11 @@ import { setNotesType } from "../../store/modules/Notes/actions";
     return (
         <div>
             <Button size="xs" bgColor="header_actions"
-                onClick={() => handleClick("lg")}
-                key="lg"
+                onClick={() => handleClick("xl")}
                 m={1}
                 >{`Approve / Reject`}
             </Button>
-            <Drawer onClose={onClose} isOpen={isOpen} size="lg">
+            <Drawer onClose={onClose} isOpen={isOpen} size={size}>
                 <DrawerOverlay />
                 <DrawerContent>
                 <DrawerCloseButton />
