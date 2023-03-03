@@ -177,7 +177,7 @@ const Register = (props) => {
 
                             <CardBody>
                               {loading?<><Spinner /></>:<></>}
-                              <Stack>
+                              <Stack spacing={6}>
                                     <FormControl isRequired>                                      
                                      <Input  placeholder=" " type="text" {...register('accountName')}  id="accountName"   maxWidth="page.single_input"/>
                                       <FormLabel>Account Name</FormLabel>

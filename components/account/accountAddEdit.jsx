@@ -223,7 +223,7 @@ const AccountAddEdit = (props) => {
                 </CardHeader>
 
                 <CardBody>
-                  <Stack>
+                  <Stack spacing={6}>
                         <FormControl isRequired>                          
                           <Input  placeholder=" " type="text" {...register('accountName')}  id="accountName"   maxWidth="page.single_input"/>
                           <FormLabel>Name</FormLabel>
@@ -292,7 +292,7 @@ const AccountAddEdit = (props) => {
                   </CardHeader>
 
                   <CardBody>
-                    <Stack maxWidth="page.single_input" spacing="1rem">
+                    <Stack maxWidth="page.single_input" spacing={6}>
                         <FormControl isRequired>                          
                           <Input  placeholder=" " type="text" id="addressName"   {...register('addressName')} />
                           <FormLabel>Address Name</FormLabel>

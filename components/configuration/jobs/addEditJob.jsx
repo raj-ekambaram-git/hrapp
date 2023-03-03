@@ -12,7 +12,8 @@ import {
     CardHeader,
     FormControl,
     FormLabel,
-    Checkbox
+    Checkbox,
+    Box
   } from '@chakra-ui/react';
 import { CommonConstants, ConfigConstants, EMPTY_STRING, ScheduleJobConstants } from "../../../constants";
 import { importExportService, schedulerService, userService } from "../../../services";
@@ -185,7 +186,7 @@ const AddEditJob = (props) => {
                             Add New Job
                         </CardHeader>
                         <CardBody>
-                            <Stack spacing={5}>
+                            <Stack spacing={9}>
                                 <HStack spacing={9}>
                                         <FormControl isRequired>                                            
                                             <Input  placeholder=" " type="text" width="75%" value={name} id="name"  onChange={(ev) => setName(ev.target.value)}></Input>
@@ -216,11 +217,13 @@ const AddEditJob = (props) => {
                                         )}                                        
                                     </HStack>
                                 </>:<></>}
-                                <HStack spacing={9}>
+                                <HStack spacing="19rem">
+                                    <Box>
                                     <Stack spacing="0.2">
                                         <FormLabel>Recurring?</FormLabel>
                                         <Checkbox onChange={(e) => setEnableRecurring(e.target.checked)} />
                                     </Stack> 
+                                    </Box>
                                     {enableRecurring?<>
                                         <FormControl isRequired>                                            
                                             <Select id="recurringInterval" width="50%"  value={recurringInterval} onChange={(ev) => setRecurringInterval(ev.target.value)}>
@@ -233,30 +236,31 @@ const AddEditJob = (props) => {
                                         </FormControl>    
                                     </>:<></>}
                                 </HStack>
-                                <HStack>
-                                        <FormControl isRequired>
-                                            <FormLabel>Schedule Date</FormLabel>
+                                <HStack >
+                                        <FormControl isRequired>                                            
                                             <HStack>
                                                 <Input  placeholder=" " type="text" readOnly width="50%" value={util.getFormattedDate(scheduleDate)} />
+                                                <FormLabel>Schedule Date</FormLabel>
                                                 <DatePicker onChange={handleScheduleDate}/> 
                                             </HStack>
                                         </FormControl> 
-                                        <FormControl isRequired>
-                                            <FormLabel>Schedule Time (24HRS)</FormLabel>
-                                            <HStack spacing={3}>
-                                                <Select id="scheduleHour" width="20%"  value={scheduleHour} onChange={(ev) => setScheduleHour(ev.target.value)}>
-                                                    {CommonConstants.HOURS_LOOKUP?.map((hourLookup) => (
-                                                        <option value={hourLookup}>{hourLookup}</option>
-                                                    ))}
-                                                </Select>                                            
-                                                <Select id="scheduleMinute" width="20%"  value={scheduleMinute} onChange={(ev) => setScheduleMinute(ev.target.value)}>
+                                        <FormControl isRequired>  
+                                            <Select id="scheduleHour" width="50%" value={scheduleHour} onChange={(ev) => setScheduleHour(ev.target.value)}>
+                                                {CommonConstants.HOURS_LOOKUP?.map((hourLookup) => (
+                                                    <option value={hourLookup}>{hourLookup}</option>
+                                                ))}
+                                            </Select>     
+                                            <FormLabel>Hours</FormLabel>                                        
+                                        </FormControl>
+                                        <FormControl isRequired>                                                                                             
+                                            <Select id="scheduleMinute"  width="50%" value={scheduleMinute} onChange={(ev) => setScheduleMinute(ev.target.value)}>
                                                 {CommonConstants.MINUTES_LOOKUP?.map((minuteLookup) => (
                                                     <option value={minuteLookup}>{minuteLookup}</option>
                                                 ))}
-                                            </Select>                                            
-
-                                            </HStack>
-                                        </FormControl>                                
+                                            </Select>    
+                                            <FormLabel>Minutes</FormLabel>                                        
+                                        </FormControl>
+                         
                                 </HStack>                                    
                             </Stack>
                         </CardBody>
