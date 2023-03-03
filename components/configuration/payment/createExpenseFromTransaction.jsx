@@ -334,21 +334,23 @@ const CreateExpenseFromTransaction = (props) => {
                                             </FormControl>    
                                         </Box>
                                         <Box>
-                                        <FormControl isRequired>                                                                           
+                                        
                                             <HStack>                                                
                                                 {accountUserList?<>
+                                                <FormControl isRequired>                                                                           
                                                     <Select id="projectId" value={expenseUserId} onChange={(ev) => getProjectForUser(ev.target.value)}>
                                                         <option value="">Select User</option>
                                                         {accountUserList?.map((accountUser) => (
                                                             <option value={accountUser.id} >{accountUser.firstName} - {accountUser.lastName}</option>
                                                         ))}
                                                     </Select>       
-                                                    <FormLabel>User</FormLabel>                                                    
+                                                    <FormLabel>User</FormLabel>      
+                                                    </FormControl>                                                   
                                                 </>:<>
                                                     <FiUserPlus size={30} onClick={getAccountUsers}/>
                                                 </>}                                                
                                             </HStack>         
-                                        </FormControl>     
+                                        
                                         </Box> 
                                         {userProjectList?<>
                                         <Box>
