@@ -185,7 +185,7 @@ const AddEditTransaction = (props) => {
                     </PopoverBody>
                     <PopoverFooter display='flex' justifyContent='flex-end'>
                         <ButtonGroup size='sm'>
-                        <Button variant='outline' size="xs" onClick={onClose} >Cancel</Button>
+                        <Button colorScheme="yellow" size="xs" onClick={onClose} >Cancel</Button>
                         <Button colorScheme='red' size="xs" onClick={handleTransacionSubmit}>Apply</Button>
                         </ButtonGroup>
                     </PopoverFooter>
