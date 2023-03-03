@@ -12,3 +12,4 @@ export * from './selectTheme';
 export * from './inputTheme';
 export * from './formLabelTheme';
 export * from './badgeTheme';
+export * from './formTheme';

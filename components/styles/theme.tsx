@@ -1,7 +1,7 @@
 
 
 import { extendTheme, Tooltip } from '@chakra-ui/react';
-import {formLabelTheme, cardTheme, accordionTheme, buttonTheme, drawerTheme, popoverTheme, boxTheme, tableTheme, flexTheme, toolTipTheme, tabsTheme, selectTheme, inputTheme, badgeTheme } from '.';
+import {formLabelTheme, cardTheme, accordionTheme, buttonTheme, drawerTheme, popoverTheme, boxTheme, tableTheme, flexTheme, toolTipTheme, tabsTheme, selectTheme, inputTheme, badgeTheme, formTheme } from '.';
 
 
 
@@ -15,6 +15,7 @@ const breakpoints = {
   lg: '64em',
   xl: '80em',
 }
+
 
 const theme = extendTheme({
   components: {
@@ -31,7 +32,8 @@ const theme = extendTheme({
     Select: selectTheme,
     Input: inputTheme,
     FormLabel: formLabelTheme,
-    Badge: badgeTheme
+    Badge: badgeTheme,
+    Form: formTheme
   },
   semanticTokens: {
     borders: {
