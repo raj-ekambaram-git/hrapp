@@ -87,6 +87,7 @@ const UserResetPassword = (props) => {
     <div>
           <Button
               onClick={() => handleClick("md")}
+              size="xs"
               key="md"
               m={1}
               >{`Reset Password`}

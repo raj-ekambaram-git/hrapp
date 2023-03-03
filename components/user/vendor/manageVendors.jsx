@@ -124,10 +124,10 @@ const ManageVendors = (props) => {
     <div>
       <Flex marginBottom="1rem" borderRadius="lg" alignSelf="center">
           <Button size="xs" bgColor="header_actions" 
-              onClick={() => handleManageVendors("lg")}
-              key="lg"
+              onClick={() => handleManageVendors("xl")}
+              key="xl"
               m={1}
-              >{`Add/Remove CLient`}
+              >{`Add/Remove Client`}
           </Button>
 
           <Drawer onClose={onClose} isOpen={isOpen} size={size}>
@@ -180,7 +180,7 @@ const ManageVendors = (props) => {
                               <FormLabel>Client</FormLabel>
                             </FormControl>     
                             </Box> 
-                            <Button onClick={() => handleAddVendorToUser()} size="sm" width="30%" bgColor="button.primary.color">
+                            <Button onClick={() => handleAddVendorToUser()} size="xs" width="30%" bgColor="header_actions">
                               Add Client
                             </Button>                            
                           </Stack>

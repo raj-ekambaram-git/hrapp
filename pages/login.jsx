@@ -17,7 +17,10 @@ import {
     useToast,
     Container,
     Center,
-    Box
+    Box,
+    FormControl,
+    Input,
+    FormLabel
   } from '@chakra-ui/react';
 import UserResetPassword from '../components/user/userResetPassword';
 import { useDispatch } from 'react-redux';
@@ -131,23 +134,23 @@ function Login() {
                                     <CardBody>
                                         <Stack divider={<StackDivider />} spacing='1'>
                                             <form onSubmit={handleSubmit(onSubmit)}>
-                                                <div className="form-group">
-                                                    <label>Username</label>
-                                                    <input name="username" type="text" {...register('username')} className={`form-control ${errors.username ? 'is-invalid' : ''}`} />
-                                                    <div className="invalid-feedback">{errors.username?.message}</div>
-                                                </div>
-                                                <div className="form-group">
-                                                    <label>Password</label>
-                                                    <input name="password" type="password" {...register('password')} className={`form-control ${errors.password ? 'is-invalid' : ''}`} />
-                                                    <div className="invalid-feedback">{errors.password?.message}</div>
-                                                </div>
+                                                <Stack spacing={9}>
+                                                <FormControl isRequired>                                      
+                                                    <Input placeholder=" " type="text" {...register('username')}  id="username" />
+                                                    <FormLabel>Username</FormLabel>
+                                                </FormControl>   
+                                                <FormControl isRequired>                                      
+                                                    <Input placeholder=" " type="password" {...register('password')}  id="password"  className={`form-control ${errors.password ? 'is-invalid' : ''}`}/>
+                                                    <FormLabel>Password</FormLabel>
+                                                </FormControl> 
                                                 <HStack spacing={4}>
-                                                    <Button type="submit" disabled={formState.isSubmitting} width="button.login.widht" bgColor="button.primary.color">
+                                                    <Button type="submit" size="xs" disabled={formState.isSubmitting} width="button.login.widht" bgColor="header_actions">
                                                         {formState.isSubmitting && <span className="spinner-border spinner-border-sm mr-1"></span>}
                                                         Login
                                                     </Button>
                                                     <UserResetPassword/>
                                                 </HStack>
+                                                </Stack>
                                             </form>
                                         </Stack>
                                     </CardBody>
