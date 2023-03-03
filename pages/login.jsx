@@ -30,6 +30,8 @@ import Head from 'next/head';
 import Script from "next/script";
 import { configurationService } from '../services';
 import { FooterSection } from "../components/static/FooterSection";
+import { useState } from 'react';
+import { Spinner } from '../components';
 const SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITEKEY;
 
 
@@ -40,6 +42,7 @@ function Login() {
     const dispatch = useDispatch();
     const router = useRouter();
     const toast = useToast();
+    const [loading, setLoading] = useState(false);
 
     // form validation rules 
     const validationSchema = Yup.object().shape({
@@ -53,6 +56,7 @@ function Login() {
     const { errors } = formState;
 
     function onSubmit({ username, password }) {
+        setLoading(true)
         window.grecaptcha.ready(() => {
             window.grecaptcha
               .execute(SITE_KEY, { action: "submit" })
@@ -94,7 +98,7 @@ function Login() {
               })      
           });             
               
-
+          setLoading(false)
     }
 
     return (
@@ -106,7 +110,7 @@ function Login() {
                 src={`https://www.google.com/recaptcha/api.js?render=${SITE_KEY}`}/>
             <Layout>
                 <Center w="full" minH={["40vh", "40vh"]}>
-                    <Container maxW="container.xl" rounded="lg">
+                    <Container maxW="container.xl" rounded="lg">                    
                         <Stack
                             spacing={[4, 8]}
                             alignItems="center"
@@ -116,6 +120,7 @@ function Login() {
                         >
                             <Box width={["370px", "page.login_width"]}>
                                 <Card>
+                                {loading?<><Spinner /></>:<></>}
                                     <CardHeader bgColor="heading">
                                         <Flex
                                             as="nav"
@@ -131,12 +136,12 @@ function Login() {
                                         </Flex>                        
                                     </CardHeader>
 
-                                    <CardBody>
+                                    <CardBody>                                        
                                         <Stack divider={<StackDivider />} spacing='1'>
                                             <form onSubmit={handleSubmit(onSubmit)}>
                                                 <Stack spacing={9}>
                                                 <FormControl isRequired>                                      
-                                                    <Input placeholder=" " type="text" {...register('username')}  id="username" />
+                                                    <Input placeholder=" " type="text" {...register('username')}  id="username" className={`form-control ${errors.password ? 'is-invalid' : ''}`}/>
                                                     <FormLabel>Username</FormLabel>
                                                 </FormControl>   
                                                 <FormControl isRequired>                                      

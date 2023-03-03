@@ -21,7 +21,8 @@ import {
   Stack,
   StackDivider,
   useToast,
-  Text
+  Text,
+  HStack
 
 } from '@chakra-ui/react'
 import { userService } from '../../services';
@@ -86,13 +87,13 @@ const UserResetPassword = (props) => {
 
     <div>
           <Button
-              onClick={() => handleClick("md")}
+              onClick={() => handleClick("lg")}
               size="xs"
-              key="md"
+              key="lg"
               m={1}
               >{`Reset Password`}
           </Button>
-          <Drawer onClose={onClose} isOpen={isOpen} size="md">
+          <Drawer onClose={onClose} isOpen={isOpen} size={size}>
                 <DrawerOverlay />
                     <DrawerContent>
                         <DrawerCloseButton />
@@ -121,7 +122,7 @@ const UserResetPassword = (props) => {
                                   <Tbody>
                                     <Tr >
                                         <Th>
-                                          <Input type="email" placeHolder="User Name/ Email" width="100%" onChange={(ev) => setEmail(ev.target.value)}/>
+                                          <Input type="email" placeHolder="User Name/ Email" width="70%" onChange={(ev) => setEmail(ev.target.value)}/>
                                         </Th>
                                     </Tr>
                              
@@ -131,9 +132,14 @@ const UserResetPassword = (props) => {
                               </TableContainer>      
                             </Box>                            
 
-                            <Button className="btn" onClick={() => handleResetPassword()} width="button.primary.width" bgColor="button.primary.color">
-                              Reset Password
-                            </Button>                            
+                            <HStack>
+                              <Button colorScheme="yellow" onClick={() => onClose()} size="xs" >
+                                Cancel
+                              </Button>                            
+                              <Button className="btn" onClick={() => handleResetPassword()} size="xs"  bgColor="header_actions">
+                                Reset Password
+                              </Button>                            
+                            </HStack>
                           </Stack>
                         </DrawerBody>
                     </DrawerContent>

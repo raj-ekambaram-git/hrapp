@@ -27,7 +27,7 @@ function WorkFlowSection(props) {
     
       const getWorkFlowData = async () => {
         if(userService.isWorkFlowAdmin() || userService.isWorkFlowContributor) {
-            const responseData = await workFlowService.getDashBoardData(userService.userValue.id, userService.getAccountDetails().accountId);
+            const responseData = await workFlowService.getDashBoardData(userService.userValue?.id, userService.getAccountDetails().accountId);
             setWorkFlowData(responseData)
         }
         
