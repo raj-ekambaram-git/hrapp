@@ -434,10 +434,10 @@ const UserAddEdit = (props) => {
                             </>:<></>}
                           </HStack>
                       </>:<></>}                      
-                      <HStack spacing="12.5rem">
+                      <HStack spacing="10.5rem">
                       <Box>
                           <FormControl isRequired>
-                            <Select width="140px" id="timeSheetEnabled" {...register('timeSheetEnabled')} >
+                            <Select width="160px" id="timeSheetEnabled" {...register('timeSheetEnabled')} >
                               <option value="false">No</option>
                               <option value="true">Yes</option>
                             </Select>

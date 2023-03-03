@@ -244,7 +244,7 @@ const AddInvoiceItem = (props) => {
                                   </TableContainer>      
                                 </Box>                            
 
-                                <Button className="btn" onClick={() => handleInvoieItemList()} width="button.primary.width" bgColor="button.primary.color">
+                                <Button className="btn" onClick={() => handleInvoieItemList()} size="xs" width="30%" bgColor="header_actions">
                                   Add
                                 </Button>
                             </Stack>

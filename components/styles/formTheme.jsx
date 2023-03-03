@@ -22,7 +22,8 @@ const baseStyle = defineStyle({
       px: 1,
       my: 2,
       transformOrigin: "left top",
-      fontSize: "12px"
+      fontSize: "12px",
+      fontWeight: "600"
     },
  
   },
