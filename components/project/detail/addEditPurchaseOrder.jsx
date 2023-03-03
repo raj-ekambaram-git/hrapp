@@ -105,12 +105,11 @@ const AddEditPurchaseOrder = (props) => {
                     <CardBody>
                         <Stack spacing={9}>
                             <HStack >
-                                <FormControl isRequired>
+                                <FormControl isRequired>                                    
+                                    <Input  placeholder=" " type="text" width="50%" value={poNumber} id="poNumber" onChange={(ev) => setPoNumber(ev.target.value)}  />
                                     <FormLabel>PO Number</FormLabel>
-                                    <Input type="text" width="50%" value={poNumber} id="poNumber" onChange={(ev) => setPoNumber(ev.target.value)}  />
                                 </FormControl>    
-                                <FormControl isRequired>
-                                    <FormLabel>PO Amount</FormLabel>               
+                                <FormControl isRequired>                                    
                                     <InputGroup>                            
                                         <InputLeftElement
                                             pointerEvents='none'
@@ -118,7 +117,8 @@ const AddEditPurchaseOrder = (props) => {
                                             fontSize='dollar_left_element'
                                             children='$'
                                         />     
-                                        <Input type="number" value={amount} width="50%" onChange={(ev) => setAmount(ev.target.value)}/>
+                                        <Input  placeholder=" " type="number" value={amount} width="50%" onChange={(ev) => setAmount(ev.target.value)}/>
+                                        <FormLabel>PO Amount</FormLabel>               
                                     </InputGroup>    
                                 </FormControl>                                                                                                       
                             </HStack>

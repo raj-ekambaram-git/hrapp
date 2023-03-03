@@ -187,12 +187,11 @@ const AddEditJob = (props) => {
                         <CardBody>
                             <Stack spacing={5}>
                                 <HStack spacing={9}>
-                                        <FormControl isRequired>
+                                        <FormControl isRequired>                                            
+                                            <Input  placeholder=" " type="text" width="75%" value={name} id="name"  onChange={(ev) => setName(ev.target.value)}></Input>
                                             <FormLabel>Name</FormLabel>
-                                            <Input type="text" width="75%" value={name} id="name"  onChange={(ev) => setName(ev.target.value)}></Input>
                                         </FormControl> 
-                                        <FormControl isRequired>
-                                            <FormLabel>Type</FormLabel>
+                                        <FormControl isRequired>                                            
                                             <Select  id="type" width="50%" value={type} onChange={(ev) => handleType(ev)}>
                                                 <option value="">Select Type</option>
                                                 {templates?.map((template) => (
@@ -202,34 +201,35 @@ const AddEditJob = (props) => {
                                                             data-templatetype={template.type} >{template.name} - {template.type===ExportTemplateType.User?"Custom":"System"}</option>
                                                 ))}
                                             </Select>
+                                            <FormLabel>Type</FormLabel>
                                         </FormControl>     
                                 </HStack>
                                 {selectedTypeQueryMeta?<>
                                     <HStack>
                                         {selectedTypeQueryMeta?.fields?.map((field, index) => 
                                         <HStack>
-                                            <FormControl isRequired={field.required?true:false}>
+                                            <FormControl isRequired={field.required?true:false}>                                                
+                                                <Input  placeholder=" " type={field.type==="number"?"number":"text"}  width="75%" onChange={(ev) =>setKeyValue(field.key, ev.target.value, index)}/>
                                                 <FormLabel>{field.name}</FormLabel>
-                                                <Input type={field.type==="number"?"number":"text"}  width="75%" onChange={(ev) =>setKeyValue(field.key, ev.target.value, index)}/>
                                             </FormControl>   
                                         </HStack>
                                         )}                                        
                                     </HStack>
                                 </>:<></>}
                                 <HStack spacing={9}>
-                                    <FormControl isRequired>
+                                    <Stack spacing="0.2">
                                         <FormLabel>Recurring?</FormLabel>
                                         <Checkbox onChange={(e) => setEnableRecurring(e.target.checked)} />
-                                    </FormControl> 
+                                    </Stack> 
                                     {enableRecurring?<>
-                                        <FormControl isRequired>
-                                            <FormLabel>Recurring Interval</FormLabel>
+                                        <FormControl isRequired>                                            
                                             <Select id="recurringInterval" width="50%"  value={recurringInterval} onChange={(ev) => setRecurringInterval(ev.target.value)}>
                                                 <option value="">Recurring Interval</option>
                                                 {ScheduleJobConstants.RECURRING_INTERVALS?.map((recurringInterval) => (
                                                     <option value={recurringInterval.recurringIntervalId}>{recurringInterval.recurringIntervalName}</option>
                                                 ))}
                                             </Select>
+                                            <FormLabel>Recurring Interval</FormLabel>
                                         </FormControl>    
                                     </>:<></>}
                                 </HStack>
@@ -237,7 +237,7 @@ const AddEditJob = (props) => {
                                         <FormControl isRequired>
                                             <FormLabel>Schedule Date</FormLabel>
                                             <HStack>
-                                                <Input type="text" readOnly width="50%" value={util.getFormattedDate(scheduleDate)} />
+                                                <Input  placeholder=" " type="text" readOnly width="50%" value={util.getFormattedDate(scheduleDate)} />
                                                 <DatePicker onChange={handleScheduleDate}/> 
                                             </HStack>
                                         </FormControl> 

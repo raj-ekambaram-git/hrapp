@@ -224,37 +224,37 @@ const AccountAddEdit = (props) => {
 
                 <CardBody>
                   <Stack>
-                        <FormControl isRequired>
+                        <FormControl isRequired>                          
+                          <Input  placeholder=" " type="text" {...register('accountName')}  id="accountName"   maxWidth="page.single_input"/>
                           <FormLabel>Name</FormLabel>
-                          <Input type="text" {...register('accountName')}  id="accountName"   maxWidth="page.single_input"/>
                         </FormControl>     
-                        <FormControl isRequired>
+                        <FormControl isRequired>                            
+                            <Input  placeholder=" " type="text" id="accountDescription" {...register('accountDescription')}   maxWidth="page.single_input"/>
                             <FormLabel>Descirption</FormLabel>
-                            <Input type="text" id="accountDescription" {...register('accountDescription')}   maxWidth="page.single_input"/>
                         </FormControl>   
                         <HStack spacing="15rem">
                           <Box>
-                          <FormControl isRequired>
+                          <FormControl isRequired>                            
+                            <Input  placeholder=" " type="text" id="accountEIN"   {...register('accountEIN')} />
                             <FormLabel>EIN</FormLabel>
-                            <Input type="text" id="accountEIN"   {...register('accountEIN')} />
                           </FormControl>  
                           </Box>
                           <Box>
-                            <FormControl isRequired>
-                              <FormLabel>Status</FormLabel>
+                            <FormControl isRequired>                              
                               <Select id="accountStatus" {...register('accountStatus')} >
                                   <option value="Active">Active</option>
                                   <option value="Inactive">Inactive</option>
                               </Select>
+                              <FormLabel>Status</FormLabel>
                             </FormControl>     
                           </Box>
                           <Box>
-                            <FormControl isRequired>
-                              <FormLabel>Type</FormLabel>
+                            <FormControl isRequired>                              
                               <Select id="accountType" {...register('accountType')} >
                                   <option value="Trial">Trial</option>
                                   <option value="Full">Full</option>
                               </Select>
+                              <FormLabel>Type</FormLabel>
                             </FormControl>     
                           </Box>                          
                         </HStack>   
@@ -270,15 +270,15 @@ const AccountAddEdit = (props) => {
                   <Stack divider={<StackDivider />} spacing='4'>
                     <HStack spacing="10rem">
                       <Box>
-                        <FormControl isRequired>
+                        <FormControl isRequired>                          
+                          <Input  placeholder=" " type="email" id="accountEmail"   {...register('accountEmail')}  />
                           <FormLabel>Account Email</FormLabel>
-                          <Input type="email" id="accountEmail"   {...register('accountEmail')}  />
                         </FormControl>     
                       </Box>
                       <Box>
-                        <FormControl isRequired>
+                        <FormControl isRequired>                            
+                            <Input  placeholder=" " type="tel" id="accountPhone"   {...register('accountPhone')}  onChange={(ev) => handlePhoneInput(ev.target.value)} />
                             <FormLabel>Account Phone</FormLabel>
-                            <Input type="tel" id="accountPhone"   {...register('accountPhone')}  onChange={(ev) => handlePhoneInput(ev.target.value)} />
                           </FormControl>      
                       </Box>                                                                    
                       </HStack>
@@ -293,57 +293,56 @@ const AccountAddEdit = (props) => {
 
                   <CardBody>
                     <Stack maxWidth="page.single_input" spacing="1rem">
-                        <FormControl isRequired>
+                        <FormControl isRequired>                          
+                          <Input  placeholder=" " type="text" id="addressName"   {...register('addressName')} />
                           <FormLabel>Address Name</FormLabel>
-                          <Input type="text" id="addressName"   {...register('addressName')} />
                         </FormControl>                         
-                        <FormControl isRequired>
+                        <FormControl isRequired>                          
+                          <Input  placeholder=" " type="text" id="address1"   {...register('address1')} />
                           <FormLabel>Address1</FormLabel>
-                          <Input type="text" id="address1"   {...register('address1')} />
                         </FormControl>    
                         <HStack>
-                          <FormControl>
+                          <FormControl>                            
+                            <Input  placeholder=" " type="text" id="address2"   {...register('address2')} />
                             <FormLabel>Address2</FormLabel>
-                            <Input type="text" id="address2"   {...register('address2')} />
                           </FormControl>     
-                          <FormControl>
+                          <FormControl>                            
+                            <Input  placeholder=" " type="text" id="address3"   {...register('address3')} />
                             <FormLabel>Address3</FormLabel>
-                            <Input type="text" id="address3"   {...register('address3')} />
                           </FormControl>     
                         </HStack>
                       <HStack>
                         <Box>
-                          <FormControl isRequired>
+                          <FormControl isRequired>                            
+                            <Input  placeholder=" " type="text" id="city"   {...register('city')} />
                             <FormLabel>City</FormLabel>
-                            <Input type="text" id="city"   {...register('city')} />
                           </FormControl>     
                         </Box>
                         <Box>
-                          <FormControl isRequired>
-                            <FormLabel>State</FormLabel>
+                          <FormControl isRequired>                            
                             <Select id="state" {...register('state')} >
                               <option value="">State</option>
                               {US_STATES?.map((state) => (
                                   <option value={state.id}>{state.name}</option>
                                   ))}
                             </Select>
+                            <FormLabel>State</FormLabel>
                           </FormControl>     
                         </Box>
                         </HStack>
                         <HStack>
                         <Box>
-                          <FormControl isRequired>
+                          <FormControl isRequired>                            
+                            <Input  placeholder=" " type="text" id="zipCode"   {...register('zipCode')} />
                             <FormLabel>ZipCode</FormLabel>
-                            <Input type="text" id="zipCode"   {...register('zipCode')} />
                           </FormControl>     
                         </Box>
                         <Box>
-                          <FormControl isRequired>
-                            <FormLabel>Country</FormLabel>
+                          <FormControl isRequired>                            
                             <Select id="country" {...register('country')} >
                               <option value="USA">USA</option>
                             </Select>
-
+                            <FormLabel>Country</FormLabel>
                           </FormControl>     
                         </Box>                                                                        
                       </HStack>

@@ -219,19 +219,19 @@ const AccountVerify = (props) => {
                                 <CardBody>
                                     <Stack spacing={1} marginTop={1}>
                                             <HStack spacing="150px">
-                                                <FormControl isRequired>
+                                                <FormControl isRequired>                                                    
+                                                    <Input  placeholder=" " type="text" value={accountName} id="accountName" onChange={(ev) => setAccountName(ev.target.value)}  />
                                                     <FormLabel>Account Name</FormLabel>
-                                                    <Input type="text" value={accountName} id="accountName" onChange={(ev) => setAccountName(ev.target.value)}  />
                                                 </FormControl>       
-                                                <FormControl isRequired>
+                                                <FormControl isRequired>                                                    
+                                                    <Input  placeholder=" " type="text"  value={accountEIN} id="accountEIN"  onChange={(ev) => setAccountEIN(ev.target.value)} />
                                                     <FormLabel>EIN</FormLabel>
-                                                    <Input type="text"  value={accountEIN} id="accountEIN"  onChange={(ev) => setAccountEIN(ev.target.value)} />
                                                 </FormControl>                                                                           
                                             </HStack>
                                             <HStack spacing="150px">
-                                                <FormControl isRequired>
+                                                <FormControl isRequired>                                                    
+                                                    <Input  placeholder=" " type="email"  value={accountEmail} id="accountEmail" onChange={(ev) => setAccountEmail(ev.target.value)}  />
                                                     <FormLabel>Email</FormLabel>
-                                                    <Input type="email"  value={accountEmail} id="accountEmail" onChange={(ev) => setAccountEmail(ev.target.value)}  />
                                                 </FormControl>       
                                                 <FormControl isRequired>
                                                     <FormLabel>Type</FormLabel>
@@ -239,48 +239,48 @@ const AccountVerify = (props) => {
                                                 </FormControl>                                                                           
                                             </HStack>   
                                             <HStack spacing="150px">
-                                                <FormControl isRequired>
-                                                    <FormLabel>Business Tyoe</FormLabel>
+                                                <FormControl isRequired>                                                    
                                                     <Select  value={businessType} onChange={(ev) => setBusinessType(ev.target.value)} border="table_border">
                                                         <option value="">Select Business Type</option>
                                                         {ConfigConstants.AVAILABLE_ACCOUNT_BUSINESS_TYPES?.map((businessType) => (
                                                                 <option value={businessType.id}>{businessType.name}</option>
                                                         ))}                                           
                                                     </Select>
+                                                    <FormLabel>Business Tyoe</FormLabel>
                                                 </FormControl>       
-                                                <FormControl isRequired>
-                                                    <FormLabel>Business Classification</FormLabel>
+                                                <FormControl isRequired>                                                    
                                                     <Select  value={businessClassification} onChange={(ev) => setBusinessClassification(ev.target.value)} border="table_border">
                                                         <option value="">Select Business Classification</option>
                                                         {ConfigConstants.AVAILABLE_ACCOUNT_BUSINESS_CLASSIFICATIONS?.map((businessClassification) => (
                                                                 <option value={businessClassification.id}>{businessClassification.name}</option>
                                                         ))}                                           
                                                     </Select>
+                                                    <FormLabel>Business Classification</FormLabel>
                                                 </FormControl>                                                                           
                                             </HStack>
                                             <HStack spacing="150px">
-                                                <FormControl isRequired>
+                                                <FormControl isRequired>                                                    
+                                                    <Input  placeholder=" " type="text"  value={accountAddress1} id="accountAddress1" onChange={(ev) => setAccountAddress1(ev.target.value)}  />
                                                     <FormLabel>Address 1</FormLabel>
-                                                    <Input type="text"  value={accountAddress1} id="accountAddress1" onChange={(ev) => setAccountAddress1(ev.target.value)}  />
                                                 </FormControl>       
-                                                <FormControl isRequired>
+                                                <FormControl isRequired>                                                    
+                                                    <Input  placeholder=" " type="text"  value={accountCity} id="accountCity" onChange={(ev) => setAccountCity(ev.target.value)}  />
                                                     <FormLabel>City</FormLabel>
-                                                    <Input type="text"  value={accountCity} id="accountCity" onChange={(ev) => setAccountCity(ev.target.value)}  />
                                                 </FormControl>                                                                           
                                             </HStack>      
                                             <HStack spacing="150px">
-                                                <FormControl isRequired>
-                                                    <FormLabel>State</FormLabel>
+                                                <FormControl isRequired>                                                    
                                                     <Select id="accountStatue" value={accountState} onChange={(ev) => setAccountState(ev.target.value)}  >
                                                         <option value="">State</option>
                                                         {US_STATES?.map((state) => (
                                                             <option value={state.id}>{state.name}</option>
                                                             ))}
                                                     </Select>
+                                                    <FormLabel>State</FormLabel>
                                                 </FormControl>       
-                                                <FormControl isRequired>
+                                                <FormControl isRequired>                                                    
+                                                    <Input  placeholder=" " type="text"  value={accountZipCode} id="accountZipCode"  onChange={(ev) => setAccountZipCode(ev.target.value)} />
                                                     <FormLabel>ZipCode</FormLabel>
-                                                    <Input type="text"  value={accountZipCode} id="accountZipCode"  onChange={(ev) => setAccountZipCode(ev.target.value)} />
                                                 </FormControl>                                                                           
                                             </HStack>                                                                                     
                                     </Stack>
@@ -293,83 +293,83 @@ const AccountVerify = (props) => {
                                 <CardBody>
                                     <Stack spacing={1} marginTop={1}>
                                             <HStack spacing="150px">
-                                                <FormControl isRequired>
+                                                <FormControl isRequired>                                                    
+                                                    <Input  placeholder=" " type="text" value={controllerFirstName} id="controllerFirstName"  onChange={(ev) => setControllerFirstName(ev.target.value)} />
                                                     <FormLabel>First Name</FormLabel>
-                                                    <Input type="text" value={controllerFirstName} id="controllerFirstName"  onChange={(ev) => setControllerFirstName(ev.target.value)} />
                                                 </FormControl>       
-                                                <FormControl isRequired>
+                                                <FormControl isRequired>                                                    
+                                                    <Input  placeholder=" " type="text"  value={controllerLastName} id="controllerLastName"  onChange={(ev) => setAccountLastName(ev.target.value)} />
                                                     <FormLabel>Last Name</FormLabel>
-                                                    <Input type="text"  value={controllerLastName} id="controllerLastName"  onChange={(ev) => setAccountLastName(ev.target.value)} />
                                                 </FormControl>                                                                           
                                             </HStack>
                                             <HStack spacing="150px">
-                                                <FormControl isRequired>
-                                                    <FormLabel>Title</FormLabel>
+                                                <FormControl isRequired>                                                    
                                                     <Select  value={controllerTitle} onChange={(ev) => setControllerTitle(ev.target.value)} border="table_border">
                                                         <option value="">Select Title</option>
                                                         {ConfigConstants.AVAILABLE_TITLES?.map((title) => (
                                                                 <option value={title.id}>{title.name}</option>
                                                         ))}                                           
                                                     </Select>
+                                                    <FormLabel>Title</FormLabel>
                                                 </FormControl>       
-                                                <FormControl isRequired>
+                                                <FormControl isRequired>                                                    
+                                                    <Input  placeholder=" " type="password"  maxLength={4} value={controllerLastFour} id="controllerLastFour" onChange={(ev) => setControllerLastFour(ev.target.value)}  />
                                                     <FormLabel>Last 4 SSN</FormLabel>
-                                                    <Input type="password"  maxLength={4} value={controllerLastFour} id="controllerLastFour" onChange={(ev) => setControllerLastFour(ev.target.value)}  />
                                                 </FormControl>                                                                           
                                             </HStack>   
                                             <HStack spacing="150px">
-                                                <FormControl isRequired>
+                                                <FormControl isRequired>                                                    
+                                                    <Input   type="text" width="38%" placeholder="1980-01-31" value={controllerDOB} id="controllerDOB"  onChange={(ev) => setControllerDOB(ev.target.value)} />
                                                     <FormLabel>Date of Birth</FormLabel>
-                                                    <Input type="text" width="38%" placeholder="1980-01-31" value={controllerDOB} id="controllerDOB"  onChange={(ev) => setControllerDOB(ev.target.value)} />
                                                 </FormControl>                                                                                
                                             </HStack>
                                             <HStack spacing="150px">
-                                                <FormControl isRequired>
+                                                <FormControl isRequired>                                                    
+                                                    <Input  placeholder=" " type="text"  value={controllerAddress1} id="controllerAddress1"  onChange={(ev) => setControllerAddress1(ev.target.value)} />
                                                     <FormLabel>Address 1</FormLabel>
-                                                    <Input type="text"  value={controllerAddress1} id="controllerAddress1"  onChange={(ev) => setControllerAddress1(ev.target.value)} />
                                                 </FormControl>       
-                                                <FormControl>
+                                                <FormControl>                                                    
+                                                    <Input  placeholder=" " type="text"  value={controllerAddress2} id="controllerAddress2"  onChange={(ev) => setControllerAddress2(ev.target.value)} />
                                                     <FormLabel>Address 2</FormLabel>
-                                                    <Input type="text"  value={controllerAddress2} id="controllerAddress2"  onChange={(ev) => setControllerAddress2(ev.target.value)} />
                                                 </FormControl>                                                                           
                                             </HStack>      
                                             <HStack spacing="150px">
-                                                <FormControl isRequired>
+                                                <FormControl isRequired>                                                    
+                                                    <Input  placeholder=" " type="text"  value={controllerCity} id="controllerCity" onChange={(ev) => setControllerCity(ev.target.value)}  />
                                                     <FormLabel>City</FormLabel>
-                                                    <Input type="text"  value={controllerCity} id="controllerCity" onChange={(ev) => setControllerCity(ev.target.value)}  />
                                                 </FormControl>   
-                                                <FormControl isRequired>
-                                                    <FormLabel>State</FormLabel>
+                                                <FormControl isRequired>                                                    
                                                     <Select id="controllerState" value={controllerState} onChange={(ev) => setControllerState(ev.target.value)}  >
                                                         <option value="">State</option>
                                                         {US_STATES?.map((state) => (
                                                             <option value={state.id}>{state.name}</option>
                                                             ))}
                                                     </Select>
+                                                    <FormLabel>State</FormLabel>
                                                 </FormControl>                                                                               
                                             </HStack>   
                                             <HStack spacing="150px">
-                                                <FormControl isRequired>
+                                                <FormControl isRequired>                                                    
+                                                    <Input  placeholder=" " type="text"  value={controllerZipCode} id="controllerZipCode" onChange={(ev) => setControllerZipCode(ev.target.value)}  />
                                                     <FormLabel>ZipCode</FormLabel>
-                                                    <Input type="text"  value={controllerZipCode} id="controllerZipCode" onChange={(ev) => setControllerZipCode(ev.target.value)}  />
                                                 </FormControl>     
-                                                <FormControl isRequired>
-                                                    <FormLabel>Country</FormLabel>
+                                                <FormControl isRequired>                                                    
                                                     <Select id="controllerCountry" value={controllerCountry} onChange={(ev) => setControllerCountry(ev.target.value)}  >
                                                         <option value="US">USA</option>
                                                     </Select>
+                                                    <FormLabel>Country</FormLabel>
                                                 </FormControl>                                                                              
                                             </HStack>                                                                                                                                 
                                     </Stack>
                                 </CardBody>
                             </Card>          
-                            <FormControl isRequired>
+                                <Stack spacing="0.2">
                                 <FormLabel>Account Consent</FormLabel>
                                     <Checkbox
                                         isChecked={accountVerificationConsent?true:false}
                                         onChange={(e) => setAccountVerificationConsent(e.target.checked)}
                                     />                             
-                                </FormControl>                                                
+                                </Stack>                                                
                             <Button width="30%" marginTop="30px" onClick={() => handleAccountVerify()} bgColor="header_actions">
                                 Verify
                             </Button>                                                                                                        

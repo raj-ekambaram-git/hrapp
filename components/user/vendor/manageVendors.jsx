@@ -170,14 +170,14 @@ const ManageVendors = (props) => {
                               <Box>
                                 <ShowInlineErrorMessage showErrorMessage={showErrorMessage}/>
                             </Box>                          
-                            <FormControl isRequired>
-                              <FormLabel>Client</FormLabel>
+                            <FormControl isRequired>                              
                               <Select width="50%" onChange={(ev) => setUserVendorId(ev.target.value)}>
                                   <option value="">Select Client</option>
                                   {vendorListNew?.map((vendor) => (
                                     <option value={vendor.id}>{vendor.name}</option>
                                   ))}
                               </Select>
+                              <FormLabel>Client</FormLabel>
                             </FormControl>     
                             </Box> 
                             <Button onClick={() => handleAddVendorToUser()} size="sm" width="30%" bgColor="button.primary.color">

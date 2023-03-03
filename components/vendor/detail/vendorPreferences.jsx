@@ -212,29 +212,29 @@ const VendorPreferences = (props) => {
                                   {enableAddPreference?<>
                                     <CardBody>
                                         <HStack spacing={3}>
-                                          <FormControl isRequired>
+                                          <FormControl isRequired>                                              
+                                              <Input  placeholder=" " type="text" id="name" width="75%"  onChange={(ev) => setName(ev.target.value)}/>
                                               <FormLabel>Name</FormLabel>
-                                              <Input type="text" id="name" width="75%"  onChange={(ev) => setName(ev.target.value)}/>
                                           </FormControl> 
                                           {enablePredefinedPreference?<>
-                                            <FormControl isRequired>
-                                              <FormLabel>Predefined Key</FormLabel>
+                                            <FormControl isRequired>                                              
                                               <Select id="type" width="75%"  onChange={(ev) => setKey(ev.target.value)}>
                                                     <option value="">Select Predefined</option>
                                                     {PREDEFINED_PREFERENCES.VENDOR.map((preference) => (
                                                         <option value={preference.key} >{preference.name}</option>
                                                     ))}
                                               </Select>     
+                                              <FormLabel>Predefined Key</FormLabel>
                                             </FormControl>                                                                                          
                                           </>:<>
-                                            <FormControl isRequired>
+                                            <FormControl isRequired>                                                
+                                                <Input  placeholder=" " type="text" id="key"   onChange={(ev) => setKey(ev.target.value)}/>
                                                 <FormLabel>Key</FormLabel>
-                                                <Input type="text" id="key"   onChange={(ev) => setKey(ev.target.value)}/>
                                             </FormControl> 
                                           </>}
-                                          <FormControl isRequired>
+                                          <FormControl isRequired>                                              
+                                              <Input  placeholder=" " type="text" id="value"  width="75%"  onChange={(ev) => setValue(ev.target.value)}/>
                                               <FormLabel>Value</FormLabel>
-                                              <Input type="text" id="value"  width="75%"  onChange={(ev) => setValue(ev.target.value)}/>
                                           </FormControl>                                                                                     
                                         </HStack>
                                     </CardBody>                                  

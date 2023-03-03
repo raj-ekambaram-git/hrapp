@@ -309,12 +309,11 @@ const AddEditWorkFlow = (props) => {
                                     <CardBody>
                                         <Stack spacing={9}>
                                             <HStack width="63%" spacing={6}>
-                                                <FormControl isRequired>
+                                                <FormControl isRequired>                                                    
+                                                    <Input  placeholder=" " type="text" id="name" value={name} onChange={(ev) => setName(ev.target.value)}/>
                                                     <FormLabel>Name</FormLabel>
-                                                    <Input type="text" id="name" value={name} onChange={(ev) => setName(ev.target.value)}/>
                                                 </FormControl>   
-                                                <FormControl isRequired>
-                                                    <FormLabel>Status</FormLabel>
+                                                <FormControl isRequired>                                                    
                                                     {props.isAddMode?<>
                                                         <Select id="status" value={status} onChange={(ev) => setStatus(ev.target.value)}>
                                                             <option value="">Select Status</option>
@@ -322,6 +321,7 @@ const AddEditWorkFlow = (props) => {
                                                                 <option value={status.key}>{status.displayName}</option>
                                                             ))}
                                                         </Select>
+                                                        <FormLabel>Status</FormLabel>
                                                     </>:<>
                                                         <HStack>
                                                             <Badge color={status === WorkFlowStatus.Active?"paid_status":"pending_status"}>{status}</Badge>

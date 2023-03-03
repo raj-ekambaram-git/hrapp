@@ -47,31 +47,31 @@ const ExportActions = (props) => {
       <Stack spacing={7}>
            {showSaveExport?<>
               <HStack spacing={2}>
-                  <FormControl isRequired width="40%">
+                  <FormControl isRequired width="40%">                    
+                    <Input  placeholder=" " type="text"  value={exportName} onChange={(ev) =>setExportName(ev.target.value)}/>
                     <FormLabel>Name</FormLabel>
-                    <Input type="text"  value={exportName} onChange={(ev) =>setExportName(ev.target.value)}/>
                   </FormControl>          
-                  <FormControl isRequired width="40%">
+                  <FormControl isRequired width="40%">                    
+                    <Input  placeholder=" " type="text"  value={fileName} onChange={(ev) =>setFileName(ev.target.value)}/>
                     <FormLabel>File Name</FormLabel>
-                    <Input type="text"  value={fileName} onChange={(ev) =>setFileName(ev.target.value)}/>
                   </FormControl>          
-                  <FormControl isRequired>
-                    <FormLabel>File Type</FormLabel>
+                  <FormControl isRequired>                    
                     <Select width="30%" id="fileType" onChange={(ev) => setFileType(ev.target.value)}>
                           <option value="">Select File Type</option>
                           <option value="CSV">CSV</option>
                           <option value="PDF">PDF</option>                                      
-                    </Select>                   
+                    </Select>             
+                    <FormLabel>File Type</FormLabel>      
                   </FormControl>   
                 </HStack>
               </>:<></>}        
               <Stack>
-                <FormControl>
+                <Stack spacing="0.2">
                     <FormLabel>Save as template?</FormLabel>
                     <Checkbox
                       onChange={(e) => setShowSaveExport(e.target.checked)}
                     />                
-                </FormControl>    
+                </Stack>    
                 <HStack>
                   <Button size="xs" width="25%" bgColor="header_actions" 
                     onClick={() => handleExportNow()}

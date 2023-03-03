@@ -108,37 +108,37 @@ const AddEditTask = (props) => {
                         <Stack>
                             <HStack spacing={2}>
                                 <Box>
-                                    <FormControl isRequired>
-                                        <FormLabel>Type</FormLabel>
+                                    <FormControl isRequired>                                        
                                         <Select  id="type" value={type} onChange={(ev) => setType(ev.target.value)}>
                                             <option value="">Select Type</option>
                                             {WorkFlowConstants.WORKFLOW_TYPE_LOOKIUP?.map((type) => (
                                                 <option value={type.key}>{type.displayName}</option>
                                             ))}
                                         </Select>
+                                        <FormLabel>Type</FormLabel>
                                     </FormControl>     
                                 </Box>
                                 <Box>
-                                    <FormControl isRequired>
+                                    <FormControl isRequired>                                        
+                                        <Input  placeholder=" " type="text" value={name} id="name"  onChange={(ev) => setName(ev.target.value)}></Input>
                                         <FormLabel>Name</FormLabel>
-                                        <Input type="text" value={name} id="name"  onChange={(ev) => setName(ev.target.value)}></Input>
                                     </FormControl> 
                                 </Box>
                                 <Box>
-                                    <FormControl isRequired>
+                                    <FormControl isRequired>                                        
+                                        <Input  placeholder=" " type="text" value={description} id="description"  onChange={(ev) => setDescription(ev.target.value)}></Input>                  
                                         <FormLabel>Description</FormLabel>
-                                        <Input type="text" value={description} id="description"  onChange={(ev) => setDescription(ev.target.value)}></Input>                  
                                     </FormControl> 
                                 </Box>
                                 <Box>
-                                    <FormControl isRequired>
-                                        <FormLabel>Status</FormLabel>
+                                    <FormControl isRequired>                                        
                                         <Select id="status" value={status} onChange={(ev) => setStatus(ev.target.value)}>
                                             <option value="">Select Status</option>
                                             {WorkFlowConstants.WORKFLOW_STATUS_LOOKIUP?.map((status) => (
                                                 <option value={status.key}>{status.displayName}</option>
                                             ))}
                                         </Select>
+                                        <FormLabel>Status</FormLabel>
                                     </FormControl>   
                                 </Box>                                                             
                             </HStack>

@@ -84,9 +84,9 @@ function ExportSystemTemplateData(props) {
                             <Stack spacing={8} padding={4}>
                                 {props.exportTemplateMeta?.queryMeta?.fields?.map((field, index) => 
                                   <HStack>
-                                    <FormControl isRequired={field.required?true:false}>
+                                    <FormControl isRequired={field.required?true:false}>                                        
+                                        <Input  placeholder=" " type={field.type==="number"?"number":"text"}  width="25%" onChange={(ev) =>setKeyValue(field.key, ev.target.value, index)}/>
                                         <FormLabel>{field.name}</FormLabel>
-                                        <Input type={field.type==="number"?"number":"text"}  width="25%" onChange={(ev) =>setKeyValue(field.key, ev.target.value, index)}/>
                                     </FormControl>   
                                   </HStack>
                                 )}

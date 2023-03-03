@@ -65,15 +65,14 @@ const ExpenseHeader = (props) => {
       <CardBody>
         <Stack marginBottom="2rem" spacing={8}>
           <Box maxWidth="25%">
-            <FormControl isRequired>
+            <FormControl isRequired>                
+                <Input  placeholder=" " type="text" id="name"  value={expenseHeader.name} onChange={(ev) => handleExpenseHeaderEntry("name",ev.target.value)}/>
                 <FormLabel>Expense Name</FormLabel>
-                <Input type="text" id="name"  value={expenseHeader.name} onChange={(ev) => handleExpenseHeaderEntry("name",ev.target.value)}/>
             </FormControl>                
           </Box>
           <HStack spacing="20rem" marginBottom={5}>
             <Box>
-              <FormControl isRequired>
-                    <FormLabel>Project Details</FormLabel>
+              <FormControl isRequired>                    
                     <Select id="projectId" value={expenseHeader.projectId} onChange={(ev) => handleExpenseHeaderEntry("projectId",ev.target.value)}>
                         <option value="">Select Project</option>
                         {props.userProjectList?.map((project) => (
@@ -82,6 +81,7 @@ const ExpenseHeader = (props) => {
                             </>):(<></>)}
                         ))}
                     </Select>  
+                    <FormLabel>Project Details</FormLabel>
                 </FormControl>    
             </Box>
             <Box>
@@ -93,16 +93,15 @@ const ExpenseHeader = (props) => {
           </HStack>    
           <HStack spacing="27rem">
               <Box>
-                <FormControl>
-                    <FormLabel>Expense Description</FormLabel>
+                <FormControl>                    
                     <Textarea type="text" id="description" value={expenseHeader.description} onChange={(ev) => handleExpenseHeaderEntry("description",ev.target.value)}/>
+                    <FormLabel>Expense Description</FormLabel>
                 </FormControl>    
               </Box>              
               <Stack>
                 {props.isAddMode?(<></>):(<>
                   <Box>
-                    <FormControl>
-                        <FormLabel>Status</FormLabel>
+                    <FormControl>                                                
                         <Badge color={`${expenseHeader.status === "Approved"? "timesheet.approved_status": (expenseHeader.status === "Submitted" || expenseHeader.status === "Saved")? "timesheet.approved_status": "timesheet.pending_status"}`}>{expenseHeader.status}</Badge>
                     </FormControl>                   
                   </Box>

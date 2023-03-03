@@ -178,19 +178,19 @@ const Register = (props) => {
                             <CardBody>
                               {loading?<><Spinner /></>:<></>}
                               <Stack>
-                                    <FormControl isRequired>
+                                    <FormControl isRequired>                                      
+                                     <Input  placeholder=" " type="text" {...register('accountName')}  id="accountName"   maxWidth="page.single_input"/>
                                       <FormLabel>Account Name</FormLabel>
-                                      <Input type="text" {...register('accountName')}  id="accountName"   maxWidth="page.single_input"/>
                                     </FormControl>     
-                                    <FormControl isRequired>
+                                    <FormControl isRequired>                                        
+                                       <Input  placeholder=" " type="text" id="accountDescription" {...register('accountDescription')}   maxWidth="page.single_input"/>
                                         <FormLabel>Account Descirption</FormLabel>
-                                        <Input type="text" id="accountDescription" {...register('accountDescription')}   maxWidth="page.single_input"/>
                                     </FormControl>   
                                     <HStack spacing="15rem">
                                       <Box>
-                                        <FormControl>
+                                        <FormControl>                                          
+                                         <Input  placeholder=" " type="text" id="accountEIN"   {...register('accountEIN')} />
                                           <FormLabel>Account EIN</FormLabel>
-                                          <Input type="text" id="accountEIN"   {...register('accountEIN')} />
                                         </FormControl>  
                                       </Box>
                                     </HStack>   
@@ -206,45 +206,45 @@ const Register = (props) => {
                               <Stack divider={<StackDivider />} spacing='4'>
                                 <HStack>
                                   <Box>
-                                    <FormControl isRequired>
+                                    <FormControl isRequired>                                        
+                                       <Input  placeholder=" " type="text" id="accountUserFirstName"   {...register('accountUserFirstName')}  />
                                         <FormLabel>First Name</FormLabel>
-                                        <Input type="text" id="accountUserFirstName"   {...register('accountUserFirstName')}  />
                                       </FormControl>      
                                   </Box>  
                                   <Box>
-                                    <FormControl isRequired>
+                                    <FormControl isRequired>                                        
+                                       <Input  placeholder=" " type="text" id="accountUserLastName"   {...register('accountUserLastName')}  />
                                         <FormLabel>Last Name</FormLabel>
-                                        <Input type="text" id="accountUserLastName"   {...register('accountUserLastName')}  />
                                       </FormControl>      
                                   </Box>  
                                 </HStack>                          
                                 <HStack spacing="10rem">
                                   <Box>
-                                    <FormControl isRequired>
+                                    <FormControl isRequired>                                      
+                                     <Input  placeholder=" " type="email" id="accountEmail"   {...register('accountEmail')}  />
                                       <FormLabel>Email (Login ID)</FormLabel>
-                                      <Input type="email" id="accountEmail"   {...register('accountEmail')}  />
                                     </FormControl>     
                                   </Box>                                                                  
                                   </HStack>
                                   <HStack>
                                     <Box>
-                                      <FormControl isRequired>
+                                      <FormControl isRequired>                                          
+                                         <Input  placeholder=" " type="password" id="password"   {...register('password')} />
                                           <FormLabel>Password</FormLabel>
-                                          <Input type="password" id="password"   {...register('password')} />
                                         </FormControl>      
                                     </Box>  
                                     <Box>
-                                      <FormControl isRequired>
+                                      <FormControl isRequired>                                          
+                                         <Input  placeholder=" " type="password" id="confirmPassword"   {...register('confirmPassword')} />
                                           <FormLabel>Confirm Password</FormLabel>
-                                          <Input type="password" id="confirmPassword"   {...register('confirmPassword')} />
                                         </FormControl>      
                                     </Box>                                     
                                   </HStack>                                  
                                   <HStack>
                                     <Box>
-                                      <FormControl isRequired>
+                                      <FormControl isRequired>                                          
+                                         <Input  placeholder=" " type="tel" id="accountPhone"   {...register('accountPhone')}  onChange={(ev) => handlePhoneInput(ev.target.value)}/>
                                           <FormLabel>Account Phone</FormLabel>
-                                          <Input type="tel" id="accountPhone"   {...register('accountPhone')}  onChange={(ev) => handlePhoneInput(ev.target.value)}/>
                                         </FormControl>      
                                     </Box>  
                                   </HStack>

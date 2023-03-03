@@ -288,8 +288,7 @@ const CostPayment = (props) => {
                                 </Box>           
                                 {isAddMode?<>
                                   <HStack spacing={1}>
-                                    <FormControl isRequired>
-                                        <FormLabel>Client</FormLabel>
+                                    <FormControl isRequired>                                        
                                         <Select width="70%" onChange={(ev) => handleVendorSelection(ev.target.value)} value={costVendorId}>
                                             <option value="">Select Client</option>
                                             {accountVendorList?.map((vendor) => (
@@ -298,15 +297,16 @@ const CostPayment = (props) => {
                                               </>:<></>                                            
                                             ))}
                                         </Select>
+                                        <FormLabel>Client</FormLabel>
                                     </FormControl>    
-                                    <FormControl isRequired>
-                                        <FormLabel>Project</FormLabel>
+                                    <FormControl isRequired>                                        
                                         <Select width="70%" onChange={(ev) => handleProjectSelection(ev.target.value)} value={costProjectId}>
                                             <option value="">Select Project</option>
                                             {projectList?.map((project) => (
                                             <option value={project.id}>{project.name} -- {project.referenceCode}</option>
                                             ))}
                                         </Select>
+                                        <FormLabel>Project</FormLabel>
                                     </FormControl>  
                                   </HStack>                                      
                                 </>:<>
@@ -347,26 +347,26 @@ const CostPayment = (props) => {
                                 {costProjectId?
                                     <Stack spacing={8}>
                                       <HStack spacing={1}>
-                                            <FormControl isRequired>
+                                            <FormControl isRequired>                                                
+                                                <Input  placeholder=" " width={supplierList && supplierList.length>0?"70%":"35%"}  type="text" id="costName"  value={costName} onChange={(ev) => setCostName(ev.target.value)}/>
                                                 <FormLabel>Cost Name</FormLabel>
-                                                <Input width={supplierList && supplierList.length>0?"70%":"35%"}  type="text" id="costName"  value={costName} onChange={(ev) => setCostName(ev.target.value)}/>
                                             </FormControl>      
                                         {supplierList && supplierList.length>0?<>
-                                          <FormControl>
-                                            <FormLabel>Supplier</FormLabel>
+                                          <FormControl>                                            
                                             <Select width="70%" onChange={(ev) => setSupplierId(ev.target.value)} value={supplierId}>
                                                 <option value="">Select Supplier</option>
                                                 {supplierList?.map((supplier) => (
                                                 <option value={supplier?.id}>{supplier?.name}</option>
                                                 ))}
                                             </Select>
+                                            <FormLabel>Supplier</FormLabel>
                                           </FormControl>                                                 
                                         </>:<></>}
                                       </HStack>
                                         <Box maxWidth="35%">
-                                            <FormControl>
-                                                <FormLabel>Cost Description</FormLabel>
+                                            <FormControl>                                                
                                                 <Textarea type="text" id="costDescription" value={costDescription} onChange={(ev) => setCostDescription(ev.target.value)}/>
+                                                <FormLabel>Cost Description</FormLabel>
                                             </FormControl>    
                                         </Box>   
                                         <Box marginTop={5}><ProjectTimesheets data={{projectId: costProjectId, callType: COST_CALL_TYPE}}/></Box>

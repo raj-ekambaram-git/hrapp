@@ -328,14 +328,13 @@ const CreateExpenseFromTransaction = (props) => {
                                 <Stack spacing={5}>
                                     <HStack spacing={10}>
                                         <Box width="25%">
-                                            <FormControl isRequired>
+                                            <FormControl isRequired>                                                
+                                                <Input  placeholder=" " type="text" id="expenseName"   onChange={(ev) => setExpenseName(ev.target.value)}/>
                                                 <FormLabel>Name</FormLabel>
-                                                <Input type="text" id="expenseName"   onChange={(ev) => setExpenseName(ev.target.value)}/>
                                             </FormControl>    
                                         </Box>
                                         <Box>
-                                        <FormControl isRequired>
-                                            <FormLabel>User</FormLabel>                                            
+                                        <FormControl isRequired>                                                                           
                                             <HStack>                                                
                                                 {accountUserList?<>
                                                     <Select id="projectId" value={expenseUserId} onChange={(ev) => getProjectForUser(ev.target.value)}>
@@ -343,7 +342,8 @@ const CreateExpenseFromTransaction = (props) => {
                                                         {accountUserList?.map((accountUser) => (
                                                             <option value={accountUser.id} >{accountUser.firstName} - {accountUser.lastName}</option>
                                                         ))}
-                                                    </Select>                                              
+                                                    </Select>       
+                                                    <FormLabel>User</FormLabel>                                                    
                                                 </>:<>
                                                     <FiUserPlus size={30} onClick={getAccountUsers}/>
                                                 </>}                                                
@@ -352,8 +352,7 @@ const CreateExpenseFromTransaction = (props) => {
                                         </Box> 
                                         {userProjectList?<>
                                         <Box>
-                                            <FormControl isRequired>
-                                                <FormLabel>Project</FormLabel>
+                                            <FormControl isRequired>                                                
                                                 <Select id="projectId" value={expenseProjectId} onChange={(ev) => setExpenseProjectId(ev.target.value)}>
                                                     <option value="">Select Project</option>
                                                     {userProjectList?.map((project) => (
@@ -362,6 +361,7 @@ const CreateExpenseFromTransaction = (props) => {
                                                         </>):(<></>)}
                                                     ))}
                                                 </Select>  
+                                                <FormLabel>Project</FormLabel>
                                             </FormControl>   
                                         </Box>                                           
                                         </>:<></>}                                                                                                            
