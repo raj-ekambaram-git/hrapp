@@ -577,9 +577,8 @@ const InvoiceAddEdit = (props) => {
                                       <option value="Cancelled">Cancelled</option>                              
                                     </>}                                       
                                   </Select>
-
-                                </>)}
-                                <FormLabel>Status</FormLabel>
+                                  <FormLabel>Status</FormLabel>
+                                </>)}                                
                           </FormControl>     
                         </Box>  
                       </HStack>                          
