@@ -499,29 +499,28 @@ const InvoiceAddEdit = (props) => {
                 </CardHeader>
 
                 <CardBody>
-                  <Stack spacing={4}>
+                  <Stack spacing={6}>
                       <Box>
-                        <FormControl isRequired>
+                        <FormControl isRequired>                          
+                          <Input  placeholder=" " type="text" {...register('description')}  id="description"    maxWidth="page.single_input" />
                           <FormLabel>Invoice Reference/Details</FormLabel>
-                          <Input type="text" {...register('description')}  id="description"    maxWidth="page.single_input" />
                         </FormControl>     
                       </Box>
                       {(userService.accountFeatureEnabled(ConfigConstants.FEATURES.WORK_FLOW))?<>
                         <HStack spacing={16}>
                             {(isAddMode && userService.isWorkFlowAdmin())?<>                              
                               <Box>
-                                <FormControl>
+                                <Stack spacing="0.2">
                                   <FormLabel>Enable WorkFlow?</FormLabel>
                                   <Checkbox
                                       onChange={(e) => handleEnableWorkFlow(e.target.checked)}
                                     />  
-                                </FormControl>    
+                                </Stack>    
                               </Box>                              
                             </>:<></>}
                             {enableWorkFlow?<>
                               <Box>
                                 <FormControl isRequired>
-                                  <FormLabel>WorkFlow</FormLabel>
                                     <AddEditWorkFlow isAddMode={isAddMode} workFlow={workFlow} setWorkFlow={setWorkFlow} type="Invoice" typeId={invoiceId}/>                       
                                 </FormControl>    
                               </Box>                              
@@ -530,29 +529,28 @@ const InvoiceAddEdit = (props) => {
                       </>:<></>}                      
                       <HStack spacing={8}>
                         <Box>
-                          <FormControl isRequired>
-                            <FormLabel>Invoice Type</FormLabel>
+                          <FormControl isRequired>                            
                             <Select width="100%" id="type" {...register('type')} onChange={(ev) => handleInvoiceType(ev.target.value)}>
                             <option value="">Select Invoice Type</option>
                             {InvoiceConstants.INVOICE_TYPES?.map((invoiceType) => (
                                     <option value={invoiceType.invoiceTypeId}>{invoiceType.invoiceTypeName}</option>
                               ))}                                  
                             </Select>
+                            <FormLabel>Invoice Type</FormLabel>
                           </FormControl>     
                         </Box>  
                         <Box>
-                          <FormControl isRequired>
-                            <FormLabel>Payment Terms</FormLabel>
-                            <Select width="100%" id="paymentTerms" {...register('paymentTerms')}  onChange={(ev) => handlePaymentTerms(ev.target.value)}>
+                          <FormControl isRequired>                            
+                            <Select width="140px" id="paymentTerms" {...register('paymentTerms')}  onChange={(ev) => handlePaymentTerms(ev.target.value)}>
                               {INVOICE_PAY_TERMS?.map((paymentTerm) => (
                                     <option value={paymentTerm.paymentTermId}>{paymentTerm.paymentTermName}</option>
                               ))}                                
                             </Select>
+                            <FormLabel>Payment Terms</FormLabel>
                           </FormControl>     
                         </Box>  
                         <Box>
-                          <FormControl isRequired>
-                            <FormLabel>Invoice Status</FormLabel>
+                          <FormControl isRequired>                            
                                 {(status === InvoiceConstants.INVOICE_STATUS.Paid || status === InvoiceConstants.INVOICE_STATUS.PartiallyPaid) ? (<>
                                   <Badge color={`${
                                     status === "Paid"
@@ -581,6 +579,7 @@ const InvoiceAddEdit = (props) => {
                                   </Select>
 
                                 </>)}
+                                <FormLabel>Status</FormLabel>
                           </FormControl>     
                         </Box>  
                       </HStack>                          
@@ -598,14 +597,14 @@ const InvoiceAddEdit = (props) => {
                       {isPageSectionAuthorized ? (
                         <>                      
                           <Box>
-                            <FormControl isRequired>
-                              <FormLabel>Account</FormLabel>
+                            <FormControl isRequired>                              
                               <Select width="100%" id="accountId" {...register('accountId')} >
                                   <option value="">Select an Account</option>
                                   {accountsList?.map((account) => (
                                     <option value={account.id}>{account.name}</option>
                                   ))}
-                            </Select>
+                              </Select>
+                              <FormLabel>Account</FormLabel>
                             </FormControl>     
                           </Box>
                         </>
@@ -613,9 +612,9 @@ const InvoiceAddEdit = (props) => {
                       {(userService.isAccountAdmin() || userService.isAccountVendorRep()) ? (
                         <>
                           <Box>
-                            <FormControl isRequired>
-                              <FormLabel>Client</FormLabel>
+                            <FormControl isRequired>                              
                               {isAddMode ? (
+                                <>
                                 <Select width="100%" id="vendorId" {...register('vendorId')} onChange={(ev) => refreshProjectForVendor(ev)}>
                                     <option value="">Select Client</option>
                                     {vendorList?.map((vendor) => (
@@ -623,39 +622,42 @@ const InvoiceAddEdit = (props) => {
                                         <option value={vendor.id} data-email={vendor.email}>{vendor.name}</option>
                                       </>:<></>      
                                     ))}
-                              </Select>
+                                </Select>   
+                                <FormLabel>Client</FormLabel>                              
+                                </>                             
                               ) : (<>
                               <Text>
                                 {vendorName}
                               </Text>
-                              </>)}
+                              </>)}                              
                             </FormControl>     
                           </Box>
                         </>
                       ) : ("")}
                         <Box>
-                            <FormControl isRequired>
-                              <FormLabel>Project</FormLabel>
+                            <FormControl isRequired>                              
                               {isAddMode ? (
-                                <Select width="100%" id="projectId" {...register('projectId')} onChange={(ev) => handleProjectSelection(ev)}>
-                                  <option value="" data-projectType="" data-projectResources="">Select Project</option>
-                                  {projectList?.map((project) => (
-                                      <option value={project.id} data-paymentTerm={project.paymentTerms} data-email={project.contactEmail} data-projectType={project.type} data-projectResources={JSON.stringify(project.projectResource)}>{project.name}</option>
-                                  ))}
-                                </Select>
+                                <>
+                                  <Select width="100%" id="projectId" {...register('projectId')} onChange={(ev) => handleProjectSelection(ev)}>
+                                    <option value="" data-projectType="" data-projectResources="">Select Project</option>
+                                    {projectList?.map((project) => (
+                                        <option value={project.id} data-paymentTerm={project.paymentTerms} data-email={project.contactEmail} data-projectType={project.type} data-projectResources={JSON.stringify(project.projectResource)}>{project.name}</option>
+                                    ))}
+                                  </Select>
+                                  <FormLabel>Project</FormLabel>
+                                </>
                               ) : (<>
                               <Text>
                                 {projectName}
-                              </Text>
-                                
+                              </Text>                                
                               </>)}
+                              
                             </FormControl>     
                         </Box>  
                         <Box>
                           {enableEmailIcon ? (<>
-                            <FormControl>
-                                <FormLabel>&nbsp;</FormLabel>
-                                <InvoiceEmailTo/>
+                            <FormControl>                                
+                                <InvoiceEmailTo/>                                
                             </FormControl>
                           </>) : (<></>)}
                         </Box>                        
@@ -671,25 +673,24 @@ const InvoiceAddEdit = (props) => {
                 <CardBody>
                   <Stack divider={<StackDivider />} spacing='4'>
                     <HStack spacing="5.5rem">
-                      <Box>
-                          <FormLabel>Invoice Date</FormLabel>
+                      <Box>            
+                          <FormLabel>Invoice Date</FormLabel>              
                           <HStack>
-                            <Input type="text" id="invoiceDate"  value={util.getFormattedDate(invoiceDate)}  {...register('invoiceDate')}/>
+                            <Input   type="text" id="invoiceDate"  value={util.getFormattedDate(invoiceDate)}  {...register('invoiceDate')}/>
                             <DatePicker onChange={handleInvoiceDate}/> 
-                          </HStack>
+                          </HStack>                    
                       </Box>
-                      <Box>
-                           <FormLabel>Due Date</FormLabel>
+                      <Box>          
+                          <FormLabel>Due Date</FormLabel>                                           
                           <HStack>
-                            <Input type="text" id="dueDte"  value={util.getFormattedDate(dueDte)}  {...register('dueDte')}/>
+                            <Input  type="text" id="dueDte"  value={util.getFormattedDate(dueDte)}  {...register('dueDte')}/>
                             <DatePicker onChange={handleDueDate}/> 
-                          </HStack>  
+                          </HStack>               
                       </Box>  
                     </HStack>                                        
                     <HStack spacing="6rem">
                       <Box>
-                        <FormControl isRequired>
-                          <FormLabel>Invoice Total</FormLabel>
+                        <FormControl isRequired>                          
                           <InputGroup>
                             <InputLeftElement
                                 pointerEvents='none'
@@ -698,7 +699,8 @@ const InvoiceAddEdit = (props) => {
                                 children='$'
                             />      
                             
-                            <Input type="number" id="total"  value={invoiceTotal}  {...register('total')} />
+                            <Input  placeholder=" " type="number" id="total"  value={invoiceTotal}  {...register('total')} />
+                            <FormLabel>Invoice Total</FormLabel>
                           </InputGroup>    
                           
                         </FormControl>     
@@ -706,8 +708,7 @@ const InvoiceAddEdit = (props) => {
                       {(!isAddMode && (status !== InvoiceConstants.INVOICE_STATUS.Draft && status !== EMPTY_STRING)) ? (
                         <>
                         <Box>
-                          <FormControl>
-                              <FormLabel>Amount Paid</FormLabel>
+                          <FormControl>                              
                               <InputGroup>
                                 <InputLeftElement
                                     pointerEvents='none'
@@ -715,7 +716,8 @@ const InvoiceAddEdit = (props) => {
                                     fontSize='dollar_left_element'
                                     children='$'
                                 />      
-                                  <Input type="number" value={invoicePaidAmount} isReadOnly/>
+                                  <Input  placeholder=" " type="number" value={invoicePaidAmount} isReadOnly/>
+                                  <FormLabel>Amount Paid</FormLabel>
                               </InputGroup>                             
                           </FormControl>    
                         </Box>   

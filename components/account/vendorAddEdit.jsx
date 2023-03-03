@@ -286,7 +286,7 @@ const VendorEdit = (props) => {
                 </CardHeader>
 
                 <CardBody>
-                  <Stack divider={<StackDivider />} spacing='4'>
+                  <Stack spacing='4'>
                       <Box>
                         <FormControl isRequired>                          
                           <Input  placeholder=" " type="text" {...register('name')}  id="name"  maxWidth="page.single_input"/>

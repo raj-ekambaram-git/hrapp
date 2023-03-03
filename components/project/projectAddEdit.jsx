@@ -317,41 +317,40 @@ const ProjectAddEdit = (props) => {
                 </CardHeader>
 
                 <CardBody>
-                  <Stack spacing={4}>
+                  <Stack spacing={6}>
                       <Box>
-                        <FormControl isRequired>
+                        <FormControl isRequired>                          
+                          <Input  placeholder=" " type="text" {...register('name')}  id="name"   maxWidth="page.single_input"/>
                           <FormLabel>Project Name</FormLabel>
-                          <Input type="text" {...register('name')}  id="name"   maxWidth="page.single_input"/>
                         </FormControl>     
                       </Box>
                       <Box>
-                        <FormControl isRequired>
-                            <FormLabel>Project Details</FormLabel>
+                        <FormControl isRequired>                            
                             <Textarea type="text" id="description" {...register('description')}   maxWidth="page.single_input"/>
+                            <FormLabel>Project Details</FormLabel>
                         </FormControl>    
                       </Box>  
                       <Box>
-                        <FormControl isRequired>
+                        <FormControl isRequired>                            
+                            <Input  placeholder=" " type="text" id="referenceCode" {...register('referenceCode')}   maxWidth="page.single_input"/>
                             <FormLabel>Project Reference</FormLabel>
-                            <Input type="text" id="referenceCode" {...register('referenceCode')}   maxWidth="page.single_input"/>
                         </FormControl>    
                       </Box>   
                       {(userService.accountFeatureEnabled(ConfigConstants.FEATURES.WORK_FLOW))?<>
-                        <HStack spacing="8rem">
+                        <HStack spacing="12rem">
                             {(isAddMode && userService.isWorkFlowAdmin())?<>                              
                               <Box>
-                                <FormControl>
+                                <Stack spacing="0.2">
                                   <FormLabel>Enable WorkFlow?</FormLabel>
                                   <Checkbox
                                       onChange={(e) => handleEnableWorkFlow(e.target.checked)}
                                     />  
-                                </FormControl>    
+                                </Stack>    
                               </Box>                              
                             </>:<></>}
                             {enableWorkFlow?<>
                               <Box>
                                 <FormControl isRequired>
-                                  <FormLabel>WorkFlow</FormLabel>
                                     <AddEditWorkFlow isAddMode={isAddMode} workFlow={workFlow} setWorkFlow={setWorkFlow} type="Project" typeId={projectId}/>                       
                                 </FormControl>    
                               </Box>                              
@@ -361,8 +360,7 @@ const ProjectAddEdit = (props) => {
                       <HStack spacing="10rem">
                         <Box>
                           <FormControl isRequired>
-                            <FormLabel>Projet Status</FormLabel>
-                            <Select width="100%" id="status" {...register('status')} >                          
+                            <Select width="160px" id="status" {...register('status')} >                          
                               {(enableWorkFlow)?<>
                                   <option value="Created">Created</option>
                                   {(project.status !== ProjectStatus.Created && project.status)?<>
@@ -376,49 +374,50 @@ const ProjectAddEdit = (props) => {
                                   <option value="Closed">Closed</option>
                                   <option value="Settled">Settled</option>                              
                                 </>}    
-                            </Select>                        
+                            </Select>              
+                            <FormLabel>Projet Status</FormLabel>          
                           </FormControl>     
                         </Box>  
                         <Box>
                           <FormControl isRequired>
-                            <FormLabel>Projet Type</FormLabel>
-                            <Select width="100%" id="type" {...register('type')} >
+                            <Select width="160px" id="type" {...register('type')} >
                                 {PROJECT_TYPES?.map((projectType) => (
                                         <option value={projectType.projectTypeId}>{projectType.projectTypeName}</option>
                                 ))}   
                             </Select>
+                            <FormLabel>Projet Type</FormLabel>
                           </FormControl>     
                         </Box> 
                       </HStack>
-                      <HStack spacing="7rem">
+                      <HStack spacing="10rem">
                         <Box>
                           <FormControl isRequired>
-                            <FormLabel>Projet Invoice Cycle</FormLabel>
-                            <Select width="100%" id="invoiceCycle" {...register('invoiceCycle')} >
+                            <Select width="160px" id="invoiceCycle" {...register('invoiceCycle')} >
                                 {INVOICE_CYCLE?.map((projectInvoiceCycle) => (
                                         <option value={projectInvoiceCycle.cycleId}>{projectInvoiceCycle.cycleName}</option>
                                 ))}   
                             </Select>
+                            <FormLabel>Projet Invoice Cycle</FormLabel>
                           </FormControl>     
                         </Box>  
                         <Box>
-                          <FormControl isRequired>
-                            <FormLabel>Projet Payment Terms</FormLabel>
-                            <Select width="100%" id="paymentTerms" {...register('paymentTerms')} >
+                          <FormControl isRequired>                            
+                            <Select width="160px" id="paymentTerms" {...register('paymentTerms')} >
                               {INVOICE_PAY_TERMS?.map((paymentTerm) => (
                                       <option value={paymentTerm.paymentTermId}>{paymentTerm.paymentTermName}</option>
                                 ))}                                
                             </Select>
+                            <FormLabel>Projet Payment Terms</FormLabel>
                           </FormControl>     
                         </Box>                                                 
                         <Box>
-                          <FormControl>
+                          <HStack spacing="0.2">
                             <FormLabel>Timesheet Notes Required?</FormLabel>
                             <Checkbox
                               isChecked={timesheetNotesRequired}
                               onChange={(e) => setTimesheetNotesRequired(e.target.checked)}
                             />                              
-                          </FormControl>     
+                          </HStack>     
                         </Box>  
                       </HStack>                          
                   </Stack>
@@ -430,19 +429,19 @@ const ProjectAddEdit = (props) => {
                 </CardHeader>
 
                 <CardBody>
-                  <Stack divider={<StackDivider />} spacing='4'>
+                  <Stack  spacing={6}>
                     <HStack spacting="10rem">
                       {isPageSectionAuthorized ? (
                         <>                      
                           <Box>
-                            <FormControl isRequired>
-                              <FormLabel>Account</FormLabel>
-                              <Select width="100%" id="accountId" {...register('accountId')} >
+                            <FormControl isRequired>                              
+                              <Select width="180px" id="accountId" {...register('accountId')} >
                                   <option value="">Select an Account</option>
                                   {accountList?.map((account) => (
                                     <option value={account.id}>{account.name}</option>
                                   ))}
                             </Select>
+                            <FormLabel>Account</FormLabel>
                             </FormControl>     
                           </Box>
                         </>
@@ -450,8 +449,7 @@ const ProjectAddEdit = (props) => {
                       {userService.isAccountAdmin() ? (
                         <>
                           <Box>
-                            <FormControl isRequired>
-                              <FormLabel>Client</FormLabel>
+                            <FormControl isRequired>                              
                               <Select width="100%" id="vendorId" {...register('vendorId')} onChange={(ev) => refreshAddressForVendor(ev.target.value)}>
                                   <option value="">Select Client</option>
                                   {vendorList?.map((vendor) => (
@@ -460,19 +458,20 @@ const ProjectAddEdit = (props) => {
                                     </>:<></>      
                                   ))}
                             </Select>
+                            <FormLabel>Client</FormLabel>
                             </FormControl>     
                           </Box>
                         </>
                       ) : ("")}
                     </HStack>
                     <Box>
-                        <FormControl isRequired>
-                            <FormLabel>Project Location</FormLabel>
+                        <FormControl isRequired>                            
                               <Select width="40%" id="addressId" {...register('addressId')}>
                                 {addressList?.map((address) => (
                                     <option value={address.id}>{address.addressName},{address.address1},{address.city}</option>
                                 ))}
                               </Select>
+                              <FormLabel>Project Location</FormLabel>
                         </FormControl>     
                     </Box>
                   </Stack>
@@ -487,21 +486,21 @@ const ProjectAddEdit = (props) => {
                   <Stack divider={<StackDivider />} spacing='4'>
                     <HStack spacing="1rem">
                       <Box>
-                        <FormControl isRequired>
+                        <FormControl isRequired>                          
+                          <Input  placeholder=" " type="text" {...register('contactName')}  id="contactName"   />                    
                           <FormLabel>Project Contact Name</FormLabel>
-                          <Input type="text" {...register('contactName')}  id="contactName"   />                    
                         </FormControl>     
                       </Box>
                       <Box>
-                        <FormControl isRequired>
+                        <FormControl isRequired>                          
+                          <Input  placeholder=" " type="text" {...register('contactEmail')}  id="contactEmail"   />
                           <FormLabel>Project Contact Email</FormLabel>
-                          <Input type="text" {...register('contactEmail')}  id="contactEmail"   />
                         </FormControl>     
                       </Box>
                       <Box>
-                        <FormControl isRequired>
+                        <FormControl isRequired>                          
+                          <Input  placeholder=" " type="text" {...register('contactPhone')}  id="contactPhone"  onChange={(ev) => handlePhoneInput(ev.target.value)} />
                           <FormLabel>Project Contact Phone</FormLabel>
-                          <Input type="text" {...register('contactPhone')}  id="contactPhone"  onChange={(ev) => handlePhoneInput(ev.target.value)} />
                         </FormControl>     
                       </Box>
                     </HStack>
@@ -517,8 +516,7 @@ const ProjectAddEdit = (props) => {
                   <Stack divider={<StackDivider />} spacing='4'>
                     <HStack spacing="1rem">
                       <Box>
-                        <FormControl isRequired>
-                          <FormLabel>Project Total Budget</FormLabel>
+                        <FormControl isRequired>                          
                           <InputGroup>
                             <InputLeftElement
                                       pointerEvents='none'
@@ -526,13 +524,13 @@ const ProjectAddEdit = (props) => {
                                       fontSize='dollar_left_element'
                                       children='$'
                                   />   
-                            <Input type="text" {...register('budget')}  id="budget"   />                    
+                            <Input  placeholder=" " type="text" {...register('budget')}  id="budget"   />                    
+                            <FormLabel>Project Total Budget</FormLabel>
                           </InputGroup>
                         </FormControl>     
                       </Box>
                       <Box>
-                        <FormControl>
-                          <FormLabel>Project Misc Budget</FormLabel>
+                        <FormControl>                          
                           <InputGroup>
                             <InputLeftElement
                                       pointerEvents='none'
@@ -540,19 +538,19 @@ const ProjectAddEdit = (props) => {
                                       fontSize='dollar_left_element'
                                       children='$'
                                   />   
-                            <Input type="text" {...register('miscBudget')}  id="miscBudget"   />                    
+                            <Input  placeholder=" " type="text" {...register('miscBudget')}  id="miscBudget"   />                    
+                            <FormLabel>Project Misc Budget</FormLabel>
                           </InputGroup>
                         </FormControl>     
                       </Box>                      
                       <Box>
-                        <FormControl>
+                        <FormControl>                          
+                          <Input  placeholder=" " type="text" {...register('totalHours')}  id="totalHours"   />
                           <FormLabel>Project Total Hours</FormLabel>
-                          <Input type="text" {...register('totalHours')}  id="totalHours"   />
                         </FormControl>     
                       </Box>
                       <Box>
-                        <FormControl>
-                          <FormLabel>Project Average Rate</FormLabel>
+                        <FormControl>                          
                           <InputGroup>
                             <InputLeftElement
                                       pointerEvents='none'
@@ -560,7 +558,8 @@ const ProjectAddEdit = (props) => {
                                       fontSize='dollar_left_element'
                                       children='$'
                                   />  
-                            <Input type="text" {...register('averageRate')}  id="averageRate"   />
+                            <Input placeholder=" " type="text" {...register('averageRate')}  id="averageRate"   />
+                            <FormLabel>Project Average Rate</FormLabel>
                           </InputGroup>
                         </FormControl>     
                       </Box>
