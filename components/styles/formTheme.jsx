@@ -6,6 +6,7 @@ const baseStyle = defineStyle({
       label: {
         transform: "scale(0.85) translateY(-24px)",
         backgroundColor: "white",
+        fontSize: "15px",
       }
     },
     "input:not(:placeholder-shown) + label, .chakra-select__wrapper + label, textarea:not(:placeholder-shown) ~ label": {
@@ -16,14 +17,14 @@ const baseStyle = defineStyle({
       left: 0,
       zIndex: 2,
       position: "absolute",
-      backgroundColor: "white",
+      backgroundColor: "gray.50",
       pointerEvents: "none",
       mx: 3,
       px: 1,
       my: 2,
       transformOrigin: "left top",
-      fontSize: "12px",
-      fontWeight: "600"
+      fontSize: "13px",
+      fontWeight: "900"
     },
  
   },
