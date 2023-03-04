@@ -286,7 +286,7 @@ const VendorEdit = (props) => {
                 </CardHeader>
 
                 <CardBody>
-                  <Stack spacing='4'>
+                  <Stack spacing={7}>
                       <Box>
                         <FormControl isRequired>                          
                           <Input  placeholder=" " type="text" {...register('name')}  id="name"  maxWidth="page.single_input"/>
@@ -366,7 +366,7 @@ const VendorEdit = (props) => {
                 </CardHeader>
 
                 <CardBody>
-                  <Stack spacing="1rem">
+                  <Stack spacing={7}>
                     <HStack spacing={8}>
                         <FormControl isRequired>                          
                           <Input placeholder=" " type="vendorContactName" id="vendorContactName"   {...register('vendorContactName')}  />
@@ -390,7 +390,7 @@ const VendorEdit = (props) => {
                   </CardHeader>
 
                   <CardBody>
-                    <Stack maxWidth="page.single_input" spacing="1rem">
+                    <Stack maxWidth="page.single_input" spacing={7}>
                       <FormControl isRequired>
                         <Input placeholder=" " type="text" id="addressName"   {...register('addressName')} />
                         <FormLabel>Address Name</FormLabel>
@@ -399,18 +399,16 @@ const VendorEdit = (props) => {
                         <Input placeholder=" " type="text" id="address1"   {...register('address1')} />
                         <FormLabel>Address1</FormLabel>                        
                       </FormControl>   
-                      <HStack spacing="1rem">
-                        </HStack>  
-                        <HStack>
-                          <FormControl>
-                            <Input placeholder=" " type="text" id="address2"   {...register('address2')} />
-                            <FormLabel>Address2</FormLabel>                            
-                          </FormControl>     
-                          <FormControl>
-                            <Input placeholder=" " type="text" id="address3"   {...register('address3')} />
-                            <FormLabel>Address3</FormLabel>                            
-                          </FormControl>     
-                        </HStack>
+                      <HStack>
+                        <FormControl>
+                          <Input placeholder=" " type="text" id="address2"   {...register('address2')} />
+                          <FormLabel>Address2</FormLabel>                            
+                        </FormControl>     
+                        <FormControl>
+                          <Input placeholder=" " type="text" id="address3"   {...register('address3')} />
+                          <FormLabel>Address3</FormLabel>                            
+                        </FormControl>     
+                      </HStack>
                       <HStack spacing="1rem">
                           <FormControl isRequired>
                             <Input placeholder=" " type="text" id="city"   {...register('city')} />
@@ -446,29 +444,23 @@ const VendorEdit = (props) => {
                     <Heading size='xs'>Account Contact</Heading>
                   </CardHeader>
 
-                  <CardBody>
-                    <Stack divider={<StackDivider />} spacing='4'>
-                      <HStack>
-                        <Box>
-                          <FormControl isRequired>
-                            <Input placeholder=" " type="text" id="accountContactName"   {...register('accountContactName')}  />
-                            <FormLabel>Account Contact Name</FormLabel>                            
-                          </FormControl>     
-                        </Box>
-                        <Box>
-                          <FormControl isRequired>                            
-                            <Input placeholder=" " type="email" id="accountContactEmail"   {...register('accountContactEmail')}  />
-                            <FormLabel>Account Contact Email</FormLabel>
-                          </FormControl>     
-                        </Box>
-                        <Box>
-                          <FormControl isRequired>
+                  <CardBody>                  
+                      <Stack spacing={7}>
+                        <HStack spacing={8}>
+                            <FormControl isRequired>                          
+                              <Input placeholder=" " type="text" id="accountContactName"   {...register('accountContactName')}  />
+                              <FormLabel>Account Contact Name</FormLabel>                            
+                            </FormControl>   
+                            <FormControl isRequired>
+                              <Input placeholder=" " type="email" id="accountContactEmail"   {...register('accountContactEmail')}  />
+                              <FormLabel>Account Contact Email</FormLabel>
+                            </FormControl>     
+                            <FormControl isRequired>
                               <Input placeholder=" " type="tel" id="accountContactPhone"   {...register('accountContactPhone')}  onChange={(ev) => handlePhoneInput(ev.target.value, "accountContactPhone")}/>
                               <FormLabel>Account ContactPhone</FormLabel>
                             </FormControl>      
-                        </Box>                                                                    
                         </HStack>
-                      </Stack>
+                      </Stack>                      
                   </CardBody>
                 </Card>
 

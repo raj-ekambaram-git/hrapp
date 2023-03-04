@@ -366,20 +366,20 @@ const UserAddEdit = (props) => {
                 </CardHeader>
 
                 <CardBody>
-                    <Stack spacing={6}>
+                    <Stack spacing={7}>
                       <HStack spacing="10rem">
-                      <Box>
-                        <FormControl isRequired>                          
-                          <Input placeholder=" " type="text" {...register('firstName')}  id="firstName"  />
-                          <FormLabel>First Name</FormLabel>
-                        </FormControl>     
-                      </Box>
-                      <Box>
-                        <FormControl isRequired>
-                            <Input placeholder=" " type="text" id="lastName" {...register('lastName')}  />
-                            <FormLabel>Last Name</FormLabel>                            
-                        </FormControl>    
-                      </Box>  
+                        <Box>
+                          <FormControl isRequired>                          
+                            <Input placeholder=" " type="text" {...register('firstName')}  id="firstName"  />
+                            <FormLabel>First Name</FormLabel>
+                          </FormControl>     
+                        </Box>
+                        <Box>
+                          <FormControl isRequired>
+                              <Input placeholder=" " type="text" id="lastName" {...register('lastName')}  />
+                              <FormLabel>Last Name</FormLabel>                            
+                          </FormControl>    
+                        </Box>  
                       </HStack>
                       <HStack spacing="10rem">
                         <Box>
@@ -435,7 +435,7 @@ const UserAddEdit = (props) => {
                           </HStack>
                       </>:<></>}                      
                       <HStack spacing="10.5rem">
-                      <Box>
+                        <Box>
                           <FormControl isRequired>
                             <Select width="160px" id="timeSheetEnabled" {...register('timeSheetEnabled')} >
                               <option value="false">No</option>
@@ -531,7 +531,7 @@ const UserAddEdit = (props) => {
                 </CardHeader>
 
                 <CardBody>
-                  <Stack maxWidth="page.single_input" spacing={6}>
+                  <Stack maxWidth="page.single_input" spacing={7}>
                     <FormControl isRequired>
                       <Input placeholder=" "type="text" id="addressName"   {...register('addressName')} />
                       <FormLabel>Address Name</FormLabel>

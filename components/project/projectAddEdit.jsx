@@ -317,7 +317,7 @@ const ProjectAddEdit = (props) => {
                 </CardHeader>
 
                 <CardBody>
-                  <Stack spacing={6}>
+                  <Stack spacing={7}>
                       <Box>
                         <FormControl isRequired>                          
                           <Input  placeholder=" " type="text" {...register('name')}  id="name"   maxWidth="page.single_input"/>
@@ -429,7 +429,7 @@ const ProjectAddEdit = (props) => {
                 </CardHeader>
 
                 <CardBody>
-                  <Stack  spacing={6}>
+                  <Stack  spacing={7}>
                     <HStack spacting="10rem">
                       {isPageSectionAuthorized ? (
                         <>                      
@@ -483,7 +483,7 @@ const ProjectAddEdit = (props) => {
                 </CardHeader>
 
                 <CardBody>
-                  <Stack divider={<StackDivider />} spacing='4'>
+                  <Stack spacing='7'>
                     <HStack spacing="1rem">
                       <Box>
                         <FormControl isRequired>                          
@@ -513,7 +513,7 @@ const ProjectAddEdit = (props) => {
                 </CardHeader>
 
                 <CardBody>
-                  <Stack divider={<StackDivider />} spacing='4'>
+                  <Stack spacing={7}>
                     <HStack spacing="1rem">
                       <Box>
                         <FormControl isRequired>                          
