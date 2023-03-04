@@ -93,12 +93,12 @@ const UserChangePassword = (props) => {
           <Button
               size="xs"
               bgColor="header_actions" 
-              onClick={() => handleClick("md")}
+              onClick={() => handleClick("lg")}
               key="md"
               m={1}
               >{`Change Password`}
           </Button>
-          <Drawer onClose={onClose} isOpen={isOpen} size="md">
+          <Drawer onClose={onClose} isOpen={isOpen} size={size}>
                 <DrawerOverlay />
                     <DrawerContent>
                         <DrawerCloseButton />
@@ -107,7 +107,7 @@ const UserChangePassword = (props) => {
                           Reset Password
                         </DrawerHeader>
                         <DrawerBody>
-                          <Stack divider={<StackDivider />} spacing='1'>
+                          <Stack  spacing={4}>
                             <Box border="box_border">
                               <TableContainer>
                                 <Table>
@@ -140,7 +140,7 @@ const UserChangePassword = (props) => {
                               </TableContainer>      
                             </Box>                            
 
-                            <Button className="btn" onClick={() => handleChangePassword()} width="button.primary.width" bgColor="button.primary.color">
+                            <Button size="xs" onClick={() => handleChangePassword()} width="25%" bgColor="header_actions">
                               Change Password
                             </Button>                            
                           </Stack>
