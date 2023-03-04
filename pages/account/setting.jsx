@@ -40,9 +40,10 @@ const AccountSetting = (props) => {
           <Tab border="1px" marginRight={4}>User</Tab>
           {importExport?<><Tab border="1px" marginRight={4}>Import/Export</Tab></>:<></>}
           {documents?<><Tab border="1px" marginRight={4}>Documents</Tab></>:<></>}
+          {payment?<><Tab border="1px" marginRight={4}>Payments</Tab></>:<></>}        
           {workFlowEnabled?<><Tab border="1px" marginRight={4}>WorkFlow</Tab></>:<></>}          
           {scheduleJob?<><Tab border="1px" marginRight={4}>Schedule Jobs</Tab></>:<></>}          
-          {payment?<><Tab border="1px" marginRight={4}>Payments</Tab></>:<></>}          
+            
         </TabList>
         <TabPanels>
           <TabPanel>
@@ -64,6 +65,13 @@ const AccountSetting = (props) => {
               </Stack>
             </TabPanel>       
           </>:<></>}
+          {payment?<>
+            <TabPanel>
+              <Stack width="page.sub_heading_width">
+                <ManagePaymentAccounts/>            
+              </Stack>
+            </TabPanel>             
+          </>:<></>}                
           {workFlowEnabled?<>
             <TabPanel>
               <Stack width="page.sub_heading_width">
@@ -77,14 +85,7 @@ const AccountSetting = (props) => {
                 <ManageScheduleJob/>            
               </Stack>
             </TabPanel>             
-          </>:<></>}   
-          {payment?<>
-            <TabPanel>
-              <Stack width="page.sub_heading_width">
-                <ManagePaymentAccounts/>            
-              </Stack>
-            </TabPanel>             
-          </>:<></>}             
+          </>:<></>}          
         </TabPanels>
       </Tabs>
 
