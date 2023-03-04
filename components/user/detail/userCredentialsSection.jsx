@@ -63,9 +63,7 @@ const UserCredentialsSection = (props) => {
                                         **********
                                     </Text>
                                     <Box>
-                                        <Button className="btn">
-                                            <UserChangePassword data={user}/>
-                                        </Button>
+                                            <UserChangePassword data={user}/>                                        
                                     </Box>    
                                 </HStack>                            
                             </Th>
