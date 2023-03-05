@@ -13,21 +13,22 @@ import { BiLeftArrowAlt, BiRightArrowAlt } from 'react-icons/bi';
 // And react-slick as our Carousel Lib
 import Slider from 'react-slick';
 
-// Settings for the slider
-const settings = {
-  dots: true,
-  arrows: false,
-  fade: true,
-  infinite: true,
-  autoplay: true,
-  speed: 500,
-  autoplaySpeed: 5000,
-  slidesToShow: 1,
-  slidesToScroll: 1,
-};
 
 export default function CaptionCarousel(props) {
-    console.log("propspropsprops:::"+JSON.stringify(props))
+
+
+// Settings for the slider
+const settings = {
+    dots: true,
+    arrows: false,
+    fade: true,
+    infinite: true,
+    autoplay: true,
+    speed: props.block?.content?.speed?props.block?.content?.speed:500,
+    autoplaySpeed: props.block?.content?.playSpeed?props.block?.content?.playSpeed:5000,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+  };    
   // As we have used custom buttons, we need a reference variable to
   // change the state
   const [slider, setSlider] = React.useState<Slider | null>(null);

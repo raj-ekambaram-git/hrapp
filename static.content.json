@@ -71,6 +71,8 @@
         }, {
           "name": "carousel",
           "content" : {
+            "playSpeed": 5000,
+            "speed": 500,
             "cards": [
               {
                 "title": "Design Projects 1",
