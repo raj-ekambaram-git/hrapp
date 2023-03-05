@@ -1,7 +1,7 @@
 {
-    "title": "boNeeds  with Next.js",
+    "title": "boNeeds - BackOfficeNeeds",
     "index": {
-      "title": "Index Page",
+      "title": "Home Page",
       "content": {
         "heroSection": {
           "image": "boNeeds/hero1.jpg",
@@ -56,7 +56,7 @@
       {
         "title": "Foo Page",
         "path": "/static/foo",
-        "content": "<Box> Testing</Box>"
+        "content": "/static foo page"
       },
       {
         "title": "Bar Page",
