@@ -64,13 +64,13 @@ const DesktopSidebarContents = ({ name }: any) => {
           })}
         </Stack>
         <Spacer />
-        <HStack spacing={9}>       
-          <Tooltip label='Request Demo' hasArrow arrowSize={15} placement='bottom'  borderRadius="9px" padding={2}>
+        <Stack direction={["column", "row"]} spacing={[4, 9]}>       
+          <Tooltip label='Request Demo' hasArrow arrowSize={15} placement='bottom'  borderRadius="9px" >
             <Link href="/demo">  
                 Request Demo
             </Link>
           </Tooltip>
-          <Tooltip label='Login' hasArrow arrowSize={15} placement='bottom'  borderRadius="9px" padding={2}>
+          <Tooltip label='Login' hasArrow arrowSize={15} placement='bottom'  borderRadius="9px">
             <Link href="/login">  
                 Log In
             </Link>
@@ -83,7 +83,7 @@ const DesktopSidebarContents = ({ name }: any) => {
           >
             Start for free
           </Button>          
-        </HStack>
+        </Stack>
         {/* <Button
           mt={8}
           colorScheme="teal"

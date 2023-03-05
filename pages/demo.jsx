@@ -139,21 +139,19 @@ const RequestDemo = (props) => {
                     w=""
                     h="full"
                   >
-                    <Stack spacing={[4, 4]}
+                    <Stack spacing={[4, 1]}
                       alignItems="center"
                       direction={["column", null]}
                       w=""
                       h="full">
-
                       <Heading size='xl'>Demo BackOfficeNeeds</Heading>                        
                       <Heading size='md' color="gray.500">Request a product demo with a solution expert.</Heading>
                     </Stack>
-                    <Stack spacing={[4, 9]}
-                    
+                    <Stack spacing={[4, 9]}                    
                       direction={["column", "row"]}    
                       w=""
                       h="full">
-                        <Stack maxWidth="500px">
+                        <Stack maxWidth="500px" spacing={5}>
                           <Box>
                             <Image
                                 src='boNeeds/request-demo.jpg'
@@ -217,7 +215,7 @@ const RequestDemo = (props) => {
                                     <InputLeftElement
                                         children={<EmailIcon color='gray.300' />}
                                     />     
-                                    <Input  placeholder="" type="text" {...register('email')}  id="email" />
+                                    <Input  placeholder=" " type="text" {...register('email')}  id="email" />
                                     <FormLabel>Email</FormLabel>
                                   </InputGroup>                                       
                                 </FormControl>                                                                         
@@ -244,11 +242,13 @@ const RequestDemo = (props) => {
                                   </InputGroup>                                       
                                 </FormControl>     
                               </HStack>     
-
-                                    <Button size="xs" width="60%" alignSelf="center" disabled={formState.isSubmitting} bgColor="header_actions"  type="submit" className="g-recaptcha" data-sitekey="reCAPTCHA_site_key"  >
-                                        {formState.isSubmitting && <span className="spinner-border spinner-border-sm mr-1"></span>}
-                                      Request Demo
-                                    </Button>                                                                                                                                                                                                               
+                              <Stack maxW={400} spacing={3}>
+                                <Button size="xs" width="60%" alignSelf="center" disabled={formState.isSubmitting} bgColor="header_actions"  type="submit" className="g-recaptcha" data-sitekey="reCAPTCHA_site_key"  >
+                                    {formState.isSubmitting && <span className="spinner-border spinner-border-sm mr-1"></span>}
+                                  Request Demo
+                                </Button>     
+                                <Heading fontSize={11} alignContent="center" color="gray.500">By clicking "Request Demo", I accept the boNeeds Terms of Service and Privacy Notice.</Heading>                                                                                                                                                                                                          
+                              </Stack>
                           </Stack>                            
                         </form>  
                     </Stack>     
