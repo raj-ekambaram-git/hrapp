@@ -71,7 +71,7 @@ const RequestDemo = (props) => {
           const responseData = await configurationService.verifyCaptcha(token)
           if(responseData.error) {
             toast({
-              title: 'Add account error.',
+              title: 'Request Demo error.',
               description: data.errorMessage,
               status: 'error',
               position: 'top',
@@ -93,7 +93,7 @@ const RequestDemo = (props) => {
             withAttachment: false,
             from: CommonConstants.fromEmail,
             to: formData.email,
-            bcc: CommonConstants.fromEmail,
+            bcc: CommonConstants.demoRequestEmail,
             templateData: {
               firstName: formData.firstName,
               lastName: formData.lastName,
@@ -173,7 +173,7 @@ const RequestDemo = (props) => {
                     {successMessage?<>
                       <Stack spacing={[4, 8]}
                           alignItems="center"
-                          direction={["column", null]}
+                          direction={["column", ""]}
                           w=""
                           h="full">    
                           <Stack alignItems="center">
@@ -187,7 +187,7 @@ const RequestDemo = (props) => {
                               We look forward to showing you how our platform can benefit your business!
                             </Text>
                           </Stack>                            
-                          <Button  size="xs" width="20%" bgColor="header_actions" onClick={() => router.back()}>
+                          <Button  size="xs" width="20%" colorScheme="teal" onClick={() => router.back()}>
                             Home
                           </Button>
                       </Stack>

@@ -1,19 +1,10 @@
 import {
   Box,
-    Button,
     Center,
     Container,
-    Flex,
-    Heading,
-    Image,
-    LinkBox,
-    LinkOverlayProps,
-    Spacer,
     Stack,
     Text,
-    VStack,
-    Wrap,
-    WrapItem,
+    Link
   } from "@chakra-ui/react";
   import { FunctionComponent } from "react";
   
@@ -26,13 +17,16 @@ import {
         <Stack
             spacing={[4, 16]}
             alignItems="center"
-            direction={["column", null]}
+            direction={["column", "row"]}
             w="full"
             h="full"
           >
             <Box rounded="lg">
               <Text>© 2023 boNeeds</Text>
             </Box>
+            <Link href="/contactus">  
+                Contact Us
+            </Link>
           </Stack>          
         </Container>
       </Center>
