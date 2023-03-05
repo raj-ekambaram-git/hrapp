@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { Layout } from '../components/static/Layout';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { accountService, configurationService } from "../services";
+import { accountService, configurationService, emailService } from "../services";
 import {REGISTRATION_VALIDATION_SCHEMA} from "../constants/accountConstants";
 import {
   HStack,
@@ -32,6 +32,7 @@ import { Spinner } from "../components";
 import { CiUser } from 'react-icons/ci';
 import { MdCheckCircle } from "react-icons/md";
 import { EmailIcon, PhoneIcon } from "@chakra-ui/icons";
+import { CommonConstants, EmailConstants } from "../constants";
 
 const SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITEKEY;
 
@@ -84,7 +85,21 @@ const RequestDemo = (props) => {
   const handleRequestDemo = async (formData) => {
     try {
       setLoading(true)
-        const data = await accountService.registerAccount(formData);
+
+        const data = emailService.sendEmail({
+            withAttachment: false,
+            from: CommonConstants.fromEmail,
+            to: formData.email,
+            bcc: CommonConstants.fromEmail,
+            templateData: {
+              firstName: formData.firstName,
+              lastName: formData.lastName,
+              companyName: formData.companyName,
+              phone: formData.phone
+            },
+            template_id: EmailConstants.emailTemplate.requestDemo,
+            subject: "Demo Request",
+          });
 
         if(data.error) {
           toast({
@@ -128,7 +143,7 @@ const RequestDemo = (props) => {
           <title>Request Demo Page</title>
         </Head>
         <Script
-        src={`https://www.google.com/recaptcha/api.js?render=6LeyNkUkAAAAAI6nmbpszuLJVBSVt9KP3ga0R6Db`}/>
+        src={`https://www.google.com/recaptcha/api.js?render=${SITE_KEY}`}/>
         <Layout>
           <Center w="full" minH={["80vh", "90vh"]}>
             <Container maxW="container.xl" rounded="lg">
@@ -215,7 +230,7 @@ const RequestDemo = (props) => {
                                     <InputLeftElement
                                         children={<EmailIcon color='gray.300' />}
                                     />     
-                                    <Input  placeholder=" " type="text" {...register('email')}  id="email" />
+                                    <Input  placeholder=" " type="email" {...register('email')}  id="email" />
                                     <FormLabel>Email</FormLabel>
                                   </InputGroup>                                       
                                 </FormControl>                                                                         
@@ -237,7 +252,7 @@ const RequestDemo = (props) => {
                                     <InputLeftElement
                                         children={<PhoneIcon color='gray.300' />}
                                     />     
-                                    <Input  placeholder=" " type="text" {...register('phone')}  id="phone" />
+                                    <Input  placeholder=" " type="text" {...register('phone')}  id="phone" onChange={(ev) => handlePhoneInput(ev.target.value)}/>
                                     <FormLabel>Phone</FormLabel>
                                   </InputGroup>                                       
                                 </FormControl>     

@@ -140,7 +140,7 @@ const Register = (props) => {
           <title>Registration Page</title>
         </Head>
         <Script
-        src={`https://www.google.com/recaptcha/api.js?render=6LeyNkUkAAAAAI6nmbpszuLJVBSVt9KP3ga0R6Db`}/>
+        src={`https://www.google.com/recaptcha/api.js?render=${SITE_KEY}`}/>
         <Layout>
           <Center w="full" minH={["80vh", "90vh"]}>
             <Container maxW="container.xl" rounded="lg">

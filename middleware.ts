@@ -76,6 +76,5 @@ export const config = {
             '/api/reports/:path*', 
             '/api/scheduler/:path*', 
             '/api/timesheet/:path*', 
-            '/api/email',
             '/accounts']
 }

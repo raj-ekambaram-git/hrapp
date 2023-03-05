@@ -12,5 +12,6 @@ export const EmailConstants = {
         rejectedExpenseSubmitted: "d-3578f98e3dcb43ccabfd9b131d53744c",
         newUserCreated: "d-dd1b9ca4a1674ab5857f85efc329dc46",        
         userWeeklyTSReminder: "d-e768d9cbad794e83bbe623e3a44bdc20",    
+        requestDemo: "d-ee9fa1f4140d460b91831f1a1e8d3268",    
     }
 }
