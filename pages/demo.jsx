@@ -4,21 +4,16 @@ import { Layout } from '../components/static/Layout';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { accountService, configurationService } from "../services";
-import {MODE_ADD, REGISTRATION_VALIDATION_SCHEMA} from "../constants/accountConstants";
+import {REGISTRATION_VALIDATION_SCHEMA} from "../constants/accountConstants";
 import {
   HStack,
   Button,
   Box,
-  Flex,
   Heading,
   FormControl,
   FormLabel,
   Input,
   Stack,
-  Card,
-  CardHeader,
-  CardBody,
-  StackDivider,
   useToast,
   Center,
   Container,
@@ -36,9 +31,7 @@ import Script from "next/script";
 import { Spinner } from "../components";
 import { CiUser } from 'react-icons/ci';
 import { MdCheckCircle } from "react-icons/md";
-import { RiBuildingLine } from "react-icons/ri";
-
-import { PhoneIcon } from "@chakra-ui/icons";
+import { EmailIcon, PhoneIcon } from "@chakra-ui/icons";
 
 const SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITEKEY;
 
@@ -155,20 +148,47 @@ const RequestDemo = (props) => {
                       <Heading size='xl'>Demo BackOfficeNeeds</Heading>                        
                       <Heading size='md' color="gray.500">Request a product demo with a solution expert.</Heading>
                     </Stack>
-                    <Stack spacing={[4, 4]}
-                      alignItems="center"
-                      direction={["column", "row"]}
+                    <Stack spacing={[4, 9]}
+                    
+                      direction={["column", "row"]}    
                       w=""
                       h="full">
-                      <Box>
-                        <Image
-                            src='boNeeds/request-demo.jpg'
-                            width={[400, 500]}
-                            height={[200, 300]}
-                            alt={`Request Demo`}
-                          />
-                      </Box>
-                      <Box>
+                        <Stack maxWidth="500px">
+                          <Box>
+                            <Image
+                                src='boNeeds/request-demo.jpg'
+                                width={[400, 500]}
+                                height={[200, 300]}
+                                alt={`Request Demo`}
+                              />
+                          </Box>                          
+                          <Stack>
+                              <Box>
+                                    <Stack spacing={4}>
+                                      <Heading size='md'>What to expect in demo?</Heading>                            
+                                      <List spacing={3}>
+                                        <ListItem>
+                                          <ListIcon as={MdCheckCircle} color='teal.500' />
+                                            A comprehensive overview of our platform and its capabilities.
+                                        </ListItem>
+                                        <ListItem>
+                                          <ListIcon as={MdCheckCircle} color='teal.500' />
+                                            Our representative will guide you through the various features and functionalities of our platform, providing a hands-on demonstration of how it works.
+                                        </ListItem>
+                                        <ListItem>
+                                          <ListIcon as={MdCheckCircle} color='teal.500' />
+                                            Our representative will also be available to answer any questions you may have and provide guidance on how to best use our platform to meet your business objectives.
+                                        </ListItem>
+                                        {/* You can also use custom icons from react-icons */}
+                                        <ListItem>
+                                          <ListIcon as={MdCheckCircle} color='teal.500' />
+                                            Overall, you can expect to leave the demo with a clear understanding of how our platform can benefit your business and the next steps to get started.
+                                        </ListItem>
+                                      </List>  
+                                    </Stack>                      
+                              </Box>   
+                            </Stack>                          
+                        </Stack>
                         <form onSubmit={handleSubmit(onSubmit)}>
                           <Stack spacing={8}>
                               <HStack spacing={4}>                                   
@@ -195,9 +215,9 @@ const RequestDemo = (props) => {
                                 <FormControl isRequired>                                      
                                   <InputGroup>                            
                                     <InputLeftElement
-                                        children={<CiUser color='gray.300' />}
+                                        children={<EmailIcon color='gray.300' />}
                                     />     
-                                    <Input  placeholder=" " type="text" {...register('email')}  id="email" />
+                                    <Input  placeholder="" type="text" {...register('email')}  id="email" />
                                     <FormLabel>Email</FormLabel>
                                   </InputGroup>                                       
                                 </FormControl>                                                                         
@@ -231,34 +251,7 @@ const RequestDemo = (props) => {
                                     </Button>                                                                                                                                                                                                               
                           </Stack>                            
                         </form>  
-                      </Box>
                     </Stack>     
-                    <Stack marginLeft="24">
-                      <Box>
-                            <Stack spacing={4}>
-                              <Heading size='md'>What to expect in demo?</Heading>                            
-                              <List spacing={3}>
-                                <ListItem>
-                                  <ListIcon as={MdCheckCircle} color='teal.500' />
-                                    A comprehensive overview of our platform and its capabilities.
-                                </ListItem>
-                                <ListItem>
-                                  <ListIcon as={MdCheckCircle} color='teal.500' />
-                                    Our representative will guide you through the various features and functionalities of our platform, providing a hands-on demonstration of how it works.
-                                </ListItem>
-                                <ListItem>
-                                  <ListIcon as={MdCheckCircle} color='teal.500' />
-                                    Our representative will also be available to answer any questions you may have and provide guidance on how to best use our platform to meet your business objectives.
-                                </ListItem>
-                                {/* You can also use custom icons from react-icons */}
-                                <ListItem>
-                                  <ListIcon as={MdCheckCircle} color='teal.500' />
-                                    Overall, you can expect to leave the demo with a clear understanding of how our platform can benefit your business and the next steps to get started.
-                                </ListItem>
-                              </List>  
-                            </Stack>                      
-                      </Box>   
-                    </Stack>
                   </Stack>
               </Container>
             </Center>              
