@@ -14,7 +14,7 @@ export const Layout: FunctionComponent<LayoutProps> = ({
       <Stack
         justify="space-between"
         p={[0, 4]}
-        w={['full', '1800px']}
+        w={['full', 'full']}
         direction={['column']}
       >
         <Header name="boNeeds" />

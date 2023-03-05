@@ -1,4 +1,4 @@
-import { Flex, Heading, Stack, VStack } from '@chakra-ui/react';
+import { Flex, Heading, Stack, VStack, Container, Center } from '@chakra-ui/react';
 import Head from 'next/head';
 import content from '../static.content.json';
 import { Layout } from '../components/static/Layout';
@@ -14,21 +14,16 @@ export default function Page({page}) {
           <title>{page?.content?.title}</title>
         </Head>
         <Layout>
-
-        {page?.components?.map(block => Components(block))}           
-          <Stack>
-            <div dangerouslySetInnerHTML={{__html: page?.content}}></div>
-          </Stack>
-
           <VStack
-            backgroundColor="white"
-            w="full"
-            id="footer"
-            spacing={16}
-            py={[16, 0]}
-          >
-            <FooterSection/>
-          </VStack>    
+              backgroundColor="white"
+              w="full"
+              spacing={16}
+              py={[16, 0]}
+            >
+              {page?.components?.map(block => Components(block))}           
+		      </VStack>    
+          <FooterSection/>
+          
         </Layout>
       </>
   );

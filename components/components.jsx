@@ -1,24 +1,23 @@
 import React from "react";
-import Feature from "./static/Features";
-import HeroSection from "./static/HeroSection";
+import Feature from "./static/FeatureSection";
+import HeroSection from "./static/HeroSection_1";
+import Carousel from "./static/Carousel";
 
 const Components = {
     "features": Feature,
     "heroSection": HeroSection,
-    "esee": "3333"
+    "carousel": Carousel
   };
   
   export default block => {
-
-    console.log("2334 Compnents  block::::"+JSON.stringify(block)+"***Components[]::"+JSON.stringify(Components))
-    if (typeof Components[block] !== "undefined") {
-      return React.createElement(Components[block], {
+    if (typeof Components[block.name] !== "undefined") {
+      return React.createElement(Components[block.name], {
         key: block._uid,
-        block: block
+        block: block,        
       });
     }
     return React.createElement(
-      () => <div>The component {block} has not been created yet.</div>,
+      () => <div>The component {block.name} has not been created yet.</div>,
       { key: block._uid }
     );
   };
