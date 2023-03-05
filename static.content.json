@@ -56,7 +56,8 @@
       {
         "title": "Foo Page",
         "path": "/static/foo",
-        "content": "/static foo page"
+        "content": "/static foo page",
+        "components": ["features","heroSection"]
       },
       {
         "title": "Bar Page",

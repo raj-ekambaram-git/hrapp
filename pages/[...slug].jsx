@@ -3,6 +3,7 @@ import Head from 'next/head';
 import content from '../static.content.json';
 import { Layout } from '../components/static/Layout';
 import { FooterSection } from '../components/static/FooterSection';
+import Components from "../components/components";
 
 export default function Page({page}) {
 
@@ -10,10 +11,11 @@ export default function Page({page}) {
   return (
       <>
         <Head>
-          <title>{page?.content.title}</title>
+          <title>{page?.content?.title}</title>
         </Head>
         <Layout>
-           
+
+        {page?.components?.map(block => Components(block))}           
           <Stack>
             <div dangerouslySetInnerHTML={{__html: page?.content}}></div>
           </Stack>
