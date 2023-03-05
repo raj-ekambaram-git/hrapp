@@ -31,6 +31,17 @@ export const EXPENSE_CALL_TYPE = 'EXPENSE';
 
 export const TIMESHEET_ENTRY_DEFAULT = {projectId: "", status: "", entries: {day1: {hours: "", error: false, date: "", note: ""}, day2: {hours: "", error: false, date: "", note: ""},day3: {hours: "", error: false, date: "", note: ""},day4: {hours: "", error: false, date: "", note: ""},day5: {hours: "", error: false, date: "", note: ""},day6: {hours: "", error: false, date: "", note: ""},day7: {hours: "", error: false,date: "", note: ""}}};
 
+//Request Demo
+export const REQUEST_DEMO_VALIDATION_SCHEMA = Yup.object().shape({
+  firstName: Yup.string().required('First Name is required'),
+  lastName: Yup.string().required('Last Name is required'),
+  email: Yup.string().required('Email is required'),
+  phone: Yup.string()
+                  .matches(phoneRegExp, "Phone number is not valid")
+                  .required('Phone number is not valid'),
+  companyName: Yup.string().required('Company Name is required'),
+});
+
 //Register
 export const REGISTRATION_VALIDATION_SCHEMA = Yup.object().shape({
   accountName: Yup.string().required('Account Name is required'),

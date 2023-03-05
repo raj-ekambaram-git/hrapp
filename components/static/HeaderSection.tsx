@@ -64,7 +64,12 @@ const DesktopSidebarContents = ({ name }: any) => {
           })}
         </Stack>
         <Spacer />
-        <HStack spacing={9}>
+        <HStack spacing={9}>       
+          <Tooltip label='Request Demo' hasArrow arrowSize={15} placement='bottom'  borderRadius="9px" padding={2}>
+            <Link href="/demo">  
+                Request Demo
+            </Link>
+          </Tooltip>
           <Tooltip label='Login' hasArrow arrowSize={15} placement='bottom'  borderRadius="9px" padding={2}>
             <Link href="/login">  
                 Log In
@@ -77,7 +82,7 @@ const DesktopSidebarContents = ({ name }: any) => {
             onClick={() => router.push("/register")}
           >
             Start for free
-          </Button>
+          </Button>          
         </HStack>
         {/* <Button
           mt={8}
