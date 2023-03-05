@@ -79,7 +79,7 @@ function getPublicPaths() {
     // const fileContents = await promises.readFile(jsonDirectory + '/publicPaths.json', 'utf8');
     //Return the content of the data file in json format
     return {
-        publicPaths: ["/login", "/register", "/contactus", "/demo", "/changepassword", "/","/foo","/bar","/static/foo","/static/bar"]
+        publicPaths: ["/login", "/register", "/contactus", "/demo", "/changepassword", "/","/foo","/bar","/static/foo","/static/bar", "/static/features"]
       };
     
 }
