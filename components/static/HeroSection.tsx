@@ -29,7 +29,7 @@ import {
       <chakra.header id="hero">
         <Box display={{ base: 'flex', md: 'none' }} p={4}>         
           <Container maxW="container.full" >
-            <Center p={4} minHeight="70vh">
+            <Center p={4} minHeight="25vh">
               <Stack
                   justify="space-between"
                   p={[0, 4]}
@@ -79,7 +79,7 @@ import {
 
         <Box display={{ base: 'none', md: 'flex' }}>
           <Container maxW="container.2xl">
-            <Center p={4} minHeight="70vh">
+            <Center p={4} minHeight="25vh">
               <Stack
                   justify="space-between"
                   p={[0, 4]}
