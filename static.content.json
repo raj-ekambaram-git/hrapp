@@ -310,6 +310,28 @@
         ]
       },
       {
+        "title": "About Us Page",
+        "path": "/static/about",
+        "components": [
+          {
+            "name": "generalContent",
+            "data": {
+              "mainContent": {
+                "heading": "About boNeeds",
+                "alignment": "center",
+                "paraDetails": [
+                  "Welcome to boNeeds, a software company dedicated to helping businesses streamline their back office operations.",
+                  "At boNeeds, we understand the challenges that come with managing complex business processes, from financial reporting to inventory management. Our mission is to make those tasks easier, more efficient, and more cost-effective through our innovative platform.",
+                  "Our team consists of experienced professionals who are passionate about creating software that simplifies business operations. We work tirelessly to develop cutting-edge tools that provide real-time insights and automation, allowing businesses to focus on growth and customer satisfaction.",
+                  "We pride ourselves on our commitment to customer service, ensuring that our clients receive the support they need to optimize their software usage. Our solutions are tailored to meet the unique needs of each business, and we are constantly evolving and improving our software to stay ahead of the curve.",
+                  "At boNeeds, we believe that technology can make a real difference in the success of a business, and we are dedicated to providing the best software solutions to our clients. Contact us today to learn more about our products and how we can help your business achieve its goals."
+                ]
+              }
+            }
+          }
+        ]
+      },
+      {
         "title": "Features Page",
         "path": "/static/foo",
         "components": [
