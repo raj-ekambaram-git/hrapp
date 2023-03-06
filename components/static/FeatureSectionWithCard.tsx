@@ -20,13 +20,14 @@ import {
   interface CardProps {
     heading: string;
     descriptions: DescriptionsArray;
-    icon: ReactElement;
+    icon: string;
     href: string;
     buttonLabel: string;
     buttonLink: string;
   }
   
   const Card = ({ heading, descriptions, icon, href, buttonLabel, buttonLink }: CardProps) => {
+    
     return (
       <Box
         maxW={{ base: 'full', md: '275px' }}
@@ -44,7 +45,7 @@ import {
             color={'white'}
             rounded={'full'}
             bg={useColorModeValue('gray.100', 'gray.700')}>
-            {icon}
+            <Icon as={Icons[icon]} w={10} h={10} />
           </Flex>
           <Box mt={2}>
             <Heading size="md">{heading}</Heading>
@@ -79,7 +80,7 @@ import {
             {props.block?.data?.featureCards?.map(featureCard => 
                 <Card
                     heading={featureCard.heading}
-                    icon={<Icon as={FcDonate} w={10} h={10} />}
+                    icon={featureCard.icon}
                     descriptions={featureCard.descriptions}
                     href={featureCard.link}
                     buttonLabel={featureCard.buttonLabel}

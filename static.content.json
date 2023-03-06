@@ -204,7 +204,7 @@
                   "buttonLabel": "Learn more",
                   "buttonLink": "#",
                   "link": "#",
-                  "icon": "<Icon as={FcAssistant} w={10} h={10} />"                  
+                  "icon": "FcAssistant"                  
                 },
                 {
                   "heading": "Heading 2",
@@ -212,7 +212,7 @@
                   "buttonLabel": "Learn more",
                   "buttonLink": "#",
                   "link": "#",
-                  "icon": ""
+                  "icon": "FcDonate"                  
                 },
                 {
                   "heading": "Heading 3",
@@ -220,7 +220,7 @@
                   "buttonLabel": "Learn more",
                   "buttonLink": "#",
                   "link": "#",
-                  "icon": "<Icon as={FcAssistant} w={10} h={10} />"                  
+                  "icon": "FcManager"                             
                 },
                 {
                   "heading": "Heading 4",
@@ -228,7 +228,7 @@
                   "buttonLabel": "Learn more",
                   "buttonLink": "#",
                   "link": "#",
-                  "icon": "<Icon as={FcAssistant} w={10} h={10} />"                  
+                  "icon": "FcAbout"                                 
                 },
                 {
                   "heading": "Heading 5",
@@ -236,7 +236,7 @@
                   "buttonLabel": "Learn more",
                   "buttonLink": "#",
                   "link": "#",
-                  "icon": "<Icon as={FcAssistant} w={10} h={10} />"                  
+                  "icon": "FcDonate"                                  
                 },
                 {
                   "heading": "Heading 6",
@@ -244,7 +244,7 @@
                   "buttonLabel": "Learn more",
                   "buttonLink": "#",
                   "link": "#",
-                  "icon": "<Icon as={FcAssistant} w={10} h={10} />"                  
+                  "icon": "FcDonate"                                
                 },
                 {
                   "heading": "Heading 7",
@@ -252,7 +252,7 @@
                   "buttonLabel": "Learn more",
                   "buttonLink": "#",
                   "link": "#",
-                  "icon": "<Icon as={FcAssistant} w={10} h={10} />"                  
+                  "icon": "FcDonate"                                 
                 },
                 {
                   "heading": "Heading 8",
@@ -260,7 +260,7 @@
                   "buttonLabel": "Learn more",
                   "buttonLink": "#",
                   "link": "#",
-                  "icon": "<Icon as={FcAssistant} w={10} h={10} />"                  
+                  "icon": "FcDonate"                               
                 }
               ]
             }
