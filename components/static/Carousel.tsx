@@ -106,7 +106,7 @@ const settings = {
                 maxW={'lg'}
                 position="absolute"
                 top="50%"
-                transform="translate(0, -50%)">
+                transform="translate(0, -50%)" onClick={() => router.push(`/register`)}>
                 <Heading fontSize={{ base: '3xl', md: '4xl', lg: '5xl' }} color={card.title.color?card.title.color:""}>
                   {card.title.content}
                 </Heading>

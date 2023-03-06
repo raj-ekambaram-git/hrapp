@@ -23,12 +23,12 @@
                   "/boNeeds/hero-back-office-invoice-2.jpeg",
                 "buttonFull": {
                   "name": "Learn more",
-                  "link": "/login",
+                  "urlLink": "/login",
                   "colorScheme": "red"
                 },
                 "buttonLink": {
                   "name": "Learn more",
-                  "link": "/register",
+                  "urlLink": "/register",
                   "colorScheme": "black"
                 }
               },

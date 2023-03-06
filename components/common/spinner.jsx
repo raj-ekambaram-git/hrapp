@@ -4,8 +4,8 @@ export { Spinner };
 
 function Spinner() {
     return (
-        <div class={styles.loading}>
-            <div class={styles.loader}></div>
+        <div className={styles.loading}>
+            <div className={styles.loader}></div>
         </div>
         
     );
