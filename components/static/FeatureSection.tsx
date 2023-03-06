@@ -40,7 +40,7 @@ import {
     );
   };
   
-  export default function SplitWithImage() {
+  export default function SplitWithImage(props) {
     return (
       <Container maxW={'5xl'} py={12}>
         <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
@@ -54,12 +54,11 @@ import {
               p={2}
               alignSelf={'flex-start'}
               rounded={'md'}>
-              Our Story
+              {props.block?.data?.tag1}
             </Text>
-            <Heading>A digital Product design agency</Heading>
+            <Heading>{props.block?.data?.heading1}</Heading>
             <Text color={'gray.500'} fontSize={'lg'}>
-              Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-              nonumy eirmod tempor invidunt ut labore
+              {props.block?.data?.details1}              
             </Text>
             <Stack
               spacing={4}
@@ -68,34 +67,21 @@ import {
                   borderColor={useColorModeValue('gray.100', 'gray.700')}
                 />
               }>
-              <Feature
-                icon={
-                  <Icon as={IoAnalyticsSharp} color={'yellow.500'} w={5} h={5} />
-                }
-                iconBg={useColorModeValue('yellow.100', 'yellow.900')}
-                text={'Business Planning'}
-              />
-              <Feature
-                icon={<Icon as={IoLogoBitcoin} color={'green.500'} w={5} h={5} />}
-                iconBg={useColorModeValue('green.100', 'green.900')}
-                text={'Financial Planning'}
-              />
-              <Feature
-                icon={
-                  <Icon as={IoSearchSharp} color={'purple.500'} w={5} h={5} />
-                }
-                iconBg={useColorModeValue('purple.100', 'purple.900')}
-                text={'Market Analysis'}
-              />
+              {props.block?.data?.features?.map(feature => 
+                  <Feature icon={
+                    <Icon as={feature.icon} color={feature.iconColor} w={5} h={5} />
+                  }
+                  iconBg={useColorModeValue(feature.iconBg_1, feature.iconBg_2)}
+                  text={feature.text}
+                />
+              )}
             </Stack>
           </Stack>
           <Flex>
             <Image
               rounded={'md'}
-              alt={'feature image'}
-              src={
-                'https://images.unsplash.com/photo-1554200876-56c2f25224fa?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
-              }
+              alt={props.block?.data?.image1.alt}
+              src={props.block?.data?.image1.source}
               objectFit={'cover'}
             />
           </Flex>

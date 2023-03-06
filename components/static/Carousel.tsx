@@ -24,8 +24,8 @@ const settings = {
     fade: true,
     infinite: true,
     autoplay: true,
-    speed: props.block?.content?.speed?props.block?.content?.speed:500,
-    autoplaySpeed: props.block?.content?.playSpeed?props.block?.content?.playSpeed:5000,
+    speed: props.block?.data?.speed?props.block?.data?.speed:500,
+    autoplaySpeed: props.block?.data?.playSpeed?props.block?.data?.playSpeed:5000,
     slidesToShow: 1,
     slidesToScroll: 1,
   };    
@@ -40,7 +40,7 @@ const settings = {
 
   // This list contains all the data for carousels
   // This can be static or loaded from a server
-  const cards = props.block?.content?.cards;
+  const cards = props.block?.data?.cards;
 
   return (
     <Box
