@@ -3,12 +3,14 @@ import Feature from "./static/FeatureSection";
 import HeroSection from "./static/HeroSection_1";
 import Carousel from "./static/Carousel";
 import GeneralContent from "./static/GeneralContent";
+import FAQSection from "./static/FAQSection";
 
 const Components = {
     "features": Feature,
     "heroSection": HeroSection,
     "carousel": Carousel,
-    "generalContent": GeneralContent
+    "generalContent": GeneralContent,
+    "faqSection": FAQSection
   };
   
   export default block => {

@@ -16,30 +16,14 @@ import { FunctionComponent } from 'react'
     a: string
   }
   
-  const faqs: FAQType[] = [
-    {
-      q: 'How many clients can I bring on?',
-      a: 'You can bring on 3 clients with the Free plan. Upgrade to Pro for additional seats.',
-    },
-    {
-      q: 'Can I connect it to my CRM?',
-      a: 'Yes! We support Notion and PipeDrive currently.',
-    },
-    {
-      q: 'Do you support international payments?',
-      a: 'Yes - payments can be made from and to any country.',
-    },
-    {
-      q: 'Who can I connect to for support?',
-      a: 'Email me at sukh@saasbase.dev',
-    },
-  ]
-
   interface FAQSectionProps {
     items: FAQType[]
   }
 
-  export const FAQSection: FunctionComponent<FAQSectionProps> = () => {
+  export default function FAQSection(props) {
+
+    const faqs: FAQType[] = props.block?.data?.faqs;
+    
     return (
 
         <Container py={28} maxW="container.md">

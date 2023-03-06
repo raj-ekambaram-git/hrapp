@@ -1,6 +1,6 @@
 import { Box, Center, Container, Flex, Heading, Stack, VStack } from '@chakra-ui/react';
 import Head from 'next/head';
-import { FAQSection } from '../components/static/FAQSection';
+import FAQSection from '../components/static/FAQSection';
 import { Feature } from '../components/static/Features';
 import { FooterSection } from '../components/static/FooterSection';
 import { HeroSection } from '../components/static/HeroSection';
