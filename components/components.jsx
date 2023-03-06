@@ -2,11 +2,13 @@ import React from "react";
 import Feature from "./static/FeatureSection";
 import HeroSection from "./static/HeroSection_1";
 import Carousel from "./static/Carousel";
+import GeneralContent from "./static/GeneralContent";
 
 const Components = {
     "features": Feature,
     "heroSection": HeroSection,
-    "carousel": Carousel
+    "carousel": Carousel,
+    "generalContent": GeneralContent
   };
   
   export default block => {

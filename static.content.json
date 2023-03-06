@@ -141,6 +141,36 @@
           }]
       },
       {
+        "title": "Features Page",
+        "path": "/static/foo",
+        "components": [
+          {
+            "name": "generalContent",
+            "data" : {
+             "heading": "About Us",
+             "twoCloumnImageText": {
+              "image": {
+                "src": "https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=800&q=80",
+                "alt": "",
+                "link": ""
+              },
+              "heading": "Blog article title",
+              "details": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
+             },
+             "mainContent": {
+              "heading": "",
+              "paraDetails": [
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec condimentum quam arcu, eu tempus tortor molestie at. Vestibulum pretium condimentum dignissim. Vestibulum ultrices vitae nisi sed imperdiet. Mauris quis erat consequat, commodo massa quis, feugiat sapien. Suspendisse placerat vulputate posuere. Curabitur nequetortor, mattis nec lacus non, placerat congue elit.",
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec condimentum quam arcu, eu tempus tortor molestie at. Vestibulum pretium condimentum dignissim. Vestibulum ultrices vitae nisi sed imperdiet. Mauris quis erat consequat, commodo massa quis, feugiat sapien. Suspendisse placerat vulputate posuere. Curabitur nequetortor, mattis nec lacus non, placerat congue elit.",
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec condimentum quam arcu, eu tempus tortor molestie at. Vestibulum pretium condimentum dignissim. Vestibulum ultrices vitae nisi sed imperdiet. Mauris quis erat consequat, commodo massa quis, feugiat sapien. Suspendisse placerat vulputate posuere. Curabitur nequetortor, mattis nec lacus non, placerat congue elit.",
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec condimentum quam arcu, eu tempus tortor molestie at. Vestibulum pretium condimentum dignissim. Vestibulum ultrices vitae nisi sed imperdiet. Mauris quis erat consequat, commodo massa quis, feugiat sapien. Suspendisse placerat vulputate posuere. Curabitur nequetortor, mattis nec lacus non, placerat congue elit."
+              ] 
+             }
+            }
+          }
+        ]
+      },      
+      {
         "title": "Bar Page",
         "path": "/bar",
         "content": "<p><strong>Bar</strong> content...</p>"
