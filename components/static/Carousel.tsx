@@ -7,15 +7,17 @@ import {
   Heading,
   Text,
   Container,
+  Button,
 } from '@chakra-ui/react';
 // Here we have used react-icons package for the icons
 import { BiLeftArrowAlt, BiRightArrowAlt } from 'react-icons/bi';
 // And react-slick as our Carousel Lib
 import Slider from 'react-slick';
+import { useRouter } from 'next/router';
 
 
 export default function CaptionCarousel(props) {
-
+  const router = useRouter();
 
 // Settings for the slider
 const settings = {
@@ -107,9 +109,19 @@ const settings = {
                 <Heading fontSize={{ base: '3xl', md: '4xl', lg: '5xl' }}>
                   {card.title}
                 </Heading>
-                <Text fontSize={{ base: 'md', lg: 'lg' }} color="GrayText">
+                <Text fontSize={{ base: 'md', lg: 'lg' }}>
                   {card.text}
                 </Text>
+                {card.buttonLink?<>
+                  <Button variant={'link'} colorScheme={card.buttonLink?.colorScheme} size={'sm'} onClick={() => router.push(card.buttonLink?.link)}>
+                    {card.buttonLink?.name}
+                  </Button>                
+                </>:<></>}
+                {card.buttonFull?<>
+                  <Button width="30%" alignSelf="center" colorScheme={card.buttonFull?.colorScheme} size={'sm'} onClick={() => router.push(card.buttonFull?.link)}>
+                    {card.buttonFull?.name}
+                  </Button>                
+                </>:<></>}                
               </Stack>
             </Container>
           </Box>

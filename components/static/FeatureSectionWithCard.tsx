@@ -9,10 +9,6 @@ import {
     Text,
     useColorModeValue,
   } from '@chakra-ui/react';
-  import { ReactElement } from 'react';
-  import {
-    FcDonate,
-  } from 'react-icons/fc';
   import * as Icons from 'react-icons/fc';
 
   interface DescriptionsArray extends Array<string>{}

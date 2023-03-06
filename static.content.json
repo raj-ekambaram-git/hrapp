@@ -68,7 +68,17 @@
                   "text":
                     "The project board is an exclusive resource for contract work. It's perfect for freelancers, agencies, and moonlighters.",
                   "image":
-                    "https://images.unsplash.com/photo-1516796181074-bf453fbfa3e6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDV8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=900&q=60"
+                    "https://images.unsplash.com/photo-1516796181074-bf453fbfa3e6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDV8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=900&q=60",
+                  "buttonFull": {
+                    "name": "Learn more",
+                    "link": "/login",
+                    "colorScheme": "red"
+                  },
+                  "buttonLink": {
+                    "name": "Learn more",
+                    "link": "/register",
+                    "colorScheme": "black"
+                  }
                 },
                 {
                   "title": "Design Projects 2",
@@ -144,54 +154,7 @@
         "title": "Features Page",
         "path": "/static/foo",
         "components": [
-          {
-            "name": "generalContent",
-            "data" : {
-             "heading": "About Us",
-             "twoCloumnImageText": {
-              "image": {
-                "src": "https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=800&q=80",
-                "alt": "",
-                "link": ""
-              },
-              "heading": "Blog article title",
-              "details": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
-             },
-             "mainContent": {
-              "heading": "",
-              "paraDetails": [
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec condimentum quam arcu, eu tempus tortor molestie at. Vestibulum pretium condimentum dignissim. Vestibulum ultrices vitae nisi sed imperdiet. Mauris quis erat consequat, commodo massa quis, feugiat sapien. Suspendisse placerat vulputate posuere. Curabitur nequetortor, mattis nec lacus non, placerat congue elit.",
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec condimentum quam arcu, eu tempus tortor molestie at. Vestibulum pretium condimentum dignissim. Vestibulum ultrices vitae nisi sed imperdiet. Mauris quis erat consequat, commodo massa quis, feugiat sapien. Suspendisse placerat vulputate posuere. Curabitur nequetortor, mattis nec lacus non, placerat congue elit.",
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec condimentum quam arcu, eu tempus tortor molestie at. Vestibulum pretium condimentum dignissim. Vestibulum ultrices vitae nisi sed imperdiet. Mauris quis erat consequat, commodo massa quis, feugiat sapien. Suspendisse placerat vulputate posuere. Curabitur nequetortor, mattis nec lacus non, placerat congue elit.",
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec condimentum quam arcu, eu tempus tortor molestie at. Vestibulum pretium condimentum dignissim. Vestibulum ultrices vitae nisi sed imperdiet. Mauris quis erat consequat, commodo massa quis, feugiat sapien. Suspendisse placerat vulputate posuere. Curabitur nequetortor, mattis nec lacus non, placerat congue elit."
-              ] 
-             }
-            }
-          },
-          {
-            "name": "faqSection",
-            "data": {
-              "heading": "Frequently asked questions",
-              "faqs": [
-                {
-                  "q": "How many clients can I bring on?",
-                  "a": "ou can bring on 3 clients with the Free plan. Upgrade to Pro for additional seats."
-                },
-                {
-                  "q": "Can I connect it to my CRM?",
-                  "a": "Yes! We support Notion and PipeDrive currently."
-                },
-                {
-                  "q": "Do you support international payments?",
-                  "a": "Yes - payments can be made from and to any country."
-                },
-                {
-                  "q": "Who can I connect to for support?",
-                  "a": "Email me at sukh@saasbase.dev"
-                }
-              ]
-            }
-          },
+         
           {
             "name": "featureSectionWithCard",
             "data": {
