@@ -13,21 +13,21 @@
                 "contentHeight": "",
                 "contentPX": "",
                 "title": {
-                  "content": "Design Projects 1",
+                  "content": "Revolutionize Your Back Office Today",
                   "color": "green"
                 },
                 "text": {
-                  "content": "The project board is an exclusive resource for contract work. It's perfect for freelancers, agencies, and moonlighters."
+                  "content": "Streamline your back office operations with our powerful software solution."
                 },                  
                 "image":
                   "/boNeeds/hero-back-office-invoice-2.jpeg",
                 "buttonFull": {
-                  "name": "Learn more",
+                  "name": "Get Started",
                   "urlLink": "/login",
-                  "colorScheme": "red"
+                  "colorScheme": "red"            
                 },
                 "buttonLink": {
-                  "name": "Learn more",
+                  "name": "Get Started",
                   "urlLink": "/register",
                   "colorScheme": "black"
                 }
@@ -41,17 +41,39 @@
                   "content": ""
                 },                  
                 "image":
-                  "/boNeeds/hero-back-office-invoice-1.png"
+                  "/boNeeds/hero-back-office-invoice-1.png",
+                "buttonFull": {
+                  "name": "Learn more 2",
+                  "urlLink": "#",
+                  "colorScheme": "green", 
+                  "display": "none"                 
+                },
+                "buttonLink": {
+                  "name": "Learn more",
+                  "urlLink": "/register",
+                  "colorScheme": "black"
+                }
               },
               {
                 "title": {
-                  "content": "Design Projects 3"
+                  "content": ""
                 },
                 "text": {
-                  "content": "The project board is an exclusive resource for contract work. It's perfect for freelancers, agencies, and moonlighters."
+                  "content": ""
                 },                  
                 "image":
-                  "https://images.unsplash.com/photo-1507237998874-b4d52d1dd655?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDR8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=900&q=60"
+                  "/boNeeds/hero-back-office-carousel-3.png",
+                "buttonFull": {
+                  "name": "Learn more 3",
+                  "urlLink": "/register",
+                  "colorScheme": "blue", 
+                  "display": "none"                 
+                },
+                "buttonLink": {
+                  "name": "Learn more 3",
+                  "urlLink": "/register",
+                  "colorScheme": "black"
+                }                  
               }
             ]
           }

@@ -106,7 +106,7 @@ const settings = {
                 maxW={'lg'}
                 position="absolute"
                 top="50%"
-                transform="translate(0, -50%)" onClick={() => router.push(`/register`)}>
+                transform="translate(0, -50%)">
                 <Heading fontSize={{ base: '3xl', md: '4xl', lg: '5xl' }} color={card.title.color?card.title.color:""}>
                   {card.title.content}
                 </Heading>
@@ -114,7 +114,7 @@ const settings = {
                   {card.text.content}
                 </Text>
                 {card.buttonFull?<>         
-                  <Button width="30%" alignSelf="center" colorScheme={card.buttonFull?.colorScheme} size={'sm'} onClick={() => router.push('/login')}>
+                  <Button width="30%" alignSelf="center"display={card.buttonFull?.display} colorScheme={card.buttonFull?.colorScheme} size={'sm'} onClick={() => router.push(card.buttonFull?.urlLink)}>
                    {card.buttonFull?.name}
                   </Button>                
                 </>:<></>}              
