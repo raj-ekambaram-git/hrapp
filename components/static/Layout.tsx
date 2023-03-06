@@ -10,7 +10,7 @@ export const Layout: FunctionComponent<LayoutProps> = ({
   children,
 }: LayoutProps) => {
   return (
-    <Box bg="gray.50">
+    <Box>
       <Stack
         justify="space-between"
         p={[0, 4]}

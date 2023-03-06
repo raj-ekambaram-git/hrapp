@@ -36,13 +36,13 @@ export default function Index() {
             >
             <HeroSection />
           </VStack>
-          <Container maxW="container.xl">
+          {/* <Container maxW="container.xl">
             <Center p={[0, 10]}>
               <video playsInline autoPlay muted poster="/image.png" loop>
                 <source src="/video.mp4" type="video/mp4" />
               </video>
             </Center>
-		      </Container>    
+		      </Container>     */}
           {/* <SocialMediaSection/>     */}
           <VStack
               backgroundColor="white"
@@ -65,7 +65,7 @@ export default function Index() {
                 }
               )}
             </VStack>    
-            <VStack
+            {/* <VStack
               backgroundColor="white"
               w="full"
               id="highlight"
@@ -73,7 +73,7 @@ export default function Index() {
               py={[16, 0]}
             >
               <HighlightsSection/>
-            </VStack>            
+            </VStack>             */}
             
             {/* <PricingSection /> */}
             {/* <FAQSection> */}
