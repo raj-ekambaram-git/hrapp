@@ -20,7 +20,7 @@ import {
     return (
       <chakra.header id="hero">
         <Box display={{ base: 'flex', md: 'none' }} p={4}>         
-          <Container maxW="container.full">
+          <Container maxW="container.full" >
             <Center p={4} minHeight="70vh">
               <Stack
                   justify="space-between"
@@ -64,12 +64,12 @@ import {
                       {content.index.content.heroSection.heading3}
                       </Text>
                     </Stack>
-                  </Stack>
+                </Stack>
               </Center>
           </Container>             
         </Box>      
 
-        <Box display={{ base: 'none', md: 'flex' }} bg="gray.50">
+        <Box display={{ base: 'none', md: 'flex' }}>
           <Container maxW="container.2xl">
             <Center p={4} minHeight="70vh">
               <Stack

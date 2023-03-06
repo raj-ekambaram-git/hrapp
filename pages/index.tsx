@@ -78,7 +78,7 @@ export default function Index() {
             {/* <PricingSection /> */}
             {/* <FAQSection> */}
             <VStack
-              backgroundColor="white"
+              bg="gray.50"
               w="full"
               id="footer"
               spacing={16}

@@ -15,6 +15,7 @@ import {
   export const FooterSection: FunctionComponent<FooterSectionProps> = () => {
     return (
       <Box
+        bg="gray.50"
         color={useColorModeValue('gray.700', 'gray.200')}>
         <Container as={Stack} maxW={'6xl'} py={10}>
           <SimpleGrid
