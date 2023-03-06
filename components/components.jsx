@@ -4,13 +4,16 @@ import HeroSection from "./static/HeroSection_1";
 import Carousel from "./static/Carousel";
 import GeneralContent from "./static/GeneralContent";
 import FAQSection from "./static/FAQSection";
+import ContentWithNavSection from "./static/ContentWithNavSection";
+
 
 const Components = {
     "features": Feature,
     "heroSection": HeroSection,
     "carousel": Carousel,
     "generalContent": GeneralContent,
-    "faqSection": FAQSection
+    "faqSection": FAQSection,
+    "contentWithNavSection": ContentWithNavSection
   };
   
   export default block => {

@@ -30,11 +30,11 @@ import { FunctionComponent } from 'react'
           <Box w="full">
             <VStack spacing={10} w="full">
               <Text fontWeight={500} fontSize="2xl" align="center">
-                Frequently asked questions
+              {props.block?.data?.heading}
               </Text>        
                 <Box borderRadius="lg" w="full" p={4}>
                     <Accordion>
-                    {faqs.map((item: any, i: number) => {
+                    {faqs && faqs?.map((item: any, i: number) => {
                         return (
                         <AccordionItem key={`faq_${i}`}>
                             <h2>

@@ -171,6 +171,7 @@
           {
             "name": "faqSection",
             "data": {
+              "heading": "Frequently asked questions",
               "faqs": [
                 {
                   "q": "How many clients can I bring on?",
@@ -196,7 +197,11 @@
       {
         "title": "Bar Page",
         "path": "/bar",
-        "content": "<p><strong>Bar</strong> content...</p>"
+        "components": [
+          {
+          "name": "contentWithNavSection"
+          }
+        ]
       },
       {
         "title": "Baz Page",
