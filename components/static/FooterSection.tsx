@@ -31,22 +31,22 @@ import {
             </Stack>
             <Stack align={'flex-start'}>
               <ListHeader>Product</ListHeader>
-              <Link href={'#'}>Overview</Link>
-              <Link href={'#'}>Features</Link>
-              <Link href={'#'}>Tutorials</Link>
+              <Link href={'/static/overview'}>Overview</Link>
+              <Link href={'/static/features'}>Features</Link>
+              <Link href={'/static/tutorials'}>Tutorials</Link>
               <Link href={'#'}>Pricing</Link>              
             </Stack>
             <Stack align={'flex-start'}>
               <ListHeader>Company</ListHeader>
-              <Link href={'#'}>About</Link>
+              <Link href={'/static/about'}>About</Link>
               <Link href={'/contactus'}>Contact</Link>
             </Stack>
             <Stack align={'flex-start'}>
               <ListHeader>Support</ListHeader>
-              <Link href={'#'}>Help Center</Link>
-              <Link href={'#'}>FAQs</Link>
-              <Link href={'#'}>Terms of Service</Link>
-              <Link href={'#'}>Privacy Policy</Link>
+              <Link href={'/static/help'}>Help Center</Link>
+              <Link href={'/static/faq'}>FAQs</Link>
+              <Link href={'/static/terms'}>Terms of Service</Link>
+              <Link href={'/static/privacy'}>Privacy Policy</Link>
             </Stack>
             <Stack align={'flex-start'}>
               <ListHeader>Follow Us</ListHeader>

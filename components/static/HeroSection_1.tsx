@@ -19,8 +19,8 @@ export default function CallToActionWithAnnotation(props) {
       <Head>
       </Head>
 
-      <Container maxW={'3xl'}>
-        <Stack
+      <Container maxW={'3xl'} >
+        <Stack       
           as={Box}
           textAlign={'center'}
           spacing={{ base: 8, md: 14 }}

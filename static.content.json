@@ -143,35 +143,176 @@
                   "text":
                     "The project board is an exclusive resource for contract work. It's perfect for freelancers, agencies, and moonlighters.",
                   "image":
-                    "https://images.unsplash.com/photo-1516796181074-bf453fbfa3e6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDV8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=900&q=60",
-                  "buttonFull": {
-                    "name": "Learn more",
-                    "link": "/login",
-                    "colorScheme": "red"
-                  },
-                  "buttonLink": {
-                    "name": "Learn more",
-                    "link": "/register",
-                    "colorScheme": "black"
-                  }
+                    "/boNeeds/Features_Carousel_1.png"
                 },
                 {
                   "title": "Design Projects 2",
                   "text":
                     "The project board is an exclusive resource for contract work. It's perfect for freelancers, agencies, and moonlighters.",
                   "image":
-                    "https://images.unsplash.com/photo-1438183972690-6d4658e3290e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2274&q=80"
+                    "/boNeeds/Features_Carousel_2.png"
                 },
                 {
                   "title": "Design Projects 3",
                   "text":
                     "The project board is an exclusive resource for contract work. It's perfect for freelancers, agencies, and moonlighters.",
                   "image":
-                    "https://images.unsplash.com/photo-1507237998874-b4d52d1dd655?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDR8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=900&q=60"
+                  "/boNeeds/Features_Carousel_3.png"
+                },
+                {
+                  "title": "Design Projects 3",
+                  "text":
+                    "The project board is an exclusive resource for contract work. It's perfect for freelancers, agencies, and moonlighters.",
+                  "image":
+                  "/boNeeds/Features_Carousel_4.png"
                 }
               ]
             }
           },          
+          {
+            "name": "featureSectionWithCard",
+            "data": {
+              "heading": "Highlights",
+              "detail": "These are just a few of the many features that are highlighted.",
+              "featureCards": [
+                {
+                  "heading": "Clients",
+                  "descriptions": ["Create profiles for each client, including contact information, communication history, notes, and more", "Store and manage contracts with clients, including terms, expiration dates, and renewals "],
+                  "buttonLabel": "Learn more",
+                  "buttonLink": "#",
+                  "link": "#",
+                  "icon": "FcManager"                  
+                },
+                {
+                  "heading": "Projects",
+                  "descriptions": ["Our project management software includes resource management tools, allowing users to assign resources, such as people and equipment, to specific tasks or projects.","Includes budget tracking tools, allowing users to monitor project costs and ensure that they stay within budget.","Includes reporting and analytics tools, allowing users to generate reports and analyze project data."],
+                  "buttonLabel": "Learn more",
+                  "buttonLink": "#",
+                  "link": "#",
+                  "icon": "FcConferenceCall"                  
+                },
+                {
+                  "heading": "Users (Contractor/Emplyees)",
+                  "descriptions": ["Ease the on-boarding process.","Manage all the documents related to a user", "Role based access to only the modules appropriate for users", "Add and track all the comments for all the objects within the platform."],
+                  "buttonLabel": "Learn more",
+                  "buttonLink": "#",
+                  "link": "#",
+                  "icon": "FcBusinessman"                             
+                },
+                {
+                  "heading": "Timesheet",
+                  "descriptions": ["Includes approval workflows, allowing managers to review and approve timesheets before they are submitted for invoices.","Enable to track both the billable and non-billable time within organization/project","Enforce certain rules and budget while user enters the timesheet."],
+                  "buttonLabel": "Learn more",
+                  "buttonLink": "#",
+                  "link": "#",
+                  "icon": "FcAlarmClock"                                 
+                },
+                {
+                  "heading": "Expense",
+                  "descriptions": ["Includes receipt capture tools, allowing users to take pictures of receipts and attach them to expense reports, reducing paper waste and streamlining the process.","Includes approval workflows, allowing managers to review and approve expenses before they are reimbursed."],
+                  "buttonLabel": "Learn more",
+                  "buttonLink": "#",
+                  "link": "#",
+                  "icon": "FcCurrencyExchange"                                  
+                },
+                {
+                  "heading": "Payments",
+                  "descriptions": ["All admins to pay the invoice from our platform not to go into their banking portal.","Enables to pull the bank transactions and create expense entries just just selecting each transactions.", "Integrated with payment procesor to do the ACH transfers,"],
+                  "buttonLabel": "Learn more",
+                  "buttonLink": "#",
+                  "link": "#",
+                  "icon": "FcLibrary"                                
+                },
+                {
+                  "heading": "Automated workflows",
+                  "descriptions": ["Streamlines your business processes with automated workflows, reducing manual effort and increasing efficiency.","Collaborate and communicate with your team in a productive and efficient environment."],
+                  "buttonLabel": "Learn more",
+                  "buttonLink": "#",
+                  "link": "#",
+                  "icon": "FcFlowChart"                                 
+                },
+                {
+                  "heading": "Dashboard",
+                  "descriptions": ["Get a quick overview of your business operations with dashboards that display relevant information in real-time.","Only related information based on logged in personas with highlighted graphs."],
+                  "buttonLabel": "Learn more",
+                  "buttonLink": "#",
+                  "link": "#",
+                  "icon": "FcScatterPlot"                               
+                },
+                {
+                  "heading": "eSignatures",
+                  "descriptions": ["eSignatures from clients, vendors, or employees, allowing you to get documents signed quickly and efficiently using DocuSign intgration.","Create customizable document templates for common contracts or forms, streamlining the signature process and saving time."],
+                  "buttonLabel": "Learn more",
+                  "buttonLink": "#",
+                  "link": "#",
+                  "icon": "FcDocument"                               
+                },
+                {
+                  "heading": "Import & Export Data",
+                  "descriptions": ["Our import and export feature makes it easy to transfer data from one system to another, saving time and reducing errors.","Our import & export feature allows for scheduled imports/exports, so that data can be imported/exported automatically at regular intervals."],
+                  "buttonLabel": "Learn more",
+                  "buttonLink": "#",
+                  "link": "#",
+                  "icon": "FcFolder"                               
+                },
+                {
+                  "heading": "Reminders",
+                  "descriptions": ["Our reminder feature offers users to enable anytime to remind on their timesheet/exponse/invoice submittal, approval etc.,","Send invoice reminder email promptly before the due date."],
+                  "buttonLabel": "Learn more",
+                  "buttonLink": "#",
+                  "link": "#",
+                  "icon": "FcDocument"                               
+                },
+                {
+                  "heading": "Reports",
+                  "descriptions": ["Our reports help you understand your data and make informed business decisions","Reports can be scheduled to goto your executives on regular intervals.", "Enable to generate reports at Clients, Project, User and Accoint level"],
+                  "buttonLabel": "Learn more",
+                  "buttonLink": "#",
+                  "link": "#",
+                  "icon": "FcBarChart"                               
+                }
+              ]
+            }
+          }
+         ]
+      },
+      {
+        "title": "Project Overview Page",
+        "path": "/static/overview",
+        "components": [
+          {
+            "name": "heroSection",
+            "data" : {
+              "heading1": "Say Goodbye to Tedious Tasks with Our Streamlined",
+              "heading2": "boNeeds platform",
+              "description1": "Simplify Your Processes and Save Time. Maximize Your Efficiency with Our User-Friendly Back Office Solution. Automate Your Workflow and Boost Productivity with Our Software",
+              "button1": {
+                "name": "Get Started",
+                "targetLink": "/register"
+              },
+              "annotation": "Start for free"
+            }
+          },
+          {
+            "name": "generalContent",
+            "data": {
+              "mainContent": {
+                "heading": "Overview",
+                "alignment": "center",
+                "paraDetails": [
+                  "boNeeds is a type of business software that is designed to streamline and automate administrative tasks and processes that are essential to running a company, but do not directly generate revenue. These tasks may include managing clients, project, contracts, timesheets, expenses, invoices, customer data, and operations.",
+                  "The goal of boNeeds is to improve efficiency and productivity by automating repetitive tasks and eliminating manual data entry, reducing the risk of errors and freeing up time for employees to focus on higher-level tasks. This software can help businesses to manage large amounts of data, maintain accurate records, and ensure compliance with regulatory requirements.",
+                  "boNeeds includes a range of modules that are designed to address specific business needs, such as clients, users, projects, timesheets, expense, supplier costs, and customer relationship management (CRM). Also include features for project management, collaboration, and communication, allowing teams to work together more effectively using the workflow management, document management, reminders and schedulers."
+                ]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "title": "Features Page",
+        "path": "/static/foo",
+        "components": [
           {
             "name": "heroSection",
             "data" : {
@@ -223,86 +364,8 @@
                 "alt": "feature image"
               }
             }
-          }]
-      },
-      {
-        "title": "Features Page",
-        "path": "/static/foo",
-        "components": [
-         
-          {
-            "name": "featureSectionWithCard",
-            "data": {
-              "heading": "Short heading",
-              "detail": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis obcaecati ut cupiditate pariatur, dignissimos, placeat amet officiis.",
-              "featureCards": [
-                {
-                  "heading": "Heading 1",
-                  "descriptions": ["Lorem ipsum dolor sit amet catetur, adipisicing elit.", "Second Paragraph "],
-                  "buttonLabel": "Learn more",
-                  "buttonLink": "#",
-                  "link": "#",
-                  "icon": "FcAssistant"                  
-                },
-                {
-                  "heading": "Heading 2",
-                  "descriptions": ["Lorem ipsum dolor sit amet catetur, adipisicing elit."],
-                  "buttonLabel": "Learn more",
-                  "buttonLink": "#",
-                  "link": "#",
-                  "icon": "FcDonate"                  
-                },
-                {
-                  "heading": "Heading 3",
-                  "descriptions": ["Lorem ipsum dolor sit amet catetur, adipisicing elit."],
-                  "buttonLabel": "Learn more",
-                  "buttonLink": "#",
-                  "link": "#",
-                  "icon": "FcManager"                             
-                },
-                {
-                  "heading": "Heading 4",
-                  "descriptions": ["Lorem ipsum dolor sit amet catetur, adipisicing elit."],
-                  "buttonLabel": "Learn more",
-                  "buttonLink": "#",
-                  "link": "#",
-                  "icon": "FcAbout"                                 
-                },
-                {
-                  "heading": "Heading 5",
-                  "descriptions": ["Lorem ipsum dolor sit amet catetur, adipisicing elit."],
-                  "buttonLabel": "Learn more",
-                  "buttonLink": "#",
-                  "link": "#",
-                  "icon": "FcDonate"                                  
-                },
-                {
-                  "heading": "Heading 6",
-                  "descriptions": ["Lorem ipsum dolor sit amet catetur, adipisicing elit."],
-                  "buttonLabel": "Learn more",
-                  "buttonLink": "#",
-                  "link": "#",
-                  "icon": "FcDonate"                                
-                },
-                {
-                  "heading": "Heading 7",
-                  "descriptions": ["Lorem ipsum dolor sit amet catetur, adipisicing elit."],
-                  "buttonLabel": "Learn more",
-                  "buttonLink": "#",
-                  "link": "#",
-                  "icon": "FcDonate"                                 
-                },
-                {
-                  "heading": "Heading 8",
-                  "descriptions": ["Lorem ipsum dolor sit amet catetur, adipisicing elit."],
-                  "buttonLabel": "Learn more",
-                  "buttonLink": "#",
-                  "link": "#",
-                  "icon": "FcDonate"                               
-                }
-              ]
-            }
           }
+         
         ]
       },      
       {

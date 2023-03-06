@@ -73,7 +73,7 @@ const GeneralContent = (props) => {
           </Box>
         </Box>         
       </>:<></>} 
-      <VStack paddingTop="40px" spacing="2" alignItems="flex-start">
+      <VStack paddingTop="40px" spacing="5" alignItems={props.block?.data?.mainContent?.alignment?props.block?.data?.mainContent?.alignment:"flex-start"}>
         <Heading as="h2">{props.block?.data?.mainContent?.heading}</Heading>
         {props.block?.data?.mainContent?.paraDetails?.map(detail => 
           <Text as="p" fontSize="lg">

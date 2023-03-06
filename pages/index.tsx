@@ -64,7 +64,7 @@ export default function Index() {
               backgroundColor="white"
               w="full"
               id="features"
-              spacing={16}
+              spacing={[16, 16]}
               py={[16, 0]}
             >
               {features.map(

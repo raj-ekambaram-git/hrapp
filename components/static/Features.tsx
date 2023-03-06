@@ -7,6 +7,7 @@ import {
     Text,
     VStack,
     Image,
+    StackDivider,
   } from "@chakra-ui/react";
   import { FunctionComponent } from "react";
   
@@ -25,9 +26,10 @@ import {
   }: FeatureProps) => {
     const rowDirection = reverse ? "row-reverse" : "row";
     return (
-      <Center w="full" minH={[null, "90vh"]}>
-        <Container maxW="container.xl" rounded="lg">
-          <Stack
+      <Center w="full" minH={[null, null]} padding="40" >
+        <Container maxW="container.xl" rounded="lg" >
+          <Stack            
+            divider={<StackDivider/>}
             spacing={[4, 16]}
             alignItems="center"
             direction={["column", null, rowDirection]}
