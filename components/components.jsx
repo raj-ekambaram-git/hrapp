@@ -5,6 +5,7 @@ import Carousel from "./static/Carousel";
 import GeneralContent from "./static/GeneralContent";
 import FAQSection from "./static/FAQSection";
 import ContentWithNavSection from "./static/ContentWithNavSection";
+import FeatureSectionWithCard from "./static/FeatureSectionWithCard";
 
 
 const Components = {
@@ -13,7 +14,8 @@ const Components = {
     "carousel": Carousel,
     "generalContent": GeneralContent,
     "faqSection": FAQSection,
-    "contentWithNavSection": ContentWithNavSection
+    "contentWithNavSection": ContentWithNavSection,
+    "featureSectionWithCard": FeatureSectionWithCard
   };
   
   export default block => {

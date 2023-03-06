@@ -191,6 +191,79 @@
                 }
               ]
             }
+          },
+          {
+            "name": "featureSectionWithCard",
+            "data": {
+              "heading": "Short heading",
+              "detail": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis obcaecati ut cupiditate pariatur, dignissimos, placeat amet officiis.",
+              "featureCards": [
+                {
+                  "heading": "Heading 1",
+                  "descriptions": ["Lorem ipsum dolor sit amet catetur, adipisicing elit.", "Second Paragraph "],
+                  "buttonLabel": "Learn more",
+                  "buttonLink": "#",
+                  "link": "#",
+                  "icon": "<Icon as={FcAssistant} w={10} h={10} />"                  
+                },
+                {
+                  "heading": "Heading 2",
+                  "descriptions": ["Lorem ipsum dolor sit amet catetur, adipisicing elit."],
+                  "buttonLabel": "Learn more",
+                  "buttonLink": "#",
+                  "link": "#",
+                  "icon": ""
+                },
+                {
+                  "heading": "Heading 3",
+                  "descriptions": ["Lorem ipsum dolor sit amet catetur, adipisicing elit."],
+                  "buttonLabel": "Learn more",
+                  "buttonLink": "#",
+                  "link": "#",
+                  "icon": "<Icon as={FcAssistant} w={10} h={10} />"                  
+                },
+                {
+                  "heading": "Heading 4",
+                  "descriptions": ["Lorem ipsum dolor sit amet catetur, adipisicing elit."],
+                  "buttonLabel": "Learn more",
+                  "buttonLink": "#",
+                  "link": "#",
+                  "icon": "<Icon as={FcAssistant} w={10} h={10} />"                  
+                },
+                {
+                  "heading": "Heading 5",
+                  "descriptions": ["Lorem ipsum dolor sit amet catetur, adipisicing elit."],
+                  "buttonLabel": "Learn more",
+                  "buttonLink": "#",
+                  "link": "#",
+                  "icon": "<Icon as={FcAssistant} w={10} h={10} />"                  
+                },
+                {
+                  "heading": "Heading 6",
+                  "descriptions": ["Lorem ipsum dolor sit amet catetur, adipisicing elit."],
+                  "buttonLabel": "Learn more",
+                  "buttonLink": "#",
+                  "link": "#",
+                  "icon": "<Icon as={FcAssistant} w={10} h={10} />"                  
+                },
+                {
+                  "heading": "Heading 7",
+                  "descriptions": ["Lorem ipsum dolor sit amet catetur, adipisicing elit."],
+                  "buttonLabel": "Learn more",
+                  "buttonLink": "#",
+                  "link": "#",
+                  "icon": "<Icon as={FcAssistant} w={10} h={10} />"                  
+                },
+                {
+                  "heading": "Heading 8",
+                  "descriptions": ["Lorem ipsum dolor sit amet catetur, adipisicing elit."],
+                  "buttonLabel": "Learn more",
+                  "buttonLink": "#",
+                  "link": "#",
+                  "icon": "<Icon as={FcAssistant} w={10} h={10} />"                  
+                }
+              ]
+            }
           }
         ]
       },      
