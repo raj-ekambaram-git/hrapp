@@ -29,7 +29,7 @@ const settings = {
     speed: props.block?.data?.speed?props.block?.data?.speed:500,
     autoplaySpeed: props.block?.data?.playSpeed?props.block?.data?.playSpeed:5000,
     slidesToShow: 1,
-    slidesToScroll: 1,
+    slidesToScroll: 1,    
   };    
   // As we have used custom buttons, we need a reference variable to
   // change the state
@@ -43,6 +43,7 @@ const settings = {
   // This list contains all the data for carousels
   // This can be static or loaded from a server
   const cards = props.block?.data?.cards;
+
 
   return (
     <Box
@@ -85,7 +86,7 @@ const settings = {
         zIndex={2}
         onClick={() => slider?.slickNext()}>
         <BiRightArrowAlt size="40px" />
-      </IconButton>
+      </IconButton>      
       {/* Slider */}
       <Slider {...settings} ref={(slider) => setSlider(slider)}>
         {cards.map((card, index) => (
@@ -98,7 +99,7 @@ const settings = {
             backgroundSize="cover"
             backgroundImage={`url(${card.image})`}>
             {/* This is the block you need to change, to customize the caption */}
-            <Container size="container.lg" height="600px" position="relative">
+            <Container size="container.lg" height={card.contentHeight?card.contentHeight:"600"} px={card.contentPX?card.contentPX:""}  position="relative">
               <Stack
                 spacing={6}
                 w={'full'}
@@ -106,27 +107,24 @@ const settings = {
                 position="absolute"
                 top="50%"
                 transform="translate(0, -50%)">
-                <Heading fontSize={{ base: '3xl', md: '4xl', lg: '5xl' }}>
-                  {card.title}
+                <Heading fontSize={{ base: '3xl', md: '4xl', lg: '5xl' }} color={card.title.color?card.title.color:""}>
+                  {card.title.content}
                 </Heading>
-                <Text fontSize={{ base: 'md', lg: 'lg' }}>
-                  {card.text}
+                <Text fontSize={{ base: 'md', lg: 'lg' }} color={card.text.color?card.text.color:""}>
+                  {card.text.content}
                 </Text>
-                {card.buttonLink?<>
-                  <Button variant={'link'} colorScheme={card.buttonLink?.colorScheme} size={'sm'} onClick={() => router.push(card.buttonLink?.link)}>
-                    {card.buttonLink?.name}
+                {card.buttonFull?<>         
+                  <Button width="30%" alignSelf="center" colorScheme={card.buttonFull?.colorScheme} size={'sm'} onClick={() => router.push('/login')}>
+                   {card.buttonFull?.name}
                   </Button>                
-                </>:<></>}
-                {card.buttonFull?<>
-                  <Button width="30%" alignSelf="center" colorScheme={card.buttonFull?.colorScheme} size={'sm'} onClick={() => router.push(card.buttonFull?.link)}>
-                    {card.buttonFull?.name}
-                  </Button>                
-                </>:<></>}                
-              </Stack>
-            </Container>
+                </>:<></>}              
+
+              </Stack>            
+            </Container> 
           </Box>
         ))}
       </Slider>
+ 
     </Box>
   );
 }
