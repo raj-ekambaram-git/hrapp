@@ -77,7 +77,7 @@ const ExpenseList = (props) => {
 
     const updateExpenseListForTable = (responseData) => {
       const updatedExpenseList =  responseData.map((expense, index)=> {
-        expense.deleteAction = <><HStack spacing={6}>{ (expense.status === ExpenseStatus.Draft || expense.status === ExpenseStatus.Saved  || expense.status === ExpenseStatus.Submitted )?(<DeleteIcon size="xs" onClick={() => handleExpenseDeleteSelection(expense.id)}/>):(<Box marginRight={3}></Box>)}<Box>{expense.id}</Box></HStack></>
+        expense.deleteAction = <><HStack spacing={6}>{ (expense.status === ExpenseStatus.Draft || expense.status === ExpenseStatus.Saved  || expense.status === ExpenseStatus.Submitted )?(<DeleteIcon size="xs" color="red" onClick={() => handleExpenseDeleteSelection(expense.id)}/>):(<Box marginRight={3}></Box>)}<Box>{expense.id}</Box></HStack></>
         expense.detailAction = <Button size="xs" bgColor="header_actions" onClick={() => handleExpenseSelection(expense.id)}>Details</Button>
         expense.projectName = expense?.project?.name;
         expense.lastUpdateDate = util.getFormattedDate(expense.lastUpdateDate)

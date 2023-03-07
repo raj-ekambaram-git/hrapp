@@ -129,7 +129,7 @@ const InvoiceItems = (props) => {
                             {invoiceItemListNew?.map((invoiceItem, index) => (
                                 <Tr>
                                     <Th>
-                                        <DeleteIcon onClick={() => deleteInvoiceItem(index, invoiceItem.total)}/>
+                                        <DeleteIcon color="red" onClick={() => deleteInvoiceItem(index, invoiceItem.total)}/>
                                     </Th>       
                                     <Th>
                                         {invoiceItem.type}

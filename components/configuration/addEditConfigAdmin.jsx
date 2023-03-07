@@ -222,7 +222,7 @@ const AddEditConfigAdmin = (props) => {
                                         {appConfigValue?.map((value, index) => (
                                           <Tr>
                                               <Th>
-                                              <DeleteIcon onClick={() => handleRemoveConfigValue(index)}/>
+                                              <DeleteIcon onClick={() => handleRemoveConfigValue(index)} color="red"/>
                                               </Th>
                                               <Th>
                                                   {value}

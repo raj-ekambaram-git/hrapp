@@ -38,7 +38,7 @@ const ProjectResourceList = (props) => {
   function refreshProjectListforTableDisplay() {
      const tempprojectResourceList =  [...projectResourceList].map((projectResource, index)=> {
         projectResource.editAction = <AddProjectResource data={{projectResource: projectResource, mode: MODE_EDIT}}/>
-        projectResource.deleteAction = <DeleteIcon boxSize={4} onClick={() => deleteProjectResource(projectResource.id,projectResource.budgetAllocated, projectResource.billable, index)}/>;
+        projectResource.deleteAction = <DeleteIcon color="red" boxSize={4} onClick={() => deleteProjectResource(projectResource.id,projectResource.budgetAllocated, projectResource.billable, index)}/>;
         if(projectResource.billable) {
           projectResource.type = <Badge color="paid_status">Billable</Badge>;
         }else {

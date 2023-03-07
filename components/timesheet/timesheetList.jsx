@@ -84,7 +84,7 @@ const TimesheetList = (props) => {
 
     const updateTimesheetListForTable = (responseData) => {
       const updatedTimesheetist =  responseData.map((timesheet, index)=> {
-        timesheet.deleteAction = <><HStack spacing={6}>{timesheetService.isTimesheetDeletable(timesheet)?(<DeleteIcon size="xs" onClick={() => handleTimesheetDeleteSelection(timesheet.id)}/>):(<Box marginRight={3}></Box>)}<Box>{timesheet.id}</Box></HStack></>
+        timesheet.deleteAction = <><HStack spacing={6}>{timesheetService.isTimesheetDeletable(timesheet)?(<DeleteIcon color="red" size="xs" onClick={() => handleTimesheetDeleteSelection(timesheet.id)}/>):(<Box marginRight={3}></Box>)}<Box>{timesheet.id}</Box></HStack></>
         timesheet.detailAction = <Button size="xs" bgColor="header_actions" onClick={() => handleTimesheetSelection(timesheet.id)}>Details</Button>
         // timesheet.status = 
         timesheet.lastUpdateDate = util.getFormattedDate(timesheet.lastUpdateDate)

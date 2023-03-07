@@ -176,7 +176,7 @@ const VendorUserAddSection = (props) => {
                                         {vendorUsers?.map((vendorUser, index) => (
                                           <Tr>
                                             <Th>
-                                              <DeleteIcon onClick={() => handleRemoveUserFromVendor(vendorUser.id, index)}/>
+                                              <DeleteIcon color="red" onClick={() => handleRemoveUserFromVendor(vendorUser.id, index)}/>
                                             </Th>
                                             <Th>
                                               {vendorUser.user?.id}

@@ -132,7 +132,7 @@ const ManageDocuments = (props) => {
                                     {documents?.map((document, index) => (
                                       <Tr>
                                         <Th>
-                                        <DeleteIcon boxSize={4} onClick={() => handleDeleteDocument(document.id, index)}/> 
+                                        <DeleteIcon color="red" boxSize={4} onClick={() => handleDeleteDocument(document.id, index)}/> 
                                         </Th>
                                         <Th>
                                           {document.id}

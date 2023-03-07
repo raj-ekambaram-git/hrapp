@@ -155,7 +155,7 @@ const ManageVendors = (props) => {
                                   {userVendors?.map((userVendor, index) => (
                                     <Tr>
                                       <Th>
-                                        <DeleteIcon onClick={() => handleRemoveVendorFromUser(userVendor.id, index)}/>
+                                        <DeleteIcon color="red" onClick={() => handleRemoveVendorFromUser(userVendor.id, index)}/>
                                       </Th>
                                       <Th>
                                         {userVendor.vendor?.name}

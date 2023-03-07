@@ -77,7 +77,7 @@ const ProjectList = (props) => {
     function updateProjectForTable(projectListInput) {
       console.log("projectListInput updateProjectForTable::"+JSON.stringify(projectListInput))
       const updatedProjectList =  projectListInput.map((project, index)=> {
-        project.deleteAction = <><HStack spacing={6}>{project.status === ProjectStatus.Created?(<DeleteIcon size="xs" onClick={() => handleProjectDeleteSelection(project.id)}/>):(<Box marginRight={3}></Box>)}<Box>{project.id}</Box></HStack></>
+        project.deleteAction = <><HStack spacing={6}>{project.status === ProjectStatus.Created?(<DeleteIcon color="red" size="xs" onClick={() => handleProjectDeleteSelection(project.id)}/>):(<Box marginRight={3}></Box>)}<Box>{project.id}</Box></HStack></>
         project.detailAction = <Button size="xs" bgColor="header_actions" onClick={() => handleProjectDetailSelection(project.id)}>Details</Button>
         project.vendorName = project.vendor?.name?project.vendor?.name:"N/A"
         project.accountName = project.account?.name?project.account?.name:"N/A"

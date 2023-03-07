@@ -87,7 +87,7 @@ const InvoiceEmailTo = (props) => {
                                             <Tr >
                                                 <Th>
                                                     {(index != 0 && index!=1)? (
-                                                        <DeleteIcon boxSize={4} onClick={() => deleteInvoiceEmailTo(index)}/> 
+                                                        <DeleteIcon boxSize={4} onClick={() => deleteInvoiceEmailTo(index)} color="red"/> 
                                                     ) : (
                                                         <></>
                                                     ) }

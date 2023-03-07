@@ -107,7 +107,7 @@ const ManageJobs = (props) => {
         //Onlly Cancel
         // job.updateActions = <DeleteIcon boxSize={4}/>
       }
-      job.deleteAction = <DeleteIcon  onClick={() => handleStatusUpdate(ScheduleJobConstants.JOB_STATUS.Delete, job.jobName, job.groupName)}  boxSize={3}/>
+      job.deleteAction = <DeleteIcon  color="red" onClick={() => handleStatusUpdate(ScheduleJobConstants.JOB_STATUS.Delete, job.jobName, job.groupName)}  boxSize={3}/>
       
       return job;
     });

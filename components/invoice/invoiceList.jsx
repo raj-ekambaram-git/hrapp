@@ -111,7 +111,7 @@ const InvoiceList = (props) => {
 
     function updateInvoicesForDisplay(responseData) {
       return responseData.map((invoice)=> {
-        invoice.deleteAction = <><HStack spacing={6}>{(invoice.status === InvoiceStatus.Draft)?(<DeleteIcon size="xs" onClick={() => handleInvoiceDeleteSelection(invoice.id)}/>):(<Box marginRight={3}></Box>)}<Box>{invoice.id}</Box></HStack></>
+        invoice.deleteAction = <><HStack spacing={6}>{(invoice.status === InvoiceStatus.Draft)?(<DeleteIcon color="red" size="xs" onClick={() => handleInvoiceDeleteSelection(invoice.id)}/>):(<Box marginRight={3}></Box>)}<Box>{invoice.id}</Box></HStack></>
         invoice.detailAction = <Button size="xs" bgColor="header_actions" onClick={() => handleInvoiceDetailSelection(invoice.id)}>Details</Button>
         // invoice.status = <Badge color={`${(invoice.status === "Paid" || invoice.status === "PartiallyPaid") ? "paid_status": invoice.status === "Pending" ? "pending_status": "pending_status"}`}>{invoice.status}</Badge>
         invoice.amount = "$ "+(parseFloat(invoice.total))

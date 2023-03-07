@@ -52,7 +52,7 @@ const CostList = (props) => {
   
   function updateCostsForDisplay(responseData) {
     return responseData.map((cost)=> {
-      cost.deleteAction = <><HStack spacing={6}>{(cost.status === ExpenseStatus.Saved)?(<DeleteIcon size="xs" onClick={() => handleCostDeleteSelection(cost.id)}/>):(<Box marginRight={3}></Box>)}<Box>{cost.id}</Box></HStack></>
+      cost.deleteAction = <><HStack spacing={6}>{(cost.status === ExpenseStatus.Saved)?(<DeleteIcon color="red" size="xs" onClick={() => handleCostDeleteSelection(cost.id)}/>):(<Box marginRight={3}></Box>)}<Box>{cost.id}</Box></HStack></>
       cost.detailAction = <CostPayment isAddMode={false} costId={cost.id} costData={cost}/>      
       // invoice.status = <Badge color={`${(invoice.status === "Paid" || invoice.status === "PartiallyPaid") ? "paid_status": invoice.status === "Pending" ? "pending_status": "pending_status"}`}>{invoice.status}</Badge>
       cost.amount = "$ "+(parseFloat(cost.total))

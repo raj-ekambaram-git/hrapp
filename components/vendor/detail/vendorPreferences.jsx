@@ -71,7 +71,7 @@ const VendorPreferences = (props) => {
         }
       })
 
-      preference.deleteAction = <DeleteIcon size="xs" onClick={() => handleUpdatePreference(preference.id, VendorSettingStatus.MarkForDelete, index)}/>;
+      preference.deleteAction = <DeleteIcon color="red" size="xs" onClick={() => handleUpdatePreference(preference.id, VendorSettingStatus.MarkForDelete, index)}/>;
       if(preference.status === VendorSettingStatus.Active) {
         preference.updateAction = <Switch colorScheme='teal' size='sm' id='pause' isChecked onChange={() => handleUpdatePreference(preference.id, VendorSettingStatus.Inactive, index)} >Mark Inactive</Switch> ;      
       } else {

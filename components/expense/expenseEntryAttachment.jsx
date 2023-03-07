@@ -141,7 +141,7 @@ const ExpenseEntryAttachment = (props) => {
                 {props.attachments?.map((attachment, index) => (
                   <HStack marginBottom={1}>
                     <Box>
-                      <DeleteIcon boxSize={3} onClick={() => handleDeleteDocument(index, attachment)}/>
+                      <DeleteIcon color="red" boxSize={3} onClick={() => handleDeleteDocument(index, attachment)}/>
                     </Box>
                     <Box>
                       <Link href="" onClick={() => handleViewDocument(attachment)}>  

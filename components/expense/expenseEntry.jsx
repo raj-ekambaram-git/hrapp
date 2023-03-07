@@ -291,7 +291,7 @@ const ExpenseEntry = (props) => {
                   {expenseEntries?.map((expenseEntry, index) => (
                     <Tr>
                         <Th>
-                          {(expenseEntry.status != ExpenseConstants.EXPENSE_STATUS.Approved && expenseEntry.status != ExpenseConstants.EXPENSE_STATUS.Invoiced) ? <DeleteIcon boxSize={4} onClick={() => deleteExpenseEntry(index)}/> : <CheckCircleIcon boxSize={4} color="header_actions"/>}
+                          {(expenseEntry.status != ExpenseConstants.EXPENSE_STATUS.Approved && expenseEntry.status != ExpenseConstants.EXPENSE_STATUS.Invoiced) ? <DeleteIcon color="red" boxSize={4} onClick={() => deleteExpenseEntry(index)}/> : <CheckCircleIcon boxSize={4} color="header_actions"/>}
                         </Th>
                         <Th>
                         <Select id="type" value={expenseEntry.type} onChange={(ev) => handleExpenseEntry(index,"type",ev.target.value)}>

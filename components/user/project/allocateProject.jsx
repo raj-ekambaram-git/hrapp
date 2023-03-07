@@ -162,7 +162,7 @@ const AllocateProject = (props) => {
                                   {userProjects?.map((projectResource, index) => (
                                     <Tr>
                                       <Th>
-                                        <DeleteIcon onClick={() => handleRemoveProjectFromUser(projectResource.id, index)}/>
+                                        <DeleteIcon ocolor="red" nClick={() => handleRemoveProjectFromUser(projectResource.id, index)}/>
                                       </Th>
                                       <Th>
                                         {projectResource.project?.name} 

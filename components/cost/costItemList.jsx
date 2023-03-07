@@ -62,7 +62,7 @@ function CostItemList(props) {
             {props.costItemList?.map((costItem, index) => (
                 <Tr>
                   <Th>
-                    <DeleteIcon onClick={() => deleteCostItem(index,costItem.notes.split("_")[0], costItem.amount)}/>
+                    <DeleteIcon color="red" onClick={() => deleteCostItem(index,costItem.notes.split("_")[0], costItem.amount)}/>
                   </Th>
                   <Th>
                     {costItem.type}
