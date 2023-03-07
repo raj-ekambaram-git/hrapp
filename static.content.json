@@ -338,7 +338,38 @@
           {
             "name": "features",
             "data" : {
-              "heading1": "",
+              "heading1": "Help Center",
+              "details1": "",
+              "features": [             
+              ],
+              "image1": {
+                "source": "/boNeeds/Help_Hero_1.png",
+                "alt": "feature image",
+                "maxH": "10vH",
+                "width": ""
+              }
+            }
+          },
+          {
+          "name": "contentWithNavSection",
+          "data": {
+              "items": [
+                { "name": "Client", "content": "<p>Welcome to this <strong>page</strong></p> ", "heading": "Client Management" },
+                { "name": "User",  "content": "<p>Welcome to this <strong>page</strong></p> <img src='/boNeeds/Features_Carousel_4.png'/> ", "heading": "User Management" },
+                { "name": "Project", "content": "<p>Welcome to this <strong>page</strong></p> ", "heading": "Project Management" },
+                { "name": "Invoice", "content": "<p>Welcome to this <strong>page</strong></p> ", "heading": "Invoice Management" }
+              ]
+          }
+        }]
+      },
+      {
+        "title": "Help Page",
+        "path": "/static/help/client",
+        "components": [
+          {
+            "name": "features",
+            "data" : {
+              "heading1": "Client Management",
               "details1": "",
               "features": [             
               ],
