@@ -332,6 +332,38 @@
         ]
       },
       {
+        "title": "Help Page",
+        "path": "/static/help",
+        "components": [
+          {
+            "name": "features",
+            "data" : {
+              "heading1": "",
+              "details1": "",
+              "features": [             
+              ],
+              "image1": {
+                "source": "/boNeeds/Help_Hero_1.png",
+                "alt": "feature image",
+                "maxH": "10vH",
+                "width": ""
+              }
+            }
+          },
+          {
+          "name": "contentWithNavSection",
+          "data": {
+              "items": [
+                { "name": "Home", "content": "<p>Welcome to this <strong>page</strong></p> 1111 ", "heading": "Home Content" },
+                { "name": "Trending",  "content": "<p>Welcome to this <strong>page</strong></p> <img src='/boNeeds/Features_Carousel_4.png'/> 222 ", "heading": "Trending Content" },
+                { "name": "Explore", "content": "<p>Welcome to this <strong>page</strong></p> 3333", "heading": "Explore Content" },
+                { "name": "Favourites", "content": "<p>Welcome to this <strong>page</strong></p> 4444 ", "heading": "Favourites Content" },
+                { "name": "Settings", "content": "<p>Welcome to this <strong>page</strong></p> 5555", "heading": "Settings Content" }
+              ]
+          }
+        }]
+      },
+      {
         "title": "Features Page",
         "path": "/static/foo",
         "components": [
@@ -393,11 +425,18 @@
       {
         "title": "Bar Page",
         "path": "/bar",
-        "components": [
-          {
-          "name": "contentWithNavSection"
+        "components": [{
+          "name": "contentWithNavSection",
+          "data": {
+              "items": [
+                { "name": "Home", "content": "<p>Welcome to this <strong>page</strong></p> 1111 ", "heading": "Home Content" },
+                { "name": "Trending",  "content": "<p>Welcome to this <strong>page</strong></p> <img src='/boNeeds/Features_Carousel_4.png'/> 222 ", "heading": "Trending Content" },
+                { "name": "Explore", "content": "<p>Welcome to this <strong>page</strong></p> 3333", "heading": "Explore Content" },
+                { "name": "Favourites", "content": "<p>Welcome to this <strong>page</strong></p> 4444 ", "heading": "Favourites Content" },
+                { "name": "Settings", "content": "<p>Welcome to this <strong>page</strong></p> 5555", "heading": "Settings Content" }
+              ]
           }
-        ]
+        }]
       },
       {
         "title": "Baz Page",

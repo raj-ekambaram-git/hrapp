@@ -43,15 +43,15 @@ import {
   export default function SplitWithImage(props) {
     return (
       <Container maxW={'5xl'} py={12}>
-        <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
-          <Stack spacing={4}>
+        <SimpleGrid columns={{ base: 1, md: 2 }}>
+          <Stack spacing={2}>
             <Text
               textTransform={'uppercase'}
               color={'blue.400'}
               fontWeight={600}
               fontSize={'sm'}
               bg={useColorModeValue('blue.50', 'blue.900')}
-              p={2}
+              p={1}
               alignSelf={'flex-start'}
               rounded={'md'}>
               {props.block?.data?.tag1}
@@ -77,7 +77,7 @@ import {
               )}
             </Stack>
           </Stack>
-          <Flex>
+          <Flex maxH={props.block?.data?.image1.maxH?props.block?.data?.image1.maxH:""} width={props.block?.data?.image1.width?props.block?.data?.image1.width:""}>
             <Image
               rounded={'md'}
               alt={props.block?.data?.image1.alt}

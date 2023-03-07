@@ -1,37 +1,21 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useState } from 'react';
 import {
   IconButton,
-  Avatar,
+  Heading,
   Box,
-  CloseButton,
   Flex,
   HStack,
-  VStack,
-  Icon,
   useColorModeValue,
   Link,
   Drawer,
   DrawerContent,
-  Text,
   useDisclosure,
   BoxProps,
   FlexProps,
-  Menu,
-  MenuButton,
-  MenuDivider,
-  MenuItem,
-  MenuList,
   Container,
 } from '@chakra-ui/react';
 import {
-  FiHome,
-  FiTrendingUp,
-  FiCompass,
-  FiStar,
-  FiSettings,
   FiMenu,
-  FiBell,
-  FiChevronDown,
 } from 'react-icons/fi';
 import { IconType } from 'react-icons';
 import { ReactText } from 'react';
@@ -39,26 +23,34 @@ import { ReactText } from 'react';
 interface LinkItemProps {
   name: string;
   icon: IconType;
+  content: string;
+  heading: string;
 }
-const LinkItems: Array<LinkItemProps> = [
-  { name: 'Home', icon: FiHome },
-  { name: 'Trending', icon: FiTrendingUp },
-  { name: 'Explore', icon: FiCompass },
-  { name: 'Favourites', icon: FiStar },
-  { name: 'Settings', icon: FiSettings },
-];
 
-export default function SidebarWithHeader({
-  children,
-}: {
-  children: ReactNode;
-}) {
+
+export default function SidebarWithHeader(props) {
+  const LinkItems: Array<LinkItemProps> = props.block?.data?.items;
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [htmlPart, setHtmlPart] = useState(LinkItems[0].content);
+  const [heading, setHeading] = useState(LinkItems[0].heading);
+  
+
+  const handleMainContent = (index, onClose) => {
+    console.log("index:::"+index)
+    LinkItems[index].content?setHtmlPart(LinkItems[index].content):"No content to display"
+    LinkItems[index].heading?setHeading(LinkItems[index].heading):"No content to display"
+
+    if(onClose) {
+      onClose();
+    }
+  }
   return (
-    <Container maxW={'7xl'} p="12">
+    <Container maxW={'7xl'} p="1">
       <Box minH="100vh">
         <SidebarContent
           onClose={() => onClose}
+          handleMainContent={handleMainContent}
+          LinkItems={LinkItems}
           display={{ base: 'none', md: 'block' }}
         />
         <Drawer
@@ -70,13 +62,13 @@ export default function SidebarWithHeader({
           onOverlayClick={onClose}
           size="full">
           <DrawerContent>
-            <SidebarContent onClose={onClose} />
+            <SidebarContent onClose={onClose} handleMainContent={handleMainContent} LinkItems={LinkItems}/>
           </DrawerContent>
         </Drawer>
         {/* mobilenav */}
-        <MobileNav onOpen={onOpen} />
+        <MobileNav onOpen={onOpen} heading={heading}/>
         <Box ml={{ base: 0, md: 60 }} p="4">
-          {children}
+          <div dangerouslySetInnerHTML={ {__html: htmlPart} } />
         </Box>
       </Box>
     </Container>
@@ -84,22 +76,23 @@ export default function SidebarWithHeader({
 }
 
 interface SidebarProps extends BoxProps {
-  onClose: () => void;
+  onClose: () => void;  
+  handleMainContent: any;
+  LinkItems: any;
 }
 
-const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
+const SidebarContent = ({ onClose, handleMainContent, LinkItems, ...rest }: SidebarProps) => {
   return (
     <Box
       transition="3s ease"
       bg={useColorModeValue('white', 'gray.900')}
       borderRight="1px"
       borderRightColor={useColorModeValue('gray.200', 'gray.700')}
-      w={{ base: 'full', md: 60 }}
+      w={{ base: 'full', md: 40 }}
       pos="fixed"
-      h="full"
       {...rest}>
-      {LinkItems.map((link) => (
-        <NavItem key={link.name} >
+      {LinkItems.map((link, index) => (
+        <NavItem key={link.name} onClick={() => handleMainContent(index, onClose)} >
           {link.name}
         </NavItem>
       ))}
@@ -133,8 +126,9 @@ const NavItem = ({ children, ...rest }: NavItemProps) => {
 
 interface MobileProps extends FlexProps {
   onOpen: () => void;
+  heading: string;
 }
-const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
+const MobileNav = ({ onOpen, heading, ...rest }: MobileProps) => {
   return (
     <Flex
       ml={{ base: 0, md: 60 }}
@@ -142,7 +136,7 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
       height="20"
       alignItems="center"    
       borderBottomWidth="1px"
-      justifyContent={{ base: 'space-between', md: 'flex-end' }}
+      justifyContent={{ base: 'space-between', md: 'center' }}
       {...rest}>
       <IconButton
         display={{ base: 'flex', md: 'none' }}
@@ -152,11 +146,10 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
         icon={<FiMenu />}
       />
       <HStack spacing={{ base: '0', md: '6' }}>
-
-        <Flex alignItems={'center'}>
-         
-        </Flex>
-      </HStack>
+        <Heading alignContent={'center'}>
+         {heading}
+        </Heading>
+      </HStack>      
     </Flex>
   );
 };
