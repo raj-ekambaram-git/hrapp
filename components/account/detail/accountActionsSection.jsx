@@ -25,7 +25,7 @@ const AccountActionsSection = (props) => {
                 </Box>
                 <Box>
                 <Button size="xs" bgColor="header_actions" onClick={() => router.push("/account/vendors")}>
-                    Account Vendors
+                    Account Clients
                 </Button>
                 </Box>   
                 <Box>

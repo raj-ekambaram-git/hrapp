@@ -68,7 +68,7 @@ const VendorList = (props) => {
     <div>
       {isPageAuthprized ? (
         <div>
-              <PageMainHeader heading="Account Vendors"/>    
+              <PageMainHeader heading="Account Clients"/>    
               <Flex marginBottom="1rem">
                 <HStack>
                   <Box>
