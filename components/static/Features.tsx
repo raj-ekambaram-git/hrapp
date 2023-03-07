@@ -26,7 +26,7 @@ import {
   }: FeatureProps) => {
     const rowDirection = reverse ? "row-reverse" : "row";
     return (
-      <Center w="full" minH={[null, null]} padding="40" >
+      <Center w="full" minH={[null, null]} padding={["50","50"]} >
         <Container maxW="container.xl" rounded="lg" >
           <Stack            
             divider={<StackDivider/>}

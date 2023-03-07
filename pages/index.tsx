@@ -1,4 +1,4 @@
-import { Box, Center, Container, Flex, Heading, Stack, VStack } from '@chakra-ui/react';
+import { Box, Center, Container, Flex, Heading, Stack, VStack,Text } from '@chakra-ui/react';
 import Head from 'next/head';
 import FAQSection from '../components/static/FAQSection';
 import { Feature } from '../components/static/Features';
@@ -64,9 +64,10 @@ export default function Index() {
               backgroundColor="white"
               w="full"
               id="features"
-              spacing={[16, 16]}
+              spacing={[4, 1]}
               py={[16, 0]}
             >
+               <Heading textAlign={'center'} as="h1">Features</Heading>
               {features.map(
                 ({ title, description, image }: FeatureType, i: number) => {
                   return (
