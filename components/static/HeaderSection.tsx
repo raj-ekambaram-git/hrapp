@@ -27,7 +27,7 @@ import content from '../../static.content.json';
 
 const navLinks = [
   { name: 'Home', link: '/' },
-  { name: 'Features', link: '#features' },
+  { name: 'Features', link: '/static/features' },
   // { name: 'Pricing', link: '#pricing' },
 ]
 
