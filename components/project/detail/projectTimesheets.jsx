@@ -70,7 +70,7 @@ const ProjectTimesheets = (props) => {
           timesheetEntry.name = timesheetEntry.timesheet?.name
           timesheetEntry.resource = timesheetEntry.timesheet?.user?.firstName?timesheetEntry.timesheet?.user?.firstName:EMPTY_STRING+" "+timesheetEntry.timesheet?.user?.lastName?timesheetEntry.timesheet?.user?.lastName:EMPTY_STRING
           timesheetEntry.totalHours = timesheetEntry.entries?util.getTotalHours(timesheetEntry.entries):""
-          timesheetEntry.detailAction =  <ProjectTimesheeEntrySection data={timesheetEntry.entries}/>
+          timesheetEntry.detailAction =  <ProjectTimesheeEntrySection data={timesheetEntry.entries} tseId={timesheetEntry.id} addTimesheetEntryAsInvoiceItem={addTimesheetEntryAsInvoiceItem} callType={callType}/>
           timesheetEntry.status = timesheetEntry.status
           timesheetEntry.approvedOn = util.getFormattedDate(timesheetEntry.approvedDate)
           timesheetEntry.approvedBy = timesheetEntry?.approvedUser?.firstName?timesheetEntry?.approvedUser?.firstName:EMPTY_STRING+" "+timesheetEntry.approvedUser?.lastName?timesheetEntry.approvedUser?.lastName:EMPTY_STRING
