@@ -4,7 +4,8 @@ import {
 
 export const TimesheetConstants = {
 
-  
+  Weekly: "Weekly",
+  Daily: "Daily",
   TIMESHEET_LIST_TABLE_META: [
     
     {

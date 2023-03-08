@@ -41,8 +41,79 @@ export const util = {
     getScheduleTime,
     stringToDate,
     stringToDateTime,
-    getLocaleTimeZone
+    getLocaleTimeZone,
+    getTSEntriesArray
 };
+
+function getTSEntriesArray(entries) {
+  const tsEntriesArray = [];
+
+  if(entries?.day1) {
+    const day1 = {
+      day: "day1",
+      date: entries?.day1?.date,
+      hours: entries?.day1?.hours
+    }
+    tsEntriesArray.push(day1)
+  }
+
+  if(entries?.day2) {
+    const day2 = {
+      day: "day2",
+      date: entries?.day2?.date,
+      hours: entries?.day2?.hours
+    }
+    tsEntriesArray.push(day2)
+  }
+
+  if(entries?.day3) {
+    const day3 = {
+      day: "day3",
+      date: entries?.day3?.date,
+      hours: entries?.day3?.hours
+    }
+    tsEntriesArray.push(day3)
+  }
+
+  if(entries?.day4) {
+    const day4 = {
+      day: "day4",
+      date: entries?.day4?.date,
+      hours: entries?.day4?.hours
+    }
+    tsEntriesArray.push(day4)
+  }
+
+  if(entries?.day5) {
+    const day5 = {
+      day: "day5",
+      date: entries?.day5?.date,
+      hours: entries?.day5?.hours
+    }
+    tsEntriesArray.push(day5)
+  }
+
+  if(entries?.day6) {
+    const day6 = {
+      day: "day6",
+      date: entries?.day6?.date,
+      hours: entries?.day6?.hours
+    }
+    tsEntriesArray.push(day6)
+  }
+
+  if(entries?.day7) {
+    const day7 = {
+      day: "day7",
+      date: entries?.day7?.date,
+      hours: entries?.day7?.hours
+    }
+    tsEntriesArray.push(day7)
+  }
+   
+  return tsEntriesArray;
+}
+
 
 function getLocaleTimeZone() {
   return Intl.DateTimeFormat().resolvedOptions().timeZone;

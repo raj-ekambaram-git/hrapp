@@ -32,7 +32,7 @@ import { ShowInlineErrorMessage } from "../common/showInlineErrorMessage";
 import { NotesConstants } from "../../constants";
 import NotesHistory from "../notes/notesHistory";
 import { setNotesType } from "../../store/modules/Notes/actions";
-
+import  {Spinner} from '../common/spinner'
 
 
 
@@ -40,6 +40,7 @@ import { setNotesType } from "../../store/modules/Notes/actions";
     const tsEntryDetail = props.tsEntryDetail;
     const dispatch = useDispatch();
     const [size, setSize] = useState('')
+    const [loading, setLoading] = useState(false)
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [timesheetEntryNote, setTimesheetEntryNote] = useState(DEFAULT_NOTES);
     const [timesheetEntryDetail, setTimesheetEntryDetail] = useState({});
@@ -61,7 +62,7 @@ import { setNotesType } from "../../store/modules/Notes/actions";
       }, []);
 
     async function updateTimesheetEntry(userId, timesheetEntryId,status, billable) {
-        console.log("updateTimesheetEntry::::"+userId);
+        setLoading(true)
         if(timesheetEntryNote != undefined && timesheetEntryNote != EMPTY_STRING && timesheetEntryNote != DEFAULT_NOTES) {
             setShowErrorMessage(EMPTY_STRING);
             const timesheetEntryUpdateResponse = await timesheetService.updateTimesheetEntry(userId, billable, timesheetEntryId, status, timesheetEntryNote, userService.userValue.id);    
@@ -79,6 +80,8 @@ import { setNotesType } from "../../store/modules/Notes/actions";
             setShowErrorMessage("Notes are required.");
             onOpen();
         }
+
+        setLoading(false)
         
     }
 
@@ -105,6 +108,7 @@ import { setNotesType } from "../../store/modules/Notes/actions";
                     {tsEntryDetail.timesheet?.name} of {tsEntryDetail.timesheet?.user?.firstName} {tsEntryDetail.timesheet?.user?.lastName}
                 </DrawerHeader>                    
                 <DrawerBody>
+                    {loading?<><Spinner/></>:<></>}
                     <ShowInlineErrorMessage showErrorMessage={showErrorMessage}/>
                 <TableContainer display="flex">
                     <Table>

@@ -26,6 +26,7 @@ import { InvoiceConstants } from "../../../constants/invoiceConstants";
 import { ProjectConstants } from "../../../constants";
 import { ExpenseStatus, ExpenseType, TimesheetStatus } from "@prisma/client";
 import { CustomTable } from "../../customTable/Table";
+import { TimesheetConstants } from "../../../constants/timesheetConstants";
 
 
 
@@ -62,7 +63,7 @@ const ProjectTimesheets = (props) => {
       if(projectTimesheeetByStatus != undefined && projectTimesheeetByStatus != EMPTY_STRING && projectTimesheeetByStatus.length != 0) {        
         const updatedTSEist =  projectTimesheeetByStatus.map((timesheetEntry, index)=> {
           if(callType == INVOICE_CALL_TYPE && timesheetEntry.status == TIMESHEET_STATUS.Approved && timesheetEntry.billable) {
-            timesheetEntry.enableAddtoInvoiceCheckBox = <Checkbox value={timesheetEntry.id} isChecked={selectedTSEIdsRef.current.includes(timesheetEntry.id)?true:false} onChange={(e) => addTimesheetEntryAsInvoiceItem(e)}/>
+            timesheetEntry.enableAddtoInvoiceCheckBox = <Checkbox value={timesheetEntry.id} isChecked={selectedTSEIdsRef.current.includes(timesheetEntry.id)?true:false} onChange={(e) => addTimesheetEntryAsInvoiceItem(e, timesheetEntry.id, TimesheetConstants.Weekly)}/>
           } else if(callType == COST_CALL_TYPE && timesheetEntry.status == TIMESHEET_STATUS.Invoiced && !timesheetEntry.settled && timesheetEntry.billable) {
             timesheetEntry.enableAddtoInvoiceCheckBox = <Checkbox value={timesheetEntry.id} isChecked={selectedCostTSEIdsRef.current.includes(timesheetEntry.id)?true:false} onChange={(e) => addTimesheetEntryAsCostItem(e)}/>
           }
@@ -158,11 +159,19 @@ const ProjectTimesheets = (props) => {
       }      
     }
 
-    function addTimesheetEntryAsInvoiceItem(e) {
+    function addTimesheetEntryAsInvoiceItem(e, tsEntryId, requestType) {
       const selectedTimesheetEntry = [...timesheetListRef.current].find(x => x.id === parseInt(e.target.value));
       const selectedTSQuantity = util.getTotalHours(selectedTimesheetEntry.entries);
       const selectedTSTotal = parseFloat(selectedTSQuantity) * parseFloat(selectedTimesheetEntry.unitPrice);
 
+      let detail = {};
+
+      
+
+      if(requestType === TimesheetConstants.Weekly) {
+        detail = util.getTSEntriesArray(selectedTimesheetEntry.entries)
+      }
+      
 
       if(e.target.checked) { //Add the timesheet entry to the invoice item list
         if(!enableAddTimeSheetEntry) {
@@ -179,7 +188,8 @@ const ProjectTimesheets = (props) => {
           uom: InvoiceConstants.INVOICE_UOM_HOURS,
           total: selectedTSTotal,
           fromDate: new Date(selectedTimesheetEntry.entries?.day1.date),
-          toDate: new Date(selectedTimesheetEntry.entries?.day7?.date)
+          toDate: new Date(selectedTimesheetEntry.entries?.day7?.date),
+          detail: detail
         };
 
           dispatch(setInvoiceItemList(addedTimesheetInvoiceItem));

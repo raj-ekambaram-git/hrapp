@@ -1080,6 +1080,7 @@ enum TimesheetStatus {
   Saved
   Approved
   Rejected
+  PartiallyInvoiced
   Invoiced
   Submitted
   MarkForDelete

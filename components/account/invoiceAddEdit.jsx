@@ -75,6 +75,7 @@ const InvoiceAddEdit = (props) => {
   const [enableEmailIcon, setEnableEmailIcon] = useState(false);
   const [disableUpdate, setDisableUpdate] = useState(false);
   const [enableWorkFlow, setEnableWorkFlow] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [workFlow, setWorkFlow] = useState();
 
 
@@ -303,7 +304,7 @@ const InvoiceAddEdit = (props) => {
   }
     
 
-  function onSubmit(data) {
+  function onSubmit(data) {    
     if(invoiceTotal) {
       data.total = invoiceTotal
     }
@@ -314,6 +315,7 @@ const InvoiceAddEdit = (props) => {
 
   // Create Account 
   const createInvoice = async (formData) => {
+    console.log("invoiceItemListinvoiceItemListinvoiceItemList::"+JSON.stringify(invoiceItemList))
     try {
         if(enableWorkFlow) {
           //Check of name, status and steps are there
@@ -342,8 +344,9 @@ const InvoiceAddEdit = (props) => {
           })
           return;
         }
-
+        setLoading(true)
         const responseData = await invoiceService.createNewInvoice(formData, invoiceItemList, invoiceDate, dueDte, invoiceEmailTos, workFlow);
+        setLoading(false)
         if(!responseData.error) {
           toast({
             title: 'New Invoice.',
@@ -410,13 +413,14 @@ const InvoiceAddEdit = (props) => {
                 } else if(invoiceItem.type === InvoiceType.Timesheet) {
                   if(invoiceItem.timesheetEntry?.status === TimesheetStatus.Invoiced 
                     || invoiceItem.timesheetEntry?.status === TimesheetStatus.Paid
-                    || invoiceItem.timesheetEntry?.status === TimesheetStatus.PartiallyPaid) {
+                    || invoiceItem.timesheetEntry?.status === TimesheetStatus.PartiallyPaid) {          
                       return false;
                     }else {
                       return true;
                     }
                 }                
         })
+        console.log("invoiceItemStatuses:::"+invoiceItemStatuses)
         if(invoiceItemStatuses.includes(false)) {
           toast({
             title: 'Invoice Error.',
@@ -429,8 +433,9 @@ const InvoiceAddEdit = (props) => {
           return;
         }
       }
+      setLoading(true)
       const responseData = await invoiceService.updateInvoice(formData, invoiceId, invoiceDate, dueDte,invoiceItemList, invoiceTotal, invoiceEmailTos);
-
+      setLoading(false)
       if(!responseData.error) {
         toast({
           title: 'Update Invoice.',
@@ -481,7 +486,7 @@ const InvoiceAddEdit = (props) => {
     <>
       {isPageAuthprized ? (
         <div> 
-          
+          {loading?<><Spinner/></>:<></>}
           {isAddMode ? (
               <div>{isVendor? (<PageMainHeader heading="New Vendor Invoice"/>): (<PageMainHeader heading="New Account Invoice"/>)}</div>
           ) : (
