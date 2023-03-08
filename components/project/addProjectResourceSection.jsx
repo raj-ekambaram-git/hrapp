@@ -588,7 +588,7 @@ const AddProjectResource = (props) => {
                               </TableContainer>      
                             </Box>                            
 
-                            <Button onClick={() => handleSelectedProjectResource()} width="button.primary.width" bgColor="button.primary.color">
+                            <Button onClick={() => handleSelectedProjectResource()} width="button.primary.width" size="xs" bgColor="header_actions">
                               {isAddMode ? (<>
                                   Add                               
                               </>) : (<>

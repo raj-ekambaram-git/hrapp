@@ -487,19 +487,19 @@ const ProjectAddEdit = (props) => {
                     <HStack spacing="1rem">
                       <Box>
                         <FormControl isRequired>                          
-                          <Input  placeholder=" " type="text" {...register('contactName')}  id="contactName"   />                    
+                          <Input  placeholder=" " width="180px" type="text" {...register('contactName')}  id="contactName"   />                    
                           <FormLabel>Project Contact Name</FormLabel>
                         </FormControl>     
                       </Box>
                       <Box>
                         <FormControl isRequired>                          
-                          <Input  placeholder=" " type="text" {...register('contactEmail')}  id="contactEmail"   />
+                          <Input  placeholder=" " width="180px" type="text" {...register('contactEmail')}  id="contactEmail"   />
                           <FormLabel>Project Contact Email</FormLabel>
                         </FormControl>     
                       </Box>
                       <Box>
                         <FormControl isRequired>                          
-                          <Input  placeholder=" " type="text" {...register('contactPhone')}  id="contactPhone"  onChange={(ev) => handlePhoneInput(ev.target.value)} />
+                          <Input  placeholder=" " width="200px" type="text" {...register('contactPhone')}  id="contactPhone"  onChange={(ev) => handlePhoneInput(ev.target.value)} />
                           <FormLabel>Project Contact Phone</FormLabel>
                         </FormControl>     
                       </Box>
