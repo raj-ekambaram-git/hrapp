@@ -160,7 +160,7 @@ const ProjectTimesheets = (props) => {
     }
 
     function addTimesheetEntryAsInvoiceItem(e, tsEntryId, requestType) {
-      const selectedTimesheetEntry = [...timesheetListRef.current].find(x => x.id === parseInt(e.target.value));
+      const selectedTimesheetEntry = [...timesheetListRef.current].find(x => x.id === parseInt(tsEntryId));
       const selectedTSQuantity = util.getTotalHours(selectedTimesheetEntry.entries);
       const selectedTSTotal = parseFloat(selectedTSQuantity) * parseFloat(selectedTimesheetEntry.unitPrice);
 
@@ -178,7 +178,7 @@ const ProjectTimesheets = (props) => {
           setEnableAddTimeSheetEntry(true);
         }
         const addedTimesheetInvoiceItem = {
-          timesheetEntryId: parseInt(e.target.value),
+          timesheetEntryId: parseInt(tsEntryId),
           userId: parseInt(selectedTimesheetEntry.timesheet?.user?.id),
           type: InvoiceConstants.INVOICE_ITEM_TYPE_TIMESHEET,
           status: InvoiceConstants.INVOICE_STATUS.Draft,
@@ -193,8 +193,8 @@ const ProjectTimesheets = (props) => {
         };
 
           dispatch(setInvoiceItemList(addedTimesheetInvoiceItem));
-          dispatch(setSelectedInvoiceTSEId(parseInt(e.target.value)))
-          selectedTSEIdsRef.current.push(parseInt(e.target.value));
+          dispatch(setSelectedInvoiceTSEId(parseInt(tsEntryId)))
+          selectedTSEIdsRef.current.push(parseInt(tsEntryId));
           if(invTotal != undefined) {
             invTotal.total = invTotal.total+parseFloat(selectedTSTotal)
             dispatch(setInvoiceTotal(invTotal.total));            
@@ -205,8 +205,8 @@ const ProjectTimesheets = (props) => {
 
           prepareTimesheetListForTable(timesheetListRef.current);
       } else { // Remove the timesheet entry form the invoice item list if exists
-        dispatch(removeTSFromInvoiceItems(e.target.value));   
-        dispatch(removeTSFromSelectedTSE(e.target.value))
+        dispatch(removeTSFromInvoiceItems(tsEntryId));   
+        dispatch(removeTSFromSelectedTSE(tsEntryId))
         if(invTotal != undefined) {
             invTotal.total = invTotal.total-parseFloat(selectedTSTotal)
             dispatch(setInvoiceTotal(invTotal.total));
@@ -215,7 +215,7 @@ const ProjectTimesheets = (props) => {
         }
 
         const newSelecteTSEIds = [...selectedTSEIdsRef.current]
-        const index = newSelecteTSEIds.indexOf(parseInt(e.target.value));
+        const index = newSelecteTSEIds.indexOf(parseInt(tsEntryId));
         if (index > -1) { // only splice array when item is found
           newSelecteTSEIds.splice(index, 1); // 2nd parameter means remove one item only
         }
