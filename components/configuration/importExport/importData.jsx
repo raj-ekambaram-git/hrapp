@@ -22,8 +22,9 @@ import {
   CardBody,
   Card,
   ButtonGroup,
+  Text,
 } from '@chakra-ui/react';
-
+import { VscRefresh } from 'react-icons/vsc';
 import { useDispatch, useSelector } from "react-redux";
 import { setConfigurations } from "../../../store/modules/Configuration/actions";
 import { configurationService, importExportService, userService } from "../../../services";
@@ -77,7 +78,7 @@ const ImportData = (props) => {
     setLoading(true)
     setImportObject(null)
     setSize(newSize);
-    onOpen();
+    onOpen();  
     if(userService.isSuperAdmin() || userService.isAccountAdmin() ) {
       if(!appConfigList || (appConfigList && appConfigList.length==0)) {
         loadAppConfig() 
@@ -92,6 +93,12 @@ const ImportData = (props) => {
       processImportDataForDisplay(responseData)
     }    
     setLoading(false)
+  }
+
+  const refreshPreviousImports = async() => {
+      //Get Previoust Imports for this user
+      const responseData = await importExportService.previousImports(userService.userValue.id, userService.getAccountDetails().accountId)
+      processImportDataForDisplay(responseData)
   }
 
   const processImportDataForDisplay = (responseData) => {
@@ -268,7 +275,11 @@ const ImportData = (props) => {
                               <Stack>
                                   <Card variant="paymentTransactions">
                                     <CardHeader>
-                                      Previous Imports
+                                      <HStack spacing={8}>
+                                        <Text>Previous Imports</Text>
+                                        <Button colorScheme="yellow" size="xs" onClick={refreshPreviousImports} >Refresh</Button>
+                                      </HStack>
+                                      
                                     </CardHeader>
                                     <CardBody>
                                       <CustomTable columns={PREV_IMPORT_LIST_TABLE_COLUMNS} rows={previoustImports} />
