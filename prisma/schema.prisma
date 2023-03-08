@@ -191,6 +191,7 @@ model InvoiceItem {
   lastUpdateDate   DateTime          @updatedAt
   invoiceId        Int?
   timesheetEntryId Int?
+  detail           Json?
   markForDelete    Boolean           @default(false)
   expenseId        Int?
   expense          Expense?          @relation(fields: [expenseId], references: [id])
