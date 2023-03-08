@@ -1,6 +1,8 @@
 import AddEditConfigAdmin from "../components/configuration/addEditConfigAdmin";
 import {
   Badge,
+  Text,
+  Wrap
 } from '@chakra-ui/react'
 import { util } from '../helpers/util'
 import { ExportTemplateStatus, ExportTemplateType } from "@prisma/client";
@@ -214,7 +216,7 @@ export const ConfigConstants = {
         label: "Status",
         accessor: "status",
         format: (value) => (value ? <Badge color={`${value === "Success" ? "paid_status": "pending_status"}`}>{value === "Success"?"Ok":"Failed"}</Badge> : '✖️')
-      },
+      },  
       {
         label: "Finished At",
         accessor: "finishedAt",
@@ -224,7 +226,13 @@ export const ConfigConstants = {
         label: "File Name",
         accessor: "importedFileName",
         format: (value) => (value ?value.split("/")[1] : 'N/A')      
-      },                         
+      },    
+      {
+        label: "",
+        accessor: "runDetails",
+        disableSearch: true,
+        disableSort: true
+      },                        
     ],
 
 }

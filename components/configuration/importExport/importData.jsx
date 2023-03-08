@@ -32,6 +32,9 @@ const allowedExtensions = ["csv"];
 import Papa from "papaparse";
 import {Spinner} from '../../common/spinner'
 import { CustomTable } from "../../customTable/Table";
+import { CheckCircleIcon, WarningTwoIcon } from "@chakra-ui/icons";
+import ImportRunrDetails from "./importRunrDetails";
+
 
 const ImportData = (props) => {
   const [size, setSize] = useState('');
@@ -94,6 +97,13 @@ const ImportData = (props) => {
   const processImportDataForDisplay = (responseData) => {
     const updatedList = responseData?.data?.map((importJob) => {
       importJob.status = importJob?.runStatus?.runStatus;
+      if(importJob?.runStatus?.runStatus === "Failed") {
+        // importJob.runDetails = importJob?.runStatus?.errorDetails?importJob?.runStatus?.errorDetails:"Load Failed, no error details available.";
+        importJob.runDetails = <ImportRunrDetails runDetails={importJob?.runStatus?.errorDetails}/>;        
+        
+      } else {
+        importJob.runDetails = <CheckCircleIcon boxSize={4} color="header_actions"/>;
+      }
       importJob.finishedAt = importJob?.runStatus?.lastRunTime;
       importJob.importedFileName = importJob?.requestData?.importFilePath;
       return importJob;
