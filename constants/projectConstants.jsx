@@ -84,6 +84,11 @@ export const ProjectConstants = {
       accessor: "resource"
     },    
     {
+      label: "Week Start Date",
+      accessor: "startDate",
+      format: (value) => (value ? util.getFormattedDate(value) : '✖️')
+    },    
+    {
       label: "Hours",
       accessor: "totalHours"
     },

@@ -34,6 +34,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       select: {
         name: true,
         status: true,
+        startDate: true,
         user: {
           select: {
             id: true,

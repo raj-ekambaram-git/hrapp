@@ -71,6 +71,7 @@ const ProjectTimesheets = (props) => {
             timesheetEntry.enableAddtoInvoiceCheckBox = <Checkbox value={timesheetEntry.id} isChecked={selectedCostTSEIdsRef.current.includes(timesheetEntry.id)?true:false} onChange={(e) => addTimesheetEntryAsCostItem(e)}/>
           }
           timesheetEntry.name = timesheetEntry.timesheet?.name
+          timesheetEntry.startDate = timesheetEntry.timesheet?.startDate
           timesheetEntry.resource = timesheetEntry.timesheet?.user?.firstName?timesheetEntry.timesheet?.user?.firstName:EMPTY_STRING+" "+timesheetEntry.timesheet?.user?.lastName?timesheetEntry.timesheet?.user?.lastName:EMPTY_STRING
           timesheetEntry.totalHours = timesheetEntry.entries?util.getTotalHours(timesheetEntry.entries):""
           timesheetEntry.detailAction =  <ProjectTimesheeEntrySection data={timesheetEntry.entries} tseId={timesheetEntry.id} addTimesheetEntryAsInvoiceItem={addTimesheetEntryAsInvoiceItem} callType={callType}/>
