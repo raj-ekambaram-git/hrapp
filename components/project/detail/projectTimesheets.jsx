@@ -252,17 +252,22 @@ const ProjectTimesheets = (props) => {
           prepareTimesheetListForTable(timesheetListRef.current);
       } else { // Remove the timesheet entry form the invoice item list if exists
         let origninalTotal = 0;
+        let removeTSEntry = true;
+        const timesheetEntryAlreadyPresent = selectedInvoiceItemListRef.current.findIndex(x => x.timesheetEntryId === parseInt(tsEntryId));
+        const gettingUpdatedEntry = {...selectedInvoiceItemListRef.current[timesheetEntryAlreadyPresent]}
+        origninalTotal = gettingUpdatedEntry.quantity*gettingUpdatedEntry.unitPrice
+        
         if(updateNow) {
-          const timesheetEntryAlreadyPresent = selectedInvoiceItemListRef.current.findIndex(x => x.timesheetEntryId === parseInt(tsEntryId));
-          const gettingUpdatedEntry = {...selectedInvoiceItemListRef.current[timesheetEntryAlreadyPresent]}
+          
          if(detail && detail.length == 1) { //This is the last day to be removed, so remove the whole entry
             dispatch(removeTSFromInvoiceItems(tsEntryId));   
             dispatch(removeTSFromSelectedTSE(tsEntryId));
+            selectedTSTotal = origninalTotal - selectedTSTotal;
           } else if (detail && detail.length > 1){ //There are more than one is already selected, so lets remove just that and keep the entry updated
+            removeTSEntry = false;
             //Remove the day entry from detail array
             const detailDayAlreadyPresentIndex = detail.findIndex(x => x.day === e.target.value);
-            detail.splice(detailDayAlreadyPresentIndex, 1);
-            origninalTotal = gettingUpdatedEntry.quantity*gettingUpdatedEntry.unitPrice
+            detail.splice(detailDayAlreadyPresentIndex, 1);            
             gettingUpdatedEntry.detail = detail;
             gettingUpdatedEntry.quantity = parseInt(selectedTSQuantity)
             gettingUpdatedEntry.total = selectedTSTotal
@@ -272,6 +277,7 @@ const ProjectTimesheets = (props) => {
         } else {
           dispatch(removeTSFromInvoiceItems(tsEntryId));   
           dispatch(removeTSFromSelectedTSE(tsEntryId))  
+          selectedTSTotal = origninalTotal;
         }        
        if(invTotal != undefined) {
             invTotal.total = invTotal.total-parseFloat(selectedTSTotal);
@@ -280,12 +286,14 @@ const ProjectTimesheets = (props) => {
             dispatch(setInvoiceTotal(parseFloat(total)));
         }
 
-        const newSelecteTSEIds = [...selectedTSEIdsRef.current]
-        const index = newSelecteTSEIds.indexOf(parseInt(tsEntryId));
-        if (index > -1) { // only splice array when item is found
-          newSelecteTSEIds.splice(index, 1); // 2nd parameter means remove one item only
+        if(removeTSEntry) {
+          const newSelecteTSEIds = [...selectedTSEIdsRef.current]
+          const index = newSelecteTSEIds.indexOf(parseInt(tsEntryId));
+          if (index > -1) { // only splice array when item is found
+            newSelecteTSEIds.splice(index, 1); // 2nd parameter means remove one item only
+          }
+          selectedTSEIdsRef.current = newSelecteTSEIds;  
         }
-        selectedTSEIdsRef.current = newSelecteTSEIds;
 
         prepareTimesheetListForTable(timesheetListRef.current);
       }      
