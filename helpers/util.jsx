@@ -54,7 +54,9 @@ function getTSEntriesArray(entries) {
       date: entries?.day1?.date,
       hours: entries?.day1?.hours
     }
-    tsEntriesArray.push(day1)
+    if(entries?.day1?.hours>0) {
+      tsEntriesArray.push(day1)
+    }    
   }
 
   if(entries?.day2) {
@@ -63,7 +65,9 @@ function getTSEntriesArray(entries) {
       date: entries?.day2?.date,
       hours: entries?.day2?.hours
     }
-    tsEntriesArray.push(day2)
+    if(entries?.day2?.hours>0) {
+      tsEntriesArray.push(day2)
+    }    
   }
 
   if(entries?.day3) {
@@ -72,7 +76,10 @@ function getTSEntriesArray(entries) {
       date: entries?.day3?.date,
       hours: entries?.day3?.hours
     }
-    tsEntriesArray.push(day3)
+    if(entries?.day3?.hours>0) {
+      tsEntriesArray.push(day3)
+    }    
+
   }
 
   if(entries?.day4) {
@@ -81,7 +88,9 @@ function getTSEntriesArray(entries) {
       date: entries?.day4?.date,
       hours: entries?.day4?.hours
     }
-    tsEntriesArray.push(day4)
+    if(entries?.day4?.hours>0) {
+      tsEntriesArray.push(day4)
+    }    
   }
 
   if(entries?.day5) {
@@ -90,7 +99,9 @@ function getTSEntriesArray(entries) {
       date: entries?.day5?.date,
       hours: entries?.day5?.hours
     }
-    tsEntriesArray.push(day5)
+    if(entries?.day5?.hours>0) {
+      tsEntriesArray.push(day5)
+    }    
   }
 
   if(entries?.day6) {
@@ -99,7 +110,9 @@ function getTSEntriesArray(entries) {
       date: entries?.day6?.date,
       hours: entries?.day6?.hours
     }
-    tsEntriesArray.push(day6)
+    if(entries?.day6?.hours>0) {
+      tsEntriesArray.push(day6)
+    }    
   }
 
   if(entries?.day7) {
@@ -108,7 +121,9 @@ function getTSEntriesArray(entries) {
       date: entries?.day7?.date,
       hours: entries?.day7?.hours
     }
-    tsEntriesArray.push(day7)
+    if(entries?.day7?.hours>0) {
+      tsEntriesArray.push(day7)
+    }    
   }
    
   return tsEntriesArray;

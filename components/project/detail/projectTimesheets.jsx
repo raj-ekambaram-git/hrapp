@@ -17,7 +17,7 @@ import {
 import { projectService, userService } from "../../../services";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllProjectTimesheets} from '../../../store/modules/Timesheet/actions';
-import {removeTSFromInvoiceItems, setInvoiceTotal, setInvoiceItemList, setSelectedInvoiceTSEId, removeTSFromSelectedTSE} from '../../../store/modules/Invoice/actions';
+import {removeTSFromInvoiceItems, setInvoiceTotal, setInvoiceItemList, setSelectedInvoiceTSEId, removeTSFromSelectedTSE, updateInvoiceItemListByTimesheetEntryId} from '../../../store/modules/Invoice/actions';
 import {removeTSFromCostItems, setCostTotal, setCostItemList, setSelectedCostTSEId, removeTSFromSelectedCost} from '../../../store/modules/Cost/actions';
 import { util } from "../../../helpers/util";
 import ProjectTimesheeEntrySection from "./projectTimesheeEntrySection";
@@ -39,6 +39,7 @@ const ProjectTimesheets = (props) => {
     const [timsheetEntriesForTable, setTimsheetEntriesForTable] = useState([]);
     const timesheetListRef = useRef([]);
     const selectedTSEIdsRef = useRef([]);
+    const selectedInvoiceItemListRef = useRef([]);
     const selectedCostTSEIdsRef = useRef([]);
     const [enableAddTimeSheetEntry, setEnableAddTimeSheetEntry] = useState(false);
     const [invTotal, setInvTotal] = useState({total: 0});
@@ -50,6 +51,7 @@ const ProjectTimesheets = (props) => {
     const invoiceTotal = useSelector(state => state.invoice.invoiceTotal);
     const costTotal = useSelector(state => state.cost.costTotal);
     const selectedTSEIds = useSelector(state => state.invoice.selectedInvoiceTSEId);
+    const selectedInvoiceItemList = useSelector(state => state.invoice.invoiceItemList);
     const selectedCostTSEIds = useSelector(state => state.cost.selectedCostTSEId);
 
     useEffect(() => {
@@ -57,7 +59,8 @@ const ProjectTimesheets = (props) => {
       cstTotal.total = costTotal;
       selectedTSEIdsRef.current = selectedTSEIds;
       selectedCostTSEIdsRef.current = selectedCostTSEIds;
-    }, [invoiceTotal, selectedTSEIds, costTotal, selectedCostTSEIds]);
+      selectedInvoiceItemListRef.current = selectedInvoiceItemList;
+    }, [invoiceTotal, selectedTSEIds, costTotal, selectedCostTSEIds, selectedInvoiceItemList]);
 
     function prepareTimesheetListForTable(projectTimesheeetByStatus) {
       if(projectTimesheeetByStatus != undefined && projectTimesheeetByStatus != EMPTY_STRING && projectTimesheeetByStatus.length != 0) {        
@@ -161,22 +164,61 @@ const ProjectTimesheets = (props) => {
 
     function addTimesheetEntryAsInvoiceItem(e, tsEntryId, requestType) {
       const selectedTimesheetEntry = [...timesheetListRef.current].find(x => x.id === parseInt(tsEntryId));
-      const selectedTSQuantity = util.getTotalHours(selectedTimesheetEntry.entries);
-      const selectedTSTotal = parseFloat(selectedTSQuantity) * parseFloat(selectedTimesheetEntry.unitPrice);
+      let selectedTSQuantity = util.getTotalHours(selectedTimesheetEntry.entries);
+      let selectedTSTotal = parseFloat(selectedTSQuantity) * parseFloat(selectedTimesheetEntry.unitPrice);
 
-      let detail = {};
 
-      
+      /**
+       * If Checked Daily
+       *  Check if that timesheetEntryId is already present in the list
+       *    if Yes, then update the total, quantity, and detail 
+       *    if no, then create new with the total for that day
+       *  if UnChecked Daily
+       *  Check if that timesheetEntryId is already preset in the list
+       *    if Yes, then update hte total, quantity and detail
+       */
+      let detail = [];    
+      let updateNow = false;
+      let existingQuantity = 0;
+      let existingTotal = 0;
+
 
       if(requestType === TimesheetConstants.Weekly) {
         detail = util.getTSEntriesArray(selectedTimesheetEntry.entries)
+      } else if (requestType === TimesheetConstants.Daily) {
+        // if(selectedTSEIdsRef.current && selectedTSEIdsRef.current.length>0) {
+          const timesheetEntryAlreadyPresent = selectedInvoiceItemListRef.current.findIndex(x => x.timesheetEntryId === parseInt(tsEntryId));
+          if(timesheetEntryAlreadyPresent >=0) { //Meanse the id is already in the list              
+            updateNow = true;
+            detail = [...selectedInvoiceItemListRef.current[timesheetEntryAlreadyPresent].detail]
+            existingQuantity = parseInt(selectedInvoiceItemListRef.current[timesheetEntryAlreadyPresent].quantity)
+            existingTotal = parseFloat(selectedTimesheetEntry.unitPrice)*existingQuantity
+          }
+
+          const dayObj = {
+            day: e.target.value,
+            date: selectedTimesheetEntry.entries[e.target.value].date,
+            hours: selectedTimesheetEntry.entries[e.target.value].hours
+          }    
+          //Get the quantity
+          if(e.target.checked) {
+            selectedTSQuantity = existingQuantity+parseInt(selectedTimesheetEntry.entries[e.target.value].hours)
+            selectedTSTotal=selectedTSQuantity*parseFloat(selectedTimesheetEntry.unitPrice)  
+            detail.push(dayObj)
+          } else {
+            selectedTSQuantity = existingQuantity-parseInt(selectedTimesheetEntry.entries[e.target.value].hours)
+            selectedTSTotal=selectedTSQuantity*parseFloat(selectedTimesheetEntry.unitPrice)  
+          }
+        
+          
+        // }
       }
-      
 
       if(e.target.checked) { //Add the timesheet entry to the invoice item list
         if(!enableAddTimeSheetEntry) {
           setEnableAddTimeSheetEntry(true);
         }
+
         const addedTimesheetInvoiceItem = {
           timesheetEntryId: parseInt(tsEntryId),
           userId: parseInt(selectedTimesheetEntry.timesheet?.user?.id),
@@ -192,23 +234,47 @@ const ProjectTimesheets = (props) => {
           detail: detail
         };
 
+        if(updateNow) {
+          dispatch(updateInvoiceItemListByTimesheetEntryId(addedTimesheetInvoiceItem));
+        } else {
           dispatch(setInvoiceItemList(addedTimesheetInvoiceItem));
           dispatch(setSelectedInvoiceTSEId(parseInt(tsEntryId)))
           selectedTSEIdsRef.current.push(parseInt(tsEntryId));
-          if(invTotal != undefined) {
-            invTotal.total = invTotal.total+parseFloat(selectedTSTotal)
-            dispatch(setInvoiceTotal(invTotal.total));            
-          }else {
-            invTotal.total = invTotal.total+parseFloat(selectedTSTotal)
-            dispatch(setInvoiceTotal(parseFloat(selectedTSTotal)));
-          }          
+        }
+        if(invTotal != undefined) {
+          invTotal.total = invTotal.total+parseFloat(selectedTSTotal)-existingTotal
+          dispatch(setInvoiceTotal(invTotal.total));            
+        }else {
+          invTotal.total = invTotal.total+parseFloat(selectedTSTotal)-existingTotal
+          dispatch(setInvoiceTotal(parseFloat(selectedTSTotal)));
+        }          
 
           prepareTimesheetListForTable(timesheetListRef.current);
       } else { // Remove the timesheet entry form the invoice item list if exists
-        dispatch(removeTSFromInvoiceItems(tsEntryId));   
-        dispatch(removeTSFromSelectedTSE(tsEntryId))
-        if(invTotal != undefined) {
-            invTotal.total = invTotal.total-parseFloat(selectedTSTotal)
+        let origninalTotal = 0;
+        if(updateNow) {
+          const timesheetEntryAlreadyPresent = selectedInvoiceItemListRef.current.findIndex(x => x.timesheetEntryId === parseInt(tsEntryId));
+          const gettingUpdatedEntry = {...selectedInvoiceItemListRef.current[timesheetEntryAlreadyPresent]}
+         if(detail && detail.length == 1) { //This is the last day to be removed, so remove the whole entry
+            dispatch(removeTSFromInvoiceItems(tsEntryId));   
+            dispatch(removeTSFromSelectedTSE(tsEntryId));
+          } else if (detail && detail.length > 1){ //There are more than one is already selected, so lets remove just that and keep the entry updated
+            //Remove the day entry from detail array
+            const detailDayAlreadyPresentIndex = detail.findIndex(x => x.day === e.target.value);
+            detail.splice(detailDayAlreadyPresentIndex, 1);
+            origninalTotal = gettingUpdatedEntry.quantity*gettingUpdatedEntry.unitPrice
+            gettingUpdatedEntry.detail = detail;
+            gettingUpdatedEntry.quantity = parseInt(selectedTSQuantity)
+            gettingUpdatedEntry.total = selectedTSTotal
+            selectedTSTotal = origninalTotal - selectedTSTotal;
+            dispatch(updateInvoiceItemListByTimesheetEntryId(gettingUpdatedEntry));
+          }
+        } else {
+          dispatch(removeTSFromInvoiceItems(tsEntryId));   
+          dispatch(removeTSFromSelectedTSE(tsEntryId))  
+        }        
+       if(invTotal != undefined) {
+            invTotal.total = invTotal.total-parseFloat(selectedTSTotal);
             dispatch(setInvoiceTotal(invTotal.total));
           }else {
             dispatch(setInvoiceTotal(parseFloat(total)));

@@ -34,6 +34,11 @@ const invoiceReducer = (state = initialState, {type, payload}) => {
         newState.invoiceTotal = null;
         newState.selectedInvoiceExpId = [];
         newState.selectedInvoiceTSEId = [];
+    } else if(type === ActionTypes.UPDATE_INVOICE_ITEM_LIST_BY_TIMESHEET_ENTRY_ID) {
+        const newInvoiceList = [...newState.invoiceItemList]
+        const timesheetEntryToUpdateIndex = newInvoiceList.findIndex(x => x.timesheetEntryId === parseInt(payload.timesheetEntryId));
+        newInvoiceList[timesheetEntryToUpdateIndex] = payload;
+        newState.invoiceItemList = newInvoiceList;         
     } else if( type === ActionTypes.REMOVE_ITEM_INVOICE_ITEM_LIST) {
         const newInvoiceList = [...newState.invoiceItemList]
         newInvoiceList.splice(payload, 1);

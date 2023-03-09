@@ -5,7 +5,6 @@ import { ActionTypes } from './constants';
 
 
 export const setInvoiceItemList = (invoiceItemList) => {
-    console.log("invoiceItemList::::ACTIONS:::"+JSON.stringify(invoiceItemList));
     return {
         type: ActionTypes.SET_INVOICE_ITEM_LIST,
         payload: invoiceItemList
@@ -28,7 +27,6 @@ export const removeItemFromInvoiceItemList = (removeIndex) => {
 }
 
 export const setProjectResources = (projectResources) => {
-    console.log("ACTION :::projectResources::"+projectResources)
     return {
         type: ActionTypes.SET_PROJECT_RESOURCES,
         payload: projectResources
@@ -108,13 +106,11 @@ export const updateInvoiceTransactions = (invoiceTransaction) => {
 export const fetchInvoiceTransactions = (invoiceId, accountId) => {
     return async (dispatch) => {
         const responseData = await invoiceService.getInvoiceTransactions(invoiceId, accountId);
-        console.log("fetchInvoiceTransactions::"+JSON.stringify(responseData))
         dispatch(getInvoiceTransactions(responseData));
       };
 }
 
 export const setInvoiceEmailTo = (invoiceEmailTo) => {
-    console.log("setInvoiceEmailTo::::ACTIONS:::"+JSON.stringify(invoiceEmailTo));
     return {
         type: ActionTypes.SET_INVOICE_EMAIL_TO,
         payload: invoiceEmailTo
@@ -160,5 +156,12 @@ export const setSelectedInvoiceExpId = (selectedInvoiceExpId) => {
     return {
         type: ActionTypes.SET_SELECTED_INVOICE_EXP_ITEMS,
         payload: selectedInvoiceExpId
+    }
+}
+
+export const updateInvoiceItemListByTimesheetEntryId = (invoiceItemList) => {
+    return {
+        type: ActionTypes.UPDATE_INVOICE_ITEM_LIST_BY_TIMESHEET_ENTRY_ID,
+        payload: invoiceItemList
     }
 }
