@@ -54,7 +54,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                 from: CommonConstants.fromEmail,
                 to: emailTos,
                 templateData: generateInvoiceDetail,
-                template_id: EmailConstants.emailTemplate.invoiceTemplateId,
+                template_id: EmailConstants.emailTemplate.invoiceReminderTemplateId,
                 subject: "Invoice: "+generateInvoiceDetail.id+" created",
                 attachments: [
                   {

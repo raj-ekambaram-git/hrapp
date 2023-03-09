@@ -33,7 +33,7 @@ const ProjectTimesheeEntrySection = (props) => {
     const handleTimesheetEntryInvoiceItem = async() => {
         if(props.callType === INVOICE_CALL_TYPE) {
             const currentInvoiceItem = invoiceItemList.filter((invoiceItem) => (invoiceItem.type ==InvoiceType.Timesheet && invoiceItem.timesheetEntryId == props.tseId));
-            console.log(" currentInvoiceItem[0].detail:::"+JSON.stringify( currentInvoiceItem[0].detail))
+
             if(currentInvoiceItem && currentInvoiceItem.length>0 && currentInvoiceItem[0].detail) {
                 setSelectedInvoiceItem(currentInvoiceItem[0].detail?.map((invoieItemDtl) => {
                     return invoieItemDtl.day;
