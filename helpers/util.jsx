@@ -1,5 +1,5 @@
 
-import { ExpenseType } from '@prisma/client';
+import { ExpenseType, TimesheetStatus } from '@prisma/client';
 import validator from 'validator';
 import { EMPTY_STRING, INVOICE_PAY_TERMS, USER_ROLE_DESC } from '../constants/accountConstants';
 const generator = require('generate-password');
@@ -42,8 +42,54 @@ export const util = {
     stringToDate,
     stringToDateTime,
     getLocaleTimeZone,
-    getTSEntriesArray
+    getTSEntriesArray,
+    isTimesheetEntryFullyInvoiced
 };
+
+function isTimesheetEntryFullyInvoiced(entries) {
+  let isFullyInvoiced = true;
+
+  if(entries?.day1) {
+    if(entries?.day1?.hours != EMPTY_STRING && entries?.day1?.hours>0 && (!entries?.day1?.status || entries?.day1?.status != TimesheetStatus.Invoiced)) {
+      isFullyInvoiced = false
+    }    
+  }
+
+  if(entries?.day2) {
+    if(entries?.day2?.hours != EMPTY_STRING && entries?.day2?.hours>0 && (!entries?.day2?.status || entries?.day2?.status != TimesheetStatus.Invoiced)) {
+      isFullyInvoiced = false
+    }    
+  }
+  if(entries?.day3) {
+    if(entries?.day3?.hours != EMPTY_STRING && entries?.day3?.hours>0 && (!entries?.day3?.status || entries?.day3?.status != TimesheetStatus.Invoiced)) {
+      isFullyInvoiced = false
+    }    
+  }
+  if(entries?.day4) {
+    if(entries?.day4?.hours != EMPTY_STRING && entries?.day4?.hours>0 && (!entries?.day4?.status || entries?.day4?.status != TimesheetStatus.Invoiced)) {
+      isFullyInvoiced = false
+    }    
+  }
+  if(entries?.day5) {
+    if(entries?.day5?.hours != EMPTY_STRING && entries?.day5?.hours>0 && (!entries?.day5?.status || entries?.day5?.status != TimesheetStatus.Invoiced)) {
+      isFullyInvoiced = false
+    }    
+  }
+  if(entries?.day6) {
+    if(entries?.day6?.hours != EMPTY_STRING && entries?.day6?.hours>0 && (!entries?.day6?.status || entries?.day6?.status != TimesheetStatus.Invoiced)) {
+      isFullyInvoiced = false
+    }    
+  }
+  if(entries?.day7) {
+    if(entries?.day7?.hours != EMPTY_STRING && entries?.day7?.hours>0 && (!entries?.day7?.status || entries?.day7?.status != TimesheetStatus.Invoiced)) {
+      isFullyInvoiced = false
+    }    
+  }
+
+
+   
+  return isFullyInvoiced;
+}
 
 function getTSEntriesArray(entries) {
   const tsEntriesArray = [];

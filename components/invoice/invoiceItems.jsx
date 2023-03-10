@@ -184,7 +184,7 @@ const InvoiceItems = (props) => {
                                         : (invoiceItem.type == InvoiceType.Timesheet)
                                         ?<>
                                             <Badge color={`${
-                                                invoiceItem.timesheetEntry?.status === TimesheetStatus.Invoiced
+                                                (invoiceItem.timesheetEntry?.status === TimesheetStatus.Invoiced || invoiceItem.timesheetEntry?.status === TimesheetStatus.PartiallyInvoiced)
                                                 ? "pending_status"
                                                 : "paid_status"
                                             }`}>{invoiceItem.timesheetEntry?.status}</Badge>   

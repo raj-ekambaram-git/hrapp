@@ -385,7 +385,8 @@ export const TIMESHEET_STATUS = {
   'Approved': 'Approved',
   'Rejected': 'Rejected',
   'Invoiced': 'Invoiced',
-  "Pending": "Pending"
+  "Pending": "Pending",
+  "PartiallyInvoiced": "PartiallyInvoiced"
 };
 
 export const EXPENSE_STATUS = {

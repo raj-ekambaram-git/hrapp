@@ -86,6 +86,7 @@ const InvoiceAddEdit = (props) => {
   const invoicePaidAmount = useSelector(state => state.invoice.invoicePaidAmount);
   const invoiceEmailTos = useSelector(state => state.invoice.invoiceEmailTo);
   const selectedVendorId = useSelector(state => state.vendor.selectedVendorId);
+  const projectTimesheeetList = useSelector(state => state.timesheet.projectTimesheets);
 
   //User Validation START
   const formOptions = { resolver: yupResolver(INVOICE_VALIDATION_SCHEMA) };
@@ -345,7 +346,7 @@ const InvoiceAddEdit = (props) => {
           return;
         }
         setLoading(true)
-        const responseData = await invoiceService.createNewInvoice(formData, invoiceItemList, invoiceDate, dueDte, invoiceEmailTos, workFlow);
+        const responseData = await invoiceService.createNewInvoice(formData, invoiceItemList, invoiceDate, dueDte, invoiceEmailTos, workFlow, projectTimesheeetList);
         setLoading(false)
         if(!responseData.error) {
           toast({
@@ -434,7 +435,7 @@ const InvoiceAddEdit = (props) => {
         }
       }
       setLoading(true)
-      const responseData = await invoiceService.updateInvoice(formData, invoiceId, invoiceDate, dueDte,invoiceItemList, invoiceTotal, invoiceEmailTos);
+      const responseData = await invoiceService.updateInvoice(formData, invoiceId, invoiceDate, dueDte,invoiceItemList, invoiceTotal, invoiceEmailTos, projectTimesheeetList);
       setLoading(false)
       if(!responseData.error) {
         toast({

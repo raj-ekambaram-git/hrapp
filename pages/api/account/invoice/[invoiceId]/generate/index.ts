@@ -14,9 +14,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   try {
 
-    console.log("GENERATE:::"+JSON.stringify(req.body))
+
     const invoiceDetail = req.body;
-    console.log("invoiceDetail::"+JSON.stringify(invoiceDetail))
     //Now make the generate/detail call to get the latest invoice details for the file getting generated
 
     const customerName = {name: "RRRR", age: "24", items: [{name: "111"}, {name: "222"}]};

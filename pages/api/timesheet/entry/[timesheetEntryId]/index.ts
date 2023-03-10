@@ -52,7 +52,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       let updaetTimesheetStatus = true;
       //Check if all the etntrie are approved or rejected, if its is, update the timesheet status to be the same
       savedTSEntry.timesheet?.timesheetEntries?.map((tsEntry) => {
-          if(timesheetEntryData.status === TimesheetStatus.Approved && (tsEntry.status !== TimesheetStatus.Approved && tsEntry.status !== TimesheetStatus.Invoiced)) {
+          if(timesheetEntryData.status === TimesheetStatus.Approved && (tsEntry.status !== TimesheetStatus.Approved && tsEntry.status !== TimesheetStatus.Invoiced && tsEntry.status !== TimesheetStatus.PartiallyInvoiced)) {
             updaetTimesheetStatus = false;
           }else if (timesheetEntryData.status === TimesheetStatus.Rejected && (tsEntry.status !== TimesheetStatus.Rejected)) {
             updaetTimesheetStatus = false;

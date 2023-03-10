@@ -20,7 +20,7 @@ import {
 import { TimesheetConstants } from "../../../constants/timesheetConstants";
 import { EMPTY_STRING, INVOICE_CALL_TYPE } from "../../../constants";
 import { useSelector } from "react-redux";
-import { InvoiceType } from "@prisma/client";
+import { InvoiceType, TimesheetStatus } from "@prisma/client";
 
 
 const ProjectTimesheeEntrySection = (props) => {
@@ -90,7 +90,7 @@ const ProjectTimesheeEntrySection = (props) => {
                             <Tbody>
                                     <Tr>
                                         <Th>
-                                        {(props.callType == INVOICE_CALL_TYPE && timesheetEntries.day1?.status != 'Invoiced' && timesheetEntries.day1?.hours>0)?<>
+                                        {(props.callType == INVOICE_CALL_TYPE && timesheetEntries.day1?.status != TimesheetStatus.Invoiced && timesheetEntries.day1?.hours>0)?<>
                                             <Checkbox value="day1" isChecked={selectedInvoiceItem&&selectedInvoiceItem.includes("day1")} onChange={(e) => props.addTimesheetEntryAsInvoiceItem(e, props.tseId, TimesheetConstants.Daily)}/></>:<></>}
                                         </Th>                                        
                                         <Th>
@@ -107,13 +107,13 @@ const ProjectTimesheeEntrySection = (props) => {
                                         </Th>            
                                         <Th>
                                             {timesheetEntries.day1.status?<>
-                                                <Badge color={timesheetEntries.day1.status === 'Invoiced'?"paid_status":"pending_status"}>{timesheetEntries.day1.status?timesheetEntries.day1.status:"Open"}</Badge> 
+                                                <Badge color={timesheetEntries.day1.status === TimesheetStatus.Invoiced?"paid_status":"pending_status"}>{timesheetEntries.day1.status?timesheetEntries.day1.status:"Open"}</Badge> 
                                             </>:<></>}                                           
                                         </Th>                                                                                                                                          
                                     </Tr>
                                 <Tr>
                                     <Th>
-                                        {(props.callType == INVOICE_CALL_TYPE && timesheetEntries.day2?.status != 'Invoiced' && timesheetEntries.day2?.hours>0)?<>
+                                        {(props.callType == INVOICE_CALL_TYPE && timesheetEntries.day2?.status != TimesheetStatus.Invoiced && timesheetEntries.day2?.hours>0)?<>
                                             <Checkbox value="day2" isChecked={selectedInvoiceItem&&selectedInvoiceItem.includes("day2")} onChange={(e) => props.addTimesheetEntryAsInvoiceItem(e, props.tseId, TimesheetConstants.Daily)}/></>:<></>}
                                     </Th>  
                                     <Th>
@@ -130,13 +130,13 @@ const ProjectTimesheeEntrySection = (props) => {
                                     </Th>     
                                     <Th>
                                         {timesheetEntries.day2.status?<>
-                                                <Badge color={timesheetEntries.day2.status === 'Invoiced'?"paid_status":"pending_status"}>{timesheetEntries.day2.status?timesheetEntries.day2.status:"Open"}</Badge> 
+                                                <Badge color={timesheetEntries.day2.status === TimesheetStatus.Invoiced?"paid_status":"pending_status"}>{timesheetEntries.day2.status?timesheetEntries.day2.status:"Open"}</Badge> 
                                         </>:<></>}                                           
                                     </Th>                                                                                                                                          
                                 </Tr>
                                 <Tr>
                                     <Th>
-                                        {(props.callType == INVOICE_CALL_TYPE && timesheetEntries.day3?.status != 'Invoiced'  && timesheetEntries.day3?.hours>0)?<>
+                                        {(props.callType == INVOICE_CALL_TYPE && timesheetEntries.day3?.status != TimesheetStatus.Invoiced  && timesheetEntries.day3?.hours>0)?<>
                                             <Checkbox value="day3" isChecked={selectedInvoiceItem&&selectedInvoiceItem.includes("day3")} onChange={(e) => props.addTimesheetEntryAsInvoiceItem(e, props.tseId, TimesheetConstants.Daily)}/></>:<></>}
                                     </Th>                                      
                                     <Th>
@@ -153,13 +153,13 @@ const ProjectTimesheeEntrySection = (props) => {
                                     </Th>          
                                     <Th>
                                         {timesheetEntries.day3.status?<>
-                                                <Badge color={timesheetEntries.day3.status === 'Invoiced'?"paid_status":"pending_status"}>{timesheetEntries.day3.status?timesheetEntries.day3.status:"Open"}</Badge> 
+                                                <Badge color={timesheetEntries.day3.status === TimesheetStatus.Invoiced?"paid_status":"pending_status"}>{timesheetEntries.day3.status?timesheetEntries.day3.status:"Open"}</Badge> 
                                         </>:<></>}                                           
                                     </Th>                                                                                                                                          
                                 </Tr>
                                 <Tr>
                                     <Th>
-                                        {(props.callType == INVOICE_CALL_TYPE && timesheetEntries.day4?.status != 'Invoiced' && timesheetEntries.day4?.hours>0)?<>
+                                        {(props.callType == INVOICE_CALL_TYPE && timesheetEntries.day4?.status != TimesheetStatus.Invoiced && timesheetEntries.day4?.hours>0)?<>
                                             <Checkbox value="day4" isChecked={selectedInvoiceItem&&selectedInvoiceItem.includes("day4")} onChange={(e) => props.addTimesheetEntryAsInvoiceItem(e, props.tseId, TimesheetConstants.Daily)}/></>:<></>}
                                     </Th>                                      
                                     <Th>
@@ -176,13 +176,13 @@ const ProjectTimesheeEntrySection = (props) => {
                                     </Th>      
                                     <Th>
                                         {timesheetEntries.day4.status?<>
-                                                <Badge color={timesheetEntries.day4?.status === 'Invoiced'?"paid_status":"pending_status"}>{timesheetEntries.day4?.status?timesheetEntries.day4.status:"Open"}</Badge> 
+                                                <Badge color={timesheetEntries.day4?.status === TimesheetStatus.Invoiced?"paid_status":"pending_status"}>{timesheetEntries.day4?.status?timesheetEntries.day4.status:"Open"}</Badge> 
                                         </>:<></>}                                           
                                     </Th>                                                                                                                                          
                                 </Tr>
                                 <Tr>
                                     <Th>
-                                        {(props.callType == INVOICE_CALL_TYPE && timesheetEntries.day5?.status != 'Invoiced' && timesheetEntries.day5?.hours>0)?<>
+                                        {(props.callType == INVOICE_CALL_TYPE && timesheetEntries.day5?.status != TimesheetStatus.Invoiced && timesheetEntries.day5?.hours>0)?<>
                                             <Checkbox value="day5" isChecked={selectedInvoiceItem&&selectedInvoiceItem.includes("day5")} onChange={(e) => props.addTimesheetEntryAsInvoiceItem(e, props.tseId, TimesheetConstants.Daily)}/></>:<></>}
                                     </Th>                                      
                                     <Th>
@@ -199,13 +199,13 @@ const ProjectTimesheeEntrySection = (props) => {
                                     </Th>                       
                                     <Th>
                                         {timesheetEntries.day5.status?<>
-                                                <Badge color={timesheetEntries.day5.status === 'Invoiced'?"paid_status":"pending_status"}>{timesheetEntries.day5.status?timesheetEntries.day5.status:"Open"}</Badge> 
+                                                <Badge color={timesheetEntries.day5.status === TimesheetStatus.Invoiced?"paid_status":"pending_status"}>{timesheetEntries.day5.status?timesheetEntries.day5.status:"Open"}</Badge> 
                                         </>:<></>}                                           
                                     </Th>                                                                                                                                          
                                 </Tr>
                                 <Tr>
                                     <Th>
-                                        {(props.callType == INVOICE_CALL_TYPE && timesheetEntries.day6?.status != 'Invoiced' && timesheetEntries.day6?.hours>0)?<>
+                                        {(props.callType == INVOICE_CALL_TYPE && timesheetEntries.day6?.status != TimesheetStatus.Invoiced && timesheetEntries.day6?.hours>0)?<>
                                             <Checkbox value="day6" isChecked={selectedInvoiceItem&&selectedInvoiceItem.includes("day6")}  onChange={(e) => props.addTimesheetEntryAsInvoiceItem(e, props.tseId, TimesheetConstants.Daily)}/></>:<></>}
                                     </Th>                                      
                                     <Th>
@@ -222,13 +222,13 @@ const ProjectTimesheeEntrySection = (props) => {
                                     </Th>             
                                     <Th>
                                         {timesheetEntries.day6.status?<>
-                                                <Badge color={timesheetEntries.day6.status === 'Invoiced'?"paid_status":"pending_status"}>{timesheetEntries.day6.status?timesheetEntries.day6.status:"Open"}</Badge> 
+                                                <Badge color={timesheetEntries.day6.status === TimesheetStatus.Invoiced?"paid_status":"pending_status"}>{timesheetEntries.day6.status?timesheetEntries.day6.status:"Open"}</Badge> 
                                         </>:<></>}                                           
                                     </Th>                                                                                                                                          
                                 </Tr>
                                 <Tr>
                                     <Th>
-                                        {(props.callType == INVOICE_CALL_TYPE && timesheetEntries.day7?.status != 'Invoiced' && timesheetEntries.day7?.hours>0)?<>
+                                        {(props.callType == INVOICE_CALL_TYPE && timesheetEntries.day7?.status != TimesheetStatus.Invoiced && timesheetEntries.day7?.hours>0)?<>
                                             <Checkbox value="day7" isChecked={selectedInvoiceItem&&selectedInvoiceItem.includes("day7")} onChange={(e) => props.addTimesheetEntryAsInvoiceItem(e, props.tseId, TimesheetConstants.Daily)}/></>:<></>}
                                     </Th>   
                                     <Th>
@@ -245,7 +245,7 @@ const ProjectTimesheeEntrySection = (props) => {
                                     </Th>               
                                     <Th>
                                         {timesheetEntries.day7.status?<>
-                                                <Badge color={timesheetEntries.day7.status === 'Invoiced'?"paid_status":"pending_status"}>{timesheetEntries.day7.status?timesheetEntries.day7.status:"Open"}</Badge> 
+                                                <Badge color={timesheetEntries.day7.status === TimesheetStatus.Invoiced?"paid_status":"pending_status"}>{timesheetEntries.day7.status?timesheetEntries.day7.status:"Open"}</Badge> 
                                         </>:<></>}                                           
                                     </Th>                                                                                                                                          
                                 </Tr>                                                                                                                                                                                                

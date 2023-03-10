@@ -10,7 +10,7 @@ import { util } from '../helpers/util';
 import { emailService } from './email.service';
 import { CommonConstants, EmailConstants } from '../constants';
 import { expenseService } from './expense.service';
-import { InvoiceStatus } from '@prisma/client';
+import { InvoiceStatus, TimesheetStatus } from '@prisma/client';
 
 
 
@@ -255,14 +255,13 @@ function updateInvoiceEmailTo(invoiceId, invoiceEmailTos) {
 
 }
 
-function updateInvoice(formData, invoiceId, invoiceDate, dueDte, invoiceItemList, invoiceTotal, invoiceEmailTos) {
+function updateInvoice(formData, invoiceId, invoiceDate, dueDte, invoiceItemList, invoiceTotal, invoiceEmailTos, projectTimesheeetList) {
 
-  console.log("updateInvoice:: BEFORE::::invoiceItemList:::"+JSON.stringify(formData)+"*******"+invoiceDate);
+  // console.log("updateInvoice:: BEFORE::::invoiceItemList:::"+JSON.stringify(formData)+"*******"+invoiceDate+"*****projectTimesheeetList:::"+JSON.stringify(projectTimesheeetList));
   //If current status is not cancelled and one of the timesheetn etntry status is "Invoiced" then throw error
   if((formData.status !== InvoiceConstants.INVOICE_STATUS.Draft
         && formData.status !== InvoiceConstants.INVOICE_STATUS.Cancelled)) {
           const anyInvoiceTSEPresent = invoiceItemList.filter((invoiceItem) => invoiceItem.timesheetEntry?.status == TIMESHEET_STATUS.Invoiced);
-          console.log("anyInvoiceTSEPresent:::"+anyInvoiceTSEPresent);
           if(anyInvoiceTSEPresent != undefined && anyInvoiceTSEPresent != EMPTY_STRING && anyInvoiceTSEPresent.length > 0) {
             //Timesheet Entry with Ibvouce status is already present, so throw an error
             return {errorMessage: ErrorMessage.TIMESHEET_ALREADY_INVOICED, error: true};
@@ -272,9 +271,7 @@ function updateInvoice(formData, invoiceId, invoiceDate, dueDte, invoiceItemList
   const result = invoiceItemList.map((invoiceItem) => delete invoiceItem["timesheetEntry"]);
   invoiceItemList.map((invoiceItem) => delete invoiceItem["user"]);
   invoiceItemList.map((invoiceItem) => delete invoiceItem["expense"]);
-  console.log("updateInvoice::::result:::"+JSON.stringify(result));
-  console.log("updateInvoice::::invoiceItemList:::"+JSON.stringify(invoiceItemList));
-  
+
   let paidAmountValue = 0;
   if(formData.paidAmount != undefined && formData.paidAmount != EMPTY_STRING) {
     paidAmountValue = parseFloat(formData.paidAmount);
@@ -299,7 +296,7 @@ function updateInvoice(formData, invoiceId, invoiceDate, dueDte, invoiceItemList
   .then(invoice => {
 
     if(!invoice.error) {
-      updateInvoiceItemStatus(invoice, invoiceItemList);
+      updateInvoiceItemStatus(invoice, invoiceItemList, projectTimesheeetList);
       if((invoice.status != undefined && (invoice.status === InvoiceConstants.INVOICE_STATUS.Submitted
         || invoice.status === InvoiceConstants.INVOICE_STATUS.Cancelled))) {
           const responseData = sendInvoiceEmail(invoice.id, invoice.accountId);
@@ -315,7 +312,7 @@ function updateInvoice(formData, invoiceId, invoiceDate, dueDte, invoiceItemList
 
 
 
-function createNewInvoice(formData, invoiceItemList, invoiceDate, dueDte, invoiceEmailTos, workFlow) {
+function createNewInvoice(formData, invoiceItemList, invoiceDate, dueDte, invoiceEmailTos, workFlow, projectTimesheeetList) {
   let paidAmountValue = 0;
   if(formData.paidAmount != undefined && formData.paidAmount != EMPTY_STRING) {
     paidAmountValue = parseFloat(formData.paidAmount);
@@ -344,9 +341,9 @@ function createNewInvoice(formData, invoiceItemList, invoiceDate, dueDte, invoic
   )
   .then(async invoice => {
 
-    console.log("Inside the create service ::"+JSON.stringify(invoice)+"*******invoiceItemList:::"+JSON.stringify(invoiceItemList));
+    // console.log("Inside the create service ::"+JSON.stringify(invoice)+"*******invoiceItemList:::"+JSON.stringify(invoiceItemList)+"********projectTimesheeetList:::"+JSON.stringify(projectTimesheeetList));
     if(!invoice.error) {
-      updateInvoiceItemStatus(invoice, invoiceItemList);
+      updateInvoiceItemStatus(invoice, invoiceItemList, projectTimesheeetList);
       if((invoice.status != undefined && (invoice.status === InvoiceConstants.INVOICE_STATUS.Submitted
         || invoice.status === InvoiceConstants.INVOICE_STATUS.Cancelled))) {
           const responseData = sendInvoiceEmail(invoice.id, invoice.accountId);
@@ -362,13 +359,32 @@ function createNewInvoice(formData, invoiceItemList, invoiceDate, dueDte, invoic
   });
 }
 
-async function updateInvoiceItemStatus(invoice, invoiceItemList) {
+async function updateInvoiceItemStatus(invoice, invoiceItemList, projectTimesheeetList) {
 
 
     let tsEntriyIDs = [];
+    let timesheetEntriesToUpdate = [];
     invoiceItemList.map( (item) => {
       if(item.timesheetEntryId != null && item.timesheetEntryId != undefined) {
         tsEntriyIDs.push(item.timesheetEntryId)
+       const fullTimesheetEntryList = projectTimesheeetList.filter(timesheetEntry => timesheetEntry.id === item.timesheetEntryId)
+
+      //  console.log("fullTimesheetEntryList:::"+JSON.stringify(fullTimesheetEntryList[0]))
+
+       if(fullTimesheetEntryList && fullTimesheetEntryList.length>0) {
+        const entries = {...fullTimesheetEntryList[0].entries}
+        if(item.detail) {
+          item.detail.map(dtl => {
+            entries[dtl.day]["status"] = TimesheetStatus.Invoiced
+          })
+        }
+        const timesheetEntryToUpdate = {
+          id: item.timesheetEntryId,
+          entries: entries,
+          status: util.isTimesheetEntryFullyInvoiced(entries)?TimesheetStatus.Invoiced:TimesheetStatus.PartiallyInvoiced
+        }
+        timesheetEntriesToUpdate.push(timesheetEntryToUpdate)
+       }
       }
     });
 
@@ -384,7 +400,10 @@ async function updateInvoiceItemStatus(invoice, invoiceItemList) {
     if(tsEntriyIDs && tsEntriyIDs.length > 0) {
       if((invoice.type === InvoiceConstants.INVOICE_ITEM_TYPE_TIMESHEET || invoice.type === InvoiceConstants.INVOICE_ITEM_TYPE_PROJECT) && (invoice.status != InvoiceConstants.INVOICE_STATUS.Draft 
         && invoice.status != InvoiceConstants.INVOICE_STATUS.Cancelled)) {
-          const udpateTSEntries = await timesheetService.updateTimesheetEntries(tsEntriyIDs, data);
+
+          //Construct the data object in an array to update the timesheet entries
+
+          const udpateTSEntries = await timesheetService.updateTimesheetStatusDataEntries(timesheetEntriesToUpdate);
           if(udpateTSEntries.error) {
             return {errorMessage: udpateTSEntries.errorMessage, error: true};
           }

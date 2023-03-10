@@ -56,7 +56,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                 name: calendar.weekOfYearISO
               },
               status: {
-                in: [TimesheetStatus.Submitted, TimesheetStatus.Approved, TimesheetStatus.Invoiced]
+                in: [TimesheetStatus.Submitted, TimesheetStatus.Approved, TimesheetStatus.Invoiced, TimesheetStatus.PartiallyInvoiced]
               }
   
             },

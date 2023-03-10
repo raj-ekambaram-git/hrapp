@@ -20,6 +20,7 @@ export const timesheetService = {
     getTimesheetMetaForDate,
     getTimesheetByName,
     updateTimesheetEntries,
+    updateTimesheetStatusDataEntries,
     createTimesheet,
     updateTimesheet,
     isTimesheetDeletable,
@@ -118,7 +119,7 @@ function markTimesheetDelete(timesheetId, accountId) {
 
 function isTimesheetDeletable(timesheet){
    const deletable = timesheet?.timesheetEntries.map((timesheetEntry, index)=> {
-    if(timesheetEntry.status === TimesheetStatus.Approved || timesheetEntry.status === TimesheetStatus.Invoiced) {      
+    if(timesheetEntry.status === TimesheetStatus.Approved || timesheetEntry.status === TimesheetStatus.Invoiced || timesheetEntry.status === TimesheetStatus.PartiallyInvoiced) {      
       return false;
     }
     return true;
@@ -169,6 +170,24 @@ function updateTimesheet(formData, timesheetId,timesheetActivityList) {
   });
 
 }
+
+
+
+function updateTimesheetStatusDataEntries(data) {
+  console.log("timesheetEntryIds:::*****DAta::"+JSON.stringify(data));
+
+  return fetchWrapper.put(`${baseUrl}/timesheet/entries/update`, {
+    data: data
+  }
+  ).then(tsEntries => {
+    return tsEntries;
+  }).catch(err => {
+    console.log("Successfylly Created Invooice But error updating timesheets::"+err)
+    return {errorMessage: err, error: true};
+  });
+
+}
+
 
 function updateTimesheetEntries(timesheetEntryIds, data) {
   console.log("timesheetEntryIds:::"+JSON.stringify(timesheetEntryIds)+"*****DAta::"+JSON.stringify(data));

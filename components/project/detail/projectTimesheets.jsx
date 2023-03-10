@@ -67,7 +67,7 @@ const ProjectTimesheets = (props) => {
         const updatedTSEist =  projectTimesheeetByStatus.map((timesheetEntry, index)=> {
           if(callType == INVOICE_CALL_TYPE && timesheetEntry.status == TIMESHEET_STATUS.Approved && timesheetEntry.billable) {
             timesheetEntry.enableAddtoInvoiceCheckBox = <Checkbox value={timesheetEntry.id} isChecked={selectedTSEIdsRef.current.includes(timesheetEntry.id)?true:false} onChange={(e) => addTimesheetEntryAsInvoiceItem(e, timesheetEntry.id, TimesheetConstants.Weekly)}/>
-          } else if(callType == COST_CALL_TYPE && timesheetEntry.status == TIMESHEET_STATUS.Invoiced && !timesheetEntry.settled && timesheetEntry.billable) {
+          } else if(callType == COST_CALL_TYPE && (timesheetEntry.status == TIMESHEET_STATUS.Invoiced || timesheetEntry.status == TIMESHEET_STATUS.PartiallyInvoiced) && !timesheetEntry.settled && timesheetEntry.billable) {
             timesheetEntry.enableAddtoInvoiceCheckBox = <Checkbox value={timesheetEntry.id} isChecked={selectedCostTSEIdsRef.current.includes(timesheetEntry.id)?true:false} onChange={(e) => addTimesheetEntryAsCostItem(e)}/>
           }
           timesheetEntry.name = timesheetEntry.timesheet?.name

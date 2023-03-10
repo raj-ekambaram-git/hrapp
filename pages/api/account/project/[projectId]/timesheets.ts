@@ -16,6 +16,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     Approved = "Approved",
     Rejected = "Rejected",
     Invoiced= "Invoiced",
+    PartiallyInvoiced= "PartiallyInvoiced",
     MarkForDelete= "MarkForDelete",
   }
 
@@ -52,7 +53,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   } else if (status != undefined && status != EMPTY_STRING && status == TIMESHEET_STATUS.Approved ) {
     whereStatusValue = [TimesheetStatus.Approved]
   } else if (status != undefined && status != EMPTY_STRING && status == TIMESHEET_STATUS.Invoiced) {
-    whereStatusValue = [TimesheetStatus.Invoiced]
+    whereStatusValue = [TimesheetStatus.Invoiced, TimesheetStatus.PartiallyInvoiced]
   } else if (status != undefined && status != EMPTY_STRING && status == TIMESHEET_STATUS.Rejected) {
     whereStatusValue = [TimesheetStatus.Rejected]
   }
