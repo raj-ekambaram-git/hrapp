@@ -147,6 +147,10 @@ export const InvoiceConstants = {
       disableSort: true
     },
     {
+      label: "Name",
+      accessor: "description"
+    },  
+    {
       label: "Type",
       accessor: "type"
     },    
