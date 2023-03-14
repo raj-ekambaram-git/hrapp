@@ -294,7 +294,7 @@ function getTotalBillableExpense(expenseEntries) {
   let totalProjectCost = 0;
   if(expenseEntries) {
     expenseEntries?.map(expenseEntry => {
-      if(expenseEntry.billable) {
+      if(expenseEntry.billable && expenseEntry.type !== ExpenseType.Resource_Cost) {
         totalBillableExpense = parseFloat(totalBillableExpense)+parseFloat(expenseEntry?.amount)
       }else {
         if(expenseEntry.type === ExpenseType.Resource_Cost) {
