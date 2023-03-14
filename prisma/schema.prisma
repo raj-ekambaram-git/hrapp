@@ -400,6 +400,7 @@ model ExpenseEntry {
   lastUpdateDate DateTime           @updatedAt
   expenseId      Int?
   notes          String?
+  detail         Json?
   date           DateTime?
   attachments    String[]
   expense        Expense?           @relation(fields: [expenseId], references: [id])

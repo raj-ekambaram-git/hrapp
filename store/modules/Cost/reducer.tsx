@@ -19,7 +19,7 @@ const costReducer = (state = initialState, {type, payload}) => {
     } else if(type === ActionTypes.REMOVE_TS_COST_ITEM) {
         
         const newCostList = [...newState.costItemList];
-        const timesheetEntryToRemoveIndex = newCostList.findIndex(x => x.id === parseInt(payload));
+        const timesheetEntryToRemoveIndex = newCostList.findIndex(x => parseInt(x.notes.split("_")[0]) === parseInt(payload));
         newCostList.splice(timesheetEntryToRemoveIndex, 1);
         newState.costItemList = newCostList;
 
@@ -35,6 +35,11 @@ const costReducer = (state = initialState, {type, payload}) => {
             newCostItemList.push(payload);
             newState.costItemList = newCostItemList;
         }        
+    } else if(type === ActionTypes.UPDATE_COST_ITEM_LIST_BY_TIMESHEET_ENTRY_ID) {
+        const newCostItemList = [...newState.costItemList]
+        const timesheetEntryToUpdateIndex = newCostItemList.findIndex(x =>parseInt(x.notes.split("_")[0]) === parseInt(payload.notes.split("_")[0]));
+        newCostItemList[timesheetEntryToUpdateIndex] = payload;
+        newState.costItemList = newCostItemList;         
     } else if(type === ActionTypes.SET_SELECTED_COST_TSE_ITEMS) {
         const newSelectedCostTSEId = [...newState.selectedCostTSEId]
         if(Array.isArray(payload)) {

@@ -381,7 +381,7 @@ async function updateInvoiceItemStatus(invoice, invoiceItemList, projectTimeshee
         const timesheetEntryToUpdate = {
           id: item.timesheetEntryId,
           entries: entries,
-          status: util.isTimesheetEntryFullyInvoiced(entries)?TimesheetStatus.Invoiced:TimesheetStatus.PartiallyInvoiced
+          status: util.isTimesheetEntryFullyUpdated(entries, TimesheetStatus.Invoiced)?TimesheetStatus.Invoiced:TimesheetStatus.PartiallyInvoiced
         }
         timesheetEntriesToUpdate.push(timesheetEntryToUpdate)
        }

@@ -66,6 +66,7 @@ const CostPayment = (props) => {
     const [supplierList, setSupplierList] = useState([]);
     const cstTotal = useSelector(state => state.cost.costTotal);
     const costItemList = useSelector(state => state.cost.costItemList);
+    const projectTimesheeetList = useSelector(state => state.timesheet.projectTimesheets);
 
     useEffect(() => {
         setShowErrorMessage(EMPTY_STRING);        
@@ -181,7 +182,7 @@ const CostPayment = (props) => {
                 create: costItemList
               },
             }
-            const responseData = await expenseService.createExpense(expenseRequest, true);
+            const responseData = await expenseService.createExpense(expenseRequest, true, projectTimesheeetList);
             if(!responseData.error) {
               toast({
                 title: 'New Cost.',
@@ -230,7 +231,7 @@ const CostPayment = (props) => {
               status: status,
               userId: parseInt(userService.userValue.id),
             }
-            const responseData = await expenseService.updateExpense(expenseRequest, costItemList, true);
+            const responseData = await expenseService.updateExpense(expenseRequest, costItemList, true, projectTimesheeetList);
             if(!responseData.error) {
               toast({
                 title: 'New Expense.',

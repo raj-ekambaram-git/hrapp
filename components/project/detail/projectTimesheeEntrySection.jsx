@@ -18,9 +18,9 @@ import {
   Badge
 } from '@chakra-ui/react';
 import { TimesheetConstants } from "../../../constants/timesheetConstants";
-import { EMPTY_STRING, INVOICE_CALL_TYPE } from "../../../constants";
+import { COST_CALL_TYPE, EMPTY_STRING, INVOICE_CALL_TYPE } from "../../../constants";
 import { useSelector } from "react-redux";
-import { InvoiceType, TimesheetStatus } from "@prisma/client";
+import { ExpenseType, InvoiceType, TimesheetStatus } from "@prisma/client";
 
 
 const ProjectTimesheeEntrySection = (props) => {
@@ -29,7 +29,8 @@ const ProjectTimesheeEntrySection = (props) => {
     const tsEntriesArray = [timesheetEntries];
     const [selectedInvoiceItem, setSelectedInvoiceItem] = useState();
     const invoiceItemList = useSelector(state => state.invoice.invoiceItemList);
-    
+    const costItemList = useSelector(state => state.cost.costItemList);
+
     const handleTimesheetEntryInvoiceItem = async() => {
         if(props.callType === INVOICE_CALL_TYPE) {
             const currentInvoiceItem = invoiceItemList.filter((invoiceItem) => (invoiceItem.type ==InvoiceType.Timesheet && invoiceItem.timesheetEntryId == props.tseId));
@@ -37,6 +38,15 @@ const ProjectTimesheeEntrySection = (props) => {
             if(currentInvoiceItem && currentInvoiceItem.length>0 && currentInvoiceItem[0].detail) {
                 setSelectedInvoiceItem(currentInvoiceItem[0].detail?.map((invoieItemDtl) => {
                     return invoieItemDtl.day;
+                }))    
+            }
+        }
+        if(props.callType === COST_CALL_TYPE) {
+            const currentCostItem = costItemList.filter((costItem) => (costItem.type == ExpenseType.Resource_Cost && parseInt(costItem.notes.split("_")[0]) == props.tseId));
+
+            if(currentCostItem && currentCostItem.length>0 && currentCostItem[0].detail) {
+                setSelectedInvoiceItem(currentCostItem[0].detail?.map((costItemDtl) => {
+                    return costItemDtl.day;
                 }))    
             }
         }
@@ -90,7 +100,8 @@ const ProjectTimesheeEntrySection = (props) => {
                             <Tbody>
                                     <Tr>
                                         <Th>
-                                        {(props.callType == INVOICE_CALL_TYPE && timesheetEntries.day1?.status != TimesheetStatus.Invoiced && timesheetEntries.day1?.hours>0)?<>
+                                        {(((props.callType == INVOICE_CALL_TYPE && timesheetEntries.day1?.status != TimesheetStatus.Invoiced) || 
+                                            (props.callType == COST_CALL_TYPE && timesheetEntries.day1?.status == TimesheetStatus.Invoiced)) && timesheetEntries.day1?.hours>0)?<>
                                             <Checkbox value="day1" isChecked={selectedInvoiceItem&&selectedInvoiceItem.includes("day1")} onChange={(e) => props.addTimesheetEntryAsInvoiceItem(e, props.tseId, TimesheetConstants.Daily)}/></>:<></>}
                                         </Th>                                        
                                         <Th>
@@ -113,7 +124,8 @@ const ProjectTimesheeEntrySection = (props) => {
                                     </Tr>
                                 <Tr>
                                     <Th>
-                                        {(props.callType == INVOICE_CALL_TYPE && timesheetEntries.day2?.status != TimesheetStatus.Invoiced && timesheetEntries.day2?.hours>0)?<>
+                                        {(((props.callType == INVOICE_CALL_TYPE && timesheetEntries.day2?.status != TimesheetStatus.Invoiced) || 
+                                            (props.callType == COST_CALL_TYPE && timesheetEntries.day2?.status == TimesheetStatus.Invoiced)) && timesheetEntries.day2?.hours>0)?<>
                                             <Checkbox value="day2" isChecked={selectedInvoiceItem&&selectedInvoiceItem.includes("day2")} onChange={(e) => props.addTimesheetEntryAsInvoiceItem(e, props.tseId, TimesheetConstants.Daily)}/></>:<></>}
                                     </Th>  
                                     <Th>
@@ -136,7 +148,8 @@ const ProjectTimesheeEntrySection = (props) => {
                                 </Tr>
                                 <Tr>
                                     <Th>
-                                        {(props.callType == INVOICE_CALL_TYPE && timesheetEntries.day3?.status != TimesheetStatus.Invoiced  && timesheetEntries.day3?.hours>0)?<>
+                                        {(((props.callType == INVOICE_CALL_TYPE && timesheetEntries.day3?.status != TimesheetStatus.Invoiced) || 
+                                            (props.callType == COST_CALL_TYPE && timesheetEntries.day3?.status == TimesheetStatus.Invoiced))  && timesheetEntries.day3?.hours>0)?<>
                                             <Checkbox value="day3" isChecked={selectedInvoiceItem&&selectedInvoiceItem.includes("day3")} onChange={(e) => props.addTimesheetEntryAsInvoiceItem(e, props.tseId, TimesheetConstants.Daily)}/></>:<></>}
                                     </Th>                                      
                                     <Th>
@@ -159,7 +172,8 @@ const ProjectTimesheeEntrySection = (props) => {
                                 </Tr>
                                 <Tr>
                                     <Th>
-                                        {(props.callType == INVOICE_CALL_TYPE && timesheetEntries.day4?.status != TimesheetStatus.Invoiced && timesheetEntries.day4?.hours>0)?<>
+                                        {(((props.callType == INVOICE_CALL_TYPE && timesheetEntries.day4?.status != TimesheetStatus.Invoiced) || 
+                                            (props.callType == COST_CALL_TYPE && timesheetEntries.day4?.status == TimesheetStatus.Invoiced)) && timesheetEntries.day4?.hours>0)?<>
                                             <Checkbox value="day4" isChecked={selectedInvoiceItem&&selectedInvoiceItem.includes("day4")} onChange={(e) => props.addTimesheetEntryAsInvoiceItem(e, props.tseId, TimesheetConstants.Daily)}/></>:<></>}
                                     </Th>                                      
                                     <Th>
@@ -182,7 +196,8 @@ const ProjectTimesheeEntrySection = (props) => {
                                 </Tr>
                                 <Tr>
                                     <Th>
-                                        {(props.callType == INVOICE_CALL_TYPE && timesheetEntries.day5?.status != TimesheetStatus.Invoiced && timesheetEntries.day5?.hours>0)?<>
+                                        {(((props.callType == INVOICE_CALL_TYPE && timesheetEntries.day5?.status != TimesheetStatus.Invoiced) || 
+                                            (props.callType == COST_CALL_TYPE && timesheetEntries.day5?.status == TimesheetStatus.Invoiced)) && timesheetEntries.day5?.hours>0)?<>
                                             <Checkbox value="day5" isChecked={selectedInvoiceItem&&selectedInvoiceItem.includes("day5")} onChange={(e) => props.addTimesheetEntryAsInvoiceItem(e, props.tseId, TimesheetConstants.Daily)}/></>:<></>}
                                     </Th>                                      
                                     <Th>
@@ -205,7 +220,8 @@ const ProjectTimesheeEntrySection = (props) => {
                                 </Tr>
                                 <Tr>
                                     <Th>
-                                        {(props.callType == INVOICE_CALL_TYPE && timesheetEntries.day6?.status != TimesheetStatus.Invoiced && timesheetEntries.day6?.hours>0)?<>
+                                        {(((props.callType == INVOICE_CALL_TYPE && timesheetEntries.day6?.status != TimesheetStatus.Invoiced) || 
+                                            (props.callType == COST_CALL_TYPE && timesheetEntries.day6?.status == TimesheetStatus.Invoiced)) && timesheetEntries.day6?.hours>0)?<>
                                             <Checkbox value="day6" isChecked={selectedInvoiceItem&&selectedInvoiceItem.includes("day6")}  onChange={(e) => props.addTimesheetEntryAsInvoiceItem(e, props.tseId, TimesheetConstants.Daily)}/></>:<></>}
                                     </Th>                                      
                                     <Th>
@@ -228,7 +244,8 @@ const ProjectTimesheeEntrySection = (props) => {
                                 </Tr>
                                 <Tr>
                                     <Th>
-                                        {(props.callType == INVOICE_CALL_TYPE && timesheetEntries.day7?.status != TimesheetStatus.Invoiced && timesheetEntries.day7?.hours>0)?<>
+                                        {(((props.callType == INVOICE_CALL_TYPE && timesheetEntries.day7?.status != TimesheetStatus.Invoiced) || 
+                                            (props.callType == COST_CALL_TYPE && timesheetEntries.day7?.status == TimesheetStatus.Invoiced)) && timesheetEntries.day7?.hours>0)?<>
                                             <Checkbox value="day7" isChecked={selectedInvoiceItem&&selectedInvoiceItem.includes("day7")} onChange={(e) => props.addTimesheetEntryAsInvoiceItem(e, props.tseId, TimesheetConstants.Daily)}/></>:<></>}
                                     </Th>   
                                     <Th>

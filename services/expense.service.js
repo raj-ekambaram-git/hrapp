@@ -5,7 +5,7 @@ import { fetchWrapper } from 'helpers';
 import { CommonConstants, EmailConstants, EMPTY_STRING, ExpenseConstants } from '../constants';
 import { util } from '../helpers/util';
 import { projectService } from './project.service';
-import { ExpenseStatus } from '@prisma/client';
+import { ExpenseStatus, TimesheetStatus } from '@prisma/client';
 import { timesheetService } from './timesheet.service';
 
 const { publicRuntimeConfig } = getConfig();
@@ -246,7 +246,7 @@ async function handleExpenseApproval(expenseId, status, expenseNote, approvedBy)
     });
 }
 
-function updateExpense(expense, expenseEntries, markTimesheetEntrySettled) {
+function updateExpense(expense, expenseEntries, markTimesheetEntrySettled, projectTimesheeetList) {
 
     return fetchWrapper.put(`${baseUrl}/expense/`+expense.id, {
           expense,
@@ -255,12 +255,7 @@ function updateExpense(expense, expenseEntries, markTimesheetEntrySettled) {
     )
     .then(async expense => {
       if(markTimesheetEntrySettled) {
-        const selectedTSEIds = expenseEntries.map((costItem) => {
-          return parseInt(costItem.notes.split("_")[0]);          
-        })
-        const data = {settled: true};
-        const udpateTSEntries = await timesheetService.updateTimesheetEntries(selectedTSEIds, data);        
-        console.log("selectedTSEIdsselectedTSEIds::"+udpateTSEntries)
+        updateTimesheetEntriesStatus(expenseEntries, projectTimesheeetList)
       }
       return expense;
     })
@@ -270,19 +265,12 @@ function updateExpense(expense, expenseEntries, markTimesheetEntrySettled) {
   });
 }
 
-function createExpense(expenseRequest, markTimesheetEntrySettled) {
-    console.log("Before calling the create expense....."+JSON.stringify(expenseRequest))
-  
+function createExpense(expenseRequest, markTimesheetEntrySettled, projectTimesheeetList) {
     return fetchWrapper.post(`${baseUrl}/expense/create`, {expenseRequest}
     )
     .then(async expense => {
       if(markTimesheetEntrySettled) {
-        const selectedTSEIds = expenseRequest?.expenseEntries?.create?.map((costItem) => {
-          return parseInt(costItem.notes.split("_")[0]);          
-        })
-        const data = {settled: true};
-        const udpateTSEntries = await timesheetService.updateTimesheetEntries(selectedTSEIds, data);        
-        console.log("selectedTSEIdsselectedTSEIds::"+udpateTSEntries)
+        updateTimesheetEntriesStatus(expenseRequest?.expenseEntries?.create, projectTimesheeetList)
       }
         return expense;
     })        
@@ -301,4 +289,36 @@ function getExpenseDetails(expenseId, accountId) {
           console.log("Error Getting getExpenseDetails")
           return {errorMessage: err, error: true};
       });
+}
+
+async function updateTimesheetEntriesStatus(costItems, projectTimesheeetList) {
+
+  let timesheetEntriesToUpdate = [];
+  costItems.map( (item) => {
+    const tsEntryId = parseInt(item.notes.split("_")[0]);
+    if(tsEntryId) {
+     const fullTimesheetEntryList = projectTimesheeetList.filter(timesheetEntry => timesheetEntry.id === tsEntryId)
+     if(fullTimesheetEntryList && fullTimesheetEntryList.length>0) {
+      const entries = {...fullTimesheetEntryList[0].entries}
+      if(item.detail) {
+        item.detail.map(dtl => {
+          entries[dtl.day]["status"] = TimesheetStatus.Settled
+        })
+      }
+      const timesheetEntryToUpdate = {
+        id: tsEntryId,
+        entries: entries,
+        settled: util.isTimesheetEntryFullyUpdated(entries, TimesheetStatus.Settled)
+      }
+      timesheetEntriesToUpdate.push(timesheetEntryToUpdate)
+     }
+    }
+  });
+
+  if(timesheetEntriesToUpdate && timesheetEntriesToUpdate.length > 0) {
+    const udpateTSEntries = await timesheetService.updateTimesheetStatusDataEntries(timesheetEntriesToUpdate);
+    if(udpateTSEntries.error) {
+      return {errorMessage: udpateTSEntries.errorMessage, error: true};
+    }
+  }
 }

@@ -31,7 +31,6 @@ export const setCostTotal = (costTotal) => {
 
 
 export const setCostItemList = (costItemList) => {
-    console.log("costItemList::::ACTIONS:::"+JSON.stringify(costItemList));
     return {
         type: ActionTypes.SET_COST_ITEM_LIST,
         payload: costItemList
@@ -56,5 +55,13 @@ export const removeItemFromCostItemList = (removeIndex) => {
     return {
         type: ActionTypes.REMOVE_ITEM_COST_ITEM_LIST,
         payload: removeIndex
+    }
+}
+
+
+export const updateCostItemListByTimesheetEntryId = (costItemList) => {
+    return {
+        type: ActionTypes.UPDATE_COST_ITEM_LIST_BY_TIMESHEET_ENTRY_ID,
+        payload: costItemList
     }
 }

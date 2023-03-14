@@ -43,52 +43,53 @@ export const util = {
     stringToDateTime,
     getLocaleTimeZone,
     getTSEntriesArray,
-    isTimesheetEntryFullyInvoiced
+    isTimesheetEntryFullyUpdated,
 };
 
-function isTimesheetEntryFullyInvoiced(entries) {
-  let isFullyInvoiced = true;
+
+function isTimesheetEntryFullyUpdated(entries, status) {
+  let isFullyUpdated = true;
 
   if(entries?.day1) {
-    if(entries?.day1?.hours != EMPTY_STRING && entries?.day1?.hours>0 && (!entries?.day1?.status || entries?.day1?.status != TimesheetStatus.Invoiced)) {
-      isFullyInvoiced = false
+    if(entries?.day1?.hours != EMPTY_STRING && entries?.day1?.hours>0 && (!entries?.day1?.status || entries?.day1?.status != status)) {
+      isFullyUpdated = false
     }    
   }
 
   if(entries?.day2) {
-    if(entries?.day2?.hours != EMPTY_STRING && entries?.day2?.hours>0 && (!entries?.day2?.status || entries?.day2?.status != TimesheetStatus.Invoiced)) {
-      isFullyInvoiced = false
+    if(entries?.day2?.hours != EMPTY_STRING && entries?.day2?.hours>0 && (!entries?.day2?.status || entries?.day2?.status != status)) {
+      isFullyUpdated = false
     }    
   }
   if(entries?.day3) {
-    if(entries?.day3?.hours != EMPTY_STRING && entries?.day3?.hours>0 && (!entries?.day3?.status || entries?.day3?.status != TimesheetStatus.Invoiced)) {
-      isFullyInvoiced = false
+    if(entries?.day3?.hours != EMPTY_STRING && entries?.day3?.hours>0 && (!entries?.day3?.status || entries?.day3?.status != status)) {
+      isFullyUpdated = false
     }    
   }
   if(entries?.day4) {
-    if(entries?.day4?.hours != EMPTY_STRING && entries?.day4?.hours>0 && (!entries?.day4?.status || entries?.day4?.status != TimesheetStatus.Invoiced)) {
-      isFullyInvoiced = false
+    if(entries?.day4?.hours != EMPTY_STRING && entries?.day4?.hours>0 && (!entries?.day4?.status || entries?.day4?.status != status)) {
+      isFullyUpdated = false
     }    
   }
   if(entries?.day5) {
-    if(entries?.day5?.hours != EMPTY_STRING && entries?.day5?.hours>0 && (!entries?.day5?.status || entries?.day5?.status != TimesheetStatus.Invoiced)) {
-      isFullyInvoiced = false
+    if(entries?.day5?.hours != EMPTY_STRING && entries?.day5?.hours>0 && (!entries?.day5?.status || entries?.day5?.status != status)) {
+      isFullyUpdated = false
     }    
   }
   if(entries?.day6) {
-    if(entries?.day6?.hours != EMPTY_STRING && entries?.day6?.hours>0 && (!entries?.day6?.status || entries?.day6?.status != TimesheetStatus.Invoiced)) {
-      isFullyInvoiced = false
+    if(entries?.day6?.hours != EMPTY_STRING && entries?.day6?.hours>0 && (!entries?.day6?.status || entries?.day6?.status != status)) {
+      isFullyUpdated = false
     }    
   }
   if(entries?.day7) {
-    if(entries?.day7?.hours != EMPTY_STRING && entries?.day7?.hours>0 && (!entries?.day7?.status || entries?.day7?.status != TimesheetStatus.Invoiced)) {
-      isFullyInvoiced = false
+    if(entries?.day7?.hours != EMPTY_STRING && entries?.day7?.hours>0 && (!entries?.day7?.status || entries?.day7?.status != status)) {
+      isFullyUpdated = false
     }    
   }
 
 
    
-  return isFullyInvoiced;
+  return isFullyUpdated;
 }
 
 function getTSEntriesArray(entries) {
