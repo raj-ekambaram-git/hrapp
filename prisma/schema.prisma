@@ -484,7 +484,10 @@ model TimesheetEntries {
   project        Project?        @relation(fields: [projectId], references: [id])
   timesheet      Timesheet?      @relation(fields: [timesheetId], references: [id])
 
-  @@unique([timesheetId, projectId, billable])
+  @@index([timesheetId, projectId, billable, status])
+  @@index([timesheetId, projectId, billable])
+  @@index([timesheetId, projectId])
+  @@index([timesheetId])
 }
 
 model Notes {

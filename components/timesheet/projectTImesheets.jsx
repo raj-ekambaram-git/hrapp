@@ -87,10 +87,10 @@ const ProjectTimesheets = (props) => {
                                                             {timesheetEntry.status == TIMESHEET_STATUS.Submitted ? (
                                                                 <>
                                                                     <Th>
-                                                                        {timesheetEntry.timesheet.user.firstName} {timesheetEntry.timesheet.user.lastName}
+                                                                        {timesheetEntry.timesheet?.user?.firstName} {timesheetEntry.timesheet?.user?.lastName}
                                                                     </Th>
                                                                     <Th>
-                                                                        {timesheetEntry.timesheet.name}
+                                                                        {timesheetEntry.timesheet?.name}
                                                                     </Th>
                                                                     <Th>
                                                                         <Badge color={timesheetEntry.billable?"paid_status":"pending_status"}>
