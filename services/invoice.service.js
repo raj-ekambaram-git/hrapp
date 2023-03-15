@@ -91,7 +91,8 @@ async function sendInvoiceEmail(invoiceId, accountId){
     .then(async generateInvoiceDetail => {
       if(generateInvoiceDetail.invoiceEmailTo != undefined && generateInvoiceDetail.invoiceEmailTo != null && generateInvoiceDetail.invoiceEmailTo != EMPTY_STRING) {
           const sendEmailTo = generateInvoiceDetail.invoiceEmailTo;
-          const emailTos = sendEmailTo.map((emailTo) => {
+          const uniqueSendEmailTo = [...new Set(sendEmailTo)];
+          const emailTos = uniqueSendEmailTo.map((emailTo) => {
             return {
               "email": emailTo
             }
