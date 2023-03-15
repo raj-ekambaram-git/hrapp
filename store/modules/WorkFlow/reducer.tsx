@@ -23,7 +23,6 @@ const workFlowReducer = (state = initialState, {type, payload}) => {
         
     }
 
-    console.log("workFlowReducer:::New State:::Before Return:::"+JSON.stringify(newState));
     return newState;
 };
 

@@ -5,7 +5,6 @@ import { ActionTypes } from './constants';
 
 
 export const setUserVendors = (userVendors) => {
-    console.log("setUserVendors::::ACTIONS:::"+JSON.stringify(userVendors));
     return {
         type: ActionTypes.SET_USER_VENDORS,
         payload: userVendors
@@ -13,7 +12,6 @@ export const setUserVendors = (userVendors) => {
 }
 
 export const getUserVendors = (userVendors) => {
-    console.log("setUserVendors::::ACTIONS:::"+JSON.stringify(userVendors));
     return {
         type: ActionTypes.GET_USER_VENDORS,
         payload: userVendors
@@ -31,7 +29,6 @@ export const resetUserVendors = () => {
 export const fetchUserVendors = (userId, accountId) => {
     return async (dispatch) => {
         const responseData = await userService.getUserVendors(userId, accountId);
-        console.log("fetchUserVendors::"+JSON.stringify(responseData))
         dispatch(getUserVendors(responseData));
       };
 }
@@ -52,7 +49,6 @@ export const removeUserVendorByIndex = (userVendorIndex) => {
 }
 
 export const setLoggedInUser = (user) => {
-    console.log("setLoggedInUser::::ACTIONS:::"+JSON.stringify(user));
     return {
         type: ActionTypes.SET_LOGGED_IN_USER,
         payload: user
@@ -60,7 +56,6 @@ export const setLoggedInUser = (user) => {
 }
 
 export const setSelectedUserId = (selectedUserId) => {
-    console.log("setSelectedUserId::::ACTIONS:::"+JSON.stringify(selectedUserId));
     return {
         type: ActionTypes.SET_SELECTED_USER_ID,
         payload: selectedUserId
@@ -76,7 +71,6 @@ export const removeLoggedInUser = () => {
 
 
 export const setAvailableProjectsForUser = (userId) => {
-    console.log("setAvailableProjectsForUser::::ACTIONS:::"+JSON.stringify(userId));
     return {
         type: ActionTypes.SET_AVAILABLE_PROJECTS_FOR_USER,
         payload: userId
@@ -84,7 +78,6 @@ export const setAvailableProjectsForUser = (userId) => {
 }
 
 export const getAvailableProjectsForUser = (projects) => {
-    console.log("getAvailableProjectsForUser::::ACTIONS:::"+JSON.stringify(projects));
     return {
         type: ActionTypes.GET_AVAILABLE_PROJECTS_FOR_USER,
         payload: projects
@@ -94,7 +87,6 @@ export const getAvailableProjectsForUser = (projects) => {
 export const fetchAvailableProjectsForUser = (userId, accountId) => {
     return async (dispatch) => {
         const responseData = await userService.getAvailableProjectsForUser(userId, accountId);
-        console.log("fetchAvailableProjectsForUser::"+JSON.stringify(responseData))
         dispatch(getAvailableProjectsForUser(responseData));
       };
 }

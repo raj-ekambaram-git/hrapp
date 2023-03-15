@@ -34,7 +34,6 @@ const documentReducer = (state = initialState, {type, payload}) => {
 
     } 
 
-    console.log("documentReducer:::New State:::Before Return:::"+JSON.stringify(newState));
     return newState;
 };
 

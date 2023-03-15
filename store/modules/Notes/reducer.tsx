@@ -58,7 +58,6 @@ const notesReducer = (state = initialState, {type, payload}) => {
         newState.selecteRepliesNote =  null;
     } 
 
-    console.log("notesReducer:::New State:::Before Return:::"+JSON.stringify(newState));
     return newState;
 };
 

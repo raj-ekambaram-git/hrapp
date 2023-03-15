@@ -17,8 +17,6 @@ const accountReducer = (state = initialState, {type, payload}) => {
     const newState = {...state};
 
     if(type === ActionTypes.SET_USERS_BY_ACCOUNT) {
-        console.log("SET_USERS_BY_ACCOUNT INSIDE::"+JSON.stringify(payload));
-        console.log("newState:::"+JSON.stringify(newState));
         const newUsersByAccount = [...newState.accountUsers]
         if(Array.isArray(payload)) {
             //Edit Condition
@@ -56,7 +54,6 @@ const accountReducer = (state = initialState, {type, payload}) => {
         newState.payment.products = payload;
     }
 
-    console.log("accountReducer:::New State:::Before Return:::"+JSON.stringify(newState));
     return newState;
 };
 

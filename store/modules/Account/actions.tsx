@@ -79,7 +79,6 @@ export const resetSelectedAccountId = () => {
 export const fetchAccountVendors = (accountId) => {
     return async (dispatch) => {
         const responseData = await accountService.getVendorList(accountId);
-        console.log("responseData::"+JSON.stringify(responseData))
         dispatch(setVendorsByAccount(responseData));
       };
 }

@@ -16,8 +16,6 @@ const userReducer = (state = initialState, {type, payload}) => {
     const newState = {...state};
 
     if(type === ActionTypes.SET_USER_VENDORS) {
-        console.log("SET_USER_VENDORS INSIDE::"+JSON.stringify(payload));
-        console.log("newState:::"+JSON.stringify(newState));
         const newUserVendors = [...newState.userVendors]
         if(Array.isArray(payload)) {
             //Edit Condition
@@ -58,8 +56,6 @@ const userReducer = (state = initialState, {type, payload}) => {
     } else if(type === ActionTypes.GET_AVAILABLE_PROJECTS_FOR_USER) {
         newState.availableProjectsForUser = payload;
     } else if(type === ActionTypes.SET_USER_PROJECTS) {
-        console.log("SET_USER_PROJECTS INSIDE::"+JSON.stringify(payload));
-        console.log("newState:::"+JSON.stringify(newState));
         const newUserProjects = [...newState.userProjects]
         if(Array.isArray(payload)) {
             //Edit Condition
@@ -74,7 +70,6 @@ const userReducer = (state = initialState, {type, payload}) => {
         newState.userProjects = [];
     }
     
-    console.log("userReducer:::New State:::Before Return:::"+JSON.stringify(newState));
     return newState;
 };
 

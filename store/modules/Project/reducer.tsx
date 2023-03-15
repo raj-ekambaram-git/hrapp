@@ -28,7 +28,6 @@ const projectReducer = (state = initialState, {type, payload}) => {
     }else if(type === ActionTypes.SET_SELECTED_PROJECT_VENDOR_ID) {
         newState.vendorId = payload;
     } else if(type === ActionTypes.SET_SELECTED_PROJECT_REMAINING_BUDGET) {
-        console.log("projectReducer:::New State:::Before Return:::::"+payload)
         newState.remainingBudget = payload;
     } else if(type === ActionTypes.REMOVE_PROJECT_RESOURCE_BY_INDEX) {
         const newProjectResourceList = [...newState.projectResources]

@@ -93,7 +93,6 @@ export const getExpenseTransactions = (expenseTransaction) => {
 export const fetchExpenseTransactions = (expenseId, accountId) => {
     return async (dispatch) => {
         const responseData = await expenseService.getExpenseTransactions(expenseId, accountId);
-        console.log("fetchInvoiceTransactions::"+JSON.stringify(responseData))
         dispatch(getExpenseTransactions(responseData));
       };
 }
