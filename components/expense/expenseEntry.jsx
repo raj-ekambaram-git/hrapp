@@ -189,12 +189,11 @@ const ExpenseEntry = (props) => {
     dispatch(setExpenseEntries(newEntriesData))
   }
 
-  function handleExpenseAmount(index, origVal, newValue) {
-
+  function handleExpenseAmount(index, origVal, newValue) {    
     if(origVal != undefined && origVal != EMPTY_STRING) {
-      setExpenseTotal((util.getZeroPriceForNull(expenseTotal)-util.getZeroPriceForNull(origVal))+util.getZeroPriceForNull(newValue))
+      setExpenseTotal(((util.getZeroPriceForNull(expenseTotal)-util.getZeroPriceForNull(origVal))+util.getZeroPriceForNull(newValue)).toFixed(2))
     }else{
-      setExpenseTotal((util.getZeroPriceForNull(expenseTotal))+util.getZeroPriceForNull(newValue))
+      setExpenseTotal(((util.getZeroPriceForNull(expenseTotal))+util.getZeroPriceForNull(newValue)).toFixed(2))
     }
     handleExpenseEntry(index,"amount", newValue)
   }
@@ -337,7 +336,7 @@ const ExpenseEntry = (props) => {
                           </HStack>                          
                         </Th>             
                         <Th>
-                          <Input type="number" id="amount"  value={parseFloat(expenseEntry.amount).toFixed(2)} onChange={(ev) => handleExpenseAmount(index, expenseEntry.amount,ev.target.value)}/>
+                          <Input type="number" id="amount"  value={expenseEntry.amount} onChange={(ev) => handleExpenseAmount(index, expenseEntry.amount,ev.target.value)}/>
                         </Th>  
                         <Th>
                           <HStack spacing={5}>
