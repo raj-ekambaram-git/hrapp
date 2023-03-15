@@ -16,22 +16,23 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     console.log("*****accountId::"+accountId+"****pastDueDays:::"+pastDueDays)
     if(accountId && pastDueDays) {
       let pastDate = new Date();
-
+      let whereClause = {
+        accountId: {
+          equals: parseInt(accountId.toString())
+        },
+        status: {
+          in: [InvoiceStatus.Submitted, InvoiceStatus.PartiallyPaid]
+        },
+      }
       if(pastDueDays != "all") {
         pastDate.setDate(pastDate.getDate() - parseInt(pastDueDays));
+        whereClause['dueDte'] =  {
+          lt: pastDate
+        }
       } 
+
       const invoices = await prisma.invoice.findMany({
-        where: {
-          accountId: {
-            equals: parseInt(accountId.toString())
-          },
-          status: {
-            in: [InvoiceStatus.Submitted, InvoiceStatus.PartiallyPaid]
-          },
-          dueDte: {
-            lt: pastDate
-          }
-        },
+        where: whereClause,
         include: {
           vendor: {
             select: {
@@ -50,7 +51,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           }
         }
       })
-        console.log("invoices::::"+JSON.stringify(invoices))
         res.status(200).json(invoices);
   
     } else {
