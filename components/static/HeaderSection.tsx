@@ -14,13 +14,13 @@ import {
   Heading,
   HStack,
   IconButton,
-  Image,
   Link,
   Spacer,
   Stack,
   Tooltip,
   useDisclosure,
 } from '@chakra-ui/react'
+import Image from 'next/image';
 import { useRouter } from 'next/router'
 import { GrLogin } from 'react-icons/gr'
 import content from '../../static.content.json';
@@ -42,7 +42,7 @@ const DesktopSidebarContents = ({ name }: any) => {
         direction={['column', 'row']}
       >
         <Box display={{ base: 'none', md: 'flex' }}>
-          <Heading fontSize="xl">{name}</Heading>
+        <Image src="/boNeeds/logo.png" alt="boNeeds" width="75" height="75" />
         </Box>
         <Spacer />
         <Stack

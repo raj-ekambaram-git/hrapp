@@ -14,6 +14,7 @@ import { userService } from '../../services';
 import {GrLogout, GrLogin} from 'react-icons/gr';
 import { Tooltip, WrapItem, Spacer } from '@chakra-ui/react'
 import { removeLoggedInUser } from '../../store/modules/User/actions';
+import Image from 'next/image';
 
 const Slidebar = (props) => {
   const router = useRouter();
@@ -41,9 +42,7 @@ const Slidebar = (props) => {
                         {/* <VscMenu fontSize="27px" /> */}
                       </div>
                         <Link href={`/account/dashboard`} >  
-                          <Box display={{ base: 'none', md: 'flex' }} fontWeight="bold" alignContent="center" marginTop="10px">
-                            <Heading fontSize="2xl">boNeeds</Heading>
-                          </Box>
+                            <Image src="/boNeeds/logo.png" alt="boNeeds" width="25" height="25" />
                         </Link>                
                     </div>
                     {/* right div */}

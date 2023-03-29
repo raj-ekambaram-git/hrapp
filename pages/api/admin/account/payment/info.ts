@@ -30,7 +30,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const {accountId} = req.body;
 
     console.log("accountId:::"+accountId+"-----userId::"+userId);
-    const accountPaymentMethodInfo = await prisma.paymentMethod.findFirst({
+    const accountPaymentMethodInfo = await prisma.paymentMethod.findMany({
       where: {
         accountId: parseInt(accountId.toString()),
         status: PaymentMethodStatus.Active,
@@ -43,26 +43,31 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       }
     })
 
+    console.log("accountPaymentMethodInfo::"+JSON.stringify(accountPaymentMethodInfo))
     if(accountPaymentMethodInfo) {
-      const itemResponse = await client.itemGet({
-        access_token: accountPaymentMethodInfo.token,
-      });
+      const linkedAccountData =  await Promise.all(accountPaymentMethodInfo.map(async (linkedAccount) => {
+        const itemResponse = await client.itemGet({
+          access_token: linkedAccount.token,
+        });
+    
+        // Also pull information about the institution
+        const configs = {
+          institution_id: itemResponse.data.item.institution_id,
+          country_codes: (process.env.PLAID_COUNTRY_CODES || 'US').split(','),
+        };
+        const instResponse = await client.institutionsGetById(configs);
   
-      // Also pull information about the institution
-      const configs = {
-        institution_id: itemResponse.data.item.institution_id,
-        country_codes: (process.env.PLAID_COUNTRY_CODES || 'US').split(','),
-      };
-      const instResponse = await client.institutionsGetById(configs);
+        
+        delete accountPaymentMethodInfo["token"]
+        const instData = {
+          accountPaymentMethodInfo: linkedAccount,
+          // item: itemResponse.data.item,
+          institutionName: instResponse.data.institution.name,
+        }
+        console.log("instData::::"+JSON.stringify(instData))
 
-      delete accountPaymentMethodInfo["token"]
-      const linkedAccountData = {
-        accountPaymentMethodInfo: accountPaymentMethodInfo,
-        // item: itemResponse.data.item,
-        institutionName: instResponse.data.institution.name,
-      }
-
-      
+        return instData;
+      }))
 
     res.status(200).json(linkedAccountData);
 

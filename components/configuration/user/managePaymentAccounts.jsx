@@ -129,10 +129,10 @@ const ManagePaymentAccounts = (props) => {
 
     if((userService.accountFeatureEnabled(ConfigConstants.FEATURES.PAYMENT_PROCESSOR) && paymentConfigData && paymentConfigData.configured && paymentConfigData.accountVerified) || !userService.accountFeatureEnabled(ConfigConstants.FEATURES.PAYMENT_PROCESSOR)) {
       setAccountVerified(true)
-      console.log("paymentConfigData:::"+JSON.stringify(paymentConfigData))
       setAccountFeature(paymentConfigData)
       //First see if there are already linked accounts
       const linkedAccountData = await paymentService.getMethodsByAccount(userService.userValue.id, userService.getAccountDetails().accountId);
+
       if(linkedAccountData) {
         setLinkedAccountData(linkedAccountData)
       } else {
@@ -222,41 +222,43 @@ const ManagePaymentAccounts = (props) => {
                     } disabled={!ready}>
                     <strong>Link account</strong>
                 </Button>
-                  {linkedAccountData?<>
+                  {linkedAccountData && linkedAccountData.length>0?<>
                     <Card variant="userSettingPaymentCard" marginBottom={5}>
                       <CardBody>
-                        <Stack spacing={5}>
-                          <HStack>
+                        {linkedAccountData.map(linkAccount =>
+                          <Stack spacing={5}>
+                            <HStack>
 
-                              <Heading width="11%" size="xs">
-                                  Bank Name
+                                <Heading width="11%" size="xs">
+                                    Bank Name
+                                </Heading>
+                                <Box fontSize={14} textAlign="left" fontWeight="600">
+                                    {linkAccount.institutionName}
+                                </Box>
+                            </HStack>
+                            <HStack spacing={5}>
+                              <Heading width="10%" size="xs">
+                                  Status
                               </Heading>
-                              <Box fontSize={14} textAlign="left" fontWeight="600">
-                                  {linkedAccountData.institutionName}
+                              <Box textAlign="left">
+                                  <Badge color={linkAccount.accountPaymentMethodInfo?.status === PaymentMethodStatus.Active?"paid_status":"pending_status"}>
+                                    {linkAccount.accountPaymentMethodInfo?.status}
+                                  </Badge>
+                              </Box>                              
+                              <Box>
+                                {linkAccount.accountPaymentMethodInfo?.status === PaymentMethodStatus.Active?<>
+                                  <Switch colorScheme='teal' size='sm' id='Active' isChecked onChange={() => handleStatusUpdate(PaymentMethodStatus.Inactive, linkAccount.accountPaymentMethodInfo?.id)} >Mark Inactive</Switch>
+                                </>:<></>}
                               </Box>
-                          </HStack>
-                          <HStack spacing={5}>
-                            <Heading width="10%" size="xs">
-                                Status
-                            </Heading>
-                            <Box textAlign="left">
-                                <Badge color={linkedAccountData.accountPaymentMethodInfo?.status === PaymentMethodStatus.Active?"paid_status":"pending_status"}>
-                                  {linkedAccountData.accountPaymentMethodInfo?.status}
-                                </Badge>
-                            </Box>                              
-                            <Box>
-                              {linkedAccountData.accountPaymentMethodInfo?.status === PaymentMethodStatus.Active?<>
-                                <Switch colorScheme='teal' size='sm' id='Active' isChecked onChange={() => handleStatusUpdate(PaymentMethodStatus.Inactive, linkedAccountData.accountPaymentMethodInfo?.id)} >Mark Inactive</Switch>
-                              </>:<></>}
-                            </Box>
-                            <Box>
-                              <Button size="xs" bgColor="header_actions" 
-                                  onClick={() => viewPaymentTransactions(linkedAccountData.accountPaymentMethodInfo?.id, 30)}                                
-                                  >{`View Transactions`}
-                              </Button> 
-                            </Box>
-                          </HStack>
-                        </Stack>
+                              <Box>
+                                <Button size="xs" bgColor="header_actions" 
+                                    onClick={() => viewPaymentTransactions(linkAccount.accountPaymentMethodInfo?.id, 30)}                                
+                                    >{`View Transactions`}
+                                </Button> 
+                              </Box>
+                            </HStack>
+                        </Stack>                        
+                        )}
                       </CardBody>
                     </Card>
                     <PaymentTransactions paymentTransactions={paymentTransactions} paymentMethodId={linkedAccountData.accountPaymentMethodInfo?.id} viewPaymentTransactions={viewPaymentTransactions}/>
