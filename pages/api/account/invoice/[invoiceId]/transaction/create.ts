@@ -65,6 +65,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(200).json({invoiceTransaction: savedInvoiceTransaction, finalPaidAmount: finalPaidAmount});
   } catch (error) {
     console.log(error)
-    res.status(400).json({ message: 'Something went wrong' })
+    if(error.code == 'P2002') {
+      res.status(400).json({ message: 'Transaction ID and Reference Numbers has to be unique, please enter transaction ID not entered previously.' })
+    } else {
+      res.status(400).json({ message: 'Something went wrong' })
+    }
+    
   }
 }
