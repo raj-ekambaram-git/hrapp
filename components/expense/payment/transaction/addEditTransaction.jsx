@@ -73,7 +73,7 @@ const AddEditTransaction = (props) => {
                 if(responseData.error) {
                     toast({
                         title: 'New Expense Transaction.',
-                        description: 'Error creating transaction foor this expense. Details::'+responseData.errorMessage,
+                        description: 'Error creating transaction for this expense. Details::'+responseData.errorMessage,
                         status: 'error',
                         position: 'top',
                         duration: 9000,

@@ -65,7 +65,7 @@ const AddEditTransaction = (props) => {
                 if(responseData.error) {
                     toast({
                         title: 'New Invoice Transaction.',
-                        description: 'Error creating transaction foor this invoice. Details::'+responseData.errorMessage,
+                        description: 'Error creating transaction for this invoice. Details::'+responseData.errorMessage,
                         status: 'error',
                         position: 'top',
                         duration: 9000,
