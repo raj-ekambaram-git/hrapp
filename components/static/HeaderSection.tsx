@@ -37,12 +37,12 @@ const DesktopSidebarContents = ({ name }: any) => {
     <Container maxW={['full', 'container.lg']} p={0}>
       <Stack
         justify="space-between"
-        p={[0, 4]}
+        p={[0, 0]}
         w="full"
         direction={['column', 'row']}
       >
         <Box display={{ base: 'none', md: 'flex' }}>
-        <Image src="/boNeeds/logo.png" alt="boNeeds" width="150" height="7"/>
+        <Image src="/boNeeds/logo.png" alt="boNeeds" width="80" height="30"/>
         </Box>
         <Spacer />
         <Stack
