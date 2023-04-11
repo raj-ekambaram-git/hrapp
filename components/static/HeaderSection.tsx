@@ -42,11 +42,11 @@ const DesktopSidebarContents = ({ name }: any) => {
         direction={['column', 'row']}
       >
         <Box display={{ base: 'none', md: 'flex' }}>
-        <Image src="/boNeeds/logo.png" alt="boNeeds" width="75" height="75" />
+        <Image src="/boNeeds/logo.png" alt="boNeeds" width="150" height="7"/>
         </Box>
         <Spacer />
         <Stack
-          align="flex-start"
+          align={['flex-start', 'center']}
           spacing={[4, 10]}
           direction={['column', 'row']}
         >
@@ -64,7 +64,7 @@ const DesktopSidebarContents = ({ name }: any) => {
           })}
         </Stack>
         <Spacer />
-        <Stack direction={["column", "row"]} spacing={[4, 9]}>       
+        <Stack align={['flex-start', 'center']} direction={["column", "row"]} spacing={[4, 9]}>       
           <Tooltip label='Request Demo' hasArrow arrowSize={15} placement='bottom'  borderRadius="9px" >
             <Link href="/demo">  
                 Request Demo
