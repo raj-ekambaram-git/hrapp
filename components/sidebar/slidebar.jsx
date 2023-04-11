@@ -36,18 +36,18 @@ const Slidebar = (props) => {
       <Container>
             {props.authorized  ? (
                 <>
-                  <div className={styles.navbar}>
-                    <div className={styles.navbarleftmain}>            
-                      <div  onClick={handleclick} className={styles.menuicons} >
-                        {/* <VscMenu fontSize="27px" /> */}
-                      </div>
+                    <div className={styles.navbar}>
+                      <div className={styles.navbarleftmain}>            
+                        <div  onClick={handleclick} className={styles.menuicons} >
+                          {/* <VscMenu fontSize="27px" /> */}
+                        </div>
                         <Link href={`/account/dashboard`} >  
-                            <Image src="/boNeeds/logo.png" alt="boNeeds" width="25" height="25" />
+                            <Image src="/boNeeds/logo.png" alt="boNeeds" width="150" height="7" />
                         </Link>                
-                    </div>
-                    {/* right div */}
+                      </div>
+                      {/* right div */}
                       <div className={styles.navbarrightmain}>
-                          <Spacer/>
+                        <Spacer/>
                           <HStack>
                               <Box marginRight={4} textAlign="center">Hi, {userService.userValue?.firstName} {userService?.userValue?.lastName}!</Box>
                               <Flex marginRight={4}>
