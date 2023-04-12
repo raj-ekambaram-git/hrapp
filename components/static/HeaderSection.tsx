@@ -42,7 +42,7 @@ const DesktopSidebarContents = ({ name }: any) => {
         direction={['column', 'row']}
       >
         <Box display={{ base: 'none', md: 'flex' }}>
-        <Image src="/boNeeds/logo.png" alt="boNeeds" width="80" height="30"/>
+        <Image src="/boNeeds/logo.png" alt="boNeeds" width="90" height="30"/>
         </Box>
         <Spacer />
         <Stack
