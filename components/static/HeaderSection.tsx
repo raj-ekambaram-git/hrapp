@@ -104,7 +104,7 @@ const MobileSidebar = ({ name }: any) => {
   return (
     <>
       <Flex w="full" align="center">
-        <Heading fontSize="xl">{name}</Heading>
+        <Image src="/boNeeds/logo.png" alt="boNeeds" width="90" height="30"/>
         <Spacer />
         <IconButton
           aria-label="Search database"
