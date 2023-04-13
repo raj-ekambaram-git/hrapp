@@ -62,6 +62,8 @@
 .navbarleftmain{
     display: flex;
     margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: 45px;
     justify-content: space-between;
     width: 10%;
     align-self: left;
@@ -107,7 +109,7 @@
     display: none;
   }
 .menuicons{
-    margin-left: 10px;
+    margin-left: 1px;
 }
 @media (max-width:800px) and (min-width:300px){
     .navbarrightmain{

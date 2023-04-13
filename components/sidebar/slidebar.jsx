@@ -38,9 +38,6 @@ const Slidebar = (props) => {
                 <>
                     <div className={styles.navbar}>
                       <div className={styles.navbarleftmain}>            
-                        <div  onClick={handleclick} className={styles.menuicons} >
-                          {/* <VscMenu fontSize="27px" /> */}
-                        </div>
                         <Link href={`/account/dashboard`} >  
                             <Image src="/boNeeds/logo.png" alt="boNeeds" width="150" height="7" />
                         </Link>                
