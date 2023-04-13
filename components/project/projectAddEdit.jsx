@@ -360,7 +360,7 @@ const ProjectAddEdit = (props) => {
                       <HStack spacing="10rem">
                         <Box>
                           <FormControl isRequired>
-                            <Select width="160px" id="status" {...register('status')} >                          
+                            <Select width="200px" id="status" {...register('status')} >                          
                               {(enableWorkFlow)?<>
                                   <option value="Created">Created</option>
                                   {(project.status !== ProjectStatus.Created && project.status)?<>
@@ -392,7 +392,7 @@ const ProjectAddEdit = (props) => {
                       <HStack spacing="10rem">
                         <Box>
                           <FormControl isRequired>
-                            <Select width="160px" id="invoiceCycle" {...register('invoiceCycle')} >
+                            <Select width="200px" id="invoiceCycle" {...register('invoiceCycle')} >
                                 {INVOICE_CYCLE?.map((projectInvoiceCycle) => (
                                         <option value={projectInvoiceCycle.cycleId}>{projectInvoiceCycle.cycleName}</option>
                                 ))}   
@@ -487,19 +487,19 @@ const ProjectAddEdit = (props) => {
                     <HStack spacing="1rem">
                       <Box>
                         <FormControl isRequired>                          
-                          <Input  placeholder=" " width="180px" type="text" {...register('contactName')}  id="contactName"   />                    
+                          <Input  placeholder=" " width="200px" type="text" {...register('contactName')}  id="contactName"   />                    
                           <FormLabel>Project Contact Name</FormLabel>
                         </FormControl>     
                       </Box>
                       <Box>
                         <FormControl isRequired>                          
-                          <Input  placeholder=" " width="180px" type="text" {...register('contactEmail')}  id="contactEmail"   />
+                          <Input  placeholder=" " width="200px" type="text" {...register('contactEmail')}  id="contactEmail"   />
                           <FormLabel>Project Contact Email</FormLabel>
                         </FormControl>     
                       </Box>
                       <Box>
                         <FormControl isRequired>                          
-                          <Input  placeholder=" " width="200px" type="text" {...register('contactPhone')}  id="contactPhone"  onChange={(ev) => handlePhoneInput(ev.target.value)} />
+                          <Input  placeholder=" " width="220px" type="text" {...register('contactPhone')}  id="contactPhone"  onChange={(ev) => handlePhoneInput(ev.target.value)} />
                           <FormLabel>Project Contact Phone</FormLabel>
                         </FormControl>     
                       </Box>
